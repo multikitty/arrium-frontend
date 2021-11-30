@@ -72,12 +72,12 @@ export const StyledForgotPassword = styled(Box)`
   }
 `
 
-export const StyledButton = styled(Button)<{ marginBotton?: string }>`
+export const StyledButton = styled(Button)<{ margintop?: string }>`
   &&& {
     color: white;
     border-radius: 10px;
     padding: ${rem("14px")} ${rem("28px")};
-    margin-top: ${p => p.marginBotton};
+    margin-top: ${p => p.margintop};
     & > a {
       color: #ffffff;
       text-decoration: none;
@@ -116,4 +116,32 @@ export const StyledInstructionsText = styled.p`
   line-height: ${rem("24px")};
   margin-bottom: ${rem("16px")};
   text-align: center;
+`
+export const StyledTitleMobile = styled.div`
+  font-weight: 800;
+  size: ${rem("24px")};
+  color: #2453b2;
+  line-height: ${rem("32px")};
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  margin: ${rem("16px")} auto ${rem("16px")} ${rem("20px")};
+`
+
+export const StyledLoginContainerMobile = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: #f2f3f7;
+  width: 100%;
+  min-width: ${rem("375px")};
+  min-height: 93vh;
+  padding: ${rem("20px")} auto;
+`
+export const StyledWarningText = styled.p<{ marginbottom?: string }>`
+  color: #f25555;
+  font-size: ${rem("16px")};
+  font-weight: 500;
+  line-height: ${rem("20px")};
+  margin-bottom: ${p => p.marginbottom};
 `
