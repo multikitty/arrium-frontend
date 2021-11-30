@@ -1,6 +1,11 @@
 import { createTheme } from "@mui/material/styles"
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#3071F2",
+    },
+  },
   colorPalette: {
     main: "#3071F2",
     mainHover: "#1657D9",
