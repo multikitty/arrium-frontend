@@ -7,7 +7,7 @@ const theme = createTheme({
     },
   },
   colorPalette: {
-    main: "#3071F2",
+    main: "rgb(48, 113, 242)",
     mainHover: "#1657D9",
     blackText: "#0A0A0A",
     background: "#F2F3F7",

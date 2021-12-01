@@ -15,6 +15,7 @@ import {
 import Seo from "../components/seo"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import TopLayout from "../components/topLayout"
+import { Link } from "gatsby"
 
 const resetPassword = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
@@ -60,7 +61,7 @@ const resetPassword = () => {
               type={isPasswordVisible ? "text" : "password"}
               variant="outlined"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e: any) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -80,7 +81,7 @@ const resetPassword = () => {
               type={isConfirmPasswordVisible ? "text" : "password"}
               variant="outlined"
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={(e: any) => setConfirmPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -129,7 +130,7 @@ const resetPassword = () => {
                 type={isPasswordVisible ? "text" : "password"}
                 variant="outlined"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e: any) => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -149,7 +150,7 @@ const resetPassword = () => {
                 type={isConfirmPasswordVisible ? "text" : "password"}
                 variant="outlined"
                 value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
+                onChange={(e: any) => setConfirmPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -176,7 +177,9 @@ const resetPassword = () => {
                 disabled={!isMatches}
                 margintop={rem("32px")}
               >
-                <StyledButtonText>Save</StyledButtonText>
+                <Link to="/login">
+                  <StyledButtonText>Save</StyledButtonText>
+                </Link>
               </StyledButton>
             </Box>
           </StyledLoginContainerMobile>
