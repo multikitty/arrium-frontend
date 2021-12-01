@@ -32,11 +32,11 @@ const signin = () => {
     control,
     formState: { errors },
   } = useForm()
-  const isWebView = useMediaQuery("min-width:768px")
+
+  const isWebView = useMediaQuery("(min-width:768px)")
   const [isError, SetIsError] = useState<boolean>(false)
 
   const onSubmit = (data: any) => console.log(data)
-  console.log(errors)
   return (
     <TopLayout>
       <Seo title="Sign In | Arrium" />

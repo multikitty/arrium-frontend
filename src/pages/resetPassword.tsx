@@ -30,7 +30,7 @@ const resetPassword = () => {
       setIsMatches(password === confirmPassword)
   }, [password, confirmPassword])
 
-  const isWebView = useMediaQuery("(min-width:768px")
+  const isWebView = useMediaQuery("(min-width:768px)")
 
   return (
     <TopLayout>

@@ -26,7 +26,7 @@ const forgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const isWebView = useMediaQuery("(min-width:768px")
+  const isWebView = useMediaQuery("(min-width:768px)")
   const onSubmit = (data: any) => {
     console.log(data)
     setIsClicked(true)
