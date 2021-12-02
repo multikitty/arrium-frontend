@@ -17,7 +17,7 @@ import { Box } from "@mui/material"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import InstagramIcon from "../../assets/icons/footer-instagram_logo.inline.svg"
 import FacebookIcon from "../../assets/icons/footer-facebook_logo.inline.svg"
-import { Link } from "gatsby"
+import { navigate } from "gatsby"
 import { rem } from "polished"
 
 const FooterSection = () => {
@@ -48,16 +48,18 @@ const FooterSection = () => {
       <StyledFooterSectionRightContainer>
         <Box mb={1} width="100%">
           <OutlinedButton
+            onClick={() => navigate("/signin")}
             style={{ width: `${rem("193px")}`, height: `${rem("36px")}` }}
           >
-            <Link to="/signin">Login</Link>
+            Login
           </OutlinedButton>
         </Box>
         <Box>
           <ContainedButton
+            onClick={() => navigate("/signup")}
             style={{ width: `${rem("193px")}`, height: `${rem("36px")}` }}
           >
-            <Link to="/signup">Start Free Trial</Link>
+            Start Free Trial
           </ContainedButton>
         </Box>
       </StyledFooterSectionRightContainer>

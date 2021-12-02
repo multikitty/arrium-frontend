@@ -75,6 +75,7 @@ export const StyledForgotPassword = styled(Box)`
 export const StyledButton = styled(Button)<{ margintop?: string }>`
   &&& {
     color: white;
+    text-transform: none;
     border-radius: 10px;
     padding: ${rem("14px")} ${rem("28px")};
     margin-top: ${p => p.margintop};
@@ -87,7 +88,7 @@ export const StyledButton = styled(Button)<{ margintop?: string }>`
 
 export const StyledButtonText = styled.h5`
   font-size: ${rem("16px")};
-  font-weight: 600;
+  font-weight: 500;
   line-height: ${rem("20px")};
   width: 100%;
 `

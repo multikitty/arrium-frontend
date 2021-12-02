@@ -15,7 +15,9 @@ import {
 import Seo from "../components/seo"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import TopLayout from "../components/topLayout"
-import { Link } from "gatsby"
+import { passwordFormOptions } from "../validation"
+import { useForm } from "react-hook-form"
+import { navigate } from "gatsby"
 
 const resetPassword = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
@@ -24,6 +26,13 @@ const resetPassword = () => {
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [isMatches, setIsMatches] = useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm(passwordFormOptions)
+
+  console.log(errors)
 
   useEffect(() => {
     if (password?.length > 0 || confirmPassword?.length > 0)
@@ -31,6 +40,11 @@ const resetPassword = () => {
   }, [password, confirmPassword])
 
   const isWebView = useMediaQuery("(min-width:768px)")
+
+  const onSubmit = (data: any) => {
+    console.log(data)
+    navigate("/signin")
+  }
 
   return (
     <TopLayout>
@@ -46,7 +60,10 @@ const resetPassword = () => {
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
         {isWebView ? (
-          <StyledLoginContainer>
+          <StyledLoginContainer
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Box
               display="flex"
               justifyContent="center"
@@ -55,12 +72,12 @@ const resetPassword = () => {
             >
               <StyledLoginText>Reset Password</StyledLoginText>
             </Box>
-
             <StyledInputField
               placeholder="New password"
               type={isPasswordVisible ? "text" : "password"}
               variant="outlined"
               value={password}
+              {...register("password")}
               onChange={(e: any) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
@@ -103,6 +120,7 @@ const resetPassword = () => {
               variant="contained"
               color="primary"
               disableElevation
+              type="submit"
               disabled={!isMatches}
               margintop={rem("32px")}
             >
@@ -110,7 +128,10 @@ const resetPassword = () => {
             </StyledButton>
           </StyledLoginContainer>
         ) : (
-          <StyledLoginContainerMobile>
+          <StyledLoginContainerMobile
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Box
               display="flex"
               flexDirection="column"
@@ -130,6 +151,7 @@ const resetPassword = () => {
                 type={isPasswordVisible ? "text" : "password"}
                 variant="outlined"
                 value={password}
+                {...register("password")}
                 onChange={(e: any) => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
@@ -173,13 +195,12 @@ const resetPassword = () => {
               <StyledButton
                 variant="contained"
                 color="primary"
+                type="submit"
                 disableElevation
                 disabled={!isMatches}
                 margintop={rem("32px")}
               >
-                <Link to="/login">
-                  <StyledButtonText>Save</StyledButtonText>
-                </Link>
+                <StyledButtonText>Save</StyledButtonText>
               </StyledButton>
             </Box>
           </StyledLoginContainerMobile>

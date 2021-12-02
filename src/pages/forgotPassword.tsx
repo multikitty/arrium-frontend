@@ -16,8 +16,9 @@ import {
 import Seo from "../components/seo"
 import TopLayout from "../components/topLayout"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import { Link } from "gatsby"
+import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
+import { emailFormOptions } from "../validation"
 
 const forgotPassword = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
@@ -25,13 +26,13 @@ const forgotPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm(emailFormOptions)
   const isWebView = useMediaQuery("(min-width:768px)")
   const onSubmit = (data: any) => {
     console.log(data)
     setIsClicked(true)
+    isClicked && navigate("/resetPassword")
   }
-  console.log(errors)
   return (
     <TopLayout>
       <Seo title="Forgot Password | Arrium" />
@@ -76,16 +77,12 @@ const forgotPassword = () => {
               <StyledInputField
                 placeholder="Enter Email Address"
                 variant="outlined"
-                {...register("Email", {
-                  required: true,
-                  pattern:
-                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                })}
+                {...register("email")}
               />
             )}
-            {errors.Email && (
+            {errors.email && (
               <StyledWarningText marginbottom={rem("16px")}>
-                Please Enter valid Email!
+                {errors.email.message}
               </StyledWarningText>
             )}
             {isClicked ? (
@@ -96,9 +93,7 @@ const forgotPassword = () => {
                 margintop={rem("32px")}
                 type="submit"
               >
-                <Link to="/resetPassword">
-                  <StyledButtonText>Done</StyledButtonText>
-                </Link>
+                <StyledButtonText>Done</StyledButtonText>
               </StyledButton>
             ) : (
               <StyledButton
@@ -149,16 +144,12 @@ const forgotPassword = () => {
                 <StyledInputField
                   placeholder="Enter Email Address"
                   variant="outlined"
-                  {...register("Email", {
-                    required: true,
-                    pattern:
-                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  })}
+                  {...register("email")}
                 />
               )}
-              {errors.Email && (
+              {errors.email && (
                 <StyledWarningText marginbottom={rem("16px")}>
-                  Please Enter valid Email!
+                  {errors.email.message}
                 </StyledWarningText>
               )}
               {isClicked ? (
@@ -169,9 +160,7 @@ const forgotPassword = () => {
                   type="submit"
                   margintop={rem("32px")}
                 >
-                  <Link to="/resetPassword">
-                    <StyledButtonText>Done</StyledButtonText>
-                  </Link>
+                  <StyledButtonText>Done</StyledButtonText>
                 </StyledButton>
               ) : (
                 <StyledButton
