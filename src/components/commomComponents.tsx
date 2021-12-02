@@ -5,14 +5,12 @@ import styled from "styled-components"
 export const StyledInputField = styled(TextField)`
   &&& {
     background-color: #ffffff;
-    min-width: ${rem("335px")};
     max-width: ${rem("378px")};
     height: ${rem("48px")};
-    border-radius: ${rem("10px")};
     margin-bottom: ${rem("16px")};
+    border-radius: ${rem("10px")};
 
     & > .MuiOutlinedInput-root {
-      min-width: ${rem("335px")};
       max-width: ${rem("378px")};
       height: ${rem("48px")};
       border-radius: ${rem("10px")};
@@ -20,9 +18,9 @@ export const StyledInputField = styled(TextField)`
   }
 `
 
-export const StyledTitle = styled.h2`
+export const StyledTitle = styled.p`
   font-weight: 700;
-  size: ${rem("34px")};
+  font-size: ${rem("34px")};
   color: #2453b2;
   line-height: ${rem("32px")};
   letter-spacing: 1.6px;
@@ -44,6 +42,7 @@ export const StyledLoginContainer = styled(Box)`
 export const StyledLoginText = styled.h4`
   font-size: ${rem("28px")};
   font-weight: 400;
+  text-align: center;
   color: #0a0a0a;
   padding: 0 ${rem("40px")} ${rem("40px")} ${rem("40px")};
   line-height: ${rem("32px")};
@@ -120,8 +119,9 @@ export const StyledInstructionsText = styled.p`
 `
 export const StyledTitleMobile = styled.div`
   font-weight: 800;
-  size: ${rem("24px")};
+  font-size: ${rem("24px")};
   color: #2453b2;
+  text-align: center;
   line-height: ${rem("32px")};
   letter-spacing: 1.6px;
   text-transform: uppercase;
@@ -135,9 +135,9 @@ export const StyledLoginContainerMobile = styled(Box)`
   margin: 0 auto;
   background-color: #f2f3f7;
   width: 100%;
-  min-width: ${rem("375px")};
-  min-height: 93vh;
-  padding: ${rem("20px")} auto;
+  min-width: ${rem("300px")};
+  min-height: 92vh;
+  padding: ${rem("20px")};
 `
 export const StyledWarningText = styled.p<{ marginbottom?: string }>`
   color: #f25555;
