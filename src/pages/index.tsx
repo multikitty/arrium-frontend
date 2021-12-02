@@ -2,15 +2,18 @@ import * as React from "react"
 
 import TopLayout from "../components/topLayout"
 import Seo from "../components/seo"
-import { Link } from "gatsby"
+import BannerSection from "../components/BannerSection"
+import BenefitsSection from "../components/BenefitsSection"
+import WorkingSection from "../components/WorkingSection"
+import FooterSection from "../components/FooterSection"
 
 const IndexPage = () => (
   <TopLayout>
     <Seo title="Home | Arrium" />
-    <h1>Hi Mohsin Hussain</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <Link to="/signin">SignIn</Link>
+    <BannerSection />
+    <BenefitsSection />
+    <WorkingSection />
+    <FooterSection />
   </TopLayout>
 )
 

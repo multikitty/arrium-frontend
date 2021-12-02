@@ -14,5 +14,13 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-web-font-loader`,
     `gatsby-plugin-polished`,
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /\.inline\.svg$/,
+        },
+      },
+    },
   ],
 }
