@@ -3,5 +3,8 @@ export const screenSizes = {
 }
 
 export const devices = {
-  web: `(min-width: ${screenSizes.web}px)`,
+  web: {
+    up: `(min-width: ${screenSizes.web}px)`,
+    down: `(max-width: ${screenSizes.web}px)`,
+  },
 }

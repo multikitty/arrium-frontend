@@ -1,9 +1,9 @@
 import { rem } from "polished"
 import styled from "styled-components"
 import bannerBackground from "../../assets/images/landing-banner_background.png"
+import { devices } from "../../constants/device"
 
 export const StyledBannerSection = styled.div`
-  height: ${rem("732px")};
   background: url(${bannerBackground}) no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -66,10 +66,16 @@ export const StyledBannerSectionButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: ${rem("56px")};
+
+  @media ${devices.web.down} {
+    margin-bottom: ${rem("34px")};
+  }
 `
 
 export const StyledBannerSectionImage = styled.img`
   display: block;
-  width: ${rem("936px")};
+  width: 100%;
+  max-width: ${rem("936px")};
   margin: 0 auto;
+  padding: 0 ${rem("16px")};
 `

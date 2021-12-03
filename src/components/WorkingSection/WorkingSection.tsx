@@ -43,7 +43,7 @@ import notificationsBottomImage from "../../assets/images/landing-working-04_not
 
 const WorkingSection = () => {
   return (
-    <StyledWorkingSection>
+    <StyledWorkingSection id="how-it-works-section">
       <StyledWorkingSectionHeader>How Arrium Works</StyledWorkingSectionHeader>
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -65,7 +65,7 @@ const WorkingSection = () => {
             />
           </StyledWorkingSectionEnterPreferencesCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <StyledWorkingSectionStartButtonCard>
             <StyledWorkingSectionStartButtonCardContent>
               <StyledWorkingSectionStartButtonCardNumber>
@@ -87,7 +87,7 @@ const WorkingSection = () => {
             </StyledWorkingSectionStartButtonCardImageContainer>
           </StyledWorkingSectionStartButtonCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <StyledWorkingSectionOffersCard>
             <StyledWorkingSectionOffersCardContent>
               <StyledWorkingSectionOffersCardNumber>

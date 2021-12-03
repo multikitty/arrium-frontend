@@ -6,6 +6,7 @@ import BannerSection from "../components/BannerSection"
 import BenefitsSection from "../components/BenefitsSection"
 import WorkingSection from "../components/WorkingSection"
 import FooterSection from "../components/FooterSection"
+import ContactFormSection from "../components/ContactFormSection"
 
 const IndexPage = () => (
   <TopLayout>
@@ -13,6 +14,7 @@ const IndexPage = () => (
     <BannerSection />
     <BenefitsSection />
     <WorkingSection />
+    <ContactFormSection />
     <FooterSection />
   </TopLayout>
 )

@@ -20,7 +20,7 @@ import earnMoreIcon from "../../assets/icons/landing-benefits_section-earn_more.
 
 const BenefitsSection = () => {
   return (
-    <StyledBenefitsSection>
+    <StyledBenefitsSection id="benefits-section">
       <StyledBenefitsSectionHeader>
         The Amazing Benefits
       </StyledBenefitsSectionHeader>

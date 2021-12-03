@@ -1,12 +1,17 @@
 import styled from "styled-components"
 import { rem } from "polished"
+import { devices } from "../../constants/device"
 
 export const StyledFooterSection = styled.div`
   display: flex;
-  padding: ${rem("80px")} ${rem("80px")} ${rem("56px")};
-  /* max-width: ${p => p.theme.sizes.container}; */
+  padding: ${rem("48px")} ${rem("80px")} ${rem("56px")};
   width: 100%;
   margin: 0 auto;
+
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    padding: ${rem("40px")} ${rem("16px")} ${rem("68px")};
+    flex-direction: column;
+  }
 `
 
 export const StyledFooterSectionBrandLogoContainer = styled.div`
@@ -15,6 +20,11 @@ export const StyledFooterSectionBrandLogoContainer = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   margin-right: ${rem("96px")};
+
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    margin-right: 0;
+    margin-bottom: ${rem("40px")};
+  }
 `
 
 export const StyledFooterSectionBrandLogo = styled.img`
@@ -26,10 +36,11 @@ export const StyledFooterSectionInfoLinksContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${rem("96px")};
-`
 
-export const StyledFlexGrow = styled.div`
-  flex-grow: 1;
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    margin-right: 0;
+    margin-bottom: ${rem("20px")};
+  }
 `
 
 export const StyledFooterSectionInfoLink = styled.a`
@@ -52,7 +63,14 @@ export const StyledFooterSectionInfoLink = styled.a`
 
 export const StyledFooterSectionSocialLinksContainer = styled(
   StyledFooterSectionInfoLinksContainer
-)``
+)`
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 0;
+    margin-bottom: ${rem("40px")};
+  }
+`
 
 export const StyledFooterSectionSocialLinkMail = styled.a`
   text-decoration: none;
@@ -91,7 +109,27 @@ export const StyledFooterSectionSocialIcon = styled.div<{ mr?: boolean }>`
   }
 `
 
+export const StyledFlexGrow = styled.div`
+  flex-grow: 1;
+`
+
 export const StyledFooterSectionRightContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`
+
+export const StyledFooterSectionRightContanerButtonContainer = styled.div<{
+  login?: boolean
+}>`
+  width: 100%;
+  margin-bottom: ${p => p.login && rem("16px")};
+
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    margin-right: ${p => p.login && rem("10px")};
+  }
 `

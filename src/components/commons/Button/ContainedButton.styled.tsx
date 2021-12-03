@@ -30,9 +30,4 @@ export const StyledContainedButton = muiStyled(Button)({
   "&:focus": {
     boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
   },
-
-  "& > a": {
-    color: theme.palette.common.white,
-    textDecoration: "none",
-  },
 })

@@ -9,6 +9,9 @@ export const StyledBenefitsSection = styled.div`
   width: 100%;
   margin: 0 auto;
   margin-bottom: ${rem("12px")};
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    padding: ${rem("80px")} ${rem("16px")};
+  }
 `
 
 export const StyledBenefitsSectionHeader = styled.h3`
@@ -24,7 +27,9 @@ export const StyledBenefitsSectionHeader = styled.h3`
 
 export const StyledBenefitsSectionCardContainer = styled(Grid).attrs({
   item: true,
-  xs: 4,
+  xs: 12,
+  sm: 6,
+  md: 4,
 })``
 
 export const StyledBenefitsSectionCard = styled.div`

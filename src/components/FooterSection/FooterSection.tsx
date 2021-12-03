@@ -7,61 +7,88 @@ import {
   StyledFooterSectionInfoLink,
   StyledFooterSectionInfoLinksContainer,
   StyledFooterSectionRightContainer,
+  StyledFooterSectionRightContanerButtonContainer,
   StyledFooterSectionSocialIcon,
   StyledFooterSectionSocialIconsContainer,
   StyledFooterSectionSocialLinkMail,
   StyledFooterSectionSocialLinksContainer,
 } from "./FooterSection.styled"
 import brandLogo from "../../assets/icons/arrium_logo.svg"
-import { Box } from "@mui/material"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import InstagramIcon from "../../assets/icons/footer-instagram_logo.inline.svg"
 import FacebookIcon from "../../assets/icons/footer-facebook_logo.inline.svg"
 import { navigate } from "gatsby"
-import { rem } from "polished"
+import { Link } from "react-scroll"
+import { useMediaQuery } from "@mui/material"
+import { devices } from "../../constants/device"
 
 const FooterSection = () => {
+  const isWebView = useMediaQuery(devices.web.up)
+
+  const handleRedirectToInstagram = () =>
+    window.open("https://www.instagram.com/", "_blank")
+  const handleRedirectToFacebook = () =>
+    window.open("https://www.facebook.com/", "_blank")
+
   return (
     <StyledFooterSection>
       <StyledFooterSectionBrandLogoContainer>
         <StyledFooterSectionBrandLogo src={brandLogo} />
       </StyledFooterSectionBrandLogoContainer>
       <StyledFooterSectionInfoLinksContainer>
-        <StyledFooterSectionInfoLink>Benefits</StyledFooterSectionInfoLink>
-        <StyledFooterSectionInfoLink>How it Works</StyledFooterSectionInfoLink>
-        <StyledFooterSectionInfoLink>Contact Us</StyledFooterSectionInfoLink>
+        <StyledFooterSectionInfoLink>
+          <Link to="benefits-section" spy={true} smooth={true}>
+            Benefits
+          </Link>
+        </StyledFooterSectionInfoLink>
+        <StyledFooterSectionInfoLink>
+          <Link to="how-it-works-section" spy={true} smooth={true}>
+            How it Works
+          </Link>
+        </StyledFooterSectionInfoLink>
+        <StyledFooterSectionInfoLink>
+          <Link to="contact-us-section" spy={true} smooth={true}>
+            Contact Us
+          </Link>
+        </StyledFooterSectionInfoLink>
       </StyledFooterSectionInfoLinksContainer>
       <StyledFooterSectionSocialLinksContainer>
         <StyledFooterSectionSocialLinkMail href="mailto:info@arrium.com">
           info@arrium.com
         </StyledFooterSectionSocialLinkMail>
         <StyledFooterSectionSocialIconsContainer>
-          <StyledFooterSectionSocialIcon mr>
-            <InstagramIcon />
+          <StyledFooterSectionSocialIcon mr onClick={handleRedirectToInstagram}>
+            <InstagramIcon
+              height={isWebView ? "24px" : "44px"}
+              width={isWebView ? "24px" : "44px"}
+            />
           </StyledFooterSectionSocialIcon>
-          <StyledFooterSectionSocialIcon>
-            <FacebookIcon />
+          <StyledFooterSectionSocialIcon onClick={handleRedirectToFacebook}>
+            <FacebookIcon
+              height={isWebView ? "24px" : "44px"}
+              width={isWebView ? "24px" : "44px"}
+            />
           </StyledFooterSectionSocialIcon>
         </StyledFooterSectionSocialIconsContainer>
       </StyledFooterSectionSocialLinksContainer>
       <StyledFlexGrow />
       <StyledFooterSectionRightContainer>
-        <Box mb={1} width="100%">
+        <StyledFooterSectionRightContanerButtonContainer login>
           <OutlinedButton
             onClick={() => navigate("/signin")}
-            style={{ width: `${rem("193px")}`, height: `${rem("36px")}` }}
+            sx={{ width: "100%" }}
           >
             Login
           </OutlinedButton>
-        </Box>
-        <Box>
+        </StyledFooterSectionRightContanerButtonContainer>
+        <StyledFooterSectionRightContanerButtonContainer>
           <ContainedButton
             onClick={() => navigate("/signup")}
-            style={{ width: `${rem("193px")}`, height: `${rem("36px")}` }}
+            sx={{ width: "100%", whiteSpace: "nowrap" }}
           >
             Start Free Trial
           </ContainedButton>
-        </Box>
+        </StyledFooterSectionRightContanerButtonContainer>
       </StyledFooterSectionRightContainer>
     </StyledFooterSection>
   )

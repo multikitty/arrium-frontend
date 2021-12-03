@@ -8,6 +8,10 @@ export const StyledWorkingSection = styled.div`
   width: 100%;
   margin: 0 auto;
   margin-bottom: ${rem("80px")};
+
+  @media (max-width: ${p => p.theme.sizes.container}) {
+    padding: 0 ${rem("16px")};
+  }
 `
 
 export const StyledWorkingSectionHeader = styled(StyledBenefitsSectionHeader)``
