@@ -6,31 +6,31 @@ import { rem } from "polished"
 import {
   StyledButton,
   StyledButtonText,
-  StyledCheckBox,
-  StyledForgotPassword,
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledLoginText,
-  StyledRemeberMeText,
   StyledSignUpButton,
   StyledSignUpText,
   StyledWarningText,
 } from "../commomComponents"
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { emailAndPasswordFormOptions } from "../../validation"
+import { StyledTextBox } from "./RegistrationSection.styled"
+import { FormProps } from "../../pages/signup"
 
-const SignupSection = () => {
+const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
+  const [isVisible, SetIsVisible] = useState<boolean>(false)
   const isWebView = useMediaQuery("(min-width:768px)")
 
-  const onSubmit = (data: any) => console.log(data)
-  const [isVisible, SetIsVisible] = useState<boolean>(false)
-  const [isError] = useState<boolean>(false)
+  const onSubmit = (data: any) => {
+    console.log(data)
+    setFormStage(prev => prev + 1)
+  }
 
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm(emailAndPasswordFormOptions)
 
@@ -61,6 +61,13 @@ const SignupSection = () => {
             </IconButton>
           ),
         }}
+      />
+      <StyledTextBox>If you have a 6-digit code, enter it below</StyledTextBox>
+      <StyledInputField
+        mb={"0"}
+        placeholder="6-digit code"
+        variant="outlined"
+        {...register("referral")}
       />
       <StyledButton
         variant="contained"
@@ -117,30 +124,16 @@ const SignupSection = () => {
             ),
           }}
         />
-        <Box display="flex" justifyContent="space-between">
-          <Box display="flex" alignItems="center">
-            <Controller
-              control={control}
-              name="Remember me"
-              render={({ field }) => (
-                <StyledCheckBox type="checkbox" id="rememberMe" {...field} />
-              )}
-            />
-            <StyledRemeberMeText htmlFor="rememberMe">
-              Remember me
-            </StyledRemeberMeText>
-          </Box>
-          <StyledForgotPassword>
-            <Link to="/forgotPassword">Forgot Password?</Link>
-          </StyledForgotPassword>
+        <Box minWidth={rem("250px")}>
+          <StyledTextBox>
+            If you have a 6-digit code, enter it below
+          </StyledTextBox>
         </Box>
-        <Box display="flex" justifyContent="center" mt={rem("16px")}>
-          {isError && (
-            <StyledWarningText>
-              Your email address or password is incorrect
-            </StyledWarningText>
-          )}
-        </Box>
+        <StyledInputField
+          mb={"0"}
+          placeholder="6-digit code"
+          variant="outlined"
+        />
         <StyledButton
           variant="contained"
           color="primary"
@@ -156,9 +149,9 @@ const SignupSection = () => {
           flexDirection="column"
           alignItems="center"
         >
-          <StyledSignUpText>Don't have an account yet?</StyledSignUpText>
+          <StyledSignUpText>Already have an account?</StyledSignUpText>
           <StyledSignUpButton>
-            <Link to="/signup"> Sign Up</Link>
+            <Link to="/signin">Log In</Link>
           </StyledSignUpButton>
         </Box>
       </Box>

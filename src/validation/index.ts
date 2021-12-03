@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-const EmailAndPasswordValidationSchema = Yup.object().shape({
+const emailAndPasswordValidationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .min(8, "minimum 8 characters")
@@ -23,18 +23,18 @@ const passwordValidationSchema = Yup.object().shape({
     .matches(/\d/, "1 number"),
 })
 
-const emailValidation = Yup.object().shape({
+const emailValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required("Please enter email!")
     .email("Please enter valid email!"),
 })
 
 export const emailAndPasswordFormOptions = {
-  resolver: yupResolver(EmailAndPasswordValidationSchema),
+  resolver: yupResolver(emailAndPasswordValidationSchema),
 }
 export const passwordFormOptions = {
   resolver: yupResolver(passwordValidationSchema),
 }
 export const emailFormOptions = {
-  resolver: yupResolver(emailValidation),
+  resolver: yupResolver(emailValidationSchema),
 }

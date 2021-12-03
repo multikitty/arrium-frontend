@@ -13,5 +13,5 @@
     "noUnusedParameters": true,
     "removeComments": false
   },
-  "include": ["./src/**/*", "gatsby-ssr.js", "src/theme.d.ts"]
+  "include": ["./src/**/*", "gatsby-ssr.js", "src/theme.d.ts", "gatsby-browser.js"]
 }

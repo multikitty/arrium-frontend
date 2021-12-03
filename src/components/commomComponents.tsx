@@ -1,18 +1,27 @@
 import { Box, Button, TextField } from "@mui/material"
 import { rem } from "polished"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-export const StyledInputField = styled(TextField)`
+export const StyledInputField = styled(TextField)<{ mb?: string }>`
   &&& {
     background-color: #ffffff;
     max-width: ${rem("378px")};
+    min-width: ${rem("275px")};
     height: ${rem("48px")};
-    margin-bottom: ${rem("16px")};
+    ${p =>
+      p.mb
+        ? css`
+            margin-bottom: ${p.mb};
+          `
+        : css`
+            margin-bottom: ${rem("16px")};
+          `};
     border-radius: ${rem("10px")};
 
     & > .MuiOutlinedInput-root {
       max-width: ${rem("378px")};
       height: ${rem("48px")};
+      min-width: ${rem("250px")};
       border-radius: ${rem("10px")};
     }
   }
