@@ -7,10 +7,12 @@ import BenefitsSection from "../components/BenefitsSection"
 import WorkingSection from "../components/WorkingSection"
 import FooterSection from "../components/FooterSection"
 import ContactFormSection from "../components/ContactFormSection"
+import LandingNavbar from "../components/LandingNavbar"
 
 const IndexPage = () => (
   <TopLayout>
     <Seo title="Home | Arrium" />
+    <LandingNavbar />
     <BannerSection />
     <BenefitsSection />
     <WorkingSection />

@@ -33,15 +33,18 @@ import {
   StyledWorkingSectionStartButtonCardText,
   StyledWorkingSectionStartButtonCardTitle,
 } from "./WorkingSection.styled"
-import { Grid } from "@mui/material"
+import { Grid, useMediaQuery } from "@mui/material"
 import enterYourPreferencesImage from "../../assets/images/landing-working-01_enter_your_preferences.png"
 import startButtonImage from "../../assets/images/landing-working-02_press_the_start_button.png"
 import offersRightImage from "../../assets/images/landing-working-03_offers_that_match-right.png"
 import offersLeftImage from "../../assets/images/landing-working-03_offers_that_match-left.png"
 import notificationsTopImage from "../../assets/images/landing-working-04_notifications-top.png"
 import notificationsBottomImage from "../../assets/images/landing-working-04_notifications-bottom.png"
+import { devices } from "../../constants/device"
 
 const WorkingSection = () => {
+  const isWebView = useMediaQuery(devices.web.up)
+
   return (
     <StyledWorkingSection id="how-it-works-section">
       <StyledWorkingSectionHeader>How Arrium Works</StyledWorkingSectionHeader>
@@ -65,7 +68,7 @@ const WorkingSection = () => {
             />
           </StyledWorkingSectionEnterPreferencesCard>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={isWebView ? 6 : 12}>
           <StyledWorkingSectionStartButtonCard>
             <StyledWorkingSectionStartButtonCardContent>
               <StyledWorkingSectionStartButtonCardNumber>
@@ -87,7 +90,7 @@ const WorkingSection = () => {
             </StyledWorkingSectionStartButtonCardImageContainer>
           </StyledWorkingSectionStartButtonCard>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={isWebView ? 6 : 12}>
           <StyledWorkingSectionOffersCard>
             <StyledWorkingSectionOffersCardContent>
               <StyledWorkingSectionOffersCardNumber>

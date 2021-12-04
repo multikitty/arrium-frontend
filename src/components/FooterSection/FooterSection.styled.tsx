@@ -8,7 +8,7 @@ export const StyledFooterSection = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     padding: ${rem("40px")} ${rem("16px")} ${rem("68px")};
     flex-direction: column;
   }
@@ -21,7 +21,7 @@ export const StyledFooterSectionBrandLogoContainer = styled.div`
   justify-content: flex-start;
   margin-right: ${rem("96px")};
 
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     margin-right: 0;
     margin-bottom: ${rem("40px")};
   }
@@ -30,6 +30,7 @@ export const StyledFooterSectionBrandLogoContainer = styled.div`
 export const StyledFooterSectionBrandLogo = styled.img`
   height: ${rem("20px")};
   width: ${rem("125px")};
+  cursor: pointer;
 `
 
 export const StyledFooterSectionInfoLinksContainer = styled.div`
@@ -37,7 +38,7 @@ export const StyledFooterSectionInfoLinksContainer = styled.div`
   flex-direction: column;
   margin-right: ${rem("96px")};
 
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     margin-right: 0;
     margin-bottom: ${rem("20px")};
   }
@@ -64,7 +65,7 @@ export const StyledFooterSectionInfoLink = styled.a`
 export const StyledFooterSectionSocialLinksContainer = styled(
   StyledFooterSectionInfoLinksContainer
 )`
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     flex-direction: row;
     justify-content: space-between;
     margin-right: 0;
@@ -117,7 +118,7 @@ export const StyledFooterSectionRightContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -129,7 +130,7 @@ export const StyledFooterSectionRightContanerButtonContainer = styled.div<{
   width: 100%;
   margin-bottom: ${p => p.login && rem("16px")};
 
-  @media (max-width: ${p => p.theme.sizes.container}) {
+  @media ${devices.web.down} {
     margin-right: ${p => p.login && rem("10px")};
   }
 `

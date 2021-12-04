@@ -29,25 +29,47 @@ const FooterSection = () => {
     window.open("https://www.instagram.com/", "_blank")
   const handleRedirectToFacebook = () =>
     window.open("https://www.facebook.com/", "_blank")
+  const handleNavigateToHome = () => navigate("/")
 
   return (
     <StyledFooterSection>
       <StyledFooterSectionBrandLogoContainer>
-        <StyledFooterSectionBrandLogo src={brandLogo} />
+        <StyledFooterSectionBrandLogo
+          src={brandLogo}
+          onClick={handleNavigateToHome}
+        />
       </StyledFooterSectionBrandLogoContainer>
       <StyledFooterSectionInfoLinksContainer>
         <StyledFooterSectionInfoLink>
-          <Link to="benefits-section" spy={true} smooth={true}>
+          <Link
+            delay={300}
+            offset={-50}
+            to="benefits-section"
+            spy={true}
+            smooth={true}
+          >
             Benefits
           </Link>
         </StyledFooterSectionInfoLink>
         <StyledFooterSectionInfoLink>
-          <Link to="how-it-works-section" spy={true} smooth={true}>
+          <Link
+            delay={300}
+            offset={-50}
+            to="how-it-works-section"
+            spy={true}
+            smooth={true}
+          >
             How it Works
           </Link>
         </StyledFooterSectionInfoLink>
         <StyledFooterSectionInfoLink>
-          <Link to="contact-us-section" spy={true} smooth={true}>
+          <Link
+            delay={300}
+            offset={-50}
+            to="contact-us-section"
+            spy={true}
+            smooth={true}
+          >
             Contact Us
           </Link>
         </StyledFooterSectionInfoLink>
@@ -59,14 +81,14 @@ const FooterSection = () => {
         <StyledFooterSectionSocialIconsContainer>
           <StyledFooterSectionSocialIcon mr onClick={handleRedirectToInstagram}>
             <InstagramIcon
-              height={isWebView ? "24px" : "44px"}
-              width={isWebView ? "24px" : "44px"}
+              height={isWebView ? "32px" : "44px"}
+              width={isWebView ? "32px" : "44px"}
             />
           </StyledFooterSectionSocialIcon>
           <StyledFooterSectionSocialIcon onClick={handleRedirectToFacebook}>
             <FacebookIcon
-              height={isWebView ? "24px" : "44px"}
-              width={isWebView ? "24px" : "44px"}
+              height={isWebView ? "32px" : "44px"}
+              width={isWebView ? "32px" : "44px"}
             />
           </StyledFooterSectionSocialIcon>
         </StyledFooterSectionSocialIconsContainer>

@@ -10,6 +10,7 @@ export const StyledContactFormSection = styled.div`
   max-width: ${p => p.theme.sizes.container};
   width: 100%;
   margin: 0 auto;
+  margin-bottom: ${rem("80px")};
 
   @media (max-width: ${p => p.theme.sizes.container}) {
     padding: 0 ${rem("16px")};
