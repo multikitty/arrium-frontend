@@ -14,6 +14,15 @@ const emailAndPasswordValidationSchema = Yup.object().shape({
     .email("Please enter valid email!"),
 })
 
+const landingContactFormValidationSchema = Yup.object().shape({
+  firstName: Yup.string().required("The First Name field must not be empty"),
+  surName: Yup.string().required("The Surname field must not be empty"),
+  email: Yup.string()
+    .required("The Email Address field must not be empty")
+    .email("Please enter a valid email address"),
+  question: Yup.string().required("This field must not be empty"),
+})
+
 const passwordValidationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
@@ -31,6 +40,15 @@ const emailValidationSchema = Yup.object().shape({
 
 export const emailAndPasswordFormOptions = {
   resolver: yupResolver(emailAndPasswordValidationSchema),
+}
+export const landingContactFormFormOptions = {
+  resolver: yupResolver(landingContactFormValidationSchema),
+  defaultValues: {
+    firstName: "",
+    surName: "",
+    email: "",
+    question: "",
+  },
 }
 export const passwordFormOptions = {
   resolver: yupResolver(passwordValidationSchema),

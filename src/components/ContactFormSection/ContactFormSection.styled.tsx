@@ -7,6 +7,7 @@ import { devices } from "../../constants/device"
 import theme from "../../theme"
 
 export const StyledContactFormSection = styled.div`
+  position: relative;
   max-width: ${p => p.theme.sizes.container};
   width: 100%;
   margin: 0 auto;
@@ -121,6 +122,17 @@ export const StyledContactFormSectionCardRightContainerField = muiStyled(
     },
   },
 }))
+
+export const StyledContactFormSectionCardRightContainerFieldHelperText = styled.p`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: ${rem("10px")};
+  line-height: ${rem("16px")};
+  margin-left: ${rem("16px")};
+
+  color: #a60000;
+`
 
 export const StyledContactFormSectionCardRightContainerSendButton = muiStyled(
   Button

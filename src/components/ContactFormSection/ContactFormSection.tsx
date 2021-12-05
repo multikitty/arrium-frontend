@@ -1,5 +1,7 @@
 import { Grid } from "@mui/material"
-import React from "react"
+import React, { useState } from "react"
+import { Controller, useForm } from "react-hook-form"
+import { landingContactFormFormOptions } from "../../validation"
 import {
   StyledContactFormSection,
   StyledContactFormSectionCard,
@@ -8,14 +10,37 @@ import {
   StyledContactFormSectionCardLeftContainerTitle,
   StyledContactFormSectionCardRightContainer,
   StyledContactFormSectionCardRightContainerField,
+  StyledContactFormSectionCardRightContainerFieldHelperText,
   StyledContactFormSectionCardRightContainerSendButton,
   StyledContactFormSectionCardRightContainerSubTitle,
   StyledContactFormSectionCardRightContainerTitle,
 } from "./ContactFormSection.styled"
+import ContactFormSuccessModal from "../ContactFormSuccessModal"
 
 const ContactFormSection = () => {
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false)
+
+  const handleSuccessModalOpen = () => setSuccessModalOpen(true)
+  const handleSuccessModalClose = () => setSuccessModalOpen(false)
+
+  const { handleSubmit, control, formState, reset } = useForm(
+    landingContactFormFormOptions
+  )
+
+  type formPropType = typeof landingContactFormFormOptions.defaultValues
+
+  const onSubmit = (data: formPropType) => {
+    console.log(data)
+    handleSuccessModalOpen()
+    reset()
+  }
+
   return (
     <StyledContactFormSection id="contact-us-section">
+      <ContactFormSuccessModal
+        open={isSuccessModalOpen}
+        handleClose={handleSuccessModalClose}
+      />
       <StyledContactFormSectionCard>
         <StyledContactFormSectionCardLeftContainer>
           <StyledContactFormSectionCardLeftContainerTitle>
@@ -38,31 +63,92 @@ const ContactFormSection = () => {
           <StyledContactFormSectionCardRightContainerSubTitle>
             Get in touch and tell us how we can help
           </StyledContactFormSectionCardRightContainerSubTitle>
-          <Grid container rowSpacing={3} columnSpacing={2}>
-            <Grid item xs={12} md={6}>
-              <StyledContactFormSectionCardRightContainerField placeholder="First Name" />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container rowSpacing={3} columnSpacing={2}>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name={"firstName"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledContactFormSectionCardRightContainerField
+                      placeholder="First Name"
+                      onChange={onChange}
+                      value={value}
+                      error={!!formState.errors?.firstName}
+                    />
+                  )}
+                />
+                {!!formState.errors?.firstName && (
+                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                    {formState.errors?.firstName?.message}
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                )}
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Controller
+                  name={"surName"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledContactFormSectionCardRightContainerField
+                      placeholder="Surname"
+                      onChange={onChange}
+                      value={value}
+                      error={!!formState.errors?.surName}
+                    />
+                  )}
+                />
+                {!!formState.errors?.surName && (
+                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                    {formState.errors?.surName?.message}
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name={"email"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledContactFormSectionCardRightContainerField
+                      type="email"
+                      placeholder="Email Address"
+                      onChange={onChange}
+                      value={value}
+                      error={!!formState.errors?.email}
+                    />
+                  )}
+                />
+                {!!formState.errors?.email && (
+                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                    {formState.errors?.email?.message}
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  name={"question"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledContactFormSectionCardRightContainerField
+                      minRows={3}
+                      multiline
+                      placeholder="Your Question"
+                      onChange={onChange}
+                      value={value}
+                      error={!!formState.errors?.question}
+                    />
+                  )}
+                />
+                {!!formState.errors?.question && (
+                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                    {formState.errors?.question?.message}
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <StyledContactFormSectionCardRightContainerField placeholder="SurName" />
-            </Grid>
-            <Grid item xs={12}>
-              <StyledContactFormSectionCardRightContainerField
-                type="email"
-                placeholder="Email Address"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <StyledContactFormSectionCardRightContainerField
-                minRows={3}
-                multiline
-                type="email"
-                placeholder="Your Question"
-              />
-            </Grid>
-          </Grid>
-          <StyledContactFormSectionCardRightContainerSendButton>
-            Send
-          </StyledContactFormSectionCardRightContainerSendButton>
+            <StyledContactFormSectionCardRightContainerSendButton type="submit">
+              Send
+            </StyledContactFormSectionCardRightContainerSendButton>
+          </form>
         </StyledContactFormSectionCardRightContainer>
       </StyledContactFormSectionCard>
     </StyledContactFormSection>

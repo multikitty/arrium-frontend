@@ -44,7 +44,7 @@ export const StyledFooterSectionInfoLinksContainer = styled.div`
   }
 `
 
-export const StyledFooterSectionInfoLink = styled.a`
+export const StyledFooterSectionInfoLink = styled.div`
   text-decoration: none;
   cursor: pointer;
   font-family: Inter;

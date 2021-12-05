@@ -1,5 +1,6 @@
 import { rem } from "polished"
 import styled from "styled-components"
+import { devices } from "../../constants/device"
 import { StyledBenefitsSectionHeader } from "../BenefitsSection/BenefitsSection.styled"
 
 export const StyledWorkingSection = styled.div`
@@ -22,12 +23,21 @@ export const StyledWorkingSectionEnterPreferencesCard = styled.div`
   border-radius: ${rem("40px")};
   display: flex;
   overflow: hidden;
+
+  @media ${devices.web.down} {
+    flex-direction: column;
+    height: auto;
+  }
 `
 
 export const StyledWorkingSectionEnterPreferencesCardContent = styled.div`
   padding-top: ${rem("50px")};
   padding-left: ${rem("72px")};
   padding-bottom: ${rem("136px")};
+
+  @media ${devices.web.down} {
+    padding: ${rem("40px")} ${rem("20px")};
+  }
 `
 
 export const StyledWorkingSectionEnterPreferencesCardNumber = styled.h4`
@@ -61,6 +71,10 @@ export const StyledWorkingSectionEnterPreferencesCardText = styled.p`
   margin-bottom: ${rem("12px")};
 
   color: ${p => p.theme.palette.blackText};
+
+  @media ${devices.web.down} {
+    margin-left: ${rem("7px")};
+  }
 `
 
 export const StyledWorkingSectionEnterPreferencesCardImage = styled.img`
@@ -68,6 +82,12 @@ export const StyledWorkingSectionEnterPreferencesCardImage = styled.img`
   margin-left: ${rem("72px")};
   margin-top: ${rem("32px")};
   filter: drop-shadow(-6.54802px 8.18502px 26.1921px rgba(5, 23, 51, 0.05));
+
+  @media ${devices.web.down} {
+    width: ${rem("459px")};
+    margin-top: 0;
+    margin-left: ${rem("20px")};
+  }
 `
 
 export const StyledWorkingSectionStartButtonCard = styled(
@@ -77,6 +97,12 @@ export const StyledWorkingSectionStartButtonCard = styled(
   height: ${rem("712px")};
   display: block;
   position: relative;
+
+  @media ${devices.web.down} {
+    height: ${rem("554px")};
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 export const StyledWorkingSectionStartButtonCardContent = styled(
@@ -107,6 +133,12 @@ export const StyledWorkingSectionStartButtonCardImageContainer = styled.div`
   width: ${rem("1002px")};
   display: flex;
   justify-content: flex-end;
+
+  @media ${devices.web.down} {
+    height: ${rem("221px")};
+    bottom: 0;
+    right: ${rem("12px")};
+  }
 `
 
 export const StyledWorkingSectionStartButtonCardImage = styled(
@@ -122,6 +154,10 @@ export const StyledWorkingSectionOffersCard = styled(
   height: ${rem("712px")};
   display: block;
   position: relative;
+
+  @media ${devices.web.down} {
+    height: ${rem("522px")};
+  }
 `
 
 export const StyledWorkingSectionOffersCardContent = styled(
@@ -148,6 +184,11 @@ export const StyledWorkingSectionOffersCardRightImageContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   z-index: 2;
+
+  @media ${devices.web.down} {
+    left: ${rem("75px")};
+    bottom: ${rem("56px")};
+  }
 `
 
 export const StyledWorkingSectionOffersCardRightImage = styled(
@@ -165,6 +206,10 @@ export const StyledWorkingSectionOffersCardLeftImageContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   z-index: 3;
+
+  @media ${devices.web.down} {
+    right: ${rem("143px")};
+  }
 `
 
 export const StyledWorkingSectionOffersCardLeftImage = styled(
@@ -181,6 +226,10 @@ export const StyledWorkingSectionNotificationsCard = styled(
   height: ${rem("380px")};
   display: flex;
   position: relative;
+
+  @media ${devices.web.down} {
+    height: ${rem("682px")};
+  }
 `
 
 export const StyledWorkingSectionNotificationsCardContent = styled(
@@ -211,6 +260,12 @@ export const StyledWorkingSectionNotificationsCardTopImageContainer = styled.div
   display: flex;
   justify-content: flex-end;
   z-index: 3;
+
+  @media ${devices.web.down} {
+    top: unset;
+    bottom: ${rem("28px")};
+    right: 0;
+  }
 `
 
 export const StyledWorkingSectionNotificationsCardTopImage = styled(
@@ -227,6 +282,11 @@ export const StyledWorkingSectionNotificationsCardBottomImageContainer = styled.
   display: flex;
   justify-content: flex-start;
   z-index: 2;
+
+  @media ${devices.web.down} {
+    margin-top: ${rem("80px")};
+    margin-left: ${rem("20px")};
+  }
 `
 
 export const StyledWorkingSectionNotificationsCardBottomImage = styled(
