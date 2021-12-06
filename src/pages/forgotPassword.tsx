@@ -12,7 +12,7 @@ import {
   StyledTitle,
   StyledTitleMobile,
   StyledWarningText,
-} from "../components/commomComponents"
+} from "../components/commons/commonComponents"
 import Seo from "../components/seo"
 import TopLayout from "../components/topLayout"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"

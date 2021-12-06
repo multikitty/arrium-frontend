@@ -3,7 +3,7 @@ import React from "react"
 import Seo from "../components/seo"
 import TopLayout from "../components/topLayout"
 import { rem } from "polished"
-import { StyledTitle, StyledTitleMobile } from "../components/commomComponents"
+import { StyledTitle, StyledTitleMobile } from "../components/commons/commonComponents"
 import { useMediaQuery } from "@mui/material"
 import SigninSection from "../components/SigninSection"
 

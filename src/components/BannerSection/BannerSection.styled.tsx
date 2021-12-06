@@ -25,8 +25,6 @@ export const StyledBannerSectionPrimaryHeader = styled.h5`
   max-width: ${rem("464px")};
   margin: 0 auto;
   text-align: center;
-
-  color: ${p => p.theme.palette.main};
   padding-top: ${rem("125px")};
   margin-bottom: ${rem("24px")};
 `

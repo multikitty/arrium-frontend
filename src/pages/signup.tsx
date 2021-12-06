@@ -1,7 +1,10 @@
 import React, { useState } from "react"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
-import { StyledTitle, StyledTitleMobile } from "../components/commomComponents"
+import {
+  StyledTitle,
+  StyledTitleMobile,
+} from "../components/commons/commonComponents"
 import Seo from "../components/seo"
 import TopLayout from "../components/topLayout"
 import RegistrationSection from "../components/RegistrationSection"
@@ -13,7 +16,7 @@ export interface FormProps {
 
 const signup = () => {
   const isWebView = useMediaQuery("(min-width:768px)")
-  const [formStage, setFormStage] = useState<number>(1)
+  const [formStage, setFormStage] = useState<number>(2)
 
   return (
     <TopLayout>

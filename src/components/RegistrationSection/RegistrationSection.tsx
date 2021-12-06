@@ -13,7 +13,7 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
   StyledWarningText,
-} from "../commomComponents"
+} from "../commons/commonComponents"
 import { useForm } from "react-hook-form"
 import { emailAndPasswordFormOptions } from "../../validation"
 import { StyledTextBox } from "./RegistrationSection.styled"

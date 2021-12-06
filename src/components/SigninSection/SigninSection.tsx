@@ -12,7 +12,7 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
   StyledWarningText,
-} from "../commomComponents"
+} from "../commons/commonComponents"
 import { useForm, Controller } from "react-hook-form"
 import { emailAndPasswordFormOptions } from "../../validation"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"

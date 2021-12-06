@@ -1,7 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { FormProps } from "../../pages/signup"
 import { useForm } from "react-hook-form"
 import { Box, useMediaQuery } from "@mui/material"
+import { makeStyles } from "@mui/styles"
+import ReactPhoneInput from "react-phone-input-2"
+
 import {
   StyledButton,
   StyledButtonText,
@@ -11,21 +14,25 @@ import {
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commomComponents"
+} from "../commons/commonComponents"
+import TimeZoneSelect, { ITimezone } from "react-timezone-select"
 import { rem } from "polished"
 import { Link } from "gatsby"
-import InputLabel from "@mui/material/InputLabel"
-import MenuItem from "@mui/material/MenuItem"
-import FormControl from "@mui/material/FormControl"
-import Select, { SelectChangeEvent } from "@mui/material/Select"
+
+const useStyles = makeStyles({
+  timezoneStyles: {
+    "& > div": {
+      padding: "6px 0",
+      borderRadius: "10px !important",
+    },
+  },
+})
 
 const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
+  const classes = useStyles()
   const isWebView = useMediaQuery("(min-width:768px)")
-  const [age, setAge] = React.useState("")
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string)
-  }
+  const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>("")
+  const [phoneNo, setPhoneNo] = useState("")
 
   const onSubmit = (data: any) => {
     console.log(data)
@@ -33,6 +40,7 @@ const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
   }
 
   const { handleSubmit } = useForm()
+
   return isWebView ? (
     <StyledLoginContainer component="form" onSubmit={handleSubmit(onSubmit)}>
       <Box display="flex" justifyContent="center">
@@ -45,21 +53,16 @@ const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
       />
 
       <StyledInputField placeholder="Surname" type="text" variant="outlined" />
-      <StyledInputField placeholder="6-digit code" variant="outlined" />
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
+      <ReactPhoneInput
+        value={phoneNo}
+        onChange={(e: any) => setPhoneNo(e.target.value)}
+      />
+      <TimeZoneSelect
+        className={classes.timezoneStyles}
+        placeholder="choose timezone"
+        value={selectedTimezone}
+        onChange={setSelectedTimezone}
+      />
       <StyledButton
         variant="contained"
         color="primary"
@@ -95,20 +98,12 @@ const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
         <StyledInputField placeholder="First Name" variant="outlined" />
         <StyledInputField placeholder="Surname" variant="outlined" />
         <StyledInputField placeholder="6-digit code" variant="outlined" />
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+
+        <TimeZoneSelect
+          placeholder="choose timezone"
+          value={selectedTimezone}
+          onChange={setSelectedTimezone}
+        />
         <StyledButton
           variant="contained"
           color="primary"
@@ -116,7 +111,7 @@ const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
           margintop={rem("56px")}
           type="submit"
         >
-          <StyledButtonText>Log In</StyledButtonText>
+          <StyledButtonText>Continue</StyledButtonText>
         </StyledButton>
         <Box
           display="flex"
