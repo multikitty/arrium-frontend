@@ -7,7 +7,7 @@ import {
   StyledFooterSectionInfoLink,
   StyledFooterSectionInfoLinksContainer,
   StyledFooterSectionRightContainer,
-  StyledFooterSectionRightContanerButtonContainer,
+  StyledFooterSectionRightContainerButtonContainer,
   StyledFooterSectionSocialIcon,
   StyledFooterSectionSocialIconsContainer,
   StyledFooterSectionSocialLinkMail,
@@ -95,22 +95,22 @@ const FooterSection = () => {
       </StyledFooterSectionSocialLinksContainer>
       <StyledFlexGrow />
       <StyledFooterSectionRightContainer>
-        <StyledFooterSectionRightContanerButtonContainer login>
+        <StyledFooterSectionRightContainerButtonContainer login>
           <OutlinedButton
             onClick={() => navigate("/signin")}
             sx={{ width: "100%" }}
           >
             Login
           </OutlinedButton>
-        </StyledFooterSectionRightContanerButtonContainer>
-        <StyledFooterSectionRightContanerButtonContainer>
+        </StyledFooterSectionRightContainerButtonContainer>
+        <StyledFooterSectionRightContainerButtonContainer>
           <ContainedButton
             onClick={() => navigate("/signup")}
             sx={{ width: "100%", whiteSpace: "nowrap" }}
           >
             Start Free Trial
           </ContainedButton>
-        </StyledFooterSectionRightContanerButtonContainer>
+        </StyledFooterSectionRightContainerButtonContainer>
       </StyledFooterSectionRightContainer>
     </StyledFooterSection>
   )

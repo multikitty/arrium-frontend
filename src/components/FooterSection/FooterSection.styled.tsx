@@ -53,11 +53,12 @@ export const StyledFooterSectionInfoLink = styled.div`
   font-size: ${rem("16px")};
   line-height: 100%;
   margin-bottom: ${rem("20px")};
-  transition: color 150ms ease-out;
+  transition: all 150ms ease-out;
 
   color: ${p => p.theme.palette.blackText};
 
   &:hover {
+    font-weight: 600;
     color: ${p => p.theme.palette.main};
   }
 `
@@ -124,7 +125,7 @@ export const StyledFooterSectionRightContainer = styled.div`
   }
 `
 
-export const StyledFooterSectionRightContanerButtonContainer = styled.div<{
+export const StyledFooterSectionRightContainerButtonContainer = styled.div<{
   login?: boolean
 }>`
   width: 100%;

@@ -9,3 +9,11 @@ export enum DriverPages {
   faq = "faq",
   support = "support",
 }
+
+export enum AdminPages {
+  customers = "customers",
+  dashboard = "dashboard",
+  messages = "messages",
+  settings = "settings",
+  referrals = "referrals",
+}

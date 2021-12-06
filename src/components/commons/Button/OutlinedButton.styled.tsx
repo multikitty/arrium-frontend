@@ -14,7 +14,6 @@ export const StyledOutlinedButton = muiStyled(Button)({
   backgroundColor: theme.palette.common.white,
   borderColor: theme.palette.main,
   fontFamily: ["Inter", "sans-serif"].join(","),
-
   "&:hover": {
     boxShadow: "none",
     borderColor: theme.palette.mainHover,

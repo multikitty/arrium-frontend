@@ -1,5 +1,6 @@
 import { rem } from "polished"
 import styled, { css } from "styled-components"
+import { devices } from "../../constants/device"
 import {
   StyledFooterSectionBrandLogo,
   StyledFooterSectionBrandLogoContainer,
@@ -24,12 +25,21 @@ export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
       background-color: ${p => p.theme.palette.common.white};
       box-shadow: 0px 2px 4px rgba(5, 23, 51, 0.05);
     `}
+
+  @media ${devices.web.down} {
+    padding: ${rem("20px")} ${rem("16px")};
+  }
 `
 
 export const StyledLandingNavbarBrandLogoContainer = styled(
   StyledFooterSectionBrandLogoContainer
 )`
   margin-right: ${rem("80px")};
+
+  @media ${devices.web.down} {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
 `
 
 export const StyledLandingNavbarBrandLogo = styled(

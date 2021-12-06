@@ -13,10 +13,21 @@ import { Link } from "react-scroll"
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { devices } from "../../constants/device"
+import { IconButton, useMediaQuery } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import { rem } from "polished"
+import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
 
 const LandingNavbar = () => {
-  const handleNavigateToHome = () => navigate("/")
   const [hasBackground, setHasBackground] = useState<boolean>(false)
+  const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
+  const isWebView = useMediaQuery(devices.web.up)
+
+  const handleNavigateToHome = () => navigate("/")
+
+  const handleFullscreenMenuOpen = () => setFullscreenMenuOpen(true)
+  const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
 
   const windowScrollEventHandler = () => {
     const position = window.pageYOffset
@@ -31,47 +42,62 @@ const LandingNavbar = () => {
 
   return (
     <StyledLandingNavbar $hasBackground={hasBackground}>
+      <FullscreenLandingMenu
+        open={isFullscreenMenuOpen}
+        handleClose={handleFullscreenMenuClose}
+      />
+      {isWebView || (
+        <IconButton
+          sx={{ mr: rem("16px") }}
+          size="small"
+          onClick={handleFullscreenMenuOpen}
+        >
+          <MenuIcon sx={{ fontSize: 24 }} />
+        </IconButton>
+      )}
       <StyledLandingNavbarBrandLogoContainer>
         <StyledLandingNavbarBrandLogo
           src={brandLogo}
           onClick={handleNavigateToHome}
         />
       </StyledLandingNavbarBrandLogoContainer>
-      <StyledLandingNavbarInfoLinksContainer>
-        <StyledLandingNavbarInfoLink>
-          <Link
-            delay={300}
-            offset={-50}
-            to="benefits-section"
-            spy={true}
-            smooth={true}
-          >
-            Benefits
-          </Link>
-        </StyledLandingNavbarInfoLink>
-        <StyledLandingNavbarInfoLink>
-          <Link
-            delay={300}
-            offset={-50}
-            to="how-it-works-section"
-            spy={true}
-            smooth={true}
-          >
-            How it Works
-          </Link>
-        </StyledLandingNavbarInfoLink>
-        <StyledLandingNavbarInfoLink>
-          <Link
-            delay={300}
-            offset={-50}
-            to="contact-us-section"
-            spy={true}
-            smooth={true}
-          >
-            Contact Us
-          </Link>
-        </StyledLandingNavbarInfoLink>
-      </StyledLandingNavbarInfoLinksContainer>
+      {isWebView && (
+        <StyledLandingNavbarInfoLinksContainer>
+          <StyledLandingNavbarInfoLink>
+            <Link
+              delay={300}
+              offset={-50}
+              to="benefits-section"
+              spy={true}
+              smooth={true}
+            >
+              Benefits
+            </Link>
+          </StyledLandingNavbarInfoLink>
+          <StyledLandingNavbarInfoLink>
+            <Link
+              delay={300}
+              offset={-50}
+              to="how-it-works-section"
+              spy={true}
+              smooth={true}
+            >
+              How it Works
+            </Link>
+          </StyledLandingNavbarInfoLink>
+          <StyledLandingNavbarInfoLink>
+            <Link
+              delay={300}
+              offset={-50}
+              to="contact-us-section"
+              spy={true}
+              smooth={true}
+            >
+              Contact Us
+            </Link>
+          </StyledLandingNavbarInfoLink>
+        </StyledLandingNavbarInfoLinksContainer>
+      )}
       <StyledFlexGrow />
       <StyledLandingNavbarRightContainer>
         <StyledLandingNavbarRightContainerLoginButton
@@ -79,12 +105,14 @@ const LandingNavbar = () => {
         >
           Login
         </StyledLandingNavbarRightContainerLoginButton>
-        <ContainedButton
-          onClick={() => navigate("/signup")}
-          sx={{ width: "100%", whiteSpace: "nowrap" }}
-        >
-          Start Free Trial
-        </ContainedButton>
+        {isWebView && (
+          <ContainedButton
+            onClick={() => navigate("/signup")}
+            sx={{ width: "100%", whiteSpace: "nowrap" }}
+          >
+            Start Free Trial
+          </ContainedButton>
+        )}
       </StyledLandingNavbarRightContainer>
     </StyledLandingNavbar>
   )

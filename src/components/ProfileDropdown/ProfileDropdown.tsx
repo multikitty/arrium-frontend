@@ -1,9 +1,19 @@
-import React from "react"
-import { Avatar, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
-import PersonAdd from "@mui/icons-material/PersonAdd"
-import Settings from "@mui/icons-material/Settings"
+import React, { useState } from "react"
+import { Box, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import SettingsIcon from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import { rem } from "polished"
+import {
+  StyledProfileDropdownMenuItemText,
+  StyledProfileDropdownUpperSection,
+  StyledProfileDropdownUpperSectionUsername,
+  StyledProfileDropdownUpperSectionVerificationButton,
+  StyledProfileDropdownUpperSectionVerificationContainer,
+  StyledProfileDropdownUpperSectionVerificationText,
+} from "./ProfileDropdown.styled"
+import theme from "../../theme"
+import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 
 interface IProps {
   handleClose: () => void
@@ -12,6 +22,23 @@ interface IProps {
 }
 
 const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
+  const [isEmailVerified, setEmailVerified] = useState<boolean>(false)
+  const [isPhoneVerified, setPhoneVerified] = useState<boolean>(false)
+
+  const handleEmailVerificationClick:
+    | React.MouseEventHandler<HTMLButtonElement>
+    | undefined = e => {
+    e.stopPropagation()
+    setEmailVerified(true)
+  }
+
+  const handlePhoneVerificationClick:
+    | React.MouseEventHandler<HTMLButtonElement>
+    | undefined = e => {
+    e.stopPropagation()
+    setPhoneVerified(true)
+  }
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -49,30 +76,71 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem>
-        <Avatar /> Profile
-      </MenuItem>
-      <MenuItem>
-        <Avatar /> My account
-      </MenuItem>
+      <StyledProfileDropdownUpperSection>
+        <StyledProfileDropdownUpperSectionUsername>
+          Eliza Doolittle
+        </StyledProfileDropdownUpperSectionUsername>
+        <StyledProfileDropdownUpperSectionVerificationContainer>
+          <Box display="flex" alignItems="center" mr={1}>
+            <CheckCircleOutlineIcon
+              sx={{
+                color: theme.palette.common.green,
+                fontSize: 24,
+                opacity: isEmailVerified ? 1 : 0.4,
+              }}
+            />
+          </Box>
+          <StyledProfileDropdownUpperSectionVerificationText>
+            eliza.doolittle@gmail.com
+          </StyledProfileDropdownUpperSectionVerificationText>
+          <StyledFlexGrow />
+          {isEmailVerified || (
+            <StyledProfileDropdownUpperSectionVerificationButton
+              onClick={handleEmailVerificationClick}
+            >
+              Verify
+            </StyledProfileDropdownUpperSectionVerificationButton>
+          )}
+        </StyledProfileDropdownUpperSectionVerificationContainer>
+        <StyledProfileDropdownUpperSectionVerificationContainer>
+          <Box display="flex" alignItems="center" mr={1}>
+            <CheckCircleOutlineIcon
+              sx={{
+                color: theme.palette.common.green,
+                fontSize: 24,
+                opacity: isPhoneVerified ? 1 : 0.4,
+              }}
+            />
+          </Box>
+          <StyledProfileDropdownUpperSectionVerificationText>
+            +44 12 34 5678
+          </StyledProfileDropdownUpperSectionVerificationText>
+          <StyledFlexGrow />
+          {isPhoneVerified || (
+            <StyledProfileDropdownUpperSectionVerificationButton
+              onClick={handlePhoneVerificationClick}
+            >
+              Verify
+            </StyledProfileDropdownUpperSectionVerificationButton>
+          )}
+        </StyledProfileDropdownUpperSectionVerificationContainer>
+      </StyledProfileDropdownUpperSection>
       <Divider />
-      <MenuItem>
+      <MenuItem dense divider sx={{ py: rem("12px") }}>
         <ListItemIcon>
-          <PersonAdd fontSize="small" />
+          <SettingsIcon sx={{ fontSize: 24 }} />
         </ListItemIcon>
-        Add another account
+        <StyledProfileDropdownMenuItemText>
+          Settings
+        </StyledProfileDropdownMenuItemText>
       </MenuItem>
-      <MenuItem>
+      <MenuItem dense sx={{ py: rem("12px") }}>
         <ListItemIcon>
-          <Settings fontSize="small" />
+          <Logout sx={{ fontSize: 24 }} />
         </ListItemIcon>
-        Settings
-      </MenuItem>
-      <MenuItem>
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
+        <StyledProfileDropdownMenuItemText>
+          Log Out
+        </StyledProfileDropdownMenuItemText>
       </MenuItem>
     </Menu>
   )
