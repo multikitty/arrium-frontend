@@ -8,6 +8,8 @@ export const StyledInputField = styled(TextField)<{ mb?: string }>`
     max-width: ${rem("378px")};
     min-width: ${rem("275px")};
     height: ${rem("48px")};
+    border: none;
+    outline: none;
     ${p =>
       p.mb
         ? css`
