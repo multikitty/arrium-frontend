@@ -97,7 +97,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
           value={password}
           onChange={e => setPassword(e.target.value)}
           onFocus={handleInputFocus}
-          onBlurCapture={handleInputBlur}
+          onBlur={handleInputBlur}
           variant="outlined"
           InputProps={{
             endAdornment: (
@@ -107,7 +107,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
             ),
           }}
         />
-        {(password.length || isFocused) && (
+        {isFocused && (
           <StyledPasswordValidationContainer isWebView={isWebView}>
             <StyledValidationTextWrapper
               isRequired={!isRequiredSet.minEightChar}
@@ -196,7 +196,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             onFocus={handleInputFocus}
-            onBlurCapture={handleInputBlur}
+            onBlur={handleInputBlur}
             variant="outlined"
             InputProps={{
               endAdornment: (
