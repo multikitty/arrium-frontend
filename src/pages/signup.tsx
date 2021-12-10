@@ -9,15 +9,14 @@ import Seo from "../components/Seo"
 import TopLayout from "../components/TopLayout"
 import RegistrationSection from "../components/RegistrationSection"
 import AccountInfoSection from "../components/AccountInfoSection"
-import { devices } from "../constants/device"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
 }
 
 const signup = () => {
-  const isWebView = useMediaQuery(devices.web.up)
-  const [formStage, setFormStage] = useState<number>(2)
+  const isWebView = useMediaQuery("(min-width:768px)")
+  const [formStage, setFormStage] = useState<number>(1)
 
   return (
     <TopLayout>

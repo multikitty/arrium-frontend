@@ -5,8 +5,7 @@ import styled, { css } from "styled-components"
 export const StyledInputField = styled(TextField)<{ mb?: string }>`
   &&& {
     background-color: #ffffff;
-    max-width: ${rem("378px")};
-    min-width: ${rem("275px")};
+    width: 100%;
     height: ${rem("48px")};
     border: none;
     outline: none;
