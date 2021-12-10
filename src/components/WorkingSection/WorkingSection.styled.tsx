@@ -183,7 +183,7 @@ export const StyledWorkingSectionOffersCardRightImageContainer = styled.div`
   bottom: ${rem("95px")};
   display: flex;
   justify-content: flex-start;
-  z-index: 2;
+  z-index: ${p => p.theme.zIndices.bottomImage};
 
   @media ${devices.web.down} {
     left: ${rem("75px")};
@@ -205,7 +205,7 @@ export const StyledWorkingSectionOffersCardLeftImageContainer = styled.div`
   right: ${rem("273px")};
   display: flex;
   justify-content: flex-start;
-  z-index: 3;
+  z-index: ${p => p.theme.zIndices.topImage};
 
   @media ${devices.web.down} {
     right: ${rem("143px")};
@@ -259,7 +259,7 @@ export const StyledWorkingSectionNotificationsCardTopImageContainer = styled.div
   right: ${rem("126px")};
   display: flex;
   justify-content: flex-end;
-  z-index: 3;
+  z-index: ${p => p.theme.zIndices.topImage};
 
   @media ${devices.web.down} {
     top: unset;
@@ -281,7 +281,7 @@ export const StyledWorkingSectionNotificationsCardBottomImageContainer = styled.
   margin-left: ${rem("67px")};
   display: flex;
   justify-content: flex-start;
-  z-index: 2;
+  z-index: ${p => p.theme.zIndices.bottomImage};
 
   @media ${devices.web.down} {
     margin-top: ${rem("80px")};

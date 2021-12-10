@@ -19,8 +19,11 @@ import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { Link, navigate } from "gatsby"
 import { rem } from "polished"
+import { devices } from "../../constants/device"
+import { useAuth } from "../../hooks/useAuth"
 
 const SigninSection = () => {
+  const auth = useAuth()
   const [isVisible, SetIsVisible] = useState<boolean>(false)
   const {
     register,
@@ -28,12 +31,20 @@ const SigninSection = () => {
     control,
     formState: { errors },
   } = useForm(emailAndPasswordFormOptions)
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
   const [isError] = useState<boolean>(false)
 
   const onSubmit = (data: any) => {
-    navigate("/home")
     console.log(data)
+    auth.authenticateUser({
+      firstName: "Eliza",
+      lastName: "Doolittle",
+      phoneNumber: "+44 12 34 5678",
+      email: "eliza.doolittle@gmail.com",
+      isPhoneVerified: true,
+      isEmailVerified: false,
+    })
+    navigate("/")
   }
 
   return isWebView ? (
@@ -73,7 +84,7 @@ const SigninSection = () => {
         <Box display="flex" alignItems="center">
           <Controller
             control={control}
-            name="Remember me"
+            name="rememberMe"
             render={({ field }) => (
               <StyledCheckBox type="checkbox" id="rememberMe" {...field} />
             )}
@@ -157,7 +168,7 @@ const SigninSection = () => {
           <Box display="flex" alignItems="center">
             <Controller
               control={control}
-              name="Remember me"
+              name="rememberMe"
               render={({ field }) => (
                 <StyledCheckBox type="checkbox" id="rememberMe" {...field} />
               )}

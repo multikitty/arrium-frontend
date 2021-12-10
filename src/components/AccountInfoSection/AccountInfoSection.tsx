@@ -17,6 +17,7 @@ import { rem } from "polished"
 import { Link } from "gatsby"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
+import { devices } from "../../constants/device"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles({
 
 const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
   const classes = useStyles()
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )

@@ -19,12 +19,9 @@ import InstagramIcon from "../../assets/icons/footer-instagram_logo.inline.svg"
 import FacebookIcon from "../../assets/icons/footer-facebook_logo.inline.svg"
 import { navigate } from "gatsby"
 import { Link } from "react-scroll"
-import { useMediaQuery } from "@mui/material"
-import { devices } from "../../constants/device"
+import { IconButton } from "@mui/material"
 
 const FooterSection = () => {
-  const isWebView = useMediaQuery(devices.web.up)
-
   const handleRedirectToInstagram = () =>
     window.open("https://www.instagram.com/", "_blank")
   const handleRedirectToFacebook = () =>
@@ -80,16 +77,14 @@ const FooterSection = () => {
         </StyledFooterSectionSocialLinkMail>
         <StyledFooterSectionSocialIconsContainer>
           <StyledFooterSectionSocialIcon mr onClick={handleRedirectToInstagram}>
-            <InstagramIcon
-              height={isWebView ? "32px" : "44px"}
-              width={isWebView ? "32px" : "44px"}
-            />
+            <IconButton size="small">
+              <InstagramIcon />
+            </IconButton>
           </StyledFooterSectionSocialIcon>
           <StyledFooterSectionSocialIcon onClick={handleRedirectToFacebook}>
-            <FacebookIcon
-              height={isWebView ? "32px" : "44px"}
-              width={isWebView ? "32px" : "44px"}
-            />
+            <IconButton size="small">
+              <FacebookIcon />
+            </IconButton>
           </StyledFooterSectionSocialIcon>
         </StyledFooterSectionSocialIconsContainer>
       </StyledFooterSectionSocialLinksContainer>

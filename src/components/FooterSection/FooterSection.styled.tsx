@@ -100,13 +100,23 @@ export const StyledFooterSectionSocialIcon = styled.div<{ mr?: boolean }>`
   margin-right: ${p => (p.mr ? rem("12px") : 0)};
   cursor: pointer;
 
+  svg {
+    --svg-size: 32px;
+    height: var(--svg-size);
+    width: var(--svg-size);
+
+    @media ${devices.web.down} {
+      --svg-size: 44px;
+    }
+  }
+
   ellipse,
   circle {
     transition: all 150ms ease-out;
   }
 
-  ellipse:hover,
-  circle:hover {
+  &:hover ellipse,
+  &:hover circle {
     fill: ${p => p.theme.palette.main};
   }
 `
@@ -118,6 +128,7 @@ export const StyledFlexGrow = styled.div`
 export const StyledFooterSectionRightContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 
   @media ${devices.web.down} {
     flex-direction: row;
@@ -128,6 +139,7 @@ export const StyledFooterSectionRightContainer = styled.div`
 export const StyledFooterSectionRightContainerButtonContainer = styled.div<{
   login?: boolean
 }>`
+  display: flex;
   width: 100%;
   margin-bottom: ${p => p.login && rem("16px")};
 

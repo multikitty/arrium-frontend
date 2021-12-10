@@ -1,5 +1,5 @@
 import React from "react"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 import {
   StyledSidePanel,
   StyledSidePanelBrandLogo,

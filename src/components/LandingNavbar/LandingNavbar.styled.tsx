@@ -14,7 +14,7 @@ export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 999;
+  z-index: ${p => p.theme.zIndices.navbar};
   display: flex;
   align-items: center;
   padding: ${rem("28px")} ${rem("80px")};

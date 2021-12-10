@@ -13,12 +13,13 @@ import {
   StyledTitleMobile,
   StyledWarningText,
 } from "../components/commons/commonComponents"
-import Seo from "../components/seo"
-import TopLayout from "../components/topLayout"
+import Seo from "../components/Seo"
+import TopLayout from "../components/TopLayout"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { navigate } from "gatsby"
 import { useForm } from "react-hook-form"
 import { emailFormOptions } from "../validation"
+import { devices } from "../constants/device"
 
 const forgotPassword = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
@@ -27,7 +28,7 @@ const forgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm(emailFormOptions)
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
   const onSubmit = (data: any) => {
     console.log(data)
     setIsClicked(true)

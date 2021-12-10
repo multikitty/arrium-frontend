@@ -11,18 +11,18 @@ import {
 import brandLogo from "../../assets/icons/arrium_logo.svg"
 import { Link } from "react-scroll"
 import { ContainedButton } from "../commons/Button"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { devices } from "../../constants/device"
 import { IconButton, useMediaQuery } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import { rem } from "polished"
 import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
+import theme from "../../theme"
 
 const LandingNavbar = () => {
   const [hasBackground, setHasBackground] = useState<boolean>(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
-  const isWebView = useMediaQuery(devices.web.up)
+  const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
 
   const handleNavigateToHome = () => navigate("/")
 

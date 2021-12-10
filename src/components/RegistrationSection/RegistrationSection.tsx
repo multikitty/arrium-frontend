@@ -18,10 +18,11 @@ import { useForm } from "react-hook-form"
 import { emailAndPasswordFormOptions } from "../../validation"
 import { StyledTextBox } from "./RegistrationSection.styled"
 import { FormProps } from "../../pages/signup"
+import { devices } from "../../constants/device"
 
 const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
   const [isVisible, SetIsVisible] = useState<boolean>(false)
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
 
   const onSubmit = (data: any) => {
     console.log(data)

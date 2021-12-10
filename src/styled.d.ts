@@ -29,6 +29,14 @@ declare module "styled-components" {
     }
     sizes: {
       container: string
+      topbarHeight: string
+    }
+    zIndices: {
+      modalOverlay: number
+      fullscreenLandingMenu: number
+      navbar: number
+      bottomImage: number
+      topImage: number
     }
   }
 }

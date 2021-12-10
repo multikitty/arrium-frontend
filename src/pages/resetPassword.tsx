@@ -12,12 +12,13 @@ import {
   StyledTitleMobile,
   StyledWarningText,
 } from "../components/commons/commonComponents"
-import Seo from "../components/seo"
+import Seo from "../components/Seo"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import TopLayout from "../components/topLayout"
+import TopLayout from "../components/TopLayout"
 import { passwordFormOptions } from "../validation"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
+import { devices } from "../constants/device"
 
 const resetPassword = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
@@ -39,7 +40,7 @@ const resetPassword = () => {
       setIsMatches(password === confirmPassword)
   }, [password, confirmPassword])
 
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
 
   const onSubmit = (data: any) => {
     console.log(data)

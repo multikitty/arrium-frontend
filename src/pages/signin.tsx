@@ -1,14 +1,18 @@
 import { Box } from "@mui/system"
 import React from "react"
-import Seo from "../components/seo"
-import TopLayout from "../components/topLayout"
+import Seo from "../components/Seo"
+import TopLayout from "../components/TopLayout"
 import { rem } from "polished"
-import { StyledTitle, StyledTitleMobile } from "../components/commons/commonComponents"
+import {
+  StyledTitle,
+  StyledTitleMobile,
+} from "../components/commons/commonComponents"
 import { useMediaQuery } from "@mui/material"
 import SigninSection from "../components/SigninSection"
+import { devices } from "../constants/device"
 
 const signin = () => {
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
 
   return (
     <TopLayout>

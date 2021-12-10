@@ -7,7 +7,7 @@ export const StyledContactFormSuccessModalOverlay = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 990;
+  z-index: ${p => p.theme.zIndices.modalOverlay};
   display: flex;
   align-items: center;
   justify-content: center;

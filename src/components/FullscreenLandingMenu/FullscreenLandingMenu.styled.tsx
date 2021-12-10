@@ -16,7 +16,7 @@ export const StyledFullscreenLandingMenu = styled.div<{ visible?: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: ${p => p.theme.palette.common.white};
-  z-index: 1000;
+  z-index: ${p => p.theme.zIndices.fullscreenLandingMenu};
   transition: opacity 150ms ease-out;
 
   ${p =>

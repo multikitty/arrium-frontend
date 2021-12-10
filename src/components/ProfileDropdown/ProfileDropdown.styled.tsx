@@ -5,7 +5,6 @@ import { Button } from "@mui/material"
 import theme from "../../theme"
 
 export const StyledProfileDropdownUpperSection = styled.div`
-  margin-top: ${rem("16px")};
   padding: ${rem("24px")};
 `
 

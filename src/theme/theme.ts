@@ -28,6 +28,14 @@ const theme = {
   },
   sizes: {
     container: "1280px",
+    topbarHeight: "64px",
+  },
+  zIndices: {
+    modalOverlay: 990,
+    fullscreenLandingMenu: 999,
+    navbar: 998,
+    bottomImage: 2,
+    topImage: 3,
   },
 }
 
