@@ -36,7 +36,7 @@ const useProvideAuth = (): AuthContextType => {
     user:
       (isBrowser() &&
         localStorage.getItem("user") &&
-        (JSON.parse(localStorage.getItem("user")) as UserType)) ||
+        (JSON.parse(localStorage.getItem("user") || "") as UserType)) ||
       user,
     isAuthenticated: isBrowser()
       ? !!localStorage.getItem("isAuthenticated") || !!user
