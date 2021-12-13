@@ -5,25 +5,28 @@ import {
   StyledSidePanelBrandLogo,
   StyledSidePanelBrandLogoContainer,
   StyledSidePanelItem,
+  StyledSidePanelItemIcon,
   StyledSidePanelItemList,
   StyledSidePanelItemText,
 } from "./SidePanel.styled"
 import brandLogo from "../../assets/icons/arrium_logo.svg"
-import SearchIcon from "@mui/icons-material/Search"
-import { Box } from "@mui/material"
-import theme from "../../theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { useLocation } from "@reach/router"
-import { rem } from "polished"
 import { DriverPages } from "../../types/common"
+import SearchIcon from "../../assets/icons/sidepanel_driver-search_icon.inline.svg"
+import SubscriptionIcon from "../../assets/icons/sidepanel_driver-subscription_icon.inline.svg"
+import FAQIcon from "../../assets/icons/sidepanel_driver-faq_icon.inline.svg"
+import SupportIcon from "../../assets/icons/sidepanel_driver-support_icon.inline.svg"
 
 const SidePanel = () => {
   const { pathname } = useLocation()
 
-  const isBlockAvailibityPage = pathname === `/${DriverPages.blockAvailability}`
-  const isSubscriptionPage = pathname === `/${DriverPages.subscription}`
-  const isFAQsPage = pathname === `/${DriverPages.faq}`
-  const isSupportPage = pathname === `/${DriverPages.support}`
+  const isBlockAvailibityPage = pathname.includes(
+    `/${DriverPages.blockAvailability}`
+  )
+  const isSubscriptionPage = pathname.includes(`/${DriverPages.subscription}`)
+  const isFAQsPage = pathname.includes(`/${DriverPages.faq}`)
+  const isSupportPage = pathname.includes(`/${DriverPages.support}`)
 
   const handleNavigateToHomePage = () => navigate("/")
   const handleNavigateToBlockAvailibityPage = () =>
@@ -46,46 +49,27 @@ const SidePanel = () => {
           active={isBlockAvailibityPage}
           onClick={handleNavigateToBlockAvailibityPage}
         >
-          <Box mr={rem("12px")}>
-            <SearchIcon
-              sx={{
-                fontSize: 24,
-                color: isBlockAvailibityPage
-                  ? theme.palette.main
-                  : "InactiveCaptionText",
-              }}
-            />
-          </Box>
+          <StyledSidePanelItemIcon active={isBlockAvailibityPage}>
+            <SearchIcon />
+          </StyledSidePanelItemIcon>
           <StyledSidePanelItemText>Block availability</StyledSidePanelItemText>
         </StyledSidePanelItem>
         <StyledSidePanelItem
           active={isSubscriptionPage}
           onClick={handleNavigateToSubscriptionPage}
         >
-          <Box mr={rem("12px")}>
-            <SearchIcon
-              sx={{
-                fontSize: 24,
-                color: isSubscriptionPage
-                  ? theme.palette.main
-                  : "InactiveCaptionText",
-              }}
-            />
-          </Box>
+          <StyledSidePanelItemIcon active={isSubscriptionPage}>
+            <SubscriptionIcon />
+          </StyledSidePanelItemIcon>
           <StyledSidePanelItemText>Subscription</StyledSidePanelItemText>
         </StyledSidePanelItem>
         <StyledSidePanelItem
           active={isFAQsPage}
           onClick={handleNavigateToFAQsPage}
         >
-          <Box mr={rem("12px")}>
-            <SearchIcon
-              sx={{
-                fontSize: 24,
-                color: isFAQsPage ? theme.palette.main : "InactiveCaptionText",
-              }}
-            />
-          </Box>
+          <StyledSidePanelItemIcon active={isFAQsPage}>
+            <FAQIcon />
+          </StyledSidePanelItemIcon>
           <StyledSidePanelItemText>FAQs</StyledSidePanelItemText>
         </StyledSidePanelItem>
         <StyledFlexGrow />
@@ -93,16 +77,9 @@ const SidePanel = () => {
           active={isSupportPage}
           onClick={handleNavigateToSupportPage}
         >
-          <Box mr={rem("12px")}>
-            <SearchIcon
-              sx={{
-                fontSize: 24,
-                color: isSupportPage
-                  ? theme.palette.main
-                  : "InactiveCaptionText",
-              }}
-            />
-          </Box>
+          <StyledSidePanelItemIcon active={isSupportPage}>
+            <SupportIcon />
+          </StyledSidePanelItemIcon>
           <StyledSidePanelItemText>Support</StyledSidePanelItemText>
         </StyledSidePanelItem>
       </StyledSidePanelItemList>

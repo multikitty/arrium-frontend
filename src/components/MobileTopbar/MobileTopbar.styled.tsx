@@ -22,6 +22,8 @@ export const StyledMobileTopbarBrandLogoContainer = styled(
   StyledLandingNavbarBrandLogoContainer
 )`
   margin: 0;
+  display: flex;
+  align-items: center;
 `
 
 export const StyledMobileTopbarBrandLogo = styled(

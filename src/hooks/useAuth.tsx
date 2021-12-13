@@ -7,6 +7,7 @@ const authContext = createContext<AuthContextType>({
   verifyPhone: () => {},
   verifyEmail: () => {},
   authenticateUser: () => {},
+  logout: () => {},
 })
 
 export const useAuth = () => useContext(authContext)

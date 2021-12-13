@@ -67,7 +67,7 @@ const Topbar = () => {
                 : "transparent",
             }}
           >
-            M
+            ED
           </Avatar>
         </IconButton>
       </Tooltip>

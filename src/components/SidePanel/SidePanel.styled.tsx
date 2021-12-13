@@ -59,6 +59,21 @@ export const StyledSidePanelItem = styled.div<{
   }
 `
 
+export const StyledSidePanelItemIcon = styled.div<{ active?: boolean }>`
+  margin-right: ${rem("12px")};
+  display: flex;
+  align-items: center;
+
+  svg {
+    height: 24px;
+    width: 24px;
+
+    path {
+      stroke: ${p => (p.active ? p.theme.palette.main : p.theme.palette.grey6)};
+    }
+  }
+`
+
 export const StyledSidePanelItemText = styled.p`
   font-family: Inter;
   font-style: normal;

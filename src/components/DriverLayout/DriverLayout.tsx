@@ -9,6 +9,7 @@ import {
   StyledDriverLayout,
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
+import FullscreenMenu from "../FullscreenMenu"
 
 interface Props {
   children: React.ReactNode
@@ -32,8 +33,10 @@ const DriverLayout = (props: Props) => {
             <MobileTopbar
               handleFullscreenMenuOpen={handleFullscreenMenuOpen}
               handleFullscreenMenuClose={handleFullscreenMenuClose}
+              isFullscreenMenuOpen={isFullscreenMenuOpen}
             />
           )}
+          {!isWebView && <FullscreenMenu open={isFullscreenMenuOpen} />}
           {props.children}
         </StyledDriverLayoutContent>
       </StyledDriverLayout>

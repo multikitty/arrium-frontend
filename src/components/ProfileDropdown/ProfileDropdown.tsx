@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Box, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import SettingsIcon from "@mui/icons-material/Settings"
@@ -14,6 +14,7 @@ import {
 } from "./ProfileDropdown.styled"
 import theme from "../../theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { useAuth } from "../../hooks/useAuth"
 
 interface IProps {
   handleClose: () => void
@@ -22,21 +23,27 @@ interface IProps {
 }
 
 const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
-  const [isEmailVerified, setEmailVerified] = useState<boolean>(false)
-  const [isPhoneVerified, setPhoneVerified] = useState<boolean>(false)
+  const auth = useAuth()
 
   const handleEmailVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    setEmailVerified(true)
+    auth.verifyEmail()
   }
 
   const handlePhoneVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    setPhoneVerified(true)
+    auth.verifyPhone()
+  }
+
+  const handleLogoutButtonClick:
+    | React.MouseEventHandler<HTMLParagraphElement>
+    | undefined = e => {
+    e.stopPropagation()
+    auth.logout()
   }
 
   return (
@@ -86,15 +93,15 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: isEmailVerified ? 1 : 0.4,
+                opacity: auth.user?.isEmailVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            eliza.doolittle@gmail.com
+            {auth.user?.email}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {isEmailVerified || (
+          {auth.user?.isEmailVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handleEmailVerificationClick}
             >
@@ -108,15 +115,15 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: isPhoneVerified ? 1 : 0.4,
+                opacity: auth.user?.isPhoneVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            +44 12 34 5678
+            {auth.user?.phoneNumber}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {isPhoneVerified || (
+          {auth.user?.isPhoneVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handlePhoneVerificationClick}
             >
@@ -138,7 +145,7 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
         <ListItemIcon>
           <Logout sx={{ fontSize: 24 }} />
         </ListItemIcon>
-        <StyledProfileDropdownMenuItemText>
+        <StyledProfileDropdownMenuItemText onClick={handleLogoutButtonClick}>
           Log Out
         </StyledProfileDropdownMenuItemText>
       </MenuItem>

@@ -1,32 +1,49 @@
 import { useState } from "react"
 import { UserType } from "../types/auth"
+import { isBrowser } from "../utils/common"
 
 export interface AuthContextType {
   user: UserType
+  isAuthenticated: boolean
   verifyPhone: () => void
   verifyEmail: () => void
-  isAuthenticated: boolean
   authenticateUser: (user: UserType) => void
+  logout: () => void
 }
 
 const useProvideAuth = (): AuthContextType => {
   const [user, setUser] = useState<UserType>(null)
 
-  const verifyPhone = () =>
+  const verifyPhone = () => {
     setUser(prev => ({ ...prev, isPhoneVerified: true }))
-  const verifyEmail = () =>
+    localStorage.setItem("isPhoneVerified", "true")
+  }
+  const verifyEmail = () => {
     setUser(prev => ({ ...prev, isEmailVerified: true }))
+    localStorage.setItem("isEmailVerified", "true")
+  }
   const authenticateUser = (user: UserType) => {
-    console.log("user", user)
     setUser(user)
+    localStorage.setItem("isAuthenticated", "true")
+    localStorage.setItem("user", JSON.stringify(user))
+  }
+
+  const logout = () => {
+    localStorage.removeItem("isAuthenticated")
   }
 
   return {
-    user,
+    user: isBrowser()
+      ? (JSON.parse(window.localStorage.getItem("user") || "") as UserType) ||
+        user
+      : null,
+    isAuthenticated: isBrowser()
+      ? !!localStorage.getItem("isAuthenticated") || !!user
+      : false,
     verifyPhone,
     verifyEmail,
-    isAuthenticated: !!user,
     authenticateUser,
+    logout,
   }
 }
 
