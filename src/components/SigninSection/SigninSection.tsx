@@ -77,7 +77,7 @@ const SigninSection = () => {
       />
       {errors.password && (
         <StyledWarningText marginbottom={rem("16px")}>
-          {errors.password.message}
+          Please enter password
         </StyledWarningText>
       )}
       <Box display="flex" justifyContent="space-between">

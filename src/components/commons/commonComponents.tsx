@@ -149,10 +149,14 @@ export const StyledLoginContainerMobile = styled(Box)`
   min-height: 92vh;
   padding: ${rem("20px")};
 `
-export const StyledWarningText = styled.p<{ marginbottom?: string }>`
+export const StyledWarningText = styled.p<{
+  marginbottom?: string
+  marginTop?: string
+}>`
   color: #f25555;
   font-size: ${rem("16px")};
   font-weight: 500;
   line-height: ${rem("20px")};
   margin-bottom: ${p => p.marginbottom};
+  margin-top: ${p => p.marginTop};
 `

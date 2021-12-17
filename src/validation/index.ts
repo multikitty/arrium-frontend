@@ -14,6 +14,11 @@ const emailAndPasswordValidationSchema = Yup.object().shape({
     .email("Please enter valid email!"),
 })
 
+const supportFormValidationSchema = Yup.object().shape({
+  subject: Yup.string().required("Please enter support title"),
+  message: Yup.string().required("Please enter message"),
+})
+
 const landingContactFormValidationSchema = Yup.object().shape({
   firstName: Yup.string().required("The First Name field must not be empty"),
   surName: Yup.string().required("The Surname field must not be empty"),
@@ -55,4 +60,7 @@ export const passwordFormOptions = {
 }
 export const emailFormOptions = {
   resolver: yupResolver(emailValidationSchema),
+}
+export const supportFormOptions = {
+  resolver: yupResolver(supportFormValidationSchema),
 }

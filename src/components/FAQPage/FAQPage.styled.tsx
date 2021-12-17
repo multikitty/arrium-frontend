@@ -16,7 +16,6 @@ export const StyledFAQPageHeader = styled.h3`
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
   margin-bottom: ${rem("32px")};
-
   color: ${p => p.theme.palette.blackText};
 `
 
