@@ -1,3 +1,4 @@
+import { navigate } from "gatsby-link"
 import { useState } from "react"
 import { UserType } from "../types/auth"
 import { isBrowser } from "../utils/common"
@@ -29,7 +30,11 @@ const useProvideAuth = (): AuthContextType => {
   }
 
   const logout = () => {
+    if (!isBrowser()) return
+    localStorage.removeItem("user")
     localStorage.removeItem("isAuthenticated")
+    setUser(null)
+    navigate("/")
   }
 
   return {

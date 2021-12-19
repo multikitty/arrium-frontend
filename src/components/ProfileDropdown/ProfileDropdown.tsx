@@ -15,6 +15,7 @@ import {
 import theme from "../../theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { useAuth } from "../../hooks/useAuth"
+import { navigate } from "gatsby-link"
 
 interface IProps {
   handleClose: () => void
@@ -39,8 +40,15 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
     auth.verifyPhone()
   }
 
+  const handleSettingsButtonClick:
+    | React.MouseEventHandler<HTMLLIElement>
+    | undefined = e => {
+    e.stopPropagation()
+    navigate("/profile")
+  }
+
   const handleLogoutButtonClick:
-    | React.MouseEventHandler<HTMLParagraphElement>
+    | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
     e.stopPropagation()
     auth.logout()
@@ -133,7 +141,12 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
         </StyledProfileDropdownUpperSectionVerificationContainer>
       </StyledProfileDropdownUpperSection>
       <Divider />
-      <MenuItem dense divider sx={{ py: rem("12px") }}>
+      <MenuItem
+        dense
+        divider
+        sx={{ py: rem("12px") }}
+        onClick={handleSettingsButtonClick}
+      >
         <ListItemIcon>
           <SettingsIcon sx={{ fontSize: 24 }} />
         </ListItemIcon>
@@ -141,11 +154,15 @@ const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
           Settings
         </StyledProfileDropdownMenuItemText>
       </MenuItem>
-      <MenuItem dense sx={{ py: rem("12px") }}>
+      <MenuItem
+        dense
+        sx={{ py: rem("12px") }}
+        onClick={handleLogoutButtonClick}
+      >
         <ListItemIcon>
           <Logout sx={{ fontSize: 24 }} />
         </ListItemIcon>
-        <StyledProfileDropdownMenuItemText onClick={handleLogoutButtonClick}>
+        <StyledProfileDropdownMenuItemText>
           Log Out
         </StyledProfileDropdownMenuItemText>
       </MenuItem>

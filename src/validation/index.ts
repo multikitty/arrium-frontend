@@ -28,6 +28,28 @@ const landingContactFormValidationSchema = Yup.object().shape({
   question: Yup.string().required("This field must not be empty"),
 })
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+export const personalInformationFormValidationSchema = Yup.object().shape({
+  name: Yup.string().required("The First Name field must not be empty"),
+  surName: Yup.string().required("The Surname field must not be empty"),
+  email: Yup.string()
+    .required("The Email Address field must not be empty")
+    .email("Please enter a valid email address"),
+  phoneNumber: Yup.string().matches(
+    phoneRegExp,
+    "Please enter a valid phone number"
+  ),
+  timezone: Yup.string().required("The Timezone field must not be empty"),
+  password: Yup.string().required("The Password field must not be empty"),
+})
+
+export const flexAccountFormValidationSchema = Yup.object().shape({
+  userName: Yup.string().required("The First Name field must not be empty"),
+  password: Yup.string().required("The Password field must not be empty"),
+})
+
 const passwordValidationSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
@@ -46,6 +68,7 @@ const emailValidationSchema = Yup.object().shape({
 export const emailAndPasswordFormOptions = {
   resolver: yupResolver(emailAndPasswordValidationSchema),
 }
+
 export const landingContactFormFormOptions = {
   resolver: yupResolver(landingContactFormValidationSchema),
   defaultValues: {
@@ -55,9 +78,31 @@ export const landingContactFormFormOptions = {
     question: "",
   },
 }
+
+export const personalInformationFormOptions = {
+  resolver: yupResolver(personalInformationFormValidationSchema),
+  defaultValues: {
+    name: "",
+    surName: "",
+    email: "",
+    phoneNumber: "",
+    timezone: "",
+    passsword: "",
+  },
+}
+
+export const flexAccountFormOptions = {
+  resolver: yupResolver(flexAccountFormValidationSchema),
+  defaultValues: {
+    userName: "",
+    passsword: "",
+  },
+}
+
 export const passwordFormOptions = {
   resolver: yupResolver(passwordValidationSchema),
 }
+
 export const emailFormOptions = {
   resolver: yupResolver(emailValidationSchema),
 }

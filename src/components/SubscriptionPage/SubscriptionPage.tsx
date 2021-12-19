@@ -93,10 +93,7 @@ const SubscriptionPage = () => {
           component={Paper}
           sx={{ boxShadow: "none", borderRadius: rem("20px") }}
         >
-          <Table
-            sx={{ minWidth: 650, bgcolor: theme.palette.grey1 }}
-            aria-label="invoices table"
-          >
+          <Table sx={{ minWidth: 650 }} aria-label="invoices table">
             <TableHead>
               <TableRow>
                 <TableCell
