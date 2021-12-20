@@ -1,9 +1,15 @@
 import React from "react"
-import { Avatar, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
-import PersonAdd from "@mui/icons-material/PersonAdd"
-import Settings from "@mui/icons-material/Settings"
-import Logout from "@mui/icons-material/Logout"
+import { Divider, Menu, MenuItem } from "@mui/material"
 import { rem } from "polished"
+import {
+  StyledNotificationsDropdownUpperSection,
+  StyledNotificationsDropdownUpperSectionDismissButton,
+  StyledNotificationsDropdownUpperSectionUsername,
+} from "./NotificationsDropdown.styled"
+import { navigate } from "gatsby-link"
+import { DriverPages } from "../../types/common"
+import InvoiceNotification from "./InvoiceNotification"
+import BlockAcceptNotification from "./BlockAcceptNotification"
 
 interface IProps {
   handleClose: () => void
@@ -12,6 +18,13 @@ interface IProps {
 }
 
 const NotificationsDropdown = ({ handleClose, anchorEl, open }: IProps) => {
+  const handleInvoiceNotificationClick:
+    | React.MouseEventHandler<HTMLLIElement>
+    | undefined = e => {
+    e.stopPropagation()
+    navigate(`/${DriverPages.subscription}`)
+  }
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -25,7 +38,7 @@ const NotificationsDropdown = ({ handleClose, anchorEl, open }: IProps) => {
           filter: "drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.1))",
           mt: 1.5,
           borderRadius: rem("20px"),
-          padding: rem("12px"),
+          minWidth: rem("360px"),
           "& .MuiAvatar-root": {
             width: 32,
             height: 32,
@@ -49,30 +62,35 @@ const NotificationsDropdown = ({ handleClose, anchorEl, open }: IProps) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      <MenuItem>
-        <Avatar /> Notifications
-      </MenuItem>
-      <MenuItem>
-        <Avatar /> My account
-      </MenuItem>
+      <StyledNotificationsDropdownUpperSection>
+        <StyledNotificationsDropdownUpperSectionUsername>
+          Notifications
+        </StyledNotificationsDropdownUpperSectionUsername>
+        <StyledNotificationsDropdownUpperSectionDismissButton>
+          Dismiss all
+        </StyledNotificationsDropdownUpperSectionDismissButton>
+      </StyledNotificationsDropdownUpperSection>
       <Divider />
-      <MenuItem>
-        <ListItemIcon>
-          <PersonAdd fontSize="small" />
-        </ListItemIcon>
-        Add another account
+      <MenuItem
+        dense
+        divider
+        sx={{ py: rem("12px") }}
+        onClick={handleInvoiceNotificationClick}
+      >
+        <InvoiceNotification
+          invoiceNumber={328}
+          invoiceId="someInvoiceId"
+          fromNow="5 mins ago"
+        />
       </MenuItem>
-      <MenuItem>
-        <ListItemIcon>
-          <Settings fontSize="small" />
-        </ListItemIcon>
-        Settings
-      </MenuItem>
-      <MenuItem>
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
+      <MenuItem dense sx={{ py: rem("12px") }}>
+        <BlockAcceptNotification
+          location="Wembley (DHA-1)"
+          date="Wed 09 Sep"
+          time="17:00-20:30"
+          pay={39}
+          fromNow="23 hours ago"
+        />
       </MenuItem>
     </Menu>
   )
