@@ -11,7 +11,6 @@ import {
   StyledFAQPage as StyledSupportPage,
   StyledFAQPageHeader as StyledSupportPageHeader,
 } from "../FAQPage/FAQPage.styled"
-
 import {
   StyledContentHeader,
   StyledSupportPageWrapper,
@@ -48,6 +47,7 @@ const SupportPage = () => {
           <StyledSupportInputField
             placeholder="Subject"
             variant="outlined"
+            error={errors.subject && !!errors.subject.message}
             {...register("subject")}
           />
           {errors.subject && (
@@ -60,6 +60,7 @@ const SupportPage = () => {
             multiline
             rows={10}
             placeholder="Type your message here..."
+            error={errors.message && !!errors.message.message}
             {...register("message")}
           />
           {errors.message && (

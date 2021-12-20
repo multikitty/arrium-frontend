@@ -7,6 +7,7 @@ export const StyledSupportPageWrapper = styled(Box)`
   border: 1px solid ${p => p.theme.palette.grey3};
   border-radius: ${rem("20px")};
 `
+
 export const StyledSupportPageContent = styled.div`
   display: flex;
   flex-direction: column;
