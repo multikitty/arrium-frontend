@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Chip from "@mui/material/Chip"
 import Stack from "@mui/material/Stack"
 import {
@@ -12,6 +12,7 @@ import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
+import Collapse from "@mui/material/Collapse"
 import {
   StyledBlockAvailablityPageWrapper,
   StyledBlockHeader,
@@ -24,7 +25,9 @@ import {
 } from "./BlockAvailabilityPage.styled"
 import EditSearchIcon from "../../assets/icons/edit_icon.inline.svg"
 import ArrowDownIcon from "../../assets/icons/filter-arrow_down.inline.svg"
+import ArrowUpIcon from "../../assets/icons/filter-arrow_up.inline.svg"
 import RunningIcon from "../../assets/icons/running_ripple_icon.inline.svg"
+import StoppingIcon from "../../assets/icons/stopping_ripple_icon.inline.svg"
 import { Box, TableContainer, Typography } from "@mui/material"
 import { rem } from "polished"
 import { ContainedButton } from "../commons/Button"
@@ -150,108 +153,109 @@ const TabData = (rows: any[], status: string) => (
             }}
             align="left"
           >
-            status
+            Status
           </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map(row => (
-          <TableRow
-            key={row.Location}
-            sx={{
-              height: "72px",
-              "&:last-child td, &:last-child th": { border: 0 },
-              "& td:first-child, & th:first-child": {
-                paddingLeft: rem("32px"),
-              },
-            }}
-          >
-            <TableCell
+        {rows
+          .filter(row => (status === "All" ? true : row.Status === status))
+          .map(row => (
+            <TableRow
+              key={row.Location}
               sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
+                height: "72px",
+                "&:last-child td, &:last-child th": { border: 0 },
+                "& td:first-child, & th:first-child": {
+                  paddingLeft: rem("32px"),
+                },
               }}
-              component="th"
-              scope="row"
             >
-              {row.Location}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-              }}
-              align="left"
-            >
-              {row.Day}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-              }}
-              align="left"
-            >
-              {row.Date}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-                textTransform: "capitalize",
-              }}
-              align="left"
-            >
-              {row.Time}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-              }}
-              align="left"
-            >
-              {row.Duration}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-              }}
-              align="left"
-            >
-              &#163;{row.Pay}
-            </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: "normal",
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.blackText,
-              }}
-              align="left"
-            >
-              {status === "All" &&
-                (row.Status === "Accepted" ? (
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                component="th"
+                scope="row"
+              >
+                {row.Location}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                {row.Day}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                {row.Date}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                  textTransform: "capitalize",
+                }}
+                align="left"
+              >
+                {row.Time}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                {row.Duration}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: 600,
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                &#163;{row.Pay}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                {row.Status === "Accepted" ? (
                   <Chip
                     label="Accepted"
                     sx={{
@@ -277,35 +281,155 @@ const TabData = (rows: any[], status: string) => (
                       background: "#FAB11E",
                     }}
                   />
-                ))}
-              {status === "Accepted" && row.Status === "Accepted" && (
-                <Chip
-                  label="Accepted"
-                  sx={{
-                    fontFamily: "Inter",
-                    fontSize: "14px",
-                    fontStyle: "normal",
-                    fontWeight: 600,
-                    lineHeight: "20px",
-                    color: "white",
-                    background: "#3DCC70",
-                  }}
-                />
-              )}
-              {status === "Ignored" && row.Status === "Ignored" && (
-                <Chip
-                  label="Ignored"
-                  sx={{
-                    fontFamily: "Inter",
-                    fontSize: "14px",
-                    fontStyle: "normal",
-                    fontWeight: 600,
-                    lineHeight: "20px",
-                    color: "white",
-                    background: "#FAB11E",
-                  }}
-                />
-              )}
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+)
+
+const TabDataSearch = (rowsSearches: any[]) => (
+  <TableContainer>
+    <Table aria-label="invoices table">
+      <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+              paddingLeft: rem("32px"),
+            }}
+          >
+            Location
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Time to arrive
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Start time - end time
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Minimum Pay
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Minimun Hourly Rate
+          </TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rowsSearches.map(row => (
+          <TableRow
+            key={row.Location}
+            sx={{
+              height: "72px",
+              "&:last-child td, &:last-child th": { border: 0 },
+              "& td:first-child, & th:first-child": {
+                paddingLeft: rem("32px"),
+              },
+            }}
+          >
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: 600,
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.blackText,
+              }}
+              component="th"
+              scope="row"
+            >
+              {row.location}
+            </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: "normal",
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.blackText,
+              }}
+              align="left"
+            >
+              {row.timeToArrive}
+            </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: "normal",
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.blackText,
+              }}
+              align="left"
+            >
+              {row.startTimeToEndTime}
+            </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: "normal",
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.blackText,
+                textTransform: "capitalize",
+              }}
+              align="left"
+            >
+              &#163;{row.minPay}
+            </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: "normal",
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.blackText,
+              }}
+              align="left"
+            >
+              &#163;{row.minHourlyRate}
             </TableCell>
           </TableRow>
         ))}
@@ -317,6 +441,8 @@ const TabData = (rows: any[], status: string) => (
 const BlockAvailabilityPage = () => {
   const handleClick = () => console.log("hi")
   const [value, setValue] = React.useState(0)
+  const [isExpanded, setIsExpanded] = useState<boolean>(false)
+  const [isSearching, setIsSearching] = useState<boolean>(false)
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -333,6 +459,42 @@ const BlockAvailabilityPage = () => {
   ) => {
     return { Location, Day, Date, Time, Duration, Pay, Status }
   }
+
+  const week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+  const createSearchesData = (
+    location: string,
+    timeToArrive: string,
+    startTimeToEndTime: string,
+    minPay: string,
+    minHourlyRate: string
+  ) => {
+    return { location, timeToArrive, startTimeToEndTime, minPay, minHourlyRate }
+  }
+
+  const rowSearches = [
+    createSearchesData(
+      "Manchester (CMC2) - Morrisons",
+      "15 min",
+      "17:45 - 21:00",
+      "30",
+      "10"
+    ),
+    createSearchesData(
+      "Leyland (DPR1) - AMZL",
+      "20 min",
+      "17:30 - 22:00",
+      "35",
+      "1"
+    ),
+    createSearchesData(
+      "Knowsley (DWN1) - AMZL",
+      "32 min",
+      "17:30 - 22:00",
+      "40",
+      "13"
+    ),
+  ]
 
   const rows = [
     createData(
@@ -378,6 +540,7 @@ const BlockAvailabilityPage = () => {
       <StyledBlockAvailabilityPageHeader>
         Block availability
       </StyledBlockAvailabilityPageHeader>
+
       <StyledBlockAvailablityPageWrapper>
         <StyledBlockHeader>
           <StyledTextWrapper>
@@ -387,22 +550,25 @@ const BlockAvailabilityPage = () => {
             </StyledSearchButton>
           </StyledTextWrapper>
           <Stack direction="row" spacing={1}>
-            <Chip label="Mon" variant="outlined" onClick={handleClick} />
-            <Chip label="Tue" variant="outlined" onClick={handleClick} />
-            <Chip label="Wed" variant="outlined" onClick={handleClick} />
-            <Chip label="Thu" variant="outlined" onClick={handleClick} />
-            <Chip label="Fri" variant="outlined" onClick={handleClick} />
-            <Chip label="Sat" variant="outlined" onClick={handleClick} />
-            <Chip label="Sun" variant="outlined" onClick={handleClick} />
+            {week.map(day => (
+              <Chip label={day} variant="outlined" onClick={handleClick} />
+            ))}
           </Stack>
         </StyledBlockHeader>
+
+        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+          {TabDataSearch(rowSearches)}
+        </Collapse>
+
         <StyledCollapsedSearch>
           <Box display="flex" sx={{ cursor: "pointer" }}>
-            <Box display="flex">
+            <Box display="flex" onClick={() => setIsExpanded(prev => !prev)}>
               <StyledCircle>
-                <ArrowDownIcon />
+                {!isExpanded ? <ArrowDownIcon /> : <ArrowUpIcon />}
               </StyledCircle>
-              <StyledShowMoreText>Show more</StyledShowMoreText>
+              <StyledShowMoreText>
+                {!isExpanded ? "Show more" : "Show less"}
+              </StyledShowMoreText>
             </Box>
             <Box sx={{ marginLeft: rem("20px") }}>
               <StyledShowMoreText>
@@ -416,15 +582,20 @@ const BlockAvailabilityPage = () => {
               alignItems="center"
               sx={{ marginRight: rem("32px") }}
             >
-              <RunningIcon />
-              <StyledShowMoreText>Stopped</StyledShowMoreText>
+              {isSearching ? <StoppingIcon /> : <RunningIcon />}
+              <StyledShowMoreText>
+                {isSearching ? "Cooling" : "Stopped"}
+              </StyledShowMoreText>
             </Box>
             <Box>
-              <ContainedButton>Start Search</ContainedButton>
+              <ContainedButton onClick={() => setIsSearching(prev => !prev)}>
+                {isSearching ? "Stop Search" : "Start Searching"}
+              </ContainedButton>
             </Box>
           </Box>
         </StyledCollapsedSearch>
       </StyledBlockAvailablityPageWrapper>
+
       <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
