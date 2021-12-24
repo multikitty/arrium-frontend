@@ -17,17 +17,26 @@ import {
   StyledSearchButton,
   StyledTextWrapper,
   StyledShowMoreText,
+  StyledTimePickerField,
 } from "./BlockAvailabilityPage.styled"
-import EditSearchIcon from "../../assets/icons/edit_icon.inline.svg"
+import EditSearchActiveIcon from "../../assets/icons/edit_icon_active.inline.svg"
 import ArrowDownIcon from "../../assets/icons/filter-arrow_down.inline.svg"
 import ArrowUpIcon from "../../assets/icons/filter-arrow_up.inline.svg"
 import RunningIcon from "../../assets/icons/running_ripple_icon.inline.svg"
 import StoppingIcon from "../../assets/icons/stopping_ripple_icon.inline.svg"
-import { Box, Typography } from "@mui/material"
+import DeleteIcon from "../../assets/icons/delete_icon.inline.svg"
+import DeleteDisabledIcon from "../../assets/icons/delete_icon_disabled.inline.svg"
+import { Box, FormControlLabel, Typography } from "@mui/material"
 import { rem } from "polished"
-import { ContainedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { rows, rowSearches, week } from "./BlockAvailabilityPage.data"
-import { TabData, TabDataSearch } from "../commons/commonComponents"
+import {
+  SearchTable,
+  TabData,
+  TabDataSearch,
+} from "../commons/commonComponents"
+import Switch from "../commons/Switch"
+import theme from "../../theme"
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -60,7 +69,8 @@ const BlockAvailabilityPage = () => {
   const [value, setValue] = React.useState(0)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
-
+  const [isSearchable, setIsSearchable] = useState<boolean>(true)
+  const [isDisable, _] = useState<boolean>(true)
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -75,9 +85,21 @@ const BlockAvailabilityPage = () => {
         <StyledBlockHeader>
           <StyledTextWrapper>
             <StyledBlockSearchText>Search preferences</StyledBlockSearchText>
-            <StyledSearchButton startIcon={<EditSearchIcon />}>
-              Edit Search
-            </StyledSearchButton>
+            {!isSearchable ? (
+              <StyledSearchButton
+                onClick={() => setIsSearchable(true)}
+                startIcon={<EditSearchActiveIcon />}
+              >
+                Edit Search
+              </StyledSearchButton>
+            ) : (
+              <StyledSearchButton
+                disabled={isDisable}
+                startIcon={isDisable ? <DeleteDisabledIcon /> : <DeleteIcon />}
+              >
+                Clear all
+              </StyledSearchButton>
+            )}
           </StyledTextWrapper>
           <Stack direction="row" spacing={1}>
             {week.map(day => (
@@ -86,44 +108,79 @@ const BlockAvailabilityPage = () => {
           </Stack>
         </StyledBlockHeader>
 
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-          {TabDataSearch(rowSearches)}
-        </Collapse>
-
-        <StyledCollapsedSearch>
-          <Box display="flex" sx={{ cursor: "pointer" }}>
-            <Box display="flex" onClick={() => setIsExpanded(prev => !prev)}>
-              <StyledCircle>
-                {!isExpanded ? <ArrowDownIcon /> : <ArrowUpIcon />}
-              </StyledCircle>
-              <StyledShowMoreText>
-                {!isExpanded ? "Show more" : "Show less"}
-              </StyledShowMoreText>
+        {!isSearchable ? (
+          <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+            {TabDataSearch(rowSearches)}
+          </Collapse>
+        ) : (
+          <Box>{SearchTable()}</Box>
+        )}
+        {!isSearchable ? (
+          <StyledCollapsedSearch>
+            <Box display="flex" sx={{ cursor: "pointer" }}>
+              <Box display="flex" onClick={() => setIsExpanded(prev => !prev)}>
+                <StyledCircle>
+                  {!isExpanded ? <ArrowDownIcon /> : <ArrowUpIcon />}
+                </StyledCircle>
+                <StyledShowMoreText>
+                  {!isExpanded ? "Show more" : "Show less"}
+                </StyledShowMoreText>
+              </Box>
+              <Box sx={{ marginLeft: rem("20px") }}>
+                <StyledShowMoreText>
+                  Autostart Search <strong>16:00</strong>
+                </StyledShowMoreText>
+              </Box>
             </Box>
-            <Box sx={{ marginLeft: rem("20px") }}>
-              <StyledShowMoreText>
-                Autostart Search <strong>16:00</strong>
-              </StyledShowMoreText>
+            <Box display="flex">
+              <Box
+                display="flex"
+                alignItems="center"
+                sx={{ marginRight: rem("32px") }}
+              >
+                {isSearching ? <StoppingIcon /> : <RunningIcon />}
+                <StyledShowMoreText>
+                  {isSearching ? "Cooling" : "Stopped"}
+                </StyledShowMoreText>
+              </Box>
+              <Box>
+                <ContainedButton onClick={() => setIsSearching(prev => !prev)}>
+                  {isSearching ? "Stop Search" : "Start Searching"}
+                </ContainedButton>
+              </Box>
             </Box>
-          </Box>
-          <Box display="flex">
-            <Box
-              display="flex"
-              alignItems="center"
-              sx={{ marginRight: rem("32px") }}
-            >
-              {isSearching ? <StoppingIcon /> : <RunningIcon />}
-              <StyledShowMoreText>
-                {isSearching ? "Cooling" : "Stopped"}
-              </StyledShowMoreText>
+          </StyledCollapsedSearch>
+        ) : (
+          <StyledCollapsedSearch>
+            <Box display="flex" alignItems="center">
+              <FormControlLabel
+                control={<Switch sx={{ m: 1 }} />}
+                label="AutoStart Search"
+              />
+              <StyledTimePickerField sx={{ mr: rem("32px") }} />
+              <FormControlLabel
+                control={<Switch sx={{ m: 1 }} />}
+                label="Send notifications on start"
+              />
             </Box>
-            <Box>
-              <ContainedButton onClick={() => setIsSearching(prev => !prev)}>
-                {isSearching ? "Stop Search" : "Start Searching"}
+            <Box display="flex" alignItems="center">
+              <OutlinedButton
+                type="reset"
+                sx={{
+                  whiteSpace: "nowrap",
+                  color: theme.palette.grey7,
+                  borderColor: theme.palette.grey3,
+                  marginRight: rem("10px"),
+                }}
+              >
+                Cancel
+              </OutlinedButton>
+              <ContainedButton onClick={() => setIsSearchable(false)}>
+                Save
               </ContainedButton>
             </Box>
-          </Box>
-        </StyledCollapsedSearch>
+          </StyledCollapsedSearch>
+        )}
       </StyledBlockAvailablityPageWrapper>
 
       <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>

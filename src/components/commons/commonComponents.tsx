@@ -12,6 +12,7 @@ import {
 import theme from "../../theme"
 import Chip from "@mui/material/Chip"
 import * as React from "react"
+import CheckBox from "./CheckBox"
 
 export const StyledInputField = styled(TextField)<{ mb?: string }>`
   &&& {
@@ -38,7 +39,6 @@ export const StyledInputField = styled(TextField)<{ mb?: string }>`
     }
   }
 `
-
 export const StyledTitle = styled.p`
   font-weight: 700;
   font-size: ${rem("34px")};
@@ -49,7 +49,6 @@ export const StyledTitle = styled.p`
   margin-bottom: ${rem("118px")};
   text-transform: uppercase;
 `
-
 export const StyledLoginContainer = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -59,7 +58,6 @@ export const StyledLoginContainer = styled(Box)`
   padding: ${rem("40px")};
   width: ${rem("458px")};
 `
-
 export const StyledLoginText = styled.h4`
   font-size: ${rem("28px")};
   font-weight: 400;
@@ -74,13 +72,11 @@ export const StyledRemeberMeText = styled.label`
   line-height: ${rem("20px")};
   color: #888a95;
 `
-
 export const StyledCheckBox = styled.input`
   margin-right: ${rem("8px")};
   width: ${rem("16px")};
   height: ${rem("16px")};
 `
-
 export const StyledForgotPassword = styled(Box)`
   cursor: pointer;
   font-weight: 500;
@@ -91,7 +87,6 @@ export const StyledForgotPassword = styled(Box)`
     text-decoration: none;
   }
 `
-
 export const StyledButton = styled(Button)<{ margintop?: string }>`
   &&& {
     color: white;
@@ -105,14 +100,12 @@ export const StyledButton = styled(Button)<{ margintop?: string }>`
     }
   }
 `
-
 export const StyledButtonText = styled.h5`
   font-size: ${rem("16px")};
   font-weight: 500;
   line-height: ${rem("20px")};
   width: 100%;
 `
-
 export const StyledSignUpText = styled.h5`
   margin-top: ${rem("16px")};
   font-size: ${rem("16px")};
@@ -170,6 +163,16 @@ export const StyledWarningText = styled.p<{
   line-height: ${rem("20px")};
   margin-bottom: ${p => p.marginbottom};
   margin-top: ${p => p.marginTop};
+`
+
+export const SearchTextField = styled(TextField)`
+  &&& {
+    width: ${rem("130px")};
+    & > div > input {
+      padding: ${rem("8px")};
+      height: ${rem("24px")};
+    }
+  }
 `
 
 export const TabData = (rows: any[], status: string) => (
@@ -539,6 +542,176 @@ export const TabDataSearch = (rowsSearches: any[]) => (
             </TableCell>
           </TableRow>
         ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+)
+
+export const SearchTable = () => (
+  <TableContainer>
+    <Table aria-label="invoices table">
+      <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+              paddingLeft: rem("32px"),
+            }}
+          >
+            Location
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Time to arrive
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Start time
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            End time
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Minimum Pay
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.grey6,
+            }}
+            align="left"
+          >
+            Minimun Hourly Rate
+          </TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow
+          sx={{
+            height: "72px",
+            "&:last-child td, &:last-child th": { border: 0 },
+            "& td:first-child, & th:first-child": {
+              paddingLeft: rem("32px"),
+            },
+          }}
+        >
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: 600,
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+            }}
+            component="th"
+            scope="row"
+          >
+            <CheckBox />
+            Manchester (CMC2) - Morrisons
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: "normal",
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+            }}
+            align="justify"
+          >
+            <SearchTextField />
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: "normal",
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+            }}
+            align="justify"
+          >
+            <SearchTextField />
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: "normal",
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+              textTransform: "capitalize",
+            }}
+            align="justify"
+          >
+            <SearchTextField />
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: "normal",
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+            }}
+            align="justify"
+          >
+            <SearchTextField />
+          </TableCell>
+          <TableCell
+            sx={{
+              fontFamily: "Inter",
+              fontWeight: "normal",
+              fontSize: rem("16px"),
+              lineHeight: rem("20px"),
+              color: theme.palette.blackText,
+            }}
+            align="justify"
+          >
+            <SearchTextField />
+          </TableCell>
+        </TableRow>
       </TableBody>
     </Table>
   </TableContainer>

@@ -1,6 +1,6 @@
 import { rem } from "polished"
 import styled from "styled-components"
-import { Button } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import theme from "../../theme"
 
 export const StyledBlockAvailablityPageWrapper = styled.div`
@@ -64,4 +64,14 @@ export const StyledShowMoreText = styled.p`
   line-height: ${rem("20px")};
   color: ${theme.palette.blackText};
   margin-left: ${rem("8px")};
+`
+
+export const StyledTimePickerField = styled(TextField)`
+  &&& {
+    width: ${rem("56px")};
+    & > div > input {
+      padding: ${rem("8px")};
+      height: ${rem("24px")};
+    }
+  }
 `
