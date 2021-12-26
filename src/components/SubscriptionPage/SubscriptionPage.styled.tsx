@@ -1,5 +1,5 @@
 import { rem } from "polished"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   StyledFAQPage,
   StyledFAQPageHeader,
@@ -70,10 +70,17 @@ export const StyledSubscriptionPageDetailsActionsSection = styled.div`
 
 export const StyledSubscriptionPageInvoicesContainer = styled(
   StyledSubscriptionPageDetailsContainer
-)`
+)<{ billingTab?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0;
+
+  ${p =>
+    p.billingTab &&
+    css`
+      border-width: 0;
+      border-radius: 0 0 ${rem("20px")} ${rem("20px")};
+    `}
 `
 
 export const StyledSubscriptionPageInvoicesHeader = styled.h4`

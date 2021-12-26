@@ -10,6 +10,7 @@ const theme = {
       violet: "#8059F7",
       green: "#2DB560",
       lightGreen: "#98D9B8",
+      red: "#FA6464",
     },
     main: "#3071F2",
     mainHover: "#1657D9",

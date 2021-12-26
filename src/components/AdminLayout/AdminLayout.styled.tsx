@@ -1,15 +1,14 @@
 import { rem } from "polished"
 import styled from "styled-components"
 
-export const StyledDriverLayout = styled.div`
+export const StyledAdminLayout = styled.div`
   display: flex;
   width: 100%;
 `
 
-export const StyledDriverLayoutContent = styled.div<{ isWebView?: boolean }>`
+export const StyledAdminLayoutContent = styled.div<{ isWebView?: boolean }>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: ${p => !p.isWebView && rem("64px")};
   padding-left: ${p => (p.isWebView ? rem("254px") : 0)};
 `

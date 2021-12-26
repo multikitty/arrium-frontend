@@ -10,6 +10,7 @@ import {
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
 import FullscreenMenu from "../FullscreenMenu"
+import { UserRoles } from "../../types/common"
 
 interface Props {
   children: React.ReactNode
@@ -23,9 +24,9 @@ const DriverLayout = (props: Props) => {
   const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
 
   return (
-    <AuthGuard>
+    <AuthGuard role={UserRoles.driver}>
       <StyledDriverLayout>
-        {isWebView && <SidePanel />}
+        {isWebView && <SidePanel role={UserRoles.driver} />}
         <StyledDriverLayoutContent isWebView={isWebView}>
           {isWebView ? (
             <Topbar />

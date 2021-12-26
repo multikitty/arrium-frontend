@@ -16,6 +16,7 @@ export const StyledMobileTopbar = styled.div`
   align-items: center;
   padding: ${rem("16px")} ${rem("20px")};
   background-color: ${p => p.theme.palette.common.white};
+  z-index: ${p => p.theme.zIndices.navbar};
 `
 
 export const StyledMobileTopbarBrandLogoContainer = styled(

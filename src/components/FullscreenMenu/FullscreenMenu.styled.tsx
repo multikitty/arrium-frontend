@@ -15,6 +15,10 @@ export const StyledFullscreenMenu = styled.div<{
   transition: opacity 150ms ease-out;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: ${p => p.theme.sizes.topbarHeight};
+  left: 0;
+  width: 100%;
 
   ${p =>
     p.visible
@@ -23,6 +27,7 @@ export const StyledFullscreenMenu = styled.div<{
           pointer-events: all;
         `
       : css`
+          height: 0;
           opacity: 0;
           pointer-events: none;
         `}

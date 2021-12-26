@@ -12,13 +12,20 @@ import {
 import brandLogo from "../../assets/icons/arrium_logo.svg"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { useLocation } from "@reach/router"
-import { DriverPages } from "../../types/common"
+import { AdminPages, DriverPages, UserRoles } from "../../types/common"
 import SearchIcon from "../../assets/icons/sidepanel_driver-search_icon.inline.svg"
 import SubscriptionIcon from "../../assets/icons/sidepanel_driver-subscription_icon.inline.svg"
 import FAQIcon from "../../assets/icons/sidepanel_driver-faq_icon.inline.svg"
 import SupportIcon from "../../assets/icons/sidepanel_driver-support_icon.inline.svg"
+import CustomersIcon from "../../assets/icons/sidepanel_admin-customer_icon.inline.svg"
+import SettingsIcon from "../../assets/icons/sidepanel_admin-settings_icon.inline.svg"
+import ReferralsIcon from "../../assets/icons/sidepanel_admin-referral_icon.inline.svg"
 
-const SidePanel = () => {
+interface IProps {
+  role: UserRoles
+}
+
+const SidePanel = (props: IProps) => {
   const { pathname } = useLocation()
 
   const isBlockAvailibityPage = pathname.includes(
@@ -28,13 +35,23 @@ const SidePanel = () => {
   const isFAQsPage = pathname.includes(`/${DriverPages.faq}`)
   const isSupportPage = pathname.includes(`/${DriverPages.support}`)
 
+  const isCustomersPage = pathname.includes(`/${AdminPages.customers}`)
+  const isSettingsPage = pathname.includes(`/${AdminPages.settings}`)
+  const isReferralsPage = pathname.includes(`/${AdminPages.referrals}`)
+
   const handleNavigateToHomePage = () => navigate("/")
-  const handleNavigateToBlockAvailibityPage = () =>
-    navigate(`/${DriverPages.blockAvailability}`)
-  const handleNavigateToSubscriptionPage = () =>
-    navigate(`/${DriverPages.subscription}`)
-  const handleNavigateToFAQsPage = () => navigate(`/${DriverPages.faq}`)
-  const handleNavigateToSupportPage = () => navigate(`/${DriverPages.support}`)
+
+  const renderSidePanelItem = (
+    active: boolean,
+    href: string,
+    icon: React.ReactNode,
+    label: string
+  ) => (
+    <StyledSidePanelItem active={active} onClick={() => navigate(href)}>
+      <StyledSidePanelItemIcon active={active}>{icon}</StyledSidePanelItemIcon>
+      <StyledSidePanelItemText>{label}</StyledSidePanelItemText>
+    </StyledSidePanelItem>
+  )
 
   return (
     <StyledSidePanel>
@@ -45,43 +62,56 @@ const SidePanel = () => {
         />
       </StyledSidePanelBrandLogoContainer>
       <StyledSidePanelItemList>
-        <StyledSidePanelItem
-          active={isBlockAvailibityPage}
-          onClick={handleNavigateToBlockAvailibityPage}
-        >
-          <StyledSidePanelItemIcon active={isBlockAvailibityPage}>
-            <SearchIcon />
-          </StyledSidePanelItemIcon>
-          <StyledSidePanelItemText>Block availability</StyledSidePanelItemText>
-        </StyledSidePanelItem>
-        <StyledSidePanelItem
-          active={isSubscriptionPage}
-          onClick={handleNavigateToSubscriptionPage}
-        >
-          <StyledSidePanelItemIcon active={isSubscriptionPage}>
-            <SubscriptionIcon />
-          </StyledSidePanelItemIcon>
-          <StyledSidePanelItemText>Subscription</StyledSidePanelItemText>
-        </StyledSidePanelItem>
-        <StyledSidePanelItem
-          active={isFAQsPage}
-          onClick={handleNavigateToFAQsPage}
-        >
-          <StyledSidePanelItemIcon active={isFAQsPage}>
-            <FAQIcon />
-          </StyledSidePanelItemIcon>
-          <StyledSidePanelItemText>FAQs</StyledSidePanelItemText>
-        </StyledSidePanelItem>
-        <StyledFlexGrow />
-        <StyledSidePanelItem
-          active={isSupportPage}
-          onClick={handleNavigateToSupportPage}
-        >
-          <StyledSidePanelItemIcon active={isSupportPage}>
-            <SupportIcon />
-          </StyledSidePanelItemIcon>
-          <StyledSidePanelItemText>Support</StyledSidePanelItemText>
-        </StyledSidePanelItem>
+        {props.role === UserRoles.driver ? (
+          <>
+            {renderSidePanelItem(
+              isBlockAvailibityPage,
+              `/${DriverPages.blockAvailability}`,
+              <SearchIcon />,
+              "Block availability"
+            )}
+            {renderSidePanelItem(
+              isSubscriptionPage,
+              `/${DriverPages.subscription}`,
+              <SubscriptionIcon />,
+              "Subscription"
+            )}
+            {renderSidePanelItem(
+              isFAQsPage,
+              `/${DriverPages.faq}`,
+              <FAQIcon />,
+              "FAQs"
+            )}
+            <StyledFlexGrow />
+            {renderSidePanelItem(
+              isSupportPage,
+              `/${DriverPages.support}`,
+              <SupportIcon />,
+              "Support"
+            )}
+          </>
+        ) : (
+          <>
+            {renderSidePanelItem(
+              isCustomersPage,
+              `/${AdminPages.customers}`,
+              <CustomersIcon />,
+              "Customers"
+            )}
+            {renderSidePanelItem(
+              isSettingsPage,
+              `/${AdminPages.settings}`,
+              <SettingsIcon />,
+              "Settings"
+            )}
+            {renderSidePanelItem(
+              isReferralsPage,
+              `/${AdminPages.referrals}`,
+              <ReferralsIcon />,
+              "Referrals"
+            )}
+          </>
+        )}
       </StyledSidePanelItemList>
     </StyledSidePanel>
   )

@@ -2,9 +2,17 @@ import React from "react"
 import { StyledContainedButton } from "./ContainedButton.styled"
 import { ButtonProps } from "@mui/material/Button"
 
-const ContainedButton = ({ children, ...props }: ButtonProps) => {
+interface IProps extends ButtonProps {
+  iconButton?: boolean
+}
+
+const ContainedButton = ({ children, ...props }: IProps) => {
   return (
-    <StyledContainedButton variant="contained" {...props}>
+    <StyledContainedButton
+      variant="contained"
+      iconButton={props.iconButton}
+      {...props}
+    >
       {children}
     </StyledContainedButton>
   )

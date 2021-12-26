@@ -6,13 +6,14 @@ import {
 } from "../FooterSection/FooterSection.styled"
 
 export const StyledSidePanel = styled.div`
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   max-width: ${rem("230px")};
   height: 100vh;
   background-color: ${p => p.theme.palette.background};
-  margin-right: ${rem("24px")};
+  /* margin-right: ${rem("24px")}; */
   padding: ${rem("40px")} 0;
   display: flex;
   flex-direction: column;

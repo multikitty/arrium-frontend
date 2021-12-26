@@ -7,6 +7,7 @@ export const StyledTopbar = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: ${rem("16px")} ${rem("56px")};
+  z-index: ${p => p.theme.zIndices.navbar};
 `
 
 export const StyledTopbarNotificationButton = styled.div<{ active?: boolean }>`
