@@ -80,7 +80,6 @@ const BlockAvailabilityPage = () => {
       <StyledBlockAvailabilityPageHeader>
         Block availability
       </StyledBlockAvailabilityPageHeader>
-
       <StyledBlockAvailablityPageWrapper>
         <StyledBlockHeader>
           <StyledTextWrapper>
@@ -140,7 +139,7 @@ const BlockAvailabilityPage = () => {
               >
                 {isSearching ? <StoppingIcon /> : <RunningIcon />}
                 <StyledShowMoreText>
-                  {isSearching ? "Cooling" : "Stopped"}
+                  {isSearching ? "Running" : "Stopped"}
                 </StyledShowMoreText>
               </Box>
               <Box>
@@ -182,7 +181,7 @@ const BlockAvailabilityPage = () => {
           </StyledCollapsedSearch>
         )}
       </StyledBlockAvailablityPageWrapper>
-
+      /
       <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
