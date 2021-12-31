@@ -49,6 +49,21 @@ const ConfigurationTab = () => {
               </StyledConfigurationTabFormLabel>
               <StyledConfigurationTabFormField defaultValue="HJ9845632" />
             </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                OS version
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="iOS 12.4"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value="iOS 12.4">iOS 12.4</MenuItem>
+                <MenuItem value="iOS 12.8">iOS 12.8</MenuItem>
+                <MenuItem value="iOS 13.0">iOS 13.0</MenuItem>
+                <MenuItem value="iOS 14.8">iOS 14.8</MenuItem>
+                <MenuItem value="iOS 15">iOS 15</MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
@@ -90,6 +105,19 @@ const ConfigurationTab = () => {
                 Device serial number
               </StyledConfigurationTabFormLabel>
               <StyledConfigurationTabFormField defaultValue="J82744HK82374LC" />
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Flex version
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="14.0.1"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value="14.0.1">14.0.1</MenuItem>
+                <MenuItem value="17.8.1">17.8.1</MenuItem>
+                <MenuItem value="17.8.2">17.8.2</MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>

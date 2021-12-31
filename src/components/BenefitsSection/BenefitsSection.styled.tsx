@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material"
 import { rem } from "polished"
 import styled from "styled-components"
+import { devices } from "../../constants/device"
 
 export const StyledBenefitsSection = styled.div`
   background: #ffffff;
@@ -45,12 +46,20 @@ export const StyledBenefitsSectionCard = styled.div`
     border: 1px solid ${p => p.theme.palette.common.orange};
     background-color: ${p => p.theme.palette.common.white};
   }
+
+  @media ${devices.web.down} {
+    padding: ${rem("16px")};
+  }
 `
 
 export const StyledBenefitsSectionCardIcon = styled.div`
   width: ${rem("40px")};
   height: ${rem("40px")};
   margin-bottom: ${rem("32px")};
+
+  @media ${devices.web.down} {
+    margin-bottom: ${rem("24px")};
+  }
 `
 
 export const StyledBenefitsSectionCardTitle = styled.h5`
@@ -71,4 +80,8 @@ export const StyledBenefitsSectionCardText = styled.p`
   line-height: ${rem("22px")};
   color: ${p => p.theme.palette.common.black};
   margin-bottom: ${rem("48px")};
+
+  @media ${devices.web.down} {
+    margin-bottom: ${rem("24px")};
+  }
 `

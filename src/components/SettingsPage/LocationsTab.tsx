@@ -1,12 +1,12 @@
 import React from "react"
-import { Divider, Grid, IconButton } from "@mui/material"
+import { Box, Divider, Grid, IconButton } from "@mui/material"
 import {
   StyledLocationsTab,
   StyledSettingsColumn,
   StyledSettingsColumnContent,
   StyledSettingsColumnContentHeaderContainer,
   StyledSettingsColumnContentHeaderText,
-  // StyledSettingsColumnContentList,
+  StyledSettingsColumnContentList,
   StyledSettingsColumnContentSearchField,
 } from "./SettingsPage.styled"
 import { ContainedButton } from "../commons/Button"
@@ -14,6 +14,8 @@ import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import theme from "../../theme"
 import { rem } from "polished"
+import { countryList, regionList, stationList } from "./SettingsPage.data"
+import { renderSettingsListItems } from "../../utils/settings"
 
 const LocationsTab = () => {
   return (
@@ -40,6 +42,16 @@ const LocationsTab = () => {
                   </IconButton>
                 }
               />
+              <StyledSettingsColumnContentList>
+                {renderSettingsListItems(countryList, {
+                  onEdit: id => {
+                    console.log("edit", id)
+                  },
+                  onDelete: id => {
+                    console.log("delete", id)
+                  },
+                })}
+              </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
           </StyledSettingsColumn>
@@ -65,6 +77,16 @@ const LocationsTab = () => {
                   </IconButton>
                 }
               />
+              <StyledSettingsColumnContentList>
+                {renderSettingsListItems(regionList, {
+                  onEdit: id => {
+                    console.log("edit", id)
+                  },
+                  onDelete: id => {
+                    console.log("delete", id)
+                  },
+                })}
+              </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
           </StyledSettingsColumn>
@@ -90,6 +112,16 @@ const LocationsTab = () => {
                   </IconButton>
                 }
               />
+              <StyledSettingsColumnContentList>
+                {renderSettingsListItems(stationList, {
+                  onEdit: id => {
+                    console.log("edit", id)
+                  },
+                  onDelete: id => {
+                    console.log("delete", id)
+                  },
+                })}
+              </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
           </StyledSettingsColumn>
         </Grid>

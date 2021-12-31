@@ -22,10 +22,10 @@ const ReferralTab = () => {
           <Grid item xs={12} lg={4}>
             <StyledReferralTabFormItem>
               <StyledReferralTabFormItemTitle>
-                Subscription plan
+                Referral code
               </StyledReferralTabFormItemTitle>
               <StyledReferralTabFormItemText>
-                Referral code
+                E4C11E
               </StyledReferralTabFormItemText>
             </StyledReferralTabFormItem>
             <StyledReferralTabFormItem>
