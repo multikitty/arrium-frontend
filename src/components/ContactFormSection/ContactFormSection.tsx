@@ -65,41 +65,22 @@ const ContactFormSection = () => {
           </StyledContactFormSectionCardRightContainerSubTitle>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container rowSpacing={3} columnSpacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <Controller
-                  name={"firstName"}
+                  name={"fullName"}
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <StyledContactFormSectionCardRightContainerField
-                      placeholder="First Name"
+                      placeholder="Full Name"
                       onChange={onChange}
                       value={value}
-                      error={!!formState.errors?.firstName}
+                      error={!!formState.errors?.fullName}
                     />
                   )}
                 />
-                {!!formState.errors?.firstName && (
+                {!!formState.errors?.fullName && (
                   <StyledContactFormSectionCardRightContainerFieldHelperText>
-                    {formState.errors?.firstName?.message}
-                  </StyledContactFormSectionCardRightContainerFieldHelperText>
-                )}
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Controller
-                  name={"surName"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledContactFormSectionCardRightContainerField
-                      placeholder="Surname"
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.surName}
-                    />
-                  )}
-                />
-                {!!formState.errors?.surName && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText>
-                    {formState.errors?.surName?.message}
+                    {formState.errors?.fullName?.message}
                   </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
               </Grid>

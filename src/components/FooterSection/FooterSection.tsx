@@ -93,7 +93,7 @@ const FooterSection = () => {
         <StyledFooterSectionRightContainerButtonContainer login>
           <OutlinedButton
             onClick={() => navigate("/signin")}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", height: "100%" }}
           >
             Login
           </OutlinedButton>

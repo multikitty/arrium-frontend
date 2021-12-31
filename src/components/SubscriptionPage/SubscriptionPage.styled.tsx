@@ -1,5 +1,6 @@
 import { rem } from "polished"
 import styled, { css } from "styled-components"
+import { devices } from "../../constants/device"
 import {
   StyledFAQPage,
   StyledFAQPageHeader,
@@ -17,6 +18,13 @@ export const StyledSubscriptionPageDetailsContainer = styled(
   flex-grow: 0;
   padding: ${rem("32px")};
   margin-bottom: ${rem("16px")};
+
+  @media ${devices.web.down} {
+    flex-direction: column;
+    border-radius: ${rem("20px")};
+    margin: ${rem("16px")};
+    margin-bottom: ${rem("48px")};
+  }
 `
 
 export const StyledSubscriptionPageDetailsNextPaymentSection = styled.div`
@@ -24,6 +32,11 @@ export const StyledSubscriptionPageDetailsNextPaymentSection = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-right: ${rem("70px")};
+
+  @media ${devices.web.down} {
+    margin-right: 0;
+    margin-bottom: ${rem("24px")};
+  }
 `
 
 export const StyledSubscriptionPageDetailsNextPaymentSectionTitle = styled.h5`
@@ -51,7 +64,12 @@ export const StyledSubscriptionPageDetailsNextPaymentSectionText = styled.h4`
 
 export const StyledSubscriptionPageDetailsPriceSection = styled(
   StyledSubscriptionPageDetailsNextPaymentSection
-)``
+)`
+  @media ${devices.web.down} {
+    margin-right: 0;
+    margin-bottom: ${rem("40px")};
+  }
+`
 
 export const StyledSubscriptionPageDetailsPriceSectionTitle = styled(
   StyledSubscriptionPageDetailsNextPaymentSectionTitle
@@ -66,6 +84,12 @@ export const StyledSubscriptionPageDetailsActionsSection = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
+  @media ${devices.web.down} {
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+  }
 `
 
 export const StyledSubscriptionPageInvoicesContainer = styled(

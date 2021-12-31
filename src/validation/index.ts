@@ -91,8 +91,7 @@ export const emailAndPasswordFormOptions = {
 export const landingContactFormFormOptions = {
   resolver: yupResolver(landingContactFormValidationSchema),
   defaultValues: {
-    firstName: "",
-    surName: "",
+    fullName: "",
     email: "",
     question: "",
   },

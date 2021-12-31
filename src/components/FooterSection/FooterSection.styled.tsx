@@ -144,6 +144,7 @@ export const StyledFooterSectionRightContainerButtonContainer = styled.div<{
   margin-bottom: ${p => p.login && rem("16px")};
 
   @media ${devices.web.down} {
+    margin-bottom: 0;
     margin-right: ${p => p.login && rem("10px")};
   }
 `

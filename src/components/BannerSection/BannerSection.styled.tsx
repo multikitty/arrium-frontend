@@ -27,6 +27,11 @@ export const StyledBannerSectionPrimaryHeader = styled.h5`
   text-align: center;
   padding-top: ${rem("125px")};
   margin-bottom: ${rem("24px")};
+
+  @media ${devices.web.down} {
+    line-height: ${rem("24px")};
+    margin-bottom: ${rem("32px")};
+  }
 `
 
 export const StyledBannerSectionHeader = styled.h3`

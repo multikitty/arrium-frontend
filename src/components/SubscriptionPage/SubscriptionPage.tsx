@@ -23,6 +23,8 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
+import { devices } from "../../constants/device"
+import { useMediaQuery } from "@mui/material"
 
 function createData(
   invoiceId: string,
@@ -49,6 +51,8 @@ const rows = [
 ]
 
 const SubscriptionPage = () => {
+  const isWebView = useMediaQuery(devices.web.up)
+
   return (
     <StyledSubscriptionPage>
       <StyledSubscriptionPageHeader>Subscription</StyledSubscriptionPageHeader>
@@ -75,7 +79,8 @@ const SubscriptionPage = () => {
               whiteSpace: "nowrap",
               color: theme.palette.grey7,
               borderColor: theme.palette.grey3,
-              mr: rem("16px"),
+              mr: !isWebView ? 0 : rem("16px"),
+              mb: isWebView ? 0 : rem("16px"),
             }}
           >
             Setup Direct Debit
@@ -85,130 +90,29 @@ const SubscriptionPage = () => {
           </ContainedButton>
         </StyledSubscriptionPageDetailsActionsSection>
       </StyledSubscriptionPageDetailsContainer>
-      <StyledSubscriptionPageInvoicesContainer>
-        <StyledSubscriptionPageInvoicesHeader>
-          Invoices
-        </StyledSubscriptionPageInvoicesHeader>
-        <TableContainer
-          component={Paper}
-          sx={{ boxShadow: "none", borderRadius: rem("20px") }}
-        >
-          <Table sx={{ minWidth: 650 }} aria-label="invoices table">
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                    paddingLeft: rem("32px"),
-                  }}
-                >
-                  Invoice ID
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                  }}
-                  align="left"
-                >
-                  Plan
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                  }}
-                  align="left"
-                >
-                  Amount
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                  }}
-                  align="left"
-                >
-                  Invoice status
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                  }}
-                  align="left"
-                >
-                  Due date
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.grey6,
-                  }}
-                  align="left"
-                >
-                  Payment date
-                </TableCell>
-                <TableCell
-                  sx={{ color: theme.palette.grey6 }}
-                  align="left"
-                ></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow
-                  key={row.invoiceId}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "& td:first-child, & th:first-child": {
+      {isWebView ? (
+        <StyledSubscriptionPageInvoicesContainer>
+          <StyledSubscriptionPageInvoicesHeader>
+            Invoices
+          </StyledSubscriptionPageInvoicesHeader>
+          <TableContainer
+            component={Paper}
+            sx={{ boxShadow: "none", borderRadius: rem("20px") }}
+          >
+            <Table sx={{ minWidth: 650 }} aria-label="invoices table">
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 600,
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.grey6,
                       paddingLeft: rem("32px"),
-                    },
-                  }}
-                >
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
                     }}
-                    component="th"
-                    scope="row"
                   >
-                    {row.invoiceId}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                    }}
-                    align="left"
-                  >
-                    {row.plan}
+                    Invoice ID
                   </TableCell>
                   <TableCell
                     sx={{
@@ -216,81 +120,186 @@ const SubscriptionPage = () => {
                       fontWeight: 600,
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
+                      color: theme.palette.grey6,
                     }}
                     align="left"
                   >
-                    &#163;{row.amount}
+                    Plan
                   </TableCell>
                   <TableCell
                     sx={{
                       fontFamily: "Inter",
-                      fontWeight: "normal",
+                      fontWeight: 600,
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                      textTransform: "capitalize",
+                      color: theme.palette.grey6,
                     }}
                     align="left"
                   >
-                    {row.invoiceStatus}
+                    Amount
                   </TableCell>
                   <TableCell
                     sx={{
                       fontFamily: "Inter",
-                      fontWeight: "normal",
+                      fontWeight: 600,
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
+                      color: theme.palette.grey6,
                     }}
                     align="left"
                   >
-                    {row.dueDate}
+                    Invoice status
                   </TableCell>
                   <TableCell
                     sx={{
                       fontFamily: "Inter",
-                      fontWeight: "normal",
+                      fontWeight: 600,
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
+                      color: theme.palette.grey6,
                     }}
                     align="left"
                   >
-                    {row.paymentDate}
+                    Due date
                   </TableCell>
                   <TableCell
                     sx={{
                       fontFamily: "Inter",
-                      fontWeight: "normal",
+                      fontWeight: 600,
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
+                      color: theme.palette.grey6,
                     }}
                     align="left"
                   >
-                    {row.invoiceStatus === "overdue" ? (
-                      <ContainedButton sx={{ whiteSpace: "nowrap" }}>
-                        Pay Now
-                      </ContainedButton>
-                    ) : (
-                      <OutlinedButton
-                        sx={{
-                          whiteSpace: "nowrap",
-                          color: theme.palette.grey7,
-                          borderColor: theme.palette.grey3,
-                        }}
-                      >
-                        View Invoice
-                      </OutlinedButton>
-                    )}
+                    Payment date
                   </TableCell>
+                  <TableCell
+                    sx={{ color: theme.palette.grey6 }}
+                    align="left"
+                  ></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </StyledSubscriptionPageInvoicesContainer>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow
+                    key={row.invoiceId}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "& td:first-child, & th:first-child": {
+                        paddingLeft: rem("32px"),
+                      },
+                    }}
+                  >
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      component="th"
+                      scope="row"
+                    >
+                      {row.invoiceId}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.plan}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: 600,
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      &#163;{row.amount}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                        textTransform: "capitalize",
+                      }}
+                      align="left"
+                    >
+                      {row.invoiceStatus}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.dueDate}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.paymentDate}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.invoiceStatus === "overdue" ? (
+                        <ContainedButton sx={{ whiteSpace: "nowrap" }}>
+                          Pay Now
+                        </ContainedButton>
+                      ) : (
+                        <OutlinedButton
+                          sx={{
+                            whiteSpace: "nowrap",
+                            color: theme.palette.grey7,
+                            borderColor: theme.palette.grey3,
+                          }}
+                        >
+                          View Invoice
+                        </OutlinedButton>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </StyledSubscriptionPageInvoicesContainer>
+      ) : (
+        <></>
+      )}
     </StyledSubscriptionPage>
   )
 }

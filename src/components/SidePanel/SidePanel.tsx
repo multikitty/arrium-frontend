@@ -18,6 +18,8 @@ import SubscriptionIcon from "../../assets/icons/sidepanel_driver-subscription_i
 import FAQIcon from "../../assets/icons/sidepanel_driver-faq_icon.inline.svg"
 import SupportIcon from "../../assets/icons/sidepanel_driver-support_icon.inline.svg"
 import CustomersIcon from "../../assets/icons/sidepanel_admin-customer_icon.inline.svg"
+import DashboardIcon from "../../assets/icons/sidepanel_admin-dashboard_icon.inline.svg"
+import MessagesIcon from "../../assets/icons/sidepanel_admin-messages_icon.inline.svg"
 import SettingsIcon from "../../assets/icons/sidepanel_admin-settings_icon.inline.svg"
 import ReferralsIcon from "../../assets/icons/sidepanel_admin-referral_icon.inline.svg"
 
@@ -36,6 +38,8 @@ const SidePanel = (props: IProps) => {
   const isSupportPage = pathname.includes(`/${DriverPages.support}`)
 
   const isCustomersPage = pathname.includes(`/${AdminPages.customers}`)
+  const isDashboardPage = pathname.includes(`/${AdminPages.dashboard}`)
+  const isMessagesPage = pathname.includes(`/${AdminPages.messages}`)
   const isSettingsPage = pathname.includes(`/${AdminPages.settings}`)
   const isReferralsPage = pathname.includes(`/${AdminPages.referrals}`)
 
@@ -97,6 +101,18 @@ const SidePanel = (props: IProps) => {
               `/${AdminPages.customers}`,
               <CustomersIcon />,
               "Customers"
+            )}
+            {renderSidePanelItem(
+              isDashboardPage,
+              `/${AdminPages.dashboard}`,
+              <DashboardIcon />,
+              "Dashboard"
+            )}
+            {renderSidePanelItem(
+              isMessagesPage,
+              `/${AdminPages.messages}`,
+              <MessagesIcon />,
+              "Messages"
             )}
             {renderSidePanelItem(
               isSettingsPage,

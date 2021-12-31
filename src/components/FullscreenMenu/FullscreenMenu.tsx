@@ -28,6 +28,8 @@ interface IProps {
 
 const FullscreenMenu = (props: IProps) => {
   const { pathname } = useLocation()
+  // const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+  // const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
 
   const isBlockAvailibityPage = pathname === `/${DriverPages.blockAvailability}`
   const isSubscriptionPage = pathname === `/${DriverPages.subscription}`
