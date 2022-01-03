@@ -34,7 +34,9 @@ const useProvideAuth = (): AuthContextType => {
     localStorage.removeItem("user")
     localStorage.removeItem("isAuthenticated")
     setUser(null)
-    navigate("/")
+    setTimeout(() => {
+      navigate("/")
+    }, 300)
   }
 
   return {

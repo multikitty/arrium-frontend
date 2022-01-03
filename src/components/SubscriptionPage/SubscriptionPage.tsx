@@ -13,6 +13,14 @@ import {
   StyledSubscriptionPageDetailsPriceSectionText,
   StyledSubscriptionPageDetailsPriceSectionTitle,
   StyledSubscriptionPageHeader,
+  StyledSubscriptionPageInvoice,
+  StyledSubscriptionPageInvoiceHeader,
+  StyledSubscriptionPageInvoiceHeaderText,
+  StyledSubscriptionPageInvoiceHeaderTitle,
+  StyledSubscriptionPageInvoiceItem,
+  StyledSubscriptionPageInvoiceItemLabel,
+  StyledSubscriptionPageInvoiceItemsContainer,
+  StyledSubscriptionPageInvoiceItemValue,
   StyledSubscriptionPageInvoicesContainer,
   StyledSubscriptionPageInvoicesHeader,
 } from "./SubscriptionPage.styled"
@@ -24,7 +32,8 @@ import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import { devices } from "../../constants/device"
-import { useMediaQuery } from "@mui/material"
+import { Box, useMediaQuery } from "@mui/material"
+import { capitalCase } from "change-case"
 
 function createData(
   invoiceId: string,
@@ -298,7 +307,76 @@ const SubscriptionPage = () => {
           </TableContainer>
         </StyledSubscriptionPageInvoicesContainer>
       ) : (
-        <></>
+        <StyledSubscriptionPageInvoicesContainer>
+          <StyledSubscriptionPageInvoicesHeader>
+            Invoices
+          </StyledSubscriptionPageInvoicesHeader>
+          {rows.map(row => (
+            <StyledSubscriptionPageInvoice>
+              <StyledSubscriptionPageInvoiceHeader>
+                <StyledSubscriptionPageInvoiceHeaderTitle>
+                  Invoice ID
+                </StyledSubscriptionPageInvoiceHeaderTitle>
+                <StyledSubscriptionPageInvoiceHeaderText>
+                  {row.invoiceId}
+                </StyledSubscriptionPageInvoiceHeaderText>
+              </StyledSubscriptionPageInvoiceHeader>
+              <StyledSubscriptionPageInvoiceItemsContainer>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Amount
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue bold>
+                    &#163;{row.amount}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Plan
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {row.plan}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Invoice status
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {capitalCase(row.invoiceStatus)}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Due date
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {row.dueDate}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Payment date
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {row.paymentDate}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <Box width="100%" display="flex">
+                  {row.invoiceStatus === "paid" ? (
+                    <OutlinedButton grey sx={{ width: "100%" }}>
+                      View Invoice
+                    </OutlinedButton>
+                  ) : (
+                    <ContainedButton sx={{ width: "100%" }}>
+                      Pay Now
+                    </ContainedButton>
+                  )}
+                </Box>
+              </StyledSubscriptionPageInvoiceItemsContainer>
+            </StyledSubscriptionPageInvoice>
+          ))}
+        </StyledSubscriptionPageInvoicesContainer>
       )}
     </StyledSubscriptionPage>
   )

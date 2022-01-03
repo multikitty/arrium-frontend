@@ -21,6 +21,9 @@ import SearchIcon from "../../assets/icons/sidepanel_driver-search_icon.inline.s
 import SubscriptionIcon from "../../assets/icons/sidepanel_driver-subscription_icon.inline.svg"
 import FAQIcon from "../../assets/icons/sidepanel_driver-faq_icon.inline.svg"
 import SupportIcon from "../../assets/icons/sidepanel_driver-support_icon.inline.svg"
+import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { ContainedButton } from "../commons/Button"
+import { useAuth } from "../../hooks/useAuth"
 
 interface IProps {
   open: boolean
@@ -28,6 +31,7 @@ interface IProps {
 
 const FullscreenMenu = (props: IProps) => {
   const { pathname } = useLocation()
+  const auth = useAuth()
   // const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
   // const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
 
@@ -43,10 +47,26 @@ const FullscreenMenu = (props: IProps) => {
   const handleNavigateToFAQsPage = () => navigate(`/${DriverPages.faq}`)
   const handleNavigateToSupportPage = () => navigate(`/${DriverPages.support}`)
 
+  const handleLogoutButtonClick:
+    | React.MouseEventHandler<HTMLButtonElement>
+    | undefined = e => {
+    e.stopPropagation()
+    auth.logout()
+  }
+
+  const handleProfileItemClick:
+    | React.MouseEventHandler<HTMLDivElement>
+    | undefined = e => {
+    e.stopPropagation()
+    navigate(`/profile`)
+  }
+
   return (
     <StyledFullscreenMenu visible={props.open}>
       <StyledFullscreenMenuUpperContainer>
-        <StyledFullscreenMenuUpperContainerItem>
+        <StyledFullscreenMenuUpperContainerItem
+          onClick={handleProfileItemClick}
+        >
           <Box mr={rem("12px")}>
             <Avatar
               sx={{
@@ -130,6 +150,12 @@ const FullscreenMenu = (props: IProps) => {
             Support
           </StyledFullscreenMenuBottomContainerItemText>
         </StyledFullscreenMenuBottomContainerItem>
+        <StyledFlexGrow />
+        <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
+          <ContainedButton onClick={handleLogoutButtonClick}>
+            Logout
+          </ContainedButton>
+        </Box>
       </StyledFullscreenMenuBottomContainer>
     </StyledFullscreenMenu>
   )

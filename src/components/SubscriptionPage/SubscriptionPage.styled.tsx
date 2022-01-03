@@ -105,6 +105,12 @@ export const StyledSubscriptionPageInvoicesContainer = styled(
       border-width: 0;
       border-radius: 0 0 ${rem("20px")} ${rem("20px")};
     `}
+
+  @media ${devices.web.down} {
+    margin: 0;
+    border-width: 0;
+    border-radius: 0;
+  }
 `
 
 export const StyledSubscriptionPageInvoicesHeader = styled.h4`
@@ -116,4 +122,67 @@ export const StyledSubscriptionPageInvoicesHeader = styled.h4`
   line-height: ${rem("32px")};
 
   color: ${p => p.theme.palette.grey7};
+
+  @media ${devices.web.down} {
+    padding: ${rem("16px")} ${rem("20px")};
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
+  }
+`
+
+export const StyledSubscriptionPageInvoice = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const StyledSubscriptionPageInvoiceHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: ${rem("20px")};
+  padding-top: ${rem("14px")};
+  background-color: ${p => p.theme.palette.grey1};
+`
+
+export const StyledSubscriptionPageInvoiceHeaderTitle = styled.h5`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: ${rem("16px")};
+  line-height: ${rem("20px")};
+  margin-bottom: ${rem("6px")};
+
+  color: ${p => p.theme.palette.grey6};
+`
+
+export const StyledSubscriptionPageInvoiceHeaderText = styled.p`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: ${rem("16px")};
+  line-height: ${rem("20px")};
+  margin-bottom: ${rem("6px")};
+
+  color: ${p => p.theme.palette.blackText};
+`
+export const StyledSubscriptionPageInvoiceItemsContainer = styled.div`
+  padding: ${rem("22px")} ${rem("20px")} ${rem("24px")};
+`
+
+export const StyledSubscriptionPageInvoiceItem = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: ${rem("6px")};
+  padding: ${rem("6px")} 0;
+`
+
+export const StyledSubscriptionPageInvoiceItemLabel = styled(
+  StyledSubscriptionPageInvoiceHeaderTitle
+)`
+  flex-basis: 50%;
+`
+
+export const StyledSubscriptionPageInvoiceItemValue = styled(
+  StyledSubscriptionPageInvoiceHeaderText
+)<{ bold?: boolean }>`
+  flex-basis: 50%;
+  font-weight: ${p => (p.bold ? 600 : "normal")};
 `
