@@ -181,7 +181,6 @@ const BlockAvailabilityPage = () => {
           </StyledCollapsedSearch>
         )}
       </StyledBlockAvailablityPageWrapper>
-      /
       <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -217,7 +216,6 @@ const BlockAvailabilityPage = () => {
                 }}
                 label="Ignored"
               />
-              s
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
