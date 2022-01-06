@@ -35,16 +35,27 @@ const SigninSection = () => {
   const [isError] = useState<boolean>(false)
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    auth.authenticateUser({
-      firstName: "Eliza",
-      lastName: "Doolittle",
-      phoneNumber: "+44 12 34 5678",
-      email: "eliza.doolittle@gmail.com",
-      isPhoneVerified: true,
-      isEmailVerified: false,
-    })
-    navigate("/")
+    if (data.email === "mhussain@gmail.com" && data.password === "#h3!!O!23") {
+      auth.authenticateUser({
+        firstName: "Mo",
+        lastName: "Hussain",
+        phoneNumber: "+44 12 34 5678",
+        email: "Mhussainn@gmail.com",
+        isPhoneVerified: true,
+        isEmailVerified: true,
+      })
+      navigate("/customers")
+    } else {
+      auth.authenticateUser({
+        firstName: "Eliza",
+        lastName: "Doolittle",
+        phoneNumber: "+44 12 34 5678",
+        email: "eliza.doolittle@gmail.com",
+        isPhoneVerified: true,
+        isEmailVerified: false,
+      })
+      navigate("/")
+    }
   }
 
   return isWebView ? (
