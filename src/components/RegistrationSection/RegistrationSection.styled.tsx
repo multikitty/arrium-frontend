@@ -79,3 +79,13 @@ export const StyledValidationTextWrapper = styled.div<{
 export const StyledValidationText = styled.p`
   margin-left: ${rem("8px")};
 `
+
+export const StyledText = styled.p`
+  font-family: Inter;
+  font-size: ${rem("16px")};
+  font-style: normal;
+  font-weight: 400;
+  line-height: ${rem("24px")};
+  text-align: center;
+  margin: 0 ${rem("51px")};
+`

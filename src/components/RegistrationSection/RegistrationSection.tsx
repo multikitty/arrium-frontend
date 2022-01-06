@@ -22,6 +22,8 @@ import {
 import { FormProps } from "../../pages/signup"
 import RightCheckMarkIcon from "../../assets/icons/checkmark_icon.svg"
 import RightCheckGreenMarkIcon from "../../assets/icons/checkmark-green_icon.svg"
+import { devices } from "../../constants/device"
+import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 
 interface IStateProps {
   lowercase: boolean
@@ -30,12 +32,12 @@ interface IStateProps {
   digit: boolean
 }
 
-const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
-  const [isVisible, SetIsVisible] = useState<boolean>(false)
+const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [email, setEmail] = useState<string>("")
+  const [isVisible, SetIsVisible] = useState<boolean>(false)
   const [password, setPassword] = useState<string>("")
   const [referral, setReferral] = useState<string>("")
-  const isWebView = useMediaQuery("(min-width:768px)")
+  const isWebView = useMediaQuery(devices.web.up)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isRequiredSet, SetIsRequiredSet] = useState<IStateProps>({
     digit: true,
@@ -72,7 +74,15 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
       setFormStage(prev => prev + 1)
     }
 
-    if (!password) handleInputFocus()
+    if (
+      !(
+        isRequiredSet.digit &&
+        isRequiredSet.lowercase &&
+        isRequiredSet.minEightChar &&
+        isRequiredSet.uppercase
+      )
+    )
+      handleInputFocus()
     e.preventDefault()
     return
   }
@@ -99,6 +109,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           variant="outlined"
+          required
           InputProps={{
             endAdornment: (
               <IconButton onClick={() => SetIsVisible(prev => !prev)}>
@@ -174,6 +185,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
     </StyledLoginContainer>
   ) : (
     <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
       <Box
         display="flex"
         flexDirection="column"
@@ -194,9 +206,10 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
             placeholder="Enter Password"
             type={isVisible ? "text" : "password"}
             value={password}
-            onChange={e => setPassword(e.target.value)}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
+            required
+            onChange={e => setPassword(e.target.value)}
             variant="outlined"
             InputProps={{
               endAdornment: (
@@ -210,7 +223,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
               ),
             }}
           />
-          {(password.length || isFocused) && (
+          {isFocused && (
             <StyledPasswordValidationContainer isWebView={isWebView}>
               <StyledValidationTextWrapper
                 isRequired={!isRequiredSet.minEightChar}
@@ -272,7 +285,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage }) => {
           margintop={rem("56px")}
           type="submit"
         >
-          <StyledButtonText>Log In</StyledButtonText>
+          <StyledButtonText>Continue</StyledButtonText>
         </StyledButton>
         <Box
           display="flex"

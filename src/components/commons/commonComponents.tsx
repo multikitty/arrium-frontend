@@ -53,7 +53,7 @@ export const StyledTitle = styled.p`
   line-height: ${rem("32px")};
   letter-spacing: 1.6px;
   margin-top: ${rem("80px")};
-  margin-bottom: ${rem("118px")};
+  margin-bottom: ${rem("56px")};
   text-transform: uppercase;
 `
 export const StyledLoginContainer = styled(Box)`
@@ -112,6 +112,7 @@ export const StyledButtonText = styled.h5`
   font-weight: 500;
   line-height: ${rem("20px")};
   width: 100%;
+  color: #ffffff;
 `
 export const StyledSignUpText = styled.h5`
   margin-top: ${rem("16px")};
@@ -152,7 +153,6 @@ export const StyledTitleMobile = styled.div`
 export const StyledLoginContainerMobile = styled(Box)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   margin: 0 auto;
   background-color: #f2f3f7;
   width: 100%;
@@ -723,6 +723,7 @@ export const SearchTable = () => (
     </Table>
   </TableContainer>
 )
+
 interface StyledTabProps {
   label: string
   value: any

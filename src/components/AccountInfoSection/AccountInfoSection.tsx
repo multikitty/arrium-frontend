@@ -18,6 +18,7 @@ import { Link } from "gatsby"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import { devices } from "../../constants/device"
+import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -43,7 +44,11 @@ const useStyles = makeStyles({
   },
 })
 
-const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
+const AccountInfoSection: React.FC<FormProps> = ({
+  setFormStage,
+  stage,
+  step,
+}) => {
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
@@ -129,6 +134,7 @@ const AccountInfoSection: React.FC<FormProps> = ({ setFormStage }) => {
     </StyledLoginContainer>
   ) : (
     <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
       <Box
         display="flex"
         flexDirection="column"
