@@ -76,6 +76,7 @@ const SignupStepsProgress: React.FC<StepProps> = ({ steps, stage }) => {
       {steps.map((step, index) => {
         return (
           <StepperNode
+            key={`key-${index}`}
             index={index}
             stage={stage}
             steps={step}

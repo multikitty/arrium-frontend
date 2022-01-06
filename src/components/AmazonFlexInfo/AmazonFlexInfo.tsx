@@ -101,6 +101,7 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         <StyledInputField
           placeholder="Amazon Flex Username"
           variant="outlined"
+          value={userName}
           type="email"
           required
         />
