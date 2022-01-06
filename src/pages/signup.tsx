@@ -32,7 +32,7 @@ const steps = [
 
 const signup = () => {
   const isWebView = useMediaQuery(devices.web.up)
-  const [formStage, setFormStage] = useState<number>(4)
+  const [formStage, setFormStage] = useState<number>(0)
   const [showOnHold, setShowOnHold] = useState<boolean>(false)
 
   return (
