@@ -5,6 +5,7 @@ import {
   StyledSidePanelItemIcon,
   StyledSidePanelItemText,
 } from "../SidePanel/SidePanel.styled"
+import { StyledNotificationsDropdownUpperSectionDismissButton } from "../NotificationsDropdown/NotificationsDropdown.styled"
 
 export const StyledFullscreenMenu = styled.div<{
   visible?: boolean
@@ -83,3 +84,41 @@ export const StyledFullscreenMenuBottomContainerItemIcon = styled(
 export const StyledFullscreenMenuBottomContainerItemText = styled(
   StyledSidePanelItemText
 )``
+
+export const StyledFullscreenMenuNotifications = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: ${rem("20px")};
+  padding-top: 0;
+`
+
+export const StyledFullscreenMenuNotificationsUpperContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`
+
+export const StyledFullscreenMenuNotificationsUpperContainerTitle = styled.h3`
+  flex-grow: 1;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: ${rem("20px")};
+  line-height: ${rem("24px")};
+  margin-right: ${rem("24px")};
+
+  color: ${p => p.theme.palette.blackText};
+`
+
+export const StyledFullscreenMenuNotificationsUpperContainerDismissButton = styled(
+  StyledNotificationsDropdownUpperSectionDismissButton
+)``
+
+export const StyledFullscreenMenuNotificationsList = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const StyledFullscreenMenuNotificationsListItem = styled.div`
+  padding: ${rem("16px")} 0;
+`

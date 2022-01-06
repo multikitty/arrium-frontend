@@ -94,7 +94,7 @@ const FAQPage = () => {
             expanded={expanded === "panel1"}
           >
             <StyledFAQPageContentAccordionSummaryText
-              expanded={expanded === "panel1"}
+              $expanded={expanded === "panel1"}
             >
               How it works
             </StyledFAQPageContentAccordionSummaryText>
@@ -119,7 +119,7 @@ const FAQPage = () => {
             expanded={expanded === "panel2"}
           >
             <StyledFAQPageContentAccordionSummaryText
-              expanded={expanded === "panel2"}
+              $expanded={expanded === "panel2"}
             >
               How much does it cost?
             </StyledFAQPageContentAccordionSummaryText>
@@ -144,7 +144,7 @@ const FAQPage = () => {
             expanded={expanded === "panel3"}
           >
             <StyledFAQPageContentAccordionSummaryText
-              expanded={expanded === "panel3"}
+              $expanded={expanded === "panel3"}
             >
               Maybe this question will be a bit longer, who knows?
             </StyledFAQPageContentAccordionSummaryText>
@@ -169,7 +169,7 @@ const FAQPage = () => {
             expanded={expanded === "panel4"}
           >
             <StyledFAQPageContentAccordionSummaryText
-              expanded={expanded === "panel4"}
+              $expanded={expanded === "panel4"}
             >
               Everything you need to know will be on this page?
             </StyledFAQPageContentAccordionSummaryText>
@@ -194,7 +194,7 @@ const FAQPage = () => {
             expanded={expanded === "panel5"}
           >
             <StyledFAQPageContentAccordionSummaryText
-              expanded={expanded === "panel5"}
+              $expanded={expanded === "panel5"}
             >
               You can find a lot of information here?
             </StyledFAQPageContentAccordionSummaryText>

@@ -36,7 +36,7 @@ const useProvideAuth = (): AuthContextType => {
     setUser(null)
     setTimeout(() => {
       navigate("/")
-    }, 300)
+    }, 1000)
   }
 
   return {

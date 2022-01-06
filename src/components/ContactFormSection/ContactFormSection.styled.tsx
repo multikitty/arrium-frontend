@@ -5,6 +5,7 @@ import { Button } from "@mui/material"
 import InputBase from "@mui/material/InputBase"
 import { devices } from "../../constants/device"
 import theme from "../../theme"
+import contactFormBackground from "../../assets/images/landing-contact_form_background.png"
 
 export const StyledContactFormSection = styled.div`
   position: relative;
@@ -20,7 +21,9 @@ export const StyledContactFormSection = styled.div`
 
 export const StyledContactFormSectionCard = styled.div`
   border-radius: ${rem("32px")};
-  background: ${p => p.theme.palette.main};
+  background: url(${contactFormBackground}) ${p => p.theme.palette.main}
+    no-repeat;
+  background-size: cover;
   padding: ${rem("64px")} ${rem("88px")};
   display: flex;
 

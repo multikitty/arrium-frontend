@@ -40,7 +40,7 @@ export const StyledFAQPageContent = styled.div`
 `
 
 export const StyledFAQPageContentAccordionSummaryText = styled.h4<{
-  expanded?: boolean
+  $expanded?: boolean
 }>`
   font-family: Inter;
   font-style: normal;
@@ -49,12 +49,10 @@ export const StyledFAQPageContentAccordionSummaryText = styled.h4<{
   line-height: ${rem("20px")};
 
   color: ${p =>
-    p.expanded ? p.theme.palette.main : p.theme.palette.blackText};
+    p.$expanded ? p.theme.palette.main : p.theme.palette.blackText};
 `
 
-export const StyledFAQPageContentAccordionDetailsText = styled.h4<{
-  expanded?: boolean
-}>`
+export const StyledFAQPageContentAccordionDetailsText = styled.h4`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
