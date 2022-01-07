@@ -121,6 +121,7 @@ const CustomersPage = () => {
                 px: rem("16px"),
                 py: rem("6px"),
               }}
+              onClick={() => navigate("/customers/add")}
             >
               Add customer
             </OutlinedButton>

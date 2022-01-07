@@ -7,7 +7,7 @@ import {
   StyledConfigurationTabFormField,
   StyledConfigurationTabFormItem,
   StyledConfigurationTabFormLabel,
-} from "./CustomerDetailPage.styled"
+} from "./AddCustomerPage.styled"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
@@ -36,9 +36,12 @@ const ConfigurationTab = () => {
                 Device Model
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="iPhone12"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
+                <MenuItem disabled value="none">
+                  Choose Device Model
+                </MenuItem>
                 <MenuItem value="iPhone12">iPhone 12 Pro</MenuItem>
                 <MenuItem value="iPhone13">iPhone 13 Pro</MenuItem>
               </Select>
@@ -47,16 +50,19 @@ const ConfigurationTab = () => {
               <StyledConfigurationTabFormLabel>
                 Device ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="HJ9845632" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 OS version
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="iOS 12.4"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
+                <MenuItem disabled value="none">
+                  Choose OS version
+                </MenuItem>
                 <MenuItem value="iOS 12.4">iOS 12.4</MenuItem>
                 <MenuItem value="iOS 12.8">iOS 12.8</MenuItem>
                 <MenuItem value="iOS 13.0">iOS 13.0</MenuItem>
@@ -72,7 +78,6 @@ const ConfigurationTab = () => {
               </StyledConfigurationTabFormLabel>
               <StyledConfigurationTabFormField
                 type={isPasswordHidden ? "password" : "text"}
-                defaultValue="idekwhatitis"
                 endAdornment={
                   <IconButton
                     size="small"
@@ -93,9 +98,12 @@ const ConfigurationTab = () => {
                 Device type
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="smartphone"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
+                <MenuItem disabled value="none">
+                  Choose Device type
+                </MenuItem>
                 <MenuItem value="smartphone">Smartphone</MenuItem>
                 <MenuItem value="tablet">Tablet</MenuItem>
               </Select>
@@ -104,16 +112,19 @@ const ConfigurationTab = () => {
               <StyledConfigurationTabFormLabel>
                 Device serial number
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="J82744HK82374LC" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Flex version
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="14.0.1"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
+                <MenuItem disabled value="none">
+                  Choose Flex version
+                </MenuItem>
                 <MenuItem value="14.0.1">14.0.1</MenuItem>
                 <MenuItem value="17.8.1">17.8.1</MenuItem>
                 <MenuItem value="17.8.2">17.8.2</MenuItem>
@@ -155,7 +166,7 @@ const ConfigurationTab = () => {
               <StyledConfigurationTabFormLabel>
                 Amazon ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="C123J456" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -163,19 +174,19 @@ const ConfigurationTab = () => {
               <StyledConfigurationTabFormLabel>
                 Cognito ID (1)
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="HFSDUEYWWS" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Cognito ID (2)
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="KSGDSFTYASL" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Flex ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="sjf8345df9086" />
+              <StyledConfigurationTabFormField />
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>
@@ -188,9 +199,12 @@ const ConfigurationTab = () => {
                 Country
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="Great Britain"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
+                <MenuItem disabled value="none">
+                  Choose Country
+                </MenuItem>
                 <MenuItem value="Great Britain">Great Britain</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
@@ -201,12 +215,13 @@ const ConfigurationTab = () => {
                 Region
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="London"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="London">
-                  London
+                <MenuItem disabled value="none">
+                  Choose Region
                 </MenuItem>
+                <MenuItem value="London">London</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
@@ -216,12 +231,13 @@ const ConfigurationTab = () => {
                 Block type
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="logistics"
+                defaultValue="none"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="logistics">
-                  Logistics
+                <MenuItem disabled value="none">
+                  Choose Block type
                 </MenuItem>
+                <MenuItem value="logistics">Logistics</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>

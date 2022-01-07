@@ -23,6 +23,7 @@ const theme = {
     grey5: "#A6A8B3",
     grey6: "#888A95",
     grey7: "#585A61",
+    errorText: "#F25555",
   },
   breakpoints: {
     web: `${screenSizes.web}px`,

@@ -19,7 +19,7 @@ import {
   StyledAccountInformationTabFormActions,
   StyledAccountInformationTabFormHelperText,
   StyledAccountInformationTabFormLabel,
-} from "./CustomerDetailPage.styled"
+} from "./AddCustomerPage.styled"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import TimeZoneSelect from "react-timezone-select"

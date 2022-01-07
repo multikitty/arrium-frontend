@@ -4,6 +4,7 @@ import { ButtonProps } from "@mui/material/Button"
 
 interface IProps extends ButtonProps {
   iconButton?: boolean
+  error?: boolean
 }
 
 const ContainedButton = ({ children, ...props }: IProps) => {
@@ -11,6 +12,7 @@ const ContainedButton = ({ children, ...props }: IProps) => {
     <StyledContainedButton
       variant="contained"
       iconButton={props.iconButton}
+      error={props.error}
       {...props}
     >
       {children}

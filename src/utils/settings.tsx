@@ -12,7 +12,7 @@ type ListItem = {
 
 interface IRenderListItemsOptions {
   onEdit: (itemId: string) => void
-  onDelete: (itemId: string) => void
+  onDelete: (itemId: string, itemName: string) => void
 }
 
 export const renderSettingsListItems = (
@@ -38,7 +38,7 @@ export const renderSettingsListItems = (
             />
           </IconButton>
           <IconButton
-            onClick={() => options.onDelete(item.id)}
+            onClick={() => options.onDelete(item.id, item.name)}
             sx={{
               "&:hover .settings__list__item__actions__icon": {
                 color: theme.palette.main,

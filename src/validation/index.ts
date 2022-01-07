@@ -79,7 +79,7 @@ export const accountInformationFormValidationSchema = Yup.object().shape({
   isEmailVerified: Yup.boolean(),
   timezone: Yup.string().required("The Timezone field must not be empty"),
   role: Yup.string().oneOf([...Object.values(UserRoles)]),
-  status: Yup.string().oneOf(["disabled", "enabled"]),
+  status: Yup.string().oneOf(["disabled", "active", "inactive"]),
   startDate: Yup.string(),
   endDate: Yup.string(),
 })
@@ -138,7 +138,7 @@ export const accountInformationFormOptions = {
     isEmailVerified: false,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     role: UserRoles.driver,
-    status: "enabled",
+    status: "active",
     startDate: "",
     endDate: "",
   },

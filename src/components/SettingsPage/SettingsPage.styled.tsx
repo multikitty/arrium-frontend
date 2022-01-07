@@ -101,7 +101,7 @@ export const StyledModelsTab = styled(StyledAccountInformationTab)``
 
 export const StyledStationTypesTab = styled(StyledAccountInformationTab)``
 
-export const StyledAddModal = styled(Paper).attrs({ elevation: 1 })`
+export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })`
   border-radius: ${rem("20px")};
   padding: ${rem("16px")};
   width: 100%;
@@ -112,34 +112,50 @@ export const StyledAddModal = styled(Paper).attrs({ elevation: 1 })`
   transform: translate(-50%, -50%);
 `
 
-export const StyledAddModalCloseIconContainer = styled.div`
+export const StyledAddCountryModalCloseIconContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
   margin-bottom: ${rem("6px")};
 `
 
-export const StyledAddModalTitle = styled.h3`
+export const StyledAddCountryModalTitle = styled.h3<{
+  deleteConfirmation?: boolean
+}>`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
-  margin-bottom: ${rem("16px")};
+  margin-bottom: ${p => (p.deleteConfirmation ? rem("40px") : rem("16px"))};
   text-align: center;
 
   color: ${p => p.theme.palette.blackText};
 `
 
-export const StyledAddModalForm = styled.form`
+export const StyledAddCountryModalForm = styled.form`
   padding: ${rem("24px")};
   padding-bottom: ${rem("28px")};
 `
 
-export const StyledAddModalFormField = styled(
+export const StyledAddCountryModalFormField = styled(
   StyledAccountInformatiomTabContentField
 )``
 
-export const StyledAddModalFormAction = styled.div`
-  margin-bottom: ${rem("24px")};
+export const StyledAddCountryModalFormActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${rem("12px")};
+`
+
+export const StyledDeleteConfirmationModalSubTitle = styled.p`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: ${rem("16px")};
+  line-height: ${rem("24px")};
+  margin-bottom: ${rem("32px")};
+  text-align: center;
+
+  color: ${p => p.theme.palette.blackText};
 `

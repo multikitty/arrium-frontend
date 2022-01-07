@@ -23,6 +23,7 @@ declare module "styled-components" {
       grey5: string
       grey6: string
       grey7: string
+      errorText: string
     }
     breakpoints: {
       web: string
