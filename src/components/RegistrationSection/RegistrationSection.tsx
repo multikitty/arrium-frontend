@@ -12,7 +12,6 @@ import {
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-  StyledWarningText,
 } from "../commons/commonComponents"
 import {
   StyledPasswordValidationContainer,
@@ -32,8 +31,6 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [isVisible, SetIsVisible] = useState<boolean>(false)
   const [password, setPassword] = useState<string>("")
   const [referral, setReferral] = useState<string>("")
-  const [refErrorMsg, setRefErrorMsg] = useState<string>("No Error")
-  const isWebView = useMediaQuery(devices.web.up)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isRequiredSet, SetIsRequiredSet] = useState<StateProps>({
     digit: true,
@@ -42,11 +39,12 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
     uppercase: true,
   })
 
+  const isWebView = useMediaQuery(devices.web.up)
+
   const atLeastALowercase = new RegExp(/(?=.*[a-z])/)
   const atLeastAnUppercase = new RegExp(/(?=.*[A-Z])/)
   const atLeastANumber = new RegExp(/(?=.*\d)/)
   const minEightChar = new RegExp(/.{8,}/)
-  const maxSixChar = new RegExp(/(?<!\d)\d{5}(?!\d)/)
 
   useEffect(() => {
     SetIsRequiredSet({
@@ -57,15 +55,6 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
     })
   }, [password])
 
-  const handleReferralCheck = () => {
-    if (maxSixChar.test(referral)) {
-      setReferral(referral)
-      setRefErrorMsg("No Error")
-    } else {
-      setRefErrorMsg("Referral Code must be 6 digit only")
-    }
-  }
-
   const handleInputFocus = () => setIsFocused(true)
   const handleInputBlur = () => setIsFocused(false)
 
@@ -74,8 +63,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       isRequiredSet.minEightChar &&
       isRequiredSet.digit &&
       isRequiredSet.lowercase &&
-      isRequiredSet.uppercase &&
-      refErrorMsg === "No Error"
+      isRequiredSet.uppercase
     ) {
       console.log(email, password, referral)
       setFormStage(prev => prev + 1)
@@ -170,14 +158,8 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         placeholder="6-digit code"
         variant="outlined"
         value={referral}
-        onKeyDown={handleReferralCheck}
         onChange={e => setReferral(e.target.value)}
       />
-      {!(refErrorMsg === "No Error") && (
-        <StyledWarningText marginTop={rem("16px")}>
-          {refErrorMsg}
-        </StyledWarningText>
-      )}
       <StyledButton
         variant="contained"
         color="primary"
