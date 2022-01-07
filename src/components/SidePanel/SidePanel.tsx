@@ -22,12 +22,9 @@ import DashboardIcon from "../../assets/icons/sidepanel_admin-dashboard_icon.inl
 import MessagesIcon from "../../assets/icons/sidepanel_admin-messages_icon.inline.svg"
 import SettingsIcon from "../../assets/icons/sidepanel_admin-settings_icon.inline.svg"
 import ReferralsIcon from "../../assets/icons/sidepanel_admin-referral_icon.inline.svg"
+import { SidePanelProps } from "./SidePanel.types"
 
-interface IProps {
-  role: UserRoles
-}
-
-const SidePanel = (props: IProps) => {
+const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
   const { pathname } = useLocation()
 
   const isBlockAvailibityPage = pathname.includes(
@@ -66,7 +63,7 @@ const SidePanel = (props: IProps) => {
         />
       </StyledSidePanelBrandLogoContainer>
       <StyledSidePanelItemList>
-        {props.role === UserRoles.driver ? (
+        {role === UserRoles.driver ? (
           <>
             {renderSidePanelItem(
               isBlockAvailibityPage,

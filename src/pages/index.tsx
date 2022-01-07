@@ -9,7 +9,6 @@ import { isBrowser } from "../utils/common"
 
 const IndexPage = () => {
   const auth = useAuth()
-  console.log("auth", auth)
 
   if (auth.isAuthenticated)
     isBrowser() && navigate(`/${DriverPages.blockAvailability}`)

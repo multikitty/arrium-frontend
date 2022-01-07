@@ -11,18 +11,17 @@ import {
 } from "./ReferralsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton } from "../commons/Button"
+import { CreateReferralModalProps } from "./ReferralsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
-}
-
-const CreateReferralModal = (props: IProps) => {
+const CreateReferralModal: React.FC<CreateReferralModalProps> = ({
+  handleClose,
+  open,
+}) => {
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal open={open} onClose={handleClose}>
       <StyledCreateReferralModal>
         <StyledCreateReferralModalCloseIconContainer>
-          <IconButton size="small" onClick={props.handleClose}>
+          <IconButton size="small" onClick={handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </StyledCreateReferralModalCloseIconContainer>

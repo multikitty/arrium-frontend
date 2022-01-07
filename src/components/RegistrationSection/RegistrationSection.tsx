@@ -25,13 +25,7 @@ import RightCheckMarkIcon from "../../assets/icons/checkmark_icon.svg"
 import RightCheckGreenMarkIcon from "../../assets/icons/checkmark-green_icon.svg"
 import { devices } from "../../constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-
-interface IStateProps {
-  lowercase: boolean
-  uppercase: boolean
-  minEightChar: boolean
-  digit: boolean
-}
+import { StateProps } from "./RegistrationSection.types"
 
 const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [email, setEmail] = useState<string>("")
@@ -41,7 +35,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [refErrorMsg, setRefErrorMsg] = useState<string>("No Error")
   const isWebView = useMediaQuery(devices.web.up)
   const [isFocused, setIsFocused] = useState<boolean>(false)
-  const [isRequiredSet, SetIsRequiredSet] = useState<IStateProps>({
+  const [isRequiredSet, SetIsRequiredSet] = useState<StateProps>({
     digit: true,
     lowercase: true,
     minEightChar: true,

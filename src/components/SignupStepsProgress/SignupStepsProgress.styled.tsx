@@ -1,7 +1,7 @@
 import { rem } from "polished"
 import styled, { css } from "styled-components"
 import theme from "../../theme"
-import { EState } from "./SignupStepsProgress"
+import { EState } from "./SignupStepsProgress.types"
 
 export const StyledStepper = styled.div`
   display: flex;

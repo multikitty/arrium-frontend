@@ -9,16 +9,15 @@ import {
   StyledBlockAcceptNotificationUpperContainerDismissButton,
   StyledBlockAcceptNotificationUpperContainerTitle,
 } from "./NotificationsDropdown.styled"
+import { BlockAcceptNotificationProps } from "./NotificationsDropdown.types"
 
-interface IProps {
-  location: string
-  date: string
-  time: string
-  pay: number
-  fromNow: string
-}
-
-const BlockAcceptNotification = (props: IProps) => {
+const BlockAcceptNotification: React.FC<BlockAcceptNotificationProps> = ({
+  date,
+  fromNow,
+  location,
+  pay,
+  time,
+}) => {
   return (
     <StyledBlockAcceptNotification>
       <StyledBlockAcceptNotificationUpperContainer>
@@ -34,7 +33,7 @@ const BlockAcceptNotification = (props: IProps) => {
           Location:
         </StyledBlockAcceptNotificationItemTitle>
         <StyledBlockAcceptNotificationItemValue>
-          {props.location}
+          {location}
         </StyledBlockAcceptNotificationItemValue>
       </StyledBlockAcceptNotificationItem>
       <StyledBlockAcceptNotificationItem>
@@ -42,7 +41,7 @@ const BlockAcceptNotification = (props: IProps) => {
           Date:
         </StyledBlockAcceptNotificationItemTitle>
         <StyledBlockAcceptNotificationItemValue>
-          {props.date}
+          {date}
         </StyledBlockAcceptNotificationItemValue>
       </StyledBlockAcceptNotificationItem>
       <StyledBlockAcceptNotificationItem>
@@ -50,7 +49,7 @@ const BlockAcceptNotification = (props: IProps) => {
           Time:
         </StyledBlockAcceptNotificationItemTitle>
         <StyledBlockAcceptNotificationItemValue>
-          {props.time}
+          {time}
         </StyledBlockAcceptNotificationItemValue>
       </StyledBlockAcceptNotificationItem>
       <StyledBlockAcceptNotificationItem>
@@ -58,11 +57,11 @@ const BlockAcceptNotification = (props: IProps) => {
           Pay:
         </StyledBlockAcceptNotificationItemTitle>
         <StyledBlockAcceptNotificationItemValue>
-          &#163;{props.pay}
+          &#163;{pay}
         </StyledBlockAcceptNotificationItemValue>
       </StyledBlockAcceptNotificationItem>
       <StyledBlockAcceptNotificationBottomContainer>
-        {props.fromNow}
+        {fromNow}
       </StyledBlockAcceptNotificationBottomContainer>
     </StyledBlockAcceptNotification>
   )

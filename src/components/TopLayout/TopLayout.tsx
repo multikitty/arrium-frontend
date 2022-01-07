@@ -5,12 +5,9 @@ import muiTheme from "../../muiTheme"
 import { ThemeProvider } from "styled-components"
 import theme from "../../theme"
 import "./TopLayout.css"
+import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
-interface IProps {
-  children: React.ReactNode
-}
-
-const TopLayout = ({ children }: IProps) => {
+const TopLayout = ({ children }: ChildrenProps) => {
   return (
     <>
       <MuiThemeProvider theme={muiTheme}>

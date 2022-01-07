@@ -12,25 +12,24 @@ import {
 import CloseIcon from "@mui/icons-material/Close"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import theme from "../../theme"
+import { ContactFormSuccessModalProps } from "./ContacttFormSuccessModal.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
-}
-
-const ContactFormSuccessModal = (props: IProps) => {
+const ContactFormSuccessModal = ({
+  handleClose,
+  open,
+}: ContactFormSuccessModalProps) => {
   const handleOverlayClick: React.MouseEventHandler<HTMLDivElement> = e => {
     e.stopPropagation()
-    props.handleClose()
+    handleClose()
   }
 
-  return props.open ? (
-    <ClickAwayListener onClickAway={props.handleClose}>
+  return open ? (
+    <ClickAwayListener onClickAway={handleClose}>
       <StyledContactFormSuccessModalOverlay onClick={handleOverlayClick}>
         <StyledContactFormSuccessModalCard>
           <StyledContactFormSuccessModalCloseIconContainer>
             <Tooltip title="Close">
-              <IconButton onClick={props.handleClose}>
+              <IconButton onClick={handleClose}>
                 <CloseIcon
                   sx={{
                     color: theme.palette.grey4,

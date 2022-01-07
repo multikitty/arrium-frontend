@@ -12,12 +12,7 @@ import {
 } from "../commons/commonComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-
-export interface FinishPageProps {
-  stage: number
-  step: string
-  setShowOnHold: React.Dispatch<React.SetStateAction<boolean>>
-}
+import { FinishPageProps } from "./FinishPage.types"
 
 const FinishPage: React.FC<FinishPageProps> = ({
   setShowOnHold,

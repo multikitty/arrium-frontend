@@ -16,14 +16,13 @@ import theme from "../../theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { useAuth } from "../../hooks/useAuth"
 import { navigate } from "gatsby-link"
+import { ProfileDropDownProps } from "./ProfileDropDown.types"
 
-interface IProps {
-  handleClose: () => void
-  anchorEl: null | HTMLElement
-  open: boolean
-}
-
-const ProfileDropdown = ({ handleClose, anchorEl, open }: IProps) => {
+const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
+  handleClose,
+  anchorEl,
+  open,
+}) => {
   const auth = useAuth()
 
   const handleEmailVerificationClick:

@@ -14,29 +14,12 @@ import {
   StyledStepTwoTextMobile,
 } from "./SignupStepsProgress.styled"
 import { rem } from "polished"
-
-interface StepProps {
-  stage: number
-  steps: string[]
-}
-
-interface StepMobileProps {
-  stage: number
-  steps: string
-}
-
-interface NodeProps {
-  stage: number
-  steps: string
-  index: number
-  lastNode: boolean
-}
-
-export enum EState {
-  active = "active",
-  completed = "completed",
-  inactive = "inactive",
-}
+import {
+  EState,
+  NodeProps,
+  StepMobileProps,
+  StepProps,
+} from "./SignupStepsProgress.types"
 
 const StepperNode: React.FC<NodeProps> = ({
   stage,

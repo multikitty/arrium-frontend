@@ -17,31 +17,26 @@ import { Link } from "react-scroll"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { FullscreenLandingMenuProps } from "./FullscreenLandingMenu.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
-}
-
-const FullscreenLandingMenu = (props: IProps) => {
+const FullscreenLandingMenu = ({
+  handleClose,
+  open,
+}: FullscreenLandingMenuProps) => {
   const handleLoginButtonClick = () => {
-    props.handleClose()
+    handleClose()
     navigate("/signin")
   }
 
   const handleStartFreeTrialButtonClick = () => {
-    props.handleClose()
+    handleClose()
     navigate("/signup")
   }
 
   return (
-    <StyledFullscreenLandingMenu visible={props.open}>
+    <StyledFullscreenLandingMenu visible={open}>
       <StyledFullscreenLandingMenuTopSection>
-        <IconButton
-          sx={{ mr: rem("16px") }}
-          size="small"
-          onClick={props.handleClose}
-        >
+        <IconButton sx={{ mr: rem("16px") }} size="small" onClick={handleClose}>
           <CloseIcon sx={{ fontSize: 24 }} />
         </IconButton>
         <StyledFullscreenLandingMenuBrandLogoContainer>
@@ -51,7 +46,7 @@ const FullscreenLandingMenu = (props: IProps) => {
       <StyledFullscreenLandingMenuInfoLinksContainer>
         <StyledFullscreenLandingMenuInfoLink>
           <Link
-            onClick={props.handleClose}
+            onClick={handleClose}
             delay={300}
             offset={-50}
             to="benefits-section"
@@ -63,7 +58,7 @@ const FullscreenLandingMenu = (props: IProps) => {
         </StyledFullscreenLandingMenuInfoLink>
         <StyledFullscreenLandingMenuInfoLink>
           <Link
-            onClick={props.handleClose}
+            onClick={handleClose}
             delay={300}
             offset={-50}
             to="how-it-works-section"
@@ -75,7 +70,7 @@ const FullscreenLandingMenu = (props: IProps) => {
         </StyledFullscreenLandingMenuInfoLink>
         <StyledFullscreenLandingMenuInfoLink>
           <Link
-            onClick={props.handleClose}
+            onClick={handleClose}
             delay={300}
             offset={-50}
             to="contact-us-section"

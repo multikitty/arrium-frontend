@@ -9,21 +9,19 @@ import {
 } from "./NotificationsDropdown.styled"
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined"
 import theme from "../../theme"
+import { InvoiceNotificationProps } from "./NotificationsDropdown.types"
 
-interface IProps {
-  invoiceNumber: number
-  invoiceId: string
-  fromNow: string
-}
-
-const InvoiceNotification = (props: IProps) => {
+const InvoiceNotification: React.FC<InvoiceNotificationProps> = ({
+  fromNow,
+  invoiceNumber,
+}) => {
   return (
     <StyledInvoiceNotification>
       <StyledInvoiceNotificationUpperContainer>
         <StyledInvoiceNotificationUpperContainerText>
           Invoice{" "}
           <StyledInvoiceNotificationUpperContainerTextInvoiceNumber>
-            #{props.invoiceNumber}{" "}
+            #{invoiceNumber}{" "}
           </StyledInvoiceNotificationUpperContainerTextInvoiceNumber>
           is due. Click to go to Invoices
         </StyledInvoiceNotificationUpperContainerText>
@@ -34,7 +32,7 @@ const InvoiceNotification = (props: IProps) => {
         </IconButton>
       </StyledInvoiceNotificationUpperContainer>
       <StyledInvoiceNotificationBottomContainer>
-        {props.fromNow}
+        {fromNow}
       </StyledInvoiceNotificationBottomContainer>
     </StyledInvoiceNotification>
   )

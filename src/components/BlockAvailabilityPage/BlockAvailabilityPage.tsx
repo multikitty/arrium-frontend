@@ -37,16 +37,9 @@ import {
 } from "../commons/commonComponents"
 import Switch from "../commons/Switch"
 import theme from "../../theme"
+import { TabPanelProps } from "./BlockAvailablityPage.types"
 
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
+function TabPanel({ children, value, index, ...other }: TabPanelProps) {
   return (
     <div
       role="tabpanel"
@@ -65,12 +58,13 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const BlockAvailabilityPage = () => {
-  const handleClick = () => console.log("hi")
   const [value, setValue] = React.useState(0)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [isSearchable, setIsSearchable] = useState<boolean>(true)
   const [isDisable, _] = useState<boolean>(true)
+
+  const handleClick = () => console.log("Clicked")
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }

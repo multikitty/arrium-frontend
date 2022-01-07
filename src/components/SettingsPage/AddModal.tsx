@@ -11,19 +11,14 @@ import {
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton } from "../commons/Button"
+import { AddModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
-  // handleAdd
-}
-
-const AddModal = (props: IProps) => {
+const AddModal: React.FC<AddModalProps> = ({ handleClose, open }) => {
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal open={open} onClose={handleClose}>
       <StyledAddModal>
         <StyledAddModalCloseIconContainer>
-          <IconButton size="small" onClick={props.handleClose}>
+          <IconButton size="small" onClick={handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </StyledAddModalCloseIconContainer>

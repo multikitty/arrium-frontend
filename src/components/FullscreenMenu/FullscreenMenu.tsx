@@ -25,12 +25,9 @@ import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ContainedButton } from "../commons/Button"
 import { useAuth } from "../../hooks/useAuth"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
+import { FullscreenMenuProps } from "./FullScreenMenu.types."
 
-interface IProps {
-  open: boolean
-}
-
-const FullscreenMenu = (props: IProps) => {
+const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
   const { pathname } = useLocation()
   const auth = useAuth()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
@@ -72,7 +69,7 @@ const FullscreenMenu = (props: IProps) => {
   }
 
   return (
-    <StyledFullscreenMenu visible={props.open}>
+    <StyledFullscreenMenu visible={open}>
       {isNotificationsMenuOpen ? (
         <FullscreenMenuNotifications
           handleClose={handleNotificationsMenuClose}

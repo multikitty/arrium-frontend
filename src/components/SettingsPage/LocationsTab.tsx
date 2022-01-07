@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Divider, Grid, IconButton } from "@mui/material"
+import { Divider, Grid, IconButton } from "@mui/material"
 import {
   StyledLocationsTab,
   StyledSettingsColumn,

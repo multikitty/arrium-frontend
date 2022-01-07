@@ -10,14 +10,13 @@ import { navigate } from "gatsby-link"
 import { DriverPages } from "../../types/common"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
+import { NotifcatioDropDownProps } from "./NotificationsDropdown.types"
 
-interface IProps {
-  handleClose: () => void
-  anchorEl: null | HTMLElement
-  open: boolean
-}
-
-const NotificationsDropdown = ({ handleClose, anchorEl, open }: IProps) => {
+const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
+  handleClose,
+  anchorEl,
+  open,
+}) => {
   const handleInvoiceNotificationClick:
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {

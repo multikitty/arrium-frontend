@@ -24,6 +24,7 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [isVisible, SetIsVisible] = useState<boolean>(false)
   const [password, setPassword] = useState<string>("")
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
+
   const onSubmit = () => {
     setFormStage(prev => prev + 1)
   }

@@ -11,12 +11,9 @@ import {
 } from "./DriverLayout.styled"
 import FullscreenMenu from "../FullscreenMenu"
 import { UserRoles } from "../../types/common"
+import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
-interface Props {
-  children: React.ReactNode
-}
-
-const DriverLayout = (props: Props) => {
+const DriverLayout = ({ children }: ChildrenProps) => {
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
   const isWebView = useMediaQuery(devices.web.up)
 
@@ -38,7 +35,7 @@ const DriverLayout = (props: Props) => {
             />
           )}
           {!isWebView && <FullscreenMenu open={isFullscreenMenuOpen} />}
-          {props.children}
+          {children}
         </StyledDriverLayoutContent>
       </StyledDriverLayout>
     </AuthGuard>

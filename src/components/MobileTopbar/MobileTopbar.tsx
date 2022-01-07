@@ -8,20 +8,19 @@ import brandLogo from "../../assets/icons/arrium_logo.svg"
 import { Badge, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import CloseIcon from "@mui/icons-material/Close"
+import { MobileTopbarProps } from "./MobileTopbar.types"
 
-interface IProps {
-  handleFullscreenMenuOpen: () => void
-  handleFullscreenMenuClose: () => void
-  isFullscreenMenuOpen: boolean
-}
-
-const MobileTopbar = (props: IProps) => {
+const MobileTopbar: React.FC<MobileTopbarProps> = ({
+  handleFullscreenMenuClose,
+  handleFullscreenMenuOpen,
+  isFullscreenMenuOpen,
+}) => {
   const handleMenuButtonClick = () => {
-    props.handleFullscreenMenuOpen()
+    handleFullscreenMenuOpen()
   }
 
   const handleCloseButtonClick = () => {
-    props.handleFullscreenMenuClose()
+    handleFullscreenMenuClose()
   }
 
   return (
@@ -29,7 +28,7 @@ const MobileTopbar = (props: IProps) => {
       <StyledMobileTopbarBrandLogoContainer>
         <StyledMobileTopbarBrandLogo src={brandLogo} />
       </StyledMobileTopbarBrandLogoContainer>
-      {props.isFullscreenMenuOpen ? (
+      {isFullscreenMenuOpen ? (
         <IconButton size="small" onClick={handleCloseButtonClick}>
           <CloseIcon sx={{ fontSize: 24 }} />
         </IconButton>

@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from "react"
+import { ChildrenProps } from "../components/AdminLayout/AdminLayout.types"
 import useProvideAuth, { AuthContextType } from "./useProvideAuth"
 
 const authContext = createContext<AuthContextType>({
@@ -12,11 +13,7 @@ const authContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(authContext)
 
-interface IProps {
-  children: React.ReactNode
-}
-
-export function ProvideAuth({ children }: IProps) {
+export function ProvideAuth({ children }: ChildrenProps) {
   const auth = useProvideAuth()
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>

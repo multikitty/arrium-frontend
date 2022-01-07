@@ -10,11 +10,7 @@ import ErrorIcon from "../../assets/icons/snackbar-error_icon.inline.svg"
 import CloseIcon from "@mui/icons-material/Close"
 import { Box, IconButton } from "@mui/material"
 import theme from "../../theme"
-
-interface Props {
-  variant: "success" | "warning" | "error"
-  text: string
-}
+import { MessagePageProps } from "./Message.types"
 
 const iconMap = {
   success: <SuccessIcon />,
@@ -22,15 +18,15 @@ const iconMap = {
   error: <ErrorIcon />,
 }
 
-const Message = (props: Props) => {
+const Message: React.FC<MessagePageProps> = ({ text, variant }) => {
   const [isHidden, setIsHidden] = useState(false)
 
   return (
-    <StyledMessage hidden={isHidden} variant={props.variant}>
+    <StyledMessage hidden={isHidden} variant={variant}>
       <StyledMessageIconContainer>
-        {iconMap[props.variant]}
+        {iconMap[variant]}
       </StyledMessageIconContainer>
-      <StyledMessageText>{props.text}</StyledMessageText>
+      <StyledMessageText>{text}</StyledMessageText>
       <Box display="flex" alignItems="flex-start" alignSelf="flex-start">
         <IconButton size="small" onClick={() => setIsHidden(true)}>
           <CloseIcon sx={{ fontSize: 10, color: theme.palette.grey5 }} />
