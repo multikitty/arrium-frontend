@@ -127,7 +127,15 @@ export const SearchTable = () => {
               }}
               align="justify"
             >
-              <SearchTextField type="number" />
+              <SearchTextField
+                type="number"
+                InputProps={{
+                  inputProps: {
+                    max: 180,
+                    min: 0,
+                  },
+                }}
+              />
             </TableCell>
             <TableCell
               sx={{

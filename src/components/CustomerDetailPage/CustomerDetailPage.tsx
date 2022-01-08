@@ -15,7 +15,7 @@ import BillingTab from "./BillingTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { navigate } from "gatsby-link"
-import { StyledTab, StyledTabs } from "../BlockAvailabilityPage/Tabs"
+import { StyledTab, StyledTabs } from "../commons/commonComponents"
 
 const CustomerDetailPage = () => {
   const [tab, setTab] = React.useState("accountInformation")

@@ -71,7 +71,6 @@ const BlockAvailabilityPage = () => {
 
   const {
     handleSubmit,
-    register,
     formState: { errors },
   } = useForm(timeToArriveInputFormOptions)
 
@@ -110,7 +109,12 @@ const BlockAvailabilityPage = () => {
           </StyledTextWrapper>
           <Stack direction="row" spacing={1}>
             {week.map(day => (
-              <Chip label={day} variant="outlined" onClick={handleClick} />
+              <Chip
+                key={day}
+                label={day}
+                variant="outlined"
+                onClick={handleClick}
+              />
             ))}
           </Stack>
         </StyledBlockHeader>

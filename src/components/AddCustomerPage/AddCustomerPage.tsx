@@ -9,11 +9,11 @@ import {
 } from "./AddCustomerPage.styled"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import theme from "../../theme"
-import { StyledTab, StyledTabs } from "../commons/commonComponents"
 import AccountInformationTab from "./AccountInformationTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { navigate } from "gatsby-link"
+import { StyledTab, StyledTabs } from "../commons/commonComponents"
 
 const AddCustomerPage = () => {
   const [tab, setTab] = React.useState("accountInformation")

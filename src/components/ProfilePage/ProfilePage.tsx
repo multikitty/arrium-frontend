@@ -8,7 +8,7 @@ import { Box } from "@mui/material"
 import { rem } from "polished"
 import ProfileTabContent from "./ProfileTabContent"
 import FlexAccountTabContent from "./FlexAccountTabContent"
-import { StyledTab, StyledTabs } from "../BlockAvailabilityPage/Tabs"
+import { StyledTab, StyledTabs } from "../commons/commonComponents"
 
 const ProfilePage = () => {
   const [tab, setTab] = React.useState("personalInformation")
