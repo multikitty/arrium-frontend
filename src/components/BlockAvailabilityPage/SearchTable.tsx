@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   Table,
   TableContainer,
@@ -7,13 +7,32 @@ import {
   TableRow,
   TableHead,
   InputAdornment,
+  Box,
 } from "@mui/material"
 import theme from "../../theme"
 import { rem } from "polished"
 import { SearchTextField } from "../commons/commonComponents"
 import CheckBox from "../commons/CheckBox"
+import { StyledWarningTextSmall } from "./BlockAvailabilityPage.styled"
+import { SearchTableProps } from "./BlockAvailablityPage.types"
 
-export const SearchTable = () => {
+export const SearchTable: React.FC<SearchTableProps> = ({
+  error,
+  fields,
+  setError,
+  setFields,
+}) => {
+  useEffect(() => {
+    if (
+      Number(fields.timeToArrive) >= 0 &&
+      Number(fields.timeToArrive) <= 180
+    ) {
+      setError(false)
+    } else {
+      setError(true)
+    }
+  }, [fields.timeToArrive])
+
   return (
     <TableContainer>
       <Table aria-label="invoices table">
@@ -98,8 +117,8 @@ export const SearchTable = () => {
             sx={{
               height: "72px",
               "&:last-child td, &:last-child th": { border: 0 },
-              "& td:first-child, & th:first-child": {
-                paddingLeft: rem("32px"),
+              "& td:first-of-type, & th:first-of-type": {
+                paddingLeft: rem("16px"),
               },
             }}
           >
@@ -125,17 +144,23 @@ export const SearchTable = () => {
                 lineHeight: rem("20px"),
                 color: theme.palette.blackText,
               }}
-              align="justify"
+              align="left"
             >
-              <SearchTextField
-                type="number"
-                InputProps={{
-                  inputProps: {
-                    max: 180,
-                    min: 0,
-                  },
-                }}
-              />
+              <Box>
+                <SearchTextField
+                  placeholder="Type..."
+                  value={fields.timeToArrive}
+                  onChange={e =>
+                    setFields({ ...fields, timeToArrive: e.target.value })
+                  }
+                  error={error}
+                />
+                {error && (
+                  <StyledWarningTextSmall>
+                    Value must be 0 to 180
+                  </StyledWarningTextSmall>
+                )}
+              </Box>
             </TableCell>
             <TableCell
               sx={{
@@ -145,7 +170,7 @@ export const SearchTable = () => {
                 lineHeight: rem("20px"),
                 color: theme.palette.blackText,
               }}
-              align="justify"
+              align="left"
             >
               <SearchTextField type="time" />
             </TableCell>
@@ -158,7 +183,7 @@ export const SearchTable = () => {
                 color: theme.palette.blackText,
                 textTransform: "capitalize",
               }}
-              align="justify"
+              align="left"
             >
               <SearchTextField type="time" />
             </TableCell>
@@ -170,9 +195,15 @@ export const SearchTable = () => {
                 lineHeight: rem("20px"),
                 color: theme.palette.blackText,
               }}
-              align="justify"
+              align="left"
             >
               <SearchTextField
+                placeholder="Type..."
+                value={fields.minimunPay}
+                onChange={e =>
+                  setFields({ ...fields, minimunPay: e.target.value })
+                }
+                error={error}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">&#8356;</InputAdornment>
@@ -188,9 +219,15 @@ export const SearchTable = () => {
                 lineHeight: rem("20px"),
                 color: theme.palette.blackText,
               }}
-              align="justify"
+              align="left"
             >
               <SearchTextField
+                placeholder="Type..."
+                value={fields.minimunHourlyPay}
+                onChange={e =>
+                  setFields({ ...fields, minimunHourlyPay: e.target.value })
+                }
+                error={error}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">&#8356;</InputAdornment>

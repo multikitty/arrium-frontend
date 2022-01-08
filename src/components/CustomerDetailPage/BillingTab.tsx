@@ -173,7 +173,7 @@ const BillingTab = () => {
                   key={row.invoiceId}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
-                    "& td:first-child, & th:first-child": {
+                    "& td:first-of-type, & th:first-of-type": {
                       paddingLeft: rem("32px"),
                     },
                   }}

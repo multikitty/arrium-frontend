@@ -105,13 +105,13 @@ export const TabData = (rows: any[], status: string) => (
       <TableBody>
         {rows
           .filter(row => (status === "All" ? true : row.Status === status))
-          .map(row => (
+          .map((row, index) => (
             <TableRow
-              key={row.Location}
+              key={index}
               sx={{
                 height: "72px",
                 "&:last-child td, &:last-child th": { border: 0 },
-                "& td:first-child, & th:first-child": {
+                "& td:first-of-type, & th:first-of-type": {
                   paddingLeft: rem("32px"),
                 },
               }}

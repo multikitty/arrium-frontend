@@ -32,7 +32,7 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { rows, rowSearches, week } from "./BlockAvailabilityPage.data"
 import Switch from "../commons/Switch"
 import theme from "../../theme"
-import { TabPanelProps } from "./BlockAvailablityPage.types"
+import { Fields, TabPanelProps } from "./BlockAvailablityPage.types"
 import { TabDataSearch } from "./TabDataOnSearch"
 import { SearchTable } from "./SearchTable"
 import { TabData } from "./TabContent"
@@ -62,6 +62,14 @@ const BlockAvailabilityPage = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [isSearchable, setIsSearchable] = useState<boolean>(true)
+  const [fields, setFields] = useState<Fields>({
+    timeToArrive: "",
+    minimunPay: "",
+    startTime: "",
+    endTime: "",
+    minimunHourlyPay: "",
+  })
+  const [error, setError] = useState<boolean>(false)
   const [isDisable, _] = useState<boolean>(true)
 
   const handleClick = () => console.log("Clicked")
@@ -124,7 +132,14 @@ const BlockAvailabilityPage = () => {
             {TabDataSearch(rowSearches)}
           </Collapse>
         ) : (
-          <SearchTable />
+          <Box>
+            <SearchTable
+              error={error}
+              setError={setError}
+              fields={fields}
+              setFields={setFields}
+            />
+          </Box>
         )}
         {!isSearchable ? (
           <StyledCollapsedSearch>
@@ -172,6 +187,10 @@ const BlockAvailabilityPage = () => {
               <FormControlLabel
                 control={<Switch sx={{ m: 1 }} />}
                 label="Send notifications on start"
+              />
+              <FormControlLabel
+                control={<Switch sx={{ m: 1 }} />}
+                label="Reject offers from ‘unticked’ locations"
               />
             </Box>
             <Box display="flex" alignItems="center">
@@ -231,6 +250,17 @@ const BlockAvailabilityPage = () => {
                 }}
                 label="Ignored"
               />
+              <Tab
+                sx={{
+                  fontSize: rem("20px"),
+                  fontWeight: 500,
+                  lineHeight: rem("20px"),
+                  textTransform: "capitalize",
+                  paddingX: rem("32px"),
+                  paddingY: rem("30px"),
+                }}
+                label="Rejected"
+              />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -241,6 +271,9 @@ const BlockAvailabilityPage = () => {
           </TabPanel>
           <TabPanel value={value} index={2}>
             {TabData(rows, "Ignored")}
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            {TabData(rows, "Rejected")}
           </TabPanel>
         </Box>
       </StyledBlockAvailablityPageWrapper>

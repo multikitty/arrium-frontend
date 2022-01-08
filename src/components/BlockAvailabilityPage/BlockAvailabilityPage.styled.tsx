@@ -75,3 +75,12 @@ export const StyledTimePickerField = styled(TextField)`
     }
   }
 `
+
+export const StyledWarningTextSmall = styled.p`
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  color: #f25555;
+`
