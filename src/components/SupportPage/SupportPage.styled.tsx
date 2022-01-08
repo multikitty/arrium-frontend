@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material"
 import { rem } from "polished"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const StyledSupportPageWrapper = styled(Box)`
   flex-grow: 1;
@@ -12,8 +12,14 @@ export const StyledSupportPageContent = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 44%;
+  padding: 0 2rem;
+  width: 50%;
+
+  @media (max-width: 1200px) {
+    width: auto;
+  }
 `
+
 export const StyledContentHeader = styled.p`
   font-family: Inter;
   font-style: normal;
@@ -23,6 +29,7 @@ export const StyledContentHeader = styled.p`
   margin-top: ${rem("40px")};
   color: ${p => p.theme.palette.blackText};
 `
+
 export const StyledSupportInputField = styled(TextField)`
   &&& {
     background-color: #ffffff;
@@ -40,6 +47,7 @@ export const StyledSupportInputField = styled(TextField)`
     }
   }
 `
+
 export const StyledSupportTextArea = styled(TextField)`
   &&& {
     background-color: #ffffff;
@@ -56,10 +64,19 @@ export const StyledSupportTextArea = styled(TextField)`
   }
 `
 
-export const StyledContentBottom = styled.div`
+export const StyledContentBottom = styled.div<{ isWebView: boolean }>`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${p =>
+    p.isWebView
+      ? css`
+          justify-content: space-between;
+          align-items: center;
+        `
+      : css`
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: baseline;
+        `}
   margin-top: ${rem("48px")};
 `
 

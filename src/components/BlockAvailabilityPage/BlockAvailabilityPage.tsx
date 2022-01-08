@@ -30,14 +30,14 @@ import { Box, FormControlLabel, Typography } from "@mui/material"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { rows, rowSearches, week } from "./BlockAvailabilityPage.data"
-import {
-  SearchTable,
-  TabData,
-  TabDataSearch,
-} from "../commons/commonComponents"
 import Switch from "../commons/Switch"
 import theme from "../../theme"
 import { TabPanelProps } from "./BlockAvailablityPage.types"
+import { TabDataSearch } from "./TabDataOnSearch"
+import { SearchTable } from "./SearchTable"
+import { TabData } from "./TabContent"
+import { timeToArriveInputFormOptions } from "../../validation"
+import { useForm } from "react-hook-form"
 
 function TabPanel({ children, value, index, ...other }: TabPanelProps) {
   return (
@@ -69,12 +69,26 @@ const BlockAvailabilityPage = () => {
     setValue(newValue)
   }
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm(timeToArriveInputFormOptions)
+
+  const onSubmit = (data: any) => {
+    console.log(data)
+    console.log(errors)
+  }
+
   return (
     <StyledBlockAvailabilityPage>
       <StyledBlockAvailabilityPageHeader>
         Block availability
       </StyledBlockAvailabilityPageHeader>
-      <StyledBlockAvailablityPageWrapper>
+      <StyledBlockAvailablityPageWrapper
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <StyledBlockHeader>
           <StyledTextWrapper>
             <StyledBlockSearchText>Search preferences</StyledBlockSearchText>
@@ -168,7 +182,10 @@ const BlockAvailabilityPage = () => {
               >
                 Cancel
               </OutlinedButton>
-              <ContainedButton onClick={() => setIsSearchable(false)}>
+              <ContainedButton
+                type="submit"
+                onClick={() => setIsSearchable(false)}
+              >
                 Save
               </ContainedButton>
             </Box>

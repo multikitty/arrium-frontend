@@ -1,9 +1,9 @@
 import { rem } from "polished"
 import styled from "styled-components"
-import { Button, TextField } from "@mui/material"
+import { Box, Button, TextField } from "@mui/material"
 import theme from "../../theme"
 
-export const StyledBlockAvailablityPageWrapper = styled.div`
+export const StyledBlockAvailablityPageWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   border: 1px solid ${p => p.theme.palette.grey3};

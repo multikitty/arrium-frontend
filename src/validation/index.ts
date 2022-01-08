@@ -84,6 +84,13 @@ export const accountInformationFormValidationSchema = Yup.object().shape({
   endDate: Yup.string(),
 })
 
+export const timeToArriveFormValidationSchema = Yup.object().shape({
+  timeToArrive: Yup.string()
+    .required()
+    .min(0, "Value must be 1 to 180")
+    .max(180, "value must be 1 to 180"),
+})
+
 export const emailAndPasswordFormOptions = {
   resolver: yupResolver(emailAndPasswordValidationSchema),
 }
@@ -141,5 +148,12 @@ export const accountInformationFormOptions = {
     status: "active",
     startDate: "",
     endDate: "",
+  },
+}
+
+export const timeToArriveInputFormOptions = {
+  resolver: yupResolver(timeToArriveFormValidationSchema),
+  defaultValus: {
+    timeToArrive: 0,
   },
 }

@@ -1,8 +1,9 @@
-import { Button } from "@mui/material"
+import { Button, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
 import { useForm } from "react-hook-form"
 import PaperClipIcon from "../../assets/icons/paperclip.svg"
+import { devices } from "../../constants/device"
 import theme from "../../theme"
 import { supportFormOptions } from "../../validation"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
@@ -28,6 +29,8 @@ const SupportPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm(supportFormOptions)
+
+  const isWebView = useMediaQuery(devices.web.up)
 
   const onSubmit = (data: any) => console.log(data)
 
@@ -68,7 +71,7 @@ const SupportPage = () => {
               {errors.message.message}
             </StyledWarningText>
           )}
-          <StyledContentBottom>
+          <StyledContentBottom isWebView={isWebView}>
             <label htmlFor="attachment">
               <input style={{ display: "none" }} id="attachment" type="file" />
               <Button
@@ -81,20 +84,45 @@ const SupportPage = () => {
               </Button>
             </label>
             <StyledButtonContainer>
-              <OutlinedButton
-                type="reset"
-                sx={{
-                  whiteSpace: "nowrap",
-                  color: theme.palette.grey7,
-                  borderColor: theme.palette.grey3,
-                  marginRight: rem("10px"),
-                }}
-              >
-                Cancel
-              </OutlinedButton>
-              <ContainedButton sx={{ whiteSpace: "nowrap" }} type="submit">
-                Send
-              </ContainedButton>
+              {isWebView ? (
+                <OutlinedButton
+                  type="reset"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    color: theme.palette.grey7,
+                    borderColor: theme.palette.grey3,
+                    marginRight: rem("10px"),
+                  }}
+                >
+                  Cancel
+                </OutlinedButton>
+              ) : (
+                <OutlinedButton
+                  type="reset"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    color: theme.palette.grey7,
+                    borderColor: theme.palette.grey3,
+                    marginRight: rem("10px"),
+                    width: "100%",
+                  }}
+                >
+                  Cancel
+                </OutlinedButton>
+              )}
+
+              {isWebView ? (
+                <ContainedButton sx={{ whiteSpace: "nowrap" }} type="submit">
+                  Send
+                </ContainedButton>
+              ) : (
+                <ContainedButton
+                  sx={{ whiteSpace: "nowrap", width: "100%" }}
+                  type="submit"
+                >
+                  Send
+                </ContainedButton>
+              )}
             </StyledButtonContainer>
           </StyledContentBottom>
         </StyledSupportPageContent>
