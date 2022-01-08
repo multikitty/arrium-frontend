@@ -50,7 +50,12 @@ const radioOptions = [
   },
 ]
 
-const AccountInformationTab = () => {
+export interface ITabProps {
+  handleSave: () => void
+  handleCancel: () => void
+}
+
+const AccountInformationTab = (props: ITabProps) => {
   const classes = useStyles()
 
   const generateRadioOptions = () => {
@@ -334,10 +339,14 @@ const AccountInformationTab = () => {
           </Grid>
         </Grid>
         <StyledAccountInformationTabFormActions>
-          <OutlinedButton grey sx={{ mr: rem("12px") }}>
+          <OutlinedButton
+            grey
+            sx={{ mr: rem("12px") }}
+            onClick={props.handleCancel}
+          >
             Cancel
           </OutlinedButton>
-          <ContainedButton>Save</ContainedButton>
+          <ContainedButton onClick={props.handleSave}>Save</ContainedButton>
         </StyledAccountInformationTabFormActions>
       </StyledAccountInformationTabForm>
     </StyledAccountInformationTab>

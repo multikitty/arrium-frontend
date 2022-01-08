@@ -124,7 +124,7 @@ const BlockAvailabilityPage = () => {
             {TabDataSearch(rowSearches)}
           </Collapse>
         ) : (
-          <Box>{SearchTable()}</Box>
+          <SearchTable />
         )}
         {!isSearchable ? (
           <StyledCollapsedSearch>

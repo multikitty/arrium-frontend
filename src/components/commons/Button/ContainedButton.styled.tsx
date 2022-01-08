@@ -18,6 +18,11 @@ export const StyledContainedButton = muiStyled(Button, {
   borderColor: error ? theme.palette.errorText : theme.palette.main,
   fontFamily: ["Inter", "sans-serif"].join(","),
 
+  "&:disabled": {
+    borderColor: theme.palette.grey3,
+    color: theme.palette.common.white,
+  },
+
   "&:hover": {
     boxShadow: "none",
     backgroundColor: error

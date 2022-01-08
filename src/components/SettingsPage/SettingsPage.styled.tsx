@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
@@ -10,6 +10,7 @@ import {
 } from "../FAQPage/FAQPage.styled"
 import { rem } from "polished"
 import { Paper } from "@mui/material"
+import { StyledProfileTabContentFieldHelperText } from "../ProfilePage/ProfilePage.styled"
 
 export const StyledSettingsPage = styled(StyledFAQPage)``
 
@@ -142,20 +143,43 @@ export const StyledAddCountryModalFormField = styled(
   StyledAccountInformatiomTabContentField
 )``
 
+export const StyledAddCountryModalFormHelperText = styled(
+  StyledProfileTabContentFieldHelperText
+)``
+
 export const StyledAddCountryModalFormActions = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: ${rem("12px")};
 `
 
-export const StyledDeleteConfirmationModalSubTitle = styled.p`
+export const StyledDeleteConfirmationModalSubTitle = styled.p<{
+  saveChanges?: boolean
+  updatePhoneNumber?: boolean
+}>`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: ${rem("16px")};
   line-height: ${rem("24px")};
-  margin-bottom: ${rem("32px")};
   text-align: center;
+  ${p =>
+    (p.saveChanges || p.updatePhoneNumber) &&
+    css`
+      width: 100%;
+      margin: 0 auto;
+    `}
+  ${p =>
+    p.saveChanges &&
+    css`
+      max-width: ${rem("322px")};
+    `}
+  ${p =>
+    p.updatePhoneNumber &&
+    css`
+      max-width: ${rem("280px")};
+    `}
+  margin-bottom: ${rem("32px")};
 
   color: ${p => p.theme.palette.blackText};
 `

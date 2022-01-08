@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
 import { rem } from "polished"
 import {
@@ -7,10 +7,12 @@ import {
   StyledAddCountryModalForm as StyledAddBlockTypeModalForm,
   StyledAddCountryModalFormActions as StyledAddBlockTypeModalFormActions,
   StyledAddCountryModalFormField as StyledAddBlockTypeModalFormField,
+  StyledAddCountryModalFormHelperText as StyledAddBlockTypeModalHelperText,
   StyledAddCountryModalTitle as StyledAddBlockTypeModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { blockTypeList } from "./SettingsPage.data"
 
 interface IProps {
   open: boolean
@@ -19,6 +21,14 @@ interface IProps {
 }
 
 const AddBlockTypeModal = (props: IProps) => {
+  const [blockType, setBlockType] = useState("")
+
+  const handleBlockTypeField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setBlockType(e.target.value)
+
+  const blockTypeError = !!blockTypeList.find(item => item.name === blockType)
+
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledAddBlockTypeModal>
@@ -31,8 +41,18 @@ const AddBlockTypeModal = (props: IProps) => {
           Add new Block Type
         </StyledAddBlockTypeModalTitle>
         <StyledAddBlockTypeModalForm>
-          <Box display="flex" mb={rem("44px")}>
-            <StyledAddBlockTypeModalFormField placeholder={`Block Type`} />
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledAddBlockTypeModalFormField
+              placeholder={`Block Type`}
+              value={blockType}
+              onChange={handleBlockTypeField}
+              error={blockTypeError}
+            />
+            {blockTypeError && (
+              <StyledAddBlockTypeModalHelperText>
+                Block type already exists
+              </StyledAddBlockTypeModalHelperText>
+            )}
           </Box>
           <StyledAddBlockTypeModalFormActions>
             <ContainedButton sx={{ width: "100%", marginBottom: rem("16px") }}>

@@ -60,7 +60,7 @@ export const StyledAccountInformationTabFormLabel = styled(
 
 export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
   shouldForwardProp: prop => prop !== "roleField",
-})<{ roleField?: boolean }>(({ theme, roleField }) => ({
+})<{ roleField?: boolean }>(({ theme, roleField, error }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
     padding: roleField
@@ -80,10 +80,12 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
     ]),
     fontFamily: ["Inter", "sans-serif"].join(","),
   },
-  border: `1px solid ${sTheme.palette.grey3}`,
+  border: error
+    ? `2px solid ${theme.palette.error.main}`
+    : `1px solid ${sTheme.palette.grey3}`,
   borderRadius: rem("10px"),
   "&:focus-within": {
-    borderColor: theme.palette.primary.main,
+    borderColor: error ? theme.palette.error.dark : theme.palette.primary.main,
   },
 }))
 

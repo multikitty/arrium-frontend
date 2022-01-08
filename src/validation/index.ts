@@ -1,6 +1,7 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { UserRoles } from "../types/common"
+import moment from "moment"
 
 const emailAndPasswordValidationSchema = Yup.object().shape({
   password: Yup.string()
@@ -107,20 +108,20 @@ export const landingContactFormFormOptions = {
 export const personalInformationFormOptions = {
   resolver: yupResolver(personalInformationFormValidationSchema),
   defaultValues: {
-    name: "",
-    surName: "",
-    email: "",
-    phoneNumber: "",
+    name: "Eliza",
+    surName: "Doolittle",
+    email: "eliza.doolittle@gmail.com",
+    phoneNumber: "+44 020 123 4567",
     timezone: "",
-    passsword: "",
+    password: "password",
   },
 }
 
 export const flexAccountFormOptions = {
   resolver: yupResolver(flexAccountFormValidationSchema),
   defaultValues: {
-    userName: "",
-    passsword: "",
+    userName: "eliza.doolittle@gmail.com",
+    password: "password",
   },
 }
 

@@ -13,8 +13,9 @@ import {
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ITabProps } from "./AccountInformationTab"
 
-const ReferralTab = () => {
+const ReferralTab = (props: ITabProps) => {
   return (
     <StyledReferralTab>
       <StyledReferralTabForm>
@@ -92,10 +93,14 @@ const ReferralTab = () => {
           <Grid item xs={12} lg={4}></Grid>
         </Grid>
         <StyledReferralTabFormActions>
-          <OutlinedButton grey sx={{ mr: rem("12px") }}>
+          <OutlinedButton
+            grey
+            sx={{ mr: rem("12px") }}
+            onClick={props.handleCancel}
+          >
             Cancel
           </OutlinedButton>
-          <ContainedButton>Save</ContainedButton>
+          <ContainedButton onClick={props.handleSave}>Save</ContainedButton>
         </StyledReferralTabFormActions>
       </StyledReferralTabForm>
     </StyledReferralTab>

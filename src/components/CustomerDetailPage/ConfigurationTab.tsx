@@ -12,8 +12,9 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ITabProps } from "./AccountInformationTab"
 
-const ConfigurationTab = () => {
+const ConfigurationTab = (props: ITabProps) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
   const handleToggleHidePassword = () => {
@@ -227,10 +228,14 @@ const ConfigurationTab = () => {
           </Grid>
         </Grid>
         <StyledConfigurationTabFormActions>
-          <OutlinedButton grey sx={{ mr: rem("12px") }}>
+          <OutlinedButton
+            grey
+            sx={{ mr: rem("12px") }}
+            onClick={props.handleCancel}
+          >
             Cancel
           </OutlinedButton>
-          <ContainedButton>Save</ContainedButton>
+          <ContainedButton onClick={props.handleSave}>Save</ContainedButton>
         </StyledConfigurationTabFormActions>
       </StyledConfigurationTabForm>
     </StyledConfigurationTab>

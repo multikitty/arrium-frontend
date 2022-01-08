@@ -30,6 +30,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     | undefined = e => {
     e.stopPropagation()
     auth.verifyEmail()
+    console.log("email verify")
   }
 
   const handlePhoneVerificationClick:

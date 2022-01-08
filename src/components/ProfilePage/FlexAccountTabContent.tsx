@@ -1,25 +1,31 @@
-import React from "react"
+import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { flexAccountFormOptions } from "../../validation"
 import {
   StyledFlexAccountTabContent,
-  StyledFlexAccountTabContentActionButtons,
   StyledFlexAccountTabContentBody,
   StyledProfileTabContentField as StyledFlexAccountTabContentField,
   StyledFlexAccountTabContentFieldHelperText,
   StyledFlexAccountTabContentFieldLabel,
 } from "./ProfilePage.styled"
-import { Box, Grid } from "@mui/material"
+import { Grid } from "@mui/material"
 import { rem } from "polished"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { OutlinedButton } from "../commons/Button"
 import theme from "../../theme"
+import UpdatePasswordModal from "./UpdatePasswordModal"
 
 const FlexAccountTabContent = () => {
+  const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
+    useState(false)
   const { handleSubmit, control, formState, reset } = useForm(
     flexAccountFormOptions
   )
 
   type formPropType = typeof flexAccountFormOptions.defaultValues
+
+  const handleUpdatePasswordModalOpen = () => setIsUpdatePasswordModalOpen(true)
+  const handleUpdatePasswordModalClose = () =>
+    setIsUpdatePasswordModalOpen(false)
 
   const onSubmit = (data: formPropType) => {
     console.log("Flex Account form data", data)
@@ -28,6 +34,11 @@ const FlexAccountTabContent = () => {
 
   return (
     <StyledFlexAccountTabContent>
+      <UpdatePasswordModal
+        open={isUpdatePasswordModalOpen}
+        handleClose={handleUpdatePasswordModalClose}
+        handleSave={() => {}}
+      />
       <StyledFlexAccountTabContentBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container rowSpacing={3} columnSpacing={2}>
@@ -73,7 +84,9 @@ const FlexAccountTabContent = () => {
                             color: theme.palette.grey7,
                             whiteSpace: "nowrap",
                             mb: rem("8px"),
+                            p: `${rem("6px")} ${rem("16px")}`,
                           }}
+                          onClick={handleUpdatePasswordModalOpen}
                         >
                           Change password
                         </OutlinedButton>
@@ -87,27 +100,6 @@ const FlexAccountTabContent = () => {
                   {formState.errors?.password?.message}
                 </StyledFlexAccountTabContentFieldHelperText>
               )}
-            </Grid>
-            <Grid item xs={12}>
-              <StyledFlexAccountTabContentActionButtons>
-                <Box
-                  sx={{
-                    mr: rem("8px"),
-                  }}
-                >
-                  <OutlinedButton
-                    sx={{
-                      border: `1px solid ${theme.palette.grey3}`,
-                      color: theme.palette.grey7,
-                    }}
-                  >
-                    Cancel
-                  </OutlinedButton>
-                </Box>
-                <Box>
-                  <ContainedButton>Save</ContainedButton>
-                </Box>
-              </StyledFlexAccountTabContentActionButtons>
             </Grid>
           </Grid>
         </form>

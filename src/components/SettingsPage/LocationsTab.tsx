@@ -34,7 +34,15 @@ export type DeleteItem = {
   id: string
 }
 
+export type SettingsListItem = {
+  name: string
+  id: string
+}
+
 const LocationsTab = () => {
+  const [countries, setCountries] = useState<SettingsListItem[]>(countryList)
+  const [regions, setRegions] = useState<SettingsListItem[]>(regionList)
+  const [stations, setStations] = useState<SettingsListItem[]>(stationList)
   const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
   const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
   const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
@@ -100,7 +108,7 @@ const LocationsTab = () => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(countryList, {
+                {renderSettingsListItems(countries, {
                   onEdit: id => {
                     console.log("edit", id)
                   },
@@ -139,7 +147,7 @@ const LocationsTab = () => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(regionList, {
+                {renderSettingsListItems(regions, {
                   onEdit: id => {
                     console.log("edit", id)
                   },
@@ -178,7 +186,7 @@ const LocationsTab = () => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(stationList, {
+                {renderSettingsListItems(stations, {
                   onEdit: id => {
                     console.log("edit", id)
                   },

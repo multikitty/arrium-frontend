@@ -19,10 +19,12 @@ const useProvideAuth = (): AuthContextType => {
     setUser(prev => ({ ...prev, isPhoneVerified: true }))
     localStorage.setItem("isPhoneVerified", "true")
   }
+
   const verifyEmail = () => {
     setUser(prev => ({ ...prev, isEmailVerified: true }))
     localStorage.setItem("isEmailVerified", "true")
   }
+
   const authenticateUser = (user: UserType) => {
     setUser(user)
     localStorage.setItem("isAuthenticated", "true")
