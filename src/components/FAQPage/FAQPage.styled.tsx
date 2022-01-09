@@ -9,7 +9,7 @@ export const StyledFAQPage = styled.div`
   padding-bottom: ${rem("40px")};
   padding-right: ${rem("24px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     padding-right: 0;
   }
 `
@@ -23,7 +23,7 @@ export const StyledFAQPageHeader = styled.h3`
   margin-bottom: ${rem("32px")};
   color: ${p => p.theme.palette.blackText};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     padding-top: ${rem("24px")};
     padding-left: ${rem("21px")};
   }
@@ -34,7 +34,7 @@ export const StyledFAQPageContent = styled.div`
   border: 1px solid ${p => p.theme.palette.grey3};
   border-radius: ${rem("20px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     border-radius: 0;
   }
 `

@@ -60,7 +60,7 @@ const rows = [
 ]
 
 const SubscriptionPage = () => {
-  const isWebView = useMediaQuery(devices.web.up)
+  const isDesktopView = useMediaQuery(devices.desktop.up)
 
   return (
     <StyledSubscriptionPage>
@@ -88,8 +88,8 @@ const SubscriptionPage = () => {
               whiteSpace: "nowrap",
               color: theme.palette.grey7,
               borderColor: theme.palette.grey3,
-              mr: !isWebView ? 0 : rem("16px"),
-              mb: isWebView ? 0 : rem("16px"),
+              mr: !isDesktopView ? 0 : rem("16px"),
+              mb: isDesktopView ? 0 : rem("16px"),
             }}
           >
             Setup Direct Debit
@@ -99,7 +99,7 @@ const SubscriptionPage = () => {
           </ContainedButton>
         </StyledSubscriptionPageDetailsActionsSection>
       </StyledSubscriptionPageDetailsContainer>
-      {isWebView ? (
+      {isDesktopView ? (
         <StyledSubscriptionPageInvoicesContainer>
           <StyledSubscriptionPageInvoicesHeader>
             Invoices
@@ -312,7 +312,7 @@ const SubscriptionPage = () => {
             Invoices
           </StyledSubscriptionPageInvoicesHeader>
           {rows.map(row => (
-            <StyledSubscriptionPageInvoice>
+            <StyledSubscriptionPageInvoice key={row.invoiceId}>
               <StyledSubscriptionPageInvoiceHeader>
                 <StyledSubscriptionPageInvoiceHeaderTitle>
                   Invoice ID

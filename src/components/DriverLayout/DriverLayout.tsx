@@ -15,7 +15,7 @@ import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
 const DriverLayout = ({ children }: ChildrenProps) => {
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
-  const isWebView = useMediaQuery(devices.web.up)
+  const isDesktopView = useMediaQuery(devices.desktop.up)
 
   const handleFullscreenMenuOpen = () => setFullscreenMenuOpen(true)
   const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
@@ -23,9 +23,9 @@ const DriverLayout = ({ children }: ChildrenProps) => {
   return (
     <AuthGuard role={UserRoles.driver}>
       <StyledDriverLayout>
-        {isWebView && <SidePanel role={UserRoles.driver} />}
-        <StyledDriverLayoutContent isWebView={isWebView}>
-          {isWebView ? (
+        {isDesktopView && <SidePanel role={UserRoles.driver} />}
+        <StyledDriverLayoutContent isDesktopView={isDesktopView}>
+          {isDesktopView ? (
             <Topbar />
           ) : (
             <MobileTopbar
@@ -34,7 +34,7 @@ const DriverLayout = ({ children }: ChildrenProps) => {
               isFullscreenMenuOpen={isFullscreenMenuOpen}
             />
           )}
-          {!isWebView && <FullscreenMenu open={isFullscreenMenuOpen} />}
+          {!isDesktopView && <FullscreenMenu open={isFullscreenMenuOpen} />}
           {children}
         </StyledDriverLayoutContent>
       </StyledDriverLayout>

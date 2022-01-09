@@ -19,7 +19,7 @@ export const StyledSubscriptionPageDetailsContainer = styled(
   padding: ${rem("32px")};
   margin-bottom: ${rem("16px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     flex-direction: column;
     border-radius: ${rem("20px")};
     margin: ${rem("16px")};
@@ -33,7 +33,7 @@ export const StyledSubscriptionPageDetailsNextPaymentSection = styled.div`
   align-items: flex-start;
   margin-right: ${rem("70px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-right: 0;
     margin-bottom: ${rem("24px")};
   }
@@ -65,7 +65,7 @@ export const StyledSubscriptionPageDetailsNextPaymentSectionText = styled.h4`
 export const StyledSubscriptionPageDetailsPriceSection = styled(
   StyledSubscriptionPageDetailsNextPaymentSection
 )`
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-right: 0;
     margin-bottom: ${rem("40px")};
   }
@@ -85,7 +85,7 @@ export const StyledSubscriptionPageDetailsActionsSection = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
@@ -106,7 +106,7 @@ export const StyledSubscriptionPageInvoicesContainer = styled(
       border-radius: 0 0 ${rem("20px")} ${rem("20px")};
     `}
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin: 0;
     border-width: 0;
     border-radius: 0;
@@ -123,7 +123,7 @@ export const StyledSubscriptionPageInvoicesHeader = styled.h4`
 
   color: ${p => p.theme.palette.grey7};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     padding: ${rem("16px")} ${rem("20px")};
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.04);
   }

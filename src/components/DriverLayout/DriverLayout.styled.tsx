@@ -6,10 +6,12 @@ export const StyledDriverLayout = styled.div`
   width: 100%;
 `
 
-export const StyledDriverLayoutContent = styled.div<{ isWebView?: boolean }>`
+export const StyledDriverLayoutContent = styled.div<{
+  isDesktopView?: boolean
+}>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: ${p => !p.isWebView && rem("64px")};
-  padding-left: ${p => (p.isWebView ? rem("254px") : 0)};
+  padding-top: ${p => !p.isDesktopView && rem("64px")};
+  padding-left: ${p => (p.isDesktopView ? rem("254px") : 0)};
 `
