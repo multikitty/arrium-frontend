@@ -36,9 +36,8 @@ const useProvideAuth = (): AuthContextType => {
     localStorage.removeItem("user")
     localStorage.removeItem("isAuthenticated")
     setUser(null)
-    setTimeout(() => {
-      navigate("/")
-    }, 1000)
+    navigate("/")
+    window.location.reload()
   }
 
   return {
