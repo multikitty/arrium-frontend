@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
 import { rem } from "polished"
 import {
@@ -7,10 +7,12 @@ import {
   StyledAddCountryModalForm as StyledAddOSVersionModalForm,
   StyledAddCountryModalFormActions as StyledAddOSVersionModalFormActions,
   StyledAddCountryModalFormField as StyledAddOSVersionModalFormField,
+  StyledAddCountryModalFormHelperText as StyledAddOSVersionModalFormHelperText,
   StyledAddCountryModalTitle as StyledAddOSVersionModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { osVersionList } from "./SettingsPage.data"
 
 interface IProps {
   open: boolean
@@ -19,6 +21,14 @@ interface IProps {
 }
 
 const AddOSVersionModal = (props: IProps) => {
+  const [osVersion, setOsVersion] = useState("")
+
+  const handleOsVersionField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setOsVersion(e.target.value)
+
+  const osVersionError = !!osVersionList.find(item => item.name === osVersion)
+
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledAddOSVersionModal>
@@ -31,11 +41,25 @@ const AddOSVersionModal = (props: IProps) => {
           Add new OS Version
         </StyledAddOSVersionModalTitle>
         <StyledAddOSVersionModalForm>
-          <Box display="flex" mb={rem("44px")}>
-            <StyledAddOSVersionModalFormField placeholder={`OS Version`} />
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledAddOSVersionModalFormField
+              autoFocus
+              placeholder={`OS Version`}
+              value={osVersion}
+              onChange={handleOsVersionField}
+              error={osVersionError}
+            />
+            {osVersionError && (
+              <StyledAddOSVersionModalFormHelperText>
+                OS Version already exists
+              </StyledAddOSVersionModalFormHelperText>
+            )}
           </Box>
           <StyledAddOSVersionModalFormActions>
-            <ContainedButton sx={{ width: "100%", marginBottom: rem("16px") }}>
+            <ContainedButton
+              sx={{ width: "100%", marginBottom: rem("16px") }}
+              disabled={osVersionError}
+            >
               Save
             </ContainedButton>
             <OutlinedButton

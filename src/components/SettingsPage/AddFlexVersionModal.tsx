@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
 import { rem } from "polished"
 import {
@@ -7,10 +7,12 @@ import {
   StyledAddCountryModalForm as StyledAddFlexVersionModalForm,
   StyledAddCountryModalFormActions as StyledAddFlexVersionModalFormActions,
   StyledAddCountryModalFormField as StyledAddFlexVersionModalFormField,
+  StyledAddCountryModalFormHelperText as StyledAddFlexVersionModalFormHelperText,
   StyledAddCountryModalTitle as StyledAddFlexVersionModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { flexVersionList } from "./SettingsPage.data"
 
 interface IProps {
   open: boolean
@@ -19,6 +21,16 @@ interface IProps {
 }
 
 const AddFlexVersionModal = (props: IProps) => {
+  const [flexVersion, setFlexVersion] = useState("")
+
+  const handleFlexVersionField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setFlexVersion(e.target.value)
+
+  const flexVersionError = !!flexVersionList.find(
+    item => item.name === flexVersion
+  )
+
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledAddFlexVersionModal>
@@ -31,13 +43,25 @@ const AddFlexVersionModal = (props: IProps) => {
           Add new Amazon Flex Version
         </StyledAddFlexVersionModalTitle>
         <StyledAddFlexVersionModalForm>
-          <Box display="flex" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddFlexVersionModalFormField
+              autoFocus
               placeholder={`Amazon Flex Version`}
+              value={flexVersion}
+              onChange={handleFlexVersionField}
+              error={flexVersionError}
             />
+            {flexVersionError && (
+              <StyledAddFlexVersionModalFormHelperText>
+                Flex Version already exists
+              </StyledAddFlexVersionModalFormHelperText>
+            )}
           </Box>
           <StyledAddFlexVersionModalFormActions>
-            <ContainedButton sx={{ width: "100%", marginBottom: rem("16px") }}>
+            <ContainedButton
+              sx={{ width: "100%", marginBottom: rem("16px") }}
+              disabled={flexVersionError}
+            >
               Save
             </ContainedButton>
             <OutlinedButton

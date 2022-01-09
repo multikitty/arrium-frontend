@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import {
   StyledMessage,
   StyledMessageIconContainer,
@@ -18,17 +18,24 @@ const iconMap = {
   error: <ErrorIcon />,
 }
 
-const Message: React.FC<MessagePageProps> = ({ text, variant }) => {
-  const [isHidden, setIsHidden] = useState(false)
+const Message: React.FC<MessagePageProps> = props => {
+  useEffect(() => {
+    if (!props.autoHide) return
+    const autoHideTimeout = setTimeout(() => {
+      props.setVisible("")
+    }, props.autoHide)
+
+    return () => clearTimeout(autoHideTimeout)
+  }, [props.autoHide, props.visible])
 
   return (
-    <StyledMessage hidden={isHidden} variant={variant}>
+    <StyledMessage hidden={!props.visible} variant={props.variant}>
       <StyledMessageIconContainer>
-        {iconMap[variant]}
+        {iconMap[props.variant]}
       </StyledMessageIconContainer>
-      <StyledMessageText>{text}</StyledMessageText>
+      <StyledMessageText>{props.text}</StyledMessageText>
       <Box display="flex" alignItems="flex-start" alignSelf="flex-start">
-        <IconButton size="small" onClick={() => setIsHidden(true)}>
+        <IconButton size="small" onClick={() => props.setVisible("")}>
           <CloseIcon sx={{ fontSize: 10, color: theme.palette.grey5 }} />
         </IconButton>
       </Box>

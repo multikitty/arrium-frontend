@@ -2,17 +2,20 @@ import { Box } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
+import Message from "../Message"
 import LocationsTab from "./LocationsTab"
 import ModelsTab from "./ModelsTab"
 import {
   StyledSettingsPage,
   StyledSettingsPageContent,
   StyledSettingsPageHeader,
+  StyledSettingsPageHeaderContainer,
 } from "./SettingsPage.styled"
 import StationTypesTab from "./StationTypesTab"
 
 const SettingsPage = () => {
   const [tab, setTab] = React.useState("locations")
+  const [message, setMessage] = React.useState("")
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
@@ -24,7 +27,16 @@ const SettingsPage = () => {
 
   return (
     <StyledSettingsPage>
-      <StyledSettingsPageHeader>Settings</StyledSettingsPageHeader>
+      <StyledSettingsPageHeaderContainer>
+        <StyledSettingsPageHeader>Settings</StyledSettingsPageHeader>
+        <Message
+          visible={!!message}
+          setVisible={setMessage}
+          autoHide={6000}
+          variant="success"
+          text={message}
+        />
+      </StyledSettingsPageHeaderContainer>
       <StyledSettingsPageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <StyledTabs
@@ -58,9 +70,9 @@ const SettingsPage = () => {
             />
           </StyledTabs>
         </Box>
-        {isLocationsTabOpen && <LocationsTab />}
-        {isModelsTabOpen && <ModelsTab />}
-        {isStationTypesTabOpen && <StationTypesTab />}
+        {isLocationsTabOpen && <LocationsTab setMessage={setMessage} />}
+        {isModelsTabOpen && <ModelsTab setMessage={setMessage} />}
+        {isStationTypesTabOpen && <StationTypesTab setMessage={setMessage} />}
       </StyledSettingsPageContent>
     </StyledSettingsPage>
   )

@@ -14,7 +14,7 @@ import { Divider, Grid, IconButton } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
-import { DeleteItem } from "./LocationsTab"
+import { SettingsItem, SettingsTabProps } from "./LocationsTab"
 import AddPhoneModelModal from "./AddPhoneModelModal"
 import AddOSVersionModal from "./AddOSVersionModal"
 import AddFlexVersionModal from "./AddFlexVersionModal"
@@ -26,13 +26,19 @@ import {
   phoneModelList,
 } from "./SettingsPage.data"
 
-const ModelsTab = () => {
+type ModelsDeleteItem = {
+  type: "Phone Model" | "OS Version" | "Flex Version"
+} & SettingsItem
+
+const ModelsTab: React.FC<SettingsTabProps> = props => {
   const [isAddPhoneModelModalOpen, setIsAddPhoneModelModalOpen] =
     useState(false)
   const [isAddOSVersionModalOpen, setIsAddOSVersionModalOpen] = useState(false)
   const [isAddFlexVersionModalOpen, setIsAddFlexVersionModalOpen] =
     useState(false)
-  const [itemToDelete, setItemToDelete] = useState<DeleteItem | null>(null)
+  const [itemToDelete, setItemToDelete] = useState<ModelsDeleteItem | null>(
+    null
+  )
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -44,7 +50,7 @@ const ModelsTab = () => {
   const handleAddFlexVersionModalClose = () =>
     setIsAddFlexVersionModalOpen(false)
 
-  const handleDeleteConfirmationModalOpen = (deleteItem: DeleteItem) =>
+  const handleDeleteConfirmationModalOpen = (deleteItem: ModelsDeleteItem) =>
     setItemToDelete(deleteItem)
   const handleDeleteConfirmationModalClose = () => setItemToDelete(null)
 

@@ -10,11 +10,20 @@ import {
 } from "../FAQPage/FAQPage.styled"
 import { rem } from "polished"
 import { Paper } from "@mui/material"
-import { StyledProfileTabContentFieldHelperText } from "../ProfilePage/ProfilePage.styled"
 
 export const StyledSettingsPage = styled(StyledFAQPage)``
 
-export const StyledSettingsPageHeader = styled(StyledFAQPageHeader)``
+export const StyledSettingsPageHeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: ${rem("32px")};
+`
+
+export const StyledSettingsPageHeader = styled(StyledFAQPageHeader)`
+  flex-grow: 1;
+  margin-bottom: 0;
+`
 
 export const StyledSettingsPageContent = styled(StyledFAQPageContent)``
 
@@ -143,9 +152,16 @@ export const StyledAddCountryModalFormField = styled(
   StyledAccountInformatiomTabContentField
 )``
 
-export const StyledAddCountryModalFormHelperText = styled(
-  StyledProfileTabContentFieldHelperText
-)``
+export const StyledAddCountryModalFormHelperText = styled.span`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: ${rem("16px")};
+  line-height: ${rem("20px")};
+  margin-top: ${rem("8px")};
+
+  color: ${p => p.theme.palette.errorText};
+`
 
 export const StyledAddCountryModalFormActions = styled.div`
   display: flex;

@@ -10,6 +10,7 @@ import {
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import pluralize from "pluralize"
 
 interface IProps {
   type: string
@@ -33,7 +34,7 @@ const DeleteConfirmationModal = (props: IProps) => {
         </StyledDeleteConfirmationModalTitle>
         <StyledDeleteConfirmationModalSubTitle>
           Are you sure you want to delete <strong>{props.name}</strong> from
-          your Locations?
+          your {pluralize(props.type)}?
         </StyledDeleteConfirmationModalSubTitle>
         <StyledDeleteConfirmationModalFormActions>
           <ContainedButton

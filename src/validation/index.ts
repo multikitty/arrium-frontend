@@ -1,7 +1,6 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { UserRoles } from "../types/common"
-import moment from "moment"
 
 const emailAndPasswordValidationSchema = Yup.object().shape({
   password: Yup.string()

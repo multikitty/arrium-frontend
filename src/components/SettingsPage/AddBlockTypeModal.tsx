@@ -43,6 +43,7 @@ const AddBlockTypeModal = (props: IProps) => {
         <StyledAddBlockTypeModalForm>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddBlockTypeModalFormField
+              autoFocus
               placeholder={`Block Type`}
               value={blockType}
               onChange={handleBlockTypeField}
@@ -55,7 +56,10 @@ const AddBlockTypeModal = (props: IProps) => {
             )}
           </Box>
           <StyledAddBlockTypeModalFormActions>
-            <ContainedButton sx={{ width: "100%", marginBottom: rem("16px") }}>
+            <ContainedButton
+              sx={{ width: "100%", marginBottom: rem("16px") }}
+              disabled={blockTypeError}
+            >
               Save
             </ContainedButton>
             <OutlinedButton

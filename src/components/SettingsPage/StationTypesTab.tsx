@@ -16,19 +16,25 @@ import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
 import { renderSettingsListItems } from "../../utils/settings"
 import { blockTypeList } from "./SettingsPage.data"
-import { DeleteItem } from "./LocationsTab"
 import AddBlockTypeModal from "./AddBlockTypeModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
+import { SettingsItem, SettingsTabProps } from "./LocationsTab"
 
-const StationTypesTab = () => {
+type StationTypesDeleteItem = {
+  type: "Block Type"
+} & SettingsItem
+
+const StationTypesTab: React.FC<SettingsTabProps> = props => {
   const [isAddBlockTypeModalOpen, setIsAddBlockTypeModalOpen] = useState(false)
-  const [itemToDelete, setItemToDelete] = useState<DeleteItem | null>(null)
+  const [itemToDelete, setItemToDelete] =
+    useState<StationTypesDeleteItem | null>(null)
 
   const handleAddBlockTypeModalOpen = () => setIsAddBlockTypeModalOpen(true)
   const handleAddBlockTypeModalClose = () => setIsAddBlockTypeModalOpen(false)
 
-  const handleDeleteConfirmationModalOpen = (deleteItem: DeleteItem) =>
-    setItemToDelete(deleteItem)
+  const handleDeleteConfirmationModalOpen = (
+    deleteItem: StationTypesDeleteItem
+  ) => setItemToDelete(deleteItem)
   const handleDeleteConfirmationModalClose = () => setItemToDelete(null)
 
   return (
@@ -77,7 +83,7 @@ const StationTypesTab = () => {
                   },
                   onDelete: (id, name) => {
                     handleDeleteConfirmationModalOpen({
-                      type: "Phone Model",
+                      type: "Block Type",
                       name,
                       id,
                     })
