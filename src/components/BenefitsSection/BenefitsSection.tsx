@@ -49,7 +49,7 @@ const BenefitsSection = () => {
               Auto Search + Accept
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              We’ll scan your app for blocks and accept blocks that match you’re
+              We'll scan your app for blocks and accept blocks that match you're
               your preferences
             </StyledBenefitsSectionCardText>
           </StyledBenefitsSectionCard>
@@ -64,8 +64,8 @@ const BenefitsSection = () => {
               Notifications
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              We’ll send you a message when a blocks been accepted by email and
-              SMS so you know immediately you’re booked for a driving slot
+              We'll send you a message when a blocks been accepted by email and
+              SMS so you know immediately you're booked for a driving slot
             </StyledBenefitsSectionCardText>
           </StyledBenefitsSectionCard>
         </StyledBenefitsSectionCardContainer>
@@ -79,7 +79,7 @@ const BenefitsSection = () => {
               Save you time
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              Spend time on things you’d rather be doing, rather than sitting at
+              Spend time on things you'd rather be doing, rather than sitting at
               your phone pressing the “refresh” button, hoping to get the block
               you want
             </StyledBenefitsSectionCardText>
@@ -110,7 +110,7 @@ const BenefitsSection = () => {
               Drive safely
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              Arrium can still check for blocks, even when you’re using your app
+              Arrium can still check for blocks, even when you're using your app
               to do your deliveries
             </StyledBenefitsSectionCardText>
           </StyledBenefitsSectionCard>
@@ -125,9 +125,9 @@ const BenefitsSection = () => {
               Safe and secure
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              Arrium works in a safe and secure way because we’ve got you logged
-              into the Amazon Flex app on this end – you’re just controlling the
-              app on your end, through Arrium
+              Arrium works in a safe and secure way because we've got you logged
+              into the app on this end - you're just controlling the app on your
+              end, through Arrium
             </StyledBenefitsSectionCardText>
           </StyledBenefitsSectionCard>
         </StyledBenefitsSectionCardContainer>
@@ -141,8 +141,8 @@ const BenefitsSection = () => {
               Earn more
             </StyledBenefitsSectionCardTitle>
             <StyledBenefitsSectionCardText>
-              Work the maximum hours available as a driver on Amazon Flex, to
-              reap the maximum potential earnings
+              Work the maximum hours available as a driver, to reap the maximum
+              potential earnings
             </StyledBenefitsSectionCardText>
           </StyledBenefitsSectionCard>
         </StyledBenefitsSectionCardContainer>
