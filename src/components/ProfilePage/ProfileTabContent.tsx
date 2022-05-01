@@ -22,6 +22,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
 import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
+import CloseAccountModal from "./CloseAccountModal"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles({
 const ProfileTabContent = () => {
   const classes = useStyles()
   const { userStore } = useStore()
+  const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
   const [isEmailEditEnabled, setIsEmailEditEnabled] = useState(false)
@@ -55,12 +57,8 @@ const ProfileTabContent = () => {
     useState(false)
   const [isUpdatePhoneNumberModalOpen, setIsUpdatePhoneNumberModalOpen] =
     useState(false)
-  const [emailAnchorEl, setEmailAnchorEl] = React.useState<null | HTMLElement>(
-    null
-  )
-  const [phoneAnchorEl, setPhoneAnchorEl] = React.useState<null | HTMLElement>(
-    null
-  )
+  const [emailAnchorEl, setEmailAnchorEl] = useState<null | HTMLElement>(null)
+  const [phoneAnchorEl, setPhoneAnchorEl] = useState<null | HTMLElement>(null)
   const isEmailMenuOpen = Boolean(emailAnchorEl)
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
@@ -173,6 +171,16 @@ const ProfileTabContent = () => {
     reset()
   }
 
+  const handleCloseAccount = () => {
+    userStore.logout()
+  }
+  const handleCloseAccountClick = () => {
+    setIsCloseAccountModalOpen(true)
+  }
+  const handleCloseAccountModalClose = () => {
+    setIsCloseAccountModalOpen(false)
+  }
+
   return (
     <StyledProfileTabContent>
       {isChangePasswordModalOpen && (
@@ -188,6 +196,13 @@ const ProfileTabContent = () => {
           handleClose={handleUpdatePhoneNumberModalClose}
           handlePhoneNumberChange={handlePhoneNumberChange}
           newPhoneNumber={getValues("phoneNumber")}
+        />
+      )}
+      {isCloseAccountModalOpen && (
+        <CloseAccountModal
+          open={isCloseAccountModalOpen}
+          handleClose={handleCloseAccountModalClose}
+          handleCloseAccount={handleCloseAccount}
         />
       )}
       <Menu
@@ -573,6 +588,11 @@ const ProfileTabContent = () => {
                   {formState.errors?.password?.message}
                 </StyledProfileTabContentFieldHelperText>
               )}
+            </Grid>
+            <Grid item xs={12}>
+              <ContainedButton error onClick={handleCloseAccountClick}>
+                Close Account
+              </ContainedButton>
             </Grid>
           </Grid>
         </form>
