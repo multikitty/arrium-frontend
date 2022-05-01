@@ -13,6 +13,7 @@ import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton } from "../commons/Button"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
+import { useStore } from "@/store"
 
 interface IProps {
   open: boolean
@@ -21,6 +22,7 @@ interface IProps {
 }
 
 const ChangePasswordModal = (props: IProps) => {
+  const { userStore } = useStore()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
   const handleToggleHidePassword = () => {
@@ -42,7 +44,7 @@ const ChangePasswordModal = (props: IProps) => {
           <Box display="flex" mb={rem("16px")}>
             <StyledChangePasswordModalFormField
               type="text"
-              value="eliza_dool@gmail.com"
+              defaultValue={userStore.currentUser?.email}
               readOnly
             />
           </Box>

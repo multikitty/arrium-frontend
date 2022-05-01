@@ -80,8 +80,8 @@ export const accountInformationFormValidationSchema = Yup.object().shape({
   timezone: Yup.string().required("The Timezone field must not be empty"),
   role: Yup.string().oneOf([...Object.values(UserRoles)]),
   status: Yup.string().oneOf(["disabled", "active", "inactive"]),
-  startDate: Yup.string(),
-  endDate: Yup.string(),
+  startDate: Yup.date(),
+  endDate: Yup.date(),
 })
 
 export const timeToArriveFormValidationSchema = Yup.object().shape({
@@ -120,7 +120,7 @@ export const flexAccountFormOptions = {
   resolver: yupResolver(flexAccountFormValidationSchema),
   defaultValues: {
     userName: "eliza.doolittle@gmail.com",
-    password: "password",
+    password: "",
   },
 }
 

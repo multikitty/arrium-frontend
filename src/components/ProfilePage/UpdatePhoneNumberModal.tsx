@@ -11,17 +11,23 @@ import {
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, LinkButton } from "../commons/Button"
 import { StyledOtpInput } from "../OtpConfirmationSection/OtpConfirmationSection.styled"
+import maskPhoneNumber from "@/utils/maskPhoneNumber"
 
 interface IProps {
   open: boolean
   handleClose: () => void
   handlePhoneNumberChange: () => void
+  newPhoneNumber: string
 }
 
 const UpdatePhoneNumberModal = (props: IProps) => {
   const [otp, setOtp] = useState("")
 
   const handleOtpFieldChange = (otpValue: string) => setOtp(otpValue)
+  const handleConfirm = () => {
+    props.handlePhoneNumberChange()
+    props.handleClose()
+  }
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -35,7 +41,8 @@ const UpdatePhoneNumberModal = (props: IProps) => {
           Phone number change confirmation
         </StyledUpdatePhoneNumberModalTitle>
         <StyledUpdatePhoneNumberModalSubTitle updatePhoneNumber>
-          Enter a 4-digit code that we've sent you on +44 *** *** 4567 in SMS
+          Enter a 4-digit code that we've sent you on{" "}
+          {maskPhoneNumber(props.newPhoneNumber)} in SMS
         </StyledUpdatePhoneNumberModalSubTitle>
         <StyledUpdatePhoneNumberModalForm>
           <Box display="flex" justifyContent="center" marginTop={rem("16px")}>
@@ -59,7 +66,7 @@ const UpdatePhoneNumberModal = (props: IProps) => {
             </LinkButton>
             <ContainedButton
               sx={{ width: "100%" }}
-              onClick={props.handlePhoneNumberChange}
+              onClick={handleConfirm}
               disabled={otp.length !== 4}
             >
               Confirm

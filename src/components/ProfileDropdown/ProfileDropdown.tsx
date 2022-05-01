@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
+import { navigate } from "gatsby"
 import { Box, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import SettingsIcon from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import { rem } from "polished"
+
 import {
   StyledProfileDropdownMenuItemText,
   StyledProfileDropdownUpperSection,
@@ -12,32 +14,39 @@ import {
   StyledProfileDropdownUpperSectionVerificationContainer,
   StyledProfileDropdownUpperSectionVerificationText,
 } from "./ProfileDropdown.styled"
-import theme from "../../theme"
+import theme from "@/theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { useAuth } from "../../hooks/useAuth"
-import { navigate } from "gatsby-link"
 import { ProfileDropDownProps } from "./ProfileDropDown.types"
+import { useStore } from "@/store"
+import { observer } from "mobx-react-lite"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,
   anchorEl,
   open,
 }) => {
-  const auth = useAuth()
+  const { userStore } = useStore()
+  const [isEmailVerified, setIsEmailVerified] = useState(
+    userStore.currentUser?.isEmailVerified ?? false
+  )
+  const [isPhoneVerified, setIsPhoneVerified] = useState(
+    userStore.currentUser?.isPhoneVerified ?? false
+  )
 
   const handleEmailVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    auth.verifyEmail()
-    console.log("email verify")
+    userStore.verifyEmail()
+    setIsEmailVerified(true)
   }
 
   const handlePhoneVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    auth.verifyPhone()
+    userStore.verifyPhone()
+    setIsPhoneVerified(true)
   }
 
   const handleSettingsButtonClick:
@@ -51,7 +60,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
     e.stopPropagation()
-    auth.logout()
+    userStore.logout()
   }
 
   return (
@@ -65,7 +74,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
         sx: {
           overflow: "visible",
           filter: "drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.1))",
-          mt: 1.5,
+          mt: 2,
           borderRadius: rem("20px"),
           padding: rem("12px"),
           "& .MuiAvatar-root": {
@@ -93,7 +102,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     >
       <StyledProfileDropdownUpperSection>
         <StyledProfileDropdownUpperSectionUsername>
-          Eliza Doolittle
+          {userStore.userFullName}
         </StyledProfileDropdownUpperSectionUsername>
         <StyledProfileDropdownUpperSectionVerificationContainer>
           <Box display="flex" alignItems="center" mr={1}>
@@ -101,15 +110,15 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: auth.user?.isEmailVerified ? 1 : 0.4,
+                opacity: isEmailVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            {auth.user?.email}
+            {userStore.currentUser?.email}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {auth.user?.isEmailVerified || (
+          {isEmailVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handleEmailVerificationClick}
             >
@@ -123,15 +132,15 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: auth.user?.isPhoneVerified ? 1 : 0.4,
+                opacity: isPhoneVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            {auth.user?.phoneNumber}
+            {userStore.currentUser?.phoneNumber}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {auth.user?.isPhoneVerified || (
+          {isPhoneVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handlePhoneVerificationClick}
             >
@@ -170,4 +179,4 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   )
 }
 
-export default ProfileDropdown
+export default observer(ProfileDropdown)

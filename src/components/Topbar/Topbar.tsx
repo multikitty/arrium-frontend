@@ -1,13 +1,17 @@
 import React from "react"
-import { StyledTopbar, StyledTopbarNotificationButton } from "./Topbar.styled"
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import { Avatar, Badge, IconButton, Tooltip } from "@mui/material"
-import theme from "../../theme"
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
+import { observer } from "mobx-react-lite"
 import { rem } from "polished"
-import ProfileDropdown from "../ProfileDropdown"
-import NotificationsDropdown from "../NotificationsDropdown"
+
+import { StyledTopbar, StyledTopbarNotificationButton } from "./Topbar.styled"
+import theme from "@/theme"
+import ProfileDropdown from "@/components/ProfileDropdown"
+import NotificationsDropdown from "@/components/NotificationsDropdown"
+import { useStore } from "@/store"
 
 const Topbar = () => {
+  const { userStore } = useStore()
   const [profileDropdownAnchorEl, setProfileDropdownAnchorEl] =
     React.useState<null | HTMLElement>(null)
   const profileDropdownOpen = Boolean(profileDropdownAnchorEl)
@@ -37,6 +41,7 @@ const Topbar = () => {
     <StyledTopbar>
       <Tooltip title="Notifications">
         <IconButton
+          disableRipple
           size="small"
           sx={{ mr: rem("16px") }}
           onClick={handleNotificationsIconClick}
@@ -56,7 +61,7 @@ const Topbar = () => {
         </IconButton>
       </Tooltip>
       <Tooltip title="Account details">
-        <IconButton onClick={handleAvatarClick} size="small">
+        <IconButton disableRipple onClick={handleAvatarClick} size="small">
           <Avatar
             sx={{
               width: 40,
@@ -65,24 +70,29 @@ const Topbar = () => {
               borderColor: profileDropdownOpen
                 ? theme.palette.main
                 : "transparent",
+              fontSize: 16,
             }}
           >
-            ED
+            {userStore.userInitials}
           </Avatar>
         </IconButton>
       </Tooltip>
-      <ProfileDropdown
-        anchorEl={profileDropdownAnchorEl}
-        open={profileDropdownOpen}
-        handleClose={handleProfileDropdownClose}
-      />
-      <NotificationsDropdown
-        anchorEl={notificationsDropdownAnchorEl}
-        open={notificationsDropdownOpen}
-        handleClose={handleNotificationsDropdownClose}
-      />
+      {profileDropdownOpen && (
+        <ProfileDropdown
+          anchorEl={profileDropdownAnchorEl}
+          open={profileDropdownOpen}
+          handleClose={handleProfileDropdownClose}
+        />
+      )}
+      {notificationsDropdownOpen && (
+        <NotificationsDropdown
+          anchorEl={notificationsDropdownAnchorEl}
+          open={notificationsDropdownOpen}
+          handleClose={handleNotificationsDropdownClose}
+        />
+      )}
     </StyledTopbar>
   )
 }
 
-export default Topbar
+export default observer(Topbar)

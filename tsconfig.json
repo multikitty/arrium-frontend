@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": ["dom", "es2015", "es2017"],
+    "lib": ["dom", "es2015", "es2017", "es2021"],
     "strict": true,
     "noEmit": true,
     "isolatedModules": true,
@@ -11,7 +11,12 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "removeComments": false
+    "removeComments": false,
+    "useDefineForClassFields": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
-  "include": ["./src/**/*", "gatsby-ssr.js", "src/theme.d.ts", "gatsby-browser.js"]
+  "include": ["./src/**/*", "gatsby-ssr.js", "gatsby-browser.js"]
 }

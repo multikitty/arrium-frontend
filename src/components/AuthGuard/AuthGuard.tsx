@@ -1,8 +1,10 @@
 import React from "react"
-import { useAuth } from "../../hooks/useAuth"
 import { navigate } from "gatsby"
-import { isBrowser } from "../../utils/common"
-import { UserRoles } from "../../types/common"
+import { observer } from "mobx-react-lite"
+
+import isBrowser from "@/utils/isBrowser"
+import { UserRoles } from "@/types/common"
+import { useStore } from "@/store"
 
 interface IProps {
   children: React.ReactNode
@@ -10,12 +12,16 @@ interface IProps {
 }
 
 const AuthGuard = (props: IProps) => {
-  const auth = useAuth()
-  if (!auth.isAuthenticated) isBrowser() && navigate("/signin")
-  // if (props.role === UserRoles.admin && auth.user?.role !== UserRoles.admin)
-  //   isBrowser() && navigate("/signin")
+  const { userStore } = useStore()
+
+  if (!userStore.isAuthenticated) isBrowser() && navigate("/signin")
+  if (
+    props.role === UserRoles.admin &&
+    userStore.currentUser?.role !== UserRoles.admin
+  )
+    isBrowser() && navigate("/403")
 
   return <>{props.children}</>
 }
 
-export default AuthGuard
+export default observer(AuthGuard)

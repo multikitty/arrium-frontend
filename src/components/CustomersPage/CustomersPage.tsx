@@ -27,7 +27,7 @@ import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { capitalCase } from "change-case"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 
 function createData(
   firstName: string,

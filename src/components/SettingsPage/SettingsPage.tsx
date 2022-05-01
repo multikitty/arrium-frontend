@@ -15,7 +15,7 @@ import StationTypesTab from "./StationTypesTab"
 
 const SettingsPage = () => {
   const [tab, setTab] = React.useState("locations")
-  const [message, setMessage] = React.useState("")
+  const [message, setMessage] = React.useState<string | boolean>("")
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)

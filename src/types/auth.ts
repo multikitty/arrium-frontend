@@ -1,8 +1,8 @@
 import { UserRoles } from "./common"
 
 export type UserType = {
-  firstName?: string
-  lastName?: string
+  firstName: string
+  lastName: string
   phoneNumber?: string
   isPhoneVerified?: boolean
   email?: string

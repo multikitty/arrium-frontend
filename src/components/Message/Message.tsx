@@ -22,7 +22,7 @@ const Message: React.FC<MessagePageProps> = props => {
   useEffect(() => {
     if (!props.autoHide) return
     const autoHideTimeout = setTimeout(() => {
-      props.setVisible("")
+      props.setVisible(false)
     }, props.autoHide)
 
     return () => clearTimeout(autoHideTimeout)
@@ -35,7 +35,7 @@ const Message: React.FC<MessagePageProps> = props => {
       </StyledMessageIconContainer>
       <StyledMessageText>{props.text}</StyledMessageText>
       <Box display="flex" alignItems="flex-start" alignSelf="flex-start">
-        <IconButton size="small" onClick={() => props.setVisible("")}>
+        <IconButton size="small" onClick={() => props.setVisible(false)}>
           <CloseIcon sx={{ fontSize: 10, color: theme.palette.grey5 }} />
         </IconButton>
       </Box>

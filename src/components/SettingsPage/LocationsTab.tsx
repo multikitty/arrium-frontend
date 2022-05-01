@@ -32,7 +32,7 @@ type LocationsDeleteItem = {
 } & SettingsItem
 
 export interface SettingsTabProps {
-  setMessage: React.Dispatch<React.SetStateAction<string>>
+  setMessage: React.Dispatch<React.SetStateAction<string | boolean>>
 }
 
 const LocationsTab: React.FC<SettingsTabProps> = props => {

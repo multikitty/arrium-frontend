@@ -1,4 +1,5 @@
-import { screenSizes } from "../constants/device"
+import { Sizes } from "@/constants/device"
+import pxSuffix from "@/utils/pxSuffix"
 
 const theme = {
   palette: {
@@ -26,11 +27,11 @@ const theme = {
     errorText: "#F25555",
   },
   breakpoints: {
-    web: `${screenSizes.web}px`,
+    web: pxSuffix(Sizes.web),
   },
   sizes: {
-    container: "1280px",
-    topbarHeight: "64px",
+    container: pxSuffix(Sizes.container),
+    topbarHeight: pxSuffix(Sizes.topbarHeight),
   },
   zIndices: {
     modalOverlay: 990,

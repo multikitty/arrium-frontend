@@ -6,7 +6,7 @@ import {
   StyledNotificationsDropdownUpperSectionDismissButton,
   StyledNotificationsDropdownUpperSectionUsername,
 } from "./NotificationsDropdown.styled"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 import { DriverPages } from "../../types/common"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
@@ -35,7 +35,7 @@ const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
         sx: {
           overflow: "visible",
           filter: "drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.1))",
-          mt: 1.5,
+          mt: 2,
           borderRadius: rem("20px"),
           minWidth: rem("360px"),
           "& .MuiAvatar-root": {

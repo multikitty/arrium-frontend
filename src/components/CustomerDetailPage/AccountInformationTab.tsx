@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   Box,
   FormControlLabel,
@@ -6,25 +7,33 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextFieldProps,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material"
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
+import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
+import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
-import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import { accountInformationFormOptions } from "../../validation"
+import TimeZoneSelect from "react-timezone-select"
+import ReactPhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/material.css"
+
+import { accountInformationFormOptions } from "@/validation"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
+  StyledAccountInformationTabDateField,
   StyledAccountInformationTabForm,
   StyledAccountInformationTabFormActions,
   StyledAccountInformationTabFormHelperText,
   StyledAccountInformationTabFormLabel,
 } from "./CustomerDetailPage.styled"
-import ReactPhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/material.css"
-import TimeZoneSelect from "react-timezone-select"
-import { makeStyles } from "@mui/styles"
-import theme from "../../theme"
+import { useStore } from "@/store"
+import { observer } from "mobx-react-lite"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -57,26 +66,34 @@ export interface ITabProps {
 
 const AccountInformationTab = (props: ITabProps) => {
   const classes = useStyles()
+  const theme = useTheme()
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
+  const { messageStore } = useStore()
+  const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
         value={singleOption.value}
         label={singleOption.label}
-        control={<Radio sx={{ color: theme.palette.main }} />}
+        control={<Radio sx={{ color: theme.palette.primary.main }} />}
       />
     ))
   }
 
-  const { handleSubmit, control, formState, reset } = useForm(
-    accountInformationFormOptions
-  )
-
   type formPropType = typeof accountInformationFormOptions.defaultValues
+  const { handleSubmit, control, formState, reset, getValues, setValue } =
+    useForm<formPropType>(accountInformationFormOptions)
 
   const onSubmit = (data: formPropType) => {
     console.log("Personal Information form data", data)
     reset()
+  }
+
+  const handleEndDatePickerClick = () => {
+    if (getValues("startDate")) return setEndDatePickerOpen(true)
+    messageStore.setMessage = "Please select Start Date first!"
+    messageStore.setOpen = true
   }
 
   return (
@@ -150,13 +167,47 @@ const AccountInformationTab = (props: ITabProps) => {
                 <Controller
                   name={"startDate"}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.startDate}
-                    />
-                  )}
+                  render={({ field: { value } }) =>
+                    isMdUp ? (
+                      <DesktopDatePicker
+                        inputFormat="dd/MM/yyyy"
+                        disablePast
+                        clearable
+                        value={value}
+                        onChange={val =>
+                          setValue("startDate", val as unknown as string)
+                        }
+                        renderInput={(params: TextFieldProps) => (
+                          <StyledAccountInformationTabDateField
+                            {...params}
+                            error={!!formState.errors?.startDate}
+                          />
+                        )}
+                        components={{
+                          OpenPickerIcon: CalendarIcon,
+                        }}
+                      />
+                    ) : (
+                      <MobileDatePicker
+                        inputFormat="dd/MM/yyyy"
+                        disablePast
+                        clearable
+                        value={value}
+                        onChange={val =>
+                          setValue("startDate", val as unknown as string)
+                        }
+                        renderInput={(params: TextFieldProps) => (
+                          <StyledAccountInformationTabDateField
+                            {...params}
+                            error={!!formState.errors?.startDate}
+                          />
+                        )}
+                        components={{
+                          OpenPickerIcon: CalendarIcon,
+                        }}
+                      />
+                    )
+                  }
                 />
                 {!!formState.errors?.startDate && (
                   <StyledAccountInformationTabFormHelperText>
@@ -248,13 +299,53 @@ const AccountInformationTab = (props: ITabProps) => {
                 <Controller
                   name={"endDate"}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.endDate}
-                    />
-                  )}
+                  render={({ field: { value } }) =>
+                    isMdUp ? (
+                      <DesktopDatePicker
+                        inputFormat="dd/MM/yyyy"
+                        open={endDatePickerOpen}
+                        onOpen={handleEndDatePickerClick}
+                        clearable
+                        minDate={new Date(getValues("startDate"))}
+                        value={value}
+                        onChange={val =>
+                          setValue("endDate", val as unknown as string)
+                        }
+                        renderInput={(params: TextFieldProps) => (
+                          <StyledAccountInformationTabDateField
+                            {...params}
+                            error={!!formState.errors?.endDate}
+                          />
+                        )}
+                        components={{
+                          OpenPickerIcon: CalendarIcon,
+                        }}
+                      />
+                    ) : (
+                      <MobileDatePicker
+                        inputFormat="dd/MM/yyyy"
+                        open={endDatePickerOpen}
+                        onOpen={() =>
+                          getValues("startDate") && setEndDatePickerOpen(true)
+                        }
+                        clearable
+                        minDate={new Date(getValues("startDate"))}
+                        value={value}
+                        onChange={val =>
+                          setValue("endDate", val as unknown as string)
+                        }
+                        renderInput={(params: TextFieldProps) => (
+                          <StyledAccountInformationTabDateField
+                            {...params}
+                            error={!!formState.errors?.endDate}
+                          />
+                        )}
+                        components={{
+                          OpenPickerIcon: CalendarIcon,
+                        }}
+                      />
+                    )
+                  }
                 />
                 {!!formState.errors?.endDate && (
                   <StyledAccountInformationTabFormHelperText>
@@ -353,4 +444,4 @@ const AccountInformationTab = (props: ITabProps) => {
   )
 }
 
-export default AccountInformationTab
+export default observer(AccountInformationTab)

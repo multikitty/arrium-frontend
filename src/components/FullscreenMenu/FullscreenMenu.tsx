@@ -1,7 +1,11 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
+import { useLocation } from "@reach/router"
 import { Avatar, Badge, Box } from "@mui/material"
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import { rem } from "polished"
-import theme from "../../theme"
+
+import theme from "@/theme"
 import {
   StyledFullscreenMenu,
   StyledFullscreenMenuBottomContainer,
@@ -13,23 +17,20 @@ import {
   StyledFullscreenMenuUpperContainerItemText,
   StyledFullscreenMenuUpperContainerNotificationIcon,
 } from "./FullscreenMenu.styled"
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
-import { useLocation } from "@reach/router"
-import { DriverPages } from "../../types/common"
-import { navigate } from "gatsby"
-import SearchIcon from "../../assets/icons/sidepanel_driver-search_icon.inline.svg"
-import SubscriptionIcon from "../../assets/icons/sidepanel_driver-subscription_icon.inline.svg"
-import FAQIcon from "../../assets/icons/sidepanel_driver-faq_icon.inline.svg"
-import SupportIcon from "../../assets/icons/sidepanel_driver-support_icon.inline.svg"
+import { DriverPages } from "@/types/common"
+import SearchIcon from "@/assets/icons/sidepanel_driver-search_icon.inline.svg"
+import SubscriptionIcon from "@/assets/icons/sidepanel_driver-subscription_icon.inline.svg"
+import FAQIcon from "@/assets/icons/sidepanel_driver-faq_icon.inline.svg"
+import SupportIcon from "@/assets/icons/sidepanel_driver-support_icon.inline.svg"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ContainedButton } from "../commons/Button"
-import { useAuth } from "../../hooks/useAuth"
+import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { FullscreenMenuProps } from "./FullScreenMenu.types."
 
 const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
+  const { userStore } = useStore()
   const { pathname } = useLocation()
-  const auth = useAuth()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
 
   const handleNotificationsMenuOpen = () => setIsNotificationsMenuOpen(true)
@@ -51,7 +52,7 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    auth.logout()
+    userStore.logout()
   }
 
   const handleProfileItemClick:
@@ -87,11 +88,11 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
                     height: 40,
                   }}
                 >
-                  ED
+                  {userStore.userInitials}
                 </Avatar>
               </Box>
               <StyledFullscreenMenuUpperContainerItemText>
-                Eliza Doolittle
+                {userStore.userFullName}
               </StyledFullscreenMenuUpperContainerItemText>
             </StyledFullscreenMenuUpperContainerItem>
             <StyledFullscreenMenuUpperContainerItem

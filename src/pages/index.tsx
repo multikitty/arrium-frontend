@@ -1,22 +1,21 @@
 import * as React from "react"
-
-import TopLayout from "../components/TopLayout"
-import { useAuth } from "../hooks/useAuth"
-import LandingPage from "../components/LandingPage"
 import { navigate } from "gatsby"
-import { DriverPages } from "../types/common"
-import { isBrowser } from "../utils/common"
+
+import LandingPage from "@/components/LandingPage"
+import { DriverPages } from "@/types/common"
+import isBrowser from "@/utils/isBrowser"
+import { useStore } from "@/store"
 
 const IndexPage = () => {
-  const auth = useAuth()
+  const { userStore } = useStore()
 
-  if (auth.isAuthenticated)
+  if (userStore.isAuthenticated)
     isBrowser() && navigate(`/${DriverPages.blockAvailability}`)
 
   return (
-    <TopLayout>
+    <React.Fragment>
       <LandingPage />
-    </TopLayout>
+    </React.Fragment>
   )
 }
 

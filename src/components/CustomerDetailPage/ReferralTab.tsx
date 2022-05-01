@@ -1,6 +1,19 @@
-import { Grid, IconButton, MenuItem, Select } from "@mui/material"
-import React from "react"
+import * as React from "react"
 import {
+  Grid,
+  MenuItem,
+  Select,
+  TextFieldProps,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material"
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
+import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
+import { rem } from "polished"
+
+import {
+  StyledAccountInformationTabDateField,
   StyledReferralTab,
   StyledReferralTabForm,
   StyledReferralTabFormActions,
@@ -10,12 +23,17 @@ import {
   StyledReferralTabFormItemTitle,
   StyledReferralTabFormLabel,
 } from "./CustomerDetailPage.styled"
-import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
-import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { ITabProps } from "./AccountInformationTab"
+import { subDays } from "date-fns"
 
 const ReferralTab = (props: ITabProps) => {
+  const theme = useTheme()
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
+  const [dateGenerated, setDateGenerated] = React.useState<Date>(
+    subDays(new Date(), 32)
+  )
+
   return (
     <StyledReferralTab>
       <StyledReferralTabForm>
@@ -33,27 +51,77 @@ const ReferralTab = (props: ITabProps) => {
               <StyledReferralTabFormLabel>
                 Date generated
               </StyledReferralTabFormLabel>
-              <StyledReferralTabFormField
-                value="07/09/2021"
-                endAdornment={
-                  <IconButton size="small" sx={{ mr: rem("8px") }}>
-                    <CalendarIcon />
-                  </IconButton>
-                }
-              />
+              {isMdUp ? (
+                <DesktopDatePicker
+                  inputFormat="dd/MM/yyyy"
+                  clearable
+                  value={dateGenerated}
+                  onChange={val => setDateGenerated(val!)}
+                  renderInput={(params: TextFieldProps) => (
+                    <StyledAccountInformationTabDateField
+                      {...params}
+                      error={false}
+                    />
+                  )}
+                  components={{
+                    OpenPickerIcon: CalendarIcon,
+                  }}
+                />
+              ) : (
+                <MobileDatePicker
+                  inputFormat="dd/MM/yyyy"
+                  clearable
+                  value={dateGenerated}
+                  onChange={val => setDateGenerated(val!)}
+                  renderInput={(params: TextFieldProps) => (
+                    <StyledAccountInformationTabDateField
+                      {...params}
+                      error={false}
+                    />
+                  )}
+                  components={{
+                    OpenPickerIcon: CalendarIcon,
+                  }}
+                />
+              )}
             </StyledReferralTabFormItem>
             <StyledReferralTabFormItem>
               <StyledReferralTabFormLabel>
                 Date activated
               </StyledReferralTabFormLabel>
-              <StyledReferralTabFormField
-                placeholder="07/09/2021"
-                endAdornment={
-                  <IconButton size="small" sx={{ mr: rem("8px") }}>
-                    <CalendarIcon />
-                  </IconButton>
-                }
-              />
+              {isMdUp ? (
+                <DesktopDatePicker
+                  inputFormat="dd/MM/yyyy"
+                  disabled
+                  value={""}
+                  onChange={() => null}
+                  renderInput={(params: TextFieldProps) => (
+                    <StyledAccountInformationTabDateField
+                      {...params}
+                      error={false}
+                    />
+                  )}
+                  components={{
+                    OpenPickerIcon: CalendarIcon,
+                  }}
+                />
+              ) : (
+                <MobileDatePicker
+                  inputFormat="dd/MM/yyyy"
+                  disabled
+                  value={""}
+                  onChange={() => null}
+                  renderInput={(params: TextFieldProps) => (
+                    <StyledAccountInformationTabDateField
+                      {...params}
+                      error={false}
+                    />
+                  )}
+                  components={{
+                    OpenPickerIcon: CalendarIcon,
+                  }}
+                />
+              )}
             </StyledReferralTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -70,6 +138,7 @@ const ReferralTab = (props: ITabProps) => {
               <Select
                 defaultValue="none"
                 input={<StyledReferralTabFormField />}
+                disabled
               >
                 <MenuItem disabled value="none">
                   Choose region here
@@ -83,6 +152,7 @@ const ReferralTab = (props: ITabProps) => {
               <Select
                 defaultValue="none"
                 input={<StyledReferralTabFormField />}
+                disabled
               >
                 <MenuItem disabled value="none">
                   Choose region here

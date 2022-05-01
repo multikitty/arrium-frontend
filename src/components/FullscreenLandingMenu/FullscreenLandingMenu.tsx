@@ -15,7 +15,7 @@ import { rem } from "polished"
 import brandLogo from "../../assets/icons/arrium_logo.svg"
 import { Link } from "react-scroll"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { FullscreenLandingMenuProps } from "./FullscreenLandingMenu.types"
 

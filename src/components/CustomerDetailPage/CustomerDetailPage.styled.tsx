@@ -1,5 +1,5 @@
 import { rem } from "polished"
-import { Grid, InputBase, styled as muiStyled } from "@mui/material"
+import { Grid, InputBase, styled as muiStyled, TextField } from "@mui/material"
 import styled from "styled-components"
 import {
   StyledFAQPage,
@@ -11,13 +11,15 @@ import {
   StyledProfileTabContentFieldLabel,
 } from "../ProfilePage/ProfilePage.styled"
 import sTheme from "../../theme"
+import theme from "@/muiTheme"
 
 export const StyledCustomerDetailPage = styled(StyledFAQPage)``
 
 export const StyledCustomerDetailPageHeaderContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  margin-bottom: ${rem("12px")};
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: ${rem("16px")};
 `
 
 export const StyledCustomerDetailPageHeader = styled(StyledFAQPageHeader)`
@@ -88,6 +90,30 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
     borderColor: error ? theme.palette.error.dark : theme.palette.primary.main,
   },
 }))
+
+export const StyledAccountInformationTabDateField = styled(TextField)<{
+  error: boolean
+}>`
+  width: 100%;
+  border: ${p =>
+    p.error
+      ? `2px solid ${theme.palette.error.main}`
+      : `1px solid ${theme.palette.grey[300]}`};
+  padding: ${rem("14px")} ${rem("16px")};
+  font-family: "Inter", "sans-serif";
+  color: ${theme.palette.text.secondary};
+  font-size: ${rem("16px")};
+  line-height: ${rem("20px")};
+  font-style: normal;
+  font-weight: normal;
+  width: 100%;
+  border-radius: ${rem("10px")};
+  transition: all 150ms ease-out;
+  &:focus-within {
+    border-color: ${p =>
+      p.error ? theme.palette.error.dark : theme.palette.primary.main};
+  }
+`
 
 export const StyledAccountInformationTabFormHelperText = styled(
   StyledProfileTabContentFieldHelperText

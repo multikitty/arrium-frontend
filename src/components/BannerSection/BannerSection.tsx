@@ -10,7 +10,7 @@ import {
   StyledBannerSectionSubHeader,
 } from "./BannerSection.styled"
 import bannerImage from "../../assets/images/landing-banner.png"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 
 const BannerSection = () => {
   const redirectToSignup = () => navigate("/signup")

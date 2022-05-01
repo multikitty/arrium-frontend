@@ -14,17 +14,19 @@ import {
   StyledWarningText,
 } from "../commons/commonComponents"
 import { useForm, Controller } from "react-hook-form"
-import { emailAndPasswordFormOptions } from "../../validation"
+import { emailAndPasswordFormOptions } from "@/validation"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
-import { Link, navigate } from "gatsby"
+import { navigate } from "gatsby"
 import { rem } from "polished"
-import { devices } from "../../constants/device"
-import { useAuth } from "../../hooks/useAuth"
+import { devices } from "@/constants/device"
+import { useStore } from "@/store"
+import { Link } from "@reach/router"
+import { UserRoles } from "@/types/common"
 
 const SigninSection = () => {
-  const auth = useAuth()
-  const [isVisible, SetIsVisible] = useState<boolean>(false)
+  const { userStore } = useStore()
+  const [isVisible, SetIsVisible] = useState(false)
   const {
     register,
     handleSubmit,
@@ -32,27 +34,29 @@ const SigninSection = () => {
     formState: { errors },
   } = useForm(emailAndPasswordFormOptions)
   const isWebView = useMediaQuery(devices.web.up)
-  const [isError] = useState<boolean>(false)
+  const [isError] = useState(false)
 
   const onSubmit = (data: any) => {
     if (data.email === "mhussain@gmail.com" && data.password === "#h3!!O!23") {
-      auth.authenticateUser({
+      userStore.authenticateUser({
         firstName: "Mo",
         lastName: "Hussain",
         phoneNumber: "+44 12 34 5678",
-        email: "Mhussainn@gmail.com",
+        email: "mhussain@gmail.com",
         isPhoneVerified: true,
         isEmailVerified: true,
+        role: UserRoles.admin,
       })
       navigate("/customers")
     } else {
-      auth.authenticateUser({
+      userStore.authenticateUser({
         firstName: "Eliza",
         lastName: "Doolittle",
         phoneNumber: "+44 12 34 5678",
         email: "eliza.doolittle@gmail.com",
         isPhoneVerified: true,
         isEmailVerified: false,
+        role: UserRoles.driver,
       })
       navigate("/")
     }

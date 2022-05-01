@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { flexAccountFormOptions } from "../../validation"
+import { flexAccountFormOptions } from "@/validation"
 import {
   StyledFlexAccountTabContent,
   StyledFlexAccountTabContentBody,
@@ -11,17 +11,23 @@ import {
 import { Grid } from "@mui/material"
 import { rem } from "polished"
 import { OutlinedButton } from "../commons/Button"
-import theme from "../../theme"
+import theme from "@/theme"
 import UpdatePasswordModal from "./UpdatePasswordModal"
+import { useStore } from "@/store"
 
 const FlexAccountTabContent = () => {
+  const { userStore } = useStore()
   const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
     useState(false)
-  const { handleSubmit, control, formState, reset } = useForm(
-    flexAccountFormOptions
-  )
 
   type formPropType = typeof flexAccountFormOptions.defaultValues
+  const { handleSubmit, control, formState, reset } = useForm<formPropType>({
+    defaultValues: {
+      userName: userStore.currentUser?.email || "",
+      password: flexAccountFormOptions.defaultValues.password,
+    },
+    resolver: flexAccountFormOptions.resolver,
+  })
 
   const handleUpdatePasswordModalOpen = () => setIsUpdatePasswordModalOpen(true)
   const handleUpdatePasswordModalClose = () =>

@@ -14,7 +14,7 @@ import { UserRoles } from "../../types/common"
 import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
 const DriverLayout = ({ children }: ChildrenProps) => {
-  const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
+  const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
   const handleFullscreenMenuOpen = () => setFullscreenMenuOpen(true)

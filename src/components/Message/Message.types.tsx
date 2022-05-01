@@ -1,9 +1,13 @@
 import React from "react"
 
+export type MessageVariant = "success" | "warning" | "error"
+
 export interface MessagePageProps {
-  variant: "success" | "warning" | "error"
+  variant: MessageVariant
   text: React.ReactNode
   autoHide?: number
   visible: boolean
-  setVisible: React.Dispatch<React.SetStateAction<string>>
+  setVisible:
+    | React.Dispatch<React.SetStateAction<boolean | string>>
+    | ((open: boolean) => void)
 }

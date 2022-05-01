@@ -12,7 +12,7 @@ import theme from "../../theme"
 import AccountInformationTab from "./AccountInformationTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
-import { navigate } from "gatsby-link"
+import { navigate } from "gatsby"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
 
 const AddCustomerPage = () => {

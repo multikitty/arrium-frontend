@@ -1,6 +1,9 @@
-import { Box, IconButton } from "@mui/material"
-import { rem } from "polished"
 import React from "react"
+import { navigate } from "gatsby"
+import { Box, IconButton } from "@mui/material"
+import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
+import { rem } from "polished"
+
 import {
   StyledCustomerDetailPage,
   StyledCustomerDetailPageHeaderContainer,
@@ -8,17 +11,19 @@ import {
   StyledCustomerDetailPageSubHeader,
   StyledCustomerDetailPageContent,
 } from "./CustomerDetailPage.styled"
-import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
-import theme from "../../theme"
+import theme from "@/theme"
 import AccountInformationTab from "./AccountInformationTab"
 import BillingTab from "./BillingTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
-import { navigate } from "gatsby-link"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
 import SaveChangesModal from "./SaveChangesModal"
+// import Message from "@/components/Message"
+import { useStore } from "@/store"
+import { observer } from "mobx-react-lite"
 
 const CustomerDetailPage = () => {
+  const { messageStore } = useStore()
   const [tab, setTab] = React.useState("accountInformation")
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)
@@ -37,6 +42,8 @@ const CustomerDetailPage = () => {
   const isConfigurationTabOpen = tab === "configuration"
   const isReferralTabOpen = tab === "referral"
 
+  console.log("messageStore", messageStore)
+
   return (
     <StyledCustomerDetailPage>
       <SaveChangesModal
@@ -45,22 +52,30 @@ const CustomerDetailPage = () => {
         handleSave={() => {}}
       />
       <StyledCustomerDetailPageHeaderContainer>
-        <IconButton
-          sx={{ mr: rem("20px") }}
-          onClick={handleRedirectToCustomersPage}
-        >
-          <BackNavigationIcon
-            sx={{ fontSize: 32, color: theme.palette.grey6 }}
-          />
-        </IconButton>
-        <Box display="flex" flexDirection="column">
-          <StyledCustomerDetailPageHeader>
-            Coraline Jones
-          </StyledCustomerDetailPageHeader>
-          <StyledCustomerDetailPageSubHeader>
-            coraline@gmail.com
-          </StyledCustomerDetailPageSubHeader>
+        <Box display="flex">
+          <IconButton
+            sx={{ mr: rem("20px") }}
+            onClick={handleRedirectToCustomersPage}
+          >
+            <BackNavigationIcon
+              sx={{ fontSize: 32, color: theme.palette.grey6 }}
+            />
+          </IconButton>
+          <Box display="flex" flexDirection="column">
+            <StyledCustomerDetailPageHeader>
+              Coraline Jones
+            </StyledCustomerDetailPageHeader>
+            <StyledCustomerDetailPageSubHeader>
+              coraline@gmail.com
+            </StyledCustomerDetailPageSubHeader>
+          </Box>
         </Box>
+        {/* <Message
+          text={messageStore.message}
+          variant={messageStore.variant}
+          visible={messageStore.open}
+          setVisible={(isOpen: boolean) => (messageStore.setOpen = isOpen)}
+        /> */}
       </StyledCustomerDetailPageHeaderContainer>
       <StyledCustomerDetailPageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -127,4 +142,4 @@ const CustomerDetailPage = () => {
   )
 }
 
-export default CustomerDetailPage
+export default observer(CustomerDetailPage)

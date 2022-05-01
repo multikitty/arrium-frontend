@@ -19,6 +19,9 @@ import { makeStyles } from "@mui/styles"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import { useStore } from "@/store"
+import { observer } from "mobx-react-lite"
+import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -43,12 +46,11 @@ const useStyles = makeStyles({
 
 const ProfileTabContent = () => {
   const classes = useStyles()
+  const { userStore } = useStore()
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
   const [isEmailEditEnabled, setIsEmailEditEnabled] = useState(false)
-  const [isEmailVerified, setIsEmailVerified] = useState(false)
   const [isPhoneEditEnabled, setIsPhoneEditEnabled] = useState(false)
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false)
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false)
   const [isUpdatePhoneNumberModalOpen, setIsUpdatePhoneNumberModalOpen] =
@@ -62,11 +64,18 @@ const ProfileTabContent = () => {
   const isEmailMenuOpen = Boolean(emailAnchorEl)
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
-  const { handleSubmit, control, formState, reset } = useForm(
-    personalInformationFormOptions
-  )
-
   type formPropType = typeof personalInformationFormOptions.defaultValues
+  const { handleSubmit, control, formState, reset, getValues } =
+    useForm<formPropType>({
+      defaultValues: {
+        email: userStore.currentUser?.email,
+        name: userStore.currentUser?.firstName,
+        surName: userStore.currentUser?.lastName,
+        phoneNumber: userStore.currentUser?.phoneNumber,
+        timezone: personalInformationFormOptions.defaultValues.timezone,
+      },
+      resolver: personalInformationFormOptions.resolver,
+    })
 
   const handleEmailMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     setEmailAnchorEl(event.currentTarget)
@@ -84,21 +93,59 @@ const ProfileTabContent = () => {
 
   const handleNameEditEnable = () => setIsNameEditEnabled(true)
   const handleNameEditDisable = () => setIsNameEditEnabled(false)
+  const handleNameEditSave = () => {
+    handleNameEditDisable()
+    userStore.setUser = {
+      ...userStore.currentUser,
+      firstName: getValues("name"),
+      lastName: userStore.currentUser?.lastName || "",
+    }
+  }
 
   const handleSurNameEditEnable = () => setIsSurNameEditEnabled(true)
   const handleSurNameEditDisable = () => setIsSurNameEditEnabled(false)
+  const handleSurNameEditSave = () => {
+    handleSurNameEditDisable()
+    userStore.setUser = {
+      ...userStore.currentUser,
+      firstName: userStore.currentUser?.firstName || "",
+      lastName: getValues("surName"),
+    }
+  }
 
   const handleEmailEditEnable = () => {
     handleEmailMenuClose()
     setIsEmailEditEnabled(true)
   }
   const handleEmailEditDisable = () => setIsEmailEditEnabled(false)
+  const handleEmailEditSave = () => {
+    handleEmailEditDisable()
+    const newEmail = getValues("email")
+    userStore.setUser = {
+      ...userStore.currentUser,
+      firstName: userStore.currentUser?.firstName || "",
+      lastName: userStore.currentUser?.lastName || "",
+      email: newEmail,
+      isEmailVerified: newEmail === userStore.currentUser?.email,
+    }
+  }
 
   const handlePhoneEditEnable = () => {
     handlePhoneMenuClose()
     setIsPhoneEditEnabled(true)
   }
   const handlePhoneEditDisable = () => setIsPhoneEditEnabled(false)
+  const handlePhoneNumberChange = () => {
+    handlePhoneEditDisable()
+    const newPhone = getValues("phoneNumber")
+    userStore.setUser = {
+      ...userStore.currentUser,
+      firstName: userStore.currentUser?.firstName || "",
+      lastName: userStore.currentUser?.lastName || "",
+      phoneNumber: newPhone,
+      isPhoneVerified: true,
+    }
+  }
 
   const handleChangePasswordModalOpen = () => setIsChangePasswordModalOpen(true)
   const handleChangePasswordModalClose = () =>
@@ -112,11 +159,12 @@ const ProfileTabContent = () => {
   }
 
   const handleEmailVerify = () => {
-    setIsEmailVerified(true)
+    userStore.verifyEmail()
     handleEmailMenuClose()
   }
+
   const handlePhoneVerify = () => {
-    setIsPhoneVerified(true)
+    userStore.verifyPhone()
     handlePhoneMenuClose()
   }
 
@@ -127,16 +175,21 @@ const ProfileTabContent = () => {
 
   return (
     <StyledProfileTabContent>
-      <ChangePasswordModal
-        open={isChangePasswordModalOpen}
-        handleClose={handleChangePasswordModalClose}
-        handleSave={() => {}}
-      />
-      <UpdatePhoneNumberModal
-        open={isUpdatePhoneNumberModalOpen}
-        handleClose={handleUpdatePhoneNumberModalClose}
-        handlePhoneNumberChange={() => {}}
-      />
+      {isChangePasswordModalOpen && (
+        <ChangePasswordModal
+          open={isChangePasswordModalOpen}
+          handleClose={handleChangePasswordModalClose}
+          handleSave={() => {}}
+        />
+      )}
+      {isUpdatePhoneNumberModalOpen && getValues("phoneNumber") && (
+        <UpdatePhoneNumberModal
+          open={isUpdatePhoneNumberModalOpen}
+          handleClose={handleUpdatePhoneNumberModalClose}
+          handlePhoneNumberChange={handlePhoneNumberChange}
+          newPhoneNumber={getValues("phoneNumber")}
+        />
+      )}
       <Menu
         elevation={2}
         id="email-menu"
@@ -148,8 +201,11 @@ const ProfileTabContent = () => {
         onClose={handleEmailMenuClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleEmailVerify} disabled={isEmailVerified}>
-          {isEmailVerified ? "Verified" : "Verify"}
+        <MenuItem
+          onClick={handleEmailVerify}
+          disabled={userStore.currentUser?.isEmailVerified}
+        >
+          {userStore.currentUser?.isEmailVerified ? "Verified" : "Verify"}
         </MenuItem>
         <MenuItem onClick={handleEmailEditEnable}>Edit</MenuItem>
       </Menu>
@@ -164,8 +220,11 @@ const ProfileTabContent = () => {
         onClose={handlePhoneMenuClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handlePhoneVerify} disabled={isPhoneVerified}>
-          {isPhoneVerified ? "Verified" : "Verify"}
+        <MenuItem
+          onClick={handlePhoneVerify}
+          disabled={userStore.currentUser?.isPhoneVerified}
+        >
+          {userStore.currentUser?.isPhoneVerified ? "Verified" : "Verify"}
         </MenuItem>
         <MenuItem onClick={handlePhoneEditEnable}>Edit</MenuItem>
       </Menu>
@@ -205,7 +264,11 @@ const ProfileTabContent = () => {
                               whiteSpace: "nowrap",
                               p: `${rem("6px")} ${rem("16px")}`,
                             }}
-                            onClick={handleNameEditDisable}
+                            onClick={handleNameEditSave}
+                            disabled={
+                              getValues("name") ===
+                              userStore.currentUser?.firstName
+                            }
                           >
                             Save
                           </ContainedButton>
@@ -260,7 +323,11 @@ const ProfileTabContent = () => {
                               whiteSpace: "nowrap",
                               p: `${rem("6px")} ${rem("16px")}`,
                             }}
-                            onClick={handleSurNameEditDisable}
+                            onClick={handleSurNameEditSave}
+                            disabled={
+                              getValues("surName") ===
+                              userStore.currentUser?.lastName
+                            }
                           >
                             Save
                           </ContainedButton>
@@ -299,7 +366,9 @@ const ProfileTabContent = () => {
                       sx={{
                         color: theme.palette.common.green,
                         fontSize: 16,
-                        opacity: isEmailVerified ? 1 : 0.4,
+                        opacity: userStore.currentUser?.isEmailVerified
+                          ? 1
+                          : 0.4,
                       }}
                     />
                   </Box>
@@ -335,7 +404,11 @@ const ProfileTabContent = () => {
                               whiteSpace: "nowrap",
                               p: `${rem("6px")} ${rem("16px")}`,
                             }}
-                            onClick={handleEmailEditDisable}
+                            onClick={handleEmailEditSave}
+                            disabled={
+                              getValues("email") ===
+                              userStore.currentUser?.email
+                            }
                           >
                             Save
                           </ContainedButton>
@@ -374,7 +447,9 @@ const ProfileTabContent = () => {
                       sx={{
                         color: theme.palette.common.green,
                         fontSize: 16,
-                        opacity: isPhoneVerified ? 1 : 0.4,
+                        opacity: userStore.currentUser?.isPhoneVerified
+                          ? 1
+                          : 0.4,
                       }}
                     />
                   </Box>
@@ -409,6 +484,12 @@ const ProfileTabContent = () => {
                               p: `${rem("6px")} ${rem("16px")}`,
                             }}
                             onClick={handleUpdatePhoneNumberModalOpen}
+                            disabled={
+                              removeAllWhiteSpaces(getValues("phoneNumber")) ===
+                              removeAllWhiteSpaces(
+                                userStore.currentUser?.phoneNumber || ""
+                              )
+                            }
                           >
                             Save
                           </ContainedButton>
@@ -500,4 +581,4 @@ const ProfileTabContent = () => {
   )
 }
 
-export default ProfileTabContent
+export default observer(ProfileTabContent)
