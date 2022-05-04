@@ -7,7 +7,7 @@ import {
 import { rem } from "polished"
 import { styled as muiStyled } from "@mui/material/styles"
 import { InputBase } from "@mui/material"
-import sTheme from "../../theme"
+import sTheme from "@/theme"
 
 export const StyledProfilePage = styled(StyledFAQPage)``
 

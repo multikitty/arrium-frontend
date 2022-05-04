@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material"
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { landingContactFormFormOptions } from "../../validation"
+import landingContactFormFormOptions from "@/validation/landingContactFormOptions"
 import {
   StyledContactFormSection,
   StyledContactFormSectionCard,
@@ -27,9 +27,7 @@ const ContactFormSection = () => {
     landingContactFormFormOptions
   )
 
-  type formPropType = typeof landingContactFormFormOptions.defaultValues
-
-  const onSubmit = (data: formPropType) => {
+  const onSubmit = (data: any) => {
     console.log(data)
     handleSuccessModalOpen()
     reset()

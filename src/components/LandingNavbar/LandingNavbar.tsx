@@ -8,7 +8,7 @@ import {
   StyledLandingNavbarRightContainer,
   StyledLandingNavbarRightContainerLoginButton,
 } from "./LandingNavbar.styled"
-import brandLogo from "../../assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { Link } from "react-scroll"
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby"
@@ -17,7 +17,7 @@ import { IconButton, useMediaQuery } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import { rem } from "polished"
 import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
-import theme from "../../theme"
+import theme from "@/theme"
 
 const LandingNavbar = () => {
   const [hasBackground, setHasBackground] = useState<boolean>(false)

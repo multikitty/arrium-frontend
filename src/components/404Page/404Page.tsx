@@ -9,12 +9,12 @@ import {
   Styled404PageContentTextContainerHeader,
   Styled404PageContentTextContainerSubHeader,
 } from "./404Page.styled"
-import _404LaptopImage from "../../assets/images/404_laptop.svg"
-import _404ArrowImage from "../../assets/images/404_sub-header_arrow.svg"
+import _404LaptopImage from "@/assets/images/404_laptop.svg"
+import _404ArrowImage from "@/assets/images/404_sub-header_arrow.svg"
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby"
 import { useMediaQuery } from "@mui/material"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 
 const _404Page = () => {
   const isDesktopView = useMediaQuery(devices.desktop.up)

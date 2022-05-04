@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Box, useMediaQuery } from "@mui/material"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import {
   StyledButton,
   StyledButtonText,
@@ -12,11 +12,11 @@ import {
 } from "../commons/commonComponents"
 import { rem } from "polished"
 import { Link } from "gatsby"
-import { FormProps } from "../../pages/signup"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { StyledOtpInput } from "./OtpConfirmationSection.styled"
 import { LinkButton } from "../commons/Button"
+import { FormProps } from "../SignUpPage/SignUpPage"
 
 const OtpConfirmationSection: React.FC<FormProps> = ({
   setFormStage,

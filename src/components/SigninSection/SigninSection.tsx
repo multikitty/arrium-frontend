@@ -14,7 +14,7 @@ import {
   StyledWarningText,
 } from "../commons/commonComponents"
 import { useForm, Controller } from "react-hook-form"
-import { emailAndPasswordFormOptions } from "@/validation"
+import formOptions from "@/validation/emailAndPasswordValidation"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { navigate } from "gatsby"
@@ -32,7 +32,7 @@ const SigninSection = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm(emailAndPasswordFormOptions)
+  } = useForm(formOptions.emailAndPasswordFormOptions)
   const isWebView = useMediaQuery(devices.web.up)
   const [isError] = useState(false)
 

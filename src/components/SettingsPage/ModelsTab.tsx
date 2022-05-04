@@ -19,7 +19,7 @@ import AddPhoneModelModal from "./AddPhoneModelModal"
 import AddOSVersionModal from "./AddOSVersionModal"
 import AddFlexVersionModal from "./AddFlexVersionModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-import { renderSettingsListItems } from "../../utils/settings"
+import { renderSettingsListItems } from "@/utils/settings"
 import {
   flexVersionList,
   osVersionList,
@@ -30,7 +30,7 @@ type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
 } & SettingsItem
 
-const ModelsTab: React.FC<SettingsTabProps> = props => {
+const ModelsTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
   const [isAddPhoneModelModalOpen, setIsAddPhoneModelModalOpen] =
     useState(false)
   const [isAddOSVersionModalOpen, setIsAddOSVersionModalOpen] = useState(false)

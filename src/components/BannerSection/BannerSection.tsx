@@ -9,7 +9,7 @@ import {
   StyledBannerSectionPrimaryHeader,
   StyledBannerSectionSubHeader,
 } from "./BannerSection.styled"
-import bannerImage from "../../assets/images/landing-banner.png"
+import bannerImage from "@/assets/images/landing-banner.png"
 import { navigate } from "gatsby"
 
 const BannerSection = () => {

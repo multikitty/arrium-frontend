@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { rem } from "polished"
 import { styled as muiStyled } from "@mui/material/styles"
-import theme from "../../../theme"
+import theme from "@/theme"
 
 export const StyledOutlinedButton = muiStyled(Button, {
   shouldForwardProp: prop => prop !== "grey",

@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { darken, rem, rgba } from "polished"
 import { styled as muiStyled } from "@mui/material/styles"
-import theme from "../../../theme"
+import theme from "@/theme"
 
 export const StyledContainedButton = muiStyled(Button, {
   shouldForwardProp: prop => prop !== "iconButton" && prop !== "error",

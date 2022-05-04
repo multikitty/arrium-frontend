@@ -10,7 +10,7 @@ import {
   StyledCustomersPageHeader,
 } from "./CustomersPage.styled"
 import { OutlinedButton } from "../commons/Button"
-import theme from "../../theme"
+import theme from "@/theme"
 import {
   Box,
   Chip,

@@ -13,10 +13,10 @@ import {
   StyledFooterSectionSocialLinkMail,
   StyledFooterSectionSocialLinksContainer,
 } from "./FooterSection.styled"
-import brandLogo from "../../assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import InstagramIcon from "../../assets/icons/footer-instagram_logo.inline.svg"
-import FacebookIcon from "../../assets/icons/footer-facebook_logo.inline.svg"
+import InstagramIcon from "@/assets/icons/footer-instagram_logo.inline.svg"
+import FacebookIcon from "@/assets/icons/footer-facebook_logo.inline.svg"
 import { navigate } from "gatsby"
 import { Link } from "react-scroll"
 import { IconButton } from "@mui/material"

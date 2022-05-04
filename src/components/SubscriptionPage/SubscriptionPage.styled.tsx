@@ -1,6 +1,6 @@
 import { rem } from "polished"
 import styled, { css } from "styled-components"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import {
   StyledFAQPage,
   StyledFAQPageHeader,

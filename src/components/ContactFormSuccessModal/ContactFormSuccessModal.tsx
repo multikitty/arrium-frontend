@@ -11,7 +11,7 @@ import {
 } from "./ContactFormSuccessModal.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
-import theme from "../../theme"
+import theme from "@/theme"
 import { ContactFormSuccessModalProps } from "./ContacttFormSuccessModal.types"
 
 const ContactFormSuccessModal = ({

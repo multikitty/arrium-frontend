@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Box } from "@mui/material"
-import ActiveCheckMark from "../../assets/icons/checkmark_main_icon.inline.svg"
-import CompletedCheckMark from "../../assets/icons/checkmark_white_icon.inline.svg"
-import InactiveCheckMark from "../../assets/icons/checkmark_grey_icon.inline.svg"
+import ActiveCheckMark from "@/assets/icons/checkmark_main_icon.inline.svg"
+import CompletedCheckMark from "@/assets/icons/checkmark_white_icon.inline.svg"
+import InactiveCheckMark from "@/assets/icons/checkmark_grey_icon.inline.svg"
 import {
   StyledSeparator,
   StyledStepper,

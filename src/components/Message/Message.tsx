@@ -4,12 +4,12 @@ import {
   StyledMessageIconContainer,
   StyledMessageText,
 } from "./Message.styled"
-import SuccessIcon from "../../assets/icons/snackbar-success_icon.inline.svg"
-import WarningIcon from "../../assets/icons/snackbar-warning_icon.inline.svg"
-import ErrorIcon from "../../assets/icons/snackbar-error_icon.inline.svg"
+import SuccessIcon from "@/assets/icons/snackbar-success_icon.inline.svg"
+import WarningIcon from "@/assets/icons/snackbar-warning_icon.inline.svg"
+import ErrorIcon from "@/assets/icons/snackbar-error_icon.inline.svg"
 import CloseIcon from "@mui/icons-material/Close"
 import { Box, IconButton } from "@mui/material"
-import theme from "../../theme"
+import theme from "@/theme"
 import { MessagePageProps } from "./Message.types"
 
 const iconMap = {

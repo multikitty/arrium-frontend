@@ -7,7 +7,7 @@ import {
   TableRow,
   TableHead,
 } from "@mui/material"
-import theme from "../../theme"
+import theme from "@/theme"
 import { rem } from "polished"
 
 export const TabDataSearch = (rowsSearches: any[]) => (

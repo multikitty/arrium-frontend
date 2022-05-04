@@ -1,7 +1,7 @@
 import { rem } from "polished"
 import styled from "styled-components"
 import { Box, Button, TextField } from "@mui/material"
-import theme from "../../theme"
+import theme from "@/theme"
 
 export const StyledBlockAvailablityPageWrapper = styled(Box)`
   display: flex;

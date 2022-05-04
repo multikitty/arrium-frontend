@@ -16,7 +16,7 @@ import {
   StyledTitleMobile,
   StyledWarningText,
 } from "@/components/commons/commonComponents"
-import { emailFormOptions } from "@/validation"
+import formOptions from "@/validation/emailAndPasswordValidation"
 import { devices } from "@/constants/device"
 
 const ForgotPasswordPage = () => {
@@ -25,7 +25,7 @@ const ForgotPasswordPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(emailFormOptions)
+  } = useForm(formOptions.emailFormOptions)
   const isWebView = useMediaQuery(devices.web.up)
   const onSubmit = (data: any) => {
     console.log(data)

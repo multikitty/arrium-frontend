@@ -1,8 +1,8 @@
 import React from "react"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
-import { devices } from "../../constants/device"
-import EmailSvg from "../../assets/icons/signup_email.inline.svg"
+import { devices } from "@/constants/device"
+import EmailSvg from "@/assets/icons/signup_email.inline.svg"
 import {
   StyledButton,
   StyledButtonText,
@@ -13,8 +13,8 @@ import {
 } from "../commons/commonComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { FormProps } from "../../pages/signup"
 import { Link } from "gatsby"
+import { FormProps } from "../SignUpPage/SignUpPage"
 
 const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
   const isWebView = useMediaQuery(devices.web.up)

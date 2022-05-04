@@ -1,6 +1,6 @@
 import { rem } from "polished"
 import styled, { css } from "styled-components"
-import theme from "../../theme"
+import theme from "@/theme"
 
 export const StyledTextBox = styled.p`
   margin: ${rem("16px")} 0;

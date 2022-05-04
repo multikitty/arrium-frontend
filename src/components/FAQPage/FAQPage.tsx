@@ -16,7 +16,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary"
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import { rem } from "polished"
-import theme from "../../theme"
+import theme from "@/theme"
 
 type AccordionSummaryProps = MuiAccordionSummaryProps & {
   expanded?: boolean

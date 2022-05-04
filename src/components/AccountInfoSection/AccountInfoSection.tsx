@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { FormProps } from "../../pages/signup"
 import { Box, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import {
@@ -17,8 +16,9 @@ import { rem } from "polished"
 import { Link } from "gatsby"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
+import { FormProps } from "../SignUpPage/SignUpPage"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -59,7 +59,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
   const [surName, setSurName] = useState("")
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
   const onSubmit = () => {
-    setFormStage(prev => prev + 1)
+    setFormStage((prev: number) => prev + 1)
   }
 
   useEffect(() => {

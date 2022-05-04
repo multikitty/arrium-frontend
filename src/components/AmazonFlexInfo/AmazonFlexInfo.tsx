@@ -1,6 +1,6 @@
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import {
   StyledButton,
@@ -14,9 +14,9 @@ import {
 } from "../commons/commonComponents"
 import { rem } from "polished"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { FormProps } from "../../pages/signup"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { Link } from "gatsby"
+import { FormProps } from "../SignUpPage/SignUpPage"
 
 const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const isWebView = useMediaQuery(devices.web.up)
@@ -26,7 +26,7 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
 
   const onSubmit = () => {
-    setFormStage(prev => prev + 1)
+    setFormStage((prev: number) => prev + 1)
   }
 
   useEffect(() => {

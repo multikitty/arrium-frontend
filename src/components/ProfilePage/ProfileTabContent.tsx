@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { personalInformationFormOptions } from "../../validation"
+import { personalInformationFormOptions } from "@/validation"
 import {
   StyledProfileTabContent,
   StyledProfileTabContentBody,
@@ -11,7 +11,7 @@ import {
 import { Box, Fade, Grid, IconButton, Menu, MenuItem } from "@mui/material"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import theme from "../../theme"
+import theme from "@/theme"
 import ChangePasswordModal from "./ChangePasswordModal"
 import UpdatePhoneNumberModal from "./UpdatePhoneNumberModal"
 import TimezoneSelect from "react-timezone-select"

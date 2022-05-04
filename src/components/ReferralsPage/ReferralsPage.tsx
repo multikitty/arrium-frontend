@@ -9,7 +9,7 @@ import {
   StyledReferralsPageHeader,
 } from "./ReferralsPage.styled"
 import { OutlinedButton } from "../commons/Button"
-import theme from "../../theme"
+import theme from "@/theme"
 import {
   Box,
   Paper,

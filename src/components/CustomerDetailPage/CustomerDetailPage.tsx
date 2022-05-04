@@ -3,7 +3,6 @@ import { navigate } from "gatsby"
 import { Box, IconButton } from "@mui/material"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import { rem } from "polished"
-
 import {
   StyledCustomerDetailPage,
   StyledCustomerDetailPageHeaderContainer,

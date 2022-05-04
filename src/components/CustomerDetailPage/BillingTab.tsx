@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import theme from "../../theme"
+import theme from "@/theme"
 import {
   StyledSubscriptionPageInvoicesContainer,
   StyledSubscriptionPageInvoicesHeader,

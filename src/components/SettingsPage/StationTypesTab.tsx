@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import theme from "../../theme"
+import theme from "@/theme"
 import { ContainedButton } from "../commons/Button"
 import {
   StyledStationTypesTab,
@@ -24,7 +24,7 @@ type StationTypesDeleteItem = {
   type: "Block Type"
 } & SettingsItem
 
-const StationTypesTab: React.FC<SettingsTabProps> = props => {
+const StationTypesTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
   const [isAddBlockTypeModalOpen, setIsAddBlockTypeModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] =
     useState<StationTypesDeleteItem | null>(null)

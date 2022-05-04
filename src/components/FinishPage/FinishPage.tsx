@@ -1,8 +1,8 @@
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import { devices } from "../../constants/device"
-import HandsSvg from "../../assets/icons/signup_hands.inline.svg"
+import { devices } from "@/constants/device"
+import HandsSvg from "@/assets/icons/signup_hands.inline.svg"
 import {
   StyledButton,
   StyledButtonText,

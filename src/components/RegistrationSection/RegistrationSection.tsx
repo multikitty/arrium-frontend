@@ -19,12 +19,12 @@ import {
   StyledValidationText,
   StyledValidationTextWrapper,
 } from "./RegistrationSection.styled"
-import { FormProps } from "../../pages/signup"
-import RightCheckMarkIcon from "../../assets/icons/checkmark_icon.svg"
-import RightCheckGreenMarkIcon from "../../assets/icons/checkmark-green_icon.svg"
-import { devices } from "../../constants/device"
+import RightCheckMarkIcon from "@/assets/icons/checkmark_icon.svg"
+import RightCheckGreenMarkIcon from "@/assets/icons/checkmark-green_icon.svg"
+import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StateProps } from "./RegistrationSection.types"
+import { FormProps } from "../SignUpPage/SignUpPage"
 
 const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [email, setEmail] = useState<string>("")

@@ -7,7 +7,7 @@ import {
 } from "../FAQPage/FAQPage.styled"
 import { styled as muiStyled } from "@mui/material/styles"
 import InputBase from "@mui/material/InputBase"
-import sTheme from "../../theme"
+import sTheme from "@/theme"
 import { Paper } from "@mui/material"
 import { StyledAccountInformatiomTabContentField } from "../CustomerDetailPage/CustomerDetailPage.styled"
 

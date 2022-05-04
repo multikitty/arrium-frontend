@@ -13,10 +13,10 @@ import {
   StyledWarningText,
 } from "@/components/commons/commonComponents"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { passwordFormOptions } from "@/validation"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
 import { devices } from "@/constants/device"
+import formOptions from "@/validation/emailAndPasswordValidation"
 
 const ResetPassword = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
@@ -29,7 +29,7 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(passwordFormOptions)
+  } = useForm(formOptions.emailAndPasswordFormOptions)
 
   console.log(errors)
 

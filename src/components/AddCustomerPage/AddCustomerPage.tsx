@@ -8,7 +8,7 @@ import {
   StyledAddCustomerPageContent,
 } from "./AddCustomerPage.styled"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
-import theme from "../../theme"
+import theme from "@/theme"
 import AccountInformationTab from "./AccountInformationTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"

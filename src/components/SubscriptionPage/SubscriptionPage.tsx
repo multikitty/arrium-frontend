@@ -1,6 +1,6 @@
 import React from "react"
 import { rem } from "polished"
-import theme from "../../theme"
+import theme from "@/theme"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import {
   StyledSubscriptionPage,
@@ -31,7 +31,7 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import { Box, useMediaQuery } from "@mui/material"
 import { capitalCase } from "change-case"
 

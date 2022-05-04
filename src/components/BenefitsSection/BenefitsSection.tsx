@@ -9,14 +9,14 @@ import {
   StyledBenefitsSectionCardTitle,
   StyledBenefitsSectionHeader,
 } from "./BenefitsSection.styled"
-import dailyScheduleIcon from "../../assets/icons/landing-benefits_section-daily_schedule.svg"
-import autoSearchIcon from "../../assets/icons/landing-benefits_section-auto_search.svg"
-import notificationsIcon from "../../assets/icons/landing-benefits_section-notifications.svg"
-import saveYouTimeIcon from "../../assets/icons/landing-benefits_section-save_you_time.svg"
-import moreDaysOffIcon from "../../assets/icons/landing-benefits_section-more_days_off.svg"
-import driveSafelyIcon from "../../assets/icons/landing-benefits_section-drive_safely.svg"
-import safeAndSecureIcon from "../../assets/icons/landing-benefits_section-safe_and_secure.svg"
-import earnMoreIcon from "../../assets/icons/landing-benefits_section-earn_more.svg"
+import dailyScheduleIcon from "@/assets/icons/landing-benefits_section-daily_schedule.svg"
+import autoSearchIcon from "@/assets/icons/landing-benefits_section-auto_search.svg"
+import notificationsIcon from "@/assets/icons/landing-benefits_section-notifications.svg"
+import saveYouTimeIcon from "@/assets/icons/landing-benefits_section-save_you_time.svg"
+import moreDaysOffIcon from "@/assets/icons/landing-benefits_section-more_days_off.svg"
+import driveSafelyIcon from "@/assets/icons/landing-benefits_section-drive_safely.svg"
+import safeAndSecureIcon from "@/assets/icons/landing-benefits_section-safe_and_secure.svg"
+import earnMoreIcon from "@/assets/icons/landing-benefits_section-earn_more.svg"
 
 const BenefitsSection = () => {
   return (

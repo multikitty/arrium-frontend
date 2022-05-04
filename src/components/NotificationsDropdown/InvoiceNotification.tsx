@@ -8,7 +8,7 @@ import {
   StyledInvoiceNotificationUpperContainerTextInvoiceNumber,
 } from "./NotificationsDropdown.styled"
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined"
-import theme from "../../theme"
+import theme from "@/theme"
 import { InvoiceNotificationProps } from "./NotificationsDropdown.types"
 
 const InvoiceNotification: React.FC<InvoiceNotificationProps> = ({

@@ -2,7 +2,7 @@ import { rem } from "polished"
 import styled from "styled-components"
 import { styled as muiStyled } from "@mui/material/styles"
 import { Button } from "@mui/material"
-import theme from "../../theme"
+import theme from "@/theme"
 
 export const StyledProfileDropdownUpperSection = styled.div`
   padding: ${rem("24px")};

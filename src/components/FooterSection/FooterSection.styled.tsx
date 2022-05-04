@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { rem } from "polished"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 
 export const StyledFooterSection = styled.div`
   display: flex;

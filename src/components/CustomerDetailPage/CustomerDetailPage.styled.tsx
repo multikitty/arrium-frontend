@@ -10,7 +10,7 @@ import {
   StyledProfileTabContentFieldHelperText,
   StyledProfileTabContentFieldLabel,
 } from "../ProfilePage/ProfilePage.styled"
-import sTheme from "../../theme"
+import sTheme from "@/theme"
 import theme from "@/muiTheme"
 
 export const StyledCustomerDetailPage = styled(StyledFAQPage)``

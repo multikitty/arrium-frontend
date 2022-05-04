@@ -1,7 +1,7 @@
 import { rem } from "polished"
 import styled from "styled-components"
-import bannerBackground from "../../assets/images/landing-banner_background.png"
-import { devices } from "../../constants/device"
+import bannerBackground from "@/assets/images/landing-banner_background.png"
+import { devices } from "@/constants/device"
 
 export const StyledBannerSection = styled.div`
   background: url(${bannerBackground}) no-repeat;

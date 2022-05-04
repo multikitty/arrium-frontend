@@ -3,9 +3,9 @@ import styled from "styled-components"
 import { alpha, styled as muiStyled } from "@mui/material/styles"
 import { Button } from "@mui/material"
 import InputBase from "@mui/material/InputBase"
-import { devices } from "../../constants/device"
-import theme from "../../theme"
-import contactFormBackground from "../../assets/images/landing-contact_form_background.png"
+import { devices } from "@/constants/device"
+import theme from "@/theme"
+import contactFormBackground from "@/assets/images/landing-contact_form_background.png"
 
 export const StyledContactFormSection = styled.div`
   position: relative;

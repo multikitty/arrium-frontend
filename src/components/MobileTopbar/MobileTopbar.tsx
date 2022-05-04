@@ -4,7 +4,7 @@ import {
   StyledMobileTopbarBrandLogo,
   StyledMobileTopbarBrandLogoContainer,
 } from "./MobileTopbar.styled"
-import brandLogo from "../../assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { Badge, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import CloseIcon from "@mui/icons-material/Close"

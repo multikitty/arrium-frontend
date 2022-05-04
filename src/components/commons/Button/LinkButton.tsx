@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button"
 import { rem } from "polished"
 import styled from "styled-components"
-import theme from "../../../theme"
+import theme from "@/theme"
 
 const StyledLinkButton = styled(Button)`
   &&& {

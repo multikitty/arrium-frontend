@@ -34,13 +34,13 @@ import {
   StyledWorkingSectionStartButtonCardTitle,
 } from "./WorkingSection.styled"
 import { Grid, useMediaQuery } from "@mui/material"
-import enterYourPreferencesImage from "../../assets/images/landing-working-01_enter_your_preferences.png"
-import startButtonImage from "../../assets/images/landing-working-02_press_the_start_button.png"
-import offersRightImage from "../../assets/images/landing-working-03_offers_that_match-right.png"
-import offersLeftImage from "../../assets/images/landing-working-03_offers_that_match-left.png"
-import notificationsTopImage from "../../assets/images/landing-working-04_notifications-top.png"
-import notificationsBottomImage from "../../assets/images/landing-working-04_notifications-bottom.png"
-import { devices } from "../../constants/device"
+import enterYourPreferencesImage from "@/assets/images/landing-working-01_enter_your_preferences.png"
+import startButtonImage from "@/assets/images/landing-working-02_press_the_start_button.png"
+import offersRightImage from "@/assets/images/landing-working-03_offers_that_match-right.png"
+import offersLeftImage from "@/assets/images/landing-working-03_offers_that_match-left.png"
+import notificationsTopImage from "@/assets/images/landing-working-04_notifications-top.png"
+import notificationsBottomImage from "@/assets/images/landing-working-04_notifications-bottom.png"
+import { devices } from "@/constants/device"
 
 const WorkingSection = () => {
   const isWebView = useMediaQuery(devices.web.up)

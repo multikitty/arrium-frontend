@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material"
 import { rem } from "polished"
 import styled from "styled-components"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 
 export const StyledBenefitsSection = styled.div`
   background: #ffffff;

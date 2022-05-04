@@ -1,6 +1,6 @@
 import { useMediaQuery } from "@mui/material"
 import React, { useState } from "react"
-import { devices } from "../../constants/device"
+import { devices } from "@/constants/device"
 import MobileTopbar from "../MobileTopbar"
 import AuthGuard from "../AuthGuard"
 import SidePanel from "../SidePanel"
@@ -10,7 +10,7 @@ import {
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
 import FullscreenMenu from "../FullscreenMenu"
-import { UserRoles } from "../../types/common"
+import { UserRoles } from "@/types/common"
 import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
 const DriverLayout = ({ children }: ChildrenProps) => {

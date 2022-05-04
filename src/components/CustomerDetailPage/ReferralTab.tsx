@@ -11,7 +11,6 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
-
 import {
   StyledAccountInformationTabDateField,
   StyledReferralTab,

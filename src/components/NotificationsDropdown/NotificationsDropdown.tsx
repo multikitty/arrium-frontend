@@ -7,7 +7,7 @@ import {
   StyledNotificationsDropdownUpperSectionUsername,
 } from "./NotificationsDropdown.styled"
 import { navigate } from "gatsby"
-import { DriverPages } from "../../types/common"
+import { DriverPages } from "@/types/common"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
 import { NotifcatioDropDownProps } from "./NotificationsDropdown.types"

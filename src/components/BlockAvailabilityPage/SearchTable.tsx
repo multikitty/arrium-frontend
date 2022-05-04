@@ -9,7 +9,7 @@ import {
   InputAdornment,
   Box,
 } from "@mui/material"
-import theme from "../../theme"
+import theme from "@/theme"
 import { rem } from "polished"
 import { SearchTextField } from "../commons/commonComponents"
 import CheckBox from "../commons/CheckBox"

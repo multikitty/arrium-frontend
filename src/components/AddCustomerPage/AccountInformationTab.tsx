@@ -10,7 +10,6 @@ import {
 import { rem } from "polished"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import { accountInformationFormOptions } from "../../validation"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import {
   StyledAccountInformatiomTabContentField,
@@ -24,7 +23,8 @@ import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import TimeZoneSelect from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
-import theme from "../../theme"
+import theme from "@/theme"
+import { accountInformationFormOptions } from "@/validation"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -50,7 +50,7 @@ const radioOptions = [
   },
 ]
 
-const AccountInformationTab = () => {
+const AccountInformationTab: React.FC = () => {
   const classes = useStyles()
 
   const generateRadioOptions = () => {
@@ -67,9 +67,7 @@ const AccountInformationTab = () => {
     accountInformationFormOptions
   )
 
-  type formPropType = typeof accountInformationFormOptions.defaultValues
-
-  const onSubmit = (data: formPropType) => {
+  const onSubmit = (data: any) => {
     console.log("Personal Information form data", data)
     reset()
   }

@@ -12,7 +12,7 @@ import {
 import { IconButton } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
-import brandLogo from "../../assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { Link } from "react-scroll"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { navigate } from "gatsby"

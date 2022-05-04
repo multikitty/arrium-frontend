@@ -12,7 +12,7 @@ import {
 import { ContainedButton } from "../commons/Button"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
-import theme from "../../theme"
+import theme from "@/theme"
 import { rem } from "polished"
 import { countryList, regionList, stationList } from "./SettingsPage.data"
 import { renderSettingsListItems } from "../../utils/settings"
