@@ -25,3 +25,22 @@ html {
 body {
   font-family: "Inter", sans-serif;
 }
+
+.jvm-zoom-btn {
+  background-color: hsl(220, 88%, 57%) !important;
+  padding: 4px !important;
+}
+
+.jvm-zoom-btn.jvm-zoomin {
+  top: auto !important;
+  bottom: 40px !important;
+  height: 18px;
+  width: 18px;
+}
+
+.jvm-zoom-btn.jvm-zoomout {
+  top: auto !important;
+  bottom: 20px !important;
+  height: 18px;
+  width: 18px;
+}

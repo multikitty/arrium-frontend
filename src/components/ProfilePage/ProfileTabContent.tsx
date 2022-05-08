@@ -564,6 +564,7 @@ const ProfileTabContent = () => {
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.password}
+                    autoComplete="new-password"
                     endAdornment={
                       <div>
                         <OutlinedButton

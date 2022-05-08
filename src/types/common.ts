@@ -16,4 +16,5 @@ export enum AdminPages {
   messages = "messages",
   settings = "settings",
   referrals = "referrals",
+  timezones = "timezones",
 }

@@ -60,6 +60,7 @@ const FlexAccountTabContent = () => {
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.userName}
+                    readOnly
                   />
                 )}
               />

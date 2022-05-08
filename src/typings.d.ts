@@ -1,3 +1,7 @@
+declare module "jsvectormap"
+declare module "jsvectormap/dist/maps/world-merc"
+declare module "jsvectormap/dist/maps/world"
+
 declare module "*.svg" {
   import React = require("react")
   export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>

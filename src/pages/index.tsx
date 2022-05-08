@@ -2,15 +2,19 @@ import * as React from "react"
 import { navigate } from "gatsby"
 
 import LandingPage from "@/components/LandingPage"
-import { DriverPages } from "@/types/common"
+import { UserRoles } from "@/types/common"
 import isBrowser from "@/utils/isBrowser"
 import { useStore } from "@/store"
+import { defaultRoutes } from "@/constants/common"
 
 const IndexPage = () => {
   const { userStore } = useStore()
 
   if (userStore.isAuthenticated)
-    isBrowser() && navigate(`/${DriverPages.blockAvailability}`)
+    isBrowser() &&
+      navigate(
+        `/${defaultRoutes[userStore.currentUser?.role || UserRoles.driver]}`
+      )
 
   return (
     <React.Fragment>

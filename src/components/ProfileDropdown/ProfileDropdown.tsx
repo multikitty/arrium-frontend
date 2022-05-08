@@ -19,6 +19,7 @@ import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ProfileDropDownProps } from "./ProfileDropDown.types"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
+import { UserRoles } from "@/types/common"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,
@@ -150,19 +151,21 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
         </StyledProfileDropdownUpperSectionVerificationContainer>
       </StyledProfileDropdownUpperSection>
       <Divider />
-      <MenuItem
-        dense
-        divider
-        sx={{ py: rem("12px") }}
-        onClick={handleSettingsButtonClick}
-      >
-        <ListItemIcon>
-          <SettingsIcon sx={{ fontSize: 24 }} />
-        </ListItemIcon>
-        <StyledProfileDropdownMenuItemText>
-          Settings
-        </StyledProfileDropdownMenuItemText>
-      </MenuItem>
+      {userStore.currentUser?.role === UserRoles.driver && (
+        <MenuItem
+          dense
+          divider
+          sx={{ py: rem("12px") }}
+          onClick={handleSettingsButtonClick}
+        >
+          <ListItemIcon>
+            <SettingsIcon sx={{ fontSize: 24 }} />
+          </ListItemIcon>
+          <StyledProfileDropdownMenuItemText>
+            Settings
+          </StyledProfileDropdownMenuItemText>
+        </MenuItem>
+      )}
       <MenuItem
         dense
         sx={{ py: rem("12px") }}

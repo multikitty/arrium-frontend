@@ -1,5 +1,7 @@
 import React from "react"
 import { navigate } from "gatsby"
+import { useLocation } from "@reach/router"
+
 import {
   StyledSidePanel,
   StyledSidePanelBrandLogo,
@@ -9,10 +11,11 @@ import {
   StyledSidePanelItemList,
   StyledSidePanelItemText,
 } from "./SidePanel.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { useLocation } from "@reach/router"
 import { AdminPages, DriverPages, UserRoles } from "@/types/common"
+import { SidePanelProps } from "./SidePanel.types"
+
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 import SearchIcon from "@/assets/icons/sidepanel_driver-search_icon.inline.svg"
 import SubscriptionIcon from "@/assets/icons/sidepanel_driver-subscription_icon.inline.svg"
 import FAQIcon from "@/assets/icons/sidepanel_driver-faq_icon.inline.svg"
@@ -22,7 +25,7 @@ import DashboardIcon from "@/assets/icons/sidepanel_admin-dashboard_icon.inline.
 import MessagesIcon from "@/assets/icons/sidepanel_admin-messages_icon.inline.svg"
 import SettingsIcon from "@/assets/icons/sidepanel_admin-settings_icon.inline.svg"
 import ReferralsIcon from "@/assets/icons/sidepanel_admin-referral_icon.inline.svg"
-import { SidePanelProps } from "./SidePanel.types"
+import TimezonesIcon from "@/assets/icons/sidepanel_admin-timezones_icon.inline.svg"
 
 const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
   const { pathname } = useLocation()
@@ -39,6 +42,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
   const isMessagesPage = pathname.includes(`/${AdminPages.messages}`)
   const isSettingsPage = pathname.includes(`/${AdminPages.settings}`)
   const isReferralsPage = pathname.includes(`/${AdminPages.referrals}`)
+  const isTimezonesPage = pathname.includes(`/${AdminPages.timezones}`)
 
   const handleNavigateToHomePage = () => navigate("/")
 
@@ -122,6 +126,12 @@ const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
               `/${AdminPages.referrals}`,
               <ReferralsIcon />,
               "Referrals"
+            )}
+            {renderSidePanelItem(
+              isTimezonesPage,
+              `/${AdminPages.timezones}`,
+              <TimezonesIcon />,
+              "Timezones"
             )}
           </>
         )}

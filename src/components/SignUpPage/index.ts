@@ -1,1 +1,1 @@
-export { default } from "./SignUpPage"
+export { default, type FormProps } from "./SignUpPage"

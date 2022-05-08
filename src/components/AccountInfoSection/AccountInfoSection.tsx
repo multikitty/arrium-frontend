@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { type FormProps } from "@/components/SignUpPage"
 import { Box, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import {
@@ -18,7 +19,6 @@ import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { FormProps } from "../SignUpPage/SignUpPage"
 
 const useStyles = makeStyles({
   timezoneStyles: {
