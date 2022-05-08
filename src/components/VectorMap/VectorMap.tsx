@@ -1,9 +1,6 @@
 import React, { useEffect } from "react"
 import { useTheme } from "@mui/material"
 import useWindowSize from "@/hooks/useWindowSize"
-import JsVectorMap from "jsvectormap"
-import "jsvectormap/dist/maps/world"
-import "jsvectormap/dist/css/jsvectormap.css"
 import { lighten } from "polished"
 import { isBrowser } from "@/utils"
 
@@ -30,10 +27,11 @@ const VectorMap: React.FC<IVectorMap> = ({
   const { width: windowWidth } = useWindowSize()
 
   useEffect(() => {
+    if (!isBrowser()) return
     const id = document.getElementById("map")
     if (id) id.innerHTML = ""
 
-    const map = new JsVectorMap({
+    const map = new (window as any).jsVectorMap({
       selector: "#map",
       map: "world",
       zoomOnScroll,
