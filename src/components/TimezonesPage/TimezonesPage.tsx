@@ -9,11 +9,7 @@ import {
   StyledTimezonesPageWrapper,
   StyledTimezonesPageMapWrapper,
 } from "./TimezonesPage.styled"
-import {
-  fetchTimezoneByZone,
-  useTimezoneByZone,
-  useTimezonesByCountry,
-} from "@/api/timezone"
+import { useTimezoneByZone } from "@/api/timezone"
 import TimezoneTable from "./TimezoneTable"
 import mockTimezoneData, { IMockTimezone } from "./__mock__"
 
@@ -22,13 +18,9 @@ const TimezonesPage = () => {
   const [timezoneData, setTimezoneData] = React.useState<IMockTimezone[]>([])
   // const { data: zoneListData, isSuccess: isListTimezonesSuccess } =
   //   useTimezonesByCountry(selectedRegion)
-  const { data: zoneData } = useTimezoneByZone("Europe/London")
+  useTimezoneByZone("Europe/London")
 
   React.useEffect(() => {
-    console.log(selectedRegion)
-    console.log(!selectedRegion)
-    console.log(!["ES", "GB"].includes(selectedRegion))
-    console.log(!selectedRegion || !["ES", "GB"].includes(selectedRegion))
     if (!selectedRegion || !["ES", "GB"].includes(selectedRegion)) return
     setTimezoneData(mockTimezoneData[selectedRegion])
   }, [selectedRegion])

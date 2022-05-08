@@ -25,7 +25,8 @@ import DashboardIcon from "@/assets/icons/sidepanel_admin-dashboard_icon.inline.
 import MessagesIcon from "@/assets/icons/sidepanel_admin-messages_icon.inline.svg"
 import SettingsIcon from "@/assets/icons/sidepanel_admin-settings_icon.inline.svg"
 import ReferralsIcon from "@/assets/icons/sidepanel_admin-referral_icon.inline.svg"
-import TimezonesIcon from "@/assets/icons/sidepanel_admin-timezones_icon.inline.svg"
+import { GrMapLocation as TimezonesIcon } from "@react-icons/all-files/gr/GrMapLocation"
+import PlansIcon from "@/assets/icons/sidepanel_admin-plans_icon.inline.svg"
 
 const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
   const { pathname } = useLocation()
@@ -43,6 +44,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
   const isSettingsPage = pathname.includes(`/${AdminPages.settings}`)
   const isReferralsPage = pathname.includes(`/${AdminPages.referrals}`)
   const isTimezonesPage = pathname.includes(`/${AdminPages.timezones}`)
+  const isPlansPage = pathname.includes(`/${AdminPages.plans}`)
 
   const handleNavigateToHomePage = () => navigate("/")
 
@@ -130,8 +132,14 @@ const SidePanel: React.FC<SidePanelProps> = ({ role }) => {
             {renderSidePanelItem(
               isTimezonesPage,
               `/${AdminPages.timezones}`,
-              <TimezonesIcon />,
+              <TimezonesIcon width="24px" height="24px" />,
               "Timezones"
+            )}
+            {renderSidePanelItem(
+              isPlansPage,
+              `/${AdminPages.plans}`,
+              <PlansIcon />,
+              "Plans"
             )}
           </>
         )}
