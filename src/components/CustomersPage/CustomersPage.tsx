@@ -1,15 +1,5 @@
 import React from "react"
-import {
-  StyledCustomersPage,
-  StyledCustomersPageContent,
-  StyledCustomersPageContentUpperSection,
-  StyledCustomersPageContentUpperSectionRecordCount,
-  StyledCustomersPageContentUpperSectionRecordCountText,
-  StyledCustomersPageContentUpperSectionRecordCountTitle,
-  StyledCustomersPageContentUpperSectionSearchField,
-  StyledCustomersPageHeader,
-} from "./CustomersPage.styled"
-import { OutlinedButton } from "../commons/Button"
+import { navigate } from "gatsby"
 import theme from "@/theme"
 import {
   Box,
@@ -22,12 +12,23 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material"
-import { rem } from "polished"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
-import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { rem } from "polished"
 import { capitalCase } from "change-case"
-import { navigate } from "gatsby"
+
+import {
+  StyledCustomersPage,
+  StyledCustomersPageContent,
+  StyledCustomersPageContentUpperSection,
+  StyledCustomersPageContentUpperSectionRecordCount,
+  StyledCustomersPageContentUpperSectionRecordCountText,
+  StyledCustomersPageContentUpperSectionRecordCountTitle,
+  StyledCustomersPageContentUpperSectionSearchField,
+  StyledCustomersPageHeader,
+} from "./CustomersPage.styled"
+import { OutlinedButton } from "../commons/Button"
+import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 
 function createData(
   firstName: string,

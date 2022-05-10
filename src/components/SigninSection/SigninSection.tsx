@@ -48,6 +48,20 @@ const SigninSection = () => {
         role: UserRoles.admin,
       })
       navigate("/customers")
+    } else if (
+      data.email === "sales_agent@gmail.com" &&
+      data.password === "Sales_agent!23"
+    ) {
+      userStore.authenticateUser({
+        firstName: "Sales",
+        lastName: "Agent",
+        phoneNumber: "+44 12 34 5678",
+        email: "sales_agent@gmail.com",
+        isPhoneVerified: true,
+        isEmailVerified: true,
+        role: UserRoles.salesAgent,
+      })
+      navigate("/dashboard")
     } else {
       userStore.authenticateUser({
         firstName: "Eliza",

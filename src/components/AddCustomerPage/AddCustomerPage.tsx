@@ -1,6 +1,7 @@
+import React from "react"
 import { Box, IconButton } from "@mui/material"
 import { rem } from "polished"
-import React from "react"
+import { useLocation } from "@reach/router"
 import {
   StyledAddCustomerPage,
   StyledAddCustomerPageHeaderContainer,
@@ -14,13 +15,31 @@ import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { navigate } from "gatsby"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
+import queryString, { ParsedQuery } from "query-string"
+import { UserRoles } from "@/types/common"
 
 const AddCustomerPage = () => {
+  const location = useLocation()
   const [tab, setTab] = React.useState("accountInformation")
+  const [role, setRole] = React.useState<keyof typeof UserRoles>(
+    UserRoles.driver
+  )
+  const [queryParams, setQueryParams] =
+    React.useState<ParsedQuery<string> | null>(null)
+
+  console.log("queryParams", queryParams)
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
   }
+
+  React.useEffect(() => {
+    if (!location.search) return
+    const parsedQuery = queryString.parse(location.search)
+    setQueryParams(parsedQuery)
+    if (!parsedQuery.role) return
+    setRole(parsedQuery.role as keyof typeof UserRoles)
+  }, [location])
 
   const isAccountInfoTabOpen = tab === "accountInformation"
   const isConfigurationTabOpen = tab === "configuration"
@@ -76,7 +95,7 @@ const AddCustomerPage = () => {
             />
           </StyledTabs>
         </Box>
-        {isAccountInfoTabOpen && <AccountInformationTab />}
+        {isAccountInfoTabOpen && <AccountInformationTab role={role} />}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
       </StyledAddCustomerPageContent>

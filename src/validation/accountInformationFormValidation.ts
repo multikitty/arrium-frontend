@@ -1,6 +1,6 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { UserRoles } from "../types/common"
+import { UserRoles, UserRolesType } from "../types/common"
 import { phoneRegExp } from "./personalInformationValidation"
 
 const accountInformationFormValidationSchema = Yup.object().shape({
@@ -30,7 +30,7 @@ const accountInformationFormOptions = {
     phoneNumber: "",
     isEmailVerified: false,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    role: UserRoles.driver,
+    role: UserRoles.driver as UserRolesType,
     status: "active",
     startDate: "",
     endDate: "",

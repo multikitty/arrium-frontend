@@ -11,9 +11,13 @@ import {
 } from "./DriverLayout.styled"
 import FullscreenMenu from "../FullscreenMenu"
 import { UserRoles } from "@/types/common"
-import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
 
-const DriverLayout = ({ children }: ChildrenProps) => {
+export interface DriverLayoutProps {
+  children: React.ReactNode
+  roles: (keyof typeof UserRoles)[]
+}
+
+const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
@@ -21,7 +25,7 @@ const DriverLayout = ({ children }: ChildrenProps) => {
   const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
 
   return (
-    <AuthGuard role={UserRoles.driver}>
+    <AuthGuard roles={roles}>
       <StyledDriverLayout>
         {isDesktopView && <SidePanel role={UserRoles.driver} />}
         <StyledDriverLayoutContent isDesktopView={isDesktopView}>

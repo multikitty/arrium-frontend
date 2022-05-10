@@ -1,6 +1,6 @@
 import countryToCurrency from "country-to-currency"
 
-const mockTimezoneData: Record<string, IMockPlans[]> = {
+const mockPlansData: Record<string, IMockPlans[]> = {
   ES: [
     {
       countryName: "Spain",
@@ -43,4 +43,4 @@ export interface IMockPlans {
   price: number
 }
 
-export default mockTimezoneData
+export default mockPlansData

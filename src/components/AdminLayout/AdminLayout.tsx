@@ -9,13 +9,13 @@ import {
 import { UserRoles } from "@/types/common"
 import { devices } from "@/constants/device"
 import { useMediaQuery } from "@mui/material"
-import { ChildrenProps } from "./AdminLayout.types"
+import { AdminLayoutProps } from "./AdminLayout.types"
 
-const AdminLayout: React.FC<ChildrenProps> = ({ children }) => {
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children, roles }) => {
   const isWebView = useMediaQuery(devices.web.up)
 
   return (
-    <AuthGuard role={UserRoles.admin}>
+    <AuthGuard roles={roles}>
       <StyledAdminLayout>
         <SidePanel role={UserRoles.admin} />
         <StyledAdminLayoutContent isWebView={isWebView}>

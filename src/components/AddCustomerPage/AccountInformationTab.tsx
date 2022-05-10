@@ -25,6 +25,7 @@ import TimeZoneSelect from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
 import theme from "@/theme"
 import { accountInformationFormOptions } from "@/validation"
+import { UserRoles, UserRolesType } from "@/types/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -50,12 +51,17 @@ const radioOptions = [
   },
 ]
 
-const AccountInformationTab: React.FC = () => {
+interface IProps {
+  role: UserRolesType
+}
+
+const AccountInformationTab: React.FC<IProps> = ({ role }) => {
   const classes = useStyles()
 
   const generateRadioOptions = () => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
+        key={singleOption.label}
         value={singleOption.value}
         label={singleOption.label}
         control={<Radio sx={{ color: theme.palette.main }} />}
@@ -63,14 +69,38 @@ const AccountInformationTab: React.FC = () => {
     ))
   }
 
-  const { handleSubmit, control, formState, reset } = useForm(
-    accountInformationFormOptions
-  )
+  console.log("role", role)
+
+  type formPropType = typeof accountInformationFormOptions.defaultValues
+  const { handleSubmit, control, formState, reset, getValues, setValue } =
+    useForm<formPropType>({
+      resolver: accountInformationFormOptions.resolver,
+      defaultValues: {
+        firstName: accountInformationFormOptions.defaultValues.firstName,
+        surName: accountInformationFormOptions.defaultValues.surName,
+        email: accountInformationFormOptions.defaultValues.email,
+        endDate: accountInformationFormOptions.defaultValues.endDate,
+        isEmailVerified:
+          accountInformationFormOptions.defaultValues.isEmailVerified,
+        phoneNumber: accountInformationFormOptions.defaultValues.phoneNumber,
+        startDate: accountInformationFormOptions.defaultValues.startDate,
+        role,
+        timezone: accountInformationFormOptions.defaultValues.timezone,
+        status: accountInformationFormOptions.defaultValues.status,
+      },
+    })
+
+  console.log("getValues", getValues("role"))
 
   const onSubmit = (data: any) => {
     console.log("Personal Information form data", data)
     reset()
   }
+
+  React.useEffect(() => {
+    if (!Object.values(UserRoles).includes(role)) return
+    setValue("role", role)
+  }, [role])
 
   return (
     <StyledAccountInformationTab>
@@ -224,6 +254,7 @@ const AccountInformationTab: React.FC = () => {
                     >
                       <MenuItem value="admin">Admin</MenuItem>
                       <MenuItem value="driver">Driver</MenuItem>
+                      <MenuItem value="salesAgent">Sales Agent</MenuItem>
                     </Select>
                   )}
                 />

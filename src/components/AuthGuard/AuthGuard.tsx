@@ -8,17 +8,14 @@ import { useStore } from "@/store"
 
 interface IProps {
   children: React.ReactNode
-  role: UserRoles
+  roles: (keyof typeof UserRoles)[]
 }
 
 const AuthGuard = (props: IProps) => {
   const { userStore } = useStore()
 
   if (!userStore.isAuthenticated) isBrowser() && navigate("/signin")
-  if (
-    props.role === UserRoles.admin &&
-    userStore.currentUser?.role !== UserRoles.admin
-  )
+  if (!props.roles.includes(userStore.currentUser?.role as never))
     isBrowser() && navigate("/403")
 
   return <>{props.children}</>

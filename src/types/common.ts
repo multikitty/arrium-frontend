@@ -1,7 +1,10 @@
 export const UserRoles = {
   driver: "driver",
   admin: "admin",
+  salesAgent: "salesAgent",
 } as const
+
+export type UserRolesType = keyof typeof UserRoles
 
 export const DriverPages = {
   blockAvailability: "blockAvailability",
