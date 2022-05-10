@@ -1,4 +1,4 @@
-import React from "react"
+import * as React from "react"
 import { navigate } from "gatsby"
 import theme from "@/theme"
 import {
@@ -29,6 +29,7 @@ import {
 } from "./CustomersPage.styled"
 import { OutlinedButton } from "../commons/Button"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import AddDropdown from "./AddDropdown"
 
 function createData(
   firstName: string,
@@ -109,6 +110,18 @@ const statusColorMap = {
 }
 
 const CustomersPage = () => {
+  const [addDropdownAnchorEl, setAddDropdownAnchorEl] =
+    React.useState<null | HTMLElement>(null)
+  const isAddDropdownOpen = Boolean(addDropdownAnchorEl)
+
+  const handleAddButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAddDropdownAnchorEl(event.currentTarget)
+  }
+
+  const handleAddDropdownClose = () => {
+    setAddDropdownAnchorEl(null)
+  }
+
   return (
     <StyledCustomersPage>
       <StyledCustomersPageHeader>Customers</StyledCustomersPageHeader>
@@ -122,10 +135,17 @@ const CustomersPage = () => {
                 px: rem("16px"),
                 py: rem("6px"),
               }}
-              onClick={() => navigate("/customers/add")}
+              onClick={handleAddButtonClick}
             >
-              Add customer
+              Add ...
             </OutlinedButton>
+            {isAddDropdownOpen && (
+              <AddDropdown
+                anchorEl={addDropdownAnchorEl}
+                open={isAddDropdownOpen}
+                handleClose={handleAddDropdownClose}
+              />
+            )}
           </Box>
           <StyledCustomersPageContentUpperSectionSearchField
             endAdornment={

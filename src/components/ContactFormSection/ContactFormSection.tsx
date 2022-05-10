@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material"
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import landingContactFormFormOptions from "@/validation/landingContactFormOptions"
+import landingContactFormOptions from "@/validation/landingContactFormOptions"
 import {
   StyledContactFormSection,
   StyledContactFormSectionCard,
@@ -23,11 +23,12 @@ const ContactFormSection = () => {
   const handleSuccessModalOpen = () => setSuccessModalOpen(true)
   const handleSuccessModalClose = () => setSuccessModalOpen(false)
 
-  const { handleSubmit, control, formState, reset } = useForm(
-    landingContactFormFormOptions
+  type formPropType = typeof landingContactFormOptions.defaultValues
+  const { handleSubmit, control, formState, reset } = useForm<formPropType>(
+    landingContactFormOptions
   )
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: formPropType) => {
     console.log(data)
     handleSuccessModalOpen()
     reset()
@@ -77,7 +78,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.fullName && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.fullName?.message}
                   </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
@@ -97,7 +100,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.email && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.email?.message}
                   </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
@@ -118,7 +123,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.question && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.question?.message}
                   </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}

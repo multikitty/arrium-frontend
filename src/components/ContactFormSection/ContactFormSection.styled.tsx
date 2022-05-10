@@ -1,4 +1,4 @@
-import { rem, rgba } from "polished"
+import { lighten, rem, rgba } from "polished"
 import styled from "styled-components"
 import { alpha, styled as muiStyled } from "@mui/material/styles"
 import { Button } from "@mui/material"
@@ -126,7 +126,9 @@ export const StyledContactFormSectionCardRightContainerField = muiStyled(
   },
 }))
 
-export const StyledContactFormSectionCardRightContainerFieldHelperText = styled.p`
+export const StyledContactFormSectionCardRightContainerFieldHelperText = styled.p<{
+  isLandingPage?: boolean
+}>`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -134,7 +136,7 @@ export const StyledContactFormSectionCardRightContainerFieldHelperText = styled.
   line-height: ${rem("16px")};
   margin-left: ${rem("16px")};
 
-  color: #a60000;
+  color: ${p => lighten(0.1, p.theme.palette.errorText)};
 `
 
 export const StyledContactFormSectionCardRightContainerSendButton = muiStyled(

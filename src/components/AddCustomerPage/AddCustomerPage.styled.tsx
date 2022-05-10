@@ -16,7 +16,7 @@ export const StyledAddCustomerPage = styled(StyledFAQPage)``
 
 export const StyledAddCustomerPageHeaderContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: ${rem("12px")};
 `
 

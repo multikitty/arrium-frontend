@@ -6,6 +6,21 @@ export const UserRoles = {
 
 export type UserRolesType = keyof typeof UserRoles
 
+export const LabelledUserRoles = [
+  {
+    label: "Driver",
+    value: UserRoles.driver,
+  },
+  {
+    label: "System Admin",
+    value: UserRoles.admin,
+  },
+  {
+    label: "Sales Agent",
+    value: UserRoles.salesAgent,
+  },
+]
+
 export const DriverPages = {
   blockAvailability: "blockAvailability",
   subscription: "subscription",

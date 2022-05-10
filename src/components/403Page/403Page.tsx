@@ -19,7 +19,7 @@ import { devices } from "@/constants/device"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
 import { defaultRoutes } from "@/constants/common"
-import { UserRoles } from "@/types/common"
+import { UserRoles, UserRolesType } from "@/types/common"
 
 const _403Page = () => {
   const { userStore } = useStore()
@@ -44,7 +44,10 @@ const _403Page = () => {
             onClick={() =>
               navigate(
                 "/" +
-                  defaultRoutes[userStore.currentUser?.role || UserRoles.driver]
+                  defaultRoutes[
+                    (userStore.currentUser?.role ||
+                      UserRoles.driver) as UserRolesType
+                  ]
               )
             }
           >

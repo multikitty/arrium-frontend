@@ -15,8 +15,8 @@ import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { navigate } from "gatsby"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
-import queryString, { ParsedQuery } from "query-string"
-import { UserRoles } from "@/types/common"
+import queryString from "query-string"
+import { LabelledUserRoles, UserRoles } from "@/types/common"
 
 const AddCustomerPage = () => {
   const location = useLocation()
@@ -24,10 +24,6 @@ const AddCustomerPage = () => {
   const [role, setRole] = React.useState<keyof typeof UserRoles>(
     UserRoles.driver
   )
-  const [queryParams, setQueryParams] =
-    React.useState<ParsedQuery<string> | null>(null)
-
-  console.log("queryParams", queryParams)
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
@@ -36,7 +32,6 @@ const AddCustomerPage = () => {
   React.useEffect(() => {
     if (!location.search) return
     const parsedQuery = queryString.parse(location.search)
-    setQueryParams(parsedQuery)
     if (!parsedQuery.role) return
     setRole(parsedQuery.role as keyof typeof UserRoles)
   }, [location])
@@ -56,11 +51,9 @@ const AddCustomerPage = () => {
             sx={{ fontSize: 32, color: theme.palette.grey6 }}
           />
         </IconButton>
-        <Box display="flex" flexDirection="column">
-          <StyledAddCustomerPageHeader>
-            Add Customer
-          </StyledAddCustomerPageHeader>
-        </Box>
+        <StyledAddCustomerPageHeader>
+          Add {LabelledUserRoles.find(r => r.value === role)?.label}
+        </StyledAddCustomerPageHeader>
       </StyledAddCustomerPageHeaderContainer>
       <StyledAddCustomerPageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -95,7 +88,9 @@ const AddCustomerPage = () => {
             />
           </StyledTabs>
         </Box>
-        {isAccountInfoTabOpen && <AccountInformationTab role={role} />}
+        {isAccountInfoTabOpen && (
+          <AccountInformationTab role={role} setRole={setRole} />
+        )}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
       </StyledAddCustomerPageContent>

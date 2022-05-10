@@ -34,6 +34,7 @@ import {
 } from "./CustomerDetailPage.styled"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
+import { LabelledUserRoles } from "@/types/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -80,6 +81,10 @@ const AccountInformationTab = (props: ITabProps) => {
       />
     ))
   }
+
+  const renderRoleOptions = LabelledUserRoles.map(role => (
+    <MenuItem value={role.value}>{role.label}</MenuItem>
+  ))
 
   type formPropType = typeof accountInformationFormOptions.defaultValues
   const { handleSubmit, control, formState, reset, getValues, setValue } =
@@ -280,8 +285,7 @@ const AccountInformationTab = (props: ITabProps) => {
                         <StyledAccountInformatiomTabContentField roleField />
                       }
                     >
-                      <MenuItem value="admin">Admin</MenuItem>
-                      <MenuItem value="driver">Driver</MenuItem>
+                      {renderRoleOptions}
                     </Select>
                   )}
                 />

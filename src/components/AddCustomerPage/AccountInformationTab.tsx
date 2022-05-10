@@ -1,3 +1,4 @@
+import React from "react"
 import {
   Box,
   FormControlLabel,
@@ -8,9 +9,13 @@ import {
   Select,
 } from "@mui/material"
 import { rem } from "polished"
-import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import ReactPhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/material.css"
+import TimeZoneSelect from "react-timezone-select"
+import { makeStyles } from "@mui/styles"
+
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
@@ -19,13 +24,10 @@ import {
   StyledAccountInformationTabFormHelperText,
   StyledAccountInformationTabFormLabel,
 } from "./AddCustomerPage.styled"
-import ReactPhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/material.css"
-import TimeZoneSelect from "react-timezone-select"
-import { makeStyles } from "@mui/styles"
 import theme from "@/theme"
 import { accountInformationFormOptions } from "@/validation"
-import { UserRoles, UserRolesType } from "@/types/common"
+import { LabelledUserRoles, UserRoles, UserRolesType } from "@/types/common"
+import { navigate } from "gatsby-link"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -53,9 +55,12 @@ const radioOptions = [
 
 interface IProps {
   role: UserRolesType
+  setRole: React.Dispatch<
+    React.SetStateAction<"driver" | "admin" | "salesAgent">
+  >
 }
 
-const AccountInformationTab: React.FC<IProps> = ({ role }) => {
+const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
   const classes = useStyles()
 
   const generateRadioOptions = () => {
@@ -69,28 +74,19 @@ const AccountInformationTab: React.FC<IProps> = ({ role }) => {
     ))
   }
 
-  console.log("role", role)
+  const renderRoleOptions = LabelledUserRoles.map(role => (
+    <MenuItem value={role.value}>{role.label}</MenuItem>
+  ))
 
   type formPropType = typeof accountInformationFormOptions.defaultValues
-  const { handleSubmit, control, formState, reset, getValues, setValue } =
+  const { handleSubmit, control, formState, reset, setValue } =
     useForm<formPropType>({
       resolver: accountInformationFormOptions.resolver,
       defaultValues: {
-        firstName: accountInformationFormOptions.defaultValues.firstName,
-        surName: accountInformationFormOptions.defaultValues.surName,
-        email: accountInformationFormOptions.defaultValues.email,
-        endDate: accountInformationFormOptions.defaultValues.endDate,
-        isEmailVerified:
-          accountInformationFormOptions.defaultValues.isEmailVerified,
-        phoneNumber: accountInformationFormOptions.defaultValues.phoneNumber,
-        startDate: accountInformationFormOptions.defaultValues.startDate,
+        ...accountInformationFormOptions.defaultValues,
         role,
-        timezone: accountInformationFormOptions.defaultValues.timezone,
-        status: accountInformationFormOptions.defaultValues.status,
       },
     })
-
-  console.log("getValues", getValues("role"))
 
   const onSubmit = (data: any) => {
     console.log("Personal Information form data", data)
@@ -245,16 +241,18 @@ const AccountInformationTab: React.FC<IProps> = ({ role }) => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Select
-                      onChange={onChange}
+                      onChange={e => {
+                        onChange(e)
+                        setRole(e.target.value as UserRolesType)
+                        navigate(`/customers/add?role=${e.target.value}`)
+                      }}
                       value={value}
                       error={!!formState.errors?.role}
                       input={
                         <StyledAccountInformatiomTabContentField roleField />
                       }
                     >
-                      <MenuItem value="admin">Admin</MenuItem>
-                      <MenuItem value="driver">Driver</MenuItem>
-                      <MenuItem value="salesAgent">Sales Agent</MenuItem>
+                      {renderRoleOptions}
                     </Select>
                   )}
                 />
