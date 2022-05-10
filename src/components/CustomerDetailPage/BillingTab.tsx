@@ -1,4 +1,4 @@
-import {
+ import {
   Grid,
   Paper,
   Table,
@@ -19,7 +19,7 @@ import {
   StyledBillingTab,
   StyledBillingTabUpperContainer,
   StyledBillingTabUpperContainerItem,
-  StyledBillingTabUpperContainerItemText,
+  StyledBillingTabUpperContainerItemText, 
   StyledBillingTabUpperContainerItemTitle,
 } from "./CustomerDetailPage.styled"
 

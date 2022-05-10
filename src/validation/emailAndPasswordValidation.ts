@@ -31,14 +31,25 @@ const passwordValidationSchema = Yup.object().shape({
 
 const emailAndPasswordFormOptions = {
   resolver: yupResolver(emailAndPasswordValidationSchema),
+  defaultValues: {
+    email: "",
+    password: "",
+    checkbox: false,
+  },
 }
 
 const passwordFormOptions = {
   resolver: yupResolver(passwordValidationSchema),
+  defaultValues: {
+    password: "",
+  },
 }
 
 const emailFormOptions = {
   resolver: yupResolver(emailValidationSchema),
+  defaultValues: {
+    email: "",
+  },
 }
 
 export default {

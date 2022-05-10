@@ -24,15 +24,17 @@ import {
 } from "./SupportPage.styled"
 
 const SupportPage = () => {
+  type formPropType = typeof supportFormOptions.defaultValues
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(supportFormOptions)
+  } = useForm<formPropType>(supportFormOptions)
 
   const isWebView = useMediaQuery(devices.web.up)
 
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = (data: formPropType) => console.log(data)
 
   return (
     <StyledSupportPage>

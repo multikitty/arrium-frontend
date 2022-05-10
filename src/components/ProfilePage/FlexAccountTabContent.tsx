@@ -21,6 +21,7 @@ const FlexAccountTabContent = () => {
     useState(false)
 
   type formPropType = typeof flexAccountFormOptions.defaultValues
+
   const { handleSubmit, control, formState, reset } = useForm<formPropType>({
     defaultValues: {
       userName: userStore.currentUser?.email || "",

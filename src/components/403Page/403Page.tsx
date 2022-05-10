@@ -20,6 +20,7 @@ import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
 import { defaultRoutes } from "@/constants/common"
 import { UserRoles, UserRolesType } from "@/types/common"
+import { content } from "@/constants/content"
 
 const _403Page = () => {
   const { userStore } = useStore()
@@ -34,8 +35,8 @@ const _403Page = () => {
             403
           </Styled403PageContentTextContainerHeader>
           <Styled403PageContentTextContainerSubHeader>
-            You are not authorized to access this page.
-            <br /> We suggest you back to home
+            {content.page403.subHeader[0]}
+            <br /> {content.page403.subHeader[1]}
             <Styled403PageContentTextContainerArrowImageContainer>
               <img src={_403ArrowImage} width={64} height={48} />
             </Styled403PageContentTextContainerArrowImageContainer>
@@ -51,7 +52,7 @@ const _403Page = () => {
               )
             }
           >
-            Back to Home
+            {content.page403.buttonText}
           </ContainedButton>
         </Styled403PageContentTextContainer>
         {isDesktopView && (

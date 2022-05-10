@@ -63,6 +63,7 @@ const ProfileTabContent = () => {
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
   type formPropType = typeof personalInformationFormOptions.defaultValues
+ 
   const { handleSubmit, control, formState, reset, getValues } =
     useForm<formPropType>({
       defaultValues: {

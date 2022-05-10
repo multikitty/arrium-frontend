@@ -44,7 +44,7 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
       <Box display="flex" justifyContent="center" marginTop={rem("16px")}>
         <StyledOtpInput
           value={otp}
-          onChange={(e: any) => setOtp(e)}
+          onChange={e => setOtp(e)}
           numInputs={4}
           isInputNum
           shouldAutoFocus
@@ -96,11 +96,7 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
         </Box>
         <StyledText>Enter a 4-digit code that we’ve sent you in SMS</StyledText>
         <Box display="flex" justifyContent="center" marginTop={rem("16px")}>
-          <StyledOtpInput
-            value={otp}
-            onChange={(e: any) => setOtp(e)}
-            numInputs={4}
-          />
+          <StyledOtpInput value={otp} onChange={e => setOtp(e)} numInputs={4} />
         </Box>
         <Box
           display="flex"

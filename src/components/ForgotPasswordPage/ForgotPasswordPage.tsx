@@ -20,14 +20,17 @@ import formOptions from "@/validation/emailAndPasswordValidation"
 import { devices } from "@/constants/device"
 
 const ForgotPasswordPage = () => {
+  type formPropType = typeof formOptions.emailFormOptions.defaultValues
+
+  const isWebView = useMediaQuery(devices.web.up)
   const [isClicked, setIsClicked] = useState<boolean>(false)
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(formOptions.emailFormOptions)
-  const isWebView = useMediaQuery(devices.web.up)
-  const onSubmit = (data: any) => {
+  } = useForm<formPropType>(formOptions.emailFormOptions)
+
+  const onSubmit = (data: formPropType) => {
     console.log(data)
     setIsClicked(true)
     isClicked && navigate("/resetPassword")

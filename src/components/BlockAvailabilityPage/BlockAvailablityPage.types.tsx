@@ -1,20 +1,19 @@
+import { UseFormRegister } from "react-hook-form"
+
 export interface TabPanelProps {
   children?: React.ReactNode
   index: number
   value: number
 }
 
-export interface Fields {
-  timeToArrive: string
-  minimunPay: string
-  startTime: string
-  endTime: string
-  minimunHourlyPay: string
+export type FormValues = {
+  timeToArrive: number[]
+  startTime: string[]
+  endTime: string[]
+  minimumPay: number[]
+  minimumHourlyRate: number[]
 }
 
 export interface SearchTableProps {
-  error: boolean
-  setError: React.Dispatch<React.SetStateAction<boolean>>
-  fields: Fields
-  setFields: React.Dispatch<React.SetStateAction<Fields>>
+  register: UseFormRegister<FormValues>
 }

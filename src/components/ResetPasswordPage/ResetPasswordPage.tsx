@@ -19,6 +19,9 @@ import { devices } from "@/constants/device"
 import formOptions from "@/validation/emailAndPasswordValidation"
 
 const ResetPassword = () => {
+  type formPropType =
+    typeof formOptions.emailAndPasswordFormOptions.defaultValues
+
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
     useState<boolean>(false)
@@ -29,7 +32,7 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(formOptions.emailAndPasswordFormOptions)
+  } = useForm<formPropType>(formOptions.emailAndPasswordFormOptions)
 
   console.log(errors)
 
@@ -40,7 +43,7 @@ const ResetPassword = () => {
 
   const isWebView = useMediaQuery(devices.web.up)
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: formPropType) => {
     console.log(data)
     navigate("/signin")
   }
@@ -76,7 +79,7 @@ const ResetPassword = () => {
               variant="outlined"
               value={password}
               {...register("password")}
-              onChange={(e: any) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -96,7 +99,7 @@ const ResetPassword = () => {
               type={isConfirmPasswordVisible ? "text" : "password"}
               variant="outlined"
               value={confirmPassword}
-              onChange={(e: any) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -150,7 +153,7 @@ const ResetPassword = () => {
                 variant="outlined"
                 value={password}
                 {...register("password")}
-                onChange={(e: any) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <IconButton
@@ -170,7 +173,7 @@ const ResetPassword = () => {
                 type={isConfirmPasswordVisible ? "text" : "password"}
                 variant="outlined"
                 value={confirmPassword}
-                onChange={(e: any) => setConfirmPassword(e.target.value)}
+                onChange={e => setConfirmPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <IconButton

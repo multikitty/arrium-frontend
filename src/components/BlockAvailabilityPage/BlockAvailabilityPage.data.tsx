@@ -10,6 +10,11 @@ const createData = (
   return { Location, Day, Date, Time, Duration, Pay, Status }
 }
 
+export type weekProps = {
+  day: string
+  isSelected: boolean
+}
+
 const createSearchesData = (
   location: string,
   timeToArrive: string,
@@ -20,7 +25,22 @@ const createSearchesData = (
   return { location, timeToArrive, startTimeToEndTime, minPay, minHourlyRate }
 }
 
-export const week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+export const week: Array<weekProps> = [
+  { day: "Mon", isSelected: false },
+  { day: "Tue", isSelected: false },
+  { day: "Wed", isSelected: false },
+  { day: "Thu", isSelected: false },
+  { day: "Fri", isSelected: false },
+  { day: "Sat", isSelected: false },
+  { day: "Sun", isSelected: false },
+]
+
+export const searchTableData = [
+  "Manchester (CMC2) - Morrisons",
+  "Leyland (DPR1) - AMZL",
+  "Knowsley (DWN1) - AMZL",
+  "Knowsley (DWN1) - AMZL",
+]
 
 export const rowSearches = [
   createSearchesData(

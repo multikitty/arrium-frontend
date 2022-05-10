@@ -13,7 +13,7 @@ import {
   StyledSignUpText,
   StyledWarningText,
 } from "../commons/commonComponents"
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import formOptions from "@/validation/emailAndPasswordValidation"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
@@ -27,16 +27,18 @@ import { UserRoles } from "@/types/common"
 const SigninSection = () => {
   const { userStore } = useStore()
   const [isVisible, SetIsVisible] = useState(false)
+  type formPropType =
+    typeof formOptions.emailAndPasswordFormOptions.defaultValues
+
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
-  } = useForm(formOptions.emailAndPasswordFormOptions)
+  } = useForm<formPropType>(formOptions.emailAndPasswordFormOptions)
   const isWebView = useMediaQuery(devices.web.up)
   const [isError] = useState(false)
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: formPropType) => {
     if (data.email === "mhussain@gmail.com" && data.password === "#h3!!O!23") {
       userStore.authenticateUser({
         firstName: "Mo",
@@ -111,14 +113,12 @@ const SigninSection = () => {
       )}
       <Box display="flex" justifyContent="space-between">
         <Box display="flex" alignItems="center">
-          <Controller
-            control={control}
-            name="rememberMe"
-            render={({ field }) => (
-              <StyledCheckBox type="checkbox" id="rememberMe" {...field} />
-            )}
+          <StyledCheckBox
+            type="checkbox"
+            id="rememberMe-checkbox"
+            {...register("checkbox")}
           />
-          <StyledRemeberMeText htmlFor="rememberMe">
+          <StyledRemeberMeText htmlFor="rememberMe-checkbox">
             Remember me
           </StyledRemeberMeText>
         </Box>
@@ -195,14 +195,12 @@ const SigninSection = () => {
         )}
         <Box display="flex" justifyContent="space-between">
           <Box display="flex" alignItems="center">
-            <Controller
-              control={control}
-              name="rememberMe"
-              render={({ field }) => (
-                <StyledCheckBox type="checkbox" id="rememberMe" {...field} />
-              )}
+            <StyledCheckBox
+              type="checkbox"
+              id="rememberMe-checkbox"
+              {...register("checkbox")}
             />
-            <StyledRemeberMeText htmlFor="rememberMe">
+            <StyledRemeberMeText htmlFor="rememberMe-checkbox">
               Remember me
             </StyledRemeberMeText>
           </Box>

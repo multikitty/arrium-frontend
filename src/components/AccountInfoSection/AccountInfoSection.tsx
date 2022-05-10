@@ -19,6 +19,7 @@ import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
+import { content } from "@/constants/content"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -54,10 +55,11 @@ const AccountInfoSection: React.FC<FormProps> = ({
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )
-  const [phoneNo, setPhoneNo] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [surName, setSurName] = useState("")
+  const [phoneNo, setPhoneNo] = useState<string>("")
+  const [firstName, setFirstName] = useState<string>("")
+  const [surName, setSurName] = useState<string>("")
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
+
   const onSubmit = () => {
     setFormStage((prev: number) => prev + 1)
   }
@@ -79,14 +81,14 @@ const AccountInfoSection: React.FC<FormProps> = ({
   return isWebView ? (
     <StyledLoginContainer component="form" onSubmit={onSubmit}>
       <Box display="flex" justifyContent="center">
-        <StyledLoginText>Sign up</StyledLoginText>
+        <StyledLoginText>{content.accountInfoSection.title}</StyledLoginText>
       </Box>
       <StyledInputField
         type="text"
         placeholder="First Name"
         variant="outlined"
         value={firstName}
-        onChange={(e: any) => setFirstName(e.target.value)}
+        onChange={e => setFirstName(e.target.value)}
         required
       />
       <StyledInputField
@@ -94,7 +96,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         type="text"
         variant="outlined"
         value={surName}
-        onChange={(e: any) => setSurName(e.target.value)}
+        onChange={e => setSurName(e.target.value)}
         required
       />
       <ReactPhoneInput
@@ -102,7 +104,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         containerClass={classes.telephoneInputContainer}
         placeholder=""
         value={phoneNo}
-        onChange={(phone: any) => setPhoneNo(phone)}
+        onChange={phone => setPhoneNo(phone)}
         inputProps={{
           required: true,
         }}
@@ -121,13 +123,15 @@ const AccountInfoSection: React.FC<FormProps> = ({
         type="submit"
         disabled={isButtonDisable}
       >
-        <StyledButtonText>Continue</StyledButtonText>
+        <StyledButtonText>
+          {content.accountInfoSection.buttonText}
+        </StyledButtonText>
       </StyledButton>
       <Box display="flex" justifyContent="center">
         <StyledSignUpText>
-          Already have an account?
+          {content.accountInfoSection.alreadyHaveAnAccount}
           <StyledSignUpButton>
-            <Link to="/signin"> Log In</Link>
+            <Link to="/signin">{content.accountInfoSection.logIn}</Link>
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -142,18 +146,18 @@ const AccountInfoSection: React.FC<FormProps> = ({
         mx={"auto"}
       >
         <Box display="flex" justifyContent="center">
-          <StyledLoginText>Sign up</StyledLoginText>
+          <StyledLoginText>{content.accountInfoSection.title}</StyledLoginText>
         </Box>
         <StyledInputField
           placeholder="First Name"
           value={firstName}
-          onChange={(e: any) => setFirstName(e.target.value)}
+          onChange={e => setFirstName(e.target.value)}
           variant="outlined"
         />
         <StyledInputField
           placeholder="Surname"
           value={surName}
-          onChange={(e: any) => setSurName(e.target.value)}
+          onChange={e => setSurName(e.target.value)}
           variant="outlined"
         />
         <ReactPhoneInput
@@ -161,7 +165,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
           containerClass={classes.telephoneInputContainer}
           placeholder=""
           value={phoneNo}
-          onChange={(phone: any) => setPhoneNo(phone)}
+          onChange={phone => setPhoneNo(phone)}
           inputProps={{
             required: true,
           }}
@@ -180,7 +184,9 @@ const AccountInfoSection: React.FC<FormProps> = ({
           type="submit"
           disabled={!!isButtonDisable}
         >
-          <StyledButtonText>Continue</StyledButtonText>
+          <StyledButtonText>
+            {content.accountInfoSection.buttonText}
+          </StyledButtonText>
         </StyledButton>
         <Box
           display="flex"
@@ -188,9 +194,11 @@ const AccountInfoSection: React.FC<FormProps> = ({
           flexDirection="column"
           alignItems="center"
         >
-          <StyledSignUpText>Already have an account?</StyledSignUpText>
+          <StyledSignUpText>
+            {content.accountInfoSection.alreadyHaveAnAccount}
+          </StyledSignUpText>
           <StyledSignUpButton>
-            <Link to="/signin">Log In</Link>
+            <Link to="/signin">{content.accountInfoSection.logIn}</Link>
           </StyledSignUpButton>
         </Box>
       </Box>

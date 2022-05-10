@@ -51,7 +51,7 @@ const BpCheckedIcon = styled(BpIcon)({
   },
 })
 
-const BpCheckbox = (props: CheckboxProps) => {
+export const BpCheckbox = (props: CheckboxProps) => {
   return (
     <MUICheckbox
       sx={{
@@ -66,5 +66,3 @@ const BpCheckbox = (props: CheckboxProps) => {
     />
   )
 }
-
-export default () => <BpCheckbox />

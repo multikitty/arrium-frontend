@@ -88,7 +88,7 @@ const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
       },
     })
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: formPropType) => {
     console.log("Personal Information form data", data)
     reset()
   }

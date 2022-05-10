@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Chip from "@mui/material/Chip"
 import Stack from "@mui/material/Stack"
 import {
@@ -25,19 +25,24 @@ import ArrowUpIcon from "@/assets/icons/filter-arrow_up.inline.svg"
 import RunningIcon from "@/assets/icons/running_ripple_icon.inline.svg"
 import StoppingIcon from "@/assets/icons/stopping_ripple_icon.inline.svg"
 import DeleteIcon from "@/assets/icons/delete_icon.inline.svg"
-import DeleteDisabledIcon from "@/assets/icons/delete_icon_disabled.inline.svg"
-import { Box, FormControlLabel, Typography } from "@mui/material"
+import { Box, FormControlLabel, Typography, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { rows, rowSearches, week } from "./BlockAvailabilityPage.data"
+import {
+  rows,
+  rowSearches,
+  week,
+  weekProps,
+} from "./BlockAvailabilityPage.data"
 import Switch from "../commons/Switch"
 import theme from "@/theme"
-import { Fields, TabPanelProps } from "./BlockAvailablityPage.types"
+import { FormValues, TabPanelProps } from "./BlockAvailablityPage.types"
 import { TabDataSearch } from "./TabDataOnSearch"
 import { SearchTable } from "./SearchTable"
 import { TabData } from "./TabContent"
 import { useForm } from "react-hook-form"
-import timeToArriveInputFormOptions from "@/validation/timeToArriveValidation"
+import { devices } from "@/constants/device"
+import { content } from "@/constants/content"
 
 function TabPanel({ children, value, index, ...other }: TabPanelProps) {
   return (
@@ -50,47 +55,62 @@ function TabPanel({ children, value, index, ...other }: TabPanelProps) {
     >
       {value === index && (
         <Box>
-          <Typography>{children}</Typography>
+          <Typography component={"span"}>{children}</Typography>
         </Box>
       )}
     </div>
   )
 }
 
+const tabStyles = {
+  fontSize: rem("20px"),
+  fontWeight: 500,
+  lineHeight: rem("20px"),
+  textTransform: "capitalize",
+  padding: rem("32px"),
+}
+
 const BlockAvailabilityPage = () => {
-  const [value, setValue] = React.useState(0)
+  const isWebView = useMediaQuery(devices.web.up)
+  const [tabIndex, setTabIndex] = React.useState(0)
+  const [weekData, setWeekData] = useState<Array<weekProps>>(week)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [isSearchable, setIsSearchable] = useState<boolean>(true)
-  const [fields, setFields] = useState<Fields>({
-    timeToArrive: "",
-    minimunPay: "",
-    startTime: "",
-    endTime: "",
-    minimunHourlyPay: "",
-  })
-  const [error, setError] = useState<boolean>(false)
-  const [isDisable, _] = useState<boolean>(true)
 
-  const handleClick = () => console.log("Clicked")
+  const handleClick = (item: weekProps) => {
+    setWeekData(data =>
+      data.map(d =>
+        d.day === item.day ? { ...d, isSelected: !d.isSelected } : d
+      )
+    )
+  }
+
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
+    setTabIndex(newValue)
   }
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm(timeToArriveInputFormOptions)
+  const { register, handleSubmit, reset } = useForm<FormValues>({
+    defaultValues: {
+      timeToArrive: [],
+      startTime: [],
+      endTime: [],
+      minimumPay: [],
+      minimumHourlyRate: [],
+    },
+    mode: "onBlur",
+  })
 
-  const onSubmit = (data: any) => {
+  useEffect(() => {}, [weekData])
+
+  const onSubmit = (data: FormValues) => {
     console.log(data)
-    console.log(errors)
   }
 
-  return (
+  return isWebView ? (
     <StyledBlockAvailabilityPage>
       <StyledBlockAvailabilityPageHeader>
-        Block availability
+        Availability
       </StyledBlockAvailabilityPageHeader>
       <StyledBlockAvailablityPageWrapper
         component="form"
@@ -108,20 +128,22 @@ const BlockAvailabilityPage = () => {
               </StyledSearchButton>
             ) : (
               <StyledSearchButton
-                disabled={isDisable}
-                startIcon={isDisable ? <DeleteDisabledIcon /> : <DeleteIcon />}
+                type="reset"
+                onClick={() => reset()}
+                startIcon={<DeleteIcon />}
               >
                 Clear all
               </StyledSearchButton>
             )}
           </StyledTextWrapper>
           <Stack direction="row" spacing={1}>
-            {week.map(day => (
+            {weekData.map(item => (
               <Chip
-                key={day}
-                label={day}
+                key={item.day}
+                label={item.day}
                 variant="outlined"
-                onClick={handleClick}
+                onClick={() => handleClick(item)}
+                color={item.isSelected ? "success" : "default"}
               />
             ))}
           </Stack>
@@ -133,12 +155,7 @@ const BlockAvailabilityPage = () => {
           </Collapse>
         ) : (
           <Box>
-            <SearchTable
-              error={error}
-              setError={setError}
-              fields={fields}
-              setFields={setFields}
-            />
+            <SearchTable register={register} />
           </Box>
         )}
         {!isSearchable ? (
@@ -164,7 +181,7 @@ const BlockAvailabilityPage = () => {
                 alignItems="center"
                 sx={{ marginRight: rem("32px") }}
               >
-                {isSearching ? <StoppingIcon /> : <RunningIcon />}
+                {isSearching ? <RunningIcon /> : <StoppingIcon />}
                 <StyledShowMoreText>
                   {isSearching ? "Running" : "Stopped"}
                 </StyledShowMoreText>
@@ -179,23 +196,22 @@ const BlockAvailabilityPage = () => {
         ) : (
           <StyledCollapsedSearch>
             <Box display="flex" alignItems="center">
-              <FormControlLabel
-                control={<Switch sx={{ m: 1 }} />}
-                label="AutoStart Search"
-              />
-              <StyledTimePickerField sx={{ mr: rem("32px") }} />
-              <FormControlLabel
-                control={<Switch sx={{ m: 1 }} />}
-                label="Send notifications on start"
-              />
-              <FormControlLabel
-                control={<Switch sx={{ m: 1 }} />}
-                label="Reject offers from ‘unticked’ locations"
-              />
+              {content.blockAvailibility.formControlLabelForSwitches.map(
+                (label: string, index: number) => (
+                  <React.Fragment key={index}>
+                    <FormControlLabel
+                      control={<Switch sx={{ m: 1 }} />}
+                      label={label}
+                    />
+                    {index === 0 && (
+                      <StyledTimePickerField sx={{ mr: rem("32px") }} />
+                    )}
+                  </React.Fragment>
+                )
+              )}
             </Box>
             <Box display="flex" alignItems="center">
               <OutlinedButton
-                type="reset"
                 sx={{
                   whiteSpace: "nowrap",
                   color: theme.palette.grey7,
@@ -205,12 +221,7 @@ const BlockAvailabilityPage = () => {
               >
                 Cancel
               </OutlinedButton>
-              <ContainedButton
-                type="submit"
-                onClick={() => setIsSearchable(false)}
-              >
-                Save
-              </ContainedButton>
+              <ContainedButton type="submit">Save</ContainedButton>
             </Box>
           </StyledCollapsedSearch>
         )}
@@ -218,66 +229,26 @@ const BlockAvailabilityPage = () => {
       <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={value} onChange={handleChange}>
-              <Tab
-                sx={{
-                  fontSize: rem("20px"),
-                  fontWeight: 500,
-                  lineHeight: rem("20px"),
-                  textTransform: "capitalize",
-                  padding: rem("32px"),
-                }}
-                label="All"
-              />
-              <Tab
-                sx={{
-                  fontSize: rem("20px"),
-                  fontWeight: 500,
-                  lineHeight: rem("20px"),
-                  textTransform: "capitalize",
-                  padding: rem("32px"),
-                }}
-                label="Accepted"
-              />
-              <Tab
-                sx={{
-                  fontSize: rem("20px"),
-                  fontWeight: 500,
-                  lineHeight: rem("20px"),
-                  textTransform: "capitalize",
-                  paddingX: rem("32px"),
-                  paddingY: rem("30px"),
-                }}
-                label="Ignored"
-              />
-              <Tab
-                sx={{
-                  fontSize: rem("20px"),
-                  fontWeight: 500,
-                  lineHeight: rem("20px"),
-                  textTransform: "capitalize",
-                  paddingX: rem("32px"),
-                  paddingY: rem("30px"),
-                }}
-                label="Rejected"
-              />
+            <Tabs value={tabIndex} onChange={handleChange}>
+              {content.blockAvailibility.labelsForTabs.map(
+                (label: string, index: number) => (
+                  <Tab key={index} sx={tabStyles} label={label} />
+                )
+              )}
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
-            {TabData(rows, "All")}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {TabData(rows, "Accepted")}
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            {TabData(rows, "Ignored")}
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            {TabData(rows, "Rejected")}
-          </TabPanel>
+          {content.blockAvailibility.labelsForTabs.map(
+            (label: string, index: number) => (
+              <TabPanel key={index} value={tabIndex} index={index}>
+                {TabData(rows, label)}
+              </TabPanel>
+            )
+          )}
         </Box>
       </StyledBlockAvailablityPageWrapper>
     </StyledBlockAvailabilityPage>
+  ) : (
+    <div>LOL</div>
   )
 }
 

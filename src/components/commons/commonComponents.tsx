@@ -161,12 +161,27 @@ export const StyledWarningText = styled.p<{
   margin-top: ${p => p.marginTop};
 `
 
-export const SearchTextField = styled(TextField)`
+export const SearchTableTextField = styled(TextField)`
   &&& {
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
     width: ${rem("130px")};
+    height: ${rem("32px")};
+    & > div {
+      border-radius: ${rem("6px")};
+      height: ${rem("32px")};
+    }
     & > div > input {
-      padding: ${rem("8px")};
-      height: ${rem("24px")};
+      padding: ${rem("2px")} ${rem("8px")};
+      height: ${rem("28px")};
+      border-radius: ${rem("6px")};
     }
   }
 `

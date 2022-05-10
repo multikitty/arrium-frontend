@@ -8,6 +8,10 @@ const supportFormValidationSchema = Yup.object().shape({
 
 export const supportFormOptions = {
   resolver: yupResolver(supportFormValidationSchema),
+  defaultValues: {
+    subject: "",
+    message: "",
+  },
 }
 
 export default supportFormOptions

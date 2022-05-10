@@ -15,6 +15,7 @@ import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby"
 import { useMediaQuery } from "@mui/material"
 import { devices } from "@/constants/device"
+import { content } from "@/constants/content"
 
 const _404Page = () => {
   const isDesktopView = useMediaQuery(devices.desktop.up)
@@ -28,14 +29,14 @@ const _404Page = () => {
             404
           </Styled404PageContentTextContainerHeader>
           <Styled404PageContentTextContainerSubHeader>
-            This page doesn't exist or was removed.
-            <br /> We suggest you back to home
+            {content.page404.subHeader[0]}
+            <br /> {content.page404.subHeader[1]}
             <Styled404PageContentTextContainerArrowImageContainer>
               <img src={_404ArrowImage} width={64} height={48} />
             </Styled404PageContentTextContainerArrowImageContainer>
           </Styled404PageContentTextContainerSubHeader>
           <ContainedButton onClick={() => navigate("/")}>
-            Back to Home
+            {content.page404.buttonText}
           </ContainedButton>
         </Styled404PageContentTextContainer>
         {isDesktopView && (

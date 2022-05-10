@@ -87,6 +87,7 @@ const AccountInformationTab = (props: ITabProps) => {
   ))
 
   type formPropType = typeof accountInformationFormOptions.defaultValues
+
   const { handleSubmit, control, formState, reset, getValues, setValue } =
     useForm<formPropType>(accountInformationFormOptions)
 
