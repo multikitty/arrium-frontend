@@ -1,5 +1,5 @@
-import { UserRoles } from "@/types/common"
+import { UserRolesType } from "@/types/common"
 
 export interface SidePanelProps {
-  role: keyof typeof UserRoles
+  role: UserRolesType
 }

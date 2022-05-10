@@ -3,12 +3,12 @@ import { navigate } from "gatsby"
 import { observer } from "mobx-react-lite"
 
 import isBrowser from "@/utils/isBrowser"
-import { UserRoles } from "@/types/common"
 import { useStore } from "@/store"
+import { UserRolesType } from "@/types/common"
 
 interface IProps {
   children: React.ReactNode
-  roles: (keyof typeof UserRoles)[]
+  roles: UserRolesType[]
 }
 
 const AuthGuard = (props: IProps) => {

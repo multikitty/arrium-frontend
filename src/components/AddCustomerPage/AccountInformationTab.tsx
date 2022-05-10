@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from "gatsby"
 import {
   Box,
   FormControlLabel,
@@ -26,8 +27,8 @@ import {
 } from "./AddCustomerPage.styled"
 import theme from "@/theme"
 import { accountInformationFormOptions } from "@/validation"
-import { LabelledUserRoles, UserRoles, UserRolesType } from "@/types/common"
-import { navigate } from "gatsby-link"
+import { UserRolesType } from "@/types/common"
+import { LabelledUserRoles, UserRoles } from "@/constants/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {

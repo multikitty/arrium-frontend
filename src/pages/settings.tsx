@@ -3,7 +3,7 @@ import * as React from "react"
 import Seo from "@/components/Seo"
 import AdminLayout from "@/components/AdminLayout"
 import SettingsPage from "@/components/SettingsPage"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
 
 const Settings = () => (
   <AdminLayout roles={[UserRoles.admin]}>

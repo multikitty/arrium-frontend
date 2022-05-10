@@ -6,7 +6,7 @@ import {
   StyledAdminLayout,
   StyledAdminLayoutContent,
 } from "./AdminLayout.styled"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
 import { devices } from "@/constants/device"
 import { useMediaQuery } from "@mui/material"
 import { AdminLayoutProps } from "./AdminLayout.types"

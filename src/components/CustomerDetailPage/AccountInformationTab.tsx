@@ -34,7 +34,7 @@ import {
 } from "./CustomerDetailPage.styled"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
-import { LabelledUserRoles } from "@/types/common"
+import { LabelledUserRoles } from "@/constants/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {

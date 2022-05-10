@@ -1,5 +1,6 @@
-import { useMediaQuery } from "@mui/material"
 import React, { useState } from "react"
+import { useMediaQuery } from "@mui/material"
+
 import { devices } from "@/constants/device"
 import MobileTopbar from "../MobileTopbar"
 import AuthGuard from "../AuthGuard"
@@ -10,11 +11,12 @@ import {
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
 import FullscreenMenu from "../FullscreenMenu"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
 
 export interface DriverLayoutProps {
   children: React.ReactNode
-  roles: (keyof typeof UserRoles)[]
+  roles: UserRolesType[]
 }
 
 const DriverLayout = ({ children, roles }: DriverLayoutProps) => {

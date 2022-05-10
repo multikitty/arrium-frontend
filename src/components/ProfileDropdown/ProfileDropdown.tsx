@@ -19,7 +19,7 @@ import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ProfileDropDownProps } from "./ProfileDropDown.types"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,

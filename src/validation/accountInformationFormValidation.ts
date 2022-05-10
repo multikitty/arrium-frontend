@@ -1,6 +1,8 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { UserRoles, UserRolesType } from "../types/common"
+
+import { UserRoles } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
 import { phoneRegExp } from "./personalInformationValidation"
 
 const accountInformationFormValidationSchema = Yup.object().shape({

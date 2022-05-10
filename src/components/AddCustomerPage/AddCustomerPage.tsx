@@ -16,14 +16,15 @@ import ReferralTab from "./ReferralTab"
 import { navigate } from "gatsby"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
 import queryString from "query-string"
-import { LabelledUserRoles, UserRoles } from "@/types/common"
+import { LabelledUserRoles, UserRoles } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
+import { tabs } from "./AddCustomersPage.data"
+import LocationsTab from "./LocationsTab"
 
 const AddCustomerPage = () => {
   const location = useLocation()
   const [tab, setTab] = React.useState("accountInformation")
-  const [role, setRole] = React.useState<keyof typeof UserRoles>(
-    UserRoles.driver
-  )
+  const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
@@ -33,12 +34,13 @@ const AddCustomerPage = () => {
     if (!location.search) return
     const parsedQuery = queryString.parse(location.search)
     if (!parsedQuery.role) return
-    setRole(parsedQuery.role as keyof typeof UserRoles)
+    setRole(parsedQuery.role as UserRolesType)
   }, [location])
 
-  const isAccountInfoTabOpen = tab === "accountInformation"
-  const isConfigurationTabOpen = tab === "configuration"
-  const isReferralTabOpen = tab === "referral"
+  const isAccountInfoTabOpen = tab === tabs.accountInformation
+  const isConfigurationTabOpen = tab === tabs.configuration
+  const isReferralTabOpen = tab === tabs.referral
+  const isLocationsTabOpen = tab === tabs.locations
 
   return (
     <StyledAddCustomerPage>
@@ -68,24 +70,38 @@ const AddCustomerPage = () => {
                 textTransform: "capitalize",
               }}
               label="Account Information"
-              value="accountInformation"
+              value={tabs.accountInformation}
             />
-            <StyledTab
-              sx={{
-                padding: `${rem("30px")} ${rem("32px")}`,
-                textTransform: "capitalize",
-              }}
-              label="Configuration"
-              value="configuration"
-            />
-            <StyledTab
-              sx={{
-                padding: `${rem("30px")} ${rem("32px")}`,
-                textTransform: "capitalize",
-              }}
-              label="Referral"
-              value="referral"
-            />
+            {role === UserRoles.salesAgent && (
+              <StyledTab
+                sx={{
+                  padding: `${rem("30px")} ${rem("32px")}`,
+                  textTransform: "capitalize",
+                }}
+                label="Locations"
+                value={tabs.locations}
+              />
+            )}
+            {role !== UserRoles.salesAgent && (
+              <StyledTab
+                sx={{
+                  padding: `${rem("30px")} ${rem("32px")}`,
+                  textTransform: "capitalize",
+                }}
+                label="Configuration"
+                value={tabs.configuration}
+              />
+            )}
+            {role !== UserRoles.salesAgent && (
+              <StyledTab
+                sx={{
+                  padding: `${rem("30px")} ${rem("32px")}`,
+                  textTransform: "capitalize",
+                }}
+                label="Referral"
+                value={tabs.referral}
+              />
+            )}
           </StyledTabs>
         </Box>
         {isAccountInfoTabOpen && (
@@ -93,6 +109,7 @@ const AddCustomerPage = () => {
         )}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
+        {isLocationsTabOpen && <LocationsTab />}
       </StyledAddCustomerPageContent>
     </StyledAddCustomerPage>
   )

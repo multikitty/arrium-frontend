@@ -22,7 +22,7 @@ import { rem } from "polished"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { Link } from "@reach/router"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
 
 const SigninSection = () => {
   const { userStore } = useStore()

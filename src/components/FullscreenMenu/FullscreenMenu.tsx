@@ -17,7 +17,7 @@ import {
   StyledFullscreenMenuUpperContainerItemText,
   StyledFullscreenMenuUpperContainerNotificationIcon,
 } from "./FullscreenMenu.styled"
-import { DriverPages } from "@/types/common"
+import { DriverPages } from "@/constants/common"
 import SearchIcon from "@/assets/icons/sidepanel_driver-search_icon.inline.svg"
 import SubscriptionIcon from "@/assets/icons/sidepanel_driver-subscription_icon.inline.svg"
 import FAQIcon from "@/assets/icons/sidepanel_driver-faq_icon.inline.svg"

@@ -19,7 +19,8 @@ import { devices } from "@/constants/device"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
 import { defaultRoutes } from "@/constants/common"
-import { UserRoles, UserRolesType } from "@/types/common"
+import { UserRoles } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
 import { content } from "@/constants/content"
 
 const _403Page = () => {

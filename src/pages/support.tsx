@@ -3,7 +3,7 @@ import * as React from "react"
 import Seo from "@/components/Seo"
 import DriverLayout from "@/components/DriverLayout"
 import SupportPage from "@/components/SupportPage"
-import { UserRoles } from "@/types/common"
+import { UserRoles } from "@/constants/common"
 
 const Support = () => (
   <DriverLayout roles={[UserRoles.driver]}>

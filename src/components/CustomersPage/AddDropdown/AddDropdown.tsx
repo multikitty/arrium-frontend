@@ -5,7 +5,7 @@ import { rem } from "polished"
 
 import { StyledAddDropdownMenuItemText } from "./AddDropdown.styled"
 import { AddDropDownProps } from "./AddDropDown.types"
-import { LabelledUserRoles } from "@/types/common"
+import { LabelledUserRoles } from "@/constants/common"
 
 const AddDropdown: React.FC<AddDropDownProps> = ({
   handleClose,

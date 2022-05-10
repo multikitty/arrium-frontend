@@ -1,6 +1,5 @@
 import * as React from "react"
 import { navigate } from "gatsby"
-import theme from "@/theme"
 import {
   Box,
   Chip,
@@ -17,6 +16,9 @@ import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
 import { capitalCase } from "change-case"
 
+import theme from "@/theme"
+import { OutlinedButton } from "@/components/commons/Button"
+import { StyledFlexGrow } from "@/components/FooterSection/FooterSection.styled"
 import {
   StyledCustomersPage,
   StyledCustomersPageContent,
@@ -27,81 +29,8 @@ import {
   StyledCustomersPageContentUpperSectionSearchField,
   StyledCustomersPageHeader,
 } from "./CustomersPage.styled"
-import { OutlinedButton } from "../commons/Button"
-import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import AddDropdown from "./AddDropdown"
-
-function createData(
-  firstName: string,
-  surName: string,
-  emailAddress: string,
-  country: string,
-  region: string,
-  status: "active" | "inactive" | "disabled"
-) {
-  return { firstName, surName, emailAddress, country, region, status }
-}
-
-const rows = [
-  createData(
-    "John",
-    "Snow",
-    "johnsnow@gmail.com",
-    "Great Britain",
-    "Knowsley",
-    "active"
-  ),
-  createData(
-    "Fred",
-    "Bobinsky",
-    "fredbobinsk@gmail.com",
-    "Great Britain",
-    "Knowsley",
-    "active"
-  ),
-  createData(
-    "Phoebe",
-    "Buffay",
-    "phoebe@yahoo.com",
-    "USA",
-    "Los Angeles",
-    "active"
-  ),
-  createData(
-    "Monica",
-    "Geller",
-    "m.geller@gmail.com",
-    "USA",
-    "New York",
-    "inactive"
-  ),
-  createData(
-    "Rachel",
-    "Green",
-    "rachel123@gmail.com",
-    "USA",
-    "New York",
-    "active"
-  ),
-  createData("Ross", "Geller", "ross@gmail.com", "USA", "New York", "inactive"),
-  createData(
-    "Elizabeth",
-    "Brown",
-    "beth.brown@gmail.com",
-    "Great Britain",
-    "Leyland",
-    "disabled"
-  ),
-  createData("Joey", "Tribbiani", "joeyt@yahoo.com", "Italy", "Rome", "active"),
-  createData(
-    "Coraline",
-    "Jones",
-    "coraline@gmail.com",
-    "Great Britain",
-    "Manchester",
-    "active"
-  ),
-]
+import { rows } from "./CustomersPage.data"
 
 const statusColorMap = {
   active: "#3DCC70",
