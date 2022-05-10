@@ -33,31 +33,34 @@ const Accordion = styled((props: AccordionProps) => (
   },
 }))
 
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary
-    expandIcon={
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          width: rem("32px"),
-          height: rem("32px"),
-          borderRadius: "50%",
-          border: `1px solid ${theme.palette.grey2}`,
-        }}
-      >
-        <ExpandMoreIcon
+const AccordionSummary = styled(
+  (props: AccordionSummaryProps) => (
+    <MuiAccordionSummary
+      expandIcon={
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            fontSize: rem("28px"),
-            color: props.expanded ? theme.palette.main : theme.palette.grey6,
+            width: rem("32px"),
+            height: rem("32px"),
+            borderRadius: "50%",
+            border: `1px solid ${theme.palette.grey2}`,
           }}
-        />
-      </Box>
-    }
-    {...props}
-  />
-))(() => ({
+        >
+          <ExpandMoreIcon
+            sx={{
+              fontSize: rem("28px"),
+              color: props.expanded ? theme.palette.main : theme.palette.grey6,
+            }}
+          />
+        </Box>
+      }
+      {...props}
+    />
+  ),
+  { shouldForwardProp: p => p !== "expanded" }
+)(() => ({
   backgroundColor: "transparent",
   borderBottom: "none",
   "&:before": {

@@ -1,4 +1,4 @@
-import { UseFormRegister } from "react-hook-form"
+import { UseFormRegister, UseFormUnregister } from "react-hook-form"
 
 export interface TabPanelProps {
   children?: React.ReactNode
@@ -16,4 +16,5 @@ export type FormValues = {
 
 export interface SearchTableProps {
   register: UseFormRegister<FormValues>
+  unregister: UseFormUnregister<FormValues>
 }

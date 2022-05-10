@@ -38,11 +38,13 @@ import Switch from "../commons/Switch"
 import theme from "@/theme"
 import { FormValues, TabPanelProps } from "./BlockAvailablityPage.types"
 import { TabDataSearch } from "./TabDataOnSearch"
-import { SearchTable } from "./SearchTable"
+import SearchTable from "./SearchTable"
 import { TabData } from "./TabContent"
 import { useForm } from "react-hook-form"
 import { devices } from "@/constants/device"
 import { content } from "@/constants/content"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
 
 function TabPanel({ children, value, index, ...other }: TabPanelProps) {
   return (
@@ -71,6 +73,7 @@ const tabStyles = {
 }
 
 const BlockAvailabilityPage = () => {
+  const { availibilityStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [tabIndex, setTabIndex] = React.useState(0)
   const [weekData, setWeekData] = useState<Array<weekProps>>(week)
@@ -90,7 +93,7 @@ const BlockAvailabilityPage = () => {
     setTabIndex(newValue)
   }
 
-  const { register, handleSubmit, reset } = useForm<FormValues>({
+  const { register, handleSubmit, reset, unregister } = useForm<FormValues>({
     defaultValues: {
       timeToArrive: [],
       startTime: [],
@@ -104,7 +107,12 @@ const BlockAvailabilityPage = () => {
   useEffect(() => {}, [weekData])
 
   const onSubmit = (data: FormValues) => {
-    console.log(data)
+    availibilityStore.setInitialState(data)
+    console.log("onSubmit", data)
+  }
+
+  const onInvalid = (data: any) => {
+    console.log("Invalid", data)
   }
 
   return isWebView ? (
@@ -114,7 +122,7 @@ const BlockAvailabilityPage = () => {
       </StyledBlockAvailabilityPageHeader>
       <StyledBlockAvailablityPageWrapper
         component="form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onInvalid)}
       >
         <StyledBlockHeader>
           <StyledTextWrapper>
@@ -155,7 +163,7 @@ const BlockAvailabilityPage = () => {
           </Collapse>
         ) : (
           <Box>
-            <SearchTable register={register} />
+            <SearchTable register={register} unregister={unregister} />
           </Box>
         )}
         {!isSearchable ? (
@@ -252,4 +260,4 @@ const BlockAvailabilityPage = () => {
   )
 }
 
-export default BlockAvailabilityPage
+export default observer(BlockAvailabilityPage)

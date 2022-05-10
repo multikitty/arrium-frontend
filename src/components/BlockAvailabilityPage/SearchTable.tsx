@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   Table,
   TableContainer,
@@ -16,13 +16,12 @@ import { BpCheckbox as Checkbox } from "../commons/CheckBox"
 import { SearchTableProps } from "./BlockAvailablityPage.types"
 import { searchTableData } from "./BlockAvailabilityPage.data"
 import { content } from "@/constants/content"
+import { observer } from "mobx-react-lite"
 
-export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
+const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
   const [checkboxValues, setCheckBoxValues] = useState<Array<boolean>>(
     Array(searchTableData.length).fill(false)
   )
-
-  useEffect(() => {}, [checkboxValues])
 
   const tableHeaderGreyTextStyles = {
     fontFamily: "Inter",
@@ -47,73 +46,15 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
   ) => {
     let values = [...checkboxValues]
     values[index] = checked
+    if (!values[index]) {
+      unregister(`timeToArrive.${index}`)
+      unregister(`startTime.${index}`)
+      unregister(`endTime.${index}`)
+      unregister(`minimumPay.${index}`)
+      unregister(`minimumHourlyRate.${index}`)
+    }
     setCheckBoxValues(values)
   }
-
-  // const handleTimeToArriveChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  //   index: number
-  // ) => {
-  //   let values = [...searchTableField.timeToArriveValues]
-  //   values[index] = Number(e.target.value)
-
-  //   setSearchTableField(prev => ({
-  //     ...prev,
-  //     timeToArriveValues: [...values],
-  //   }))
-  // }
-
-  // const handleStartTimeChange = (
-  //   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   let values = [...searchTableField.startTimeValues]
-  //   values[index] = e.target.value
-
-  //   setSearchTableField(prev => ({
-  //     ...prev,
-  //     startTimeValues: [...values],
-  //   }))
-  // }
-
-  // const handleEndTimeChange = (
-  //   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   let values = [...searchTableField.endTimeValues]
-  //   values[index] = e.target.value
-
-  //   setSearchTableField(prev => ({
-  //     ...prev,
-  //     endTimeValues: [...values],
-  //   }))
-  // }
-
-  // const handleMinimumPayValueChange = (
-  //   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   let values = [...searchTableField.minimunPayValues]
-  //   values[index] = Number(e.target.value)
-
-  //   setSearchTableField(prev => ({
-  //     ...prev,
-  //     minimunPayValues: [...values],
-  //   }))
-  // }
-
-  // const handleMinimumHourlyRateValueChange = (
-  //   e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  //   index: number
-  // ) => {
-  //   let values = [...searchTableField.minimumHourlyPayValues]
-  //   values[index] = Number(e.target.value)
-
-  //   setSearchTableField(prev => ({
-  //     ...prev,
-  //     minimumHourlyPayValues: [...values],
-  //   }))
-  // }
 
   return (
     <TableContainer>
@@ -175,18 +116,30 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
                 align="left"
               >
                 <Box>
-                  <SearchTableTextField
-                    placeholder="Type..."
-                    {...register(`timeToArrive.${index}`, {
-                      required: true,
-                    })}
-                    disabled={!checkboxValues[index]}
-                    type="number"
-                    inputProps={{
-                      min: 0,
-                      max: 180,
-                    }}
-                  />
+                  {checkboxValues[index] ? (
+                    <SearchTableTextField
+                      placeholder="Type..."
+                      {...register(`timeToArrive.${index}`, {
+                        required: true,
+                      })}
+                      disabled={!checkboxValues[index]}
+                      type="number"
+                      inputProps={{
+                        min: 0,
+                        max: 180,
+                      }}
+                    />
+                  ) : (
+                    <SearchTableTextField
+                      placeholder="Type..."
+                      disabled={!checkboxValues[index]}
+                      type="number"
+                      inputProps={{
+                        min: 0,
+                        max: 180,
+                      }}
+                    />
+                  )}
                 </Box>
               </TableCell>
               <TableCell
@@ -196,16 +149,26 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
                 }}
                 align="left"
               >
-                <SearchTableTextField
-                  type="time"
-                  {...register(`startTime.${index}`, {
-                    required: true,
-                  })}
-                  disabled={!checkboxValues[index]}
-                  inputProps={{
-                    step: 300,
-                  }}
-                />
+                {checkboxValues[index] ? (
+                  <SearchTableTextField
+                    type="time"
+                    {...register(`startTime.${index}`, {
+                      required: true,
+                    })}
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      step: 300,
+                    }}
+                  />
+                ) : (
+                  <SearchTableTextField
+                    type="time"
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      step: 300,
+                    }}
+                  />
+                )}
               </TableCell>
               <TableCell
                 sx={{
@@ -215,16 +178,26 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
                 }}
                 align="left"
               >
-                <SearchTableTextField
-                  type="time"
-                  {...register(`endTime.${index}`, {
-                    required: true,
-                  })}
-                  disabled={!checkboxValues[index]}
-                  inputProps={{
-                    step: 300,
-                  }}
-                />
+                {checkboxValues[index] ? (
+                  <SearchTableTextField
+                    type="time"
+                    {...register(`endTime.${index}`, {
+                      required: true,
+                    })}
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      step: 300,
+                    }}
+                  />
+                ) : (
+                  <SearchTableTextField
+                    type="time"
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      step: 300,
+                    }}
+                  />
+                )}
               </TableCell>
               <TableCell
                 sx={{
@@ -233,22 +206,42 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
                 }}
                 align="left"
               >
-                <SearchTableTextField
-                  placeholder="Type..."
-                  type="number"
-                  {...register(`minimumPay.${index}`, {
-                    required: true,
-                  })}
-                  disabled={!checkboxValues[index]}
-                  inputProps={{
-                    min: 0,
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">&#8356;</InputAdornment>
-                    ),
-                  }}
-                />
+                {checkboxValues[index] ? (
+                  <SearchTableTextField
+                    placeholder="Type..."
+                    type="number"
+                    {...register(`minimumPay.${index}`, {
+                      required: true,
+                    })}
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      min: 0,
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          &#8356;
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                ) : (
+                  <SearchTableTextField
+                    placeholder="Type..."
+                    type="number"
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      min: 0,
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          &#8356;
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
               </TableCell>
               <TableCell
                 sx={{
@@ -257,22 +250,42 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
                 }}
                 align="left"
               >
-                <SearchTableTextField
-                  placeholder="Type..."
-                  type="number"
-                  {...register(`minimumHourlyRate.${index}`, {
-                    required: true,
-                  })}
-                  disabled={!checkboxValues[index]}
-                  inputProps={{
-                    min: 0,
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">&#8356;</InputAdornment>
-                    ),
-                  }}
-                />
+                {checkboxValues[index] ? (
+                  <SearchTableTextField
+                    placeholder="Type..."
+                    type="number"
+                    {...register(`minimumHourlyRate.${index}`, {
+                      required: true,
+                    })}
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      min: 0,
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          &#8356;
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                ) : (
+                  <SearchTableTextField
+                    placeholder="Type..."
+                    type="number"
+                    disabled={!checkboxValues[index]}
+                    inputProps={{
+                      min: 0,
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          &#8356;
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -281,3 +294,5 @@ export const SearchTable: React.FC<SearchTableProps> = ({ register }) => {
     </TableContainer>
   )
 }
+
+export default observer(SearchTable)

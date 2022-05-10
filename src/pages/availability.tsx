@@ -7,7 +7,7 @@ import { UserRoles } from "@/constants/common"
 
 const BlockAvailability = () => (
   <DriverLayout roles={[UserRoles.driver]}>
-    <Seo title="Block Availability | Arrium" />
+    <Seo title="Availability | Arrium" />
     <BlockAvailabilityPage />
   </DriverLayout>
 )

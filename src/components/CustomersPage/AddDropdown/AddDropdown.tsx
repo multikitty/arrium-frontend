@@ -17,6 +17,7 @@ const AddDropdown: React.FC<AddDropDownProps> = ({
       dense
       sx={{ py: rem("12px") }}
       onClick={() => navigate(`/customers/add?role=${role.value}`)}
+      key={role.value}
     >
       <StyledAddDropdownMenuItemText>
         {role.label}
