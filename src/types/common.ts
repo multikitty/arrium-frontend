@@ -1,4 +1,8 @@
-import { UserRoles } from "@/constants/common"
+export const UserRoles = {
+  driver: "driver",
+  admin: "admin",
+  salesAgent: "salesAgent",
+} as const
 
 export type UserRolesType = keyof typeof UserRoles
 
