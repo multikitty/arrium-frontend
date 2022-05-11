@@ -17,7 +17,6 @@ import {
   StyledFullscreenMenuUpperContainerItemText,
   StyledFullscreenMenuUpperContainerNotificationIcon,
 } from "./FullscreenMenu.styled"
-import { DriverPages } from "@/constants/common"
 import SearchIcon from "@/assets/icons/sidepanel_driver-search_icon.inline.svg"
 import SubscriptionIcon from "@/assets/icons/sidepanel_driver-subscription_icon.inline.svg"
 import FAQIcon from "@/assets/icons/sidepanel_driver-faq_icon.inline.svg"
@@ -27,6 +26,7 @@ import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { FullscreenMenuProps } from "./FullScreenMenu.types."
+import { DriverPages } from "@/types/common"
 
 const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
   const { userStore } = useStore()
@@ -36,13 +36,13 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
   const handleNotificationsMenuOpen = () => setIsNotificationsMenuOpen(true)
   const handleNotificationsMenuClose = () => setIsNotificationsMenuOpen(false)
 
-  const isBlockAvailibityPage = pathname === `/${DriverPages.blockAvailability}`
+  const isBlockAvailibityPage = pathname === `/${DriverPages.availability}`
   const isSubscriptionPage = pathname === `/${DriverPages.subscription}`
   const isFAQsPage = pathname === `/${DriverPages.faq}`
   const isSupportPage = pathname === `/${DriverPages.support}`
 
   const handleNavigateToBlockAvailibityPage = () =>
-    navigate(`/${DriverPages.blockAvailability}`)
+    navigate(`/${DriverPages.availability}`)
   const handleNavigateToSubscriptionPage = () =>
     navigate(`/${DriverPages.subscription}`)
   const handleNavigateToFAQsPage = () => navigate(`/${DriverPages.faq}`)

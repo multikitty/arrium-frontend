@@ -9,13 +9,14 @@ import SettingsIcon from "@/assets/icons/sidepanel_admin-settings_icon.inline.sv
 import ReferralsIcon from "@/assets/icons/sidepanel_admin-referral_icon.inline.svg"
 import { GrMapLocation as TimezonesIcon } from "@react-icons/all-files/gr/GrMapLocation"
 import PlansIcon from "@/assets/icons/sidepanel_admin-plans_icon.inline.svg"
-import { AdminPages, DriverPages, UserRoles } from "@/constants/common"
+import { AdminPages, UserRoles } from "@/constants/common"
+import { DriverPages } from "@/types/common"
 
 const sidePanelData = [
   {
     label: "Availability",
     icon: AvailabilityIcon,
-    href: DriverPages.blockAvailability,
+    href: DriverPages.availability,
     roles: [UserRoles.driver],
   },
   {

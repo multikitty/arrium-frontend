@@ -1,3 +1,5 @@
+import { DriverPages } from "@/types/common"
+
 export const UserRoles = {
   driver: "driver",
   admin: "admin",
@@ -19,13 +21,6 @@ export const LabelledUserRoles = [
   },
 ]
 
-export const DriverPages = {
-  blockAvailability: "blockAvailability",
-  subscription: "subscription",
-  faq: "faq",
-  support: "support",
-} as const
-
 export const AdminPages = {
   customers: "customers",
   dashboard: "dashboard",
@@ -38,6 +33,6 @@ export const AdminPages = {
 
 export const defaultRoutes = {
   [UserRoles.admin]: AdminPages.customers,
-  [UserRoles.driver]: DriverPages.blockAvailability,
+  [UserRoles.driver]: DriverPages.availability,
   [UserRoles.salesAgent]: AdminPages.dashboard,
 } as const

@@ -7,10 +7,10 @@ import {
   StyledNotificationsDropdownUpperSectionUsername,
 } from "./NotificationsDropdown.styled"
 import { navigate } from "gatsby"
-import { DriverPages } from "@/constants/common"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
 import { NotifcatioDropDownProps } from "./NotificationsDropdown.types"
+import { DriverPages } from "@/types/common"
 
 const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
   handleClose,

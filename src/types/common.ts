@@ -18,7 +18,7 @@ export const LabelledUserRoles = [
 ]
 
 export const DriverPages = {
-  blockAvailability: "availability",
+  availability: "availability",
   subscription: "subscription",
   faq: "faq",
   support: "support",

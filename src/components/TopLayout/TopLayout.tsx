@@ -1,8 +1,8 @@
 import React from "react"
 import "./TopLayout.css"
-import { ChildrenProps } from "../AdminLayout/AdminLayout.types"
+import { AdminLayoutProps } from "../AdminLayout/AdminLayout.types"
 
-const TopLayout = ({ children }: ChildrenProps) => {
+const TopLayout = ({ children }: AdminLayoutProps) => {
   return <React.Fragment>{children}</React.Fragment>
 }
 
