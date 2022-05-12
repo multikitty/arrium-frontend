@@ -74,7 +74,7 @@ const tabStyles = {
 
 const BlockAvailabilityPage = () => {
   const { availibilityStore } = useStore()
-  const isWebView = useMediaQuery(devices.web.up)
+  // const isWebView = useMediaQuery(devices.web.up)
   const [tabIndex, setTabIndex] = React.useState(0)
   const [weekData, setWeekData] = useState<Array<weekProps>>(week)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -115,7 +115,7 @@ const BlockAvailabilityPage = () => {
     console.log("Invalid", data)
   }
 
-  return isWebView ? (
+  return (
     <StyledBlockAvailabilityPage>
       <StyledBlockAvailabilityPageHeader>
         Availability
@@ -156,7 +156,6 @@ const BlockAvailabilityPage = () => {
             ))}
           </Stack>
         </StyledBlockHeader>
-
         {!isSearchable ? (
           <Collapse in={isExpanded} timeout="auto" unmountOnExit>
             {TabDataSearch(rowSearches)}
@@ -212,7 +211,13 @@ const BlockAvailabilityPage = () => {
                       label={label}
                     />
                     {index === 0 && (
-                      <StyledTimePickerField sx={{ mr: rem("32px") }} />
+                      <StyledTimePickerField
+                        type="time"
+                        sx={{ mr: rem("32px") }}
+                        inputProps={{
+                          step: 300,
+                        }}
+                      />
                     )}
                   </React.Fragment>
                 )
@@ -255,8 +260,6 @@ const BlockAvailabilityPage = () => {
         </Box>
       </StyledBlockAvailablityPageWrapper>
     </StyledBlockAvailabilityPage>
-  ) : (
-    <div>LOL</div>
   )
 }
 

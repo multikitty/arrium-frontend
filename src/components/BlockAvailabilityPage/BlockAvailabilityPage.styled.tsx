@@ -68,7 +68,21 @@ export const StyledShowMoreText = styled.p`
 
 export const StyledTimePickerField = styled(TextField)`
   &&& {
-    width: ${rem("56px")};
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+    input[type="time"]::-webkit-clear-button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -o-appearance: none;
+      -ms-appearance: none;
+      appearance: none;
+      margin: -10px;
+    }
+    input[type="time"]::-webkit-datetime-edit-ampm-field {
+      display: none;
+    }
+    width: ${rem("64px")};
     & > div > input {
       padding: ${rem("8px")};
       height: ${rem("24px")};
