@@ -6,6 +6,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { ThemeProvider } from "styled-components"
 import { enableStaticRendering } from "mobx-react-lite"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { SnackbarProvider } from "notistack"
 
 import isBrowser from "./src/utils/isBrowser"
 import theme from "./src/theme"
@@ -33,10 +34,18 @@ const wrapRootElement = ({ element }) => {
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={muiTheme}>
           <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CssBaseline />
-              {element}
-            </LocalizationProvider>
+            <SnackbarProvider
+              dense
+              preventDuplicate
+              maxSnack={3}
+              autoHideDuration={4000}
+              anchorOrigin={{ horizontal: "right", vertical: "top" }}
+            >
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <CssBaseline />
+                {element}
+              </LocalizationProvider>
+            </SnackbarProvider>
           </ThemeProvider>
         </MuiThemeProvider>
       </QueryClientProvider>

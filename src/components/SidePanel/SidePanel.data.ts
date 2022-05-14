@@ -10,7 +10,7 @@ import ReferralsIcon from "@/assets/icons/sidepanel_admin-referral_icon.inline.s
 import { GrMapLocation as TimezonesIcon } from "@react-icons/all-files/gr/GrMapLocation"
 import PlansIcon from "@/assets/icons/sidepanel_admin-plans_icon.inline.svg"
 import { AdminPages, UserRoles } from "@/constants/common"
-import { DriverPages } from "@/types/common"
+import { DriverPages } from "@/constants/common"
 
 const sidePanelData = [
   {

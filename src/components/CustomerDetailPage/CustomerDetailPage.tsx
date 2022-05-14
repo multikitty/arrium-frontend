@@ -3,6 +3,11 @@ import { navigate } from "gatsby"
 import { Box, IconButton } from "@mui/material"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import { rem } from "polished"
+import { observer } from "mobx-react-lite"
+
+import { useStore } from "@/store"
+import theme from "@/theme"
+import SaveChangesModal from "@/components/SaveChangesModal"
 import {
   StyledCustomerDetailPage,
   StyledCustomerDetailPageHeaderContainer,
@@ -10,16 +15,12 @@ import {
   StyledCustomerDetailPageSubHeader,
   StyledCustomerDetailPageContent,
 } from "./CustomerDetailPage.styled"
-import theme from "@/theme"
 import AccountInformationTab from "./AccountInformationTab"
 import BillingTab from "./BillingTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
-import SaveChangesModal from "./SaveChangesModal"
 // import Message from "@/components/Message"
-import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
 
 const CustomerDetailPage = () => {
   const { messageStore } = useStore()

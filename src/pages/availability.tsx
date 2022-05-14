@@ -5,11 +5,11 @@ import DriverLayout from "@/components/DriverLayout"
 import BlockAvailabilityPage from "@/components/BlockAvailabilityPage"
 import { UserRoles } from "@/constants/common"
 
-const BlockAvailability = () => (
+const Availability = () => (
   <DriverLayout roles={[UserRoles.driver]}>
     <Seo title="Availability | Arrium" />
     <BlockAvailabilityPage />
   </DriverLayout>
 )
 
-export default BlockAvailability
+export default Availability

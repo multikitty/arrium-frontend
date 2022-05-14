@@ -6,6 +6,7 @@ import { rem } from "polished"
 import { StyledAddDropdownMenuItemText } from "./AddDropdown.styled"
 import { AddDropDownProps } from "./AddDropDown.types"
 import { LabelledUserRoles } from "@/constants/common"
+import { tabs } from "@/components/AddCustomerPage/AddCustomersPage.data"
 
 const AddDropdown: React.FC<AddDropDownProps> = ({
   handleClose,
@@ -16,7 +17,11 @@ const AddDropdown: React.FC<AddDropDownProps> = ({
     <MenuItem
       dense
       sx={{ py: rem("12px") }}
-      onClick={() => navigate(`/customers/add?role=${role.value}`)}
+      onClick={() =>
+        navigate(
+          `/customers/add?role=${role.value}&tab=${tabs.accountInformation}`
+        )
+      }
       key={role.value}
     >
       <StyledAddDropdownMenuItemText>

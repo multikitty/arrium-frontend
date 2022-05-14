@@ -11,15 +11,19 @@ import { UserRolesType } from "@/types/common"
 const IndexPage = () => {
   const { userStore } = useStore()
 
-  if (userStore.isAuthenticated)
-    isBrowser() &&
-      navigate(
-        `/${
-          defaultRoutes[
-            (userStore.currentUser?.role || UserRoles.driver) as UserRolesType
-          ]
-        }`
-      )
+  if (userStore.isAuthenticated) {
+    if (!isBrowser()) return null
+    navigate(
+      `/${
+        defaultRoutes[
+          (userStore.currentUser?.role || UserRoles.driver) as UserRolesType
+        ]
+      }`
+    )
+    return null
+  }
+
+  console.log("userStore", userStore)
 
   return (
     <React.Fragment>

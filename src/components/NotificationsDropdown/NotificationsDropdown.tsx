@@ -10,7 +10,7 @@ import { navigate } from "gatsby"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
 import { NotifcatioDropDownProps } from "./NotificationsDropdown.types"
-import { DriverPages } from "@/types/common"
+import { DriverPages } from "@/constants/common"
 
 const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
   handleClose,

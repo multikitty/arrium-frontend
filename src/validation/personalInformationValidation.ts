@@ -25,7 +25,7 @@ const personalInformationFormOptions = {
     surName: "Doolittle",
     email: "eliza.doolittle@gmail.com",
     phoneNumber: "+44 020 123 4567",
-    timezone: "",
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     password: "password",
   },
 }

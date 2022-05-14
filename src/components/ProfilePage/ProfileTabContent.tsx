@@ -63,7 +63,7 @@ const ProfileTabContent = () => {
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
   type formPropType = typeof personalInformationFormOptions.defaultValues
- 
+
   const { handleSubmit, control, formState, reset, getValues } =
     useForm<formPropType>({
       defaultValues: {
@@ -592,7 +592,11 @@ const ProfileTabContent = () => {
               )}
             </Grid>
             <Grid item xs={12}>
-              <ContainedButton error onClick={handleCloseAccountClick}>
+              <ContainedButton
+                error
+                onClick={handleCloseAccountClick}
+                sx={{ mt: 1 }}
+              >
                 Close Account
               </ContainedButton>
             </Grid>

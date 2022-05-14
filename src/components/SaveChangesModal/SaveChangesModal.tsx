@@ -2,10 +2,10 @@ import React from "react"
 import { IconButton, Modal } from "@mui/material"
 import { rem } from "polished"
 import {
-  StyledAddCountryModal as StyledDeleteConfirmationModal,
-  StyledAddCountryModalCloseIconContainer as StyledDeleteConfirmationModalCloseIconContainer,
-  StyledAddCountryModalFormActions as StyledDeleteConfirmationModalFormActions,
-  StyledAddCountryModalTitle as StyledDeleteConfirmationModalTitle,
+  StyledAddCountryModal as StyledSaveChangesModal,
+  StyledAddCountryModalCloseIconContainer as StyledSaveChangesModalCloseIconContainer,
+  StyledAddCountryModalFormActions as StyledSaveChangesModalFormActions,
+  StyledAddCountryModalTitle as StyledSaveChangesModalTitle,
   StyledDeleteConfirmationModalSubTitle,
 } from "../SettingsPage/SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
@@ -17,23 +17,23 @@ interface IProps {
   handleSave: () => void
 }
 
-const DeleteConfirmationModal = (props: IProps) => {
+const SaveChangesModal = (props: IProps) => {
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <StyledDeleteConfirmationModal>
-        <StyledDeleteConfirmationModalCloseIconContainer>
+      <StyledSaveChangesModal>
+        <StyledSaveChangesModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
-        </StyledDeleteConfirmationModalCloseIconContainer>
-        <StyledDeleteConfirmationModalTitle deleteConfirmation>
+        </StyledSaveChangesModalCloseIconContainer>
+        <StyledSaveChangesModalTitle deleteConfirmation>
           Save changes?
-        </StyledDeleteConfirmationModalTitle>
+        </StyledSaveChangesModalTitle>
         <StyledDeleteConfirmationModalSubTitle saveChanges>
           Your unsaved changes will be lost. <br /> Do you want to save changes
           before leaving this page?
         </StyledDeleteConfirmationModalSubTitle>
-        <StyledDeleteConfirmationModalFormActions>
+        <StyledSaveChangesModalFormActions>
           <ContainedButton
             sx={{ width: "100%", marginBottom: rem("16px") }}
             onClick={props.handleSave}
@@ -47,10 +47,10 @@ const DeleteConfirmationModal = (props: IProps) => {
           >
             Cancel
           </OutlinedButton>
-        </StyledDeleteConfirmationModalFormActions>
-      </StyledDeleteConfirmationModal>
+        </StyledSaveChangesModalFormActions>
+      </StyledSaveChangesModal>
     </Modal>
   )
 }
 
-export default DeleteConfirmationModal
+export default SaveChangesModal

@@ -71,3 +71,5 @@ export const rows = [
     "active"
   ),
 ]
+
+export type CustomerData = typeof rows[0]

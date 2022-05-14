@@ -18,16 +18,18 @@ import { StyledTab, StyledTabs } from "../commons/commonComponents"
 import queryString from "query-string"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
-import { tabs } from "./AddCustomersPage.data"
+import { TabType, tabs } from "./AddCustomersPage.data"
 import LocationsTab from "./LocationsTab"
+import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 
 const AddCustomerPage = () => {
   const location = useLocation()
-  const [tab, setTab] = React.useState("accountInformation")
+  const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
 
-  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (_: React.SyntheticEvent, newValue: TabType) => {
     setTab(newValue)
+    navigateToAddCustomerPage(role, newValue)
   }
 
   React.useEffect(() => {
@@ -35,6 +37,8 @@ const AddCustomerPage = () => {
     const parsedQuery = queryString.parse(location.search)
     if (!parsedQuery.role) return
     setRole(parsedQuery.role as UserRolesType)
+    if (!parsedQuery.tab) return
+    setTab(parsedQuery.tab as TabType)
   }, [location])
 
   const isAccountInfoTabOpen = tab === tabs.accountInformation
@@ -105,7 +109,7 @@ const AddCustomerPage = () => {
           </StyledTabs>
         </Box>
         {isAccountInfoTabOpen && (
-          <AccountInformationTab role={role} setRole={setRole} />
+          <AccountInformationTab tab={tab} role={role} setRole={setRole} />
         )}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}

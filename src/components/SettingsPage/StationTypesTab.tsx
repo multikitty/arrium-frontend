@@ -14,17 +14,17 @@ import { Divider, Grid, IconButton } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
-import { renderSettingsListItems } from "../../utils/settings"
 import { blockTypeList } from "./SettingsPage.data"
 import AddBlockTypeModal from "./AddBlockTypeModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 import { SettingsItem, SettingsTabProps } from "./LocationsTab"
+import SettingsListItem from "./SettingsListItem"
 
 type StationTypesDeleteItem = {
   type: "Block Type"
 } & SettingsItem
 
-const StationTypesTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
+const StationTypesTab: React.FC<SettingsTabProps> = () => {
   const [isAddBlockTypeModalOpen, setIsAddBlockTypeModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] =
     useState<StationTypesDeleteItem | null>(null)
@@ -77,18 +77,19 @@ const StationTypesTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(blockTypeList, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={blockTypeList}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Block Type",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />

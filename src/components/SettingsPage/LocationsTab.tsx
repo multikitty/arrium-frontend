@@ -1,5 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react"
 import { Divider, Grid, IconButton } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
+import SearchIcon from "@mui/icons-material/Search"
+import { rem } from "polished"
+import { nanoid } from "nanoid"
+
 import {
   StyledLocationsTab,
   StyledSettingsColumn,
@@ -9,18 +14,14 @@ import {
   StyledSettingsColumnContentList,
   StyledSettingsColumnContentSearchField,
 } from "./SettingsPage.styled"
-import { ContainedButton } from "../commons/Button"
-import AddIcon from "@mui/icons-material/Add"
-import SearchIcon from "@mui/icons-material/Search"
+import { ContainedButton } from "@/components/commons/Button"
 import theme from "@/theme"
-import { rem } from "polished"
 import { countryList, regionList, stationList } from "./SettingsPage.data"
-import { renderSettingsListItems } from "../../utils/settings"
 import AddCountryModal from "./AddCountryModal"
 import AddRegionModal from "./AddRegionModal"
 import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-import { nanoid } from "nanoid"
+import SettingsListItem from "./SettingsListItem"
 
 export type SettingsItem = {
   name: string
@@ -99,17 +100,25 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
 
   const filteredCountries = useMemo(
     () =>
-      countries.filter(country => country.name.includes(countrySearchQuery)),
+      countries.filter(country =>
+        country.name.toLowerCase().includes(countrySearchQuery.toLowerCase())
+      ),
     [countries, countrySearchQuery]
   )
 
   const filteredRegions = useMemo(
-    () => regions.filter(region => region.name.includes(regionSearchQuery)),
+    () =>
+      regions.filter(region =>
+        region.name.toLowerCase().includes(regionSearchQuery.toLowerCase())
+      ),
     [regions, regionSearchQuery]
   )
 
   const filteredStations = useMemo(
-    () => stations.filter(station => station.name.includes(stationSearchQuery)),
+    () =>
+      stations.filter(station =>
+        station.name.toLowerCase().includes(stationSearchQuery.toLowerCase())
+      ),
     [stations, stationSearchQuery]
   )
 
@@ -179,18 +188,19 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 onChange={handleCountrySearchQueryField}
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(filteredCountries, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={filteredCountries}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Country",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
@@ -220,18 +230,19 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 onChange={handleRegionSearchQueryField}
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(filteredRegions, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={filteredRegions}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Region",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
@@ -261,18 +272,19 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 onChange={handleStationSearchQueryField}
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(filteredStations, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={filteredStations}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Station",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
           </StyledSettingsColumn>

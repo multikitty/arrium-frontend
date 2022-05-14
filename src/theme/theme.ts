@@ -35,6 +35,7 @@ const theme = {
   },
   zIndices: {
     modalOverlay: 990,
+    drawer: 989,
     fullscreenLandingMenu: 999,
     navbar: 998,
     bottomImage: 2,

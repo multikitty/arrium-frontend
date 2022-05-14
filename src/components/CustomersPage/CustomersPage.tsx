@@ -30,7 +30,7 @@ import {
   StyledCustomersPageHeader,
 } from "./CustomersPage.styled"
 import AddDropdown from "./AddDropdown"
-import { rows } from "./CustomersPage.data"
+import { CustomerData, rows } from "./CustomersPage.data"
 
 const statusColorMap = {
   active: "#3DCC70",
@@ -39,6 +39,8 @@ const statusColorMap = {
 }
 
 const CustomersPage = () => {
+  const [searchQuery, setSearchQuery] = React.useState("")
+  const [filteredData, setFilteredData] = React.useState<CustomerData[]>([])
   const [addDropdownAnchorEl, setAddDropdownAnchorEl] =
     React.useState<null | HTMLElement>(null)
   const isAddDropdownOpen = Boolean(addDropdownAnchorEl)
@@ -50,6 +52,16 @@ const CustomersPage = () => {
   const handleAddDropdownClose = () => {
     setAddDropdownAnchorEl(null)
   }
+
+  React.useEffect(() => {
+    setFilteredData(
+      rows.filter(
+        r =>
+          r.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          r.surName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    )
+  }, [searchQuery])
 
   return (
     <StyledCustomersPage>
@@ -87,6 +99,8 @@ const CustomersPage = () => {
               />
             }
             placeholder="Type ..."
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
           />
           <StyledFlexGrow />
           <StyledCustomersPageContentUpperSectionRecordCount>
@@ -180,7 +194,7 @@ const CustomersPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
+              {filteredData.map(row => (
                 <TableRow
                   hover
                   key={row.emailAddress}

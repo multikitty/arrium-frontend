@@ -1,5 +1,4 @@
 import React from "react"
-import { navigate } from "gatsby"
 import {
   Box,
   FormControlLabel,
@@ -29,6 +28,8 @@ import theme from "@/theme"
 import { accountInformationFormOptions } from "@/validation"
 import { UserRolesType } from "@/types/common"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
+import { TabType } from "./AddCustomersPage.data"
+import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -38,6 +39,11 @@ const useStyles = makeStyles({
       borderRadius: "10px !important",
     },
     "& > div > div > span": {
+      display: "none",
+    },
+  },
+  telephoneInputContainer: {
+    "& > .special-label": {
       display: "none",
     },
   },
@@ -55,13 +61,14 @@ const radioOptions = [
 ]
 
 interface IProps {
+  tab: TabType
   role: UserRolesType
   setRole: React.Dispatch<
     React.SetStateAction<"driver" | "admin" | "salesAgent">
   >
 }
 
-const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
+const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
   const classes = useStyles()
 
   const generateRadioOptions = () => {
@@ -124,6 +131,8 @@ const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
                     <ReactPhoneInput
                       onChange={onChange}
                       value={value}
+                      containerClass={classes.telephoneInputContainer}
+                      placeholder=""
                       inputStyle={{
                         width: "100%",
                         borderRadius: rem("10px"),
@@ -244,14 +253,13 @@ const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
                     <Select
                       onChange={e => {
                         onChange(e)
-                        setRole(e.target.value as UserRolesType)
-                        navigate(`/customers/add?role=${e.target.value}`)
+                        const newRole = e.target.value as UserRolesType
+                        setRole(newRole)
+                        navigateToAddCustomerPage(newRole, tab)
                       }}
                       value={value}
                       error={!!formState.errors?.role}
-                      input={
-                        <StyledAccountInformatiomTabContentField roleField />
-                      }
+                      input={<StyledAccountInformatiomTabContentField large />}
                     >
                       {renderRoleOptions}
                     </Select>
@@ -290,7 +298,7 @@ const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
           <Grid item xs={12} lg={4}>
             <Box display="flex" flexDirection="column">
               {/* Surname Field */}
-              <Box mb={rem("24px")}>
+              <Box mb={rem("35px")}>
                 <StyledAccountInformationTabFormLabel>
                   Surname
                 </StyledAccountInformationTabFormLabel>
@@ -344,7 +352,7 @@ const AccountInformationTab: React.FC<IProps> = ({ role, setRole }) => {
                       onChange={onChange}
                       value={value}
                       error={!!formState.errors?.status}
-                      input={<StyledAccountInformatiomTabContentField />}
+                      input={<StyledAccountInformatiomTabContentField large />}
                     >
                       <MenuItem value="disabled">Disabled</MenuItem>
                       <MenuItem value="active">Active</MenuItem>

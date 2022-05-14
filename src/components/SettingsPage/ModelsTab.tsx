@@ -1,6 +1,11 @@
 import React, { useState } from "react"
-import theme from "../../theme"
-import { ContainedButton } from "../commons/Button"
+import { Divider, Grid, IconButton } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
+import SearchIcon from "@mui/icons-material/Search"
+import { rem } from "polished"
+
+import theme from "@/theme"
+import { ContainedButton } from "@/components/commons/Button"
 import {
   StyledModelsTab,
   StyledSettingsColumn,
@@ -10,27 +15,23 @@ import {
   StyledSettingsColumnContentList,
   StyledSettingsColumnContentSearchField,
 } from "./SettingsPage.styled"
-import { Divider, Grid, IconButton } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import SearchIcon from "@mui/icons-material/Search"
-import { rem } from "polished"
 import { SettingsItem, SettingsTabProps } from "./LocationsTab"
 import AddPhoneModelModal from "./AddPhoneModelModal"
 import AddOSVersionModal from "./AddOSVersionModal"
 import AddFlexVersionModal from "./AddFlexVersionModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-import { renderSettingsListItems } from "@/utils/settings"
 import {
   flexVersionList,
   osVersionList,
   phoneModelList,
 } from "./SettingsPage.data"
+import SettingsListItem from "./SettingsListItem"
 
 type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
 } & SettingsItem
 
-const ModelsTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
+const ModelsTab: React.FC<SettingsTabProps> = () => {
   const [isAddPhoneModelModalOpen, setIsAddPhoneModelModalOpen] =
     useState(false)
   const [isAddOSVersionModalOpen, setIsAddOSVersionModalOpen] = useState(false)
@@ -104,18 +105,19 @@ const ModelsTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(phoneModelList, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={phoneModelList}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Phone Model",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
@@ -146,18 +148,19 @@ const ModelsTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(osVersionList, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={osVersionList}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "OS Version",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
@@ -188,18 +191,19 @@ const ModelsTab: React.FC<SettingsTabProps> = ({ setMessage }) => {
                 }
               />
               <StyledSettingsColumnContentList>
-                {renderSettingsListItems(flexVersionList, {
-                  onEdit: id => {
+                <SettingsListItem
+                  list={flexVersionList}
+                  onEdit={id => {
                     console.log("edit", id)
-                  },
-                  onDelete: (id, name) => {
+                  }}
+                  onDelete={(id, name) => {
                     handleDeleteConfirmationModalOpen({
                       type: "Flex Version",
                       name,
                       id,
                     })
-                  },
-                })}
+                  }}
+                />
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
           </StyledSettingsColumn>

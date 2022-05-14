@@ -59,11 +59,11 @@ export const StyledAccountInformationTabFormLabel = styled(
 `
 
 export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
-  shouldForwardProp: prop => prop !== "roleField",
-})<{ roleField?: boolean }>(({ theme, roleField }) => ({
+  shouldForwardProp: prop => prop !== "large",
+})<{ large?: boolean }>(({ theme, large }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
-    padding: roleField
+    padding: large
       ? `${rem("20px")} ${rem("16px")}`
       : `${rem("14px")} ${rem("16px")}`,
     position: "relative",

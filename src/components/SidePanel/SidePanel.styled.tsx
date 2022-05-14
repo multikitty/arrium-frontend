@@ -17,6 +17,7 @@ export const StyledSidePanel = styled.div`
   padding: ${rem("40px")} 0;
   display: flex;
   flex-direction: column;
+  z-index: ${p => p.theme.zIndices.drawer};
 `
 
 export const StyledSidePanelBrandLogoContainer = styled(

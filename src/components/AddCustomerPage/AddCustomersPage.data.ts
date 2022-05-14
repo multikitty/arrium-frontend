@@ -6,4 +6,4 @@ export const tabs = {
   locations: "locations",
 } as const
 
-export type Tabs = keyof typeof tabs
+export type TabType = keyof typeof tabs

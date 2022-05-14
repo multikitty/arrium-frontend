@@ -1,8 +1,11 @@
 import React from "react"
 import "./TopLayout.css"
-import { AdminLayoutProps } from "../AdminLayout/AdminLayout.types"
 
-const TopLayout = ({ children }: AdminLayoutProps) => {
+interface IProps {
+  children: React.ReactNode
+}
+
+const TopLayout: React.FC<IProps> = ({ children }) => {
   return <React.Fragment>{children}</React.Fragment>
 }
 

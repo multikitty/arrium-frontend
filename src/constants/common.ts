@@ -1,5 +1,3 @@
-import { DriverPages } from "@/types/common"
-
 export const UserRoles = {
   driver: "driver",
   admin: "admin",
@@ -29,6 +27,13 @@ export const AdminPages = {
   referrals: "referrals",
   timezones: "timezones",
   plans: "plans",
+} as const
+
+export const DriverPages = {
+  availability: "availability",
+  subscription: "subscription",
+  faq: "faq",
+  support: "support",
 } as const
 
 export const defaultRoutes = {

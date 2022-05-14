@@ -26,7 +26,7 @@ import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { FullscreenMenuProps } from "./FullScreenMenu.types."
-import { DriverPages } from "@/types/common"
+import { DriverPages } from "@/constants/common"
 
 const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
   const { userStore } = useStore()
@@ -173,7 +173,7 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              mb={2}
+              mb={6}
             >
               <ContainedButton onClick={handleLogoutButtonClick}>
                 Logout

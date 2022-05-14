@@ -34,6 +34,7 @@ declare module "styled-components" {
     }
     zIndices: {
       modalOverlay: number
+      drawer: number
       fullscreenLandingMenu: number
       navbar: number
       bottomImage: number
