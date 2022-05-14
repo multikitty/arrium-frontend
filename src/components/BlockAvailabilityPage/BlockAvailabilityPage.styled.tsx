@@ -2,6 +2,7 @@ import { rem } from "polished"
 import styled from "styled-components"
 import { Box, Button, TextField } from "@mui/material"
 import theme from "@/theme"
+import { devices } from "@/constants/device"
 
 export const StyledBlockAvailablityPageWrapper = styled(Box)`
   display: flex;
@@ -43,7 +44,12 @@ export const StyledCollapsedSearch = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${rem("32px")};
+  padding: ${rem("20px")};
+
+  @media ${devices.web.down} {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `
 
 export const StyledCircle = styled.div`
@@ -97,4 +103,19 @@ export const StyledWarningTextSmall = styled.p`
   font-weight: 400;
   line-height: 16px;
   color: #f25555;
+`
+
+export const StyledAvailabilityMobile = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  min-width: ${rem("300px")};
+`
+export const StyledAvailabilityTitleMobile = styled.p`
+  font-family: Inter;
+  font-size: ${rem("28px")};
+  font-weight: 300;
+  line-height: ${rem("32px")};
+  padding: ${rem("24px")} ${rem("20px")};
 `

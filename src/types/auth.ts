@@ -1,4 +1,4 @@
-import { UserRoles } from "./common"
+import { UserRolesType } from "./common"
 
 export type UserType = {
   firstName: string
@@ -7,5 +7,5 @@ export type UserType = {
   isPhoneVerified?: boolean
   email?: string
   isEmailVerified?: boolean
-  role?: UserRoles
+  role?: UserRolesType
 } | null

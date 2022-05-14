@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import Chip from "@mui/material/Chip"
 import Stack from "@mui/material/Stack"
 import {
@@ -18,6 +18,8 @@ import {
   StyledTextWrapper,
   StyledShowMoreText,
   StyledTimePickerField,
+  StyledAvailabilityMobile,
+  StyledAvailabilityTitleMobile,
 } from "./BlockAvailabilityPage.styled"
 import EditSearchActiveIcon from "@/assets/icons/edit_icon_active.inline.svg"
 import ArrowDownIcon from "@/assets/icons/filter-arrow_down.inline.svg"
@@ -73,13 +75,13 @@ const tabStyles = {
 }
 
 const BlockAvailabilityPage = () => {
+  const isWebView = useMediaQuery(devices.web.up)
   const { availibilityStore } = useStore()
-  // const isWebView = useMediaQuery(devices.web.up)
   const [tabIndex, setTabIndex] = React.useState(0)
   const [weekData, setWeekData] = useState<Array<weekProps>>(week)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
-  const [isSearchable, setIsSearchable] = useState<boolean>(true)
+  const [isSearchable, setIsSearchable] = useState<boolean>(false)
 
   const handleClick = (item: weekProps) => {
     setWeekData(data =>
@@ -104,8 +106,6 @@ const BlockAvailabilityPage = () => {
     mode: "onBlur",
   })
 
-  useEffect(() => {}, [weekData])
-
   const onSubmit = (data: FormValues) => {
     availibilityStore.setInitialState(data)
     console.log("onSubmit", data)
@@ -115,7 +115,7 @@ const BlockAvailabilityPage = () => {
     console.log("Invalid", data)
   }
 
-  return (
+  return isWebView ? (
     <StyledBlockAvailabilityPage>
       <StyledBlockAvailabilityPageHeader>
         Availability
@@ -260,6 +260,145 @@ const BlockAvailabilityPage = () => {
         </Box>
       </StyledBlockAvailablityPageWrapper>
     </StyledBlockAvailabilityPage>
+  ) : (
+    <StyledAvailabilityMobile>
+      <StyledAvailabilityTitleMobile>
+        Availability
+      </StyledAvailabilityTitleMobile>
+      <Box component="form" onSubmit={handleSubmit(onSubmit, onInvalid)}>
+        <Box display="flex" flexDirection="column" p={rem("20px")}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={rem("16px")}
+          >
+            <StyledBlockSearchText>Search preferences</StyledBlockSearchText>
+            {!isSearchable ? (
+              <StyledSearchButton
+                onClick={() => setIsSearchable(true)}
+                startIcon={<EditSearchActiveIcon />}
+              >
+                Edit Search
+              </StyledSearchButton>
+            ) : (
+              <StyledSearchButton
+                type="reset"
+                onClick={() => reset()}
+                startIcon={<DeleteIcon />}
+              >
+                Clear all
+              </StyledSearchButton>
+            )}
+          </Box>
+          <Stack direction="row" spacing={1}>
+            {weekData.map(item => (
+              <Chip
+                key={item.day}
+                label={item.day.slice(0, 2)}
+                variant="outlined"
+                onClick={() => handleClick(item)}
+                color={item.isSelected ? "success" : "default"}
+              />
+            ))}
+          </Stack>
+        </Box>
+        {!isSearchable ? (
+          <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+            {TabDataSearch(rowSearches)}
+          </Collapse>
+        ) : (
+          <Box>
+            <SearchTable register={register} unregister={unregister} />
+          </Box>
+        )}
+        {!isSearchable ? (
+          <StyledCollapsedSearch>
+            <Box
+              display="flex"
+              sx={{ cursor: "pointer" }}
+              justifyContent="space-between"
+            >
+              <Box display="flex" onClick={() => setIsExpanded(prev => !prev)}>
+                <StyledCircle>
+                  {!isExpanded ? <ArrowDownIcon /> : <ArrowUpIcon />}
+                </StyledCircle>
+                <StyledShowMoreText>
+                  {!isExpanded ? "Show more" : "Show less"}
+                </StyledShowMoreText>
+              </Box>
+              <Box>
+                <StyledShowMoreText>
+                  Autostart Search <strong>16:00</strong>
+                </StyledShowMoreText>
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mt={rem("24px")}
+            >
+              <Box display="flex" alignItems="center">
+                {isSearching ? <RunningIcon /> : <StoppingIcon />}
+                <StyledShowMoreText>
+                  {isSearching ? "Running" : "Stopped"}
+                </StyledShowMoreText>
+              </Box>
+              <Box>
+                <ContainedButton onClick={() => setIsSearching(prev => !prev)}>
+                  {isSearching ? "Stop Search" : "Start Searching"}
+                </ContainedButton>
+              </Box>
+            </Box>
+          </StyledCollapsedSearch>
+        ) : (
+          <StyledCollapsedSearch>
+            <Box display="flex" flexDirection="column" justifyContent="center">
+              {content.blockAvailibility.formControlLabelForSwitches.map(
+                (label: string, index: number) => (
+                  <Box key={index}>
+                    <FormControlLabel
+                      control={<Switch sx={{ m: 1 }} />}
+                      label={label}
+                    />
+                    {index === 0 && (
+                      <StyledTimePickerField
+                        type="time"
+                        sx={{ mr: rem("32px") }}
+                        inputProps={{
+                          step: 300,
+                        }}
+                      />
+                    )}
+                  </Box>
+                )
+              )}
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-around"
+              mt={rem("16px")}
+            >
+              <OutlinedButton
+                sx={{
+                  whiteSpace: "nowrap",
+                  color: theme.palette.grey7,
+                  borderColor: theme.palette.grey3,
+                  width: rem("159px"),
+                }}
+              >
+                Cancel
+              </OutlinedButton>
+              <ContainedButton sx={{ width: rem("159px") }} type="submit">
+                Save
+              </ContainedButton>
+            </Box>
+          </StyledCollapsedSearch>
+        )}
+      </Box>
+    </StyledAvailabilityMobile>
   )
 }
 

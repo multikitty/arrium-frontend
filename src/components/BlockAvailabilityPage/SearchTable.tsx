@@ -210,9 +210,7 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                   <SearchTableTextField
                     placeholder="Type..."
                     type="number"
-                    {...register(`minimumPay.${index}`, {
-                      required: true,
-                    })}
+                    {...register(`minimumPay.${index}`)}
                     disabled={!checkboxValues[index]}
                     inputProps={{
                       min: 0,
@@ -254,9 +252,7 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                   <SearchTableTextField
                     placeholder="Type..."
                     type="number"
-                    {...register(`minimumHourlyRate.${index}`, {
-                      required: true,
-                    })}
+                    {...register(`minimumHourlyRate.${index}`)}
                     disabled={!checkboxValues[index]}
                     inputProps={{
                       min: 0,

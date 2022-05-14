@@ -10,7 +10,7 @@ import {
   StyledDriverLayout,
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
-import FullscreenMenu from "../FullscreenMenu"
+import FullscreenMenu from "../FullscreenMenu" 
 import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 

@@ -73,7 +73,7 @@ export const StyledLandingNavbarRightContainerLoginButton = styled.button`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 100%;
+  line-height: 1.5;
   margin-right: ${rem("40px")};
   transition: all 150ms ease-out;
 

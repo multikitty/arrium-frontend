@@ -22,7 +22,7 @@ export const content = {
   blockAvailibility: {
     labelsForTabs: ["All", "Accepted", "Ignored", "Rejected"],
     formControlLabelForSwitches: [
-      "AutoStart Search",
+      "Autostart Search",
       "Reject offers from ‘unticked’ locations",
     ],
   },

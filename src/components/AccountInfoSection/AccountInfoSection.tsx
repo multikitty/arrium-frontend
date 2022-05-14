@@ -136,7 +136,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         </StyledSignUpText>
       </Box>
     </StyledLoginContainer>
-  ) : (
+  ) : ( 
     <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
       {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
       <Box
