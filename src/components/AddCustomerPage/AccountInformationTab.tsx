@@ -371,11 +371,11 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
               <Box mt={rem("24px")}>
                 <Controller
                   control={control}
-                  name="sendPasswordChangeRequest"
+                  name="sendPasswordResetEmail"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
                       control={<Checkbox checked={value} onChange={onChange} />}
-                      label="Send Password Change Request"
+                      label="Send Password Reset Email"
                     />
                   )}
                 />
