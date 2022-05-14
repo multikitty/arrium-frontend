@@ -16,6 +16,7 @@ import TimeZoneSelect from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
 
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import { BpCheckbox as Checkbox } from "@/components/commons/CheckBox"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
@@ -365,6 +366,19 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                     {formState.errors?.status?.message}
                   </StyledAccountInformationTabFormHelperText>
                 )}
+              </Box>
+              {/* Send password change request checkbox */}
+              <Box mt={rem("24px")}>
+                <Controller
+                  control={control}
+                  name="sendPasswordChangeRequest"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={<Checkbox checked={value} onChange={onChange} />}
+                      label="Send Password Change Request"
+                    />
+                  )}
+                />
               </Box>
             </Box>
           </Grid>

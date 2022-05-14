@@ -21,6 +21,7 @@ const accountInformationFormValidationSchema = Yup.object().shape({
   status: Yup.string().oneOf(["disabled", "active", "inactive"]),
   startDate: Yup.date(),
   endDate: Yup.date(),
+  sendPasswordChangeRequest: Yup.boolean(),
 })
 
 const accountInformationFormOptions = {
@@ -36,6 +37,7 @@ const accountInformationFormOptions = {
     status: "active",
     startDate: "",
     endDate: "",
+    sendPasswordChangeRequest: false,
   },
 }
 
