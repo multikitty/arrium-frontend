@@ -11,6 +11,7 @@ interface IProps
     | React.Dispatch<React.SetStateAction<RegionData | null | undefined>>
     | ((region: RegionData | null) => void)
   required?: boolean
+  label?: string
 }
 
 const RegionSelect: React.FC<IProps> = ({
@@ -18,6 +19,7 @@ const RegionSelect: React.FC<IProps> = ({
   region,
   setRegion,
   required,
+  label = "Select Region",
   ...props
 }) => {
   return (
@@ -36,7 +38,7 @@ const RegionSelect: React.FC<IProps> = ({
         <TextField
           {...params}
           required={Boolean(required)}
-          label="Select Region"
+          label={label}
           InputProps={{
             ...params.InputProps,
             endAdornment: (

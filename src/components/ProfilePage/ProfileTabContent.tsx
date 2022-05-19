@@ -96,6 +96,7 @@ const ProfileTabContent = () => {
     handleNameEditDisable()
     userStore.setUser = {
       ...userStore.currentUser,
+      id: userStore.currentUser?.id || "",
       firstName: getValues("name"),
       lastName: userStore.currentUser?.lastName || "",
     }
@@ -107,6 +108,7 @@ const ProfileTabContent = () => {
     handleSurNameEditDisable()
     userStore.setUser = {
       ...userStore.currentUser,
+      id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: getValues("surName"),
     }
@@ -122,6 +124,7 @@ const ProfileTabContent = () => {
     const newEmail = getValues("email")
     userStore.setUser = {
       ...userStore.currentUser,
+      id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: userStore.currentUser?.lastName || "",
       email: newEmail,
@@ -139,6 +142,7 @@ const ProfileTabContent = () => {
     const newPhone = getValues("phoneNumber")
     userStore.setUser = {
       ...userStore.currentUser,
+      id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: userStore.currentUser?.lastName || "",
       phoneNumber: newPhone,

@@ -17,7 +17,7 @@ export const StyledFullscreenMenu = styled.div<{
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: ${p => p.theme.sizes.topbarHeight};
+  top: ${p => rem(p.theme.sizes.topbarHeight)};
   left: 0;
   width: 100%;
 
@@ -36,14 +36,23 @@ export const StyledFullscreenMenu = styled.div<{
 
 export const StyledFullscreenMenuUpperContainer = styled.div`
   background-color: ${p => p.theme.palette.background};
-  padding: ${rem("26px")} ${rem("20px")} ${rem("12px")};
   margin-bottom: ${rem("1px")};
+  padding-top: ${rem("14px")};
 `
 
-export const StyledFullscreenMenuUpperContainerItem = styled.div`
+export const StyledFullscreenMenuUpperContainerItem = styled.div<{
+  active?: boolean
+  last?: boolean
+}>`
   display: flex;
   align-items: center;
-  margin-bottom: ${rem("14px")};
+  margin-top: ${rem("7px")};
+  margin-bottom: ${p => (p.last ? rem("14px") : 0)};
+  padding: ${rem("12px")} ${rem("24px")};
+  border-left: 4px solid transparent;
+  background-color: ${p =>
+    p.active ? p.theme.palette.common.white : "transparent"};
+  border-left-color: ${p => (p.active ? p.theme.palette.main : "transparent")};
 `
 
 export const StyledFullscreenMenuUpperContainerItemText = styled.h5`

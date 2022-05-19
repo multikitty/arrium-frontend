@@ -8,13 +8,24 @@ import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { Badge, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import CloseIcon from "@mui/icons-material/Close"
-import { MobileTopbarProps } from "./MobileTopbar.types"
+import { navigate } from "gatsby"
+import { defaultRoutes, UserRoles } from "@/constants/common"
+import { useStore } from "@/store"
+import { UserRolesType } from "@/types/common"
 
-const MobileTopbar: React.FC<MobileTopbarProps> = ({
+export interface IProps {
+  isFullscreenMenuOpen: boolean
+  handleFullscreenMenuOpen: () => void
+  handleFullscreenMenuClose: () => void
+}
+
+const MobileTopbar: React.FC<IProps> = ({
   handleFullscreenMenuClose,
   handleFullscreenMenuOpen,
   isFullscreenMenuOpen,
 }) => {
+  const { userStore } = useStore()
+
   const handleMenuButtonClick = () => {
     handleFullscreenMenuOpen()
   }
@@ -23,10 +34,24 @@ const MobileTopbar: React.FC<MobileTopbarProps> = ({
     handleFullscreenMenuClose()
   }
 
+  const handleBrandLogoClick = () => {
+    navigate(
+      `/${
+        defaultRoutes[
+          (userStore.currentUser?.role || UserRoles.driver) as UserRolesType
+        ]
+      }`
+    )
+    handleFullscreenMenuClose()
+  }
+
   return (
     <StyledMobileTopbar>
       <StyledMobileTopbarBrandLogoContainer>
-        <StyledMobileTopbarBrandLogo src={brandLogo} />
+        <StyledMobileTopbarBrandLogo
+          src={brandLogo}
+          onClick={handleBrandLogoClick}
+        />
       </StyledMobileTopbarBrandLogoContainer>
       {isFullscreenMenuOpen ? (
         <IconButton size="small" onClick={handleCloseButtonClick}>

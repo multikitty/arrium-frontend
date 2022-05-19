@@ -17,18 +17,17 @@ import {
   StyledFullscreenMenuUpperContainerItemText,
   StyledFullscreenMenuUpperContainerNotificationIcon,
 } from "./FullscreenMenu.styled"
-import SearchIcon from "@/assets/icons/sidepanel_driver-search_icon.inline.svg"
-import SubscriptionIcon from "@/assets/icons/sidepanel_driver-subscription_icon.inline.svg"
-import FAQIcon from "@/assets/icons/sidepanel_driver-faq_icon.inline.svg"
-import SupportIcon from "@/assets/icons/sidepanel_driver-support_icon.inline.svg"
-import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
-import { FullscreenMenuProps } from "./FullScreenMenu.types."
-import { DriverPages } from "@/constants/common"
+import { driverNavigationData } from "./FullscreenMenu.data"
 
-const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
+export interface IProps {
+  open: boolean
+  handleFullscreenMenuClose: () => void
+}
+
+const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
   const { userStore } = useStore()
   const { pathname } = useLocation()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
@@ -36,23 +35,12 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
   const handleNotificationsMenuOpen = () => setIsNotificationsMenuOpen(true)
   const handleNotificationsMenuClose = () => setIsNotificationsMenuOpen(false)
 
-  const isBlockAvailibityPage = pathname === `/${DriverPages.availability}`
-  const isSubscriptionPage = pathname === `/${DriverPages.subscription}`
-  const isFAQsPage = pathname === `/${DriverPages.faq}`
-  const isSupportPage = pathname === `/${DriverPages.support}`
-
-  const handleNavigateToBlockAvailibityPage = () =>
-    navigate(`/${DriverPages.availability}`)
-  const handleNavigateToSubscriptionPage = () =>
-    navigate(`/${DriverPages.subscription}`)
-  const handleNavigateToFAQsPage = () => navigate(`/${DriverPages.faq}`)
-  const handleNavigateToSupportPage = () => navigate(`/${DriverPages.support}`)
-
   const handleLogoutButtonClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
     userStore.logout()
+    handleFullscreenMenuClose()
   }
 
   const handleProfileItemClick:
@@ -60,6 +48,7 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
     | undefined = e => {
     e.stopPropagation()
     navigate(`/profile`)
+    handleFullscreenMenuClose()
   }
 
   const handleNotificationsItemClick:
@@ -69,6 +58,27 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
     handleNotificationsMenuOpen()
   }
 
+  const handleNavigationItemClick = (href: string) => {
+    handleFullscreenMenuClose()
+    navigate(href)
+  }
+
+  const navigationItemsJSX = driverNavigationData.map(data => (
+    <StyledFullscreenMenuBottomContainerItem
+      active={pathname.includes(data.href)}
+      onClick={() => handleNavigationItemClick(`/${data.href}`)}
+    >
+      <StyledFullscreenMenuBottomContainerItemIcon
+        active={pathname.includes(data.href)}
+      >
+        {<data.icon />}
+      </StyledFullscreenMenuBottomContainerItemIcon>
+      <StyledFullscreenMenuBottomContainerItemText>
+        {data.label}
+      </StyledFullscreenMenuBottomContainerItemText>
+    </StyledFullscreenMenuBottomContainerItem>
+  ))
+
   return (
     <StyledFullscreenMenu visible={open}>
       {isNotificationsMenuOpen ? (
@@ -76,9 +86,10 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
           handleClose={handleNotificationsMenuClose}
         />
       ) : (
-        <>
+        <React.Fragment>
           <StyledFullscreenMenuUpperContainer>
             <StyledFullscreenMenuUpperContainerItem
+              active={pathname.includes("profile")}
               onClick={handleProfileItemClick}
             >
               <Box mr={rem("12px")}>
@@ -96,6 +107,7 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
               </StyledFullscreenMenuUpperContainerItemText>
             </StyledFullscreenMenuUpperContainerItem>
             <StyledFullscreenMenuUpperContainerItem
+              last
               onClick={handleNotificationsItemClick}
             >
               <Box mr={rem("12px")}>
@@ -118,69 +130,19 @@ const FullscreenMenu = ({ open }: FullscreenMenuProps) => {
             </StyledFullscreenMenuUpperContainerItem>
           </StyledFullscreenMenuUpperContainer>
           <StyledFullscreenMenuBottomContainer>
-            <StyledFullscreenMenuBottomContainerItem
-              active={isBlockAvailibityPage}
-              onClick={handleNavigateToBlockAvailibityPage}
-            >
-              <StyledFullscreenMenuBottomContainerItemIcon
-                active={isBlockAvailibityPage}
-              >
-                <SearchIcon />
-              </StyledFullscreenMenuBottomContainerItemIcon>
-              <StyledFullscreenMenuBottomContainerItemText>
-                Block availability
-              </StyledFullscreenMenuBottomContainerItemText>
-            </StyledFullscreenMenuBottomContainerItem>
-            <StyledFullscreenMenuBottomContainerItem
-              active={isSubscriptionPage}
-              onClick={handleNavigateToSubscriptionPage}
-            >
-              <StyledFullscreenMenuBottomContainerItemIcon
-                active={isSubscriptionPage}
-              >
-                <SubscriptionIcon />
-              </StyledFullscreenMenuBottomContainerItemIcon>
-              <StyledFullscreenMenuBottomContainerItemText>
-                Subscription
-              </StyledFullscreenMenuBottomContainerItemText>
-            </StyledFullscreenMenuBottomContainerItem>
-            <StyledFullscreenMenuBottomContainerItem
-              active={isFAQsPage}
-              onClick={handleNavigateToFAQsPage}
-            >
-              <StyledFullscreenMenuBottomContainerItemIcon active={isFAQsPage}>
-                <FAQIcon />
-              </StyledFullscreenMenuBottomContainerItemIcon>
-              <StyledFullscreenMenuBottomContainerItemText>
-                FAQs
-              </StyledFullscreenMenuBottomContainerItemText>
-            </StyledFullscreenMenuBottomContainerItem>
-            <StyledFullscreenMenuBottomContainerItem
-              active={isSupportPage}
-              onClick={handleNavigateToSupportPage}
-            >
-              <StyledFullscreenMenuBottomContainerItemIcon
-                active={isSupportPage}
-              >
-                <SupportIcon />
-              </StyledFullscreenMenuBottomContainerItemIcon>
-              <StyledFullscreenMenuBottomContainerItemText>
-                Support
-              </StyledFullscreenMenuBottomContainerItemText>
-            </StyledFullscreenMenuBottomContainerItem>
-            <StyledFlexGrow />
+            {navigationItemsJSX}
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
-              mb={6}
+              mt={2}
             >
               <ContainedButton onClick={handleLogoutButtonClick}>
                 Logout
               </ContainedButton>
             </Box>
           </StyledFullscreenMenuBottomContainer>
-        </>
+        </React.Fragment>
       )}
     </StyledFullscreenMenu>
   )

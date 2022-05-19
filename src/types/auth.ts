@@ -8,4 +8,5 @@ export type UserType = {
   email?: string
   isEmailVerified?: boolean
   role?: UserRolesType
+  id: string
 } | null

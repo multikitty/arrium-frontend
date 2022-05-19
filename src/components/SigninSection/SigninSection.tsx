@@ -23,6 +23,7 @@ import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { Link } from "@reach/router"
 import { UserRoles } from "@/constants/common"
+import { nanoid } from "nanoid"
 
 const SigninSection = () => {
   const { userStore } = useStore()
@@ -48,6 +49,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.admin,
+        id: nanoid(),
       })
       navigate("/customers")
     } else if (
@@ -62,6 +64,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.salesAgent,
+        id: nanoid(),
       })
       navigate("/dashboard")
     } else {
@@ -73,6 +76,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: false,
         role: UserRoles.driver,
+        id: nanoid(),
       })
       navigate("/")
     }

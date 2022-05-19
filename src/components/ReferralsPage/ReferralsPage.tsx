@@ -24,86 +24,11 @@ import { rem } from "polished"
 import AddIcon from "@mui/icons-material/Add"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import CreateReferralModal from "./CreateReferralModal"
-
-function createData(
-  referralCode: string,
-  region: string,
-  station: string,
-  assignedTo: string,
-  dateGenerated: string,
-  active: "Yes" | "No"
-) {
-  return { referralCode, region, station, assignedTo, dateGenerated, active }
-}
-
-const rows = [
-  createData(
-    "123456",
-    "London - Bow",
-    "Canning Town",
-    "John Snow",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "789012",
-    "London - Bow",
-    "Canning Town",
-    "Mr.Bobinsky",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "098765",
-    "London - Bow",
-    "Dartford",
-    "Phoebe Buffay",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "432109",
-    "London - Bow",
-    "Canning Town",
-    "Monica Geller",
-    "Oct 10, 2021",
-    "No"
-  ),
-  createData(
-    "321654",
-    "London - Bow",
-    "Dartford",
-    "Rachel Green",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "876321",
-    "Manchester",
-    "Trafford Centre",
-    "Ross Geller",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "341970",
-    "Manchester",
-    "Trafford Centre",
-    "Elizabeth Brown",
-    "Oct 10, 2021",
-    "Yes"
-  ),
-  createData(
-    "527943",
-    "Manchester",
-    "Trafford Centre",
-    "Coraline Jones",
-    "Oct 10, 2021",
-    "No"
-  ),
-]
+import { useStore } from "@/store"
+import referralsData from "./ReferralsPage.data"
 
 const ReferralsPage = () => {
+  const { userStore } = useStore()
   const [isCreateReferralModalOpen, setIsCreateReferralModalOpen] =
     useState(false)
 
@@ -113,10 +38,13 @@ const ReferralsPage = () => {
 
   return (
     <StyledReferralsPage>
-      <CreateReferralModal
-        open={isCreateReferralModalOpen}
-        handleClose={handleCreateReferralModalClose}
-      />
+      {isCreateReferralModalOpen && userStore.currentUser?.role && (
+        <CreateReferralModal
+          open={isCreateReferralModalOpen}
+          handleClose={handleCreateReferralModalClose}
+          role={userStore.currentUser.role}
+        />
+      )}
       <StyledReferralsPageHeader>Referrals</StyledReferralsPageHeader>
       <StyledReferralsPageContent>
         <StyledReferralsPageContentUpperSection>
@@ -229,9 +157,9 @@ const ReferralsPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
+              {referralsData.map(referral => (
                 <TableRow
-                  key={row.referralCode}
+                  key={referral.referralCode}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
@@ -247,7 +175,7 @@ const ReferralsPage = () => {
                       paddingLeft: rem("32px"),
                     }}
                   >
-                    {row.referralCode}
+                    {referral.referralCode}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -259,7 +187,7 @@ const ReferralsPage = () => {
                     }}
                     align="left"
                   >
-                    {row.region}
+                    {referral.region}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -271,7 +199,7 @@ const ReferralsPage = () => {
                     }}
                     align="left"
                   >
-                    {row.station}
+                    {referral.station}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -284,7 +212,7 @@ const ReferralsPage = () => {
                     }}
                     align="left"
                   >
-                    {row.assignedTo}
+                    {referral.assignedTo}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -296,7 +224,7 @@ const ReferralsPage = () => {
                     }}
                     align="left"
                   >
-                    {row.dateGenerated}
+                    {referral.dateGenerated}
                   </TableCell>
                   <TableCell
                     sx={{
@@ -308,7 +236,7 @@ const ReferralsPage = () => {
                     }}
                     align="left"
                   >
-                    {row.active}
+                    {referral.active}
                   </TableCell>
                 </TableRow>
               ))}

@@ -10,7 +10,7 @@ import {
   StyledDriverLayout,
   StyledDriverLayoutContent,
 } from "./DriverLayout.styled"
-import FullscreenMenu from "../FullscreenMenu" 
+import FullscreenMenu from "../FullscreenMenu"
 import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 
@@ -34,13 +34,18 @@ const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
           {isDesktopView ? (
             <Topbar />
           ) : (
-            <MobileTopbar
-              handleFullscreenMenuOpen={handleFullscreenMenuOpen}
-              handleFullscreenMenuClose={handleFullscreenMenuClose}
-              isFullscreenMenuOpen={isFullscreenMenuOpen}
-            />
+            <React.Fragment>
+              <MobileTopbar
+                handleFullscreenMenuOpen={handleFullscreenMenuOpen}
+                handleFullscreenMenuClose={handleFullscreenMenuClose}
+                isFullscreenMenuOpen={isFullscreenMenuOpen}
+              />
+              <FullscreenMenu
+                open={isFullscreenMenuOpen}
+                handleFullscreenMenuClose={handleFullscreenMenuClose}
+              />
+            </React.Fragment>
           )}
-          {!isDesktopView && <FullscreenMenu open={isFullscreenMenuOpen} />}
           {children}
         </StyledDriverLayoutContent>
       </StyledDriverLayout>

@@ -1,5 +1,5 @@
-import React from "react"
-import { Box, IconButton, MenuItem, Modal, Select } from "@mui/material"
+import * as React from "react"
+import { Autocomplete, Box, IconButton, Modal, TextField } from "@mui/material"
 import { rem } from "polished"
 import {
   StyledCreateReferralModal,
@@ -11,12 +11,28 @@ import {
 } from "./ReferralsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton } from "../commons/Button"
-import { CreateReferralModalProps } from "./ReferralsPage.types"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
+import { UserRolesType } from "@/types/common"
+import { UserRoles } from "@/constants/common"
+import CountrySelect from "../CountrySelect"
+import { CountryData, RegionData } from "@/utils/getCountryData"
+import RegionSelect from "../RegionSelect"
 
-const CreateReferralModal: React.FC<CreateReferralModalProps> = ({
-  handleClose,
-  open,
-}) => {
+export interface IProps {
+  open: boolean
+  handleClose: () => void
+  role: UserRolesType
+}
+
+const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
+  const { userStore } = useStore()
+  const [country, setCountry] = React.useState<CountryData | null>(null)
+  const [region, setRegion] = React.useState<RegionData | null>(null)
+  const [assignTo, setAssignTo] = React.useState(
+    role === UserRoles.salesAgent ? userStore.userFullName : ""
+  )
+
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledCreateReferralModal>
@@ -30,40 +46,63 @@ const CreateReferralModal: React.FC<CreateReferralModalProps> = ({
         </StyledCreateReferralModalTitle>
         <StyledCreateReferralModalForm>
           <Box display="flex" mb={rem("16px")}>
-            <Select
-              defaultValue="none"
-              input={<StyledCreateReferralModalFormField />}
-            >
-              <MenuItem disabled value="none">
-                Choose region
-              </MenuItem>
-            </Select>
+            <CountrySelect
+              fullWidth
+              required
+              label="Choose Country"
+              country={country}
+              setCountry={setCountry}
+            />
           </Box>
           <Box display="flex" mb={rem("16px")}>
-            <Select
-              defaultValue="none"
-              input={<StyledCreateReferralModalFormField />}
-            >
-              <MenuItem disabled value="none">
-                Choose station
-              </MenuItem>
-            </Select>
+            <RegionSelect
+              fullWidth
+              required
+              label="Choose Region"
+              disabled={!country}
+              country={country?.countryShortName}
+              region={region}
+              setRegion={setRegion}
+            />
           </Box>
           <Box display="flex" mb={rem("16px")}>
-            <StyledCreateReferralModalFormField placeholder="Number of referrals" />
+            <Autocomplete
+              fullWidth
+              disabled={!country || !region}
+              options={[]}
+              renderInput={params => (
+                <TextField {...params} label="Choose Station" required />
+              )}
+            />
+          </Box>
+          <Box display="flex" mb={rem("16px")}>
+            <StyledCreateReferralModalFormField
+              placeholder="Number of referrals"
+              type="number"
+              required
+              inputProps={{
+                min: 1,
+                max: 10,
+              }}
+            />
           </Box>
           <Box display="flex" mb={rem("44px")}>
-            <Select
-              defaultValue="none"
-              input={<StyledCreateReferralModalFormField />}
-            >
-              <MenuItem disabled value="none">
-                Assign to
-              </MenuItem>
-            </Select>
+            {userStore.userFullName && (
+              <Autocomplete
+                fullWidth
+                value={assignTo}
+                onChange={(_, newVal) => setAssignTo(newVal)}
+                options={[userStore.userFullName]}
+                renderInput={params => (
+                  <TextField {...params} label="Assign To" required />
+                )}
+              />
+            )}
           </Box>
           <StyledCreateReferralModalFormAction>
-            <ContainedButton sx={{ width: "100%" }}>Save</ContainedButton>
+            <ContainedButton sx={{ width: "100%" }} type="submit">
+              Save
+            </ContainedButton>
           </StyledCreateReferralModalFormAction>
         </StyledCreateReferralModalForm>
       </StyledCreateReferralModal>
@@ -71,4 +110,4 @@ const CreateReferralModal: React.FC<CreateReferralModalProps> = ({
   )
 }
 
-export default CreateReferralModal
+export default observer(CreateReferralModal)

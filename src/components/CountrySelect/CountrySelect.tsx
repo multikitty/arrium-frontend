@@ -17,12 +17,14 @@ interface IProps
     | React.Dispatch<React.SetStateAction<CountryData | null | undefined>>
     | ((country: CountryData | null) => void)
   required?: boolean
+  label?: string
 }
 
 const CountrySelect: React.FC<IProps> = ({
   country,
   setCountry,
   required,
+  label = "Select Country",
   ...props
 }) => {
   const [open, setOpen] = React.useState(false)
@@ -79,7 +81,7 @@ const CountrySelect: React.FC<IProps> = ({
         <TextField
           {...params}
           required={Boolean(required)}
-          label="Select Country"
+          label={label}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
