@@ -22,7 +22,8 @@ import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
 import { accountInformationFormOptions } from "@/validation"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import { BpCheckbox as Checkbox } from "@/components/commons/CheckBox"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
@@ -430,6 +431,19 @@ const AccountInformationTab = (props: ITabProps) => {
                     {formState.errors?.status?.message}
                   </StyledAccountInformationTabFormHelperText>
                 )}
+              </Box>
+              {/* Send password change request checkbox */}
+              <Box mt={rem("24px")}>
+                <Controller
+                  control={control}
+                  name="sendPasswordResetEmail"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={<Checkbox checked={value} onChange={onChange} />}
+                      label="Send Password Change Request"
+                    />
+                  )}
+                />
               </Box>
             </Box>
           </Grid>

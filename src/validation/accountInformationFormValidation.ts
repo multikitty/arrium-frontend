@@ -37,7 +37,7 @@ const accountInformationFormOptions = {
     status: "active",
     startDate: "",
     endDate: "",
-    sendPasswordChangeRequest: false,
+    sendPasswordResetEmail: false,
   },
 }
 
