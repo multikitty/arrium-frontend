@@ -21,6 +21,7 @@ import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { driverNavigationData } from "./FullscreenMenu.data"
+import { Settings } from "@mui/icons-material"
 
 export interface IProps {
   open: boolean
@@ -106,6 +107,14 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
               <StyledFullscreenMenuUpperContainerItemText>
                 {userStore.userFullName}
               </StyledFullscreenMenuUpperContainerItemText>
+              <Settings
+                sx={{
+                  ml: 1,
+                  color: pathname.includes("profile")
+                    ? theme.palette.main
+                    : theme.palette.grey6,
+                }}
+              />
             </StyledFullscreenMenuUpperContainerItem>
             <StyledFullscreenMenuUpperContainerItem
               last
