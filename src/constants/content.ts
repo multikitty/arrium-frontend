@@ -1,3 +1,5 @@
+import { availabilityStatusOptions } from "@/components/AvailabilityPage/AvailabilityPage.data"
+
 export const content = {
   page403: {
     subHeader: [
@@ -19,8 +21,22 @@ export const content = {
     alreadyHaveAnAccount: "Already have an account?",
     logIn: "Log In",
   },
-  blockAvailibility: {
-    labelsForTabs: ["All", "Accepted", "Ignored", "Rejected"],
+  availibility: {
+    labelsForTabs: [
+      { label: "All", value: "all" },
+      {
+        label: availabilityStatusOptions.accepted.label,
+        value: availabilityStatusOptions.accepted.value,
+      },
+      {
+        label: availabilityStatusOptions.ignored.label,
+        value: availabilityStatusOptions.ignored.value,
+      },
+      {
+        label: availabilityStatusOptions.rejected.label,
+        value: availabilityStatusOptions.rejected.value,
+      },
+    ],
     formControlLabelForSwitches: [
       "Autostart Search",
       "Reject offers from ‘unticked’ locations",

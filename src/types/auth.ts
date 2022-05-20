@@ -1,6 +1,8 @@
 import { UserRolesType } from "./common"
+import { Plans } from "@/constants/common"
 
 export type UserType = {
+  id: string
   firstName: string
   lastName: string
   phoneNumber?: string
@@ -8,5 +10,5 @@ export type UserType = {
   email?: string
   isEmailVerified?: boolean
   role?: UserRolesType
-  id: string
+  plan?: keyof typeof Plans
 } | null

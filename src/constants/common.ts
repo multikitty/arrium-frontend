@@ -19,6 +19,16 @@ export const LabelledUserRoles = [
   },
 ]
 
+export const Plans = {
+  basic: "basic",
+  premium: "premium",
+}
+
+export const LabelledPlans = [
+  { label: "Basic", value: Plans.basic },
+  { label: "Premium", value: Plans.premium },
+]
+
 export const AdminPages = {
   customers: "customers",
   dashboard: "dashboard",

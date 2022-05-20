@@ -1,5 +1,8 @@
-import { Divider, IconButton } from "@mui/material"
 import React from "react"
+import { Divider, IconButton } from "@mui/material"
+import BackIcon from "@mui/icons-material/ChevronLeft"
+import { rem } from "polished"
+
 import {
   StyledFullscreenMenuNotifications,
   StyledFullscreenMenuNotificationsList,
@@ -8,9 +11,7 @@ import {
   StyledFullscreenMenuNotificationsUpperContainerDismissButton,
   StyledFullscreenMenuNotificationsUpperContainerTitle,
 } from "./FullscreenMenu.styled"
-import BackIcon from "@mui/icons-material/ChevronLeft"
 import theme from "@/theme"
-import { rem } from "polished"
 import InvoiceNotification from "../NotificationsDropdown/InvoiceNotification"
 import BlockAcceptNotification from "../NotificationsDropdown/BlockAcceptNotification"
 

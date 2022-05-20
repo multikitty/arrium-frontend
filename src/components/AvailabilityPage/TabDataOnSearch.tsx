@@ -21,9 +21,11 @@ import {
   StyledSubscriptionPageInvoiceItemValue,
   StyledSubscriptionPageInvoicesContainer as TabSearchDataMobile,
 } from "../SubscriptionPage/SubscriptionPage.styled"
+import { rowSearches } from "./AvailabilityPage.data"
 
-export const TabDataSearch = (rowsSearches: any[]) => {
+const TabDataSearch = () => {
   const isWebView = useMediaQuery(devices.web.up)
+
   return isWebView ? (
     <TableContainer>
       <Table>
@@ -92,9 +94,9 @@ export const TabDataSearch = (rowsSearches: any[]) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsSearches.map(row => (
+          {rowSearches.map(row => (
             <TableRow
-              key={row.Location}
+              key={row.location}
               sx={{
                 height: "72px",
                 "&:last-child td, &:last-child th": { border: 0 },
@@ -172,7 +174,7 @@ export const TabDataSearch = (rowsSearches: any[]) => {
     </TableContainer>
   ) : (
     <TabSearchDataMobile>
-      {rowsSearches.map(row => (
+      {rowSearches.map(row => (
         <StyledSubscriptionPageInvoice key={row.location}>
           <StyledSubscriptionPageInvoiceHeader>
             <StyledSubscriptionPageInvoiceHeaderTitle>
@@ -221,3 +223,5 @@ export const TabDataSearch = (rowsSearches: any[]) => {
     </TabSearchDataMobile>
   )
 }
+
+export default TabDataSearch

@@ -65,6 +65,7 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
 
   const navigationItemsJSX = driverNavigationData.map(data => (
     <StyledFullscreenMenuBottomContainerItem
+      key={data.href}
       active={pathname.includes(data.href)}
       onClick={() => handleNavigationItemClick(`/${data.href}`)}
     >

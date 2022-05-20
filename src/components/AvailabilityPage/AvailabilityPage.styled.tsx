@@ -4,20 +4,22 @@ import { Box, Button, TextField } from "@mui/material"
 import theme from "@/theme"
 import { devices } from "@/constants/device"
 
-export const StyledBlockAvailablityPageWrapper = styled(Box)`
+export const StyledAvailablityPageWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   border: 1px solid ${p => p.theme.palette.grey3};
   border-radius: ${rem("20px")};
 `
-export const StyledBlockHeader = styled.div`
+
+export const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: ${rem("24px")} ${rem("32px")};
   box-shadow: 0px 2px 8px 0px #0000000a;
 `
-export const StyledBlockSearchText = styled.p`
+
+export const StyledSearchText = styled.p`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
@@ -25,9 +27,11 @@ export const StyledBlockSearchText = styled.p`
   line-height: ${rem("32px")};
   color: ${p => p.theme.palette.grey7};
 `
+
 export const StyledTextWrapper = styled.div`
   display: flex;
 `
+
 export const StyledSearchButton = styled(Button)`
   &&& {
     margin-left: ${rem("20px")};
@@ -40,6 +44,7 @@ export const StyledSearchButton = styled(Button)`
     font-weight: 500;
   }
 `
+
 export const StyledCollapsedSearch = styled.div`
   display: flex;
   justify-content: space-between;
@@ -118,4 +123,20 @@ export const StyledAvailabilityTitleMobile = styled.p`
   font-weight: 300;
   line-height: ${rem("32px")};
   padding: ${rem("24px")} ${rem("20px")};
+`
+
+export const StyledAvailabilitySearchTableFieldContainer = styled.div`
+  position: relative;
+`
+
+export const StyledAvailabilitySearchTableFieldHelperText = styled.p`
+  position: absolute;
+  bottom: -${rem("18px")};
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: ${rem("10px")};
+  line-height: ${rem("16px")};
+
+  color: ${p => p.theme.palette.errorText};
 `

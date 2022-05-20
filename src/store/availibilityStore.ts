@@ -1,4 +1,4 @@
-import { FormValues } from "@/components/BlockAvailabilityPage/BlockAvailablityPage.types"
+import { FormValues } from "@/components/AvailabilityPage/AvailablityPage.types"
 import { action, makeAutoObservable } from "mobx"
 
 class AvailabilityStore {

@@ -22,22 +22,22 @@ import { rem } from "polished"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { Link } from "@reach/router"
-import { UserRoles } from "@/constants/common"
+import { Plans, UserRoles } from "@/constants/common"
 import { nanoid } from "nanoid"
 
 const SigninSection = () => {
   const { userStore } = useStore()
-  const [isVisible, SetIsVisible] = useState(false)
+  const isWebView = useMediaQuery(devices.web.up)
+  const [isVisible, setIsVisible] = useState(false)
+  const [isError] = useState(false)
+
   type formPropType =
     typeof formOptions.emailAndPasswordFormOptions.defaultValues
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<formPropType>(formOptions.emailAndPasswordFormOptions)
-  const isWebView = useMediaQuery(devices.web.up)
-  const [isError] = useState(false)
 
   const onSubmit = (data: formPropType) => {
     if (data.email === "mhussain@gmail.com" && data.password === "#h3!!O!23") {
@@ -49,6 +49,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.admin,
+
         id: nanoid(),
       })
       navigate("/customers")
@@ -64,6 +65,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.salesAgent,
+
         id: nanoid(),
       })
       navigate("/dashboard")
@@ -76,6 +78,7 @@ const SigninSection = () => {
         isPhoneVerified: true,
         isEmailVerified: false,
         role: UserRoles.driver,
+        plan: Plans.basic as keyof typeof Plans,
         id: nanoid(),
       })
       navigate("/")
@@ -104,7 +107,7 @@ const SigninSection = () => {
         {...register("password")}
         InputProps={{
           endAdornment: (
-            <IconButton onClick={() => SetIsVisible(prev => !prev)}>
+            <IconButton onClick={() => setIsVisible(prev => !prev)}>
               {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
             </IconButton>
           ),
@@ -186,7 +189,7 @@ const SigninSection = () => {
           {...register("password")}
           InputProps={{
             endAdornment: (
-              <IconButton onClick={() => SetIsVisible(prev => !prev)}>
+              <IconButton onClick={() => setIsVisible(prev => !prev)}>
                 {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
               </IconButton>
             ),

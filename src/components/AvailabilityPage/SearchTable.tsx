@@ -13,31 +13,39 @@ import theme from "@/theme"
 import { rem } from "polished"
 import { SearchTableTextField } from "../commons/commonComponents"
 import { BpCheckbox as Checkbox } from "../commons/CheckBox"
-import { SearchTableProps } from "./BlockAvailablityPage.types"
-import { searchTableData } from "./BlockAvailabilityPage.data"
+import { SearchTableProps } from "./AvailablityPage.types"
+import { searchTableData } from "./AvailabilityPage.data"
 import { content } from "@/constants/content"
 import { observer } from "mobx-react-lite"
+import {
+  StyledAvailabilitySearchTableFieldContainer,
+  StyledAvailabilitySearchTableFieldHelperText,
+} from "./AvailabilityPage.styled"
 
-const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
-  const [checkboxValues, setCheckBoxValues] = useState<Array<boolean>>(
+const tableHeaderGreyTextStyles = {
+  fontFamily: "Inter",
+  fontWeight: 600,
+  fontSize: rem("16px"),
+  lineHeight: rem("20px"),
+  color: theme.palette.grey6,
+}
+
+const tableHeaderBlackTextStyles = {
+  fontFamily: "Inter",
+  fontWeight: 600,
+  fontSize: rem("16px"),
+  lineHeight: rem("20px"),
+  color: theme.palette.blackText,
+}
+
+const SearchTable: React.FC<SearchTableProps> = ({
+  register,
+  unregister,
+  formState,
+}) => {
+  const [checkboxValues, setCheckBoxValues] = useState<boolean[]>(
     Array(searchTableData.length).fill(false)
   )
-
-  const tableHeaderGreyTextStyles = {
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: rem("16px"),
-    lineHeight: rem("20px"),
-    color: theme.palette.grey6,
-  }
-
-  const tableHeaderBlackTextStyles = {
-    fontFamily: "Inter",
-    fontWeight: 600,
-    fontSize: rem("16px"),
-    lineHeight: rem("20px"),
-    color: theme.palette.blackText,
-  }
 
   const handleCheckboxChange = (
     _: React.ChangeEvent<HTMLInputElement>,
@@ -117,18 +125,25 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
               >
                 <Box>
                   {checkboxValues[index] ? (
-                    <SearchTableTextField
-                      placeholder="Type..."
-                      {...register(`timeToArrive.${index}`, {
-                        required: true,
-                      })}
-                      disabled={!checkboxValues[index]}
-                      type="number"
-                      inputProps={{
-                        min: 0,
-                        max: 180,
-                      }}
-                    />
+                    <StyledAvailabilitySearchTableFieldContainer>
+                      <SearchTableTextField
+                        placeholder="Type..."
+                        {...register(`timeToArrive.${index}`, {
+                          required: true,
+                        })}
+                        disabled={!checkboxValues[index]}
+                        type="number"
+                        inputProps={{
+                          min: 0,
+                          max: 180,
+                        }}
+                      />
+                      {formState.errors?.timeToArrive?.[index] && (
+                        <StyledAvailabilitySearchTableFieldHelperText>
+                          {formState.errors.timeToArrive[index]?.message}
+                        </StyledAvailabilitySearchTableFieldHelperText>
+                      )}
+                    </StyledAvailabilitySearchTableFieldContainer>
                   ) : (
                     <SearchTableTextField
                       placeholder="Type..."
@@ -150,16 +165,23 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                 align="left"
               >
                 {checkboxValues[index] ? (
-                  <SearchTableTextField
-                    type="time"
-                    {...register(`startTime.${index}`, {
-                      required: true,
-                    })}
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      step: 300,
-                    }}
-                  />
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <SearchTableTextField
+                      type="time"
+                      {...register(`startTime.${index}`, {
+                        required: true,
+                      })}
+                      disabled={!checkboxValues[index]}
+                      inputProps={{
+                        step: 300,
+                      }}
+                    />
+                    {formState.errors?.startTime?.[index] && (
+                      <StyledAvailabilitySearchTableFieldHelperText>
+                        {formState.errors.startTime?.[index]?.message}
+                      </StyledAvailabilitySearchTableFieldHelperText>
+                    )}
+                  </StyledAvailabilitySearchTableFieldContainer>
                 ) : (
                   <SearchTableTextField
                     type="time"
@@ -179,16 +201,23 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                 align="left"
               >
                 {checkboxValues[index] ? (
-                  <SearchTableTextField
-                    type="time"
-                    {...register(`endTime.${index}`, {
-                      required: true,
-                    })}
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      step: 300,
-                    }}
-                  />
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <SearchTableTextField
+                      type="time"
+                      {...register(`endTime.${index}`, {
+                        required: true,
+                      })}
+                      disabled={!checkboxValues[index]}
+                      inputProps={{
+                        step: 300,
+                      }}
+                    />
+                    {formState.errors?.endTime?.[index] && (
+                      <StyledAvailabilitySearchTableFieldHelperText>
+                        {formState.errors.endTime?.[index]?.message}
+                      </StyledAvailabilitySearchTableFieldHelperText>
+                    )}
+                  </StyledAvailabilitySearchTableFieldContainer>
                 ) : (
                   <SearchTableTextField
                     type="time"
@@ -207,22 +236,29 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                 align="left"
               >
                 {checkboxValues[index] ? (
-                  <SearchTableTextField
-                    placeholder="Type..."
-                    type="number"
-                    {...register(`minimumPay.${index}`)}
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          &#8356;
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <SearchTableTextField
+                      placeholder="Type..."
+                      type="number"
+                      {...register(`minimumPay.${index}`)}
+                      disabled={!checkboxValues[index]}
+                      inputProps={{
+                        min: 0,
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            &#8356;
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    {formState.errors?.minimumPay?.[index] && (
+                      <StyledAvailabilitySearchTableFieldHelperText>
+                        {formState.errors.minimumPay?.[index]?.message}
+                      </StyledAvailabilitySearchTableFieldHelperText>
+                    )}
+                  </StyledAvailabilitySearchTableFieldContainer>
                 ) : (
                   <SearchTableTextField
                     placeholder="Type..."
@@ -249,22 +285,29 @@ const SearchTable: React.FC<SearchTableProps> = ({ register, unregister }) => {
                 align="left"
               >
                 {checkboxValues[index] ? (
-                  <SearchTableTextField
-                    placeholder="Type..."
-                    type="number"
-                    {...register(`minimumHourlyRate.${index}`)}
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          &#8356;
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <SearchTableTextField
+                      placeholder="Type..."
+                      type="number"
+                      {...register(`minimumHourlyRate.${index}`)}
+                      disabled={!checkboxValues[index]}
+                      inputProps={{
+                        min: 0,
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            &#8356;
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    {formState.errors?.minimumHourlyRate?.[index] && (
+                      <StyledAvailabilitySearchTableFieldHelperText>
+                        {formState.errors.minimumHourlyRate?.[index]?.message}
+                      </StyledAvailabilitySearchTableFieldHelperText>
+                    )}
+                  </StyledAvailabilitySearchTableFieldContainer>
                 ) : (
                   <SearchTableTextField
                     placeholder="Type..."

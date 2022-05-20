@@ -1,17 +1,50 @@
 import React, { useState } from "react"
-import Chip from "@mui/material/Chip"
-import Stack from "@mui/material/Stack"
 import {
-  StyledFAQPage as StyledBlockAvailabilityPage,
-  StyledFAQPageHeader as StyledBlockAvailabilityPageHeader,
+  Box,
+  FormControlLabel,
+  Typography,
+  useMediaQuery,
+  Chip,
+  Stack,
+  Tabs,
+  Tab,
+  Collapse,
+} from "@mui/material"
+import { rem } from "polished"
+import { observer } from "mobx-react-lite"
+import { useForm } from "react-hook-form"
+
+import EditSearchActiveIcon from "@/assets/icons/edit_icon_active.inline.svg"
+import ArrowDownIcon from "@/assets/icons/filter-arrow_down.inline.svg"
+import ArrowUpIcon from "@/assets/icons/filter-arrow_up.inline.svg"
+import RunningIcon from "@/assets/icons/running_ripple_icon.inline.svg"
+import StoppingIcon from "@/assets/icons/stopping_ripple_icon.inline.svg"
+import DeleteIcon from "@/assets/icons/delete_icon.inline.svg"
+import DeleteDisabledIcon from "@/assets/icons/delete_icon_disabled.inline.svg"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
+import Switch from "../commons/Switch"
+import theme from "@/theme"
+import TabDataOnSearch from "./TabDataOnSearch"
+import SearchTable from "./SearchTable"
+import AvailabilityTable from "./AvailabilityTable"
+import { devices } from "@/constants/device"
+import { content } from "@/constants/content"
+import { useStore } from "@/store"
+
+import {
+  availabilityStatusOptions,
+  initialWeekData,
+  WeekType,
+} from "./AvailabilityPage.data"
+import { FormValues, TabPanelProps } from "./AvailablityPage.types"
+import {
+  StyledFAQPage as StyledAvailabilityPage,
+  StyledFAQPageHeader as StyledAvailabilityPageHeader,
 } from "../FAQPage/FAQPage.styled"
-import Tabs from "@mui/material/Tabs"
-import Tab from "@mui/material/Tab"
-import Collapse from "@mui/material/Collapse"
 import {
-  StyledBlockAvailablityPageWrapper,
-  StyledBlockHeader,
-  StyledBlockSearchText,
+  StyledAvailablityPageWrapper,
+  StyledHeader,
+  StyledSearchText,
   StyledCircle,
   StyledCollapsedSearch,
   StyledSearchButton,
@@ -20,44 +53,33 @@ import {
   StyledTimePickerField,
   StyledAvailabilityMobile,
   StyledAvailabilityTitleMobile,
-} from "./BlockAvailabilityPage.styled"
-import EditSearchActiveIcon from "@/assets/icons/edit_icon_active.inline.svg"
-import ArrowDownIcon from "@/assets/icons/filter-arrow_down.inline.svg"
-import ArrowUpIcon from "@/assets/icons/filter-arrow_up.inline.svg"
-import RunningIcon from "@/assets/icons/running_ripple_icon.inline.svg"
-import StoppingIcon from "@/assets/icons/stopping_ripple_icon.inline.svg"
-import DeleteIcon from "@/assets/icons/delete_icon.inline.svg"
-import { Box, FormControlLabel, Typography, useMediaQuery } from "@mui/material"
-import { rem } from "polished"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import {
-  rows,
-  rowSearches,
-  week,
-  weekProps,
-} from "./BlockAvailabilityPage.data"
-import Switch from "../commons/Switch"
-import theme from "@/theme"
-import { FormValues, TabPanelProps } from "./BlockAvailablityPage.types"
-import { TabDataSearch } from "./TabDataOnSearch"
-import SearchTable from "./SearchTable"
-import { TabData } from "./TabContent"
-import { useForm } from "react-hook-form"
-import { devices } from "@/constants/device"
-import { content } from "@/constants/content"
-import { observer } from "mobx-react-lite"
-import { useStore } from "@/store"
+} from "./AvailabilityPage.styled"
+import { availabilityFormResolver } from "@/validation/availabilityFormValidation"
 
-function TabPanel({ children, value, index, ...other }: TabPanelProps) {
+export type AvailabilityTableTabType =
+  | keyof typeof availabilityStatusOptions
+  | "all"
+interface CustomTabPanelProps extends Omit<TabPanelProps, "value"> {
+  value: AvailabilityTableTabType
+  currentTab: AvailabilityTableTabType
+}
+
+function TabPanel({
+  children,
+  value,
+  index,
+  currentTab,
+  ...other
+}: CustomTabPanelProps) {
   return (
     <div
       role="tabpanel"
-      hidden={value !== index}
+      hidden={value !== currentTab}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
+      {value === currentTab && (
         <Box>
           <Typography component={"span"}>{children}</Typography>
         </Box>
@@ -74,37 +96,46 @@ const tabStyles = {
   padding: rem("32px"),
 }
 
-const BlockAvailabilityPage = () => {
-  const isWebView = useMediaQuery(devices.web.up)
+const AvailabilityPage = () => {
   const { availibilityStore } = useStore()
-  const [tabIndex, setTabIndex] = React.useState(0)
-  const [weekData, setWeekData] = useState<Array<weekProps>>(week)
+  const isWebView = useMediaQuery(devices.web.up)
+  const [currentTab, setCurrentTab] =
+    React.useState<AvailabilityTableTabType>("all")
+  const [weekData, setWeekData] = useState<WeekType[]>(initialWeekData)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
 
-  const handleClick = (item: weekProps) => {
-    setWeekData(data =>
-      data.map(d =>
-        d.day === item.day ? { ...d, isSelected: !d.isSelected } : d
+  const handleClick = (item: WeekType) => {
+    const isAnySelected = weekData.find(data => data.active)
+    let newWeekData = [...weekData]
+    if (!isSearchable && isAnySelected) newWeekData = initialWeekData
+    setWeekData(
+      newWeekData.map(d =>
+        d.day === item.day ? { ...d, active: !d.active } : d
       )
     )
   }
 
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue)
+  const handleChange = (
+    _: React.SyntheticEvent,
+    newValue: AvailabilityTableTabType
+  ) => {
+    setCurrentTab(newValue)
   }
 
-  const { register, handleSubmit, reset, unregister } = useForm<FormValues>({
-    defaultValues: {
-      timeToArrive: [],
-      startTime: [],
-      endTime: [],
-      minimumPay: [],
-      minimumHourlyRate: [],
-    },
-    mode: "onBlur",
-  })
+  const { register, handleSubmit, reset, unregister, watch, formState } =
+    useForm<FormValues>({
+      defaultValues: {
+        timeToArrive: [],
+        startTime: [],
+        endTime: [],
+        minimumPay: [],
+        minimumHourlyRate: [],
+      },
+      mode: "onBlur",
+      resolver: availabilityFormResolver,
+    })
 
   const onSubmit = (data: FormValues) => {
     availibilityStore.setInitialState(data)
@@ -115,18 +146,30 @@ const BlockAvailabilityPage = () => {
     console.log("Invalid", data)
   }
 
+  console.log(watch())
+  console.log(formState.errors)
+
+  React.useEffect(() => {
+    setWeekData(initialWeekData)
+  }, [isSearchable])
+
+  React.useEffect(() => {
+    const currentDay = new Date().getDay() - 1
+    setWeekData(prev =>
+      prev.map((p, idx) => (idx === currentDay ? { ...p, active: true } : p))
+    )
+  }, [])
+
   return isWebView ? (
-    <StyledBlockAvailabilityPage>
-      <StyledBlockAvailabilityPageHeader>
-        Availability
-      </StyledBlockAvailabilityPageHeader>
-      <StyledBlockAvailablityPageWrapper
+    <StyledAvailabilityPage>
+      <StyledAvailabilityPageHeader>Availability</StyledAvailabilityPageHeader>
+      <StyledAvailablityPageWrapper
         component="form"
         onSubmit={handleSubmit(onSubmit, onInvalid)}
       >
-        <StyledBlockHeader>
+        <StyledHeader>
           <StyledTextWrapper>
-            <StyledBlockSearchText>Search preferences</StyledBlockSearchText>
+            <StyledSearchText>Search preferences</StyledSearchText>
             {!isSearchable ? (
               <StyledSearchButton
                 onClick={() => setIsSearchable(true)}
@@ -138,31 +181,40 @@ const BlockAvailabilityPage = () => {
               <StyledSearchButton
                 type="reset"
                 onClick={() => reset()}
-                startIcon={<DeleteIcon />}
+                startIcon={
+                  !formState.isDirty ? <DeleteDisabledIcon /> : <DeleteIcon />
+                }
+                disabled={!formState.isDirty}
               >
                 Clear all
               </StyledSearchButton>
             )}
           </StyledTextWrapper>
           <Stack direction="row" spacing={1}>
-            {weekData.map(item => (
+            {weekData.map((item, idx) => (
               <Chip
+                clickable
                 key={item.day}
+                disabled={idx + 1 < new Date().getDay()}
                 label={item.day}
                 variant="outlined"
                 onClick={() => handleClick(item)}
-                color={item.isSelected ? "success" : "default"}
+                color={item.active ? "success" : "default"}
               />
             ))}
           </Stack>
-        </StyledBlockHeader>
+        </StyledHeader>
         {!isSearchable ? (
           <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-            {TabDataSearch(rowSearches)}
+            <TabDataOnSearch />
           </Collapse>
         ) : (
           <Box>
-            <SearchTable register={register} unregister={unregister} />
+            <SearchTable
+              register={register}
+              unregister={unregister}
+              formState={formState}
+            />
           </Box>
         )}
         {!isSearchable ? (
@@ -203,7 +255,7 @@ const BlockAvailabilityPage = () => {
         ) : (
           <StyledCollapsedSearch>
             <Box display="flex" alignItems="center">
-              {content.blockAvailibility.formControlLabelForSwitches.map(
+              {content.availibility.formControlLabelForSwitches.map(
                 (label: string, index: number) => (
                   <React.Fragment key={index}>
                     <FormControlLabel
@@ -231,6 +283,7 @@ const BlockAvailabilityPage = () => {
                   borderColor: theme.palette.grey3,
                   marginRight: rem("10px"),
                 }}
+                onClick={() => setIsSearchable(false)}
               >
                 Cancel
               </OutlinedButton>
@@ -238,28 +291,33 @@ const BlockAvailabilityPage = () => {
             </Box>
           </StyledCollapsedSearch>
         )}
-      </StyledBlockAvailablityPageWrapper>
-      <StyledBlockAvailablityPageWrapper style={{ marginTop: "16px" }}>
+      </StyledAvailablityPageWrapper>
+      <StyledAvailablityPageWrapper style={{ marginTop: "16px" }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={tabIndex} onChange={handleChange}>
-              {content.blockAvailibility.labelsForTabs.map(
-                (label: string, index: number) => (
-                  <Tab key={index} sx={tabStyles} label={label} />
+            <Tabs value={currentTab} onChange={handleChange}>
+              {content.availibility.labelsForTabs.map(
+                ({ label, value }, index: number) => (
+                  <Tab key={index} sx={tabStyles} label={label} value={value} />
                 )
               )}
             </Tabs>
           </Box>
-          {content.blockAvailibility.labelsForTabs.map(
-            (label: string, index: number) => (
-              <TabPanel key={index} value={tabIndex} index={index}>
-                {TabData(rows, label)}
+          {content.availibility.labelsForTabs.map(
+            ({ value }, index: number) => (
+              <TabPanel
+                key={index}
+                value={value as AvailabilityTableTabType}
+                index={index}
+                currentTab={currentTab}
+              >
+                <AvailabilityTable status={value as AvailabilityTableTabType} />
               </TabPanel>
             )
           )}
         </Box>
-      </StyledBlockAvailablityPageWrapper>
-    </StyledBlockAvailabilityPage>
+      </StyledAvailablityPageWrapper>
+    </StyledAvailabilityPage>
   ) : (
     <StyledAvailabilityMobile>
       <StyledAvailabilityTitleMobile>
@@ -273,7 +331,7 @@ const BlockAvailabilityPage = () => {
             alignItems="center"
             mb={rem("16px")}
           >
-            <StyledBlockSearchText>Search preferences</StyledBlockSearchText>
+            <StyledSearchText>Search preferences</StyledSearchText>
             {!isSearchable ? (
               <StyledSearchButton
                 onClick={() => setIsSearchable(true)}
@@ -285,7 +343,10 @@ const BlockAvailabilityPage = () => {
               <StyledSearchButton
                 type="reset"
                 onClick={() => reset()}
-                startIcon={<DeleteIcon />}
+                startIcon={
+                  !formState.isDirty ? <DeleteDisabledIcon /> : <DeleteIcon />
+                }
+                disabled={!formState.isDirty}
               >
                 Clear all
               </StyledSearchButton>
@@ -298,18 +359,22 @@ const BlockAvailabilityPage = () => {
                 label={item.day.slice(0, 2)}
                 variant="outlined"
                 onClick={() => handleClick(item)}
-                color={item.isSelected ? "success" : "default"}
+                color={item.active ? "success" : "default"}
               />
             ))}
           </Stack>
         </Box>
         {!isSearchable ? (
           <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-            {TabDataSearch(rowSearches)}
+            <TabDataOnSearch />
           </Collapse>
         ) : (
           <Box>
-            <SearchTable register={register} unregister={unregister} />
+            <SearchTable
+              register={register}
+              unregister={unregister}
+              formState={formState}
+            />
           </Box>
         )}
         {!isSearchable ? (
@@ -355,7 +420,7 @@ const BlockAvailabilityPage = () => {
         ) : (
           <StyledCollapsedSearch>
             <Box display="flex" flexDirection="column" justifyContent="center">
-              {content.blockAvailibility.formControlLabelForSwitches.map(
+              {content.availibility.formControlLabelForSwitches.map(
                 (label: string, index: number) => (
                   <Box key={index}>
                     <FormControlLabel
@@ -388,6 +453,7 @@ const BlockAvailabilityPage = () => {
                   borderColor: theme.palette.grey3,
                   width: rem("159px"),
                 }}
+                onClick={() => setIsSearchable(false)}
               >
                 Cancel
               </OutlinedButton>
@@ -402,4 +468,4 @@ const BlockAvailabilityPage = () => {
   )
 }
 
-export default observer(BlockAvailabilityPage)
+export default observer(AvailabilityPage)

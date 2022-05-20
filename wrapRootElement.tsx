@@ -13,21 +13,22 @@ import theme from "./src/theme"
 import muiTheme from "./src/muiTheme"
 import TopLayout from "./src/components/TopLayout"
 import "./src/global.css"
+import { GatsbySSR } from "gatsby"
 
-const wrapRootElement = ({ element }) => {
+enableStaticRendering(isBrowser())
+
+const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: true,
-        refetchOnmount: true,
+        refetchOnMount: true,
         refetchOnReconnect: true,
         retry: 3,
         staleTime: 5 * 60 * 1000,
       },
     },
   })
-
-  enableStaticRendering(isBrowser())
 
   return (
     <TopLayout>
@@ -42,8 +43,10 @@ const wrapRootElement = ({ element }) => {
               anchorOrigin={{ horizontal: "right", vertical: "top" }}
             >
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <CssBaseline />
-                {element}
+                <React.Fragment>
+                  <CssBaseline />
+                  {element}
+                </React.Fragment>
               </LocalizationProvider>
             </SnackbarProvider>
           </ThemeProvider>

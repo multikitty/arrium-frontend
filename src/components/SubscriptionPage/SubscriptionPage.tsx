@@ -34,8 +34,6 @@ import Paper from "@mui/material/Paper"
 import { devices } from "@/constants/device"
 import { Box, useMediaQuery } from "@mui/material"
 import { capitalCase } from "change-case"
-import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
 
 function createData(
   invoiceId: string,
@@ -62,10 +60,7 @@ const rows = [
 ]
 
 const SubscriptionPage = () => {
-  const { availibilityStore } = useStore()
   const isDesktopView = useMediaQuery(devices.desktop.up)
-
-  console.log(availibilityStore.initialState)
 
   return (
     <StyledSubscriptionPage>
@@ -387,4 +382,4 @@ const SubscriptionPage = () => {
   )
 }
 
-export default observer(SubscriptionPage)
+export default SubscriptionPage

@@ -10,8 +10,18 @@ import {
 } from "@mui/material"
 import theme from "@/theme"
 import { rem } from "polished"
+import { AvailabilityTableTabType } from "./AvailabilityPage"
+import {
+  availabilityStatusColorMap,
+  availabilityStatusOptions,
+  rows,
+} from "./AvailabilityPage.data"
 
-export const TabData = (rows: any[], status: string) => (
+interface IProps {
+  status: AvailabilityTableTabType
+}
+
+const AvailabilityTable: React.FC<IProps> = ({ status }) => (
   <TableContainer>
     <Table aria-label="invoices table">
       <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
@@ -104,7 +114,7 @@ export const TabData = (rows: any[], status: string) => (
       </TableHead>
       <TableBody>
         {rows
-          .filter(row => (status === "All" ? true : row.Status === status))
+          .filter(row => (status === "all" ? true : row.status === status))
           .map((row, index) => (
             <TableRow
               key={index}
@@ -127,7 +137,7 @@ export const TabData = (rows: any[], status: string) => (
                 component="th"
                 scope="row"
               >
-                {row.Location}
+                {row.location}
               </TableCell>
               <TableCell
                 sx={{
@@ -139,7 +149,7 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                {row.Day}
+                {row.day}
               </TableCell>
               <TableCell
                 sx={{
@@ -151,7 +161,7 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                {row.Date}
+                {row.date}
               </TableCell>
               <TableCell
                 sx={{
@@ -164,7 +174,7 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                {row.Time}
+                {row.time}
               </TableCell>
               <TableCell
                 sx={{
@@ -176,7 +186,7 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                {row.Duration}
+                {row.duration}
               </TableCell>
               <TableCell
                 sx={{
@@ -188,7 +198,7 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                &#163;{row.Pay}
+                &#163;{row.pay}
               </TableCell>
               <TableCell
                 sx={{
@@ -200,33 +210,18 @@ export const TabData = (rows: any[], status: string) => (
                 }}
                 align="left"
               >
-                {row.Status === "Accepted" ? (
-                  <Chip
-                    label="Accepted"
-                    sx={{
-                      fontFamily: "Inter",
-                      fontSize: "14px",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "20px",
-                      color: "white",
-                      background: "#3DCC70",
-                    }}
-                  />
-                ) : (
-                  <Chip
-                    label="Ignored"
-                    sx={{
-                      fontFamily: "Inter",
-                      fontSize: "14px",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "20px",
-                      color: "white",
-                      background: "#FAB11E",
-                    }}
-                  />
-                )}
+                <Chip
+                  label={availabilityStatusOptions[row.status].label}
+                  sx={{
+                    fontFamily: "Inter",
+                    fontSize: "14px",
+                    fontStyle: "normal",
+                    fontWeight: 600,
+                    lineHeight: "20px",
+                    color: "white",
+                    background: availabilityStatusColorMap[row.status],
+                  }}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -234,3 +229,5 @@ export const TabData = (rows: any[], status: string) => (
     </Table>
   </TableContainer>
 )
+
+export default AvailabilityTable
