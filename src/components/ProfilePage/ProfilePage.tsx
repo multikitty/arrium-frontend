@@ -4,17 +4,25 @@ import {
   StyledProfilePageContent,
   StyledProfilePageHeader,
 } from "./ProfilePage.styled"
-import { Box } from "@mui/material"
+import { Box, IconButton, Tooltip } from "@mui/material"
 import { rem } from "polished"
 import ProfileTabContent from "./ProfileTabContent"
 import FlexAccountTabContent from "./FlexAccountTabContent"
 import { StyledTab, StyledTabs } from "../commons/commonComponents"
+import { Close } from "@mui/icons-material"
+import { useStore } from "@/store"
+import navigateToDefault from "@/utils/navigateToDefault"
 
 const ProfilePage = () => {
+  const { userStore } = useStore()
   const [tab, setTab] = React.useState("personalInformation")
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
+  }
+
+  const handleCloseButtonClick = () => {
+    navigateToDefault(userStore.currentUser?.role)
   }
 
   const isProfileTabOpen = tab === "personalInformation"
@@ -22,7 +30,19 @@ const ProfilePage = () => {
 
   return (
     <StyledProfilePage>
-      <StyledProfilePageHeader>Profile</StyledProfilePageHeader>
+      <Box
+        display="flex"
+        width="100%"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <StyledProfilePageHeader>Profile</StyledProfilePageHeader>
+        <Tooltip title="Close">
+          <IconButton sx={{ mr: rem("21px") }} onClick={handleCloseButtonClick}>
+            <Close />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <StyledProfilePageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <StyledTabs

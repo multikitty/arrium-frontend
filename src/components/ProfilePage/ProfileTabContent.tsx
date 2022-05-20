@@ -23,6 +23,7 @@ import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
 import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
 import CloseAccountModal from "./CloseAccountModal"
+import navigateToDefault from "@/utils/navigateToDefault"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -176,12 +177,18 @@ const ProfileTabContent = () => {
     reset()
   }
 
+  const handleBackButtonClick = () => {
+    navigateToDefault(userStore.currentUser?.role)
+  }
+
   const handleCloseAccount = () => {
     userStore.logout()
   }
+
   const handleCloseAccountClick = () => {
     setIsCloseAccountModalOpen(true)
   }
+
   const handleCloseAccountModalClose = () => {
     setIsCloseAccountModalOpen(false)
   }
@@ -596,13 +603,21 @@ const ProfileTabContent = () => {
               )}
             </Grid>
             <Grid item xs={12}>
-              <ContainedButton
-                error
-                onClick={handleCloseAccountClick}
-                sx={{ mt: 1 }}
-              >
-                Close Account
-              </ContainedButton>
+              <Box display="flex">
+                <OutlinedButton
+                  onClick={handleBackButtonClick}
+                  sx={{ mt: 1, mr: 2 }}
+                >
+                  Back
+                </OutlinedButton>
+                <ContainedButton
+                  error
+                  onClick={handleCloseAccountClick}
+                  sx={{ mt: 1 }}
+                >
+                  Close Account
+                </ContainedButton>
+              </Box>
             </Grid>
           </Grid>
         </form>
