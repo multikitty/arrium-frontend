@@ -20,6 +20,8 @@ import "react-phone-input-2/lib/material.css"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { content } from "@/constants/content"
+import  { CountryData } from "@/utils/getCountryData"
+import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -58,6 +60,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
   const [phoneNo, setPhoneNo] = useState<string>("")
   const [firstName, setFirstName] = useState<string>("")
   const [surName, setSurName] = useState<string>("")
+  const [country, setCountry] = useState<CountryData | null>(null)
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
 
   const onSubmit = () => {
@@ -70,13 +73,13 @@ const AccountInfoSection: React.FC<FormProps> = ({
         phoneNo.length &&
         selectedTimezone &&
         firstName.length &&
-        surName.length
+        surName.length && country
       ) {
         return false
       }
       return true
     })
-  }, [phoneNo, selectedTimezone, firstName, surName])
+  }, [phoneNo, selectedTimezone, firstName, surName, country])
 
   return isWebView ? (
     <StyledLoginContainer component="form" onSubmit={onSubmit}>
@@ -99,6 +102,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         onChange={e => setSurName(e.target.value)}
         required
       />
+      <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
       <ReactPhoneInput
         country={"gb"}
         containerClass={classes.telephoneInputContainer}
@@ -136,7 +140,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         </StyledSignUpText>
       </Box>
     </StyledLoginContainer>
-  ) : ( 
+  ) : (
     <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
       {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
       <Box

@@ -100,6 +100,7 @@ const ProfileTabContent = () => {
       id: userStore.currentUser?.id || "",
       firstName: getValues("name"),
       lastName: userStore.currentUser?.lastName || "",
+      country: userStore.currentUser?.country || "",
     }
   }
 
@@ -112,6 +113,7 @@ const ProfileTabContent = () => {
       id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: getValues("surName"),
+      country: userStore.currentUser?.country || "",
     }
   }
 
@@ -128,6 +130,7 @@ const ProfileTabContent = () => {
       id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: userStore.currentUser?.lastName || "",
+      country: userStore.currentUser?.country || "",
       email: newEmail,
       isEmailVerified: newEmail === userStore.currentUser?.email,
     }
@@ -146,6 +149,7 @@ const ProfileTabContent = () => {
       id: userStore.currentUser?.id || "",
       firstName: userStore.currentUser?.firstName || "",
       lastName: userStore.currentUser?.lastName || "",
+      country: userStore.currentUser?.country || "",
       phoneNumber: newPhone,
       isPhoneVerified: true,
     }

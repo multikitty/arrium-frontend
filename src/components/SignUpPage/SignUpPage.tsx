@@ -13,6 +13,9 @@ import { devices } from "@/constants/device"
 import AmazonFlexInfo from "@/components/AmazonFlexInfo"
 import FinishPage from "@/components/FinishPage"
 import HoldingPage from "@/components/HoldingPage"
+import navigateToDefault from "@/utils/navigateToDefault"
+import { useStore } from "@/store"
+import { observer } from "mobx-react-lite"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -30,6 +33,7 @@ const steps = [
 
 const SignUpPage = () => {
   const isWebView = useMediaQuery(devices.web.up)
+  const { userStore } = useStore()
   const [formStage, setFormStage] = useState<number>(0)
   const [showOnHold, setShowOnHold] = useState<boolean>(false)
 
@@ -47,7 +51,12 @@ const SignUpPage = () => {
         </Box>
       ) : (
         <Box height={rem("64px")} display="flex" alignItems="center">
-          <StyledTitleMobile>Arrium</StyledTitleMobile>
+          <StyledTitleMobile
+            onClick={() => navigateToDefault(userStore.currentUser?.role)}
+            style={{ cursor: "pointer" }}
+          >
+            Arrium
+          </StyledTitleMobile>
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
@@ -98,4 +107,4 @@ const SignUpPage = () => {
   )
 }
 
-export default SignUpPage
+export default observer(SignUpPage)

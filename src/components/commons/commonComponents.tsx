@@ -14,7 +14,7 @@ export const StyledInputField = styled(TextField)<{ mb?: string }>`
   &&& {
     background-color: #ffffff;
     width: 100%;
-    height: ${rem("48px")};
+    height: ${rem("52px")};
     border: none;
     outline: none;
     ${p =>
@@ -29,7 +29,7 @@ export const StyledInputField = styled(TextField)<{ mb?: string }>`
 
     & > .MuiOutlinedInput-root {
       max-width: ${rem("378px")};
-      height: ${rem("48px")};
+      height: ${rem("52px")};
       min-width: ${rem("250px")};
       border-radius: ${rem("10px")};
     }

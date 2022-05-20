@@ -44,12 +44,12 @@ const SigninSection = () => {
       userStore.authenticateUser({
         firstName: "Mo",
         lastName: "Hussain",
+        country: "GB",
         phoneNumber: "+44 12 34 5678",
         email: "mhussain@gmail.com",
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.admin,
-
         id: nanoid(),
       })
       navigate("/customers")
@@ -60,12 +60,12 @@ const SigninSection = () => {
       userStore.authenticateUser({
         firstName: "Sales",
         lastName: "Agent",
+        country: "GB",
         phoneNumber: "+44 12 34 5678",
         email: "sales_agent@gmail.com",
         isPhoneVerified: true,
         isEmailVerified: true,
         role: UserRoles.salesAgent,
-
         id: nanoid(),
       })
       navigate("/dashboard")
@@ -73,6 +73,7 @@ const SigninSection = () => {
       userStore.authenticateUser({
         firstName: "Eliza",
         lastName: "Doolittle",
+        country: "GB",
         phoneNumber: "+44 12 34 5678",
         email: "eliza.doolittle@gmail.com",
         isPhoneVerified: true,
