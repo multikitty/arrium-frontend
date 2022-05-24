@@ -26,11 +26,13 @@ export interface IProps {
 }
 
 const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
+  const isSalesAgent = role === UserRoles.salesAgent
+
   const { userStore } = useStore()
   const [country, setCountry] = React.useState<CountryData | null>(null)
   const [region, setRegion] = React.useState<RegionData | null>(null)
   const [assignTo, setAssignTo] = React.useState(
-    role === UserRoles.salesAgent ? userStore.userFullName : ""
+    isSalesAgent ? userStore.userFullName : ""
   )
 
   return (
@@ -94,7 +96,12 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
                 onChange={(_, newVal) => setAssignTo(newVal)}
                 options={[userStore.userFullName]}
                 renderInput={params => (
-                  <TextField {...params} label="Assign To" required />
+                  <TextField
+                    {...params}
+                    label="Assign To"
+                    required
+                    InputProps={{ readOnly: isSalesAgent }}
+                  />
                 )}
               />
             )}

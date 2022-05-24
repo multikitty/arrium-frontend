@@ -41,6 +41,7 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
     | undefined = e => {
     e.stopPropagation()
     userStore.logout()
+
     handleFullscreenMenuClose()
   }
 

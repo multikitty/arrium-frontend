@@ -31,7 +31,7 @@ const PlansPage = () => {
             zoomOnScroll={false}
           />
         </StyledPlansPageMapWrapper>
-        {!!plansData.length && <PlansTable plansData={plansData} />}
+        <PlansTable plansData={plansData} />
       </StyledPlansPageWrapper>
     </StyledPlansPage>
   )

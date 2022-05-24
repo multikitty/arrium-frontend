@@ -1,5 +1,8 @@
 import formattedHour from "@/utils/formattedHour"
+import { Delete, Edit } from "@mui/icons-material"
 import {
+  Box,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -7,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   useTheme,
 } from "@mui/material"
 import { rem } from "polished"
@@ -15,17 +19,23 @@ import { IMockTimezone } from "./__mock__"
 
 interface ITimezoneTableProps {
   timezones: IMockTimezone[]
+  handleEditTimezoneModalOpen: (tz: IMockTimezone) => void
+  handleDeleteTimezoneModalOpen: (tz: IMockTimezone) => void
 }
 
 const TimezoneTable = (props: ITimezoneTableProps) => {
   const theme = useTheme()
+
+  const noData = !props.timezones.length
 
   return (
     <TableContainer
       component={Paper}
       sx={{
         boxShadow: "none",
-        borderRadius: rem("20px"),
+        borderRadius: noData
+          ? `${rem("20px")} ${rem("20px")} 0 0`
+          : rem("20px"),
         mt: 4,
       }}
     >
@@ -96,6 +106,18 @@ const TimezoneTable = (props: ITimezoneTableProps) => {
             >
               Timezone End
             </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: 600,
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.grey[600],
+              }}
+              align="left"
+            >
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -153,7 +175,9 @@ const TimezoneTable = (props: ITimezoneTableProps) => {
                 }}
                 align="left"
               >
-                {`${new Date(tz.zoneStart).toLocaleDateString()} ${new Date(
+                {`${new Date(
+                  tz.zoneStart * 1000
+                ).toLocaleDateString()} ${new Date(
                   tz.zoneStart
                 ).toLocaleTimeString()}`}
               </TableCell>
@@ -167,9 +191,39 @@ const TimezoneTable = (props: ITimezoneTableProps) => {
                 }}
                 align="left"
               >
-                {`${new Date(tz.zoneEnd).toLocaleDateString()} ${new Date(
+                {`${new Date(
+                  tz.zoneEnd * 1000
+                ).toLocaleDateString()} ${new Date(
                   tz.zoneEnd
                 ).toLocaleTimeString()}`}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.text.secondary,
+                }}
+                align="left"
+              >
+                <Box display="flex">
+                  <Tooltip title="Edit">
+                    <IconButton
+                      sx={{ mr: 1 }}
+                      onClick={() => props.handleEditTimezoneModalOpen(tz)}
+                    >
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton
+                      onClick={() => props.handleDeleteTimezoneModalOpen(tz)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               </TableCell>
             </TableRow>
           ))}

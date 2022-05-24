@@ -23,12 +23,16 @@ interface IPlansTableProps {
 const PlansTable = (props: IPlansTableProps) => {
   const theme = useTheme()
 
+  const noData = !props.plansData.length
+
   return (
     <TableContainer
       component={Paper}
       sx={{
         boxShadow: "none",
-        borderRadius: rem("20px"),
+        borderRadius: noData
+          ? `${rem("20px")} ${rem("20px")} 0 0`
+          : rem("20px"),
         mt: 4,
       }}
     >

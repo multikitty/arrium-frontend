@@ -32,10 +32,10 @@ export function fetchTimezonesByCountry(
     .then(response => response.data)
 }
 
-export function useTimezonesByCountry(country: string) {
+export function useTimezonesByCountry(country: string | null) {
   return useQuery(
     ["timezone-list", country],
-    () => fetchTimezonesByCountry(country),
+    () => fetchTimezonesByCountry(country!),
     { enabled: !!country }
   )
 }

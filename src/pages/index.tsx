@@ -14,8 +14,6 @@ const IndexPage = () => {
     return null
   }
 
-  console.log("userStore", userStore)
-
   return (
     <React.Fragment>
       <LandingPage />

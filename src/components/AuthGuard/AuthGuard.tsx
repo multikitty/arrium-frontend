@@ -14,9 +14,14 @@ interface IProps {
 const AuthGuard = (props: IProps) => {
   const { userStore } = useStore()
 
-  if (!userStore.isAuthenticated) isBrowser() && navigate("/signin")
-  if (!props.roles.includes(userStore.currentUser?.role as never))
+  if (!userStore.isAuthenticated) {
+    isBrowser() && navigate("/signin")
+    return null
+  }
+  if (!props.roles.includes(userStore.currentUser?.role as never)) {
     isBrowser() && navigate("/403")
+    return null
+  }
 
   return <>{props.children}</>
 }
