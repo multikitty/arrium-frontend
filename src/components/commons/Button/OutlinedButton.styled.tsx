@@ -4,12 +4,12 @@ import { styled as muiStyled } from "@mui/material/styles"
 import theme from "@/theme"
 
 export const StyledOutlinedButton = muiStyled(Button, {
-  shouldForwardProp: prop => prop !== "grey",
-})<{ grey?: boolean }>(({ grey }) => ({
+  shouldForwardProp: prop => prop !== "grey" && prop !== "fontSize",
+})<{ grey?: boolean; fontSize?: number }>(({ grey, fontSize = 16 }) => ({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: rem("16px"),
-  lineHeight: rem("20px"),
+  fontSize: rem(`${fontSize}px`),
+  lineHeight: rem(`${fontSize + fontSize / 4}px`),
   padding: `${rem("14px")} ${rem("28px")}`,
   border: "1px solid",
   borderRadius: rem("10px"),

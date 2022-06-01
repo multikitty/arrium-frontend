@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { flexAccountFormOptions } from "@/validation"
+import { flexAccountOptions } from "@/validation"
 import {
   StyledFlexAccountTabContent,
   StyledFlexAccountTabContentBody,
@@ -20,14 +20,14 @@ const FlexAccountTabContent = () => {
   const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
     useState(false)
 
-  type formPropType = typeof flexAccountFormOptions.defaultValues
+  type formPropType = typeof flexAccountOptions.defaultValues
 
   const { handleSubmit, control, formState, reset } = useForm<formPropType>({
     defaultValues: {
       userName: userStore.currentUser?.email || "",
-      password: flexAccountFormOptions.defaultValues.password,
+      password: flexAccountOptions.defaultValues.password,
     },
-    resolver: flexAccountFormOptions.resolver,
+    resolver: flexAccountOptions.resolver,
   })
 
   const handleUpdatePasswordModalOpen = () => setIsUpdatePasswordModalOpen(true)

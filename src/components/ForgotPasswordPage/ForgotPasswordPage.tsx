@@ -16,11 +16,11 @@ import {
   StyledTitleMobile,
   StyledWarningText,
 } from "@/components/commons/commonComponents"
-import formOptions from "@/validation/emailAndPasswordValidation"
+import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 
 const ForgotPasswordPage = () => {
-  type formPropType = typeof formOptions.emailFormOptions.defaultValues
+  type formPropType = typeof emailOptions.defaultValues
 
   const isWebView = useMediaQuery(devices.web.up)
   const [isClicked, setIsClicked] = useState<boolean>(false)
@@ -28,7 +28,7 @@ const ForgotPasswordPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formPropType>(formOptions.emailFormOptions)
+  } = useForm<formPropType>(emailOptions)
 
   const onSubmit = (data: formPropType) => {
     console.log(data)

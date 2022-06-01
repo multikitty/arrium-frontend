@@ -1,4 +1,11 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
+import { Link } from "@reach/router"
+import { Box, IconButton, useMediaQuery } from "@mui/material"
+import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
+import { useForm } from "react-hook-form"
+import { rem } from "polished"
+
 import {
   StyledButton,
   StyledButtonText,
@@ -12,77 +19,38 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
   StyledWarningText,
-} from "../commons/commonComponents"
-import { useForm } from "react-hook-form"
-import formOptions from "@/validation/emailAndPasswordValidation"
-import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { Box, IconButton, useMediaQuery } from "@mui/material"
-import { navigate } from "gatsby"
-import { rem } from "polished"
+} from "@/components/commons/commonComponents"
+import emailAndPasswordOptions from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
-import { Link } from "@reach/router"
-import { Plans, UserRoles } from "@/constants/common"
-import { nanoid } from "nanoid"
+import { signIn } from "./SigninSection.mock"
 
 const SigninSection = () => {
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
-  const [isError] = useState(false)
 
-  type formPropType =
-    typeof formOptions.emailAndPasswordFormOptions.defaultValues
+  type formPropType = typeof emailAndPasswordOptions.defaultValues
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
-  } = useForm<formPropType>(formOptions.emailAndPasswordFormOptions)
+  } = useForm<formPropType>(emailAndPasswordOptions)
 
-  const onSubmit = (data: formPropType) => {
-    if (data.email === "mhussain@gmail.com" && data.password === "#h3!!O!23") {
-      userStore.authenticateUser({
-        firstName: "Mo",
-        lastName: "Hussain",
-        country: "GB",
-        phoneNumber: "+44 12 34 5678",
-        email: "mhussain@gmail.com",
-        isPhoneVerified: true,
-        isEmailVerified: true,
-        role: UserRoles.admin,
-        id: nanoid(),
-      })
-      navigate("/customers")
-    } else if (
-      data.email === "sales_agent@gmail.com" &&
-      data.password === "Sales_agent!23"
-    ) {
-      userStore.authenticateUser({
-        firstName: "Sales",
-        lastName: "Agent",
-        country: "GB",
-        phoneNumber: "+44 12 34 5678",
-        email: "sales_agent@gmail.com",
-        isPhoneVerified: true,
-        isEmailVerified: true,
-        role: UserRoles.salesAgent,
-        id: nanoid(),
-      })
-      navigate("/dashboard")
-    } else {
-      userStore.authenticateUser({
-        firstName: "Eliza",
-        lastName: "Doolittle",
-        country: "GB",
-        phoneNumber: "+44 12 34 5678",
-        email: "eliza.doolittle@gmail.com",
-        isPhoneVerified: true,
-        isEmailVerified: false,
-        role: UserRoles.driver,
-        plan: Plans.basic as keyof typeof Plans,
-        id: nanoid(),
-      })
-      navigate("/")
+  const onSubmit = async (data: formPropType) => {
+    try {
+      const { href, ...response } = await signIn(data.email, data.password)
+      userStore.authenticateUser(response)
+      navigate(`/${href}`)
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("email", new Error("Invalid email or password"))
+        return setError("password", new Error("Invalid email or password"), {
+          shouldFocus: true,
+        })
+      }
+      console.error(error)
     }
   }
 
@@ -133,13 +101,6 @@ const SigninSection = () => {
         <StyledForgotPassword>
           <Link to="/forgotPassword">Forgot Password?</Link>
         </StyledForgotPassword>
-      </Box>
-      <Box display="flex" justifyContent="center" mt={rem("16px")}>
-        {isError && (
-          <StyledWarningText>
-            Your email address or password is incorrect
-          </StyledWarningText>
-        )}
       </Box>
       <StyledButton
         variant="contained"
@@ -215,13 +176,6 @@ const SigninSection = () => {
           <StyledForgotPassword>
             <Link to="/forgotPassword">Forgot Password?</Link>
           </StyledForgotPassword>
-        </Box>
-        <Box display="flex" justifyContent="center" mt={rem("16px")}>
-          {isError && (
-            <StyledWarningText>
-              Your email address or password is incorrect
-            </StyledWarningText>
-          )}
         </Box>
         <StyledButton
           variant="contained"

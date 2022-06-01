@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-export const personalInformationFormValidationSchema = Yup.object().shape({
+export const personalInformationSchema = Yup.object().shape({
   name: Yup.string().required("The First Name field must not be empty"),
   surName: Yup.string().required("The Surname field must not be empty"),
   email: Yup.string()
@@ -18,8 +18,8 @@ export const personalInformationFormValidationSchema = Yup.object().shape({
   password: Yup.string().required("The Password field must not be empty"),
 })
 
-const personalInformationFormOptions = {
-  resolver: yupResolver(personalInformationFormValidationSchema),
+const personalInformationOptions = {
+  resolver: yupResolver(personalInformationSchema),
   defaultValues: {
     name: "Eliza",
     surName: "Doolittle",
@@ -30,4 +30,4 @@ const personalInformationFormOptions = {
   },
 }
 
-export default personalInformationFormOptions
+export default personalInformationOptions

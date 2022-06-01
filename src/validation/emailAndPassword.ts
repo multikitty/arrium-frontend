@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-const emailAndPasswordValidationSchema = Yup.object().shape({
+const emailAndPasswordSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .min(8, "minimum 8 characters")
@@ -14,13 +14,13 @@ const emailAndPasswordValidationSchema = Yup.object().shape({
     .email("Please enter valid email!"),
 })
 
-const emailValidationSchema = Yup.object().shape({
+const emailSchema = Yup.object().shape({
   email: Yup.string()
     .required("Please enter email!")
     .email("Please enter valid email!"),
 })
 
-const passwordValidationSchema = Yup.object().shape({
+const passwordSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
     .min(8, "minimum 8 characters")
@@ -29,8 +29,8 @@ const passwordValidationSchema = Yup.object().shape({
     .matches(/\d/, "1 number"),
 })
 
-const emailAndPasswordFormOptions = {
-  resolver: yupResolver(emailAndPasswordValidationSchema),
+export const emailAndPasswordOptions = {
+  resolver: yupResolver(emailAndPasswordSchema),
   defaultValues: {
     email: "",
     password: "",
@@ -38,22 +38,18 @@ const emailAndPasswordFormOptions = {
   },
 }
 
-const passwordFormOptions = {
-  resolver: yupResolver(passwordValidationSchema),
+export const passwordOptions = {
+  resolver: yupResolver(passwordSchema),
   defaultValues: {
     password: "",
   },
 }
 
-const emailFormOptions = {
-  resolver: yupResolver(emailValidationSchema),
+export const emailOptions = {
+  resolver: yupResolver(emailSchema),
   defaultValues: {
     email: "",
   },
 }
 
-export default {
-  emailAndPasswordFormOptions,
-  passwordFormOptions,
-  emailFormOptions,
-}
+export default emailAndPasswordOptions

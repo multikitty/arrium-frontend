@@ -1,5 +1,4 @@
-import { UserRolesType } from "./common"
-import { Plans } from "@/constants/common"
+import { PlansType, UserRolesType } from "./common"
 import { CountryData } from "@/utils/getCountryData"
 
 export type UserType = {
@@ -12,5 +11,5 @@ export type UserType = {
   email?: string
   isEmailVerified?: boolean
   role?: UserRolesType
-  plan?: keyof typeof Plans
+  plan?: PlansType
 } | null

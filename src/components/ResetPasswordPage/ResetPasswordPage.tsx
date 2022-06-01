@@ -16,11 +16,10 @@ import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"
 import { devices } from "@/constants/device"
-import formOptions from "@/validation/emailAndPasswordValidation"
+import formOptions from "@/validation/emailAndPassword"
 
 const ResetPassword = () => {
-  type formPropType =
-    typeof formOptions.emailAndPasswordFormOptions.defaultValues
+  type formPropType = typeof formOptions.defaultValues
 
   const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
   const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
@@ -32,7 +31,7 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formPropType>(formOptions.emailAndPasswordFormOptions)
+  } = useForm<formPropType>(formOptions)
 
   console.log(errors)
 

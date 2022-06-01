@@ -1,7 +1,7 @@
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-const landingContactFormValidationSchema = Yup.object().shape({
+const landingContactSchema = Yup.object().shape({
   fullName: Yup.string(),
   email: Yup.string()
     .required("The Email Address field must not be empty")
@@ -9,8 +9,8 @@ const landingContactFormValidationSchema = Yup.object().shape({
   question: Yup.string().required("This field must not be empty"),
 })
 
-const landingContactFormOptions = {
-  resolver: yupResolver(landingContactFormValidationSchema),
+const landingContactOptions = {
+  resolver: yupResolver(landingContactSchema),
   defaultValues: {
     fullName: "",
     email: "",
@@ -18,4 +18,4 @@ const landingContactFormOptions = {
   },
 }
 
-export default landingContactFormOptions
+export default landingContactOptions

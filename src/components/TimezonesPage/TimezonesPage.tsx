@@ -11,7 +11,7 @@ import {
 } from "./TimezonesPage.styled"
 // import { useTimezoneByZone } from "@/api/timezone"
 import TimezoneTable from "./TimezoneTable"
-import mockTimezoneData, { IMockTimezone } from "./__mock__"
+import mockTimezoneData, { IMockTimezone } from "./TimezonePage.mock"
 import { Box } from "@mui/material"
 import { ContainedButton } from "../commons/Button"
 import TimezoneModal from "./TimezoneModal"

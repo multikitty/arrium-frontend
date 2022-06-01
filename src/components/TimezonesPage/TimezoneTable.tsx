@@ -15,7 +15,7 @@ import {
 } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import { IMockTimezone } from "./__mock__"
+import { IMockTimezone } from "./TimezonePage.mock"
 
 interface ITimezoneTableProps {
   timezones: IMockTimezone[]

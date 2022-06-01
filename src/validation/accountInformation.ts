@@ -3,9 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
-import { phoneRegExp } from "./personalInformationValidation"
+import { phoneRegExp } from "./personalInformation"
 
-const accountInformationFormValidationSchema = Yup.object().shape({
+const accountInformationSchema = Yup.object().shape({
   firstName: Yup.string().required("The First Name field must not be empty"),
   surName: Yup.string().required("The Surname field must not be empty"),
   email: Yup.string()
@@ -24,8 +24,8 @@ const accountInformationFormValidationSchema = Yup.object().shape({
   sendPasswordChangeRequest: Yup.boolean(),
 })
 
-const accountInformationFormOptions = {
-  resolver: yupResolver(accountInformationFormValidationSchema),
+const accountInformationOptions = {
+  resolver: yupResolver(accountInformationSchema),
   defaultValues: {
     firstName: "",
     surName: "",
@@ -41,4 +41,4 @@ const accountInformationFormOptions = {
   },
 }
 
-export default accountInformationFormOptions
+export default accountInformationOptions

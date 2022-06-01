@@ -29,6 +29,9 @@ const theme = createTheme({
       "600": "#888A95",
       "700": "#585A61",
     },
+    success: {
+      main: "#2DB560",
+    },
     error: {
       main: "#F25555",
     },

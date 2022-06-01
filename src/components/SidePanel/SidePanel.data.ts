@@ -20,15 +20,15 @@ const sidePanelData = [
     roles: [UserRoles.driver],
   },
   {
-    label: "FAQ",
-    icon: FAQIcon,
-    href: DriverPages.faq,
-    roles: [UserRoles.driver],
-  },
-  {
     label: "Subscription",
     icon: SubscriptionIcon,
     href: DriverPages.subscription,
+    roles: [UserRoles.driver],
+  },
+  {
+    label: "FAQ",
+    icon: FAQIcon,
+    href: DriverPages.faq,
     roles: [UserRoles.driver],
   },
   {

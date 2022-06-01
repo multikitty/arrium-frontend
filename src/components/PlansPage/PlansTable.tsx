@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { rem } from "polished"
 
-import { IMockPlans } from "./__mock__"
+import { IMockPlans } from "./PlansPage.mock"
 import getCurrencyCodeByCountry, {
   CountryCodes,
 } from "@/utils/getCurrencyCodeByCountry"

@@ -117,6 +117,7 @@ export const StyledAvailabilityMobile = styled(Box)`
   width: 100%;
   min-width: ${rem("300px")};
 `
+
 export const StyledAvailabilityTitleMobile = styled.p`
   font-family: Inter;
   font-size: ${rem("28px")};

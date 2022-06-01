@@ -1,8 +1,15 @@
+import React from "react"
+import { InputAdornment, TextFieldProps } from "@mui/material"
+import { SearchTableTextField } from "../commons/commonComponents"
+import { FormValues } from "./AvailablityPage.types"
+
 export const availabilityStatusOptions = {
   accepted: { label: "Accepted", value: "accepted" },
   ignored: { label: "Ignored", value: "ignored" },
   rejected: { label: "Rejected", value: "rejected" },
 }
+
+export type AvailabilityStatusType = keyof typeof availabilityStatusOptions
 
 const createData = (
   location: string,
@@ -11,7 +18,7 @@ const createData = (
   time: string,
   duration: string,
   pay: string,
-  status: keyof typeof availabilityStatusOptions
+  status: AvailabilityStatusType
 ) => {
   return { location, day, date, time, duration, pay, status }
 }
@@ -41,11 +48,155 @@ export const initialWeekData: WeekType[] = [
   { day: "Sun", active: false },
 ]
 
-export const searchTableData = [
-  "Manchester (CMC2) - Morrisons",
-  "Leyland (DPR1) - AMZL",
-  "Knowsley (DWN1) - AMZL",
-  "Knowsley (DWN1) - AMZL",
+export const searchTableInitialValues: FormValues = {
+  data: [
+    {
+      location: "Manchester (CMC2) - Morrisons",
+      checked: true,
+      timeToArrive: 120,
+      startTime: "12:00",
+      endTime: "13:00",
+      minimumPay: 80,
+      minimumHourlyRate: 20,
+    },
+    {
+      location: "Leyland (DPR1) - AMZL",
+      checked: false,
+      timeToArrive: "",
+      startTime: "",
+      endTime: "",
+      minimumPay: "",
+      minimumHourlyRate: "",
+    },
+    {
+      location: "Knowsley (DWN1) - AMZL",
+      checked: false,
+      timeToArrive: "",
+      startTime: "",
+      endTime: "",
+      minimumPay: "",
+      minimumHourlyRate: "",
+    },
+    {
+      location: "Wakefield (DLS4)",
+      checked: false,
+      timeToArrive: "",
+      startTime: "",
+      endTime: "",
+      minimumPay: "",
+      minimumHourlyRate: "",
+    },
+  ],
+}
+
+export const searchTableEmptyData: FormValues = {
+  data: searchTableInitialValues.data.map(({ location }) => ({
+    location: location,
+    checked: false,
+    timeToArrive: "",
+    startTime: "",
+    endTime: "",
+    minimumPay: "",
+    minimumHourlyRate: "",
+  })),
+}
+
+export const searchTableShape = [
+  {
+    label: "Time to arrive",
+    name: "timeToArrive",
+    renderInput(props: TextFieldProps) {
+      props.error = props.error || false
+      return (
+        <SearchTableTextField
+          placeholder="Type..."
+          type="number"
+          inputProps={{
+            min: 0,
+            max: 180,
+          }}
+          {...props}
+          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+        />
+      )
+    },
+  },
+  {
+    label: "Start time",
+    name: "startTime",
+    renderInput(props: TextFieldProps) {
+      return (
+        <SearchTableTextField
+          type="time"
+          inputProps={{
+            step: 300,
+          }}
+          {...props}
+          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+        />
+      )
+    },
+  },
+  {
+    label: "End time",
+    name: "endTime",
+    renderInput(props: TextFieldProps) {
+      return (
+        <SearchTableTextField
+          type="time"
+          inputProps={{
+            step: 300,
+          }}
+          {...props}
+          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+        />
+      )
+    },
+  },
+  {
+    label: "Minimum pay",
+    name: "minimumPay",
+    renderInput(props: TextFieldProps) {
+      return (
+        <SearchTableTextField
+          placeholder="Type..."
+          type="number"
+          inputProps={{
+            min: 0,
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">&#8356;</InputAdornment>
+            ),
+          }}
+          {...props}
+          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+        />
+      )
+    },
+  },
+  {
+    label: "Minimum hourly rate",
+    name: "minimumHourlyRate",
+    renderInput(props: TextFieldProps) {
+      return (
+        <SearchTableTextField
+          placeholder="Type..."
+          type="number"
+          inputProps={{
+            min: 0,
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">&#8356;</InputAdornment>
+            ),
+          }}
+          {...props}
+          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+        />
+      )
+    },
+  },
 ]
 
 export const rowSearches = [
@@ -80,8 +231,7 @@ export const rows = [
     "17:45 - 21:15",
     "3 h 30 min",
     "54.50",
-    availabilityStatusOptions.accepted
-      .value as keyof typeof availabilityStatusOptions
+    availabilityStatusOptions.accepted.value as AvailabilityStatusType
   ),
   createData(
     "Leyland (DPR1) - AMZL",
@@ -90,8 +240,7 @@ export const rows = [
     "17:30 - 21:00",
     "3 h 30 min",
     "45.50",
-    availabilityStatusOptions.accepted
-      .value as keyof typeof availabilityStatusOptions
+    availabilityStatusOptions.accepted.value as AvailabilityStatusType
   ),
   createData(
     "Knowsley (DWN1) - AMZL",
@@ -100,8 +249,7 @@ export const rows = [
     "18:15 - 21:45",
     "3 h 30 min",
     "54.50",
-    availabilityStatusOptions.rejected
-      .value as keyof typeof availabilityStatusOptions
+    availabilityStatusOptions.rejected.value as AvailabilityStatusType
   ),
   createData(
     "Manchester (CMC2) - Morrisons",
@@ -110,13 +258,12 @@ export const rows = [
     "18:00 - 20:00",
     "2 h",
     "26",
-    availabilityStatusOptions.ignored
-      .value as keyof typeof availabilityStatusOptions
+    availabilityStatusOptions.ignored.value as AvailabilityStatusType
   ),
 ]
 
 export const availabilityStatusColorMap: Record<
-  keyof typeof availabilityStatusOptions,
+  AvailabilityStatusType,
   string
 > = {
   accepted: "#3DCC70",

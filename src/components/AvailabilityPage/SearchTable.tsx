@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import * as React from "react"
 import {
   Table,
   TableContainer,
@@ -6,21 +6,31 @@ import {
   TableCell,
   TableRow,
   TableHead,
-  InputAdornment,
   Box,
 } from "@mui/material"
-import theme from "@/theme"
 import { rem } from "polished"
-import { SearchTableTextField } from "../commons/commonComponents"
+import { Controller, useFormContext, useWatch } from "react-hook-form"
+
+import theme from "@/theme"
 import { BpCheckbox as Checkbox } from "../commons/CheckBox"
-import { SearchTableProps } from "./AvailablityPage.types"
-import { searchTableData } from "./AvailabilityPage.data"
+import { searchTableShape } from "./AvailabilityPage.data"
 import { content } from "@/constants/content"
-import { observer } from "mobx-react-lite"
 import {
   StyledAvailabilitySearchTableFieldContainer,
   StyledAvailabilitySearchTableFieldHelperText,
 } from "./AvailabilityPage.styled"
+import { FormValues } from "./AvailablityPage.types"
+import {
+  StyledSubscriptionPageInvoicesContainer as StyledSearchTableContainer,
+  StyledSubscriptionPageInvoice as StyledSearchTable,
+  StyledSubscriptionPageInvoiceHeader as StyledSearchTableHeader,
+  StyledSubscriptionPageInvoiceHeaderText as StyledSearchTableHeaderText,
+  StyledSubscriptionPageInvoiceHeaderTitle as StyledSearchTableHeaderTitle,
+  StyledSubscriptionPageInvoiceItem as StyledSearchTableItem,
+  StyledSubscriptionPageInvoiceItemLabel as StyledSearchTableItemLabel,
+  StyledSubscriptionPageInvoiceItemsContainer as StyledSearchTableItemsContainer,
+  StyledSubscriptionPageInvoiceItemValue as StyledSearchTableItemValue,
+} from "../SubscriptionPage/SubscriptionPage.styled"
 
 const tableHeaderGreyTextStyles = {
   fontFamily: "Inter",
@@ -38,35 +48,181 @@ const tableHeaderBlackTextStyles = {
   color: theme.palette.blackText,
 }
 
-const SearchTable: React.FC<SearchTableProps> = ({
-  register,
-  unregister,
-  formState,
-}) => {
-  const [checkboxValues, setCheckBoxValues] = useState<boolean[]>(
-    Array(searchTableData.length).fill(false)
+interface IProps {
+  isMobile?: boolean
+}
+
+const SearchTable: React.FC<IProps> = ({ isMobile }) => {
+  const { formState, control, ...methods } = useFormContext()
+  useWatch({ name: "data", control })
+
+  const renderTableCells = React.useCallback(
+    (index: number, disabled: boolean) =>
+      searchTableShape.map(({ name, renderInput }) => (
+        <TableCell
+          key={`${name}.${index}`}
+          sx={{
+            ...tableHeaderBlackTextStyles,
+            fontWeight: "normal",
+          }}
+          align="left"
+        >
+          <Box>
+            <StyledAvailabilitySearchTableFieldContainer>
+              <Controller
+                name={`data.${index}.${name}`}
+                control={control}
+                render={({ field: { value, onChange, onBlur, ref } }) =>
+                  renderInput({
+                    value,
+                    onChange,
+                    onBlur,
+                    ref,
+                    disabled,
+                    error: !!formState.errors?.data?.[index]?.[name],
+                  })
+                }
+              />
+              {formState.errors?.data?.[index]?.[name] && (
+                <StyledAvailabilitySearchTableFieldHelperText>
+                  {formState.errors.data[index][name]?.message}
+                </StyledAvailabilitySearchTableFieldHelperText>
+              )}
+            </StyledAvailabilitySearchTableFieldContainer>
+          </Box>
+        </TableCell>
+      )),
+    [formState, control]
   )
 
-  const handleCheckboxChange = (
-    _: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-    index: number
-  ) => {
-    let values = [...checkboxValues]
-    values[index] = checked
-    if (!values[index]) {
-      unregister(`timeToArrive.${index}`)
-      unregister(`startTime.${index}`)
-      unregister(`endTime.${index}`)
-      unregister(`minimumPay.${index}`)
-      unregister(`minimumHourlyRate.${index}`)
-    }
-    setCheckBoxValues(values)
-  }
+  const renderTableCellsMobile = React.useCallback(
+    (index: number, disabled: boolean) =>
+      searchTableShape.map(({ label, name, renderInput }) => (
+        <StyledSearchTableItem>
+          <StyledSearchTableItemLabel>{label}</StyledSearchTableItemLabel>
+          <StyledSearchTableItemValue>
+            <StyledAvailabilitySearchTableFieldContainer>
+              <Controller
+                name={`data.${index}.${name}`}
+                control={control}
+                render={({ field: { value, onChange, onBlur, ref } }) =>
+                  renderInput({
+                    value,
+                    onChange,
+                    onBlur,
+                    ref,
+                    disabled,
+                    error: !!formState.errors?.data?.[index]?.[name],
+                    fullWidth: true,
+                  })
+                }
+              />
+              {formState.errors?.data?.[index]?.[name] && (
+                <StyledAvailabilitySearchTableFieldHelperText>
+                  {formState.errors.data[index][name]?.message}
+                </StyledAvailabilitySearchTableFieldHelperText>
+              )}
+            </StyledAvailabilitySearchTableFieldContainer>
+          </StyledSearchTableItemValue>
+        </StyledSearchTableItem>
+      )),
+    [formState, control]
+  )
 
-  return (
+  const renderTableRows = React.useMemo(
+    () =>
+      methods
+        .getValues()
+        .data.map((data: FormValues["data"][0], index: number) => {
+          return (
+            <TableRow
+              key={index}
+              sx={{
+                height: "90px",
+                "&:last-child td, &:last-child th": { border: 0 },
+                "& td:first-of-type, & th:first-of-type": {
+                  paddingLeft: rem("16px"),
+                },
+              }}
+            >
+              {/* // * Checkbox Column */}
+              <TableCell
+                sx={tableHeaderBlackTextStyles}
+                component="th"
+                scope="row"
+              >
+                <Box display="flex" alignItems="center">
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <Controller
+                      name={`data.${index}.checked`}
+                      control={control}
+                      render={({ field: { value, onChange, onBlur, ref } }) => (
+                        <Checkbox
+                          id={`checkbox-location-${index}`}
+                          checked={!!value}
+                          onBlur={onBlur}
+                          ref={ref}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                    <label htmlFor={`checkbox-location-${index}`}>
+                      {data.location}
+                    </label>
+                  </StyledAvailabilitySearchTableFieldContainer>
+                </Box>
+              </TableCell>
+              {renderTableCells(index, !data.checked)}
+            </TableRow>
+          )
+        }),
+    [control, methods, renderTableCells]
+  )
+
+  const renderTableRowsMobile = React.useMemo(
+    () =>
+      methods
+        .getValues()
+        .data.map((data: FormValues["data"][0], index: number) => (
+          <StyledSearchTable key={data.location}>
+            <StyledSearchTableHeader>
+              <StyledSearchTableHeaderTitle>
+                Location
+              </StyledSearchTableHeaderTitle>
+              <StyledSearchTableHeaderText>
+                <Box display="flex" alignItems="center" ml={-1}>
+                  <StyledAvailabilitySearchTableFieldContainer>
+                    <Controller
+                      name={`data.${index}.checked`}
+                      control={control}
+                      render={({ field: { value, onChange, onBlur, ref } }) => (
+                        <Checkbox
+                          id={`checkbox-location-${index}`}
+                          checked={!!value}
+                          onBlur={onBlur}
+                          ref={ref}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                    <label htmlFor={`checkbox-location-${index}`}>
+                      {data.location}
+                    </label>
+                  </StyledAvailabilitySearchTableFieldContainer>
+                </Box>
+              </StyledSearchTableHeaderText>
+            </StyledSearchTableHeader>
+            <StyledSearchTableItemsContainer>
+              {renderTableCellsMobile(index, !data.checked)}
+            </StyledSearchTableItemsContainer>
+          </StyledSearchTable>
+        )),
+    [control, methods, renderTableCellsMobile]
+  )
+
+  return !isMobile ? (
     <TableContainer>
-      <Table aria-label="invoices table">
+      <Table aria-label="Search Preferences table">
         <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
           <TableRow>
             {content.searchTable.tableHeadLabel.map(
@@ -88,250 +244,14 @@ const SearchTable: React.FC<SearchTableProps> = ({
             )}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {searchTableData.map((loc: string, index: number) => (
-            <TableRow
-              key={index}
-              sx={{
-                height: "90px",
-                "&:last-child td, &:last-child th": { border: 0 },
-                "& td:first-of-type, & th:first-of-type": {
-                  paddingLeft: rem("16px"),
-                },
-              }}
-            >
-              <TableCell
-                sx={tableHeaderBlackTextStyles}
-                component="th"
-                scope="row"
-              >
-                <Box display="flex" alignItems="center">
-                  <Checkbox
-                    id={`checkbox-location-${index}`}
-                    value={checkboxValues[index]}
-                    onChange={(e, checked) =>
-                      handleCheckboxChange(e, checked, index)
-                    }
-                  />
-                  <label htmlFor={`checkbox-location-${index}`}>{loc}</label>
-                </Box>
-              </TableCell>
-              <TableCell
-                sx={{
-                  ...tableHeaderBlackTextStyles,
-                  fontWeight: "normal",
-                }}
-                align="left"
-              >
-                <Box>
-                  {checkboxValues[index] ? (
-                    <StyledAvailabilitySearchTableFieldContainer>
-                      <SearchTableTextField
-                        placeholder="Type..."
-                        {...register(`timeToArrive.${index}`, {
-                          required: true,
-                        })}
-                        disabled={!checkboxValues[index]}
-                        type="number"
-                        inputProps={{
-                          min: 0,
-                          max: 180,
-                        }}
-                      />
-                      {formState.errors?.timeToArrive?.[index] && (
-                        <StyledAvailabilitySearchTableFieldHelperText>
-                          {formState.errors.timeToArrive[index]?.message}
-                        </StyledAvailabilitySearchTableFieldHelperText>
-                      )}
-                    </StyledAvailabilitySearchTableFieldContainer>
-                  ) : (
-                    <SearchTableTextField
-                      placeholder="Type..."
-                      disabled={!checkboxValues[index]}
-                      type="number"
-                      inputProps={{
-                        min: 0,
-                        max: 180,
-                      }}
-                    />
-                  )}
-                </Box>
-              </TableCell>
-              <TableCell
-                sx={{
-                  ...tableHeaderBlackTextStyles,
-                  fontWeight: "normal",
-                }}
-                align="left"
-              >
-                {checkboxValues[index] ? (
-                  <StyledAvailabilitySearchTableFieldContainer>
-                    <SearchTableTextField
-                      type="time"
-                      {...register(`startTime.${index}`, {
-                        required: true,
-                      })}
-                      disabled={!checkboxValues[index]}
-                      inputProps={{
-                        step: 300,
-                      }}
-                    />
-                    {formState.errors?.startTime?.[index] && (
-                      <StyledAvailabilitySearchTableFieldHelperText>
-                        {formState.errors.startTime?.[index]?.message}
-                      </StyledAvailabilitySearchTableFieldHelperText>
-                    )}
-                  </StyledAvailabilitySearchTableFieldContainer>
-                ) : (
-                  <SearchTableTextField
-                    type="time"
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      step: 300,
-                    }}
-                  />
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  ...tableHeaderBlackTextStyles,
-                  fontWeight: "normal",
-                  textTransform: "capitalize",
-                }}
-                align="left"
-              >
-                {checkboxValues[index] ? (
-                  <StyledAvailabilitySearchTableFieldContainer>
-                    <SearchTableTextField
-                      type="time"
-                      {...register(`endTime.${index}`, {
-                        required: true,
-                      })}
-                      disabled={!checkboxValues[index]}
-                      inputProps={{
-                        step: 300,
-                      }}
-                    />
-                    {formState.errors?.endTime?.[index] && (
-                      <StyledAvailabilitySearchTableFieldHelperText>
-                        {formState.errors.endTime?.[index]?.message}
-                      </StyledAvailabilitySearchTableFieldHelperText>
-                    )}
-                  </StyledAvailabilitySearchTableFieldContainer>
-                ) : (
-                  <SearchTableTextField
-                    type="time"
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      step: 300,
-                    }}
-                  />
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  ...tableHeaderBlackTextStyles,
-                  fontWeight: "normal",
-                }}
-                align="left"
-              >
-                {checkboxValues[index] ? (
-                  <StyledAvailabilitySearchTableFieldContainer>
-                    <SearchTableTextField
-                      placeholder="Type..."
-                      type="number"
-                      {...register(`minimumPay.${index}`)}
-                      disabled={!checkboxValues[index]}
-                      inputProps={{
-                        min: 0,
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            &#8356;
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    {formState.errors?.minimumPay?.[index] && (
-                      <StyledAvailabilitySearchTableFieldHelperText>
-                        {formState.errors.minimumPay?.[index]?.message}
-                      </StyledAvailabilitySearchTableFieldHelperText>
-                    )}
-                  </StyledAvailabilitySearchTableFieldContainer>
-                ) : (
-                  <SearchTableTextField
-                    placeholder="Type..."
-                    type="number"
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          &#8356;
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              </TableCell>
-              <TableCell
-                sx={{
-                  ...tableHeaderBlackTextStyles,
-                  fontWeight: "normal",
-                }}
-                align="left"
-              >
-                {checkboxValues[index] ? (
-                  <StyledAvailabilitySearchTableFieldContainer>
-                    <SearchTableTextField
-                      placeholder="Type..."
-                      type="number"
-                      {...register(`minimumHourlyRate.${index}`)}
-                      disabled={!checkboxValues[index]}
-                      inputProps={{
-                        min: 0,
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            &#8356;
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    {formState.errors?.minimumHourlyRate?.[index] && (
-                      <StyledAvailabilitySearchTableFieldHelperText>
-                        {formState.errors.minimumHourlyRate?.[index]?.message}
-                      </StyledAvailabilitySearchTableFieldHelperText>
-                    )}
-                  </StyledAvailabilitySearchTableFieldContainer>
-                ) : (
-                  <SearchTableTextField
-                    placeholder="Type..."
-                    type="number"
-                    disabled={!checkboxValues[index]}
-                    inputProps={{
-                      min: 0,
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          &#8356;
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{renderTableRows}</TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <StyledSearchTableContainer>
+      {renderTableRowsMobile}
+    </StyledSearchTableContainer>
   )
 }
 
-export default observer(SearchTable)
+export default SearchTable

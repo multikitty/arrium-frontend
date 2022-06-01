@@ -21,7 +21,7 @@ import TimeZoneSelect from "react-timezone-select"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
-import { accountInformationFormOptions } from "@/validation"
+import { accountInformationOptions } from "@/validation"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { BpCheckbox as Checkbox } from "@/components/commons/CheckBox"
 import {
@@ -45,6 +45,11 @@ const useStyles = makeStyles({
       borderRadius: "10px !important",
     },
     "& > div > div > span": {
+      display: "none",
+    },
+  },
+  telephoneInputContainer: {
+    "& > .special-label": {
       display: "none",
     },
   },
@@ -87,10 +92,10 @@ const AccountInformationTab = (props: ITabProps) => {
     <MenuItem value={role.value}>{role.label}</MenuItem>
   ))
 
-  type formPropType = typeof accountInformationFormOptions.defaultValues
+  type formPropType = typeof accountInformationOptions.defaultValues
 
   const { handleSubmit, control, formState, reset, getValues, setValue } =
-    useForm<formPropType>(accountInformationFormOptions)
+    useForm<formPropType>(accountInformationOptions)
 
   const onSubmit = (data: formPropType) => {
     console.log("Personal Information form data", data)
@@ -112,7 +117,7 @@ const AccountInformationTab = (props: ITabProps) => {
               {/* Customer Id Field */}
               <Box mb={rem("24px")}>
                 <StyledAccountInformationTabFormLabel>
-                  Customer Id
+                  Customer ID
                 </StyledAccountInformationTabFormLabel>
                 <StyledAccountInformatiomTabContentField readOnly disabled />
               </Box>
@@ -128,6 +133,7 @@ const AccountInformationTab = (props: ITabProps) => {
                     <ReactPhoneInput
                       onChange={onChange}
                       value={value}
+                      containerClass={classes.telephoneInputContainer}
                       inputStyle={{
                         width: "100%",
                         borderRadius: rem("10px"),
@@ -283,9 +289,7 @@ const AccountInformationTab = (props: ITabProps) => {
                       onChange={onChange}
                       value={value}
                       error={!!formState.errors?.role}
-                      input={
-                        <StyledAccountInformatiomTabContentField roleField />
-                      }
+                      input={<StyledAccountInformatiomTabContentField large />}
                     >
                       {renderRoleOptions}
                     </Select>
@@ -418,7 +422,7 @@ const AccountInformationTab = (props: ITabProps) => {
                       onChange={onChange}
                       value={value}
                       error={!!formState.errors?.status}
-                      input={<StyledAccountInformatiomTabContentField />}
+                      input={<StyledAccountInformatiomTabContentField large />}
                     >
                       <MenuItem value="disabled">Disabled</MenuItem>
                       <MenuItem value="active">Active</MenuItem>

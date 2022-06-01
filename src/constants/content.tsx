@@ -1,3 +1,4 @@
+import React from "react"
 import { availabilityStatusOptions } from "@/components/AvailabilityPage/AvailabilityPage.data"
 
 export const content = {
@@ -38,8 +39,9 @@ export const content = {
       },
     ],
     formControlLabelForSwitches: [
-      "Autostart Search",
-      "Reject offers from ‘unticked’ locations",
+      <div>
+        Reject offers from <strong>unticked</strong> locations
+      </div>,
     ],
   },
   searchTable: {

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import { personalInformationFormOptions } from "@/validation"
+import { personalInformationOptions } from "@/validation"
 import {
   StyledProfileTabContent,
   StyledProfileTabContentBody,
@@ -63,7 +63,7 @@ const ProfileTabContent = () => {
   const isEmailMenuOpen = Boolean(emailAnchorEl)
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
-  type formPropType = typeof personalInformationFormOptions.defaultValues
+  type formPropType = typeof personalInformationOptions.defaultValues
 
   const { handleSubmit, control, formState, reset, getValues } =
     useForm<formPropType>({
@@ -72,9 +72,9 @@ const ProfileTabContent = () => {
         name: userStore.currentUser?.firstName,
         surName: userStore.currentUser?.lastName,
         phoneNumber: userStore.currentUser?.phoneNumber,
-        timezone: personalInformationFormOptions.defaultValues.timezone,
+        timezone: personalInformationOptions.defaultValues.timezone,
       },
-      resolver: personalInformationFormOptions.resolver,
+      resolver: personalInformationOptions.resolver,
     })
 
   const handleEmailMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {

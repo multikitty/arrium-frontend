@@ -26,7 +26,7 @@ import {
   StyledAccountInformationTabFormLabel,
 } from "./AddCustomerPage.styled"
 import theme from "@/theme"
-import { accountInformationFormOptions } from "@/validation"
+import { accountInformationOptions } from "@/validation"
 import { UserRolesType } from "@/types/common"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
 import { TabType } from "./AddCustomersPage.data"
@@ -87,12 +87,12 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
     <MenuItem value={role.value}>{role.label}</MenuItem>
   ))
 
-  type formPropType = typeof accountInformationFormOptions.defaultValues
+  type formPropType = typeof accountInformationOptions.defaultValues
   const { handleSubmit, control, formState, reset, setValue } =
     useForm<formPropType>({
-      resolver: accountInformationFormOptions.resolver,
+      resolver: accountInformationOptions.resolver,
       defaultValues: {
-        ...accountInformationFormOptions.defaultValues,
+        ...accountInformationOptions.defaultValues,
         role,
       },
     })
@@ -116,7 +116,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
               {/* Customer Id Field */}
               <Box mb={rem("24px")}>
                 <StyledAccountInformationTabFormLabel>
-                  Customer Id
+                  Customer ID
                 </StyledAccountInformationTabFormLabel>
                 <StyledAccountInformatiomTabContentField readOnly disabled />
               </Box>
@@ -299,7 +299,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
           <Grid item xs={12} lg={4}>
             <Box display="flex" flexDirection="column">
               {/* Surname Field */}
-              <Box mb={rem("35px")}>
+              <Box mb={rem("24px")}>
                 <StyledAccountInformationTabFormLabel>
                   Surname
                 </StyledAccountInformationTabFormLabel>

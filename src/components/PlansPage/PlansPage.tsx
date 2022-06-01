@@ -10,7 +10,7 @@ import {
   StyledPlansPageMapWrapper,
 } from "./PlansPage.styled"
 import PlansTable from "./PlansTable"
-import mockPlansData, {type IMockPlans} from "./__mock__"
+import mockPlansData, {type IMockPlans} from "./PlansPage.mock"
 
 const PlansPage = () => {
   const [selectedRegion, setSelectedRegion] = React.useState("")

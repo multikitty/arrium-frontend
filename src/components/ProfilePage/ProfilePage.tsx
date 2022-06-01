@@ -4,7 +4,7 @@ import {
   StyledProfilePageContent,
   StyledProfilePageHeader,
 } from "./ProfilePage.styled"
-import { Box, IconButton, Tooltip } from "@mui/material"
+import { Box, IconButton, tabsClasses, Tooltip } from "@mui/material"
 import { rem } from "polished"
 import ProfileTabContent from "./ProfileTabContent"
 import FlexAccountTabContent from "./FlexAccountTabContent"
@@ -49,6 +49,15 @@ const ProfilePage = () => {
             value={tab}
             onChange={handleChange}
             aria-label="profile tabs"
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            sx={{
+              maxWidth: "100vw",
+              [`& .${tabsClasses.scrollButtons}`]: {
+                "&.Mui-disabled": { opacity: 0.3 },
+              },
+            }}
           >
             <StyledTab
               sx={{

@@ -7,11 +7,15 @@ export interface TabPanelProps {
 }
 
 export type FormValues = {
-  timeToArrive: number[]
-  startTime: string[]
-  endTime: string[]
-  minimumPay: number[]
-  minimumHourlyRate: number[]
+  data: {
+    location: string
+    checked: boolean
+    timeToArrive: number | ""
+    startTime: string
+    endTime: string
+    minimumPay: number | ""
+    minimumHourlyRate: number | ""
+  }[]
 }
 
 export interface SearchTableProps {
