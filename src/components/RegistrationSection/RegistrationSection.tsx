@@ -12,7 +12,7 @@ import {
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/commonComponents"
+} from "../commons/uiComponents"
 import {
   StyledPasswordValidationContainer,
   StyledTextBox,

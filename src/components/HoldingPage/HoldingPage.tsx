@@ -10,7 +10,7 @@ import {
   StyledLoginContainerMobile,
   StyledLoginText,
   StyledSignUpButton,
-} from "../commons/commonComponents"
+} from "../commons/uiComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { Link } from "gatsby"
@@ -25,7 +25,7 @@ const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
         <StyledLoginText>We are setting your account up</StyledLoginText>
       </Box>
       <StyledText>
-        You’ll receive a confirmation email withing 24 hours.
+        You&apos;ll receive a confirmation email withing 24 hours.
       </StyledText>
       <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
         <EmailSvg />
@@ -56,7 +56,7 @@ const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
           <StyledLoginText>We are setting your account up</StyledLoginText>
         </Box>
         <StyledText>
-          You’ll receive a confirmation email withing 24 hours.
+          You&apos;ll receive a confirmation email withing 24 hours.
         </StyledText>
         <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
           <EmailSvg />

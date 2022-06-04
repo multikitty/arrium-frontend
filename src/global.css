@@ -22,3 +22,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.clr--main {
+  color: #3071f2;
+}

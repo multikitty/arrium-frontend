@@ -128,6 +128,8 @@ export const StyledAvailabilityTitleMobile = styled.p`
 
 export const StyledAvailabilitySearchTableFieldContainer = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
 `
 
 export const StyledAvailabilitySearchTableFieldHelperText = styled.p`

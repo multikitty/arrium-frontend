@@ -11,7 +11,7 @@ import {
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/commonComponents"
+} from "../commons/uiComponents"
 import { rem } from "polished"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"

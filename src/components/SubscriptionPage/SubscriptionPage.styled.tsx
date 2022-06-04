@@ -134,37 +134,59 @@ export const StyledSubscriptionPageInvoice = styled.div`
   flex-direction: column;
 `
 
-export const StyledSubscriptionPageInvoiceHeader = styled.div`
+export const StyledSubscriptionPageInvoiceHeader = styled.div<{
+  searchTable?: boolean
+}>`
   display: flex;
   flex-direction: column;
   padding: ${rem("20px")};
   padding-top: ${rem("14px")};
   background-color: ${p => p.theme.palette.grey1};
+  ${p =>
+    p.searchTable &&
+    css`
+      border-bottom: 1px solid ${p => p.theme.palette.grey3};
+    `};
+
+  @media ${devices.desktop.down} {
+    padding: ${rem("12px")} ${rem("18px")};
+  }
 `
 
-export const StyledSubscriptionPageInvoiceHeaderTitle = styled.h5`
+export const StyledSubscriptionPageInvoiceHeaderTitle = styled.h5<{
+  isSubHeaderBelow?: boolean
+}>`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: ${rem("16px")};
   line-height: ${rem("20px")};
-  margin-bottom: ${rem("6px")};
+  margin-bottom: ${p => (p.isSubHeaderBelow ? 0 : rem("6px"))};
 
   color: ${p => p.theme.palette.grey6};
 `
 
-export const StyledSubscriptionPageInvoiceHeaderText = styled.p`
+export const StyledSubscriptionPageInvoiceHeaderText = styled.p<{
+  noMarginBottom?: boolean
+}>`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: ${rem("16px")};
   line-height: ${rem("20px")};
-  margin-bottom: ${rem("6px")};
+  margin-bottom: ${p => (p.noMarginBottom ? 0 : rem("6px"))};
 
   color: ${p => p.theme.palette.blackText};
 `
-export const StyledSubscriptionPageInvoiceItemsContainer = styled.div`
+export const StyledSubscriptionPageInvoiceItemsContainer = styled.div<{
+  searchTable?: boolean
+}>`
   padding: ${rem("22px")} ${rem("20px")} ${rem("24px")};
+  ${p =>
+    p.searchTable &&
+    css`
+      border-bottom: 1px solid ${p => p.theme.palette.grey3};
+    `};
 `
 
 export const StyledSubscriptionPageInvoiceItem = styled.div`
@@ -178,6 +200,10 @@ export const StyledSubscriptionPageInvoiceItemLabel = styled(
   StyledSubscriptionPageInvoiceHeaderTitle
 )`
   flex-basis: 50%;
+
+  span {
+    color: ${p => p.theme.palette.main};
+  }
 `
 
 export const StyledSubscriptionPageInvoiceItemValue = styled(

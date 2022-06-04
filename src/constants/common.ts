@@ -41,6 +41,7 @@ export const AdminPages = {
 
 export const DriverPages = {
   availability: "availability",
+  automationSchedule: "automation-schedule",
   subscription: "subscription",
   faq: "faq",
   support: "support",
@@ -51,3 +52,13 @@ export const defaultRoutes = {
   [UserRoles.driver]: DriverPages.availability,
   [UserRoles.salesAgent]: AdminPages.dashboard,
 } as const
+
+export const daysInWeek = [
+  { short: "Mon", long: "Monday" },
+  { short: "Tue", long: "Tuesday" },
+  { short: "Wed", long: "Wednesday" },
+  { short: "Thu", long: "Thursday" },
+  { short: "Fri", long: "Friday" },
+  { short: "Sat", long: "Saturday" },
+  { short: "Sun", long: "Sunday" },
+]

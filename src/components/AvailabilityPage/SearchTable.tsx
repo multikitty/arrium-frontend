@@ -7,7 +7,9 @@ import {
   TableRow,
   TableHead,
   Box,
+  Collapse,
 } from "@mui/material"
+import { MobileTimePickerProps } from "@mui/x-date-pickers"
 import { rem } from "polished"
 import { Controller, useFormContext, useWatch } from "react-hook-form"
 
@@ -99,22 +101,37 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
     (index: number, disabled: boolean) =>
       searchTableShape.map(({ label, name, renderInput }) => (
         <StyledSearchTableItem>
-          <StyledSearchTableItemLabel>{label}</StyledSearchTableItemLabel>
+          <StyledSearchTableItemLabel>
+            {label} {label === "Time to arrive" && <span>*</span>}
+          </StyledSearchTableItemLabel>
           <StyledSearchTableItemValue>
             <StyledAvailabilitySearchTableFieldContainer>
               <Controller
                 name={`data.${index}.${name}`}
                 control={control}
                 render={({ field: { value, onChange, onBlur, ref } }) =>
-                  renderInput({
-                    value,
-                    onChange,
-                    onBlur,
-                    ref,
-                    disabled,
-                    error: !!formState.errors?.data?.[index]?.[name],
-                    fullWidth: true,
-                  })
+                  name === "startTime" || name === "endTime"
+                    ? renderInput({
+                        value: value as Date | null,
+                        onChange: onChange as MobileTimePickerProps["onChange"],
+                        disabled,
+                        error: !!formState.errors?.data?.[index]?.[name],
+                        fullWidth: true,
+                        variant: "outlined",
+                        minTime:
+                          name === "endTime"
+                            ? methods.getValues(`data.${index}.startTime`)
+                            : null,
+                      })
+                    : renderInput({
+                        value,
+                        onChange,
+                        onBlur,
+                        ref,
+                        disabled,
+                        error: !!formState.errors?.data?.[index]?.[name],
+                        fullWidth: true,
+                      })
                 }
               />
               {formState.errors?.data?.[index]?.[name] && (
@@ -185,8 +202,8 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
         .getValues()
         .data.map((data: FormValues["data"][0], index: number) => (
           <StyledSearchTable key={data.location}>
-            <StyledSearchTableHeader>
-              <StyledSearchTableHeaderTitle>
+            <StyledSearchTableHeader searchTable>
+              <StyledSearchTableHeaderTitle isSubHeaderBelow>
                 Location
               </StyledSearchTableHeaderTitle>
               <StyledSearchTableHeaderText>
@@ -212,9 +229,11 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                 </Box>
               </StyledSearchTableHeaderText>
             </StyledSearchTableHeader>
-            <StyledSearchTableItemsContainer>
-              {renderTableCellsMobile(index, !data.checked)}
-            </StyledSearchTableItemsContainer>
+            <Collapse in={data.checked}>
+              <StyledSearchTableItemsContainer searchTable>
+                {renderTableCellsMobile(index, !data.checked)}
+              </StyledSearchTableItemsContainer>
+            </Collapse>
           </StyledSearchTable>
         )),
     [control, methods, renderTableCellsMobile]
@@ -238,7 +257,10 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                       : tableHeaderGreyTextStyles
                   }
                 >
-                  {label}
+                  {label}{" "}
+                  {label === "Time to arrive" && (
+                    <span className="clr--main">*</span>
+                  )}
                 </TableCell>
               )
             )}

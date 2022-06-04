@@ -9,7 +9,7 @@ import {
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledLoginText,
-} from "../commons/commonComponents"
+} from "../commons/uiComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { FinishPageProps } from "./FinishPage.types"

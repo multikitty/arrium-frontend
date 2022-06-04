@@ -1,10 +1,11 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import {
   StyledTitle,
   StyledTitleMobile,
-} from "@/components/commons/commonComponents"
+} from "@/components/commons/uiComponents"
 import RegistrationSection from "@/components/RegistrationSection"
 import AccountInfoSection from "@/components/AccountInfoSection"
 import OtpConfirmationSection from "@/components/OtpConfirmationSection"
@@ -13,9 +14,7 @@ import { devices } from "@/constants/device"
 import AmazonFlexInfo from "@/components/AmazonFlexInfo"
 import FinishPage from "@/components/FinishPage"
 import HoldingPage from "@/components/HoldingPage"
-import navigateToDefault from "@/utils/navigateToDefault"
-import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
+import routes from "@/constants/routes"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -33,9 +32,12 @@ const steps = [
 
 const SignUpPage = () => {
   const isWebView = useMediaQuery(devices.web.up)
-  const { userStore } = useStore()
   const [formStage, setFormStage] = useState<number>(0)
   const [showOnHold, setShowOnHold] = useState<boolean>(false)
+
+  const handleNavigateToHome = () => {
+    navigate(routes.landing)
+  }
 
   return (
     <React.Fragment>
@@ -46,13 +48,13 @@ const SignUpPage = () => {
           alignItems="center"
           flexDirection="column"
         >
-          <StyledTitle>Arrium</StyledTitle>
+          <StyledTitle onClick={handleNavigateToHome}>Arrium</StyledTitle>
           <SignupStepsProgress stage={formStage} steps={steps} />
         </Box>
       ) : (
         <Box height={rem("64px")} display="flex" alignItems="center">
           <StyledTitleMobile
-            onClick={() => navigateToDefault(userStore.currentUser?.role)}
+            onClick={handleNavigateToHome}
             style={{ cursor: "pointer" }}
           >
             Arrium
@@ -107,4 +109,4 @@ const SignUpPage = () => {
   )
 }
 
-export default observer(SignUpPage)
+export default SignUpPage

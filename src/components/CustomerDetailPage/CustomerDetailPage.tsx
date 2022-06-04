@@ -19,7 +19,7 @@ import AccountInformationTab from "./AccountInformationTab"
 import BillingTab from "./BillingTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
-import { StyledTab, StyledTabs } from "../commons/commonComponents"
+import { StyledTab, StyledTabs } from "../commons/uiComponents"
 // import Message from "@/components/Message"
 
 const CustomerDetailPage = () => {

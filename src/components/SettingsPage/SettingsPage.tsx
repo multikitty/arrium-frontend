@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import { StyledTab, StyledTabs } from "../commons/commonComponents"
+import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import Message from "../Message"
 import LocationsTab from "./LocationsTab"
 import ModelsTab from "./ModelsTab"

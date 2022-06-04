@@ -15,3 +15,12 @@ export const removeLocalStorage = (key: string) => {
 export const clearLocalStorage = () => {
   isBrowser() && localStorage.clear()
 }
+
+const localStorageUtils = {
+  setLocalStorage,
+  getLocalStorage,
+  removeLocalStorage,
+  clearLocalStorage,
+}
+
+export default localStorageUtils

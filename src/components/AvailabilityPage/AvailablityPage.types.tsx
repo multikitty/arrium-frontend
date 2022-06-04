@@ -11,8 +11,8 @@ export type FormValues = {
     location: string
     checked: boolean
     timeToArrive: number | ""
-    startTime: string
-    endTime: string
+    startTime: Date | null
+    endTime: Date | null
     minimumPay: number | ""
     minimumHourlyRate: number | ""
   }[]

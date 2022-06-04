@@ -15,9 +15,10 @@ import {
   StyledTitle,
   StyledTitleMobile,
   StyledWarningText,
-} from "@/components/commons/commonComponents"
+} from "@/components/commons/uiComponents"
 import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
+import routes from "@/constants/routes"
 
 const ForgotPasswordPage = () => {
   type formPropType = typeof emailOptions.defaultValues
@@ -36,14 +37,27 @@ const ForgotPasswordPage = () => {
     isClicked && navigate("/resetPassword")
   }
 
+  const handleNavigateToHome = () => {
+    navigate(routes.landing)
+  }
+
   return (
     <React.Fragment>
       {isWebView ? (
-        <Box display="flex" justifyContent="center">
+        <Box
+          display="flex"
+          justifyContent="center"
+          onClick={handleNavigateToHome}
+        >
           <StyledTitle>Arrium</StyledTitle>
         </Box>
       ) : (
-        <Box height={rem("64px")} display="flex" alignItems="center">
+        <Box
+          height={rem("64px")}
+          display="flex"
+          alignItems="center"
+          onClick={handleNavigateToHome}
+        >
           <StyledTitleMobile>Arrium</StyledTitleMobile>
         </Box>
       )}

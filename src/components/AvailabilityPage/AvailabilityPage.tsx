@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { navigate } from "gatsby"
 import {
   Box,
   FormControlLabel,
@@ -10,6 +11,7 @@ import {
   Tab,
   Collapse,
   tabsClasses,
+  darken,
 } from "@mui/material"
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
@@ -57,6 +59,7 @@ import {
 } from "./AvailabilityPage.styled"
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
+import routes from "@/constants/routes"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -148,13 +151,18 @@ const AvailabilityPage = () => {
     methods.reset()
   }
 
+  const handleNavigateToAutomationSchedule = () => {
+    navigate(routes.automationSchedule)
+  }
+
   const onSubmit = (data: FormValues) => {
     console.log("onSubmit", data)
     alert("Submitted")
   }
 
   const onInvalid = (data: any) => {
-    console.log("Invalid", data)
+    const error = data.data.find((d: any) => d?.timeToArrive?.ref)
+    if (error) error.timeToArrive.ref.focus()
   }
 
   React.useEffect(() => {
@@ -221,7 +229,16 @@ const AvailabilityPage = () => {
                       label={item.day}
                       variant="filled"
                       onClick={() => handleClick(item)}
-                      color={item.active ? "success" : "default"}
+                      sx={{
+                        backgroundColor: item.active
+                          ? "#3DCC70"
+                          : "rgba(0, 0, 0, 0.08)",
+                        color: item.active ? "white" : "black",
+                        "&:hover": {
+                          color: "white",
+                          backgroundColor: darken("#3DCC70", 0.2),
+                        },
+                      }}
                     />
                   ))}
                 </Stack>
@@ -281,7 +298,10 @@ const AvailabilityPage = () => {
             ) : (
               <StyledCollapsedSearch>
                 <Box display="flex" alignItems="center">
-                  <ContainedButton sx={{ m: 1, mr: 2 }}>
+                  <ContainedButton
+                    sx={{ m: 1, mr: 2 }}
+                    onClick={handleNavigateToAutomationSchedule}
+                  >
                     Automation Schedule
                   </ContainedButton>
                   {content.availibility.formControlLabelForSwitches.map(
@@ -389,7 +409,16 @@ const AvailabilityPage = () => {
                       label={item.day.slice(0, 2)}
                       variant="filled"
                       onClick={() => handleClick(item)}
-                      color={item.active ? "success" : "default"}
+                      sx={{
+                        backgroundColor: item.active
+                          ? "#3DCC70"
+                          : "rgba(0, 0, 0, 0.08)",
+                        color: item.active ? "white" : "black",
+                        "&:hover": {
+                          color: "white",
+                          backgroundColor: darken("#3DCC70", 0.2),
+                        },
+                      }}
                     />
                   ))}
                 </Stack>
@@ -457,11 +486,11 @@ const AvailabilityPage = () => {
                   display="flex"
                   flexDirection="column"
                   justifyContent="center"
-                  mt={-1}
                 >
                   {isPremiumUser && (
                     <ContainedButton
                       sx={{ maxWidth: 160, whiteSpace: "nowrap", mb: 1 }}
+                      onClick={handleNavigateToAutomationSchedule}
                     >
                       Automation Schedule
                     </ContainedButton>

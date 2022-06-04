@@ -20,13 +20,14 @@ import FacebookIcon from "@/assets/icons/footer-facebook_logo.inline.svg"
 import { navigate } from "gatsby"
 import { Link } from "react-scroll"
 import { IconButton } from "@mui/material"
+import routes from "@/constants/routes"
 
 const FooterSection = () => {
   const handleRedirectToInstagram = () =>
     window.open("https://www.instagram.com/", "_blank")
   const handleRedirectToFacebook = () =>
     window.open("https://www.facebook.com/", "_blank")
-  const handleNavigateToHome = () => navigate("/")
+  const handleNavigateToHome = () => navigate(routes.landing)
 
   return (
     <StyledFooterSection>

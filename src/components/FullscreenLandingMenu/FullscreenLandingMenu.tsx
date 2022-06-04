@@ -18,6 +18,7 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { navigate } from "gatsby"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { FullscreenLandingMenuProps } from "./FullscreenLandingMenu.types"
+import routes from "@/constants/routes"
 
 const FullscreenLandingMenu = ({
   handleClose,
@@ -25,12 +26,17 @@ const FullscreenLandingMenu = ({
 }: FullscreenLandingMenuProps) => {
   const handleLoginButtonClick = () => {
     handleClose()
-    navigate("/signin")
+    navigate(routes.signin)
   }
 
   const handleStartFreeTrialButtonClick = () => {
     handleClose()
-    navigate("/signup")
+    navigate(routes.signup)
+  }
+
+  const handleNavigateToHome = () => {
+    handleClose()
+    navigate(routes.landing)
   }
 
   return (
@@ -40,7 +46,10 @@ const FullscreenLandingMenu = ({
           <CloseIcon sx={{ fontSize: 24 }} />
         </IconButton>
         <StyledFullscreenLandingMenuBrandLogoContainer>
-          <StyledFullscreenLandingMenuBrandLogo src={brandLogo} />
+          <StyledFullscreenLandingMenuBrandLogo
+            src={brandLogo}
+            onClick={handleNavigateToHome}
+          />
         </StyledFullscreenLandingMenuBrandLogoContainer>
       </StyledFullscreenLandingMenuTopSection>
       <StyledFullscreenLandingMenuInfoLinksContainer>

@@ -2,7 +2,7 @@ import * as React from "react"
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
 import CircularProgress from "@mui/material/CircularProgress"
 import getCountryData, { CountryData } from "@/utils/getCountryData"
-import { StyledInputField } from "../commons/commonComponents"
+import { StyledInputField } from "../commons/uiComponents"
 
 function sleep(delay = 0) {
   return new Promise(resolve => {

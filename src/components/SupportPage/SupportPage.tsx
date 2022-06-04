@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form"
 import PaperClipIcon from "@/assets/icons/paperclip.svg"
 import { devices } from "@/constants/device"
 import theme from "@/theme"
-import { supportFormOptions } from "@/validation"
+import { supportOptions } from "@/validation"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { StyledWarningText } from "../commons/commonComponents"
+import { StyledWarningText } from "../commons/uiComponents"
 import {
   StyledFAQPage as StyledSupportPage,
   StyledFAQPageHeader as StyledSupportPageHeader,
@@ -24,13 +24,13 @@ import {
 } from "./SupportPage.styled"
 
 const SupportPage = () => {
-  type formPropType = typeof supportFormOptions.defaultValues
+  type formPropType = typeof supportOptions.defaultValues
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formPropType>(supportFormOptions)
+  } = useForm<formPropType>(supportOptions)
 
   const isWebView = useMediaQuery(devices.web.up)
 

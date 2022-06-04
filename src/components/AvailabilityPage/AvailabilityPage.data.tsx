@@ -1,7 +1,9 @@
 import React from "react"
 import { InputAdornment, TextFieldProps } from "@mui/material"
-import { SearchTableTextField } from "../commons/commonComponents"
+import { SearchTableTextField } from "../commons/uiComponents"
 import { FormValues } from "./AvailablityPage.types"
+import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"
+import { createDateInHM } from "@/utils"
 
 export const availabilityStatusOptions = {
   accepted: { label: "Accepted", value: "accepted" },
@@ -54,8 +56,8 @@ export const searchTableInitialValues: FormValues = {
       location: "Manchester (CMC2) - Morrisons",
       checked: true,
       timeToArrive: 120,
-      startTime: "12:00",
-      endTime: "13:00",
+      startTime: createDateInHM(12, 0),
+      endTime: createDateInHM(13, 0),
       minimumPay: 80,
       minimumHourlyRate: 20,
     },
@@ -63,8 +65,8 @@ export const searchTableInitialValues: FormValues = {
       location: "Leyland (DPR1) - AMZL",
       checked: false,
       timeToArrive: "",
-      startTime: "",
-      endTime: "",
+      startTime: null,
+      endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
     },
@@ -72,8 +74,8 @@ export const searchTableInitialValues: FormValues = {
       location: "Knowsley (DWN1) - AMZL",
       checked: false,
       timeToArrive: "",
-      startTime: "",
-      endTime: "",
+      startTime: null,
+      endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
     },
@@ -81,8 +83,8 @@ export const searchTableInitialValues: FormValues = {
       location: "Wakefield (DLS4)",
       checked: false,
       timeToArrive: "",
-      startTime: "",
-      endTime: "",
+      startTime: null,
+      endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
     },
@@ -94,11 +96,15 @@ export const searchTableEmptyData: FormValues = {
     location: location,
     checked: false,
     timeToArrive: "",
-    startTime: "",
-    endTime: "",
+    startTime: null,
+    endTime: null,
     minimumPay: "",
     minimumHourlyRate: "",
   })),
+}
+
+interface TimePickerProps extends Omit<MobileTimePickerProps, "renderInput"> {
+  fullWidth?: boolean
 }
 
 export const searchTableShape = [
@@ -109,7 +115,6 @@ export const searchTableShape = [
       props.error = props.error || false
       return (
         <SearchTableTextField
-          placeholder="Type..."
           type="number"
           inputProps={{
             min: 0,
@@ -124,15 +129,23 @@ export const searchTableShape = [
   {
     label: "Start time",
     name: "startTime",
-    renderInput(props: TextFieldProps) {
+    renderInput(props: TimePickerProps) {
       return (
-        <SearchTableTextField
-          type="time"
-          inputProps={{
-            step: 300,
-          }}
+        <MobileTimePicker
           {...props}
-          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+          ampm={false}
+          mask="__:__"
+          views={["hours", "minutes"]}
+          value={props.value}
+          onChange={props.onChange}
+          renderInput={(params: TextFieldProps) => (
+            <SearchTableTextField
+              {...params}
+              {...(props.fullWidth && {
+                sx: { width: "100% !important", textAlign: "center" },
+              })}
+            />
+          )}
         />
       )
     },
@@ -140,15 +153,24 @@ export const searchTableShape = [
   {
     label: "End time",
     name: "endTime",
-    renderInput(props: TextFieldProps) {
+    renderInput(props: TimePickerProps) {
       return (
-        <SearchTableTextField
-          type="time"
-          inputProps={{
-            step: 300,
-          }}
+        <MobileTimePicker
           {...props}
-          {...(props.fullWidth && { sx: { width: "100% !important" } })}
+          minTime={props.minTime}
+          ampm={false}
+          mask="__:__"
+          views={["hours", "minutes"]}
+          value={props.value}
+          onChange={props.onChange}
+          renderInput={(params: TextFieldProps) => (
+            <SearchTableTextField
+              {...params}
+              {...(props.fullWidth && {
+                sx: { width: "100% !important", textAlign: "center" },
+              })}
+            />
+          )}
         />
       )
     },
@@ -159,7 +181,6 @@ export const searchTableShape = [
     renderInput(props: TextFieldProps) {
       return (
         <SearchTableTextField
-          placeholder="Type..."
           type="number"
           inputProps={{
             min: 0,
@@ -181,7 +202,6 @@ export const searchTableShape = [
     renderInput(props: TextFieldProps) {
       return (
         <SearchTableTextField
-          placeholder="Type..."
           type="number"
           inputProps={{
             min: 0,

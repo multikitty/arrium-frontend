@@ -14,13 +14,13 @@ export const StyledFAQPage = styled.div`
   }
 `
 
-export const StyledFAQPageHeader = styled.h3`
+export const StyledFAQPageHeader = styled.h3<{ isSubHeaderBelow?: boolean }>`
   font-family: Inter;
   font-style: normal;
   font-weight: 300;
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
-  margin-bottom: ${rem("32px")};
+  margin-bottom: ${p => (p.isSubHeaderBelow ? rem("12px") : rem("32px"))};
   color: ${p => p.theme.palette.blackText};
 
   @media ${devices.desktop.down} {

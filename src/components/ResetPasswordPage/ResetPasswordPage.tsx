@@ -11,7 +11,7 @@ import {
   StyledTitle,
   StyledTitleMobile,
   StyledWarningText,
-} from "@/components/commons/commonComponents"
+} from "@/components/commons/uiComponents"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { useForm } from "react-hook-form"
 import { navigate } from "gatsby"

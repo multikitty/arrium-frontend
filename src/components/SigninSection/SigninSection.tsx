@@ -19,7 +19,7 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
   StyledWarningText,
-} from "@/components/commons/commonComponents"
+} from "@/components/commons/uiComponents"
 import emailAndPasswordOptions from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"

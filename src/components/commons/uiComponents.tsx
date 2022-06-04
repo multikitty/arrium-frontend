@@ -35,6 +35,7 @@ export const StyledInputField = styled(TextField)<{ mb?: string }>`
     }
   }
 `
+
 export const StyledTitle = styled.p`
   font-weight: 700;
   font-size: ${rem("34px")};
@@ -44,7 +45,9 @@ export const StyledTitle = styled.p`
   margin-top: ${rem("80px")};
   margin-bottom: ${rem("56px")};
   text-transform: uppercase;
+  cursor: pointer;
 `
+
 export const StyledLoginContainer = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -54,6 +57,7 @@ export const StyledLoginContainer = styled(Box)`
   padding: ${rem("40px")};
   width: ${rem("458px")};
 `
+
 export const StyledLoginText = styled.h4`
   font-size: ${rem("28px")};
   font-weight: 400;
@@ -62,17 +66,20 @@ export const StyledLoginText = styled.h4`
   padding: 0 ${rem("40px")} ${rem("40px")} ${rem("40px")};
   line-height: ${rem("32px")};
 `
+
 export const StyledRemeberMeText = styled.label`
   font-weight: 500;
   font-size: ${rem("16px")};
   line-height: ${rem("20px")};
   color: #888a95;
 `
+
 export const StyledCheckBox = styled.input`
   margin-right: ${rem("8px")};
   width: ${rem("16px")};
   height: ${rem("16px")};
 `
+
 export const StyledForgotPassword = styled(Box)`
   cursor: pointer;
   font-weight: 500;
@@ -83,6 +90,7 @@ export const StyledForgotPassword = styled(Box)`
     text-decoration: none;
   }
 `
+
 export const StyledButton = styled(Button)<{ margintop?: string }>`
   &&& {
     color: white;
@@ -96,6 +104,7 @@ export const StyledButton = styled(Button)<{ margintop?: string }>`
     }
   }
 `
+
 export const StyledButtonText = styled.h5`
   font-size: ${rem("16px")};
   font-weight: 500;
@@ -103,6 +112,7 @@ export const StyledButtonText = styled.h5`
   width: 100%;
   color: #ffffff;
 `
+
 export const StyledSignUpText = styled.h5`
   margin-top: ${rem("16px")};
   font-size: ${rem("16px")};
@@ -121,6 +131,7 @@ export const StyledSignUpButton = styled.span`
     text-decoration: none;
   }
 `
+
 export const StyledInstructionsText = styled.p`
   font-size: ${rem("16px")};
   font-weight: 400;
@@ -128,6 +139,7 @@ export const StyledInstructionsText = styled.p`
   margin-bottom: ${rem("16px")};
   text-align: center;
 `
+
 export const StyledTitleMobile = styled.div`
   font-weight: 800;
   font-size: ${rem("24px")};
@@ -137,6 +149,7 @@ export const StyledTitleMobile = styled.div`
   letter-spacing: 1.6px;
   text-transform: uppercase;
   margin: ${rem("16px")} auto ${rem("16px")} ${rem("20px")};
+  cursor: pointer;
 `
 
 export const StyledLoginContainerMobile = styled(Box)`
@@ -149,6 +162,7 @@ export const StyledLoginContainerMobile = styled(Box)`
   min-height: 92vh;
   padding: ${rem("20px")};
 `
+
 export const StyledWarningText = styled.p<{
   marginbottom?: string
   marginTop?: string
@@ -182,6 +196,14 @@ export const SearchTableTextField = styled(TextField)`
       padding: ${rem("2px")} ${rem("8px")};
       height: ${rem("28px")};
       border-radius: ${rem("6px")};
+    }
+
+    & fieldset.MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.8);
+    }
+
+    & .Mui-disabled fieldset.MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.23);
     }
   }
 `

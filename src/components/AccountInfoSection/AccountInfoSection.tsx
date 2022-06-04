@@ -11,7 +11,7 @@ import {
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/commonComponents"
+} from "../commons/uiComponents"
 import TimeZoneSelect, { ITimezone } from "react-timezone-select"
 import { rem } from "polished"
 import { Link } from "gatsby"
