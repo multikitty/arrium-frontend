@@ -31,12 +31,16 @@ import {
 } from "./CustomersPage.styled"
 import AddDropdown from "./AddDropdown"
 import { CustomerData, rows } from "./CustomersPage.data"
+import routes from "@/constants/routes"
+import { nanoid } from "nanoid"
 
 const statusColorMap = {
   active: "#3DCC70",
   inactive: theme.palette.common.orange,
   disabled: theme.palette.grey5,
 }
+
+const CUSTOMER_ID = nanoid()
 
 const CustomersPage = () => {
   const [searchQuery, setSearchQuery] = React.useState("")
@@ -202,7 +206,7 @@ const CustomersPage = () => {
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
                   }}
-                  onClick={() => navigate("/customers/detail/some_id")}
+                  onClick={() => navigate(routes.customersDetail(CUSTOMER_ID))}
                 >
                   <TableCell
                     sx={{

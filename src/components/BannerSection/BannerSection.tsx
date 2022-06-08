@@ -11,9 +11,12 @@ import {
 } from "./BannerSection.styled"
 import bannerImage from "@/assets/images/landing-banner.png"
 import { navigate } from "gatsby"
+import routes from "@/constants/routes"
 
 const BannerSection = () => {
-  const redirectToSignup = () => navigate("/signup")
+  const handleNavigateToSignup = () => {
+    navigate(routes.signup)
+  }
 
   return (
     <StyledBannerSection>
@@ -30,7 +33,7 @@ const BannerSection = () => {
           to work, and then it accepts the blocks as soon as they appear.
         </StyledBannerSectionSubHeader>
         <StyledBannerSectionButtonContainer>
-          <ContainedButton onClick={redirectToSignup}>
+          <ContainedButton onClick={handleNavigateToSignup}>
             Start Free Trial
           </ContainedButton>
         </StyledBannerSectionButtonContainer>

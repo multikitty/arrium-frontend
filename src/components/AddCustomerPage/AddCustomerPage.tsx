@@ -21,6 +21,7 @@ import { UserRolesType } from "@/types/common"
 import { TabType, tabs } from "./AddCustomersPage.data"
 import LocationsTab from "./LocationsTab"
 import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
+import routes from "@/constants/routes"
 
 const AddCustomerPage = () => {
   const location = useLocation()
@@ -51,7 +52,7 @@ const AddCustomerPage = () => {
       <StyledAddCustomerPageHeaderContainer>
         <IconButton
           sx={{ mr: rem("20px") }}
-          onClick={() => navigate("/customers")}
+          onClick={() => navigate(routes.customers)}
         >
           <BackNavigationIcon
             sx={{ fontSize: 32, color: theme.palette.grey6 }}

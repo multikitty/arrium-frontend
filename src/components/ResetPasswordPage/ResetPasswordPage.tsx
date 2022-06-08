@@ -1,6 +1,10 @@
-import { Box, IconButton, useMediaQuery } from "@mui/material"
-import { rem } from "polished"
 import React, { useEffect, useState } from "react"
+import { navigate } from "gatsby"
+import { Box, IconButton, useMediaQuery } from "@mui/material"
+import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
+import { rem } from "polished"
+import { useForm } from "react-hook-form"
+
 import {
   StyledButton,
   StyledButtonText,
@@ -12,11 +16,9 @@ import {
   StyledTitleMobile,
   StyledWarningText,
 } from "@/components/commons/uiComponents"
-import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { useForm } from "react-hook-form"
-import { navigate } from "gatsby"
 import { devices } from "@/constants/device"
 import formOptions from "@/validation/emailAndPassword"
+import routes from "@/constants/routes"
 
 const ResetPassword = () => {
   type formPropType = typeof formOptions.defaultValues
@@ -27,13 +29,7 @@ const ResetPassword = () => {
   const [password, setPassword] = useState<string>("")
   const [confirmPassword, setConfirmPassword] = useState<string>("")
   const [isMatches, setIsMatches] = useState<boolean>(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<formPropType>(formOptions)
-
-  console.log(errors)
+  const { register, handleSubmit } = useForm<formPropType>(formOptions)
 
   useEffect(() => {
     if (password?.length > 0 || confirmPassword?.length > 0)
@@ -43,8 +39,8 @@ const ResetPassword = () => {
   const isWebView = useMediaQuery(devices.web.up)
 
   const onSubmit = (data: formPropType) => {
-    console.log(data)
-    navigate("/signin")
+    console.log("Reset Password Page Form Submit Data: ", data)
+    navigate(routes.signin)
   }
 
   return (

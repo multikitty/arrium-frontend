@@ -20,6 +20,7 @@ import { ProfileDropDownProps } from "./ProfileDropDown.types"
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
 import { UserRoles } from "@/constants/common"
+import routes from "@/constants/routes"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,
@@ -54,7 +55,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
     e.stopPropagation()
-    navigate("/profile")
+    navigate(routes.profile)
   }
 
   const handleLogoutButtonClick:

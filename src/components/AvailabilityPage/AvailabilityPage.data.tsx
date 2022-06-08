@@ -33,11 +33,12 @@ export type WeekType = {
 const createSearchesData = (
   location: string,
   timeToArrive: string,
-  startTimeToEndTime: string,
-  minPay: string,
-  minHourlyRate: string
+  startTime: string = "",
+  endTime: string = "",
+  minPay: number | "" = "",
+  minHourlyRate: number | "" = ""
 ) => {
-  return { location, timeToArrive, startTimeToEndTime, minPay, minHourlyRate }
+  return { location, timeToArrive, startTime, endTime, minPay, minHourlyRate }
 }
 
 export const initialWeekData: WeekType[] = [
@@ -133,7 +134,6 @@ export const searchTableShape = [
       return (
         <MobileTimePicker
           {...props}
-          ampm={false}
           mask="__:__"
           views={["hours", "minutes"]}
           value={props.value}
@@ -158,7 +158,6 @@ export const searchTableShape = [
         <MobileTimePicker
           {...props}
           minTime={props.minTime}
-          ampm={false}
           mask="__:__"
           views={["hours", "minutes"]}
           value={props.value}
@@ -223,24 +222,14 @@ export const rowSearches = [
   createSearchesData(
     "Manchester (CMC2) - Morrisons",
     "15 min",
-    "17:45 - 21:00",
-    "30",
-    "10"
+    "17:45",
+    "21:00",
+    30,
+    10
   ),
-  createSearchesData(
-    "Leyland (DPR1) - AMZL",
-    "20 min",
-    "17:30 - 22:00",
-    "35",
-    "1"
-  ),
-  createSearchesData(
-    "Knowsley (DWN1) - AMZL",
-    "32 min",
-    "17:30 - 22:00",
-    "40",
-    "13"
-  ),
+  createSearchesData("Leyland (DPR1) - AMZL", "20 min", "17:30", "", 35, 1),
+  createSearchesData("Knowsley (DWN1) - AMZL", "32 min", "", "22:00", 40),
+  createSearchesData("Wakefield (DLS4)", "32 min"),
 ]
 
 export const rows = [

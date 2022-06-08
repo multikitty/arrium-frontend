@@ -82,6 +82,10 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                     ref,
                     disabled,
                     error: !!formState.errors?.data?.[index]?.[name],
+                    minTime:
+                      name === "endTime"
+                        ? methods.getValues(`data.${index}.startTime`)
+                        : null,
                   })
                 }
               />

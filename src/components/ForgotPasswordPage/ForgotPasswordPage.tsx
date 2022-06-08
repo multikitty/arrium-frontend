@@ -34,11 +34,11 @@ const ForgotPasswordPage = () => {
   const onSubmit = (data: formPropType) => {
     console.log(data)
     setIsClicked(true)
-    isClicked && navigate("/resetPassword")
+    isClicked && navigate(routes.resetPassword)
   }
 
   const handleNavigateToHome = () => {
-    navigate(routes.landing)
+    navigate(routes.home)
   }
 
   return (

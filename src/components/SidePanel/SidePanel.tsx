@@ -16,12 +16,15 @@ import { SidePanelProps } from "./SidePanel.types"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import sidePanelData from "./SidePanel.data"
 import { useStore } from "@/store"
+import routes from "@/constants/routes"
 
 const SidePanel: React.FC<SidePanelProps> = () => {
   const { pathname } = useLocation()
   const { userStore } = useStore()
 
-  const handleNavigateToHomePage = () => navigate("/")
+  const handleNavigateToHomePage = () => {
+    navigate(routes.home)
+  }
 
   const renderSidePanelItem = (
     active: boolean,

@@ -1,16 +1,17 @@
 import React from "react"
+import { navigate } from "gatsby"
 import { Divider, Menu, MenuItem } from "@mui/material"
 import { rem } from "polished"
+
 import {
   StyledNotificationsDropdownUpperSection,
   StyledNotificationsDropdownUpperSectionDismissButton,
   StyledNotificationsDropdownUpperSectionUsername,
 } from "./NotificationsDropdown.styled"
-import { navigate } from "gatsby"
 import InvoiceNotification from "./InvoiceNotification"
 import BlockAcceptNotification from "./BlockAcceptNotification"
 import { NotifcatioDropDownProps } from "./NotificationsDropdown.types"
-import { DriverPages } from "@/constants/common"
+import routes from "@/constants/routes"
 
 const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
   handleClose,
@@ -21,7 +22,7 @@ const NotificationsDropdown: React.FC<NotifcatioDropDownProps> = ({
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
     e.stopPropagation()
-    navigate(`/${DriverPages.subscription}`)
+    navigate(routes.subscription)
   }
 
   return (

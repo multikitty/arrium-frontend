@@ -1,17 +1,16 @@
 import React from "react"
+import { Badge, IconButton } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import CloseIcon from "@mui/icons-material/Close"
+
 import {
   StyledMobileTopbar,
   StyledMobileTopbarBrandLogo,
   StyledMobileTopbarBrandLogoContainer,
 } from "./MobileTopbar.styled"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
-import { Badge, IconButton } from "@mui/material"
-import MenuIcon from "@mui/icons-material/Menu"
-import CloseIcon from "@mui/icons-material/Close"
-import { navigate } from "gatsby"
-import { defaultRoutes, UserRoles } from "@/constants/common"
 import { useStore } from "@/store"
-import { UserRolesType } from "@/types/common"
+import { navigateToDefault } from "@/utils"
 
 export interface IProps {
   isFullscreenMenuOpen: boolean
@@ -35,13 +34,7 @@ const MobileTopbar: React.FC<IProps> = ({
   }
 
   const handleBrandLogoClick = () => {
-    navigate(
-      `/${
-        defaultRoutes[
-          (userStore.currentUser?.role || UserRoles.driver) as UserRolesType
-        ]
-      }`
-    )
+    navigateToDefault(userStore.currentUser?.role)
     handleFullscreenMenuClose()
   }
 

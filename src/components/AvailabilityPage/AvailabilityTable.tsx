@@ -138,9 +138,6 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                 sx={{
                   height: "72px",
                   "&:last-child td, &:last-child th": { border: 0 },
-                  "& td:first-of-type, & th:first-of-type": {
-                    paddingLeft: rem("32px"),
-                  },
                 }}
               >
                 <TableCell

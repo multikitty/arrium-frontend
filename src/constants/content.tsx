@@ -54,4 +54,7 @@ export const content = {
       "Minimum Hourly Rate",
     ],
   },
+  automationSchedule: {
+    tableHeadLabels: ["Active", "Day", "Start time", "End time"],
+  },
 }

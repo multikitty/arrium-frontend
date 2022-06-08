@@ -36,7 +36,7 @@ const SignUpPage = () => {
   const [showOnHold, setShowOnHold] = useState<boolean>(false)
 
   const handleNavigateToHome = () => {
-    navigate(routes.landing)
+    navigate(routes.home)
   }
 
   return (

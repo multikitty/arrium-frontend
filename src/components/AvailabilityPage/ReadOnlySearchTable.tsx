@@ -19,11 +19,11 @@ import {
   StyledSubscriptionPageInvoiceItemLabel,
   StyledSubscriptionPageInvoiceItemsContainer,
   StyledSubscriptionPageInvoiceItemValue,
-  StyledSubscriptionPageInvoicesContainer as TabSearchDataMobile,
+  StyledSubscriptionPageInvoicesContainer as StyledReadOnlySearchTableContainer,
 } from "../SubscriptionPage/SubscriptionPage.styled"
 import { rowSearches } from "./AvailabilityPage.data"
 
-const TabDataSearch = () => {
+const ReadOnlySearchTable = () => {
   const isWebView = useMediaQuery(devices.web.up)
 
   return isWebView ? (
@@ -65,7 +65,19 @@ const TabDataSearch = () => {
               }}
               align="left"
             >
-              Start time - end time
+              Start time
+            </TableCell>
+            <TableCell
+              sx={{
+                fontFamily: "Inter",
+                fontWeight: 600,
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                color: theme.palette.grey6,
+              }}
+              align="left"
+            >
+              End time
             </TableCell>
             <TableCell
               sx={{
@@ -140,7 +152,19 @@ const TabDataSearch = () => {
                 }}
                 align="left"
               >
-                {row.startTimeToEndTime}
+                {row.startTime || "-"}
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontFamily: "Inter",
+                  fontWeight: "normal",
+                  fontSize: rem("16px"),
+                  lineHeight: rem("20px"),
+                  color: theme.palette.blackText,
+                }}
+                align="left"
+              >
+                {row.endTime || "-"}
               </TableCell>
               <TableCell
                 sx={{
@@ -153,7 +177,8 @@ const TabDataSearch = () => {
                 }}
                 align="left"
               >
-                &#163;{row.minPay}
+                {row.minPay && <React.Fragment>&#163;</React.Fragment>}
+                {row.minPay || "-"}
               </TableCell>
               <TableCell
                 sx={{
@@ -165,7 +190,8 @@ const TabDataSearch = () => {
                 }}
                 align="left"
               >
-                &#163;{row.minHourlyRate}
+                {row.minHourlyRate && <React.Fragment>&#163;</React.Fragment>}
+                {row.minHourlyRate || "-"}
               </TableCell>
             </TableRow>
           ))}
@@ -173,7 +199,7 @@ const TabDataSearch = () => {
       </Table>
     </TableContainer>
   ) : (
-    <TabSearchDataMobile>
+    <StyledReadOnlySearchTableContainer>
       {rowSearches.map(row => (
         <StyledSubscriptionPageInvoice key={row.location}>
           <StyledSubscriptionPageInvoiceHeader>
@@ -195,10 +221,18 @@ const TabDataSearch = () => {
             </StyledSubscriptionPageInvoiceItem>
             <StyledSubscriptionPageInvoiceItem>
               <StyledSubscriptionPageInvoiceItemLabel>
-                Start time - end time
+                Start time
               </StyledSubscriptionPageInvoiceItemLabel>
               <StyledSubscriptionPageInvoiceItemValue>
-                {row.startTimeToEndTime}
+                {row.startTime || "-"}
+              </StyledSubscriptionPageInvoiceItemValue>
+            </StyledSubscriptionPageInvoiceItem>
+            <StyledSubscriptionPageInvoiceItem>
+              <StyledSubscriptionPageInvoiceItemLabel>
+                End time
+              </StyledSubscriptionPageInvoiceItemLabel>
+              <StyledSubscriptionPageInvoiceItemValue>
+                {row.endTime || "-"}
               </StyledSubscriptionPageInvoiceItemValue>
             </StyledSubscriptionPageInvoiceItem>
             <StyledSubscriptionPageInvoiceItem>
@@ -206,7 +240,8 @@ const TabDataSearch = () => {
                 Minimum pay
               </StyledSubscriptionPageInvoiceItemLabel>
               <StyledSubscriptionPageInvoiceItemValue>
-                &#163;{row.minPay}
+                {row.minPay && <React.Fragment>&#163;</React.Fragment>}
+                {row.minPay || "-"}
               </StyledSubscriptionPageInvoiceItemValue>
             </StyledSubscriptionPageInvoiceItem>
             <StyledSubscriptionPageInvoiceItem>
@@ -214,14 +249,15 @@ const TabDataSearch = () => {
                 Minimum hourly rate
               </StyledSubscriptionPageInvoiceItemLabel>
               <StyledSubscriptionPageInvoiceItemValue>
-                &#163;{row.minHourlyRate}
+                {row.minHourlyRate && <React.Fragment>&#163;</React.Fragment>}
+                {row.minHourlyRate || "-"}
               </StyledSubscriptionPageInvoiceItemValue>
             </StyledSubscriptionPageInvoiceItem>
           </StyledSubscriptionPageInvoiceItemsContainer>
         </StyledSubscriptionPageInvoice>
       ))}
-    </TabSearchDataMobile>
+    </StyledReadOnlySearchTableContainer>
   )
 }
 
-export default TabDataSearch
+export default ReadOnlySearchTable

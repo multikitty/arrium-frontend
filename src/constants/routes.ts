@@ -1,12 +1,14 @@
 const routes = {
-  landing: "/",
+  home: "/",
   403: "/403",
   404: "/404",
   automationSchedule: "/automation-schedule",
   availability: "/availability",
   customers: "/customers",
   customersAdd: "/customers/add",
-  customersDetail: "/customers/detail",
+  customersDetail(id: string) {
+    return "/customers/detail/" + id
+  },
   dashboard: "/dashboard",
   faq: "/faq",
   forgotPassword: "/forgot-password",

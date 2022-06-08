@@ -36,7 +36,7 @@ const FullscreenLandingMenu = ({
 
   const handleNavigateToHome = () => {
     handleClose()
-    navigate(routes.landing)
+    navigate(routes.home)
   }
 
   return (

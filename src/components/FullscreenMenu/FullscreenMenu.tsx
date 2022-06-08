@@ -22,6 +22,7 @@ import { useStore } from "@/store"
 import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { driverNavigationData } from "./FullscreenMenu.data"
 import { Settings } from "@mui/icons-material"
+import routes from "@/constants/routes"
 
 export interface IProps {
   open: boolean
@@ -49,7 +50,7 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
     | React.MouseEventHandler<HTMLDivElement>
     | undefined = e => {
     e.stopPropagation()
-    navigate(`/profile`)
+    navigate(routes.profile)
     handleFullscreenMenuClose()
   }
 

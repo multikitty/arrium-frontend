@@ -19,6 +19,7 @@ import { navigate } from "gatsby-link"
 import { AdminPages } from "@/constants/common"
 import SaveChangesModal from "../SaveChangesModal"
 import { useSnackbar } from "notistack"
+import routes from "@/constants/routes"
 
 export interface LocationState {
   country: CountryData | null
@@ -77,7 +78,7 @@ const LocationsTab = () => {
     if (isError)
       return enqueueSnackbar("Fields must not be empty", { variant: "error" })
     if (isDirty) return setIsSaveChangesModalOpen(true)
-    return navigate(`/${AdminPages.customers}`)
+    return navigate(routes.customers)
   }
 
   const handelFormSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
@@ -88,7 +89,7 @@ const LocationsTab = () => {
 
   const handleClose = () => {
     setIsSaveChangesModalOpen(false)
-    navigate(`/${AdminPages.customers}`)
+    navigate(routes.customers)
   }
 
   const handleSave = () => {

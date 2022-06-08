@@ -8,6 +8,7 @@ import {
   removeLocalStorage,
   getLocalStorage,
 } from "@/utils/localStorage"
+import routes from "@/constants/routes"
 
 class UserStore {
   user: UserType = null
@@ -72,7 +73,7 @@ class UserStore {
     runInAction(() => {
       this.user = null
     })
-    navigate("/")
+    navigate(routes.home)
     // window.location.reload()
   }
 }

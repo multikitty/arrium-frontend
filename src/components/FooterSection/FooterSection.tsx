@@ -27,7 +27,9 @@ const FooterSection = () => {
     window.open("https://www.instagram.com/", "_blank")
   const handleRedirectToFacebook = () =>
     window.open("https://www.facebook.com/", "_blank")
-  const handleNavigateToHome = () => navigate(routes.landing)
+  const handleNavigateToHome = () => {
+    navigate(routes.home)
+  }
 
   return (
     <StyledFooterSection>
@@ -93,7 +95,7 @@ const FooterSection = () => {
       <StyledFooterSectionRightContainer>
         <StyledFooterSectionRightContainerButtonContainer login>
           <OutlinedButton
-            onClick={() => navigate("/signin")}
+            onClick={() => navigate(routes.signin)}
             sx={{ width: "100%", height: "100%" }}
           >
             Login
@@ -101,7 +103,7 @@ const FooterSection = () => {
         </StyledFooterSectionRightContainerButtonContainer>
         <StyledFooterSectionRightContainerButtonContainer>
           <ContainedButton
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate(routes.signup)}
             sx={{ width: "100%", whiteSpace: "nowrap" }}
           >
             Start Free Trial

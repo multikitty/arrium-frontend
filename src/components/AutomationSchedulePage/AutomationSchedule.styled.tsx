@@ -32,6 +32,7 @@ export const StyledAutomationSchedulePageContent = styled.div<{
   fullWidth?: boolean
   centerX?: boolean
   centerY?: boolean
+  noPadding?: boolean
 }>`
   display: flex;
   flex-direction: column;
@@ -51,6 +52,12 @@ export const StyledAutomationSchedulePageContent = styled.div<{
       justify-content: center;
       height: 100%;
       padding: ${rem("16px")};
+    `}
+
+  ${p =>
+    p.noPadding &&
+    css`
+      padding: 0;
     `}
 
   @media (max-width: 1200px) {

@@ -26,7 +26,7 @@ import DeleteIcon from "@/assets/icons/delete_icon.inline.svg"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import Switch from "../commons/Switch"
 import theme from "@/theme"
-import TabDataOnSearch from "./TabDataOnSearch"
+import TabDataOnSearch from "./ReadOnlySearchTable"
 import SearchTable from "./SearchTable"
 import AvailabilityTable from "./AvailabilityTable"
 import { devices } from "@/constants/device"
@@ -175,7 +175,8 @@ const AvailabilityPage = () => {
   }, [isSearchable])
 
   React.useEffect(() => {
-    const currentDay = new Date().getDay() - 1
+    const currentDay = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+
     setWeekData(prev =>
       prev.map((p, idx) =>
         idx === currentDay ? { ...p, active: true } : { ...p, active: false }

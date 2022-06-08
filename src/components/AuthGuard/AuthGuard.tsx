@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite"
 import isBrowser from "@/utils/isBrowser"
 import { useStore } from "@/store"
 import { UserRolesType } from "@/types/common"
+import routes from "@/constants/routes"
 
 interface IProps {
   children: React.ReactNode
@@ -15,11 +16,11 @@ const AuthGuard = (props: IProps) => {
   const { userStore } = useStore()
 
   if (!userStore.isAuthenticated) {
-    isBrowser() && navigate("/signin")
+    isBrowser() && navigate(routes.signin)
     return null
   }
   if (!props.roles.includes(userStore.currentUser?.role as never)) {
-    isBrowser() && navigate("/403")
+    isBrowser() && navigate(routes[403])
     return null
   }
 

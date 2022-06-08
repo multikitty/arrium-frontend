@@ -16,6 +16,7 @@ import { navigate } from "gatsby"
 import { useMediaQuery } from "@mui/material"
 import { devices } from "@/constants/device"
 import { content } from "@/constants/content"
+import routes from "@/constants/routes"
 
 const _404Page = () => {
   const isDesktopView = useMediaQuery(devices.desktop.up)
@@ -35,7 +36,7 @@ const _404Page = () => {
               <img src={_404ArrowImage} width={64} height={48} />
             </Styled404PageContentTextContainerArrowImageContainer>
           </Styled404PageContentTextContainerSubHeader>
-          <ContainedButton onClick={() => navigate("/")}>
+          <ContainedButton onClick={() => navigate(routes.home)}>
             {content.page404.buttonText}
           </ContainedButton>
         </Styled404PageContentTextContainer>

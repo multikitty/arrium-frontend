@@ -15,7 +15,7 @@ const SignInPage = () => {
   const isWebView = useMediaQuery(devices.web.up)
 
   const handleNavigateToHome = () => {
-    navigate(routes.landing)
+    navigate(routes.home)
   }
 
   return (

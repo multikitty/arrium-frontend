@@ -18,16 +18,23 @@ import MenuIcon from "@mui/icons-material/Menu"
 import { rem } from "polished"
 import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
 import theme from "@/theme"
+import routes from "@/constants/routes"
 
 const LandingNavbar = () => {
   const [hasBackground, setHasBackground] = useState<boolean>(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
   const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
 
-  const handleNavigateToHome = () => navigate("/")
+  const handleNavigateToHome = () => {
+    navigate(routes.home)
+  }
 
-  const handleFullscreenMenuOpen = () => setFullscreenMenuOpen(true)
-  const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
+  const handleFullscreenMenuOpen = () => {
+    setFullscreenMenuOpen(true)
+  }
+  const handleFullscreenMenuClose = () => {
+    setFullscreenMenuOpen(false)
+  }
 
   const windowScrollEventHandler = () => {
     const position = window.pageYOffset
@@ -101,13 +108,13 @@ const LandingNavbar = () => {
       <StyledFlexGrow />
       <StyledLandingNavbarRightContainer>
         <StyledLandingNavbarRightContainerLoginButton
-          onClick={() => navigate("/signin")}
+          onClick={() => navigate(routes.signin)}
         >
           Login
         </StyledLandingNavbarRightContainerLoginButton>
         {isWebView && (
           <ContainedButton
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate(routes.signup)}
             sx={{ width: "100%", whiteSpace: "nowrap" }}
           >
             Start Free Trial

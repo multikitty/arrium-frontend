@@ -20,6 +20,7 @@ import BillingTab from "./BillingTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
+import routes from "@/constants/routes"
 // import Message from "@/components/Message"
 
 const CustomerDetailPage = () => {
@@ -32,10 +33,16 @@ const CustomerDetailPage = () => {
     setTab(newValue)
   }
 
-  const handleSaveChangesModalOpen = () => setIsSaveChangesModalOpen(true)
-  const handleSaveChangesModalClose = () => setIsSaveChangesModalOpen(false)
+  const handleSaveChangesModalOpen = () => {
+    setIsSaveChangesModalOpen(true)
+  }
+  const handleSaveChangesModalClose = () => {
+    setIsSaveChangesModalOpen(false)
+  }
 
-  const handleRedirectToCustomersPage = () => navigate("/customers")
+  const handleNavigateToCustomersPage = () => {
+    navigate(routes.customers)
+  }
 
   const isAccountInfoTabOpen = tab === "accountInformation"
   const isBillingTabOpen = tab === "billing"
@@ -55,7 +62,7 @@ const CustomerDetailPage = () => {
         <Box display="flex">
           <IconButton
             sx={{ mr: rem("20px") }}
-            onClick={handleRedirectToCustomersPage}
+            onClick={handleNavigateToCustomersPage}
           >
             <BackNavigationIcon
               sx={{ fontSize: 32, color: theme.palette.grey6 }}
@@ -121,20 +128,20 @@ const CustomerDetailPage = () => {
         {isAccountInfoTabOpen && (
           <AccountInformationTab
             handleSave={handleSaveChangesModalOpen}
-            handleCancel={handleRedirectToCustomersPage}
+            handleCancel={handleNavigateToCustomersPage}
           />
         )}
         {isBillingTabOpen && <BillingTab />}
         {isConfigurationTabOpen && (
           <ConfigurationTab
             handleSave={handleSaveChangesModalOpen}
-            handleCancel={handleRedirectToCustomersPage}
+            handleCancel={handleNavigateToCustomersPage}
           />
         )}
         {isReferralTabOpen && (
           <ReferralTab
             handleSave={handleSaveChangesModalOpen}
-            handleCancel={handleRedirectToCustomersPage}
+            handleCancel={handleNavigateToCustomersPage}
           />
         )}
       </StyledCustomerDetailPageContent>

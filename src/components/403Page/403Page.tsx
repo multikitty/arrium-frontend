@@ -22,6 +22,7 @@ import { defaultRoutes } from "@/constants/common"
 import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 import { content } from "@/constants/content"
+import { navigateToDefault } from "@/utils"
 
 const _403Page = () => {
   const { userStore } = useStore()
@@ -43,15 +44,7 @@ const _403Page = () => {
             </Styled403PageContentTextContainerArrowImageContainer>
           </Styled403PageContentTextContainerSubHeader>
           <ContainedButton
-            onClick={() =>
-              navigate(
-                "/" +
-                  defaultRoutes[
-                    (userStore.currentUser?.role ||
-                      UserRoles.driver) as UserRolesType
-                  ]
-              )
-            }
+            onClick={() => navigateToDefault(userStore.currentUser?.role)}
           >
             {content.page403.buttonText}
           </ContainedButton>

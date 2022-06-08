@@ -15,28 +15,25 @@ export const automationScheduleValidationSchema: Yup.SchemaOf<AutomationSchedule
     data: Yup.array().of(
       Yup.object().shape({
         active: Yup.boolean(),
-        day: Yup.mixed().oneOf([
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-          "",
-        ]),
+        day: Yup.mixed().when("active", {
+          is: (active: boolean) => active === true,
+          then: schema =>
+            schema
+              .oneOf(
+                ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                "Start time is required"
+              )
+              .required("Day is required"),
+          otherwise: schema =>
+            schema.oneOf(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", ""]),
+        }),
         startTime: Yup.date()
           .nullable()
           .when("active", {
             is: (active: boolean) => active === true,
             then: schema => schema.required("Start time is required"),
           }),
-        endTime: Yup.date()
-          .nullable()
-          .when("active", {
-            is: (active: boolean) => active === true,
-            then: schema => schema.required("End time is required"),
-          }),
+        endTime: Yup.date().nullable(),
       })
     ),
   })

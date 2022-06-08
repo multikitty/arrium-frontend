@@ -1,12 +1,11 @@
 import * as React from "react"
-import { navigate } from "gatsby"
 import { Menu, MenuItem } from "@mui/material"
 import { rem } from "polished"
 
 import { StyledAddDropdownMenuItemText } from "./AddDropdown.styled"
 import { AddDropDownProps } from "./AddDropDown.types"
 import { LabelledUserRoles } from "@/constants/common"
-import { tabs } from "@/components/AddCustomerPage/AddCustomersPage.data"
+import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 
 const AddDropdown: React.FC<AddDropDownProps> = ({
   handleClose,
@@ -17,11 +16,7 @@ const AddDropdown: React.FC<AddDropDownProps> = ({
     <MenuItem
       dense
       sx={{ py: rem("12px") }}
-      onClick={() =>
-        navigate(
-          `/customers/add?role=${role.value}&tab=${tabs.accountInformation}`
-        )
-      }
+      onClick={() => navigateToAddCustomerPage(role.value)}
       key={role.value}
     >
       <StyledAddDropdownMenuItemText>
