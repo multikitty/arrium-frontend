@@ -194,6 +194,10 @@ export const StyledReferralTab = styled.div`
   padding: ${rem("24px")};
   padding-top: ${rem("40px")};
   height: 100%;
+
+  &:br-10 {
+    border-radius: ${rem("10px")};
+  }
 `
 
 export const StyledReferralTabForm = styled(StyledConfigurationTabForm)``

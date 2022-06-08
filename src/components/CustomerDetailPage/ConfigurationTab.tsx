@@ -1,5 +1,12 @@
 import React, { useState } from "react"
-import { Divider, Grid, IconButton, MenuItem, Select } from "@mui/material"
+import {
+  capitalize,
+  Divider,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+} from "@mui/material"
 import {
   StyledConfigurationTab,
   StyledConfigurationTabForm,
@@ -13,6 +20,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { ITabProps } from "./AccountInformationTab"
+import { Plans } from "@/constants/common"
 
 const ConfigurationTab = (props: ITabProps) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
@@ -183,6 +191,7 @@ const ConfigurationTab = (props: ITabProps) => {
         </Grid>
         <Divider />
         <Grid container spacing={2} sx={{ p: rem("8px"), mt: rem("24px") }}>
+          {/* Country Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
@@ -196,6 +205,7 @@ const ConfigurationTab = (props: ITabProps) => {
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          {/* Region Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
@@ -211,6 +221,27 @@ const ConfigurationTab = (props: ITabProps) => {
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          <Grid item xs={12} lg={4}></Grid>
+          {/* Plan Name Drop-down */}
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Plan Name
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue={capitalize(Plans.basic)}
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value={capitalize(Plans.basic)}>
+                  {capitalize(Plans.basic)}
+                </MenuItem>
+                <MenuItem value={capitalize(Plans.premium)}>
+                  {capitalize(Plans.premium)}
+                </MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          {/* Block Type Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
@@ -226,7 +257,10 @@ const ConfigurationTab = (props: ITabProps) => {
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          <Grid item xs={12} lg={4}></Grid>
         </Grid>
+
+        {/* Tab Actions */}
         <StyledConfigurationTabFormActions>
           <OutlinedButton
             grey

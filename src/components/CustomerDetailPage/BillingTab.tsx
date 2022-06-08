@@ -1,4 +1,5 @@
- import {
+import {
+  Divider,
   Grid,
   Paper,
   Table,
@@ -19,7 +20,7 @@ import {
   StyledBillingTab,
   StyledBillingTabUpperContainer,
   StyledBillingTabUpperContainerItem,
-  StyledBillingTabUpperContainerItemText, 
+  StyledBillingTabUpperContainerItemText,
   StyledBillingTabUpperContainerItemTitle,
 } from "./CustomerDetailPage.styled"
 
@@ -82,16 +83,14 @@ const BillingTab = () => {
           </StyledBillingTabUpperContainerItem>
         </Grid>
       </StyledBillingTabUpperContainer>
+      <Divider />
       <StyledSubscriptionPageInvoicesContainer billingTab>
         <StyledSubscriptionPageInvoicesHeader>
           Invoices
         </StyledSubscriptionPageInvoicesHeader>
-        <TableContainer
-          component={Paper}
-          sx={{ boxShadow: "none", borderRadius: rem("20px") }}
-        >
+        <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
           <Table sx={{ minWidth: 650 }} aria-label="invoices table">
-            <TableHead>
+            <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
               <TableRow>
                 <TableCell
                   sx={{
@@ -173,18 +172,17 @@ const BillingTab = () => {
                   key={row.invoiceId}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
-                    "& td:first-of-type, & th:first-of-type": {
-                      paddingLeft: rem("32px"),
-                    },
                   }}
                 >
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: "normal",
                       fontSize: rem("16px"),
                       lineHeight: rem("20px"),
                       color: theme.palette.blackText,
+                      paddingLeft: rem("32px"),
                     }}
                     component="th"
                     scope="row"
@@ -192,6 +190,7 @@ const BillingTab = () => {
                     {row.invoiceId}
                   </TableCell>
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: "normal",
@@ -204,6 +203,7 @@ const BillingTab = () => {
                     {row.plan}
                   </TableCell>
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: 600,
@@ -216,6 +216,7 @@ const BillingTab = () => {
                     &#163;{row.amount}
                   </TableCell>
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: "normal",
@@ -229,6 +230,7 @@ const BillingTab = () => {
                     {row.invoiceStatus}
                   </TableCell>
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: "normal",
@@ -241,6 +243,7 @@ const BillingTab = () => {
                     {row.dueDate}
                   </TableCell>
                   <TableCell
+                    size="medium"
                     sx={{
                       fontFamily: "Inter",
                       fontWeight: "normal",

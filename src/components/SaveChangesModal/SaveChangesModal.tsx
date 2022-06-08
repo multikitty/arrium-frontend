@@ -15,6 +15,7 @@ interface IProps {
   open: boolean
   handleClose: () => void
   handleSave: () => void
+  noSubHeader?: boolean
 }
 
 const SaveChangesModal = (props: IProps) => {
@@ -29,10 +30,12 @@ const SaveChangesModal = (props: IProps) => {
         <StyledSaveChangesModalTitle deleteConfirmation>
           Save changes?
         </StyledSaveChangesModalTitle>
-        <StyledDeleteConfirmationModalSubTitle saveChanges>
-          Your unsaved changes will be lost. <br /> Do you want to save changes
-          before leaving this page?
-        </StyledDeleteConfirmationModalSubTitle>
+        {props.noSubHeader || (
+          <StyledDeleteConfirmationModalSubTitle saveChanges>
+            Your unsaved changes will be lost. <br /> Do you want to save
+            changes before leaving this page?
+          </StyledDeleteConfirmationModalSubTitle>
+        )}
         <StyledSaveChangesModalFormActions>
           <ContainedButton
             sx={{ width: "100%", marginBottom: rem("16px") }}
