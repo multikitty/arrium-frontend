@@ -7,7 +7,9 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextFieldProps,
 } from "@mui/material"
+import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
 import { Controller, useForm } from "react-hook-form"
 import ReactPhoneInput from "react-phone-input-2"
@@ -31,6 +33,9 @@ import { UserRolesType } from "@/types/common"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
 import { TabType } from "./AddCustomersPage.data"
 import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
+import { DatePicker } from "@mui/x-date-pickers"
+import { useStore } from "@/store"
+import { StyledAccountInformationTabDateField } from "../CustomerDetailPage/CustomerDetailPage.styled"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -71,6 +76,8 @@ interface IProps {
 
 const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
   const classes = useStyles()
+  const { messageStore } = useStore()
+  const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
     return radioOptions.map(singleOption => (
@@ -88,7 +95,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
   ))
 
   type formPropType = typeof accountInformationOptions.defaultValues
-  const { handleSubmit, control, formState, reset, setValue } =
+  const { handleSubmit, control, formState, reset, setValue, ...methods } =
     useForm<formPropType>({
       resolver: accountInformationOptions.resolver,
       defaultValues: {
@@ -96,6 +103,12 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
         role,
       },
     })
+
+  const handleEndDatePickerClick = () => {
+    if (methods.getValues("startDate")) return setEndDatePickerOpen(true)
+    messageStore.setMessage = "Please select Start Date first!"
+    messageStore.setOpen = true
+  }
 
   const onSubmit = (data: formPropType) => {
     console.log("Personal Information form data", data)
@@ -180,11 +193,24 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                 <Controller
                   name={"startDate"}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
+                  render={({ field: { value } }) => (
+                    <DatePicker
+                      inputFormat="dd/MM/yyyy"
+                      disablePast
+                      clearable
                       value={value}
-                      error={!!formState.errors?.startDate}
+                      onChange={val =>
+                        setValue("startDate", val as unknown as string)
+                      }
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.startDate}
+                        />
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
                     />
                   )}
                 />
@@ -280,11 +306,26 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                 <Controller
                   name={"endDate"}
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
+                  render={({ field: { value } }) => (
+                    <DatePicker
+                      inputFormat="dd/MM/yyyy"
+                      open={endDatePickerOpen}
+                      onOpen={handleEndDatePickerClick}
+                      clearable
+                      minDate={new Date(methods.getValues("startDate"))}
                       value={value}
-                      error={!!formState.errors?.endDate}
+                      onChange={val =>
+                        setValue("endDate", val as unknown as string)
+                      }
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.endDate}
+                        />
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
                     />
                   )}
                 />
@@ -371,7 +412,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
               <Box mt={rem("24px")}>
                 <Controller
                   control={control}
-                  name="sendPasswordResetEmail"
+                  name="sendPasswordChangeRequest"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
                       control={<Checkbox checked={value} onChange={onChange} />}

@@ -23,6 +23,11 @@ import {
   StyledBillingTabUpperContainerItemText,
   StyledBillingTabUpperContainerItemTitle,
 } from "./CustomerDetailPage.styled"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
+import { getCurrencySymbolByCountryCode } from "@/utils"
+import countryToCurrency from "country-to-currency"
+import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 function createData(
   invoiceId: string,
@@ -49,6 +54,8 @@ const rows = [
 ]
 
 const BillingTab = () => {
+  const { userStore } = useStore()
+
   return (
     <StyledBillingTab>
       <StyledBillingTabUpperContainer>
@@ -68,7 +75,9 @@ const BillingTab = () => {
               Currency
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              &#163;
+              {getCurrencySymbolByCountryCode(
+                (userStore.currentUser?.country || "") as CountryCodes
+              )}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -78,7 +87,11 @@ const BillingTab = () => {
               Currency Code
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              GBP
+              {
+                countryToCurrency[
+                  (userStore.currentUser?.country || "") as CountryCodes
+                ]
+              }
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -213,7 +226,10 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    &#163;{row.amount}
+                    {getCurrencySymbolByCountryCode(
+                      (userStore.currentUser?.country || "") as CountryCodes
+                    )}
+                    {row.amount}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -265,4 +281,4 @@ const BillingTab = () => {
   )
 }
 
-export default BillingTab
+export default observer(BillingTab)

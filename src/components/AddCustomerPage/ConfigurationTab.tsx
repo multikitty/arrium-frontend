@@ -1,5 +1,12 @@
 import React, { useState } from "react"
-import { Divider, Grid, IconButton, MenuItem, Select } from "@mui/material"
+import {
+  capitalize,
+  Divider,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+} from "@mui/material"
 import {
   StyledConfigurationTab,
   StyledConfigurationTabForm,
@@ -12,6 +19,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { Plans } from "@/constants/common"
 
 const ConfigurationTab = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
@@ -193,54 +201,81 @@ const ConfigurationTab = () => {
         </Grid>
         <Divider />
         <Grid container spacing={2} sx={{ p: rem("8px"), mt: rem("24px") }}>
+          {/* Country Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Country
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="none"
+                displayEmpty
+                defaultValue=""
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="none">
+                <MenuItem disabled value="">
                   Choose Country
                 </MenuItem>
                 <MenuItem value="Great Britain">Great Britain</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          {/* Region Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Region
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="none"
+                displayEmpty
+                defaultValue=""
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="none">
-                  Choose Region
+                <MenuItem value="">Choose Region</MenuItem>
+                <MenuItem disabled value="London">
+                  London
                 </MenuItem>
-                <MenuItem value="London">London</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          <Grid item xs={12} lg={4}></Grid>
+          {/* Plan Name Drop-down */}
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Plan Name
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue={capitalize(Plans.basic)}
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value={capitalize(Plans.basic)}>
+                  {capitalize(Plans.basic)}
+                </MenuItem>
+                <MenuItem value={capitalize(Plans.premium)}>
+                  {capitalize(Plans.premium)}
+                </MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          {/* Block Type Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Block type
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="none"
+                displayEmpty
+                defaultValue=""
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="none">
+                <MenuItem disabled value="">
                   Choose Block type
                 </MenuItem>
                 <MenuItem value="logistics">Logistics</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          <Grid item xs={12} lg={4}></Grid>
         </Grid>
         <StyledConfigurationTabFormActions>
           <OutlinedButton grey sx={{ mr: rem("12px") }}>

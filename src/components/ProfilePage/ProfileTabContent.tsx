@@ -1,6 +1,15 @@
 import React, { useState } from "react"
+import { Box, Fade, Grid, IconButton, Menu, MenuItem } from "@mui/material"
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined"
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import { rem } from "polished"
 import { Controller, useForm } from "react-hook-form"
-import { personalInformationOptions } from "@/validation"
+import TimezoneSelect from "react-timezone-select"
+import { makeStyles } from "@mui/styles"
+import { observer } from "mobx-react-lite"
+
 import {
   StyledProfileTabContent,
   StyledProfileTabContentBody,
@@ -8,22 +17,15 @@ import {
   StyledProfileTabContentFieldHelperText,
   StyledProfileTabContentFieldLabel,
 } from "./ProfilePage.styled"
-import { Box, Fade, Grid, IconButton, Menu, MenuItem } from "@mui/material"
-import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import theme from "@/theme"
 import ChangePasswordModal from "./ChangePasswordModal"
 import UpdatePhoneNumberModal from "./UpdatePhoneNumberModal"
-import TimezoneSelect from "react-timezone-select"
-import { makeStyles } from "@mui/styles"
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
-import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
 import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
 import CloseAccountModal from "./CloseAccountModal"
+import theme from "@/theme"
 import navigateToDefault from "@/utils/navigateToDefault"
+import { useStore } from "@/store"
+import { personalInformationOptions } from "@/validation"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -65,7 +67,7 @@ const ProfileTabContent = () => {
 
   type formPropType = typeof personalInformationOptions.defaultValues
 
-  const { handleSubmit, control, formState, reset, getValues } =
+  const { handleSubmit, control, formState, reset, getValues, ...methods } =
     useForm<formPropType>({
       defaultValues: {
         email: userStore.currentUser?.email,
@@ -92,7 +94,10 @@ const ProfileTabContent = () => {
   }
 
   const handleNameEditEnable = () => setIsNameEditEnabled(true)
-  const handleNameEditDisable = () => setIsNameEditEnabled(false)
+  const handleNameEditDisable = () => {
+    methods.setValue("name", userStore.currentUser?.firstName || "")
+    setIsNameEditEnabled(false)
+  }
   const handleNameEditSave = () => {
     handleNameEditDisable()
     userStore.setUser = {
@@ -105,7 +110,10 @@ const ProfileTabContent = () => {
   }
 
   const handleSurNameEditEnable = () => setIsSurNameEditEnabled(true)
-  const handleSurNameEditDisable = () => setIsSurNameEditEnabled(false)
+  const handleSurNameEditDisable = () => {
+    methods.setValue("surName", userStore.currentUser?.lastName || "")
+    setIsSurNameEditEnabled(false)
+  }
   const handleSurNameEditSave = () => {
     handleSurNameEditDisable()
     userStore.setUser = {
@@ -121,7 +129,10 @@ const ProfileTabContent = () => {
     handleEmailMenuClose()
     setIsEmailEditEnabled(true)
   }
-  const handleEmailEditDisable = () => setIsEmailEditEnabled(false)
+  const handleEmailEditDisable = () => {
+    methods.setValue("email", userStore.currentUser?.email || "")
+    setIsEmailEditEnabled(false)
+  }
   const handleEmailEditSave = () => {
     handleEmailEditDisable()
     const newEmail = getValues("email")
@@ -140,7 +151,10 @@ const ProfileTabContent = () => {
     handlePhoneMenuClose()
     setIsPhoneEditEnabled(true)
   }
-  const handlePhoneEditDisable = () => setIsPhoneEditEnabled(false)
+  const handlePhoneEditDisable = () => {
+    methods.setValue("phoneNumber", userStore.currentUser?.phoneNumber || "")
+    setIsPhoneEditEnabled(false)
+  }
   const handlePhoneNumberChange = () => {
     handlePhoneEditDisable()
     const newPhone = getValues("phoneNumber")
@@ -162,6 +176,7 @@ const ProfileTabContent = () => {
   const handleUpdatePhoneNumberModalOpen = () =>
     setIsUpdatePhoneNumberModalOpen(true)
   const handleUpdatePhoneNumberModalClose = () => {
+    methods.setValue("phoneNumber", userStore.currentUser?.phoneNumber || "")
     setIsUpdatePhoneNumberModalOpen(false)
     handlePhoneEditDisable()
   }
@@ -617,6 +632,7 @@ const ProfileTabContent = () => {
                 <ContainedButton
                   error
                   onClick={handleCloseAccountClick}
+                  startIcon={<HighlightOffOutlinedIcon />}
                   sx={{ mt: 1 }}
                 >
                   Close Account

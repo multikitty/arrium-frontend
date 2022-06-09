@@ -34,6 +34,10 @@ import Paper from "@mui/material/Paper"
 import { devices } from "@/constants/device"
 import { Box, useMediaQuery } from "@mui/material"
 import { capitalCase } from "change-case"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
+import { getCurrencySymbolByCountryCode } from "@/utils"
+import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 function createData(
   invoiceId: string,
@@ -61,6 +65,7 @@ const rows = [
 
 const SubscriptionPage = () => {
   const isDesktopView = useMediaQuery(devices.desktop.up)
+  const { userStore } = useStore()
 
   return (
     <StyledSubscriptionPage>
@@ -79,7 +84,10 @@ const SubscriptionPage = () => {
             Price:
           </StyledSubscriptionPageDetailsPriceSectionTitle>
           <StyledSubscriptionPageDetailsPriceSectionText>
-            &#163;15.50
+            {getCurrencySymbolByCountryCode(
+              (userStore.currentUser?.country || "") as CountryCodes
+            )}
+            15.50
           </StyledSubscriptionPageDetailsPriceSectionText>
         </StyledSubscriptionPageDetailsPriceSection>
         <StyledSubscriptionPageDetailsActionsSection>
@@ -234,7 +242,10 @@ const SubscriptionPage = () => {
                       }}
                       align="left"
                     >
-                      &#163;{row.amount}
+                      {getCurrencySymbolByCountryCode(
+                        (userStore.currentUser?.country || "") as CountryCodes
+                      )}
+                      {row.amount}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -326,7 +337,10 @@ const SubscriptionPage = () => {
                     Amount
                   </StyledSubscriptionPageInvoiceItemLabel>
                   <StyledSubscriptionPageInvoiceItemValue bold>
-                    &#163;{row.amount}
+                    {getCurrencySymbolByCountryCode(
+                      (userStore.currentUser?.country || "") as CountryCodes
+                    )}
+                    {row.amount}
                   </StyledSubscriptionPageInvoiceItemValue>
                 </StyledSubscriptionPageInvoiceItem>
                 <StyledSubscriptionPageInvoiceItem>
@@ -381,4 +395,4 @@ const SubscriptionPage = () => {
   )
 }
 
-export default SubscriptionPage
+export default observer(SubscriptionPage)

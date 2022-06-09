@@ -29,6 +29,11 @@ import {
   StyledSubscriptionPageInvoiceItemsContainer as StyledAvailabilityTableItemsContainer,
   StyledSubscriptionPageInvoiceItemValue as StyledAvailabilityTableItemValue,
 } from "../SubscriptionPage/SubscriptionPage.styled"
+import { observer } from "mobx-react-lite"
+import getCurrencySymbolByCountryCode, {
+  CountryCodes,
+} from "@/utils/getCurrencySymbolByCountryCode"
+import { useStore } from "@/store"
 
 interface IProps {
   tab: AvailabilityTableTabType
@@ -36,6 +41,7 @@ interface IProps {
 
 const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
   const isWebView = useMediaQuery(devices.web.up)
+  const { userStore } = useStore()
 
   return isWebView ? (
     /* // * DESKTOP VIEW */
@@ -212,7 +218,10 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  &#163;{row.pay}
+                  {getCurrencySymbolByCountryCode(
+                    (userStore.currentUser?.country || "") as CountryCodes
+                  )}
+                  {row.pay}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -295,7 +304,10 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   Pay
                 </StyledAvailabilityTableItemLabel>
                 <StyledAvailabilityTableItemValue>
-                  &#163;{row.pay}
+                  {getCurrencySymbolByCountryCode(
+                    (userStore.currentUser?.country || "") as CountryCodes
+                  )}
+                  {row.pay}
                 </StyledAvailabilityTableItemValue>
               </StyledAvailabilityTableItem>
               <StyledAvailabilityTableItem>
@@ -325,4 +337,4 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
   )
 }
 
-export default AvailabilityTable
+export default observer(AvailabilityTable)

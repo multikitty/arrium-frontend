@@ -12,9 +12,9 @@ import {
 import { rem } from "polished"
 
 import { IMockPlans } from "./PlansPage.mock"
-import getCurrencyCodeByCountry, {
+import getCurrencySymbolByCountryCode, {
   CountryCodes,
-} from "@/utils/getCurrencyCodeByCountry"
+} from "@/utils/getCurrencySymbolByCountryCode"
 
 interface IPlansTableProps {
   plansData: IMockPlans[]
@@ -135,7 +135,7 @@ const PlansTable = (props: IPlansTableProps) => {
                 }}
                 align="left"
               >
-                {`${plan.currency} (${getCurrencyCodeByCountry(
+                {`${plan.currency} (${getCurrencySymbolByCountryCode(
                   plan.countryCode as CountryCodes
                 )})`}
               </TableCell>
@@ -150,7 +150,7 @@ const PlansTable = (props: IPlansTableProps) => {
                 }}
                 align="left"
               >
-                {`${getCurrencyCodeByCountry(
+                {`${getCurrencySymbolByCountryCode(
                   plan.countryCode as CountryCodes
                 )}${plan.price}`}
               </TableCell>

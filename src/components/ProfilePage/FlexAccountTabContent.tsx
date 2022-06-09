@@ -80,6 +80,7 @@ const FlexAccountTabContent = () => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <StyledFlexAccountTabContentField
+                    autoComplete="new-password"
                     type="password"
                     onChange={onChange}
                     value={value}

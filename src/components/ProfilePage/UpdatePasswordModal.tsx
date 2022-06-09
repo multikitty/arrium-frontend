@@ -1,6 +1,10 @@
 import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
+
 import {
   StyledAddCountryModal as StyledChangePasswordModal,
   StyledAddCountryModalCloseIconContainer as StyledChangePasswordModalCloseIconContainer,
@@ -9,10 +13,7 @@ import {
   StyledAddCountryModalFormField as StyledChangePasswordModalFormField,
   StyledAddCountryModalTitle as StyledChangePasswordModalTitle,
 } from "../SettingsPage/SettingsPage.styled"
-import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton } from "../commons/Button"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
-import VisibilityIcon from "@mui/icons-material/Visibility"
 import { useStore } from "@/store"
 
 interface IProps {
@@ -50,6 +51,7 @@ const ChangePasswordModal = (props: IProps) => {
           </Box>
           <Box display="flex" mb={rem("44px")}>
             <StyledChangePasswordModalFormField
+              autoComplete="new-password"
               type={isPasswordHidden ? "password" : "text"}
               endAdornment={
                 <IconButton

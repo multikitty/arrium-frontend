@@ -99,7 +99,7 @@ export const stationList = [
 
 export const phoneModelList = [
   { name: "iPhone XR", id: nanoid() },
-  { name: "iPhone Xs", id: nanoid() },
+  { name: "iPhone XS", id: nanoid() },
   { name: "iPhone 12", id: nanoid() },
   { name: "iPhone 12 Pro", id: nanoid() },
   { name: "iPhone 13", id: nanoid() },

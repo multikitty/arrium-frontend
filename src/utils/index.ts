@@ -1,7 +1,7 @@
 export { default as createDateInHM } from "./createDateInHM"
 export { default as formattedHour } from "./formattedHour"
 export { default as getCountryData } from "./getCountryData"
-export { default as getCurrencyCodeByCountry } from "./getCurrencyCodeByCountry"
+export { default as getCurrencySymbolByCountryCode } from "./getCurrencySymbolByCountryCode"
 export { default as isBrowser } from "./isBrowser"
 export { default as localStorageUtils } from "./localStorage"
 export { default as maskPhoneNumber } from "./maskPhoneNumber"

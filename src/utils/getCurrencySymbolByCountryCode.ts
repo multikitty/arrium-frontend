@@ -3,7 +3,7 @@ import getSymbolFromCurrency from "currency-symbol-map"
 
 export type CountryCodes = keyof typeof countryToCurrency
 
-const getCurrencyCodeByCountry = (country: CountryCodes) =>
+const getCurrencySymbolByCountryCode = (country: CountryCodes) =>
   getSymbolFromCurrency(countryToCurrency[country])
 
-export default getCurrencyCodeByCountry
+export default getCurrencySymbolByCountryCode
