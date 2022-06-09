@@ -16,6 +16,7 @@ import {
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
 import { FormProvider, useForm } from "react-hook-form"
+import { animateScroll } from "react-scroll"
 
 import EditSearchActiveIcon from "@/assets/icons/edit_icon_active.inline.svg"
 import ArrowDownIcon from "@/assets/icons/filter-arrow_down.inline.svg"
@@ -60,6 +61,7 @@ import {
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
 import routes from "@/constants/routes"
+import { useSnackbar } from "notistack"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -102,6 +104,7 @@ const tabStyles = {
 
 const AvailabilityPage = () => {
   const { userStore } = useStore()
+  const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
@@ -156,13 +159,17 @@ const AvailabilityPage = () => {
   }
 
   const onSubmit = (data: FormValues) => {
-    console.log("onSubmit", data)
-    alert("Submitted")
+    enqueueSnackbar("Search preferences updated", { variant: "success" })
+    setIsSearchable(false)
+    animateScroll.scrollToTop({ smooth: true, duration: 0 })
   }
 
   const onInvalid = (data: any) => {
     const error = data.data.find((d: any) => d?.timeToArrive?.ref)
-    if (error) error.timeToArrive.ref.focus()
+    if (error) {
+      enqueueSnackbar("Please fill all required fields", { variant: "error" })
+      error.timeToArrive.ref.focus()
+    }
   }
 
   React.useEffect(() => {

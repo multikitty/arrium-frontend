@@ -84,9 +84,7 @@ const SubscriptionPage = () => {
             Price:
           </StyledSubscriptionPageDetailsPriceSectionTitle>
           <StyledSubscriptionPageDetailsPriceSectionText>
-            {getCurrencySymbolByCountryCode(
-              (userStore.currentUser?.country || "") as CountryCodes
-            )}
+            {userStore.currencySymbol}
             15.50
           </StyledSubscriptionPageDetailsPriceSectionText>
         </StyledSubscriptionPageDetailsPriceSection>
@@ -214,7 +212,6 @@ const SubscriptionPage = () => {
                         color: theme.palette.blackText,
                         paddingRight: 12,
                       }}
-                      component="th"
                       scope="row"
                       align="center"
                     >
@@ -242,9 +239,7 @@ const SubscriptionPage = () => {
                       }}
                       align="left"
                     >
-                      {getCurrencySymbolByCountryCode(
-                        (userStore.currentUser?.country || "") as CountryCodes
-                      )}
+                      {userStore.currencySymbol}
                       {row.amount}
                     </TableCell>
                     <TableCell
@@ -337,9 +332,7 @@ const SubscriptionPage = () => {
                     Amount
                   </StyledSubscriptionPageInvoiceItemLabel>
                   <StyledSubscriptionPageInvoiceItemValue bold>
-                    {getCurrencySymbolByCountryCode(
-                      (userStore.currentUser?.country || "") as CountryCodes
-                    )}
+                    {userStore.currencySymbol}
                     {row.amount}
                   </StyledSubscriptionPageInvoiceItemValue>
                 </StyledSubscriptionPageInvoiceItem>

@@ -126,6 +126,7 @@ export const StyledSignUpButton = styled.span`
   font-weight: 600;
   color: #0a0a0a;
   line-height: ${rem("20px")};
+  margin-left: ${rem("4px")};
   & > a {
     color: #0a0a0a;
     text-decoration: none;

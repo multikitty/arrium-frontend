@@ -25,9 +25,6 @@ import {
 } from "./CustomerDetailPage.styled"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
-import { getCurrencySymbolByCountryCode } from "@/utils"
-import countryToCurrency from "country-to-currency"
-import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 function createData(
   invoiceId: string,
@@ -75,9 +72,7 @@ const BillingTab = () => {
               Currency
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              {getCurrencySymbolByCountryCode(
-                (userStore.currentUser?.country || "") as CountryCodes
-              )}
+              {userStore.currencySymbol}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -87,11 +82,7 @@ const BillingTab = () => {
               Currency Code
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              {
-                countryToCurrency[
-                  (userStore.currentUser?.country || "") as CountryCodes
-                ]
-              }
+              {userStore.currencyCode}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -197,7 +188,6 @@ const BillingTab = () => {
                       color: theme.palette.blackText,
                       paddingLeft: rem("32px"),
                     }}
-                    component="th"
                     scope="row"
                   >
                     {row.invoiceId}
@@ -226,9 +216,7 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {getCurrencySymbolByCountryCode(
-                      (userStore.currentUser?.country || "") as CountryCodes
-                    )}
+                    {userStore.currencySymbol}
                     {row.amount}
                   </TableCell>
                   <TableCell

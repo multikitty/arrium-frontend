@@ -30,9 +30,6 @@ import {
   StyledSubscriptionPageInvoiceItemValue as StyledAvailabilityTableItemValue,
 } from "../SubscriptionPage/SubscriptionPage.styled"
 import { observer } from "mobx-react-lite"
-import getCurrencySymbolByCountryCode, {
-  CountryCodes,
-} from "@/utils/getCurrencySymbolByCountryCode"
 import { useStore } from "@/store"
 
 interface IProps {
@@ -154,7 +151,6 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     lineHeight: rem("20px"),
                     color: theme.palette.blackText,
                   }}
-                  component="th"
                   scope="row"
                 >
                   {row.location}
@@ -218,9 +214,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {getCurrencySymbolByCountryCode(
-                    (userStore.currentUser?.country || "") as CountryCodes
-                  )}
+                  {userStore.currencySymbol}
                   {row.pay}
                 </TableCell>
                 <TableCell
@@ -304,9 +298,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   Pay
                 </StyledAvailabilityTableItemLabel>
                 <StyledAvailabilityTableItemValue>
-                  {getCurrencySymbolByCountryCode(
-                    (userStore.currentUser?.country || "") as CountryCodes
-                  )}
+                  {userStore.currencySymbol}
                   {row.pay}
                 </StyledAvailabilityTableItemValue>
               </StyledAvailabilityTableItem>

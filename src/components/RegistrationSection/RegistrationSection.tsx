@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
-import { Link } from "gatsby"
+import { navigate } from "gatsby"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import {
@@ -25,6 +25,7 @@ import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StateProps } from "./RegistrationSection.types"
 import { FormProps } from "../SignUpPage/SignUpPage"
+import routes from "@/constants/routes"
 
 const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const [email, setEmail] = useState<string>("")
@@ -80,6 +81,10 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       handleInputFocus()
     e.preventDefault()
     return
+  }
+
+  const handleNavigateToSignIn = () => {
+    navigate(routes.signin)
   }
 
   return isWebView ? (
@@ -172,8 +177,8 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       <Box display="flex" justifyContent="center">
         <StyledSignUpText>
           Already have an account?
-          <StyledSignUpButton>
-            <Link to="/signin"> Log In</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -289,8 +294,8 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           alignItems="center"
         >
           <StyledSignUpText>Already have an account?</StyledSignUpText>
-          <StyledSignUpButton>
-            <Link to="/signin">Log In</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
           </StyledSignUpButton>
         </Box>
       </Box>

@@ -9,6 +9,9 @@ import {
   getLocalStorage,
 } from "@/utils/localStorage"
 import routes from "@/constants/routes"
+import { getCurrencySymbolByCountryCode } from "@/utils"
+import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
+import countryToCurrency from "country-to-currency"
 
 class UserStore {
   user: UserType = null
@@ -32,13 +35,27 @@ class UserStore {
   get userFullName() {
     if (this.currentUser)
       return `${this.currentUser.firstName} ${this.currentUser.lastName}`
-    return null
+    return ""
   }
 
   get userInitials() {
     if (this.currentUser)
       return `${this.currentUser.firstName[0]}${this.currentUser.lastName[0]}`
-    return null
+    return ""
+  }
+
+  get currencySymbol() {
+    if (this.currentUser)
+      return getCurrencySymbolByCountryCode(
+        this.currentUser.country as CountryCodes
+      )
+    return getCurrencySymbolByCountryCode("GB")
+  }
+
+  get currencyCode() {
+    if (this.currentUser)
+      return countryToCurrency[this.currentUser.country as CountryCodes]
+    return "GBP"
   }
 
   set setUser(user: NonNullable<UserType>) {

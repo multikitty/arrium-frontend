@@ -13,6 +13,7 @@
     "noUnusedParameters": true,
     "removeComments": false,
     "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]

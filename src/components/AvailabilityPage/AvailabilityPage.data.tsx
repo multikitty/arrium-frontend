@@ -3,9 +3,8 @@ import { InputAdornment, TextFieldProps } from "@mui/material"
 import { SearchTableTextField } from "../commons/uiComponents"
 import { FormValues } from "./AvailablityPage.types"
 import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"
-import { createDateInHM, getCurrencySymbolByCountryCode } from "@/utils"
+import { createDateInHM } from "@/utils"
 import { store } from "@/store"
-import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 export const availabilityStatusOptions = {
   accepted: { label: "Accepted", value: "accepted" },
@@ -106,7 +105,8 @@ export const searchTableEmptyData: FormValues = {
   })),
 }
 
-interface TimePickerProps extends Omit<MobileTimePickerProps, "renderInput"> {
+interface TimePickerProps
+  extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
   fullWidth?: boolean
 }
 
@@ -189,9 +189,7 @@ export const searchTableShape = [
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {getCurrencySymbolByCountryCode(
-                  (store.userStore.currentUser?.country || "") as CountryCodes
-                )}
+                {store.userStore.currencySymbol}
               </InputAdornment>
             ),
           }}
@@ -214,9 +212,7 @@ export const searchTableShape = [
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                {getCurrencySymbolByCountryCode(
-                  (store.userStore.currentUser?.country || "") as CountryCodes
-                )}
+                {store.userStore.currencySymbol}
               </InputAdornment>
             ),
           }}

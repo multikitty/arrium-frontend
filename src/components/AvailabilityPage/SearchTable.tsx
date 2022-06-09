@@ -8,6 +8,8 @@ import {
   TableHead,
   Box,
   Collapse,
+  IconButton,
+  Tooltip,
 } from "@mui/material"
 import { MobileTimePickerProps } from "@mui/x-date-pickers"
 import { rem } from "polished"
@@ -33,6 +35,7 @@ import {
   StyledSubscriptionPageInvoiceItemsContainer as StyledSearchTableItemsContainer,
   StyledSubscriptionPageInvoiceItemValue as StyledSearchTableItemValue,
 } from "../SubscriptionPage/SubscriptionPage.styled"
+import { Clear } from "@mui/icons-material"
 
 const tableHeaderGreyTextStyles = {
   fontFamily: "Inter",
@@ -58,6 +61,10 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
   const { formState, control, ...methods } = useFormContext()
   useWatch({ name: "data", control })
 
+  const handleClearTime = (name: "startTime" | "endTime", idx: number) => {
+    methods.setValue(`data.${idx}.${name}`, null)
+  }
+
   const renderTableCells = React.useCallback(
     (index: number, disabled: boolean) =>
       searchTableShape.map(({ name, renderInput }) => (
@@ -75,18 +82,48 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                 name={`data.${index}.${name}`}
                 control={control}
                 render={({ field: { value, onChange, onBlur, ref } }) =>
-                  renderInput({
-                    value,
-                    onChange,
-                    onBlur,
-                    ref,
-                    disabled,
-                    error: !!formState.errors?.data?.[index]?.[name],
-                    minTime:
-                      name === "endTime"
-                        ? methods.getValues(`data.${index}.startTime`)
-                        : null,
-                  })
+                  name === "startTime" || name === "endTime" ? (
+                    <React.Fragment>
+                      {renderInput({
+                        value: value as Date | null,
+                        onChange: onChange as MobileTimePickerProps<
+                          any,
+                          any
+                        >["onChange"],
+                        disabled,
+                        error: !!formState.errors?.data?.[index]?.[name],
+                        variant: "outlined",
+                        minTime:
+                          name === "endTime"
+                            ? methods.getValues(`data.${index}.startTime`)
+                            : null,
+                      })}
+                      <Tooltip title="Clear Time">
+                        <span>
+                          <IconButton
+                            size="small"
+                            disabled={disabled || !value}
+                            onClick={() => handleClearTime(name, index)}
+                          >
+                            <Clear />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                    </React.Fragment>
+                  ) : (
+                    renderInput({
+                      value,
+                      onChange,
+                      onBlur,
+                      ref,
+                      disabled,
+                      error: !!formState.errors?.data?.[index]?.[name],
+                      minTime:
+                        name === "endTime"
+                          ? methods.getValues(`data.${index}.startTime`)
+                          : null,
+                    })
+                  )
                 }
               />
               {formState.errors?.data?.[index]?.[name] && (
@@ -114,10 +151,14 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                 name={`data.${index}.${name}`}
                 control={control}
                 render={({ field: { value, onChange, onBlur, ref } }) =>
-                  name === "startTime" || name === "endTime"
-                    ? renderInput({
+                  name === "startTime" || name === "endTime" ? (
+                    <React.Fragment>
+                      {renderInput({
                         value: value as Date | null,
-                        onChange: onChange as MobileTimePickerProps["onChange"],
+                        onChange: onChange as MobileTimePickerProps<
+                          any,
+                          any
+                        >["onChange"],
                         disabled,
                         error: !!formState.errors?.data?.[index]?.[name],
                         fullWidth: true,
@@ -126,16 +167,30 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
                           name === "endTime"
                             ? methods.getValues(`data.${index}.startTime`)
                             : null,
-                      })
-                    : renderInput({
-                        value,
-                        onChange,
-                        onBlur,
-                        ref,
-                        disabled,
-                        error: !!formState.errors?.data?.[index]?.[name],
-                        fullWidth: true,
-                      })
+                      })}
+                      <Tooltip title="Clear Time">
+                        <span>
+                          <IconButton
+                            size="small"
+                            disabled={disabled || !value}
+                            onClick={() => handleClearTime(name, index)}
+                          >
+                            <Clear />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                    </React.Fragment>
+                  ) : (
+                    renderInput({
+                      value,
+                      onChange,
+                      onBlur,
+                      ref,
+                      disabled,
+                      error: !!formState.errors?.data?.[index]?.[name],
+                      fullWidth: true,
+                    })
+                  )
                 }
               />
               {formState.errors?.data?.[index]?.[name] && (
@@ -167,11 +222,7 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
               }}
             >
               {/* // * Checkbox Column */}
-              <TableCell
-                sx={tableHeaderBlackTextStyles}
-                component="th"
-                scope="row"
-              >
+              <TableCell sx={tableHeaderBlackTextStyles} scope="row">
                 <Box display="flex" alignItems="center">
                   <StyledAvailabilitySearchTableFieldContainer>
                     <Controller

@@ -11,12 +11,13 @@ import {
   StyledSignUpText,
 } from "../commons/uiComponents"
 import { rem } from "polished"
-import { Link } from "gatsby"
+import { navigate } from "gatsby"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { StyledOtpInput } from "./OtpConfirmationSection.styled"
 import { LinkButton } from "../commons/Button"
 import { FormProps } from "../SignUpPage/SignUpPage"
+import routes from "@/constants/routes"
 
 const OtpConfirmationSection: React.FC<FormProps> = ({
   setFormStage,
@@ -26,12 +27,15 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
   const isWebView = useMediaQuery(devices.web.up)
   const [otp, setOtp] = useState<string>("")
 
+  const handleNavigateToSignIn = () => {
+    navigate(routes.signin)
+  }
+
   const handlePhoneNumberChange = () => {
     setFormStage(prev => prev - 1)
   }
 
   const handleSubmit = () => {
-    console.log(otp)
     setFormStage(prev => prev + 1)
   }
 
@@ -76,8 +80,8 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
       <Box display="flex" justifyContent="center">
         <StyledSignUpText>
           Already have an account?
-          <StyledSignUpButton>
-            <Link to="/signin"> Log In</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -132,8 +136,8 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
           alignItems="center"
         >
           <StyledSignUpText>Already have an account?</StyledSignUpText>
-          <StyledSignUpButton>
-            <Link to="/signin">Log In</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
           </StyledSignUpButton>
         </Box>
       </Box>
