@@ -10,15 +10,21 @@ import { UserRoles } from "@/constants/common"
 import { devices } from "@/constants/device"
 import { useMediaQuery } from "@mui/material"
 import { AdminLayoutProps } from "./AdminLayout.types"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children, roles }) => {
-  const isWebView = useMediaQuery(devices.web.up)
+  const { commonStore } = useStore()
+  const isDesktopView = useMediaQuery(devices.web.up)
 
   return (
     <AuthGuard roles={roles}>
       <StyledAdminLayout>
         <SidePanel role={UserRoles.admin} />
-        <StyledAdminLayoutContent isWebView={isWebView}>
+        <StyledAdminLayoutContent
+          isDesktopView={isDesktopView}
+          isCollapsed={commonStore.isSidePanelCollapsed}
+        >
           <Topbar />
           {children}
         </StyledAdminLayoutContent>
@@ -27,4 +33,4 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, roles }) => {
   )
 }
 
-export default AdminLayout
+export default observer(AdminLayout)

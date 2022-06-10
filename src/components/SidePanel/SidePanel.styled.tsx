@@ -1,16 +1,17 @@
 import { rem } from "polished"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   StyledFooterSectionBrandLogo,
   StyledFooterSectionBrandLogoContainer,
 } from "../FooterSection/FooterSection.styled"
 
-export const StyledSidePanel = styled.div`
+export const StyledSidePanel = styled.div<{ collapsed?: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  max-width: ${rem("230px")};
+  max-width: ${p => (p.collapsed ? rem("68px") : rem("230px"))};
+  transition: max-width 150ms ease-out;
   height: 100vh;
   background-color: ${p => p.theme.palette.background};
   /* margin-right: ${rem("24px")}; */
@@ -18,6 +19,12 @@ export const StyledSidePanel = styled.div`
   display: flex;
   flex-direction: column;
   z-index: ${p => p.theme.zIndices.drawer};
+
+  & .side-panel--collapse-btn {
+    position: absolute;
+    right: -14px;
+    top: 12px;
+  }
 `
 
 export const StyledSidePanelBrandLogoContainer = styled(
@@ -42,12 +49,19 @@ export const StyledSidePanelItemList = styled.div`
 export const StyledSidePanelItem = styled.div<{
   active?: boolean
   last?: boolean
+  collapsed?: boolean
 }>`
   cursor: pointer;
   width: 100%;
   display: flex;
   align-items: center;
   padding: ${rem("12px")} ${rem("24px")};
+  ${p =>
+    p.collapsed &&
+    css`
+      justify-content: center;
+      padding: ${rem("12px")} ${rem("16px")};
+    `}
   margin-bottom: ${p => (p.last ? 0 : rem("8px"))};
   border-left: 4px solid transparent;
   background-color: ${p =>
@@ -61,8 +75,11 @@ export const StyledSidePanelItem = styled.div<{
   }
 `
 
-export const StyledSidePanelItemIcon = styled.div<{ active?: boolean }>`
-  margin-right: ${rem("12px")};
+export const StyledSidePanelItemIcon = styled.div<{
+  active?: boolean
+  collapsed?: boolean
+}>`
+  margin-right: ${p => (p.collapsed ? 0 : rem("12px"))};
   display: flex;
   align-items: center;
 

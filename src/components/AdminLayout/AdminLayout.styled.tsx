@@ -6,9 +6,13 @@ export const StyledAdminLayout = styled.div`
   width: 100%;
 `
 
-export const StyledAdminLayoutContent = styled.div<{ isWebView?: boolean }>`
+export const StyledAdminLayoutContent = styled.div<{
+  isDesktopView?: boolean
+  isCollapsed?: boolean
+}>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-left: ${p => (p.isWebView ? rem("254px") : 0)};
+  padding-left: ${p =>
+    p.isDesktopView ? (p.isCollapsed ? rem("92px") : rem("254px")) : 0};
 `

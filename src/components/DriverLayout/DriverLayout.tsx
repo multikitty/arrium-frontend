@@ -13,6 +13,8 @@ import {
 import FullscreenMenu from "../FullscreenMenu"
 import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
 
 export interface DriverLayoutProps {
   children: React.ReactNode
@@ -20,6 +22,7 @@ export interface DriverLayoutProps {
 }
 
 const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
+  const { commonStore } = useStore()
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
@@ -30,27 +33,32 @@ const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
     <AuthGuard roles={roles}>
       <StyledDriverLayout>
         {isDesktopView && <SidePanel role={UserRoles.driver} />}
-        <StyledDriverLayoutContent isDesktopView={isDesktopView}>
-          {isDesktopView ? (
-            <Topbar />
-          ) : (
-            <React.Fragment>
-              <MobileTopbar
-                handleFullscreenMenuOpen={handleFullscreenMenuOpen}
-                handleFullscreenMenuClose={handleFullscreenMenuClose}
-                isFullscreenMenuOpen={isFullscreenMenuOpen}
-              />
-              <FullscreenMenu
-                open={isFullscreenMenuOpen}
-                handleFullscreenMenuClose={handleFullscreenMenuClose}
-              />
-            </React.Fragment>
-          )}
-          {children}
+        <StyledDriverLayoutContent
+          isDesktopView={isDesktopView}
+          isCollapsed={commonStore.isSidePanelCollapsed}
+        >
+          <React.Fragment>
+            {isDesktopView ? (
+              <Topbar />
+            ) : (
+              <React.Fragment>
+                <MobileTopbar
+                  handleFullscreenMenuOpen={handleFullscreenMenuOpen}
+                  handleFullscreenMenuClose={handleFullscreenMenuClose}
+                  isFullscreenMenuOpen={isFullscreenMenuOpen}
+                />
+                <FullscreenMenu
+                  open={isFullscreenMenuOpen}
+                  handleFullscreenMenuClose={handleFullscreenMenuClose}
+                />
+              </React.Fragment>
+            )}
+            {children}
+          </React.Fragment>
         </StyledDriverLayoutContent>
       </StyledDriverLayout>
     </AuthGuard>
   )
 }
 
-export default DriverLayout
+export default observer(DriverLayout)

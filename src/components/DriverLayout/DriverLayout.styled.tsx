@@ -8,10 +8,12 @@ export const StyledDriverLayout = styled.div`
 
 export const StyledDriverLayoutContent = styled.div<{
   isDesktopView?: boolean
+  isCollapsed?: boolean
 }>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-top: ${p => !p.isDesktopView && rem("64px")};
-  padding-left: ${p => (p.isDesktopView ? rem("254px") : 0)};
+  padding-left: ${p =>
+    p.isDesktopView ? (p.isCollapsed ? rem("92px") : rem("254px")) : 0};
 `
