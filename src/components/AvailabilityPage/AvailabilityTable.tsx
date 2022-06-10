@@ -8,6 +8,7 @@ import {
   TableRow,
   TableHead,
   useMediaQuery,
+  Box,
 } from "@mui/material"
 import theme from "@/theme"
 import { rem } from "polished"
@@ -31,6 +32,11 @@ import {
 } from "../SubscriptionPage/SubscriptionPage.styled"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
+import noResultsImage from "@/assets/images/no-search-results.svg"
+import {
+  StyledNoSearchResultsText,
+  StyledNoSearchResultsTitle,
+} from "./AvailabilityPage.styled"
 
 interface IProps {
   tab: AvailabilityTableTabType
@@ -244,88 +250,128 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
             ))}
         </TableBody>
       </Table>
+      {rows.length || (
+        <Box
+          display="flex"
+          flexDirection="column"
+          my={6}
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <img src={noResultsImage} />
+          <StyledNoSearchResultsTitle>
+            No search results
+          </StyledNoSearchResultsTitle>
+          <StyledNoSearchResultsText>
+            Set up search preferences and press <strong>Start Searching</strong>{" "}
+            button
+          </StyledNoSearchResultsText>
+        </Box>
+      )}
     </TableContainer>
   ) : (
     /* // *  MOBILE VIEW */
-    <StyledAvailabilityTableContainer>
-      {rows
-        .filter(row => (tab === "all" ? true : row.status === tab))
-        .map(row => (
-          <StyledAvailabilityTable key={row.time}>
-            <StyledAvailabilityTableHeader>
-              <StyledAvailabilityTableHeaderTitle>
-                Location
-              </StyledAvailabilityTableHeaderTitle>
-              <StyledAvailabilityTableHeaderText>
-                {row.location}
-              </StyledAvailabilityTableHeaderText>
-            </StyledAvailabilityTableHeader>
-            <StyledAvailabilityTableItemsContainer>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Day
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  {row.day}
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Date
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  {row.date}
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Time
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  {row.time}
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Duration
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  {row.duration}
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Pay
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  {userStore.currencySymbol}
-                  {row.pay}
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-              <StyledAvailabilityTableItem>
-                <StyledAvailabilityTableItemLabel>
-                  Status
-                </StyledAvailabilityTableItemLabel>
-                <StyledAvailabilityTableItemValue>
-                  <Chip
-                    component="span"
-                    label={availabilityStatusOptions[row.status].label}
-                    sx={{
-                      fontFamily: "Inter",
-                      fontSize: "14px",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "20px",
-                      color: "white",
-                      background: availabilityStatusColorMap[row.status],
-                    }}
-                  />
-                </StyledAvailabilityTableItemValue>
-              </StyledAvailabilityTableItem>
-            </StyledAvailabilityTableItemsContainer>
-          </StyledAvailabilityTable>
-        ))}
-    </StyledAvailabilityTableContainer>
+    <React.Fragment>
+      <StyledAvailabilityTableContainer>
+        {rows
+          .filter(row => (tab === "all" ? true : row.status === tab))
+          .map(row => (
+            <StyledAvailabilityTable key={row.time}>
+              <StyledAvailabilityTableHeader>
+                <StyledAvailabilityTableHeaderTitle>
+                  Location
+                </StyledAvailabilityTableHeaderTitle>
+                <StyledAvailabilityTableHeaderText>
+                  {row.location}
+                </StyledAvailabilityTableHeaderText>
+              </StyledAvailabilityTableHeader>
+              <StyledAvailabilityTableItemsContainer>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Day
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    {row.day}
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Date
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    {row.date}
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Time
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    {row.time}
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Duration
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    {row.duration}
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Pay
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    {userStore.currencySymbol}
+                    {row.pay}
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+                <StyledAvailabilityTableItem>
+                  <StyledAvailabilityTableItemLabel>
+                    Status
+                  </StyledAvailabilityTableItemLabel>
+                  <StyledAvailabilityTableItemValue>
+                    <Chip
+                      component="span"
+                      label={availabilityStatusOptions[row.status].label}
+                      sx={{
+                        fontFamily: "Inter",
+                        fontSize: "14px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "20px",
+                        color: "white",
+                        background: availabilityStatusColorMap[row.status],
+                      }}
+                    />
+                  </StyledAvailabilityTableItemValue>
+                </StyledAvailabilityTableItem>
+              </StyledAvailabilityTableItemsContainer>
+            </StyledAvailabilityTable>
+          ))}
+      </StyledAvailabilityTableContainer>
+      {rows.length || (
+        <Box
+          display="flex"
+          flexDirection="column"
+          my={6}
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <img src={noResultsImage} />
+          <StyledNoSearchResultsTitle>
+            No search results
+          </StyledNoSearchResultsTitle>
+          <StyledNoSearchResultsText>
+            Set up search preferences and press <strong>Start Searching</strong>{" "}
+            button
+          </StyledNoSearchResultsText>
+        </Box>
+      )}
+    </React.Fragment>
   )
 }
 

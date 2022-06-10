@@ -1,6 +1,6 @@
 import { rem } from "polished"
 import styled from "styled-components"
-import { Box, Button, TextField } from "@mui/material"
+import { Box, Button, TextField, Typography } from "@mui/material"
 import theme from "@/theme"
 import { devices } from "@/constants/device"
 
@@ -142,4 +142,30 @@ export const StyledAvailabilitySearchTableFieldHelperText = styled.p`
   line-height: ${rem("16px")};
 
   color: ${p => p.theme.palette.errorText};
+`
+
+export const StyledNoSearchResultsTitle = styled(Typography)`
+  &&& {
+    margin-top: ${rem("20px")};
+    margin-bottom: ${rem("12px")};
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: ${rem("20px")};
+    line-height: ${rem("20px")};
+    text-align: center;
+    max-width: ${rem("270px")};
+  }
+`
+
+export const StyledNoSearchResultsText = styled(Typography)`
+  &&& {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: ${rem("14px")};
+    line-height: ${rem("20px")};
+    text-align: center;
+    max-width: ${rem("270px")};
+  }
 `

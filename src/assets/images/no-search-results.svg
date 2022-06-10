@@ -1,0 +1,21 @@
+<svg width="138" height="89" viewBox="0 0 138 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_756_13655)">
+<rect width="138" height="89" fill="white"/>
+<rect x="2" y="2" width="62" height="40" rx="6" fill="#F0F0F7" stroke="#F0F0F7" stroke-width="2"/>
+<rect x="8" y="8" width="33" height="5" rx="2.5" fill="white"/>
+<rect x="8" y="17" width="18" height="5" rx="2.5" fill="white"/>
+<rect x="46" y="8" width="12" height="5" rx="2.5" fill="white"/>
+<rect x="74" y="2" width="62" height="40" rx="6" stroke="#F0F0F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 6"/>
+<rect x="80" y="8" width="33" height="5" rx="2.5" fill="#F0F0F7"/>
+<rect x="80" y="17" width="18" height="5" rx="2.5" fill="#F0F0F7"/>
+<rect x="118" y="8" width="12" height="5" rx="2.5" fill="#F0F0F7"/>
+<rect x="73.9058" y="61.1484" width="6" height="23.7091" rx="3" transform="rotate(-45 73.9058 61.1484)" fill="#E6E6ED"/>
+<path d="M85 41C85 55.8389 72.7612 68 57.5 68C42.2388 68 30 55.8389 30 41C30 26.1611 42.2388 14 57.5 14C72.7612 14 85 26.1611 85 41Z" stroke="#D2D3D9" stroke-width="10"/>
+<rect x="79" y="70.4854" width="12" height="27.8186" rx="6" transform="rotate(-45 79 70.4854)" fill="#D2D3D9"/>
+</g>
+<defs>
+<clipPath id="clip0_756_13655">
+<rect width="138" height="89" fill="white"/>
+</clipPath>
+</defs>
+</svg>
