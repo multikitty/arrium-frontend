@@ -5,7 +5,8 @@ frontend:
       commands:
         - nvm install 16.13.0
         - nvm use 16.13.0
-        - npm i -g yarn && yarn install --frozen-lockfile
+        - npm i -g yarn
+        - yarn install --frozen-lockfile
     build:
       commands:
         - nvm use 16.13.0
