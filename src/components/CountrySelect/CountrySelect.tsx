@@ -4,11 +4,11 @@ import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
 import CircularProgress from "@mui/material/CircularProgress"
 import getCountryData, { CountryData } from "@/utils/getCountryData"
 
-function sleep(delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(resolve, delay)
-  })
-}
+// function sleep(delay = 0) {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, delay)
+//   })
+// }
 
 interface IProps
   extends Partial<AutocompleteProps<CountryData, false, false, false>> {
@@ -39,7 +39,7 @@ const CountrySelect: React.FC<IProps> = ({
     }
 
     ;(async () => {
-      await sleep(1e3) // For demo purposes.
+      // await sleep(1e3) // For demo purposes.
 
       if (active) {
         setOptions([...Object.values(getCountryData())])

@@ -12,6 +12,7 @@ import routes from "@/constants/routes"
 import { getCurrencySymbolByCountryCode } from "@/utils"
 import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 import countryToCurrency from "country-to-currency"
+import { noCase } from "change-case"
 
 class UserStore {
   user: UserType = null
@@ -56,6 +57,11 @@ class UserStore {
     if (this.currentUser)
       return countryToCurrency[this.currentUser.country as CountryCodes]
     return "GBP"
+  }
+
+  get lowerCaseCountry() {
+    if (this.currentUser) return noCase(this.currentUser.country || "")
+    return "gb"
   }
 
   set setUser(user: NonNullable<UserType>) {

@@ -14,7 +14,7 @@ import {
 } from "../commons/uiComponents"
 import TimeZoneSelect, { ITimezone } from "react-timezone-select"
 import { rem } from "polished"
-import { Link } from "gatsby"
+import { navigate } from "gatsby"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import { devices } from "@/constants/device"
@@ -22,6 +22,9 @@ import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsPro
 import { content } from "@/constants/content"
 import  { CountryData } from "@/utils/getCountryData"
 import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
+import routes from "@/constants/routes"
+import { observer } from "mobx-react-lite"
+import { useStore } from "@/store"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -52,6 +55,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
   stage,
   step,
 }) => {
+  const {userStore} = useStore()
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
@@ -62,6 +66,10 @@ const AccountInfoSection: React.FC<FormProps> = ({
   const [surName, setSurName] = useState<string>("")
   const [country, setCountry] = useState<CountryData | null>(null)
   const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
+
+  const handleNavigateToSignin = () => {
+    navigate(routes.signin)
+  }
 
   const onSubmit = () => {
     setFormStage((prev: number) => prev + 1)
@@ -104,7 +112,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
       />
       <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
       <ReactPhoneInput
-        country={"gb"}
+        country={userStore.lowerCaseCountry}
         containerClass={classes.telephoneInputContainer}
         placeholder=""
         value={phoneNo}
@@ -134,8 +142,8 @@ const AccountInfoSection: React.FC<FormProps> = ({
       <Box display="flex" justifyContent="center">
         <StyledSignUpText>
           {content.accountInfoSection.alreadyHaveAnAccount}
-          <StyledSignUpButton>
-            <Link to="/signin">{content.accountInfoSection.logIn}</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignin}>
+            {content.accountInfoSection.logIn}
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -165,7 +173,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
           variant="outlined"
         />
         <ReactPhoneInput
-          country={"gb"}
+          country={userStore.lowerCaseCountry}
           containerClass={classes.telephoneInputContainer}
           placeholder=""
           value={phoneNo}
@@ -201,8 +209,8 @@ const AccountInfoSection: React.FC<FormProps> = ({
           <StyledSignUpText>
             {content.accountInfoSection.alreadyHaveAnAccount}
           </StyledSignUpText>
-          <StyledSignUpButton>
-            <Link to="/signin">{content.accountInfoSection.logIn}</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignin}>
+            {content.accountInfoSection.logIn}
           </StyledSignUpButton>
         </Box>
       </Box>
@@ -210,4 +218,4 @@ const AccountInfoSection: React.FC<FormProps> = ({
   )
 }
 
-export default AccountInfoSection
+export default observer(AccountInfoSection)

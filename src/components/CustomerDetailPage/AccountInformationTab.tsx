@@ -75,7 +75,7 @@ const AccountInformationTab = (props: ITabProps) => {
   const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
-  const { messageStore } = useStore()
+  const { messageStore, userStore } = useStore()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
@@ -131,6 +131,7 @@ const AccountInformationTab = (props: ITabProps) => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <ReactPhoneInput
+                      country={userStore.lowerCaseCountry}
                       onChange={onChange}
                       value={value}
                       containerClass={classes.telephoneInputContainer}
@@ -185,7 +186,6 @@ const AccountInformationTab = (props: ITabProps) => {
                       <DesktopDatePicker
                         inputFormat="dd/MM/yyyy"
                         disablePast
-                        clearable
                         value={value}
                         onChange={val =>
                           setValue("startDate", val as unknown as string)
@@ -204,7 +204,6 @@ const AccountInformationTab = (props: ITabProps) => {
                       <MobileDatePicker
                         inputFormat="dd/MM/yyyy"
                         disablePast
-                        clearable
                         value={value}
                         onChange={val =>
                           setValue("startDate", val as unknown as string)
@@ -315,7 +314,6 @@ const AccountInformationTab = (props: ITabProps) => {
                         inputFormat="dd/MM/yyyy"
                         open={endDatePickerOpen}
                         onOpen={handleEndDatePickerClick}
-                        clearable
                         minDate={new Date(getValues("startDate"))}
                         value={value}
                         onChange={val =>
@@ -338,7 +336,6 @@ const AccountInformationTab = (props: ITabProps) => {
                         onOpen={() =>
                           getValues("startDate") && setEndDatePickerOpen(true)
                         }
-                        clearable
                         minDate={new Date(getValues("startDate"))}
                         value={value}
                         onChange={val =>
@@ -440,7 +437,7 @@ const AccountInformationTab = (props: ITabProps) => {
               <Box mt={rem("24px")}>
                 <Controller
                   control={control}
-                  name="sendPasswordResetEmail"
+                  name="sendPasswordChangeRequest"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
                       control={<Checkbox checked={value} onChange={onChange} />}

@@ -36,6 +36,7 @@ import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 import { DatePicker } from "@mui/x-date-pickers"
 import { useStore } from "@/store"
 import { StyledAccountInformationTabDateField } from "../CustomerDetailPage/CustomerDetailPage.styled"
+import { observer } from "mobx-react-lite"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -76,7 +77,7 @@ interface IProps {
 
 const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
   const classes = useStyles()
-  const { messageStore } = useStore()
+  const { messageStore, userStore } = useStore()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
@@ -143,6 +144,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <ReactPhoneInput
+                      country={userStore.lowerCaseCountry}
                       onChange={onChange}
                       value={value}
                       containerClass={classes.telephoneInputContainer}
@@ -197,7 +199,6 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                     <DatePicker
                       inputFormat="dd/MM/yyyy"
                       disablePast
-                      clearable
                       value={value}
                       onChange={val =>
                         setValue("startDate", val as unknown as string)
@@ -311,7 +312,6 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                       inputFormat="dd/MM/yyyy"
                       open={endDatePickerOpen}
                       onOpen={handleEndDatePickerClick}
-                      clearable
                       minDate={new Date(methods.getValues("startDate"))}
                       value={value}
                       onChange={val =>
@@ -435,4 +435,4 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
   )
 }
 
-export default AccountInformationTab
+export default observer(AccountInformationTab)

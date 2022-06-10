@@ -83,7 +83,7 @@ const LocationsTab = () => {
 
   const handelFormSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
-    enqueueSnackbar("Locations added successfully", { variant: "success" })
+    enqueueSnackbar("Locations updated successfully", { variant: "success" })
     setIsDirty(false)
   }
 

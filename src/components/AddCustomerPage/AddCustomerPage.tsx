@@ -22,6 +22,7 @@ import { TabType, tabs } from "./AddCustomersPage.data"
 import LocationsTab from "./LocationsTab"
 import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 import routes from "@/constants/routes"
+import BillingTab from "./BillingTab"
 
 const AddCustomerPage = () => {
   const location = useLocation()
@@ -43,6 +44,7 @@ const AddCustomerPage = () => {
   }, [location])
 
   const isAccountInfoTabOpen = tab === tabs.accountInformation
+  const isBillingTabOpen = tab === tabs.billing
   const isConfigurationTabOpen = tab === tabs.configuration
   const isReferralTabOpen = tab === tabs.referral
   const isLocationsTabOpen = tab === tabs.locations
@@ -93,6 +95,16 @@ const AddCustomerPage = () => {
                   padding: `${rem("30px")} ${rem("32px")}`,
                   textTransform: "capitalize",
                 }}
+                label="Billing"
+                value={tabs.billing}
+              />
+            )}
+            {role !== UserRoles.salesAgent && (
+              <StyledTab
+                sx={{
+                  padding: `${rem("30px")} ${rem("32px")}`,
+                  textTransform: "capitalize",
+                }}
                 label="Configuration"
                 value={tabs.configuration}
               />
@@ -112,6 +124,7 @@ const AddCustomerPage = () => {
         {isAccountInfoTabOpen && (
           <AccountInformationTab tab={tab} role={role} setRole={setRole} />
         )}
+        {isBillingTabOpen && <BillingTab />}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
         {isLocationsTabOpen && <LocationsTab />}
