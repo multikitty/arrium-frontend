@@ -1,7 +1,12 @@
-import { Box, IconButton, useMediaQuery } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { devices } from "@/constants/device"
+import { useParams } from "@reach/router"
+import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
+import { rem } from "polished"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
+
+import { devices } from "@/constants/device"
 import {
   StyledButton,
   StyledButtonText,
@@ -12,21 +17,57 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
-import { rem } from "polished"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
-import { Link } from "gatsby"
 import { FormProps } from "../SignUpPage/SignUpPage"
+import routes from "@/constants/routes"
+import { IFlexInfoResult, IFlexInfoVariables } from "@/lib/interfaces/signup"
+import { updateFlexInfo } from "@/agent/signup"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
+  const params = useParams()
+  const {
+    navigate,
+    navigateWithQuery: { navigateToSignup },
+  } = useNavigate(params as ParamType)
+  const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
-  const [userName, setUserName] = useState<string>("")
-  const [isVisible, SetIsVisible] = useState<boolean>(false)
-  const [password, setPassword] = useState<string>("")
-  const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
+  const [userName, setUserName] = useState("")
+  const [isVisible, SetIsVisible] = useState(false)
+  const [password, setPassword] = useState("")
+  const [isButtonDisable, setIsButtonDisable] = useState(true)
+  const { mutate } = useMutation<IFlexInfoResult, Error, IFlexInfoVariables>(
+    updateFlexInfo
+  )
 
-  const onSubmit = () => {
-    setFormStage((prev: number) => prev + 1)
+  const handleNavigateToSignIn = () => {
+    navigate(routes.signin)
+  }
+
+  const onSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
+    e.preventDefault()
+
+    mutate(
+      { amznFlexUser: userName, amznFlexPassword: password },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.amznFlexUser ||
+                validationError?.amznFlexPassword ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          setFormStage((prev: number) => prev + 1)
+          navigateToSignup(stage + 1)
+        },
+      }
+    )
   }
 
   useEffect(() => {
@@ -43,8 +84,10 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       <Box display="flex" justifyContent="center">
         <StyledLoginText>Sign up</StyledLoginText>
       </Box>
-      <StyledText>Please, enter your Amazon Flex account details</StyledText>
+      <StyledText>Please enter your Amazon Flex account details</StyledText>
       <StyledInputField
+        autoComplete="amazon-flex-username"
+        name="amazon-flex-username"
         placeholder="Amazon Flex Username"
         variant="outlined"
         type="email"
@@ -54,6 +97,8 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         sx={{ marginTop: "1rem" }}
       />
       <StyledInputField
+        autoComplete="amazon-flex-password"
+        name="amazon-flex-password"
         placeholder="Amazon Flex Password"
         type={isVisible ? "text" : "password"}
         value={password}
@@ -72,7 +117,7 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
         disabled={isButtonDisable}
       >
@@ -81,8 +126,8 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       <Box display="flex" justifyContent="center">
         <StyledSignUpText>
           Already have an account?
-          <StyledSignUpButton>
-            <Link to="/signin"> Log in</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log in
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -100,13 +145,18 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           <StyledLoginText>Sign up</StyledLoginText>
         </Box>
         <StyledInputField
+          autoComplete="amazon-flex-username"
+          name="amazon-flex-username"
           placeholder="Amazon Flex Username"
           variant="outlined"
           value={userName}
+          onChange={e => setUserName(e.target.value)}
           type="email"
           required
         />
         <StyledInputField
+          autoComplete="amazon-flex-password"
+          name="amazon-flex-password"
           placeholder="Amazon Flex Password"
           type={isVisible ? "text" : "password"}
           value={password}
@@ -125,7 +175,7 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
           disabled={isButtonDisable}
         >
@@ -138,8 +188,8 @@ const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           alignItems="center"
         >
           <StyledSignUpText>Already have an account?</StyledSignUpText>
-          <StyledSignUpButton>
-            <Link to="/signin">Log In</Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
           </StyledSignUpButton>
         </Box>
       </Box>

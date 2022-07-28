@@ -1,7 +1,9 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
+import { useLocation, useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
+import queryString from "query-string"
+
 import {
   StyledTitle,
   StyledTitleMobile,
@@ -15,6 +17,7 @@ import AmazonFlexInfo from "@/components/AmazonFlexInfo"
 import FinishPage from "@/components/FinishPage"
 import HoldingPage from "@/components/HoldingPage"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -31,13 +34,23 @@ const steps = [
 ]
 
 const SignUpPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+  const location = useLocation()
   const isWebView = useMediaQuery(devices.web.up)
-  const [formStage, setFormStage] = useState<number>(0)
-  const [showOnHold, setShowOnHold] = useState<boolean>(false)
+  const [formStage, setFormStage] = useState(0)
+  const [showOnHold, setShowOnHold] = useState(false)
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
   }
+
+  React.useEffect(() => {
+    if (!location.search) return
+    const { step } = queryString.parse(location.search)
+    if (!step) return
+    setFormStage(+step)
+  }, [location])
 
   return (
     <React.Fragment>

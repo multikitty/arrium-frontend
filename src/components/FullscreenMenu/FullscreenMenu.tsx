@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
-import { useLocation } from "@reach/router"
+import { useLocation, useParams } from "@reach/router"
 import { Avatar, Badge, Box } from "@mui/material"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import { rem } from "polished"
@@ -23,6 +22,7 @@ import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { driverNavigationData } from "./FullscreenMenu.data"
 import { Settings } from "@mui/icons-material"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 export interface IProps {
   open: boolean
@@ -30,6 +30,8 @@ export interface IProps {
 }
 
 const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const { pathname } = useLocation()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
@@ -42,7 +44,7 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
     | undefined = e => {
     e.stopPropagation()
     userStore.logout()
-
+    navigate(routes.home)
     handleFullscreenMenuClose()
   }
 

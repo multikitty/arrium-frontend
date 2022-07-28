@@ -1,19 +1,23 @@
 import React from "react"
+import { useParams } from "@reach/router"
+import { Box, IconButton, tabsClasses, Tooltip } from "@mui/material"
+import { Close } from "@mui/icons-material"
+import { rem } from "polished"
+
 import {
   StyledProfilePage,
   StyledProfilePageContent,
   StyledProfilePageHeader,
 } from "./ProfilePage.styled"
-import { Box, IconButton, tabsClasses, Tooltip } from "@mui/material"
-import { rem } from "polished"
 import ProfileTabContent from "./ProfileTabContent"
 import FlexAccountTabContent from "./FlexAccountTabContent"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
-import { Close } from "@mui/icons-material"
 import { useStore } from "@/store"
-import navigateToDefault from "@/utils/navigateToDefault"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const ProfilePage = () => {
+  const params = useParams()
+  const { navigateToDefault } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const [tab, setTab] = React.useState("personalInformation")
 

@@ -1,4 +1,6 @@
 import React from "react"
+import { useParams } from "@reach/router"
+
 import { ContainedButton } from "../commons/Button"
 import {
   StyledBannerSection,
@@ -10,10 +12,13 @@ import {
   StyledBannerSectionSubHeader,
 } from "./BannerSection.styled"
 import bannerImage from "@/assets/images/landing-banner.png"
-import { navigate } from "gatsby"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const BannerSection = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+
   const handleNavigateToSignup = () => {
     navigate(routes.signup)
   }

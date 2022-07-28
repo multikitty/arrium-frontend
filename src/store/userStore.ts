@@ -1,5 +1,4 @@
 import { makeAutoObservable, runInAction } from "mobx"
-import { navigate } from "gatsby"
 
 import { UserType } from "@/types/auth"
 import isBrowser from "@/utils/isBrowser"
@@ -8,7 +7,6 @@ import {
   removeLocalStorage,
   getLocalStorage,
 } from "@/utils/localStorage"
-import routes from "@/constants/routes"
 import { getCurrencySymbolByCountryCode } from "@/utils"
 import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 import countryToCurrency from "country-to-currency"
@@ -19,6 +17,10 @@ class UserStore {
 
   constructor() {
     makeAutoObservable(this)
+  }
+
+  get userToken() {
+    return getLocalStorage("token") || null
   }
 
   get currentUser() {
@@ -96,8 +98,6 @@ class UserStore {
     runInAction(() => {
       this.user = null
     })
-    navigate(routes.home)
-    // window.location.reload()
   }
 }
 

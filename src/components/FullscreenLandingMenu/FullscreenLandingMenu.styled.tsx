@@ -18,6 +18,8 @@ export const StyledFullscreenLandingMenu = styled.div<{ visible?: boolean }>`
   background-color: ${p => p.theme.palette.common.white};
   z-index: ${p => p.theme.zIndices.fullscreenLandingMenu};
   transition: opacity 150ms ease-out;
+  width: 30%;
+  min-width: 260px;
 
   ${p =>
     p.visible

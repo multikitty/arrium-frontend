@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, Divider, ListItemIcon, Menu, MenuItem } from "@mui/material"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import SettingsIcon from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import { rem } from "polished"
+import { observer } from "mobx-react-lite"
 
 import {
   StyledProfileDropdownMenuItemText,
@@ -18,15 +19,17 @@ import theme from "@/theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { ProfileDropDownProps } from "./ProfileDropDown.types"
 import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
 import { UserRoles } from "@/constants/common"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,
   anchorEl,
   open,
 }) => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const [isEmailVerified, setIsEmailVerified] = useState(
     userStore.currentUser?.isEmailVerified ?? false
@@ -63,6 +66,7 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     | undefined = e => {
     e.stopPropagation()
     userStore.logout()
+    navigate(routes.home)
   }
 
   return (

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
+import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import { rem } from "polished"
+
 import {
   StyledButton,
   StyledButtonText,
@@ -23,24 +24,44 @@ import RightCheckMarkIcon from "@/assets/icons/checkmark_icon.svg"
 import RightCheckGreenMarkIcon from "@/assets/icons/checkmark-green_icon.svg"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { StateProps } from "./RegistrationSection.types"
+import { IRequiredSet } from "./RegistrationSection.types"
 import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
+import { useMutation } from "react-query"
+import { registerUser } from "@/agent/signup"
+import {
+  IRegistrationUserVariables,
+  IRegistrationUserResult,
+} from "@/lib/interfaces/signup"
+import { useSnackbar } from "notistack"
+import { setLocalStorage } from "@/utils/localStorage"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
-  const [email, setEmail] = useState<string>("")
-  const [isVisible, SetIsVisible] = useState<boolean>(false)
-  const [password, setPassword] = useState<string>("")
-  const [referral, setReferral] = useState<string>("")
-  const [isFocused, setIsFocused] = useState<boolean>(false)
-  const [isRequiredSet, SetIsRequiredSet] = useState<StateProps>({
+  const isWebView = useMediaQuery(devices.web.up)
+  const { enqueueSnackbar } = useSnackbar()
+  const params = useParams()
+  const {
+    navigate,
+    navigateWithQuery: { navigateToSignup },
+  } = useNavigate(params as ParamType)
+
+  const [email, setEmail] = useState("")
+  const [isVisible, SetIsVisible] = useState(false)
+  const [password, setPassword] = useState("")
+  const [refCode, setRefCode] = useState("")
+  const [isFocused, setIsFocused] = useState(false)
+  const [isRequiredSet, setIsRequiredSet] = useState<IRequiredSet>({
     digit: true,
     lowercase: true,
     minEightChar: true,
     uppercase: true,
   })
-
-  const isWebView = useMediaQuery(devices.web.up)
+  const { mutate } = useMutation<
+    IRegistrationUserResult,
+    Error,
+    IRegistrationUserVariables
+  >(registerUser)
 
   const atLeastALowercase = new RegExp(/(?=.*[a-z])/)
   const atLeastAnUppercase = new RegExp(/(?=.*[A-Z])/)
@@ -48,7 +69,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
   const minEightChar = new RegExp(/.{8,}/)
 
   useEffect(() => {
-    SetIsRequiredSet({
+    setIsRequiredSet({
       digit: atLeastANumber.test(password),
       lowercase: atLeastALowercase.test(password),
       minEightChar: minEightChar.test(password),
@@ -56,20 +77,15 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
     })
   }, [password])
 
-  const handleInputFocus = () => setIsFocused(true)
-  const handleInputBlur = () => setIsFocused(false)
+  const handleInputFocus = () => {
+    setIsFocused(true)
+  }
+  const handleInputBlur = () => {
+    setIsFocused(false)
+  }
 
   const onSubmit = (e: any) => {
-    if (
-      isRequiredSet.minEightChar &&
-      isRequiredSet.digit &&
-      isRequiredSet.lowercase &&
-      isRequiredSet.uppercase
-    ) {
-      console.log(email, password, referral)
-      setFormStage(prev => prev + 1)
-    }
-
+    e.preventDefault()
     if (
       !(
         isRequiredSet.digit &&
@@ -77,10 +93,37 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         isRequiredSet.minEightChar &&
         isRequiredSet.uppercase
       )
-    )
+    ) {
       handleInputFocus()
-    e.preventDefault()
-    return
+      return
+    }
+
+    const variables: IRegistrationUserVariables = {
+      email,
+      password,
+      refCode,
+      countryCode: (params?.country_code || "UK").toUpperCase(),
+    }
+
+    mutate(variables, {
+      onSuccess({ data, success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.email ||
+              validationError?.password ||
+              validationError?.refCode ||
+              validationError?.countryCode ||
+              message,
+            { variant: "error" }
+          )
+          return
+        }
+        if (!data) return
+        setLocalStorage("token", JSON.stringify(data.token))
+        setFormStage(prev => prev + 1)
+        navigateToSignup(stage + 1)
+      },
+    })
   }
 
   const handleNavigateToSignIn = () => {
@@ -162,14 +205,14 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
         mb={"0"}
         placeholder="6-digit code"
         variant="outlined"
-        value={referral}
-        onChange={e => setReferral(e.target.value)}
+        value={refCode}
+        onChange={e => setRefCode(e.target.value)}
       />
       <StyledButton
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
       >
         <StyledButtonText>Continue</StyledButtonText>
@@ -199,6 +242,8 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           placeholder="Enter Email Address"
           variant="outlined"
           type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           required
         />
         <Box position="relative">
@@ -275,14 +320,14 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           mb={"0"}
           placeholder="6-digit code"
           variant="outlined"
-          value={referral}
-          onChange={e => setReferral(e.target.value)}
+          value={refCode}
+          onChange={e => setRefCode(e.target.value)}
         />
         <StyledButton
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
         >
           <StyledButtonText>Continue</StyledButtonText>

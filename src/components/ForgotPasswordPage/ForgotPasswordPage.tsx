@@ -1,9 +1,10 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { useForm } from "react-hook-form"
 import { rem } from "polished"
+
 import {
   StyledButton,
   StyledButtonText,
@@ -19,8 +20,12 @@ import {
 import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const ForgotPasswordPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+
   type formPropType = typeof emailOptions.defaultValues
 
   const isWebView = useMediaQuery(devices.web.up)
@@ -31,11 +36,12 @@ const ForgotPasswordPage = () => {
     formState: { errors },
   } = useForm<formPropType>(emailOptions)
 
-  const onSubmit = (data: formPropType) => {
-    console.log(data)
-    setIsClicked(true)
-    isClicked && navigate(routes.resetPassword)
-  }
+  const onSubmit = () =>
+    // data: formPropType
+    {
+      setIsClicked(true)
+      isClicked && navigate(routes.resetPassword)
+    }
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
@@ -106,7 +112,7 @@ const ForgotPasswordPage = () => {
                 variant="contained"
                 color="primary"
                 disableElevation
-                margintop={rem("32px")}
+                $marginTop={rem("32px")}
                 type="submit"
               >
                 <StyledButtonText>Done</StyledButtonText>
@@ -117,7 +123,7 @@ const ForgotPasswordPage = () => {
                 color="primary"
                 disableElevation
                 type="submit"
-                margintop={rem("44px")}
+                $marginTop={rem("44px")}
               >
                 <StyledButtonText>Send Instruction</StyledButtonText>
               </StyledButton>
@@ -174,7 +180,7 @@ const ForgotPasswordPage = () => {
                   color="primary"
                   disableElevation
                   type="submit"
-                  margintop={rem("32px")}
+                  $marginTop={rem("32px")}
                 >
                   <StyledButtonText>Done</StyledButtonText>
                 </StyledButton>
@@ -184,7 +190,7 @@ const ForgotPasswordPage = () => {
                   color="primary"
                   disableElevation
                   type="submit"
-                  margintop={rem("44px")}
+                  $marginTop={rem("44px")}
                 >
                   <StyledButtonText>Send Instruction</StyledButtonText>
                 </StyledButton>

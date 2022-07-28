@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { type FormProps } from "@/components/SignUpPage"
+import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
+import TimeZoneSelect, { ITimezone } from "react-timezone-select"
+import { rem } from "polished"
+import { observer } from "mobx-react-lite"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
+import ReactPhoneInput, { CountryData } from "react-phone-input-2"
+import "react-phone-input-2/lib/material.css"
+
+import { type FormProps } from "@/components/SignUpPage"
 import {
   StyledButton,
   StyledButtonText,
@@ -12,19 +21,16 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
-import TimeZoneSelect, { ITimezone } from "react-timezone-select"
-import { rem } from "polished"
-import { navigate } from "gatsby"
-import ReactPhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/material.css"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { content } from "@/constants/content"
-import  { CountryData } from "@/utils/getCountryData"
+import  { CountryData as CountryDataType } from "@/utils/getCountryData"
 import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
 import routes from "@/constants/routes"
-import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
+import { IAccountInfoResult, IAccountInfoVariables } from "@/lib/interfaces/signup"
+import { updateAccountInfo } from "@/agent/signup"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -55,28 +61,65 @@ const AccountInfoSection: React.FC<FormProps> = ({
   stage,
   step,
 }) => {
+  const params = useParams()
+  const {navigate, navigateWithQuery: {navigateToSignup}} = useNavigate(params as ParamType)
+  const {enqueueSnackbar} = useSnackbar()
+
   const {userStore} = useStore()
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )
-  const [phoneNo, setPhoneNo] = useState<string>("")
-  const [firstName, setFirstName] = useState<string>("")
-  const [surName, setSurName] = useState<string>("")
-  const [country, setCountry] = useState<CountryData | null>(null)
-  const [isButtonDisable, setIsButtonDisable] = useState<boolean>(true)
+  const [phoneNo, setPhoneNo] = useState("")
+  const [dialCode, setDialCode] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [surName, setSurName] = useState("")
+  const [country, setCountry] = useState<CountryDataType | null>(null)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+  const { mutate } = useMutation<
+    IAccountInfoResult,
+    Error,
+    IAccountInfoVariables
+  >(updateAccountInfo)
 
   const handleNavigateToSignin = () => {
     navigate(routes.signin)
   }
 
-  const onSubmit = () => {
-    setFormStage((prev: number) => prev + 1)
+  const onSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
+    e.preventDefault()
+    const phoneNumber = phoneNo.slice(dialCode.length || 0)
+
+    const variables: IAccountInfoVariables = {
+      countryCode: country?.countryShortName || "UK",
+      phoneNumber,
+      dialCode,
+      firstname: firstName,
+      lastname: surName,
+      tzName: selectedTimezone.toString()
+    }
+
+    mutate(variables, {
+      onSuccess({success, message, validationError}) {
+        if (!success) {
+          enqueueSnackbar(validationError?.countryCode || validationError?.phoneNumber || validationError?.dialCode || validationError?.firstname || validationError?.lastname || validationError?.tzName ||message, {variant: "error"})
+          return
+        }
+        setFormStage((prev: number) => (prev + 1))
+        navigateToSignup((stage + 1))
+      },
+    })
+  }
+
+  const handlePhoneNoField = (phone: string, data: CountryData | {}) => {
+    const countryDialCode = (data as CountryData).dialCode
+    setPhoneNo(phone)
+    setDialCode(countryDialCode)
   }
 
   useEffect(() => {
-    setIsButtonDisable(() => {
+    setIsButtonDisabled(() => {
       if (
         phoneNo.length &&
         selectedTimezone &&
@@ -116,7 +159,7 @@ const AccountInfoSection: React.FC<FormProps> = ({
         containerClass={classes.telephoneInputContainer}
         placeholder=""
         value={phoneNo}
-        onChange={phone => setPhoneNo(phone)}
+        onChange={handlePhoneNoField}
         inputProps={{
           required: true,
         }}
@@ -131,9 +174,9 @@ const AccountInfoSection: React.FC<FormProps> = ({
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
-        disabled={isButtonDisable}
+        disabled={isButtonDisabled}
       >
         <StyledButtonText>
           {content.accountInfoSection.buttonText}
@@ -172,12 +215,13 @@ const AccountInfoSection: React.FC<FormProps> = ({
           onChange={e => setSurName(e.target.value)}
           variant="outlined"
         />
+        <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
         <ReactPhoneInput
           country={userStore.lowerCaseCountry}
           containerClass={classes.telephoneInputContainer}
           placeholder=""
           value={phoneNo}
-          onChange={phone => setPhoneNo(phone)}
+          onChange={handlePhoneNoField}
           inputProps={{
             required: true,
           }}
@@ -192,9 +236,9 @@ const AccountInfoSection: React.FC<FormProps> = ({
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
-          disabled={!!isButtonDisable}
+          disabled={isButtonDisabled}
         >
           <StyledButtonText>
             {content.accountInfoSection.buttonText}

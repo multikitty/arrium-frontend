@@ -1,6 +1,5 @@
 import * as React from "react"
-import { navigate } from "gatsby"
-import { useLocation } from "@reach/router"
+import { useLocation, useParams } from "@reach/router"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 
@@ -22,9 +21,12 @@ import { useStore } from "@/store"
 import routes from "@/constants/routes"
 import { IconButton } from "@mui/material"
 import { observer } from "mobx-react-lite"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const SidePanel: React.FC<SidePanelProps> = () => {
   const { pathname } = useLocation()
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { userStore, commonStore } = useStore()
 
   const handleNavigateToHomePage = () => {

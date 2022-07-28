@@ -62,3 +62,10 @@ export const daysInWeek = [
   { short: "Sat", long: "Saturday" },
   { short: "Sun", long: "Sunday" },
 ]
+
+export const registrationSteps = {
+  account_info: "account_info",
+  otp: "otp",
+  amazon_flex: "amazon_flex",
+  finished: "finished",
+}

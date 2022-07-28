@@ -1,4 +1,4 @@
-export interface StateProps {
+export interface IRequiredSet {
   lowercase: boolean
   uppercase: boolean
   minEightChar: boolean

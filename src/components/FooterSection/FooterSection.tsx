@@ -17,12 +17,14 @@ import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import InstagramIcon from "@/assets/icons/footer-instagram_logo.inline.svg"
 import FacebookIcon from "@/assets/icons/footer-facebook_logo.inline.svg"
-import { navigate } from "gatsby"
 import { Link } from "react-scroll"
 import { IconButton } from "@mui/material"
 import routes from "@/constants/routes"
+import useNavigate from "@/hooks/useNavigate"
 
 const FooterSection = () => {
+  const { navigate } = useNavigate()
+
   const handleRedirectToInstagram = () =>
     window.open("https://www.instagram.com/", "_blank")
   const handleRedirectToFacebook = () =>

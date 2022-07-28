@@ -1,4 +1,10 @@
 import React from "react"
+import { useParams } from "@reach/router"
+import { IconButton } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
+import { rem } from "polished"
+import { Link } from "react-scroll"
+
 import {
   StyledFullscreenLandingMenu,
   StyledFullscreenLandingMenuBrandLogo,
@@ -9,21 +15,20 @@ import {
   StyledFullscreenLandingMenuBottomSectionButtonContainer,
   StyledFullscreenLandingMenuBottomSection,
 } from "./FullscreenLandingMenu.styled"
-import { IconButton } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
-import { rem } from "polished"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
-import { Link } from "react-scroll"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { navigate } from "gatsby"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { FullscreenLandingMenuProps } from "./FullscreenLandingMenu.types"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const FullscreenLandingMenu = ({
   handleClose,
   open,
 }: FullscreenLandingMenuProps) => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+
   const handleLoginButtonClick = () => {
     handleClose()
     navigate(routes.signin)

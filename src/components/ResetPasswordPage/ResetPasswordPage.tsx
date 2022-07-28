@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { rem } from "polished"
@@ -19,16 +19,19 @@ import {
 import { devices } from "@/constants/device"
 import formOptions from "@/validation/emailAndPassword"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const ResetPassword = () => {
-  type formPropType = typeof formOptions.defaultValues
-
-  const [isPasswordVisible, SetIsPasswordVisible] = useState<boolean>(false)
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+  const [isPasswordVisible, SetIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
-    useState<boolean>(false)
-  const [password, setPassword] = useState<string>("")
-  const [confirmPassword, setConfirmPassword] = useState<string>("")
-  const [isMatches, setIsMatches] = useState<boolean>(false)
+    useState(false)
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [isMatches, setIsMatches] = useState(false)
+
+  type formPropType = typeof formOptions.defaultValues
   const { register, handleSubmit } = useForm<formPropType>(formOptions)
 
   useEffect(() => {
@@ -118,7 +121,7 @@ const ResetPassword = () => {
               disableElevation
               type="submit"
               disabled={!isMatches}
-              margintop={rem("32px")}
+              $marginTop={rem("32px")}
             >
               <StyledButtonText>Save</StyledButtonText>
             </StyledButton>
@@ -194,7 +197,7 @@ const ResetPassword = () => {
                 type="submit"
                 disableElevation
                 disabled={!isMatches}
-                margintop={rem("32px")}
+                $marginTop={rem("32px")}
               >
                 <StyledButtonText>Save</StyledButtonText>
               </StyledButton>

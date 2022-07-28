@@ -39,7 +39,7 @@ const FinishPage: React.FC<FinishPageProps> = ({
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
       >
         <StyledButtonText>Main Page</StyledButtonText>
@@ -67,7 +67,7 @@ const FinishPage: React.FC<FinishPageProps> = ({
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
         >
           <StyledButtonText>Main Page</StyledButtonText>

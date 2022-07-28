@@ -1,4 +1,5 @@
 import React from "react"
+import { useParams } from "@reach/router"
 import { Badge, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import CloseIcon from "@mui/icons-material/Close"
@@ -10,7 +11,7 @@ import {
 } from "./MobileTopbar.styled"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { useStore } from "@/store"
-import { navigateToDefault } from "@/utils"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 export interface IProps {
   isFullscreenMenuOpen: boolean
@@ -23,6 +24,8 @@ const MobileTopbar: React.FC<IProps> = ({
   handleFullscreenMenuOpen,
   isFullscreenMenuOpen,
 }) => {
+  const params = useParams()
+  const { navigateToDefault } = useNavigate(params as ParamType)
   const { userStore } = useStore()
 
   const handleMenuButtonClick = () => {

@@ -1,6 +1,7 @@
 import React from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { useMediaQuery } from "@mui/material"
+import { observer } from "mobx-react-lite"
 
 import {
   Styled403Page,
@@ -16,15 +17,13 @@ import _403ArrowImage from "@/assets/images/404_sub-header_arrow.svg"
 import LandingNavbar from "@/components/LandingNavbar"
 import { ContainedButton } from "@/components/commons/Button"
 import { devices } from "@/constants/device"
-import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
-import { defaultRoutes } from "@/constants/common"
-import { UserRoles } from "@/constants/common"
-import { UserRolesType } from "@/types/common"
 import { content } from "@/constants/content"
-import { navigateToDefault } from "@/utils"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const _403Page = () => {
+  const params = useParams()
+  const { navigateToDefault } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const isDesktopView = useMediaQuery(devices.desktop.up)
 

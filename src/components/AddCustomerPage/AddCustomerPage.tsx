@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, IconButton } from "@mui/material"
 import { rem } from "polished"
-import { useLocation } from "@reach/router"
+import { useLocation, useParams } from "@reach/router"
 import {
   StyledAddCustomerPage,
   StyledAddCustomerPageHeaderContainer,
@@ -13,18 +13,22 @@ import theme from "@/theme"
 import AccountInformationTab from "./AccountInformationTab"
 import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
-import { navigate } from "gatsby"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import queryString from "query-string"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 import { TabType, tabs } from "./AddCustomersPage.data"
 import LocationsTab from "./LocationsTab"
-import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
 import routes from "@/constants/routes"
 import BillingTab from "./BillingTab"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const AddCustomerPage = () => {
+  const params = useParams()
+  const {
+    navigate,
+    navigateWithQuery: { navigateToAddCustomerPage },
+  } = useNavigate(params as ParamType)
   const location = useLocation()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)

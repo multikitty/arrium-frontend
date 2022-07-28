@@ -1,4 +1,6 @@
 import React, { useLayoutEffect, useState } from "react"
+import { useParams } from "@reach/router"
+
 import {
   StyledLandingNavbar,
   StyledLandingNavbarBrandLogo,
@@ -11,7 +13,6 @@ import {
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { Link } from "react-scroll"
 import { ContainedButton } from "../commons/Button"
-import { navigate } from "gatsby"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import { IconButton, useMediaQuery } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
@@ -19,10 +20,13 @@ import { rem } from "polished"
 import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
 import theme from "@/theme"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const LandingNavbar = () => {
-  const [hasBackground, setHasBackground] = useState<boolean>(false)
-  const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState<boolean>(false)
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
+  const [hasBackground, setHasBackground] = useState(false)
+  const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
 
   const handleNavigateToHome = () => {
@@ -37,6 +41,7 @@ const LandingNavbar = () => {
   }
 
   const windowScrollEventHandler = () => {
+    handleFullscreenMenuClose()
     const position = window.pageYOffset
     if (position > 60) setHasBackground(true)
     else setHasBackground(false)

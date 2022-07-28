@@ -1,17 +1,23 @@
 import * as React from "react"
+import { useParams } from "@reach/router"
 import { Menu, MenuItem } from "@mui/material"
 import { rem } from "polished"
 
 import { StyledAddDropdownMenuItemText } from "./AddDropdown.styled"
 import { AddDropDownProps } from "./AddDropDown.types"
 import { LabelledUserRoles } from "@/constants/common"
-import { navigateToAddCustomerPage } from "@/utils/navigateWithQuery"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const AddDropdown: React.FC<AddDropDownProps> = ({
   handleClose,
   anchorEl,
   open,
 }) => {
+  const params = useParams()
+  const {
+    navigateWithQuery: { navigateToAddCustomerPage },
+  } = useNavigate(params as ParamType)
+
   const renderMenuItem = LabelledUserRoles.map(role => (
     <MenuItem
       dense

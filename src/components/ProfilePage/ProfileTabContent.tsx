@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useParams } from "@reach/router"
 import { Box, Fade, Grid, IconButton, Menu, MenuItem } from "@mui/material"
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
@@ -23,9 +24,10 @@ import UpdatePhoneNumberModal from "./UpdatePhoneNumberModal"
 import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
 import CloseAccountModal from "./CloseAccountModal"
 import theme from "@/theme"
-import navigateToDefault from "@/utils/navigateToDefault"
 import { useStore } from "@/store"
 import { personalInformationOptions } from "@/validation"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import routes from "@/constants/routes"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -50,6 +52,8 @@ const useStyles = makeStyles({
 
 const ProfileTabContent = () => {
   const classes = useStyles()
+  const params = useParams()
+  const { navigate, navigateToDefault } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
@@ -202,6 +206,7 @@ const ProfileTabContent = () => {
 
   const handleCloseAccount = () => {
     userStore.logout()
+    navigate(routes.home)
   }
 
   const handleCloseAccountClick = () => {

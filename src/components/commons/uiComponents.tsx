@@ -91,13 +91,13 @@ export const StyledForgotPassword = styled(Box)`
   }
 `
 
-export const StyledButton = styled(Button)<{ margintop?: string }>`
+export const StyledButton = styled(Button)<{ $marginTop?: string }>`
   &&& {
     color: white;
     text-transform: none;
     border-radius: 10px;
     padding: ${rem("14px")} ${rem("28px")};
-    margin-top: ${p => p.margintop};
+    margin-top: ${p => p.$marginTop};
     & > a {
       color: #ffffff;
       text-decoration: none;
@@ -122,6 +122,7 @@ export const StyledSignUpText = styled.h5`
 `
 
 export const StyledSignUpButton = styled.span`
+  cursor: pointer;
   font-size: ${rem("16px")};
   font-weight: 600;
   color: #0a0a0a;

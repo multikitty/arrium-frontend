@@ -1,5 +1,5 @@
 import React from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box } from "@mui/material"
 import ChevronLeft from "@mui/icons-material/ChevronLeft"
 import { FormProvider, useForm } from "react-hook-form"
@@ -22,8 +22,11 @@ import {
 import { scheduleDataInitialValues } from "./AutomationSchedule.data"
 import AutomationScheduleTable from "./AutomationScheduleTable"
 import { useSnackbar } from "notistack"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const AutomationSchedulePage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { enqueueSnackbar } = useSnackbar()
   const handleBackToAvailabilityPage = () => {
     navigate(routes.availability)

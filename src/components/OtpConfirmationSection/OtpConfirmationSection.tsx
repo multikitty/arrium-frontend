@@ -1,5 +1,10 @@
 import React, { useState } from "react"
+import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
+import { rem } from "polished"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
+
 import { devices } from "@/constants/device"
 import {
   StyledButton,
@@ -10,22 +15,45 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
-import { rem } from "polished"
-import { navigate } from "gatsby"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { StyledOtpInput } from "./OtpConfirmationSection.styled"
 import { LinkButton } from "../commons/Button"
 import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
+import useCountDown from "@/hooks/useCountDown"
+import { timeFromNowInMs } from "@/utils"
+import {
+  IOtpConfirmationResult,
+  IOtpConfirmationVariables,
+} from "@/lib/interfaces/signup"
+import { confirmOtp } from "@/agent/signup"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
+
+const THIRTY_SECONDS_FROM_NOW = timeFromNowInMs(30 * 1000)
 
 const OtpConfirmationSection: React.FC<FormProps> = ({
   setFormStage,
   stage,
   step,
 }) => {
+  const { enqueueSnackbar } = useSnackbar()
+  const params = useParams()
+  const {
+    navigate,
+    navigateWithQuery: { navigateToSignup },
+  } = useNavigate(params as ParamType)
   const isWebView = useMediaQuery(devices.web.up)
-  const [otp, setOtp] = useState<string>("")
+  const [otp, setOtp] = useState("")
+  const [thirdSecondsFromNow, setThirdSecondsFromNow] = useState(
+    THIRTY_SECONDS_FROM_NOW
+  )
+  const { minutes, seconds } = useCountDown(thirdSecondsFromNow)
+  const { mutate } = useMutation<
+    IOtpConfirmationResult,
+    Error,
+    IOtpConfirmationVariables
+  >(confirmOtp)
 
   const handleNavigateToSignIn = () => {
     navigate(routes.signin)
@@ -35,8 +63,28 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
     setFormStage(prev => prev - 1)
   }
 
-  const handleSubmit = () => {
-    setFormStage(prev => prev + 1)
+  const handleSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
+    e.preventDefault()
+
+    mutate(
+      { otp },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(validationError?.otp || message, {
+              variant: "error",
+            })
+            return
+          }
+          setFormStage(prev => prev + 1)
+          navigateToSignup(stage + 1)
+        },
+      }
+    )
+  }
+
+  const handleResendOtp = () => {
+    setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
   }
 
   return isWebView ? (
@@ -44,7 +92,9 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
       <Box display="flex" justifyContent="center">
         <StyledLoginText>Sign up</StyledLoginText>
       </Box>
-      <StyledText>Enter a 4-digit code that we’ve sent you in SMS</StyledText>
+      <StyledText>
+        Enter a 4-digit code that we&apos;ve sent you in SMS
+      </StyledText>
       <Box display="flex" justifyContent="center" marginTop={rem("16px")}>
         <StyledOtpInput
           value={otp}
@@ -61,7 +111,11 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
         alignItems="center"
         marginTop={rem("32px")}
       >
-        <LinkButton sx={{ marginBottom: "0.5rem" }} variant="text">
+        <LinkButton
+          sx={{ marginBottom: "0.5rem" }}
+          variant="text"
+          onClick={handleResendOtp}
+        >
           Resend Code
         </LinkButton>
         <LinkButton variant="text" onClick={handlePhoneNumberChange}>
@@ -72,7 +126,7 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
       >
         <StyledButtonText>Continue</StyledButtonText>
@@ -113,9 +167,21 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
           alignItems="center"
           marginTop={rem("32px")}
         >
-          <LinkButton sx={{ marginBottom: "0.5rem" }} variant="text">
+          <LinkButton
+            sx={{ marginBottom: "0.5rem" }}
+            variant="text"
+            disabled={seconds > 0}
+          >
             Resend Code
           </LinkButton>
+          {seconds > 0 && (
+            <Box component="span" ml={-0.5}>
+              in{" "}
+              {`${minutes.toString().padStart(2, "0")}: ${seconds
+                .toString()
+                .padStart(2, "0")}`}{" "}
+            </Box>
+          )}
           <LinkButton variant="text" onClick={handlePhoneNumberChange}>
             Change Phone Number
           </LinkButton>
@@ -124,7 +190,7 @@ const OtpConfirmationSection: React.FC<FormProps> = ({
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
         >
           <StyledButtonText>Continue</StyledButtonText>

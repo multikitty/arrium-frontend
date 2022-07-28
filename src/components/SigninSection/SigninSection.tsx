@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
-import { Link } from "@reach/router"
+import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { useForm } from "react-hook-form"
@@ -23,12 +22,26 @@ import {
 import emailAndPasswordOptions from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
-import { signIn } from "./SigninSection.mock"
+import { useMutation } from "react-query"
+import { signinUser } from "@/agent/signin"
+import {
+  ISigninUserResult,
+  ISigninUserVariables,
+} from "@/lib/interfaces/signin"
+import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const SigninSection = () => {
+  const params = useParams()
+  const { navigateToDefault, navigate } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
+  const { mutate } = useMutation<
+    ISigninUserResult,
+    Error,
+    ISigninUserVariables
+  >(signinUser)
 
   type formPropType = typeof emailAndPasswordOptions.defaultValues
   const {
@@ -38,20 +51,66 @@ const SigninSection = () => {
     formState: { errors },
   } = useForm<formPropType>(emailAndPasswordOptions)
 
-  const onSubmit = async (data: formPropType) => {
-    try {
-      const { href, ...response } = await signIn(data.email, data.password)
-      userStore.authenticateUser(response)
-      navigate(`/${href}`)
-    } catch (error) {
-      if (error instanceof Error) {
-        setError("email", new Error("Invalid email or password"))
-        return setError("password", new Error("Invalid email or password"), {
-          shouldFocus: true,
-        })
+  const onSubmit = (data: formPropType) => {
+    mutate(
+      { email: data.email, password: data.password },
+      {
+        onSuccess({ data, success }) {
+          if (!success) {
+            setError("email", {
+              type: "invalid_credentials",
+              message: "Invalid email or password",
+            })
+            return setError(
+              "password",
+              {
+                type: "invalid_credentials",
+                message: "Invalid email or password",
+              },
+              {
+                shouldFocus: true,
+              }
+            )
+          }
+          if (!data) return
+          userStore.authenticateUser({
+            id: data.customerID,
+            firstName: data.firstname,
+            lastName: data.lastname,
+            country: "GB",
+            phoneNumber: data.phoneNumber,
+            isPhoneVerified: data.phoneVerified,
+            email: data.email,
+            isEmailVerified: data.emailVerified,
+            role: data.role,
+            plan: data.role === "admin" ? undefined : "basic",
+            tzName: data.tzName,
+            amznFlexUser: data.amznFlexUser,
+            refCode: data.refCode,
+            currentSteps: data.currentSteps,
+          })
+          navigateToDefault(data.role)
+        },
+        onError(error) {
+          console.log(error)
+          setError("email", new Error("Invalid email or password"))
+          setError("password", new Error("Invalid email or password"), {
+            shouldFocus: true,
+          })
+        },
       }
-      console.error(error)
-    }
+    )
+    // const { href, ...response } = await signIn(data.email, data.password)
+    // userStore.authenticateUser(response)
+    // navigate(`/${href}`)
+  }
+
+  const handleNavigateToSignUp = () => {
+    navigate(routes.signup)
+  }
+
+  const handleNavigateToForgotPassword = () => {
+    navigate(routes.forgotPassword)
   }
 
   return isWebView ? (
@@ -60,6 +119,7 @@ const SigninSection = () => {
         <StyledLoginText>Login to your account</StyledLoginText>
       </Box>
       <StyledInputField
+        error={!!errors.email}
         placeholder="Enter Email Address"
         variant="outlined"
         {...register("email")}
@@ -70,6 +130,7 @@ const SigninSection = () => {
         </StyledWarningText>
       )}
       <StyledInputField
+        error={!!errors.password}
         placeholder="Enter Password"
         type={isVisible ? "text" : "password"}
         variant="outlined"
@@ -99,14 +160,16 @@ const SigninSection = () => {
           </StyledRemeberMeText>
         </Box>
         <StyledForgotPassword>
-          <Link to="/forgotPassword">Forgot Password?</Link>
+          <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
+            Forgot Password?
+          </StyledSignUpButton>
         </StyledForgotPassword>
       </Box>
       <StyledButton
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
         type="submit"
       >
         <StyledButtonText>Log In</StyledButtonText>
@@ -115,7 +178,10 @@ const SigninSection = () => {
         <StyledSignUpText>
           Don't have an account yet?
           <StyledSignUpButton>
-            <Link to="/signup"> Sign Up</Link>
+            <StyledSignUpButton onClick={handleNavigateToSignUp}>
+              {" "}
+              Sign Up
+            </StyledSignUpButton>
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
@@ -135,6 +201,7 @@ const SigninSection = () => {
           <StyledLoginText>Login to your account</StyledLoginText>
         </Box>
         <StyledInputField
+          error={!!errors.email}
           placeholder="Enter Email Address"
           variant="outlined"
           {...register("email")}
@@ -145,6 +212,7 @@ const SigninSection = () => {
           </StyledWarningText>
         )}
         <StyledInputField
+          error={!!errors.password}
           placeholder="Enter Password"
           type={isVisible ? "text" : "password"}
           variant="outlined"
@@ -174,14 +242,16 @@ const SigninSection = () => {
             </StyledRemeberMeText>
           </Box>
           <StyledForgotPassword>
-            <Link to="/forgotPassword">Forgot Password?</Link>
+            <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
+              Forgot Password?
+            </StyledSignUpButton>
           </StyledForgotPassword>
         </Box>
         <StyledButton
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
           type="submit"
         >
           <StyledButtonText>Log In</StyledButtonText>
@@ -194,7 +264,10 @@ const SigninSection = () => {
         >
           <StyledSignUpText>Don't have an account yet?</StyledSignUpText>
           <StyledSignUpButton>
-            <Link to="/signup"> Sign Up</Link>
+            <StyledSignUpButton onClick={handleNavigateToSignUp}>
+              {" "}
+              Sign Up
+            </StyledSignUpButton>
           </StyledSignUpButton>
         </Box>
       </Box>

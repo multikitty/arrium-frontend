@@ -1,11 +1,10 @@
 import React from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, IconButton } from "@mui/material"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
 
-import { useStore } from "@/store"
 import theme from "@/theme"
 import SaveChangesModal from "@/components/SaveChangesModal"
 import {
@@ -22,11 +21,12 @@ import ReferralTab from "./ReferralTab"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
-// import Message from "@/components/Message"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const CustomerDetailPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { enqueueSnackbar } = useSnackbar()
-  const { messageStore } = useStore()
   const [tab, setTab] = React.useState("accountInformation")
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)

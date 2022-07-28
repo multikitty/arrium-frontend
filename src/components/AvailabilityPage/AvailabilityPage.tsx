@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import {
   Box,
   FormControlLabel,
@@ -62,6 +62,7 @@ import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
 import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -103,6 +104,8 @@ const tabStyles = {
 }
 
 const AvailabilityPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const { userStore } = useStore()
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)

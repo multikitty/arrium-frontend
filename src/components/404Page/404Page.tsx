@@ -1,4 +1,7 @@
 import React from "react"
+import { useParams } from "@reach/router"
+import { useMediaQuery } from "@mui/material"
+
 import LandingNavbar from "../LandingNavbar"
 import {
   Styled404Page,
@@ -12,13 +15,14 @@ import {
 import _404LaptopImage from "@/assets/images/404_laptop.svg"
 import _404ArrowImage from "@/assets/images/404_sub-header_arrow.svg"
 import { ContainedButton } from "../commons/Button"
-import { navigate } from "gatsby"
-import { useMediaQuery } from "@mui/material"
 import { devices } from "@/constants/device"
 import { content } from "@/constants/content"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const _404Page = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
   return (

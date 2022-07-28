@@ -14,7 +14,7 @@ import {
 import { ContainedButton } from "@/components/commons/Button"
 import CountrySelect from "@/components/CountrySelect"
 import { CountryData } from "@/utils/getCountryData"
-import { useTimezonesByCountry } from "@/api/timezone"
+import { useTimezonesByCountry } from "@/agent/timezone"
 
 export interface IProps {
   open: boolean

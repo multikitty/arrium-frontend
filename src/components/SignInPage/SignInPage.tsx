@@ -1,5 +1,5 @@
 import React from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 
@@ -10,8 +10,11 @@ import {
 import SigninSection from "@/components/SigninSection"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const SignInPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const isWebView = useMediaQuery(devices.web.up)
 
   const handleNavigateToHome = () => {

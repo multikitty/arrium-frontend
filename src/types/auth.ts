@@ -1,4 +1,4 @@
-import { PlansType, UserRolesType } from "./common"
+import { PlansType, RegistrationStepsType, UserRolesType } from "./common"
 import { CountryData } from "@/utils/getCountryData"
 
 export type UserType = {
@@ -12,4 +12,8 @@ export type UserType = {
   isEmailVerified?: boolean
   role?: UserRolesType
   plan?: PlansType
+  tzName?: string
+  amznFlexUser?: string
+  refCode?: string
+  currentSteps?: RegistrationStepsType
 } | null

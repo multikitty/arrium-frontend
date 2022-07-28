@@ -1,5 +1,5 @@
 import * as React from "react"
-import { navigate } from "gatsby"
+import { useParams } from "@reach/router"
 import {
   Box,
   Chip,
@@ -33,6 +33,7 @@ import AddDropdown from "./AddDropdown"
 import { CustomerData, rows } from "./CustomersPage.data"
 import routes from "@/constants/routes"
 import { nanoid } from "nanoid"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const statusColorMap = {
   active: "#3DCC70",
@@ -43,6 +44,8 @@ const statusColorMap = {
 const CUSTOMER_ID = nanoid()
 
 const CustomersPage = () => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [filteredData, setFilteredData] = React.useState<CustomerData[]>([])
   const [addDropdownAnchorEl, setAddDropdownAnchorEl] =

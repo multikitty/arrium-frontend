@@ -1,6 +1,8 @@
 import React from "react"
+import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
+
 import { devices } from "@/constants/device"
 import EmailSvg from "@/assets/icons/signup_email.inline.svg"
 import {
@@ -13,11 +15,19 @@ import {
 } from "../commons/uiComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { Link } from "gatsby"
+
 import { FormProps } from "../SignUpPage/SignUpPage"
+import routes from "@/constants/routes"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
   const isWebView = useMediaQuery(devices.web.up)
+
+  const handleNavigateToSignIn = () => {
+    navigate(routes.signin)
+  }
 
   return isWebView ? (
     <StyledLoginContainer>
@@ -34,12 +44,10 @@ const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
         variant="contained"
         color="primary"
         disableElevation
-        margintop={rem("56px")}
+        $marginTop={rem("56px")}
       >
-        <StyledSignUpButton>
-          <Link to="/signin">
-            <StyledButtonText>OK</StyledButtonText>
-          </Link>
+        <StyledSignUpButton onClick={handleNavigateToSignIn}>
+          <StyledButtonText>OK</StyledButtonText>
         </StyledSignUpButton>
       </StyledButton>
     </StyledLoginContainer>
@@ -65,12 +73,10 @@ const HoldingPage: React.FC<FormProps> = ({ stage, step }) => {
           variant="contained"
           color="primary"
           disableElevation
-          margintop={rem("56px")}
+          $marginTop={rem("56px")}
         >
-          <StyledSignUpButton>
-            <Link to="/signin">
-              <StyledButtonText>OK</StyledButtonText>
-            </Link>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            <StyledButtonText>OK</StyledButtonText>
           </StyledSignUpButton>
         </StyledButton>
       </Box>
