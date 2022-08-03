@@ -1,18 +1,31 @@
 import * as React from "react"
-import { useParams } from "@reach/router"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
-import { useStore } from "@/store"
+import LandingPage from "@/components/LandingPage"
+import SelectCountryModal from "@/components/SelectCountryModal"
+import { navigate } from "gatsby-link"
+import { localStorageUtils } from "@/utils"
 
 const IndexPage = () => {
-  const { userStore } = useStore()
-  const params = useParams()
-  const { navigateToDefault } = useNavigate(params as ParamType)
+  const [selectCountryModalOpen, setSelectCountryModalOpen] =
+    React.useState(true)
 
-  React.useEffect(() => {
-    navigateToDefault(userStore.currentUser?.role)
-  }, [])
+  const handleSelectCountryModalSave = (country: string) => {
+    localStorageUtils.setLocalStorage("country", country)
+    navigate(`/${country}/en`)
+  }
+  const handleSelectCountryModalClose = () => {
+    setSelectCountryModalOpen(false)
+  }
 
-  return <React.Fragment></React.Fragment>
+  return (
+    <React.Fragment>
+      <SelectCountryModal
+        open={selectCountryModalOpen}
+        handleClose={handleSelectCountryModalClose}
+        handleSave={handleSelectCountryModalSave}
+      />
+      <LandingPage />
+    </React.Fragment>
+  )
 }
 
 export default IndexPage

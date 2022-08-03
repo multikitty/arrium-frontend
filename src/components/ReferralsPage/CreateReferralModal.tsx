@@ -93,7 +93,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
               <Autocomplete
                 fullWidth
                 value={assignTo}
-                onChange={(_, newVal) => setAssignTo(newVal)}
+                onChange={(_, newVal) => setAssignTo(newVal || "")}
                 options={[userStore.userFullName]}
                 renderInput={params => (
                   <TextField

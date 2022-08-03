@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField"
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
 import CircularProgress from "@mui/material/CircularProgress"
 import getCountryData, { CountryData } from "@/utils/getCountryData"
+import { Box } from "@mui/material"
 
 // function sleep(delay = 0) {
 //   return new Promise(resolve => {
@@ -18,6 +19,8 @@ interface IProps
     | ((country: CountryData | null) => void)
   required?: boolean
   label?: string
+  autoFocus?: boolean
+  filterCountries?: string[]
 }
 
 const CountrySelect: React.FC<IProps> = ({
@@ -25,6 +28,8 @@ const CountrySelect: React.FC<IProps> = ({
   setCountry,
   required,
   label = "Select Country",
+  autoFocus,
+  filterCountries,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false)
@@ -71,15 +76,38 @@ const CountrySelect: React.FC<IProps> = ({
         option.countryShortName === value.countryShortName
       }
       getOptionLabel={option => option.countryName}
-      options={options}
+      options={
+        !!filterCountries
+          ? options.filter(opt =>
+              filterCountries.includes(opt.countryShortName.toLowerCase())
+            )
+          : options
+      }
       loading={loading}
       value={country}
       onChange={(_: any, newValue: CountryData | null) => {
         setCountry(newValue)
       }}
+      renderOption={(props, option) => (
+        <Box
+          component="li"
+          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+          {...props}
+        >
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/${option.countryShortName.toLowerCase()}.png`}
+            srcSet={`https://flagcdn.com/w40/${option.countryShortName.toLowerCase()}.png 2x`}
+            alt=""
+          />
+          {option.countryName} ({option.countryShortName})
+        </Box>
+      )}
       renderInput={params => (
         <TextField
           {...params}
+          autoFocus={!!autoFocus}
           required={Boolean(required)}
           label={label}
           InputProps={{

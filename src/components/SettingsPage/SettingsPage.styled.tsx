@@ -131,6 +131,7 @@ export const StyledAddCountryModalCloseIconContainer = styled.div`
 
 export const StyledAddCountryModalTitle = styled.h3<{
   deleteConfirmation?: boolean
+  selectCountry?: boolean
 }>`
   font-family: Inter;
   font-style: normal;
@@ -138,6 +139,7 @@ export const StyledAddCountryModalTitle = styled.h3<{
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
   margin-bottom: ${p => (p.deleteConfirmation ? rem("40px") : rem("16px"))};
+  margin-top: ${p => (p.selectCountry ? rem("24px") : 0)};
   text-align: center;
 
   color: ${p => p.theme.palette.blackText};

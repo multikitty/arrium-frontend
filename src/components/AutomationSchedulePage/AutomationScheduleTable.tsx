@@ -143,7 +143,6 @@ const AutomationScheduleTable = () => {
               {/* // * Switch Column */}
               <TableCell
                 sx={tableHeaderBlackTextStyles}
-                component="th"
                 scope="row"
                 size="small"
               >
