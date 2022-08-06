@@ -27,8 +27,7 @@ export const scheduleDataInitialValues: AutomationScheduleType["data"] = [
   { active: false, day: "Sun", startTime: null, endTime: null },
 ]
 
-interface TimePickerProps
-  extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
+interface TimePickerProps extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
   fullWidth?: boolean
 }
 

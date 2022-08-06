@@ -111,11 +111,13 @@ export const StyledModelsTab = styled(StyledAccountInformationTab)``
 
 export const StyledStationTypesTab = styled(StyledAccountInformationTab)``
 
-export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })`
+export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })<{
+  countryNotListed?: boolean
+}>`
   border-radius: ${rem("20px")};
   padding: ${rem("16px")};
   width: 100%;
-  max-width: ${rem("420px")};
+  max-width: ${p => (p.countryNotListed ? rem("720px") : rem("420px"))};
   position: absolute;
   top: 50%;
   left: 50%;

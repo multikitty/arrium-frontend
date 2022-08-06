@@ -69,3 +69,5 @@ export const registrationSteps = {
   amazon_flex: "amazon_flex",
   finished: "finished",
 }
+
+export const countriesToSelectList = ["gb", "es", "de", "us"]
