@@ -3,6 +3,7 @@ import { useParams } from "@reach/router"
 import {
   Box,
   Chip,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -34,6 +35,7 @@ import { CustomerData, rows } from "./CustomersPage.data"
 import routes from "@/constants/routes"
 import { nanoid } from "nanoid"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import { useCustomersList } from "@/agent/customers"
 
 const statusColorMap = {
   active: "#3DCC70",
@@ -46,8 +48,8 @@ const CUSTOMER_ID = nanoid()
 const CustomersPage = () => {
   const params = useParams()
   const { navigate } = useNavigate(params as ParamType)
+  const { data: customersData, isLoading } = useCustomersList({})
   const [searchQuery, setSearchQuery] = React.useState("")
-  const [filteredData, setFilteredData] = React.useState<CustomerData[]>([])
   const [addDropdownAnchorEl, setAddDropdownAnchorEl] =
     React.useState<null | HTMLElement>(null)
   const isAddDropdownOpen = Boolean(addDropdownAnchorEl)
@@ -59,16 +61,6 @@ const CustomersPage = () => {
   const handleAddDropdownClose = () => {
     setAddDropdownAnchorEl(null)
   }
-
-  React.useEffect(() => {
-    setFilteredData(
-      rows.filter(
-        r =>
-          r.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          r.surName.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    )
-  }, [searchQuery])
 
   return (
     <StyledCustomersPage>
@@ -201,107 +193,126 @@ const CustomersPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredData.map(row => (
-                <TableRow
-                  hover
-                  key={row.emailAddress}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    cursor: "pointer",
-                  }}
-                  onClick={() => navigate(routes.customersDetail(CUSTOMER_ID))}
-                >
-                  <TableCell
+              {isLoading ||
+                customersData?.data?.Items?.map(row => (
+                  <TableRow
+                    hover
+                    key={row.pkEmail}
                     sx={{
-                      fontFamily: "Inter",
-                      fontWeight: 600,
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                      paddingLeft: rem("32px"),
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      cursor: "pointer",
                     }}
+                    onClick={() =>
+                      navigate(routes.customersDetail(CUSTOMER_ID))
+                    }
                   >
-                    {row.firstName}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: 600,
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                    }}
-                    align="left"
-                  >
-                    {row.surName}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                    }}
-                    align="left"
-                  >
-                    {row.emailAddress}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                      textTransform: "capitalize",
-                    }}
-                    align="left"
-                  >
-                    {row.country}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                    }}
-                    align="left"
-                  >
-                    {row.region}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontFamily: "Inter",
-                      fontWeight: "normal",
-                      fontSize: rem("16px"),
-                      lineHeight: rem("20px"),
-                      color: theme.palette.blackText,
-                    }}
-                    align="left"
-                  >
-                    <Chip
-                      label={capitalCase(row.status)}
+                    <TableCell
                       sx={{
-                        backgroundColor: statusColorMap[row.status],
                         fontFamily: "Inter",
-                        fontStyle: "normal",
                         fontWeight: 600,
-                        fontSize: rem("14px"),
+                        fontSize: rem("16px"),
                         lineHeight: rem("20px"),
-                        color: theme.palette.common.white,
-                        padding: `${rem("4px")} ${rem("16px")}`,
-                        borderRadius: rem("16px"),
+                        color: theme.palette.blackText,
+                        paddingLeft: rem("32px"),
                       }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+                    >
+                      {row.firstname}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: 600,
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.lastname}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {row.pkEmail}
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                        textTransform: "capitalize",
+                      }}
+                      align="left"
+                    >
+                      {/* {row.country} */}
+                      Great Britain
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      {/* {row.region} */}
+                      Knowsley
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: "Inter",
+                        fontWeight: "normal",
+                        fontSize: rem("16px"),
+                        lineHeight: rem("20px"),
+                        color: theme.palette.blackText,
+                      }}
+                      align="left"
+                    >
+                      <Chip
+                        label={capitalCase(row.accountStatus)}
+                        sx={{
+                          backgroundColor:
+                            statusColorMap[
+                              row.accountStatus as keyof typeof statusColorMap
+                            ],
+                          fontFamily: "Inter",
+                          fontStyle: "normal",
+                          fontWeight: 600,
+                          fontSize: rem("14px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.common.white,
+                          padding: `${rem("4px")} ${rem("16px")}`,
+                          borderRadius: rem("16px"),
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
+        {isLoading && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            my={6}
+            width="100%"
+          >
+            <CircularProgress size={32} />
+          </Box>
+        )}
       </StyledCustomersPageContent>
     </StyledCustomersPage>
   )
