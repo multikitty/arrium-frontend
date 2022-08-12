@@ -30,6 +30,7 @@ import {
 } from "@/lib/interfaces/signin"
 import routes from "@/constants/routes"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import { setLocalStorage } from "@/utils/localStorage"
 
 const SigninSection = () => {
   const params = useParams()
@@ -89,6 +90,7 @@ const SigninSection = () => {
             refCode: data.refCode,
             currentSteps: data.currentSteps,
           })
+          setLocalStorage("token", data.token)
           navigateToDefault(data.role)
         },
         onError(error) {
