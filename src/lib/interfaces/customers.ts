@@ -1,5 +1,3 @@
-import { RegistrationStepsType, UserRolesType } from "@/types/common"
-
 export interface ICustomersListVariables {
   nextPage?: boolean
   sk?: string

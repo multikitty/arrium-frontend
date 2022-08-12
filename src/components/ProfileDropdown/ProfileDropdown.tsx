@@ -22,6 +22,7 @@ import { useStore } from "@/store"
 import { UserRoles } from "@/constants/common"
 import routes from "@/constants/routes"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import { useCurrentUser } from "@/agent/user"
 
 const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   handleClose,
@@ -31,27 +32,18 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
   const params = useParams()
   const { navigate } = useNavigate(params as ParamType)
   const { userStore } = useStore()
-  const [isEmailVerified, setIsEmailVerified] = useState(
-    userStore.currentUser?.isEmailVerified ?? false
-  )
-  const [isPhoneVerified, setIsPhoneVerified] = useState(
-    userStore.currentUser?.isPhoneVerified ?? false
-  )
+  const { data: currentUserData } = useCurrentUser()
 
   const handleEmailVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    userStore.verifyEmail()
-    setIsEmailVerified(true)
   }
 
   const handlePhoneVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
     e.stopPropagation()
-    userStore.verifyPhone()
-    setIsPhoneVerified(true)
   }
 
   const handleSettingsButtonClick:
@@ -108,7 +100,8 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
     >
       <StyledProfileDropdownUpperSection>
         <StyledProfileDropdownUpperSectionUsername>
-          {userStore.userFullName}
+          {currentUserData?.data?.firstname || ""}{" "}
+          {currentUserData?.data?.lastname || ""}
         </StyledProfileDropdownUpperSectionUsername>
         <StyledProfileDropdownUpperSectionVerificationContainer>
           <Box display="flex" alignItems="center" mr={1}>
@@ -116,15 +109,15 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: isEmailVerified ? 1 : 0.4,
+                opacity: currentUserData?.data?.emailVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            {userStore.currentUser?.email}
+            {currentUserData?.data?.email || ""}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {isEmailVerified || (
+          {currentUserData?.data?.emailVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handleEmailVerificationClick}
             >
@@ -138,15 +131,15 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               sx={{
                 color: theme.palette.common.green,
                 fontSize: 24,
-                opacity: isPhoneVerified ? 1 : 0.4,
+                opacity: currentUserData?.data?.phoneVerified ? 1 : 0.4,
               }}
             />
           </Box>
           <StyledProfileDropdownUpperSectionVerificationText>
-            {userStore.currentUser?.phoneNumber}
+            {currentUserData?.data?.phoneNumber || ""}
           </StyledProfileDropdownUpperSectionVerificationText>
           <StyledFlexGrow />
-          {isPhoneVerified || (
+          {currentUserData?.data?.phoneVerified || (
             <StyledProfileDropdownUpperSectionVerificationButton
               onClick={handlePhoneVerificationClick}
             >

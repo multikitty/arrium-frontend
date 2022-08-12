@@ -11,7 +11,9 @@ export default function createInstance(baseURL = "http://localhost:8080/api") {
   })
 }
 
-const arriumAPI = createInstance(process.env.GATSBY_ARRIUM_PROD_URL)
+const arriumAPI = createInstance(
+  process.env.GATSBY_ARRIUM_PROD_URL || "https://api.arrium.io/v1/"
+)
 
 arriumAPI.interceptors.request.use(config => {
   const token = store.userStore.userToken || ""

@@ -20,10 +20,7 @@ const emailSchema = Yup.object().shape({
 const passwordSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
-    .min(8, "minimum 8 characters")
-    .matches(/[a-z]/, "1 lowercase")
-    .matches(/[A-Z]/, "1 uppercase")
-    .matches(/\d/, "1 number"),
+    .min(8, "minimum 8 characters"),
 })
 
 export const emailAndPasswordOptions = {

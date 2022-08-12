@@ -9,10 +9,7 @@ import {
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { localStorageUtils } from "@/utils"
-import getCountryData, {
-  CountryData,
-  getFilteredCountries,
-} from "@/utils/getCountryData"
+import { getFilteredCountries } from "@/utils/getCountryData"
 import { countriesToSelectList } from "@/constants/common"
 import { StyledAccountInformatiomTabContentField } from "../AddCustomerPage/AddCustomerPage.styled"
 
@@ -39,7 +36,7 @@ const SelectCountryModal = (props: IProps) => {
   const renderCountryOptions = () =>
     getFilteredCountries(countriesToSelectList).map(country => (
       <MenuItem key={country.countryShortName} value={country.countryShortName}>
-        <Box component="li" sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
+        <Box component="span" sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
           <img
             loading="lazy"
             width="20"

@@ -43,7 +43,9 @@ class UserStore {
 
   get userInitials() {
     if (this.currentUser)
-      return `${this.currentUser.firstName[0]}${this.currentUser.lastName[0]}`
+      return `${this.currentUser.firstName?.[0] || ""}${
+        this.currentUser.lastName?.[0] || ""
+      }`
     return ""
   }
 
@@ -94,6 +96,7 @@ class UserStore {
 
   logout = () => {
     if (!isBrowser()) return
+    removeLocalStorage("token")
     removeLocalStorage("user")
     runInAction(() => {
       this.user = null
