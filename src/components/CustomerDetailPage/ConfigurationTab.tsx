@@ -8,6 +8,7 @@ import {
   Select,
 } from "@mui/material"
 import {
+  StyledAccountInformationTabFormHelperText,
   StyledConfigurationTab,
   StyledConfigurationTabForm,
   StyledConfigurationTabFormActions,
@@ -21,6 +22,9 @@ import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { ITabProps } from "./AccountInformationTab"
 import { Plans } from "@/constants/common"
+import customerConfigOptions from "@/validation/customerConfig"
+import { Controller, useForm } from "react-hook-form"
+import { StyledPlaceholder } from "../commons/uiComponents"
 
 const ConfigurationTab = (props: ITabProps) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
@@ -29,49 +33,120 @@ const ConfigurationTab = (props: ITabProps) => {
     setIsPasswordHidden(p => !p)
   }
 
+  type formPropType = typeof customerConfigOptions.defaultValues
+
+  const { handleSubmit, control, formState, getValues, setValue, reset } =
+    useForm<formPropType>(customerConfigOptions)
+
+  const onSubmit = (data: formPropType) => {
+    console.log("Config Info form data", data)
+    reset()
+  }
+
   return (
     <StyledConfigurationTab>
-      <StyledConfigurationTabForm>
+      <StyledConfigurationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2} sx={{ p: rem("8px") }}>
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Amazon Flex Username
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField placeholder="Username here" />
+              <Controller
+                name={"amznFlexUser"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Username here"
+                  />
+                )}
+              />
+              {!!formState.errors?.amznFlexUser && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.amznFlexUser?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Device Model
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="iPhone12"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="iPhone12">iPhone 12 Pro</MenuItem>
-                <MenuItem value="iPhone13">iPhone 13 Pro</MenuItem>
-              </Select>
+              <Controller
+                name={"devModel"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose Device Model</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="iphone 12 pro">iPhone 12 Pro</MenuItem>
+                    <MenuItem value="iphone 12 pro">iPhone 13 Pro</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.devModel && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.devModel?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Device ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="HJ9845632" />
+              <Controller
+                name={"devID"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+              {!!formState.errors?.devID && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.devID?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 OS version
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="iOS 12.4"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="iOS 12.4">iOS 12.4</MenuItem>
-                <MenuItem value="iOS 12.8">iOS 12.8</MenuItem>
-                <MenuItem value="iOS 13.0">iOS 13.0</MenuItem>
-                <MenuItem value="iOS 14.8">iOS 14.8</MenuItem>
-                <MenuItem value="iOS 15">iOS 15</MenuItem>
-              </Select>
+              <Controller
+                name={"osVersion"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose OS version</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="12.4">12.4</MenuItem>
+                    <MenuItem value="12.8">12.8</MenuItem>
+                    <MenuItem value="13.0">13.0</MenuItem>
+                    <MenuItem value="14.8">14.8</MenuItem>
+                    <MenuItem value="15">15</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.osVersion && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.osVersion?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -102,11 +177,11 @@ const ConfigurationTab = (props: ITabProps) => {
                 Device type
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="smartphone"
+                defaultValue="Smartphone"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem value="smartphone">Smartphone</MenuItem>
-                <MenuItem value="tablet">Tablet</MenuItem>
+                <MenuItem value="Smartphone">Smartphone</MenuItem>
+                <MenuItem value="Tablet">Tablet</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
@@ -145,6 +220,8 @@ const ConfigurationTab = (props: ITabProps) => {
                 <MenuItem disabled value="none">
                   Choose region here
                 </MenuItem>
+                <MenuItem value="us-east-1">us-east-1</MenuItem>
+                <MenuItem value="us-west-1">us-west-1</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
@@ -158,6 +235,8 @@ const ConfigurationTab = (props: ITabProps) => {
                 <MenuItem disabled value="none">
                   Choose region here
                 </MenuItem>
+                <MenuItem value="us-east-1">us-east-1</MenuItem>
+                <MenuItem value="us-west-1">us-west-1</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
@@ -198,10 +277,10 @@ const ConfigurationTab = (props: ITabProps) => {
                 Country
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="Great Britain"
+                defaultValue="UK"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem value="Great Britain">Great Britain</MenuItem>
+                <MenuItem value="UK">Great Britain</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
@@ -215,9 +294,7 @@ const ConfigurationTab = (props: ITabProps) => {
                 defaultValue="London"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="London">
-                  London
-                </MenuItem>
+                <MenuItem value="London">London</MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
@@ -229,13 +306,13 @@ const ConfigurationTab = (props: ITabProps) => {
                 Plan Name
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue={capitalize(Plans.basic)}
+                defaultValue={Plans.basic}
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem value={capitalize(Plans.basic)}>
+                <MenuItem value={Plans.basic}>
                   {capitalize(Plans.basic)}
                 </MenuItem>
-                <MenuItem value={capitalize(Plans.premium)}>
+                <MenuItem value={Plans.premium}>
                   {capitalize(Plans.premium)}
                 </MenuItem>
               </Select>
@@ -248,11 +325,11 @@ const ConfigurationTab = (props: ITabProps) => {
                 Block type
               </StyledConfigurationTabFormLabel>
               <Select
-                defaultValue="logistics"
+                defaultValue="Logistic"
                 input={<StyledConfigurationTabFormField />}
               >
-                <MenuItem disabled value="logistics">
-                  Logistics
+                <MenuItem disabled value="Logistic">
+                  Logistic
                 </MenuItem>
               </Select>
             </StyledConfigurationTabFormItem>

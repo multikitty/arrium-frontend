@@ -26,6 +26,18 @@ arriumAPI.interceptors.request.use(config => {
   return config
 })
 
+arriumAPI.interceptors.response.use(
+  res => res,
+  err => {
+    if (
+      err.response.status === 500 &&
+      err.response.data.message === "Failed to authenticate token"
+    ) {
+      store.userStore.logout()
+    }
+  }
+)
+
 export const listTimezoneAPI = createInstance(
   `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json`
 )

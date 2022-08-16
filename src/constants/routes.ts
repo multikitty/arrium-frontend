@@ -6,8 +6,8 @@ const routes = {
   availability: "/availability",
   customers: "/customers",
   customersAdd: "/customers/add",
-  customersDetail(id: string) {
-    return "/customers/detail/" + id
+  customersDetail(pk: string, sk: string) {
+    return `/customers/detail/${pk}/${sk}`
   },
   dashboard: "/dashboard",
   faq: "/faq",

@@ -36,6 +36,7 @@ import {
 import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
 import { LabelledUserRoles } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -71,7 +72,21 @@ export interface ITabProps {
   handleCancel: () => void
 }
 
-const AccountInformationTab = (props: ITabProps) => {
+interface IAccountInformationTabProps extends ITabProps {
+  customerID: string
+  dialCode: string
+  phoneNumber: string
+  tzName: string
+  startDate: number
+  firstname: string
+  email: string
+  lastname: string
+  role: string
+  emailVerified: boolean
+  accountStatus: string
+}
+
+const AccountInformationTab = (props: IAccountInformationTabProps) => {
   const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
@@ -94,7 +109,7 @@ const AccountInformationTab = (props: ITabProps) => {
 
   type formPropType = typeof accountInformationOptions.defaultValues
 
-  const { handleSubmit, control, formState, reset, getValues, setValue } =
+  const { handleSubmit, control, formState, getValues, setValue, reset } =
     useForm<formPropType>(accountInformationOptions)
 
   const onSubmit = (data: formPropType) => {
@@ -108,6 +123,20 @@ const AccountInformationTab = (props: ITabProps) => {
     messageStore.setOpen = true
   }
 
+  React.useEffect(() => {
+    reset({
+      phoneNumber: props.dialCode + props.phoneNumber,
+      timezone: props.tzName,
+      startDate: new Date(props.startDate * 1000).toLocaleDateString(),
+      firstName: props.firstname,
+      email: props.email,
+      role: props.role as UserRolesType,
+      surName: props.lastname,
+      isEmailVerified: props.emailVerified,
+      status: props.accountStatus,
+    })
+  }, [props])
+
   return (
     <StyledAccountInformationTab>
       <StyledAccountInformationTabForm onSubmit={handleSubmit(onSubmit)}>
@@ -119,7 +148,11 @@ const AccountInformationTab = (props: ITabProps) => {
                 <StyledAccountInformationTabFormLabel>
                   Customer ID
                 </StyledAccountInformationTabFormLabel>
-                <StyledAccountInformatiomTabContentField readOnly disabled />
+                <StyledAccountInformatiomTabContentField
+                  value={props.customerID}
+                  readOnly
+                  disabled
+                />
               </Box>
               {/* Phone Number Field */}
               <Box mb={rem("24px")}>
@@ -433,19 +466,21 @@ const AccountInformationTab = (props: ITabProps) => {
                   </StyledAccountInformationTabFormHelperText>
                 )}
               </Box>
-              {/* Send password change request checkbox */}
-              <Box mt={rem("24px")}>
-                <Controller
-                  control={control}
-                  name="sendPasswordChangeRequest"
-                  render={({ field: { value, onChange } }) => (
-                    <FormControlLabel
-                      control={<Checkbox checked={value} onChange={onChange} />}
-                      label="Send Password Change Request"
-                    />
-                  )}
-                />
-              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Send password change request checkbox */}
+            <Box>
+              <Controller
+                control={control}
+                name="sendPasswordChangeRequest"
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={<Checkbox checked={value} onChange={onChange} />}
+                    label="Send Password Change Request"
+                  />
+                )}
+              />
             </Box>
           </Grid>
         </Grid>

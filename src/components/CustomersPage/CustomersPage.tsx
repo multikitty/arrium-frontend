@@ -203,7 +203,12 @@ const CustomersPage = () => {
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      navigate(routes.customersDetail(CUSTOMER_ID))
+                      navigate(
+                        routes.customersDetail(
+                          row.pk,
+                          row.sk.replace("#", "%23")
+                        )
+                      )
                     }
                   >
                     <TableCell

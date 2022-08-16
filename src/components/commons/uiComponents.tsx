@@ -247,3 +247,7 @@ export const StyledTab = muiStyled((props: StyledTabProps) => (
     backgroundColor: "#d1eaff",
   },
 }))
+
+export const StyledPlaceholder = styled.span`
+  color: ${p => p.theme.palette.grey6};
+`

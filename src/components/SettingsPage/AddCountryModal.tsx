@@ -7,12 +7,16 @@ import {
   StyledAddCountryModalForm,
   StyledAddCountryModalFormActions,
   StyledAddCountryModalFormField,
-  StyledAddCountryModalFormHelperText,
+  // StyledAddCountryModalFormHelperText,
   StyledAddCountryModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { SettingsItem } from "./LocationsTab"
+import { CountryData } from "@/utils/getCountryData"
+import CountrySelect from "../CountrySelect"
+import TimezoneSelect, { ITimezone } from "react-timezone-select"
+import { makeStyles } from "@mui/styles"
 
 interface IProps {
   open: boolean
@@ -21,19 +25,35 @@ interface IProps {
   countries: SettingsItem[]
 }
 
+const useStyles = makeStyles({
+  timezoneStyles: {
+    "& > div": {
+      padding: "6px 0",
+      borderRadius: "10px !important",
+    },
+    "& > div > div > span": {
+      display: "none",
+    },
+  },
+})
+
 const AddCountryModal = (props: IProps) => {
-  const [country, setCountry] = useState("")
+  const classes = useStyles()
+  const [country, setCountry] = useState<CountryData | null>(null)
+  const [countryCode, setCountryCode] =
+    useState<CountryData["countryShortName"]>("")
+  const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  )
 
-  const handleCountryField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setCountry(e.target.value)
-
-  const handleSave = () => {
-    props.handleAdd(country)
-    props.handleClose()
+  const handleCountryField = (c: CountryData | null) => {
+    setCountry(c)
+    setCountryCode(c?.countryShortName || "")
   }
 
-  const countryError = !!props.countries.find(item => item.name === country)
+  const handleSave = () => {
+    props.handleClose()
+  }
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -45,24 +65,38 @@ const AddCountryModal = (props: IProps) => {
         </StyledAddCountryModalCloseIconContainer>
         <StyledAddCountryModalTitle>Add new Country</StyledAddCountryModalTitle>
         <StyledAddCountryModalForm>
-          <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledAddCountryModalFormField
+          <Box display="flex" flexDirection="column" mb={rem("24px")}>
+            <CountrySelect
               autoFocus
-              placeholder={`Country name`}
-              value={country}
-              onChange={handleCountryField}
-              error={countryError}
+              country={country}
+              setCountry={handleCountryField}
             />
-            {countryError && (
+            {/* {countryError && (
               <StyledAddCountryModalFormHelperText>
                 Country already exists
               </StyledAddCountryModalFormHelperText>
-            )}
+            )} */}
+          </Box>
+          <Box display="flex" flexDirection="column" mb={rem("24px")}>
+            <StyledAddCountryModalFormField
+              readOnly
+              disabled
+              value={countryCode}
+              placeholder="Country Code"
+            />
+          </Box>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <TimezoneSelect
+              placeholder="Choose timezone"
+              value={selectedTimezone}
+              className={classes.timezoneStyles}
+              onChange={setSelectedTimezone}
+            />
           </Box>
           <StyledAddCountryModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={!country || countryError}
+              disabled={!country}
               onClick={handleSave}
               type="submit"
             >

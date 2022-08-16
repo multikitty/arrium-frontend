@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton } from "@mui/material"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import { rem } from "polished"
@@ -21,18 +20,33 @@ import ReferralTab from "./ReferralTab"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { useCustomerAccountInfo } from "@/agent/customers"
+import { Params } from "@/lib/interfaces/route"
+import { tabs, TabType } from "../AddCustomerPage/AddCustomersPage.data"
 
-const CustomerDetailPage = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+export interface ICustomerDetailPageProps extends Params {
+  pk: string
+  sk: string
+}
+
+const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
+  pk,
+  sk,
+  ...params
+}) => {
+  const { navigate } = useNavigate(params)
   const { enqueueSnackbar } = useSnackbar()
-  const [tab, setTab] = React.useState("accountInformation")
+  const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)
+  const { data: customerData } = useCustomerAccountInfo({
+    pk: pk || "",
+    sk: sk,
+  })
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
-    setTab(newValue)
+    setTab(newValue as TabType)
   }
 
   const handleSaveChangesModalOpen = () => {
@@ -53,10 +67,10 @@ const CustomerDetailPage = () => {
     handleNavigateToCustomersPage()
   }
 
-  const isAccountInfoTabOpen = tab === "accountInformation"
-  const isBillingTabOpen = tab === "billing"
-  const isConfigurationTabOpen = tab === "configuration"
-  const isReferralTabOpen = tab === "referral"
+  const isAccountInfoTabOpen = tab === tabs.accountInformation
+  const isBillingTabOpen = tab === tabs.billing
+  const isConfigurationTabOpen = tab === tabs.configuration
+  const isReferralTabOpen = tab === tabs.referral
 
   return (
     <StyledCustomerDetailPage>
@@ -78,10 +92,10 @@ const CustomerDetailPage = () => {
           </IconButton>
           <Box display="flex" flexDirection="column">
             <StyledCustomerDetailPageHeader>
-              Coraline Jones
+              {customerData?.data?.firstname} {customerData?.data?.lastname}
             </StyledCustomerDetailPageHeader>
             <StyledCustomerDetailPageSubHeader>
-              coraline@gmail.com
+              {customerData?.data?.email}
             </StyledCustomerDetailPageSubHeader>
           </Box>
         </Box>
@@ -105,7 +119,7 @@ const CustomerDetailPage = () => {
                 textTransform: "capitalize",
               }}
               label="Account Information"
-              value="accountInformation"
+              value={tabs.accountInformation}
             />
             <StyledTab
               sx={{
@@ -113,7 +127,7 @@ const CustomerDetailPage = () => {
                 textTransform: "capitalize",
               }}
               label="Billing"
-              value="billing"
+              value={tabs.billing}
             />
             <StyledTab
               sx={{
@@ -121,7 +135,7 @@ const CustomerDetailPage = () => {
                 textTransform: "capitalize",
               }}
               label="Configuration"
-              value="configuration"
+              value={tabs.configuration}
             />
             <StyledTab
               sx={{
@@ -129,7 +143,7 @@ const CustomerDetailPage = () => {
                 textTransform: "capitalize",
               }}
               label="Referral"
-              value="referral"
+              value={tabs.referral}
             />
           </StyledTabs>
         </Box>
@@ -137,6 +151,17 @@ const CustomerDetailPage = () => {
           <AccountInformationTab
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
+            customerID={customerData?.data?.customerID || ""}
+            dialCode={customerData?.data?.dialCode || ""}
+            phoneNumber={customerData?.data?.phoneNumber || ""}
+            tzName={customerData?.data?.tzName || ""}
+            startDate={customerData?.data?.startDate || Date.now()}
+            firstname={customerData?.data?.firstname || ""}
+            email={customerData?.data?.email || ""}
+            lastname={customerData?.data?.lastname || ""}
+            role={customerData?.data?.role || ""}
+            emailVerified={customerData?.data?.emailVerified || false}
+            accountStatus={customerData?.data?.accountStatus || ""}
           />
         )}
         {isBillingTabOpen && <BillingTab />}

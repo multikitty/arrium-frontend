@@ -11,6 +11,8 @@ import { getCurrencySymbolByCountryCode } from "@/utils"
 import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 import countryToCurrency from "country-to-currency"
 import { noCase } from "change-case"
+import routes from "@/constants/routes"
+import { navigate } from "gatsby-link"
 
 class UserStore {
   user: UserType = null
@@ -101,6 +103,7 @@ class UserStore {
     runInAction(() => {
       this.user = null
     })
+    navigate(`${getLocalStorage("country") || "gb"}/en/${routes.signin}`)
   }
 }
 
