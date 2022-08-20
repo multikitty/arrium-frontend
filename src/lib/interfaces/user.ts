@@ -40,3 +40,17 @@ export interface IUpdateProfileResult {
   success: boolean
   validationError?: IUpdateProfileError
 }
+
+export interface IRequestEmailVerifyVariables {
+  email: string
+}
+
+export interface IRequestEmailVerifyError {
+  email: string
+}
+
+export interface IRequestEmailVerifyResult {
+  message: string
+  success: boolean
+  validationError?: IRequestEmailVerifyError
+}

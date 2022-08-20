@@ -1,5 +1,7 @@
 import {
   ICurrentUserResult,
+  IRequestEmailVerifyResult,
+  IRequestEmailVerifyVariables,
   IUpdateProfileResult,
   IUpdateProfileVariables,
 } from "@/lib/interfaces/user"
@@ -20,5 +22,14 @@ export const updateProfile: MutationFunction<
 > = async updateProfileData => {
   return await (
     await arriumAPI.post("/user/update-profile", updateProfileData)
+  ).data
+}
+
+export const requestEmailVerify: MutationFunction<
+  IRequestEmailVerifyResult,
+  IRequestEmailVerifyVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/user/request-verify-email", { email: params.email })
   ).data
 }

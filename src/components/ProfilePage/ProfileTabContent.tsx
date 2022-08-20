@@ -28,9 +28,11 @@ import { useStore } from "@/store"
 import { personalInformationOptions } from "@/validation"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
 import routes from "@/constants/routes"
-import { updateProfile, useCurrentUser } from "@/agent/user"
+import { requestEmailVerify, updateProfile, useCurrentUser } from "@/agent/user"
 import LoadingScreen from "../LoadingScreen"
 import {
+  IRequestEmailVerifyResult,
+  IRequestEmailVerifyVariables,
   IUpdateProfileResult,
   IUpdateProfileVariables,
 } from "@/lib/interfaces/user"
@@ -65,11 +67,16 @@ const ProfileTabContent = () => {
   const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { data: userData, isLoading, refetch } = useCurrentUser()
-  const { mutate } = useMutation<
+  const { mutate: updateProfileMutate } = useMutation<
     IUpdateProfileResult,
     Error,
     IUpdateProfileVariables
   >(updateProfile)
+  const { mutate: requestEmailVerifyMutate } = useMutation<
+    IRequestEmailVerifyResult,
+    Error,
+    IRequestEmailVerifyVariables
+  >(requestEmailVerify)
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
@@ -110,7 +117,7 @@ const ProfileTabContent = () => {
   }
 
   const updateProfileMutation = async (params: IUpdateProfileVariables) => {
-    await mutate(
+    await updateProfileMutate(
       { fieldName: params.fieldName, fieldValue: params.fieldValue },
       {
         onSuccess({ success, message, validationError }) {
@@ -163,11 +170,11 @@ const ProfileTabContent = () => {
     setIsEmailEditEnabled(true)
   }
   const handleEmailEditDisable = () => {
-    methods.setValue("email", userStore.currentUser?.email || "")
+    methods.setValue("email", userData?.data?.email || "")
     setIsEmailEditEnabled(false)
   }
   const handleEmailEditSave = () => {
-    handleEmailEditDisable()
+    setIsEmailEditEnabled(false)
   }
 
   const handlePhoneEditEnable = () => {
@@ -175,7 +182,7 @@ const ProfileTabContent = () => {
     setIsPhoneEditEnabled(true)
   }
   const handlePhoneEditDisable = () => {
-    methods.setValue("phoneNumber", userStore.currentUser?.phoneNumber || "")
+    methods.setValue("phoneNumber", userData?.data?.phoneNumber || "")
     setIsPhoneEditEnabled(false)
   }
   const handlePhoneNumberChange = () => {
@@ -189,18 +196,36 @@ const ProfileTabContent = () => {
   const handleUpdatePhoneNumberModalOpen = () =>
     setIsUpdatePhoneNumberModalOpen(true)
   const handleUpdatePhoneNumberModalClose = () => {
-    methods.setValue("phoneNumber", userStore.currentUser?.phoneNumber || "")
+    methods.setValue("phoneNumber", userData?.data?.phoneNumber || "")
     setIsUpdatePhoneNumberModalOpen(false)
     handlePhoneEditDisable()
   }
 
-  const handleEmailVerify = () => {
-    userStore.verifyEmail()
+  const handleEmailVerify = async () => {
+    await requestEmailVerifyMutate(
+      { email: getValues("email") },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(validationError?.email || message, {
+              variant: "error",
+            })
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetch()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
     handleEmailMenuClose()
   }
 
   const handlePhoneVerify = () => {
-    userStore.verifyPhone()
     handlePhoneMenuClose()
   }
 
