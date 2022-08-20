@@ -24,12 +24,20 @@ interface IProps {
 
 const AddRegionModal = (props: IProps) => {
   const [region, setRegion] = useState("")
+  const [regionCode, setRegionCode] = useState("")
+  const [regionID, setRegionID] = useState("")
 
   const handleRegionField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setRegion(e.target.value)
 
-  const regionError = !!props.regions.find(item => item.name === region)
+  const handleRegionCodeField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setRegionCode(e.target.value)
+
+  const handleRegionIDField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setRegionID(e.target.value)
 
   const countrySelectItemJSX = props.countries.map(country => (
     <MenuItem key={country.id} value={country.name}>
@@ -64,21 +72,38 @@ const AddRegionModal = (props: IProps) => {
               placeholder={`Region name`}
               value={region}
               onChange={handleRegionField}
-              error={regionError}
+              // error={regionError}
             />
-            {regionError && (
+            {/* {regionError && (
               <StyledAddRegionModalFormHelperText>
                 Region name already exists
               </StyledAddRegionModalFormHelperText>
-            )}
+            )} */}
+          </Box>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledAddRegionModalFormField
+              placeholder={`Region code`}
+              value={regionCode}
+              onChange={handleRegionCodeField}
+              // error={regionError}
+            />
+            {/* {regionError && (
+              <StyledAddRegionModalFormHelperText>
+                Region name already exists
+              </StyledAddRegionModalFormHelperText>
+            )} */}
           </Box>
           <Box display="flex" mb={rem("44px")}>
-            <StyledAddRegionModalFormField placeholder={`Region ID`} />
+            <StyledAddRegionModalFormField
+              value={regionID}
+              onChange={handleRegionIDField}
+              placeholder={`Region ID`}
+            />
           </Box>
           <StyledAddRegionModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={!region || regionError}
+              disabled={!region}
             >
               Save
             </ContainedButton>
