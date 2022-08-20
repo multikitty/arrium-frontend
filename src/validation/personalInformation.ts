@@ -21,12 +21,12 @@ export const personalInformationSchema = Yup.object().shape({
 const personalInformationOptions = {
   resolver: yupResolver(personalInformationSchema),
   defaultValues: {
-    name: "Eliza",
-    surName: "Doolittle",
-    email: "eliza.doolittle@gmail.com",
-    phoneNumber: "+44 020 123 4567",
+    name: "",
+    surName: "",
+    email: "",
+    phoneNumber: "",
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    password: "password",
+    password: "niceetry",
   },
 }
 

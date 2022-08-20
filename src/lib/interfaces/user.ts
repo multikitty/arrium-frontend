@@ -24,3 +24,19 @@ export interface ICurrentUserResult {
   success: boolean
   data?: ICurrentUserData
 }
+
+export interface IUpdateProfileVariables {
+  fieldName: "firstname" | "lastname" | "phoneNumber" | "tzName"
+  fieldValue: string
+}
+
+export interface IUpdateProfileError {
+  fieldName: string
+  fieldValue: string
+}
+
+export interface IUpdateProfileResult {
+  message: string
+  success: boolean
+  validationError?: IUpdateProfileError
+}

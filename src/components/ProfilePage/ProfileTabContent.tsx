@@ -28,6 +28,14 @@ import { useStore } from "@/store"
 import { personalInformationOptions } from "@/validation"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
 import routes from "@/constants/routes"
+import { updateProfile, useCurrentUser } from "@/agent/user"
+import LoadingScreen from "../LoadingScreen"
+import {
+  IUpdateProfileResult,
+  IUpdateProfileVariables,
+} from "@/lib/interfaces/user"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -54,7 +62,14 @@ const ProfileTabContent = () => {
   const classes = useStyles()
   const params = useParams()
   const { navigate, navigateToDefault } = useNavigate(params as ParamType)
+  const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
+  const { data: userData, isLoading, refetch } = useCurrentUser()
+  const { mutate } = useMutation<
+    IUpdateProfileResult,
+    Error,
+    IUpdateProfileVariables
+  >(updateProfile)
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
@@ -72,16 +87,7 @@ const ProfileTabContent = () => {
   type formPropType = typeof personalInformationOptions.defaultValues
 
   const { handleSubmit, control, formState, reset, getValues, ...methods } =
-    useForm<formPropType>({
-      defaultValues: {
-        email: userStore.currentUser?.email,
-        name: userStore.currentUser?.firstName,
-        surName: userStore.currentUser?.lastName,
-        phoneNumber: userStore.currentUser?.phoneNumber,
-        timezone: personalInformationOptions.defaultValues.timezone,
-      },
-      resolver: personalInformationOptions.resolver,
-    })
+    useForm<formPropType>(personalInformationOptions)
 
   const handleEmailMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     setEmailAnchorEl(event.currentTarget)
@@ -99,34 +105,57 @@ const ProfileTabContent = () => {
 
   const handleNameEditEnable = () => setIsNameEditEnabled(true)
   const handleNameEditDisable = () => {
-    methods.setValue("name", userStore.currentUser?.firstName || "")
+    methods.setValue("name", userData?.data?.firstname || "")
     setIsNameEditEnabled(false)
   }
-  const handleNameEditSave = () => {
-    handleNameEditDisable()
-    userStore.setUser = {
-      ...userStore.currentUser,
-      id: userStore.currentUser?.id || "",
-      firstName: getValues("name"),
-      lastName: userStore.currentUser?.lastName || "",
-      country: userStore.currentUser?.country || "",
-    }
+
+  const updateProfileMutation = async (params: IUpdateProfileVariables) => {
+    await mutate(
+      { fieldName: params.fieldName, fieldValue: params.fieldValue },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.fieldName ||
+                validationError?.fieldValue ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetch()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+  }
+
+  const handleNameEditSave = async () => {
+    await updateProfileMutation({
+      fieldName: "firstname",
+      fieldValue: getValues("name"),
+    })
+    setIsNameEditEnabled(false)
   }
 
   const handleSurNameEditEnable = () => setIsSurNameEditEnabled(true)
   const handleSurNameEditDisable = () => {
-    methods.setValue("surName", userStore.currentUser?.lastName || "")
+    methods.setValue("surName", userData?.data?.lastname || "")
     setIsSurNameEditEnabled(false)
   }
-  const handleSurNameEditSave = () => {
-    handleSurNameEditDisable()
-    userStore.setUser = {
-      ...userStore.currentUser,
-      id: userStore.currentUser?.id || "",
-      firstName: userStore.currentUser?.firstName || "",
-      lastName: getValues("surName"),
-      country: userStore.currentUser?.country || "",
-    }
+  const handleSurNameEditSave = async () => {
+    await updateProfileMutation({
+      fieldName: "lastname",
+      fieldValue: getValues("surName"),
+    })
+    setIsSurNameEditEnabled(false)
   }
 
   const handleEmailEditEnable = () => {
@@ -139,16 +168,6 @@ const ProfileTabContent = () => {
   }
   const handleEmailEditSave = () => {
     handleEmailEditDisable()
-    const newEmail = getValues("email")
-    userStore.setUser = {
-      ...userStore.currentUser,
-      id: userStore.currentUser?.id || "",
-      firstName: userStore.currentUser?.firstName || "",
-      lastName: userStore.currentUser?.lastName || "",
-      country: userStore.currentUser?.country || "",
-      email: newEmail,
-      isEmailVerified: newEmail === userStore.currentUser?.email,
-    }
   }
 
   const handlePhoneEditEnable = () => {
@@ -161,16 +180,6 @@ const ProfileTabContent = () => {
   }
   const handlePhoneNumberChange = () => {
     handlePhoneEditDisable()
-    const newPhone = getValues("phoneNumber")
-    userStore.setUser = {
-      ...userStore.currentUser,
-      id: userStore.currentUser?.id || "",
-      firstName: userStore.currentUser?.firstName || "",
-      lastName: userStore.currentUser?.lastName || "",
-      country: userStore.currentUser?.country || "",
-      phoneNumber: newPhone,
-      isPhoneVerified: true,
-    }
   }
 
   const handleChangePasswordModalOpen = () => setIsChangePasswordModalOpen(true)
@@ -217,6 +226,19 @@ const ProfileTabContent = () => {
     setIsCloseAccountModalOpen(false)
   }
 
+  React.useEffect(() => {
+    if (!userData?.data) return
+    reset({
+      email: userData.data.email,
+      name: userData.data.firstname,
+      surName: userData.data.lastname,
+      phoneNumber: userData.data.phoneNumber,
+      timezone: userData.data.tzName,
+    })
+  }, [userData])
+
+  if (isLoading) return <LoadingScreen />
+
   return (
     <StyledProfileTabContent>
       {isChangePasswordModalOpen && (
@@ -254,9 +276,9 @@ const ProfileTabContent = () => {
       >
         <MenuItem
           onClick={handleEmailVerify}
-          disabled={userStore.currentUser?.isEmailVerified}
+          disabled={userData?.data?.emailVerified}
         >
-          {userStore.currentUser?.isEmailVerified ? "Verified" : "Verify"}
+          {userData?.data?.emailVerified ? "Verified" : "Verify"}
         </MenuItem>
         <MenuItem onClick={handleEmailEditEnable}>Edit</MenuItem>
       </Menu>
@@ -273,9 +295,9 @@ const ProfileTabContent = () => {
       >
         <MenuItem
           onClick={handlePhoneVerify}
-          disabled={userStore.currentUser?.isPhoneVerified}
+          disabled={userData?.data?.phoneVerified}
         >
-          {userStore.currentUser?.isPhoneVerified ? "Verified" : "Verify"}
+          {userData?.data?.phoneVerified ? "Verified" : "Verify"}
         </MenuItem>
         <MenuItem onClick={handlePhoneEditEnable}>Edit</MenuItem>
       </Menu>
@@ -317,8 +339,7 @@ const ProfileTabContent = () => {
                             }}
                             onClick={handleNameEditSave}
                             disabled={
-                              getValues("name") ===
-                              userStore.currentUser?.firstName
+                              getValues("name") === userData?.data?.firstname
                             }
                           >
                             Save
@@ -376,8 +397,7 @@ const ProfileTabContent = () => {
                             }}
                             onClick={handleSurNameEditSave}
                             disabled={
-                              getValues("surName") ===
-                              userStore.currentUser?.lastName
+                              getValues("surName") === userData?.data?.lastname
                             }
                           >
                             Save
@@ -417,9 +437,7 @@ const ProfileTabContent = () => {
                       sx={{
                         color: theme.palette.common.green,
                         fontSize: 16,
-                        opacity: userStore.currentUser?.isEmailVerified
-                          ? 1
-                          : 0.4,
+                        opacity: userData?.data?.emailVerified ? 1 : 0.4,
                       }}
                     />
                   </Box>
@@ -457,8 +475,7 @@ const ProfileTabContent = () => {
                             }}
                             onClick={handleEmailEditSave}
                             disabled={
-                              getValues("email") ===
-                              userStore.currentUser?.email
+                              getValues("email") === userData?.data?.email
                             }
                           >
                             Save
@@ -498,9 +515,7 @@ const ProfileTabContent = () => {
                       sx={{
                         color: theme.palette.common.green,
                         fontSize: 16,
-                        opacity: userStore.currentUser?.isPhoneVerified
-                          ? 1
-                          : 0.4,
+                        opacity: userData?.data?.phoneVerified ? 1 : 0.4,
                       }}
                     />
                   </Box>
@@ -538,7 +553,7 @@ const ProfileTabContent = () => {
                             disabled={
                               removeAllWhiteSpaces(getValues("phoneNumber")) ===
                               removeAllWhiteSpaces(
-                                userStore.currentUser?.phoneNumber || ""
+                                userData?.data?.phoneNumber || ""
                               )
                             }
                           >
@@ -601,6 +616,7 @@ const ProfileTabContent = () => {
                     value={value}
                     error={!!formState.errors?.password}
                     autoComplete="new-password"
+                    placeholder="Password here"
                     endAdornment={
                       <div>
                         <OutlinedButton

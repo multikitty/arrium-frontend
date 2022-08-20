@@ -1,5 +1,9 @@
-import { ICurrentUserResult } from "@/lib/interfaces/user"
-import { useQuery } from "react-query"
+import {
+  ICurrentUserResult,
+  IUpdateProfileResult,
+  IUpdateProfileVariables,
+} from "@/lib/interfaces/user"
+import { useQuery, MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
 
 export function fetchCurrentUserData(): Promise<ICurrentUserResult> {
@@ -8,4 +12,13 @@ export function fetchCurrentUserData(): Promise<ICurrentUserResult> {
 
 export function useCurrentUser() {
   return useQuery("current-user-data", () => fetchCurrentUserData())
+}
+
+export const updateProfile: MutationFunction<
+  IUpdateProfileResult,
+  IUpdateProfileVariables
+> = async updateProfileData => {
+  return await (
+    await arriumAPI.post("/user/update-profile", updateProfileData)
+  ).data
 }

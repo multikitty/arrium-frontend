@@ -117,6 +117,7 @@ const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
                   color: pathname.includes("profile")
                     ? theme.palette.main
                     : theme.palette.grey6,
+                  cursor: "pointer",
                 }}
               />
             </StyledFullscreenMenuUpperContainerItem>
