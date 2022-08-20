@@ -53,7 +53,6 @@ const ReferralTab = (props: ITabProps) => {
               {isMdUp ? (
                 <DesktopDatePicker
                   inputFormat="dd/MM/yyyy"
-                  clearable
                   value={dateGenerated}
                   onChange={val => setDateGenerated(val!)}
                   renderInput={(params: TextFieldProps) => (
@@ -69,7 +68,6 @@ const ReferralTab = (props: ITabProps) => {
               ) : (
                 <MobileDatePicker
                   inputFormat="dd/MM/yyyy"
-                  clearable
                   value={dateGenerated}
                   onChange={val => setDateGenerated(val!)}
                   renderInput={(params: TextFieldProps) => (

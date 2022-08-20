@@ -25,9 +25,18 @@ import { Plans } from "@/constants/common"
 import customerConfigOptions from "@/validation/customerConfig"
 import { Controller, useForm } from "react-hook-form"
 import { StyledPlaceholder } from "../commons/uiComponents"
+import { useCustomerConfigInfo } from "@/agent/customers"
+import LoadingScreen from "../LoadingScreen"
 
-const ConfigurationTab = (props: ITabProps) => {
+interface IConfigurationTabProps extends ITabProps {
+  pk: string
+}
+
+const ConfigurationTab = (props: IConfigurationTabProps) => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
+  const { data: configData, isLoading } = useCustomerConfigInfo({
+    pk: props.pk,
+  })
 
   const handleToggleHidePassword = () => {
     setIsPasswordHidden(p => !p)
@@ -35,13 +44,40 @@ const ConfigurationTab = (props: ITabProps) => {
 
   type formPropType = typeof customerConfigOptions.defaultValues
 
-  const { handleSubmit, control, formState, getValues, setValue, reset } =
-    useForm<formPropType>(customerConfigOptions)
+  const { handleSubmit, control, formState, reset } = useForm<formPropType>(
+    customerConfigOptions
+  )
 
   const onSubmit = (data: formPropType) => {
     console.log("Config Info form data", data)
     reset()
   }
+
+  React.useEffect(() => {
+    if (!configData?.data) return
+    reset({
+      amznFlexPassword: configData.data.amznFlexPassword,
+      amznFlexUser: configData.data.amznFlexUser,
+      amznID: configData.data.amznID,
+      awsreg1: configData.data.awsreg1,
+      awsreg2: configData.data.awsreg2,
+      blockType: configData.data.blockType,
+      cogid1: configData.data.cogid1,
+      cogid2: configData.data.cogid2,
+      country: configData.data.country,
+      devID: configData.data.devID,
+      devModel: configData.data.devModel,
+      devSerial: configData.data.devSerial,
+      devType: configData.data.devType,
+      flexID: configData.data.flexID,
+      flexVersion: configData.data.flexVersion,
+      osVersion: configData.data.osVersion,
+      planName: configData.data.planName,
+      region: configData.data.region,
+    })
+  }, [configData])
+
+  if (isLoading) return <LoadingScreen />
 
   return (
     <StyledConfigurationTab>
@@ -87,7 +123,7 @@ const ConfigurationTab = (props: ITabProps) => {
                       <StyledPlaceholder>Choose Device Model</StyledPlaceholder>
                     </MenuItem>
                     <MenuItem value="iphone 12 pro">iPhone 12 Pro</MenuItem>
-                    <MenuItem value="iphone 12 pro">iPhone 13 Pro</MenuItem>
+                    <MenuItem value="iphone 13 pro">iPhone 13 Pro</MenuItem>
                   </Select>
                 )}
               />
@@ -108,6 +144,7 @@ const ConfigurationTab = (props: ITabProps) => {
                   <StyledConfigurationTabFormField
                     value={value}
                     onChange={onChange}
+                    placeholder="Device ID"
                   />
                 )}
               />
@@ -154,54 +191,115 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Amazon Flex Password
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField
-                type={isPasswordHidden ? "password" : "text"}
-                defaultValue="idekwhatitis"
-                endAdornment={
-                  <IconButton
-                    size="small"
-                    onClick={handleToggleHidePassword}
-                    sx={{ mr: rem("8px") }}
-                  >
-                    {isPasswordHidden ? (
-                      <VisibilityIcon />
-                    ) : (
-                      <VisibilityOffIcon />
-                    )}
-                  </IconButton>
-                }
+              <Controller
+                name={"amznFlexPassword"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    autoComplete="new-password"
+                    type={isPasswordHidden ? "password" : "text"}
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Password here"
+                    endAdornment={
+                      <IconButton
+                        size="small"
+                        onClick={handleToggleHidePassword}
+                        sx={{ mr: rem("8px") }}
+                      >
+                        {isPasswordHidden ? (
+                          <VisibilityIcon />
+                        ) : (
+                          <VisibilityOffIcon />
+                        )}
+                      </IconButton>
+                    }
+                  />
+                )}
               />
+              {!!formState.errors?.amznFlexPassword && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.amznFlexPassword?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Device type
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="Smartphone"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="Smartphone">Smartphone</MenuItem>
-                <MenuItem value="Tablet">Tablet</MenuItem>
-              </Select>
+              <Controller
+                name={"devType"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose Device type</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="Smartphone">Smartphone</MenuItem>
+                    <MenuItem value="Tablet">Tablet</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.devType && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.devType?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Device serial number
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="J82744HK82374LC" />
+              <Controller
+                name={"devSerial"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Device serial number"
+                  />
+                )}
+              />
+              {!!formState.errors?.devSerial && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.devSerial?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Flex version
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="14.0.1"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="14.0.1">14.0.1</MenuItem>
-                <MenuItem value="17.8.1">17.8.1</MenuItem>
-                <MenuItem value="17.8.2">17.8.2</MenuItem>
-              </Select>
+              <Controller
+                name={"flexVersion"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose Flex version</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="14.0.1">14.0.1</MenuItem>
+                    <MenuItem value="17.8.1">17.8.1</MenuItem>
+                    <MenuItem value="17.8.2">17.8.2</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.flexVersion && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.flexVersion?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>
@@ -213,37 +311,78 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 AWS Region
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="none"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem disabled value="none">
-                  Choose region here
-                </MenuItem>
-                <MenuItem value="us-east-1">us-east-1</MenuItem>
-                <MenuItem value="us-west-1">us-west-1</MenuItem>
-              </Select>
+              <Controller
+                name={"awsreg1"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose region here</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="us-east-1">us-east-1</MenuItem>
+                    <MenuItem value="us-west-1">us-west-1</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.awsreg1 && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.awsreg1?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 AWS Region
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="none"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem disabled value="none">
-                  Choose region here
-                </MenuItem>
-                <MenuItem value="us-east-1">us-east-1</MenuItem>
-                <MenuItem value="us-west-1">us-west-1</MenuItem>
-              </Select>
+              <Controller
+                name={"awsreg2"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose region here</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="us-east-1">us-east-1</MenuItem>
+                    <MenuItem value="us-west-1">us-west-1</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.awsreg2 && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.awsreg2?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Amazon ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="C123J456" />
+              <Controller
+                name={"amznID"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Amazon ID"
+                  />
+                )}
+              />
+              {!!formState.errors?.amznID && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.amznID?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
@@ -251,19 +390,64 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Cognito ID (1)
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="HFSDUEYWWS" />
+              <Controller
+                name={"cogid1"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Cognito ID (1)"
+                  />
+                )}
+              />
+              {!!formState.errors?.cogid1 && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.cogid1?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Cognito ID (2)
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="KSGDSFTYASL" />
+              <Controller
+                name={"cogid2"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Cognito ID (2)"
+                  />
+                )}
+              />
+              {!!formState.errors?.cogid2 && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.cogid2?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Flex ID
               </StyledConfigurationTabFormLabel>
-              <StyledConfigurationTabFormField defaultValue="sjf8345df9086" />
+              <Controller
+                name={"flexID"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Flex ID"
+                  />
+                )}
+              />
+              {!!formState.errors?.flexID && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.flexID?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>
@@ -276,12 +460,28 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Country
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="UK"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="UK">Great Britain</MenuItem>
-              </Select>
+              <Controller
+                name={"country"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose country here</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="UK">Great Britain</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.country && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.country?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           {/* Region Drop-down */}
@@ -290,12 +490,28 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Region
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="London"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value="London">London</MenuItem>
-              </Select>
+              <Controller
+                name={"region"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose region here</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="London">London</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.region && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.region?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>
@@ -305,17 +521,35 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Plan Name
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue={Plans.basic}
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem value={Plans.basic}>
-                  {capitalize(Plans.basic)}
-                </MenuItem>
-                <MenuItem value={Plans.premium}>
-                  {capitalize(Plans.premium)}
-                </MenuItem>
-              </Select>
+              <Controller
+                name={"planName"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>
+                        Choose Plan Name here
+                      </StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value={Plans.basic}>
+                      {capitalize(Plans.basic)}
+                    </MenuItem>
+                    <MenuItem value={Plans.premium}>
+                      {capitalize(Plans.premium)}
+                    </MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.planName && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.planName?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           {/* Block Type Drop-down */}
@@ -324,14 +558,28 @@ const ConfigurationTab = (props: ITabProps) => {
               <StyledConfigurationTabFormLabel>
                 Block type
               </StyledConfigurationTabFormLabel>
-              <Select
-                defaultValue="Logistic"
-                input={<StyledConfigurationTabFormField />}
-              >
-                <MenuItem disabled value="Logistic">
-                  Logistic
-                </MenuItem>
-              </Select>
+              <Controller
+                name={"blockType"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose Block type</StyledPlaceholder>
+                    </MenuItem>
+                    <MenuItem value="Logistic">Logistic</MenuItem>
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.blockType && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.blockType?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}></Grid>

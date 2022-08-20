@@ -38,7 +38,9 @@ export function useCustomerAccountInfo(params: ICustomerAccountInfoVariables) {
 export function fetchCustomerConfigInfo(
   params: ICustomerConfigInfoVariables
 ): Promise<ICustomerConfigInfoResult> {
-  return arriumAPI.get("/user/get", { params }).then(response => response.data)
+  return arriumAPI
+    .get("/user/flex-details/" + params.pk)
+    .then(response => response.data)
 }
 
 export function useCustomerConfigInfo(params: ICustomerConfigInfoVariables) {

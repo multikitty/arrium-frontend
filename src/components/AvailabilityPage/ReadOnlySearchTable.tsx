@@ -125,7 +125,6 @@ const ReadOnlySearchTable = () => {
                   lineHeight: rem("20px"),
                   color: theme.palette.blackText,
                 }}
-                component="th"
                 scope="row"
               >
                 {row.location}

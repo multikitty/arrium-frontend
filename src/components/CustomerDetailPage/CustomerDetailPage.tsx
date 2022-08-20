@@ -24,6 +24,7 @@ import useNavigate from "@/hooks/useNavigate"
 import { useCustomerAccountInfo } from "@/agent/customers"
 import { Params } from "@/lib/interfaces/route"
 import { tabs, TabType } from "../AddCustomerPage/AddCustomersPage.data"
+import LoadingScreen from "../LoadingScreen"
 
 export interface ICustomerDetailPageProps extends Params {
   pk: string
@@ -40,7 +41,7 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)
-  const { data: customerData } = useCustomerAccountInfo({
+  const { data: customerData, isLoading } = useCustomerAccountInfo({
     pk: pk || "",
     sk: sk,
   })
@@ -71,6 +72,8 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
   const isBillingTabOpen = tab === tabs.billing
   const isConfigurationTabOpen = tab === tabs.configuration
   const isReferralTabOpen = tab === tabs.referral
+
+  if (isLoading) return <LoadingScreen />
 
   return (
     <StyledCustomerDetailPage>
@@ -169,6 +172,7 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
           <ConfigurationTab
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
+            pk={pk}
           />
         )}
         {isReferralTabOpen && (
