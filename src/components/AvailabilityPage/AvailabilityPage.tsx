@@ -266,7 +266,12 @@ const AvailabilityPage = () => {
             )}
             {!isSearchable ? (
               <StyledCollapsedSearch>
-                <Box display="flex" sx={{ cursor: "pointer" }}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  // flexDirection="column"
+                  sx={{ cursor: "pointer" }}
+                >
                   <Box
                     display="flex"
                     onClick={() => setIsExpanded(prev => !prev)}
@@ -278,13 +283,19 @@ const AvailabilityPage = () => {
                       {!isExpanded ? "Show more" : "Show less"}
                     </StyledShowMoreText>
                   </Box>
-                  {isPremiumUser && (
+                  <ContainedButton
+                    sx={{ m: 1, ml: 2 }}
+                    onClick={handleNavigateToAutomationSchedule}
+                  >
+                    Automation Schedule
+                  </ContainedButton>
+                  {/* {isPremiumUser && (
                     <Box sx={{ marginLeft: rem("20px") }}>
                       <StyledShowMoreText>
                         Autostart Search <strong>16:00</strong>
                       </StyledShowMoreText>
                     </Box>
-                  )}
+                  )} */}
                 </Box>
                 <Box display="flex">
                   <Box
@@ -450,6 +461,7 @@ const AvailabilityPage = () => {
                   display="flex"
                   sx={{ cursor: "pointer" }}
                   justifyContent="space-between"
+                  alignItems="center"
                 >
                   <Box
                     display="flex"
@@ -462,13 +474,16 @@ const AvailabilityPage = () => {
                       {!isExpanded ? "Show more" : "Show less"}
                     </StyledShowMoreText>
                   </Box>
-                  {isPremiumUser && (
+                  <ContainedButton onClick={handleNavigateToAutomationSchedule}>
+                    Automation Schedule
+                  </ContainedButton>
+                  {/* {isPremiumUser && (
                     <Box>
                       <StyledShowMoreText>
                         Autostart Search <strong>16:00</strong>
                       </StyledShowMoreText>
                     </Box>
-                  )}
+                  )} */}
                 </Box>
                 <Box
                   display="flex"
