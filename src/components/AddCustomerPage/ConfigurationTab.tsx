@@ -257,11 +257,11 @@ const ConfigurationTab = () => {
               </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
-          {/* Block Type Drop-down */}
+          {/* Plan Type Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Block type
+                Plan type
               </StyledConfigurationTabFormLabel>
               <Select
                 displayEmpty
@@ -269,7 +269,7 @@ const ConfigurationTab = () => {
                 input={<StyledConfigurationTabFormField />}
               >
                 <MenuItem disabled value="">
-                  Choose Block type
+                  Choose Plan type
                 </MenuItem>
                 <MenuItem value="logistics">Logistics</MenuItem>
               </Select>

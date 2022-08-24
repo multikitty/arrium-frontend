@@ -21,30 +21,67 @@ import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import { useMutation } from "react-query"
+import {
+  IForgotPasswordResult,
+  IForgotPasswordVariables,
+} from "@/lib/interfaces/forgotPassword"
+import { forgotPassword } from "@/agent/forgotPassword"
+import { useSnackbar } from "notistack"
 
 const ForgotPasswordPage = () => {
   const params = useParams()
   const { navigate } = useNavigate(params as ParamType)
+  const { enqueueSnackbar } = useSnackbar()
+  const { mutate } = useMutation<
+    IForgotPasswordResult,
+    Error,
+    IForgotPasswordVariables
+  >(forgotPassword)
 
   type formPropType = typeof emailOptions.defaultValues
 
   const isWebView = useMediaQuery(devices.web.up)
-  const [isClicked, setIsClicked] = useState<boolean>(false)
+  const [isClicked, setIsClicked] = useState(false)
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<formPropType>(emailOptions)
 
-  const onSubmit = () =>
-    // data: formPropType
-    {
-      setIsClicked(true)
-      isClicked && navigate(routes.resetPassword)
-    }
+  const onSubmit = async (data: formPropType) => {
+    await mutate(
+      { email: data.email },
+      {
+        onSuccess({ message, success, validationError }) {
+          if (!success) {
+            enqueueSnackbar(validationError?.email || message, {
+              variant: "error",
+            })
+            setError("email", {
+              message: "Email does not exist, try another",
+            })
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          setIsClicked(true)
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+  }
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
+  }
+
+  const handleNavigateToSignIn = () => {
+    navigate(routes.signin)
   }
 
   return (
@@ -99,6 +136,7 @@ const ForgotPasswordPage = () => {
               <StyledInputField
                 placeholder="Enter Email Address"
                 variant="outlined"
+                error={!!errors.email}
                 {...register("email")}
               />
             )}
@@ -115,7 +153,9 @@ const ForgotPasswordPage = () => {
                 $marginTop={rem("32px")}
                 type="submit"
               >
-                <StyledButtonText>Done</StyledButtonText>
+                <StyledButtonText onClick={handleNavigateToSignIn}>
+                  Done
+                </StyledButtonText>
               </StyledButton>
             ) : (
               <StyledButton
@@ -166,6 +206,7 @@ const ForgotPasswordPage = () => {
                 <StyledInputField
                   placeholder="Enter Email Address"
                   variant="outlined"
+                  error={!!errors.email}
                   {...register("email")}
                 />
               )}
@@ -182,7 +223,9 @@ const ForgotPasswordPage = () => {
                   type="submit"
                   $marginTop={rem("32px")}
                 >
-                  <StyledButtonText>Done</StyledButtonText>
+                  <StyledButtonText onClick={handleNavigateToSignIn}>
+                    Done
+                  </StyledButtonText>
                 </StyledButton>
               ) : (
                 <StyledButton

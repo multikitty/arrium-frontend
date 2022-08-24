@@ -137,6 +137,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
               <StyledConfigurationTabFormLabel>
                 Device ID
               </StyledConfigurationTabFormLabel>
+              ,
               <Controller
                 name={"devID"}
                 control={control}
@@ -552,11 +553,11 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
               )}
             </StyledConfigurationTabFormItem>
           </Grid>
-          {/* Block Type Drop-down */}
+          {/* Plan Type Drop-down */}
           <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Block type
+                Plan type
               </StyledConfigurationTabFormLabel>
               <Controller
                 name={"blockType"}
@@ -569,7 +570,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     input={<StyledConfigurationTabFormField />}
                   >
                     <MenuItem disabled value="">
-                      <StyledPlaceholder>Choose Block type</StyledPlaceholder>
+                      <StyledPlaceholder>Choose Plan type</StyledPlaceholder>
                     </MenuItem>
                     <MenuItem value="Logistic">Logistic</MenuItem>
                   </Select>
