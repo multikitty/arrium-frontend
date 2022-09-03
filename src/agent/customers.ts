@@ -5,8 +5,10 @@ import {
   ICustomerAccountInfoVariables,
   ICustomerConfigInfoVariables,
   ICustomerConfigInfoResult,
+  IUpdateUserAccountInfoResult,
+  IUpdateUserAccountInfoVariables,
 } from "@/lib/interfaces/customers"
-import { useQuery } from "react-query"
+import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
 export function fetchCustomersList(
@@ -51,4 +53,13 @@ export function useCustomerConfigInfo(params: ICustomerConfigInfoVariables) {
       enabled: Boolean(params.pk),
     }
   )
+}
+
+export const updateUserAccountInfo: MutationFunction<
+  IUpdateUserAccountInfoResult,
+  IUpdateUserAccountInfoVariables
+> = async params => {
+  return await (
+    await arriumAPI.put("/user/update-account-info", params)
+  ).data
 }

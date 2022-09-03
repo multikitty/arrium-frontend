@@ -62,6 +62,7 @@ export interface ICustomerAccountInfoData {
   role: string
   firstname: string
   startDate: number
+  endDate?: number
   sk: string
   phoneVerified: boolean
   pk: string
@@ -106,4 +107,29 @@ export interface ICustomerConfigInfoResult {
   message: string
   success: boolean
   data?: ICustomerConfigInfoData
+}
+
+export interface IUpdateUserAccountInfoVariables {
+  userSK: string
+  userPK: string
+  firstname: string
+  lastname: string
+  phoneNumber: string
+  email: string
+  emailVerified: boolean
+  tzName: string
+  userRole: string
+  status: string
+  startDate: number | null
+  endDate: number | null
+  passwordChangeRequest: boolean
+}
+
+export interface IUpdateUserAccountInfoError
+  extends IUpdateUserAccountInfoVariables {}
+
+export interface IUpdateUserAccountInfoResult {
+  message: string
+  success: boolean
+  validationError?: IUpdateUserAccountInfoError
 }

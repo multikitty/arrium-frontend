@@ -41,7 +41,11 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)
-  const { data: customerData, isLoading } = useCustomerAccountInfo({
+  const {
+    data: customerData,
+    isLoading,
+    refetch,
+  } = useCustomerAccountInfo({
     pk: pk || "",
     sk: sk,
   })
@@ -158,13 +162,18 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
             dialCode={customerData?.data?.dialCode || ""}
             phoneNumber={customerData?.data?.phoneNumber || ""}
             tzName={customerData?.data?.tzName || ""}
-            startDate={customerData?.data?.startDate || Date.now()}
+            startDate={customerData?.data?.startDate || null}
+            endDate={customerData?.data?.endDate || null}
             firstname={customerData?.data?.firstname || ""}
             email={customerData?.data?.email || ""}
             lastname={customerData?.data?.lastname || ""}
             role={customerData?.data?.role || ""}
             emailVerified={customerData?.data?.emailVerified || false}
             accountStatus={customerData?.data?.accountStatus || ""}
+            sk={sk}
+            pk={pk}
+            refetchCustomerData={refetch}
+            isLoading={isLoading}
           />
         )}
         {isBillingTabOpen && <BillingTab />}

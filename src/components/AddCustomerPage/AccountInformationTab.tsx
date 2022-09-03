@@ -205,9 +205,7 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                       inputFormat="dd/MM/yyyy"
                       disablePast
                       value={value}
-                      onChange={val =>
-                        setValue("startDate", val as unknown as string)
-                      }
+                      onChange={val => setValue("startDate", val as any)}
                       renderInput={(params: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
                           {...params}
@@ -317,11 +315,13 @@ const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
                       inputFormat="dd/MM/yyyy"
                       open={endDatePickerOpen}
                       onOpen={handleEndDatePickerClick}
-                      minDate={new Date(methods.getValues("startDate"))}
-                      value={value}
-                      onChange={val =>
-                        setValue("endDate", val as unknown as string)
+                      minDate={
+                        new Date(
+                          methods.getValues("startDate") as unknown as string
+                        )
                       }
+                      value={value}
+                      onChange={val => setValue("endDate", val as any)}
                       renderInput={(params: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
                           {...params}

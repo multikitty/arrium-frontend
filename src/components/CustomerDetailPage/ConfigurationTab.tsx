@@ -137,7 +137,6 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
               <StyledConfigurationTabFormLabel>
                 Device ID
               </StyledConfigurationTabFormLabel>
-              ,
               <Controller
                 name={"devID"}
                 control={control}

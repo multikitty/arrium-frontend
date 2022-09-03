@@ -37,6 +37,20 @@ import { useStore } from "@/store"
 import { observer } from "mobx-react-lite"
 import { LabelledUserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+} from "react-query"
+import {
+  ICustomerAccountInfoResult,
+  IUpdateUserAccountInfoResult,
+  IUpdateUserAccountInfoVariables,
+} from "@/lib/interfaces/customers"
+import { updateUserAccountInfo } from "@/agent/customers"
+import { useSnackbar } from "notistack"
+import LoadingScreen from "../LoadingScreen"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -77,25 +91,39 @@ interface IAccountInformationTabProps extends ITabProps {
   dialCode: string
   phoneNumber: string
   tzName: string
-  startDate: number
+  startDate: number | null
+  endDate: number | null
   firstname: string
   email: string
   lastname: string
   role: string
   emailVerified: boolean
   accountStatus: string
+  sk: string
+  pk: string
+  refetchCustomerData: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<ICustomerAccountInfoResult, unknown>>
+  isLoading: boolean
 }
 
 const AccountInformationTab = (props: IAccountInformationTabProps) => {
   const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
+  const { enqueueSnackbar } = useSnackbar()
   const { messageStore, userStore } = useStore()
+  const { mutate, isLoading } = useMutation<
+    IUpdateUserAccountInfoResult,
+    Error,
+    IUpdateUserAccountInfoVariables
+  >(updateUserAccountInfo)
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
+        key={singleOption.label}
         value={singleOption.value}
         label={singleOption.label}
         control={<Radio sx={{ color: theme.palette.primary.main }} />}
@@ -112,8 +140,52 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
   const { handleSubmit, control, formState, getValues, setValue, reset } =
     useForm<formPropType>(accountInformationOptions)
 
-  const onSubmit = (data: formPropType) => {
-    console.log("Personal Information form data", data)
+  const onSubmit = async (data: formPropType) => {
+    const startDate = +new Date(data.startDate as unknown as string) / 1000 // converting to a timestamp of seconds and not ms
+    const endDate = data.endDate ? +new Date(data.endDate) / 1000 : null
+    const mutationParams: IUpdateUserAccountInfoVariables = {
+      email: data.email,
+      emailVerified: data.isEmailVerified,
+      endDate,
+      firstname: data.firstName,
+      lastname: data.surName,
+      passwordChangeRequest: data.sendPasswordChangeRequest,
+      phoneNumber: data.phoneNumber,
+      startDate,
+      status: data.status,
+      tzName: data.timezone,
+      userRole: data.role,
+      userPK: props.pk,
+      userSK: props.sk,
+    }
+    await mutate(mutationParams, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.email ||
+              validationError?.emailVerified ||
+              validationError?.endDate ||
+              validationError?.firstname ||
+              validationError?.lastname ||
+              validationError?.passwordChangeRequest ||
+              validationError?.phoneNumber ||
+              validationError?.startDate ||
+              validationError?.status ||
+              validationError?.tzName ||
+              validationError?.userPK ||
+              validationError?.userRole ||
+              validationError?.userSK ||
+              message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        props.refetchCustomerData()
+      },
+    })
     reset()
   }
 
@@ -127,7 +199,10 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
     reset({
       phoneNumber: props.dialCode + props.phoneNumber,
       timezone: props.tzName,
-      startDate: new Date(props.startDate * 1000).toLocaleDateString(),
+      startDate: props.startDate
+        ? (new Date(props.startDate * 1000) as any)
+        : null,
+      endDate: props.endDate ? (new Date(props.endDate * 1000) as any) : null,
       firstName: props.firstname,
       email: props.email,
       role: props.role as UserRolesType,
@@ -136,6 +211,8 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
       status: props.accountStatus,
     })
   }, [props])
+
+  if (isLoading || props.isLoading) return <LoadingScreen />
 
   return (
     <StyledAccountInformationTab>
@@ -218,11 +295,8 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
                     isMdUp ? (
                       <DesktopDatePicker
                         inputFormat="dd/MM/yyyy"
-                        disablePast
                         value={value}
-                        onChange={val =>
-                          setValue("startDate", val as unknown as string)
-                        }
+                        onChange={val => setValue("startDate", val as any)}
                         renderInput={(params: TextFieldProps) => (
                           <StyledAccountInformationTabDateField
                             {...params}
@@ -238,9 +312,7 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
                         inputFormat="dd/MM/yyyy"
                         disablePast
                         value={value}
-                        onChange={val =>
-                          setValue("startDate", val as unknown as string)
-                        }
+                        onChange={val => setValue("startDate", val as any)}
                         renderInput={(params: TextFieldProps) => (
                           <StyledAccountInformationTabDateField
                             {...params}
@@ -347,11 +419,14 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
                         inputFormat="dd/MM/yyyy"
                         open={endDatePickerOpen}
                         onOpen={handleEndDatePickerClick}
-                        minDate={new Date(getValues("startDate"))}
-                        value={value}
-                        onChange={val =>
-                          setValue("endDate", val as unknown as string)
+                        minDate={
+                          new Date(getValues("startDate") as unknown as string)
                         }
+                        value={value}
+                        onChange={val => {
+                          setValue("endDate", val as any)
+                          setEndDatePickerOpen(false)
+                        }}
                         renderInput={(params: TextFieldProps) => (
                           <StyledAccountInformationTabDateField
                             {...params}
@@ -369,11 +444,14 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
                         onOpen={() =>
                           getValues("startDate") && setEndDatePickerOpen(true)
                         }
-                        minDate={new Date(getValues("startDate"))}
-                        value={value}
-                        onChange={val =>
-                          setValue("endDate", val as unknown as string)
+                        minDate={
+                          new Date(getValues("startDate") as unknown as string)
                         }
+                        value={value}
+                        onChange={val => {
+                          setValue("endDate", val as any)
+                          setEndDatePickerOpen(false)
+                        }}
                         renderInput={(params: TextFieldProps) => (
                           <StyledAccountInformationTabDateField
                             {...params}
@@ -492,7 +570,7 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
           >
             Cancel
           </OutlinedButton>
-          <ContainedButton onClick={props.handleSave}>Save</ContainedButton>
+          <ContainedButton type="submit">Save</ContainedButton>
         </StyledAccountInformationTabFormActions>
       </StyledAccountInformationTabForm>
     </StyledAccountInformationTab>
