@@ -30,7 +30,7 @@ arriumAPI.interceptors.response.use(
   res => res,
   err => {
     if (
-      err.response.status === 500 &&
+      (err.response.status === 500 || err.response.status === 401) &&
       err.response.data.message === "Failed to authenticate token"
     ) {
       store.userStore.logout()

@@ -1,9 +1,9 @@
-import React from "react"
-import EditIcon from "@mui/icons-material/EditOutlined"
+import React, { useState } from "react"
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
+import { ICountryListDataItem } from "@/lib/interfaces/locations"
 
 type ListItem = {
   name: string
@@ -11,34 +11,51 @@ type ListItem = {
 }
 
 interface IProps {
-  list: ListItem[]
-  onEdit: (itemId: string) => void
-  onDelete: (itemId: string, itemName: string) => void
+  list: ICountryListDataItem[] | ListItem[]
+  onDelete: (sk: string, pk: string) => void
+  onClick?: (...params: any) => void
 }
 
-const SettingsListItem: React.FC<IProps> = ({ list, onEdit, onDelete }) => {
+const SettingsListItem: React.FC<IProps> = ({ list, onDelete, onClick }) => {
+  const [selectedItem, setSelectedItem] = useState<
+    ICountryListDataItem | ListItem | null
+  >(null)
+
   return (
     <React.Fragment>
       {list.map(item => {
         return (
-          <StyledSettingsColumnContentListItem key={item.id}>
-            <Box className="settings__list__item__text">{item.name}</Box>
+          <StyledSettingsColumnContentListItem
+            key={(item as ListItem)?.id || (item as ICountryListDataItem)?.sk}
+            onClick={() =>
+              onClick &&
+              (() => {
+                onClick(item)
+                setSelectedItem(item)
+              })()
+            }
+            selected={
+              (selectedItem as ICountryListDataItem)?.sk
+                ? (selectedItem as ICountryListDataItem)?.sk ===
+                  (item as ICountryListDataItem)?.sk
+                : false
+            }
+          >
+            <Box className="settings__list__item__text">
+              {(item as ListItem)?.name ||
+                `${(item as ICountryListDataItem)?.country} (${
+                  (item as ICountryListDataItem)?.tzName ||
+                  (item as ICountryListDataItem)?.countryCode
+                })`}
+            </Box>
             <Box className="settings__list__item__actions">
               <IconButton
-                onClick={() => onEdit(item.id)}
-                sx={{
-                  "&:hover .settings__list__item__actions__icon": {
-                    color: theme.palette.main,
-                  },
-                }}
-              >
-                <EditIcon
-                  className="settings__list__item__actions__icon"
-                  sx={{ fontSize: 16 }}
-                />
-              </IconButton>
-              <IconButton
-                onClick={() => onDelete(item.id, item.name)}
+                onClick={() =>
+                  onDelete(
+                    (item as ICountryListDataItem).sk || "",
+                    (item as ICountryListDataItem).pk || ""
+                  )
+                }
                 sx={{
                   "&:hover .settings__list__item__actions__icon": {
                     color: theme.palette.main,

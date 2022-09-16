@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { Divider, Grid, IconButton } from "@mui/material"
+import { Box, CircularProgress, Divider, Grid, IconButton } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
@@ -22,6 +22,8 @@ import AddRegionModal from "./AddRegionModal"
 import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 import SettingsListItem from "./SettingsListItem"
+import { useCountryList } from "@/agent/locations"
+import { ICountryListData } from "@/lib/interfaces/locations"
 
 export type SettingsItem = {
   name: string
@@ -38,6 +40,9 @@ export interface SettingsTabProps {
 
 const LocationsTab: React.FC<SettingsTabProps> = props => {
   const [countries, setCountries] = useState<SettingsItem[]>(countryList)
+  const [selectedCountry, setSelectedCountry] = useState<
+    ICountryListData["Items"][0] | null
+  >(null)
   const [regions, setRegions] = useState<SettingsItem[]>(regionList)
   const [stations, setStations] = useState<SettingsItem[]>(stationList)
   const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
@@ -49,6 +54,9 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
   const [countrySearchQuery, setCountrySearchQuery] = useState("")
   const [regionSearchQuery, setRegionSearchQuery] = useState("")
   const [stationSearchQuery, setStationSearchQuery] = useState("")
+  const { data: countryListData } = useCountryList()
+
+  console.log("countryListData", countryListData)
 
   const handleCountrySearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -70,6 +78,9 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
     setCountries(prev => prev.filter(p => p.id !== id))
     handleDeleteConfirmationModalClose()
     props.setMessage("Country deleted successfully")
+  }
+  const handleClickCountry = (clickedCountry: ICountryListData["Items"][0]) => {
+    setSelectedCountry(clickedCountry)
   }
 
   const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
@@ -188,106 +199,119 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 onChange={handleCountrySearchQueryField}
               />
               <StyledSettingsColumnContentList>
-                <SettingsListItem
-                  list={filteredCountries}
-                  onEdit={id => {
-                    console.log("edit", id)
-                  }}
-                  onDelete={(id, name) => {
-                    handleDeleteConfirmationModalOpen({
-                      type: "Country",
-                      name,
-                      id,
-                    })
-                  }}
-                />
+                {countryListData?.data?.Items ? (
+                  <SettingsListItem
+                    list={countryListData.data.Items}
+                    onDelete={(id, name) => {
+                      handleDeleteConfirmationModalOpen({
+                        type: "Country",
+                        name,
+                        id,
+                      })
+                    }}
+                    onClick={handleClickCountry}
+                  />
+                ) : (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    width="100%"
+                    my={6}
+                  >
+                    <CircularProgress size={32} />
+                  </Box>
+                )}
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />
           </StyledSettingsColumn>
         </Grid>
         <Grid item xs={12} lg={4}>
-          <StyledSettingsColumn>
-            <StyledSettingsColumnContent>
-              <StyledSettingsColumnContentHeaderContainer>
-                <StyledSettingsColumnContentHeaderText>
-                  Region
-                </StyledSettingsColumnContentHeaderText>
-                <ContainedButton iconButton onClick={handleAddRegionModalOpen}>
-                  <AddIcon
-                    sx={{ fontSize: 16, color: theme.palette.common.white }}
-                  />
-                </ContainedButton>
-              </StyledSettingsColumnContentHeaderContainer>
-              <StyledSettingsColumnContentSearchField
-                placeholder="Search region"
-                endAdornment={
-                  <IconButton sx={{ mr: rem("8px") }}>
-                    <SearchIcon />
-                  </IconButton>
-                }
-                value={regionSearchQuery}
-                onChange={handleRegionSearchQueryField}
-              />
-              <StyledSettingsColumnContentList>
-                <SettingsListItem
-                  list={filteredRegions}
-                  onEdit={id => {
-                    console.log("edit", id)
-                  }}
-                  onDelete={(id, name) => {
-                    handleDeleteConfirmationModalOpen({
-                      type: "Region",
-                      name,
-                      id,
-                    })
-                  }}
+          {selectedCountry && (
+            <StyledSettingsColumn>
+              <StyledSettingsColumnContent>
+                <StyledSettingsColumnContentHeaderContainer>
+                  <StyledSettingsColumnContentHeaderText>
+                    Region
+                  </StyledSettingsColumnContentHeaderText>
+                  <ContainedButton
+                    iconButton
+                    onClick={handleAddRegionModalOpen}
+                  >
+                    <AddIcon
+                      sx={{ fontSize: 16, color: theme.palette.common.white }}
+                    />
+                  </ContainedButton>
+                </StyledSettingsColumnContentHeaderContainer>
+                <StyledSettingsColumnContentSearchField
+                  placeholder="Search region"
+                  endAdornment={
+                    <IconButton sx={{ mr: rem("8px") }}>
+                      <SearchIcon />
+                    </IconButton>
+                  }
+                  value={regionSearchQuery}
+                  onChange={handleRegionSearchQueryField}
                 />
-              </StyledSettingsColumnContentList>
-            </StyledSettingsColumnContent>
-            <Divider orientation="vertical" flexItem />
-          </StyledSettingsColumn>
+                <StyledSettingsColumnContentList>
+                  <SettingsListItem
+                    list={filteredRegions}
+                    onDelete={(id, name) => {
+                      handleDeleteConfirmationModalOpen({
+                        type: "Region",
+                        name,
+                        id,
+                      })
+                    }}
+                  />
+                </StyledSettingsColumnContentList>
+              </StyledSettingsColumnContent>
+              <Divider orientation="vertical" flexItem />
+            </StyledSettingsColumn>
+          )}
         </Grid>
         <Grid item xs={12} lg={4}>
-          <StyledSettingsColumn>
-            <StyledSettingsColumnContent last>
-              <StyledSettingsColumnContentHeaderContainer>
-                <StyledSettingsColumnContentHeaderText>
-                  Station
-                </StyledSettingsColumnContentHeaderText>
-                <ContainedButton iconButton onClick={handleAddStationModalOpen}>
-                  <AddIcon
-                    sx={{ fontSize: 16, color: theme.palette.common.white }}
-                  />
-                </ContainedButton>
-              </StyledSettingsColumnContentHeaderContainer>
-              <StyledSettingsColumnContentSearchField
-                placeholder="Search station"
-                endAdornment={
-                  <IconButton sx={{ mr: rem("8px") }}>
-                    <SearchIcon />
-                  </IconButton>
-                }
-                value={stationSearchQuery}
-                onChange={handleStationSearchQueryField}
-              />
-              <StyledSettingsColumnContentList>
-                <SettingsListItem
-                  list={filteredStations}
-                  onEdit={id => {
-                    console.log("edit", id)
-                  }}
-                  onDelete={(id, name) => {
-                    handleDeleteConfirmationModalOpen({
-                      type: "Station",
-                      name,
-                      id,
-                    })
-                  }}
+          {selectedCountry && (
+            <StyledSettingsColumn>
+              <StyledSettingsColumnContent last>
+                <StyledSettingsColumnContentHeaderContainer>
+                  <StyledSettingsColumnContentHeaderText>
+                    Station
+                  </StyledSettingsColumnContentHeaderText>
+                  <ContainedButton
+                    iconButton
+                    onClick={handleAddStationModalOpen}
+                  >
+                    <AddIcon
+                      sx={{ fontSize: 16, color: theme.palette.common.white }}
+                    />
+                  </ContainedButton>
+                </StyledSettingsColumnContentHeaderContainer>
+                <StyledSettingsColumnContentSearchField
+                  placeholder="Search station"
+                  endAdornment={
+                    <IconButton sx={{ mr: rem("8px") }}>
+                      <SearchIcon />
+                    </IconButton>
+                  }
+                  value={stationSearchQuery}
+                  onChange={handleStationSearchQueryField}
                 />
-              </StyledSettingsColumnContentList>
-            </StyledSettingsColumnContent>
-          </StyledSettingsColumn>
+                <StyledSettingsColumnContentList>
+                  <SettingsListItem
+                    list={filteredStations}
+                    onDelete={(id, name) => {
+                      handleDeleteConfirmationModalOpen({
+                        type: "Station",
+                        name,
+                        id,
+                      })
+                    }}
+                  />
+                </StyledSettingsColumnContentList>
+              </StyledSettingsColumnContent>
+            </StyledSettingsColumn>
+          )}
         </Grid>
       </Grid>
     </StyledLocationsTab>

@@ -66,7 +66,9 @@ export const StyledSettingsColumnContentList = styled.ul`
   list-style: none;
 `
 
-export const StyledSettingsColumnContentListItem = styled.li`
+export const StyledSettingsColumnContentListItem = styled.li<{
+  selected?: boolean
+}>`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -74,7 +76,8 @@ export const StyledSettingsColumnContentListItem = styled.li`
   margin-bottom: ${rem("10px")};
   border-radius: ${rem("6px")};
 
-  background-color: ${p => p.theme.palette.common.white};
+  background-color: ${p =>
+    p.selected ? p.theme.palette.grey1 : p.theme.palette.common.white};
 
   &:hover {
     .settings__list__item__actions {
