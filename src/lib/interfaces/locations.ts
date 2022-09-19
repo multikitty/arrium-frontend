@@ -15,12 +15,37 @@ export interface ICountryListDataItem {
 
 export interface ICountryListData {
   Items: ICountryListDataItem[]
-  Count: 6
-  ScannedCount: 6
+  Count: number
+  ScannedCount: number
 }
 
 export interface ICountryListResult {
   message: string
   success: boolean
   data?: ICountryListData
+}
+
+export interface IRegionListVariables {
+  country_code: string
+}
+
+export interface IRegionListDataItem {
+  sk: string
+  regionCode: string
+  pk: string
+  regionName: string
+  regionID: string
+}
+
+export interface IRegionListData {
+  Items: IRegionListDataItem[]
+  Count: number
+  ScannedCount: number
+}
+
+export interface IRegionListResult {
+  message: string
+  success: boolean
+  data?: IRegionListData
+  validationError?: IRegionListVariables
 }

@@ -3,7 +3,10 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
-import { ICountryListDataItem } from "@/lib/interfaces/locations"
+import {
+  ICountryListDataItem,
+  IRegionListDataItem,
+} from "@/lib/interfaces/locations"
 
 type ListItem = {
   name: string
@@ -11,14 +14,14 @@ type ListItem = {
 }
 
 interface IProps {
-  list: ICountryListDataItem[] | ListItem[]
+  list: ICountryListDataItem[] | IRegionListDataItem[] | ListItem[]
   onDelete: (sk: string, pk: string) => void
   onClick?: (...params: any) => void
 }
 
 const SettingsListItem: React.FC<IProps> = ({ list, onDelete, onClick }) => {
   const [selectedItem, setSelectedItem] = useState<
-    ICountryListDataItem | ListItem | null
+    ICountryListDataItem | IRegionListDataItem | ListItem | null
   >(null)
 
   return (
