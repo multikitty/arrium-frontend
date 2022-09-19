@@ -49,3 +49,14 @@ export interface IRegionListResult {
   data?: IRegionListData
   validationError?: IRegionListVariables
 }
+
+export interface IDeleteCountryVariables {
+  sortKey: string
+  partitionKey: string
+}
+
+export interface IDeleteCountryResult {
+  message: string
+  success: boolean
+  validationError?: IDeleteCountryVariables
+}

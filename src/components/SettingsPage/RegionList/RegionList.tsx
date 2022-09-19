@@ -7,7 +7,7 @@ import { IRegionListDataItem } from "@/lib/interfaces/locations"
 
 interface IProps {
   data: IRegionListDataItem[]
-  onDelete: (sk: string, pk: string) => void
+  onDelete: (sk: string, pk: string, name: string) => void
   onClick: (selectedRegion: IRegionListDataItem) => void
   selectedRegion: IRegionListDataItem | null
 }
@@ -32,7 +32,7 @@ const RegionList: React.FC<IProps> = ({
             <Box className="settings__list__item__text">{item.regionName}</Box>
             <Box className="settings__list__item__actions">
               <IconButton
-                onClick={() => onDelete(item.sk, item.pk)}
+                onClick={() => onDelete(item.sk, item.pk, item.regionName)}
                 sx={{
                   "&:hover .settings__list__item__actions__icon": {
                     color: theme.palette.main,

@@ -12,17 +12,17 @@ import {
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { SettingsItem } from "./LocationsTab"
 import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
 import TimezoneSelect, { ITimezone } from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
+import { ICountryListDataItem } from "@/lib/interfaces/locations"
 
 interface IProps {
   open: boolean
   handleClose: () => void
   handleAdd: (name: string) => void
-  countries: SettingsItem[]
+  countries: ICountryListDataItem[]
 }
 
 const useStyles = makeStyles({

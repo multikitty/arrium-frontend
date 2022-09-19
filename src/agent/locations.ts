@@ -1,9 +1,11 @@
 import {
   ICountryListResult,
+  IDeleteCountryResult,
+  IDeleteCountryVariables,
   IRegionListResult,
   IRegionListVariables,
 } from "@/lib/interfaces/locations"
-import { useQuery } from "react-query"
+import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
 export function fetchCountryList(): Promise<ICountryListResult> {
@@ -28,4 +30,13 @@ export function useRegionList(
   return useQuery("region-list", () => fetchRegionList(country_code), {
     enabled: !!country_code,
   })
+}
+
+export const deleteCountry: MutationFunction<
+  IDeleteCountryResult,
+  IDeleteCountryVariables
+> = async params => {
+  return await (
+    await arriumAPI.delete("/location/country", { data: params })
+  ).data
 }

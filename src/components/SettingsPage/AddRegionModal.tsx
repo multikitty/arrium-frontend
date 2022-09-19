@@ -12,14 +12,14 @@ import {
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { SettingsItem } from "./LocationsTab"
+import { ICountryListDataItem } from "@/lib/interfaces/locations"
+// import { SettingsItem } from "./LocationsTab"
 
 interface IProps {
   open: boolean
   handleClose: () => void
   handleAdd: (name: string) => void
-  countries: SettingsItem[]
-  regions: SettingsItem[]
+  countries: ICountryListDataItem[]
 }
 
 const AddRegionModal = (props: IProps) => {
@@ -40,8 +40,8 @@ const AddRegionModal = (props: IProps) => {
     | undefined = e => setRegionID(e.target.value)
 
   const countrySelectItemJSX = props.countries.map(country => (
-    <MenuItem key={country.id} value={country.name}>
-      {country.name}
+    <MenuItem key={country.sk} value={country.countryCode}>
+      {country.country}
     </MenuItem>
   ))
 

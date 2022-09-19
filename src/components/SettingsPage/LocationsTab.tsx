@@ -3,7 +3,7 @@ import { Box, CircularProgress, Divider, Grid, IconButton } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
-import { nanoid } from "nanoid"
+// import { nanoid } from "nanoid"
 
 import {
   StyledLocationsTab,
@@ -16,54 +16,63 @@ import {
 } from "./SettingsPage.styled"
 import { ContainedButton } from "@/components/commons/Button"
 import theme from "@/theme"
-import { countryList, regionList, stationList } from "./SettingsPage.data"
-import AddCountryModal from "./AddCountryModal"
-import AddRegionModal from "./AddRegionModal"
-import AddStationModal from "./AddStationModal"
+// import { countryList, regionList, stationList } from "./SettingsPage.data"
+// import AddCountryModal from "./AddCountryModal"
+// import AddRegionModal from "./AddRegionModal"
+// import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-import SettingsListItem from "./SettingsListItem"
-import { useCountryList, useRegionList } from "@/agent/locations"
+// import SettingsListItem from "./SettingsListItem"
+import { deleteCountry, useCountryList, useRegionList } from "@/agent/locations"
 import {
-  ICountryListData,
+  // ICountryListData,
   ICountryListDataItem,
+  IDeleteCountryResult,
+  IDeleteCountryVariables,
   IRegionListDataItem,
 } from "@/lib/interfaces/locations"
 import CountryList from "./CountryList"
 import RegionList from "./RegionList"
-
-export type SettingsItem = {
-  name: string
-  id: string
-}
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
 
 type LocationsDeleteItem = {
   type: "Country" | "Region" | "Station"
-} & SettingsItem
+  sk: string
+  pk: string
+  name: string
+}
 
 export interface SettingsTabProps {
   setMessage: React.Dispatch<React.SetStateAction<string | boolean>>
 }
 
-const LocationsTab: React.FC<SettingsTabProps> = props => {
+const LocationsTab = () => {
+  const { enqueueSnackbar } = useSnackbar()
   const [selectedCountry, setSelectedCountry] =
     useState<ICountryListDataItem | null>(null)
   const [selectedRegion, setSelectedRegion] =
     useState<IRegionListDataItem | null>(null)
-  const [regions, setRegions] = useState<SettingsItem[]>(regionList)
-  const [stations, setStations] = useState<SettingsItem[]>(stationList)
-  const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
-  const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
-  const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
+  // const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
+  // const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
+  // const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<LocationsDeleteItem | null>(
     null
   )
   const [countrySearchQuery, setCountrySearchQuery] = useState("")
   const [regionSearchQuery, setRegionSearchQuery] = useState("")
   const [stationSearchQuery, setStationSearchQuery] = useState("")
-  const { data: countryListData, isLoading: isCountryListLoading } =
-    useCountryList()
+  const {
+    data: countryListData,
+    isLoading: isCountryListLoading,
+    refetch: refetchCountryList,
+  } = useCountryList()
   const { data: regionListData, isLoading: isRegionListLoading } =
     useRegionList(selectedCountry?.countryCode || "")
+
+  const { mutate: deleteCountryMutate, isLoading: isDeleteCountryLoading } =
+    useMutation<IDeleteCountryResult, Error, IDeleteCountryVariables>(
+      deleteCountry
+    )
 
   const handleCountrySearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -75,17 +84,41 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setStationSearchQuery(e.target.value)
 
-  const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
+  // const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
   // const handleAddCountryModalClose = () => setIsAddCountryModalOpen(false)
   // const handleAddCountry = (countryName: string) => {
   //   setCountries(prev => [...prev, { name: countryName, id: nanoid() }])
   //   props.setMessage(`<strong>${countryName}</strong> successfully created`)
   // }
-  // const handleDeleteCountry = (id: string) => {
-  //   setCountries(prev => prev.filter(p => p.id !== id))
-  //   handleDeleteConfirmationModalClose()
-  //   props.setMessage("Country deleted successfully")
-  // }
+  const handleDeleteCountry = (sk: string, pk: string) => {
+    deleteCountryMutate(
+      { sortKey: sk, partitionKey: pk },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.sortKey ||
+                validationError?.partitionKey ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchCountryList()
+          setSelectedCountry(null)
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+    handleDeleteConfirmationModalClose()
+  }
   const handleClickCountry = (clickedCountry: ICountryListDataItem) => {
     setSelectedCountry(clickedCountry)
   }
@@ -93,27 +126,27 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
     setSelectedRegion(clickedRegion)
   }
 
-  const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
+  // const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
   // const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
   // const handleAddRegion = (regionName: string) => {
   //   setRegions(prev => [...prev, { name: regionName, id: nanoid() }])
   // }
-  const handleDeleteRegion = (id: string) => {
-    setRegions(prev => prev.filter(p => p.id !== id))
-    handleDeleteConfirmationModalClose()
-    props.setMessage("Region deleted successfully")
-  }
+  // const handleDeleteRegion = (id: string) => {
+  //   setRegions(prev => prev.filter(p => p.id !== id))
+  //   handleDeleteConfirmationModalClose()
+  //   props.setMessage("Region deleted successfully")
+  // }
 
-  const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
+  // const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
   // const handleAddStationModalClose = () => setIsAddStationModalOpen(false)
   // const handleAddStation = (stationName: string) => {
   //   setStations(prev => [...prev, { name: stationName, id: nanoid() }])
   // }
-  const handleDeleteStation = (id: string) => {
-    setStations(prev => prev.filter(p => p.id !== id))
-    handleDeleteConfirmationModalClose()
-    props.setMessage("Station deleted successfully")
-  }
+  // const handleDeleteStation = (id: string) => {
+  //   setStations(prev => prev.filter(p => p.id !== id))
+  //   handleDeleteConfirmationModalClose()
+  //   props.setMessage("Station deleted successfully")
+  // }
 
   const handleDeleteConfirmationModalOpen = (deleteItem: LocationsDeleteItem) =>
     setItemToDelete(deleteItem)
@@ -144,22 +177,22 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
     [regionListData, regionSearchQuery]
   )
 
-  const filteredStations = useMemo(
-    () =>
-      stations.filter(station =>
-        station.name.toLowerCase().includes(stationSearchQuery.toLowerCase())
-      ),
-    [stations, stationSearchQuery]
-  )
-
-  // const handleDeleteMap = useCallback(
-  //   (id: string) => ({
-  //     Country: () => handleDeleteCountry(id),
-  //     Region: () => handleDeleteRegion(id),
-  //     Station: () => handleDeleteStation(id),
-  //   }),
-  //   []
+  // const filteredStations = useMemo(
+  //   () =>
+  //     stations.filter(station =>
+  //       station.name.toLowerCase().includes(stationSearchQuery.toLowerCase())
+  //     ),
+  //   [stations, stationSearchQuery]
   // )
+
+  const handleDeleteMap = useCallback(
+    (sk: string, pk: string) => ({
+      Country: () => handleDeleteCountry(sk, pk),
+      Region: () => {},
+      Station: () => {},
+    }),
+    []
+  )
 
   return (
     <StyledLocationsTab>
@@ -183,15 +216,17 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
         regions={filteredRegions}
         stations={filteredStations}
       /> */}
-      {/* {itemToDelete && (
+      {itemToDelete && (
         <DeleteConfirmationModal
           open={!!itemToDelete}
           name={itemToDelete.name}
           type={itemToDelete.type}
           handleClose={handleDeleteConfirmationModalClose}
-          handleDelete={handleDeleteMap(itemToDelete.id)[itemToDelete.type]}
+          handleDelete={
+            handleDeleteMap(itemToDelete.sk, itemToDelete.pk)[itemToDelete.type]
+          }
         />
-      )} */}
+      )}
       <Grid container spacing={2} sx={{ width: "100%" }}>
         <Grid item xs={12} lg={4}>
           <StyledSettingsColumn>
@@ -200,7 +235,10 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 <StyledSettingsColumnContentHeaderText>
                   Country
                 </StyledSettingsColumnContentHeaderText>
-                <ContainedButton iconButton onClick={handleAddCountryModalOpen}>
+                <ContainedButton
+                  iconButton
+                  // onClick={handleAddCountryModalOpen}
+                >
                   <AddIcon
                     sx={{ fontSize: 16, color: theme.palette.common.white }}
                   />
@@ -229,11 +267,12 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                 ) : (
                   <CountryList
                     data={filteredCountries}
-                    onDelete={(id, name) => {
+                    onDelete={(sk: string, pk: string, name: string) => {
                       handleDeleteConfirmationModalOpen({
                         type: "Country",
+                        sk,
+                        pk,
                         name,
-                        id,
                       })
                     }}
                     onClick={handleClickCountry}
@@ -255,7 +294,7 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                   </StyledSettingsColumnContentHeaderText>
                   <ContainedButton
                     iconButton
-                    onClick={handleAddRegionModalOpen}
+                    // onClick={handleAddRegionModalOpen}
                   >
                     <AddIcon
                       sx={{ fontSize: 16, color: theme.palette.common.white }}
@@ -285,11 +324,12 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
                   ) : (
                     <RegionList
                       data={filteredRegions}
-                      onDelete={(id, name) => {
+                      onDelete={(sk, pk, name) => {
                         handleDeleteConfirmationModalOpen({
                           type: "Region",
+                          sk,
+                          pk,
                           name,
-                          id,
                         })
                       }}
                       onClick={handleClickRegion}
@@ -302,7 +342,7 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
             </StyledSettingsColumn>
           )}
         </Grid>
-        <Grid item xs={12} lg={4}>
+        {/* <Grid item xs={12} lg={4}>
           {selectedCountry && (
             <StyledSettingsColumn>
               <StyledSettingsColumnContent last>
@@ -344,7 +384,7 @@ const LocationsTab: React.FC<SettingsTabProps> = props => {
               </StyledSettingsColumnContent>
             </StyledSettingsColumn>
           )}
-        </Grid>
+        </Grid> */}
       </Grid>
     </StyledLocationsTab>
   )
