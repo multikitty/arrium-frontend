@@ -461,17 +461,28 @@ const LocationsTab = () => {
                   onChange={handleStationSearchQueryField}
                 />
                 <StyledSettingsColumnContentList>
-                  <StationList
-                    data={filteredStations}
-                    onDelete={(sk, pk, name) => {
-                      handleDeleteConfirmationModalOpen({
-                        type: "Station",
-                        sk,
-                        pk,
-                        name,
-                      })
-                    }}
-                  />
+                  {isStationListLoading ? (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      width="100%"
+                      my={6}
+                    >
+                      <CircularProgress size={32} />
+                    </Box>
+                  ) : (
+                    <StationList
+                      data={filteredStations}
+                      onDelete={(sk, pk, name) => {
+                        handleDeleteConfirmationModalOpen({
+                          type: "Station",
+                          sk,
+                          pk,
+                          name,
+                        })
+                      }}
+                    />
+                  )}
                 </StyledSettingsColumnContentList>
               </StyledSettingsColumnContent>
             </StyledSettingsColumn>
