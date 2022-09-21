@@ -22,12 +22,19 @@ import theme from "@/theme"
 // import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 // import SettingsListItem from "./SettingsListItem"
-import { deleteCountry, useCountryList, useRegionList } from "@/agent/locations"
+import {
+  deleteCountry,
+  deleteRegion,
+  useCountryList,
+  useRegionList,
+} from "@/agent/locations"
 import {
   // ICountryListData,
   ICountryListDataItem,
   IDeleteCountryResult,
   IDeleteCountryVariables,
+  IDeleteRegionResult,
+  IDeleteRegionVariables,
   IRegionListDataItem,
 } from "@/lib/interfaces/locations"
 import CountryList from "./CountryList"
@@ -66,13 +73,22 @@ const LocationsTab = () => {
     isLoading: isCountryListLoading,
     refetch: refetchCountryList,
   } = useCountryList()
-  const { data: regionListData, isLoading: isRegionListLoading } =
-    useRegionList(selectedCountry?.countryCode || "")
+  const {
+    data: regionListData,
+    isLoading: isRegionListLoading,
+    refetch: refetchRegionList,
+  } = useRegionList(selectedCountry?.countryCode || "")
 
-  const { mutate: deleteCountryMutate, isLoading: isDeleteCountryLoading } =
-    useMutation<IDeleteCountryResult, Error, IDeleteCountryVariables>(
-      deleteCountry
-    )
+  const { mutate: deleteCountryMutate } = useMutation<
+    IDeleteCountryResult,
+    Error,
+    IDeleteCountryVariables
+  >(deleteCountry)
+  const { mutate: deleteRegionMutate } = useMutation<
+    IDeleteRegionResult,
+    Error,
+    IDeleteRegionVariables
+  >(deleteRegion)
 
   const handleCountrySearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -122,20 +138,44 @@ const LocationsTab = () => {
   const handleClickCountry = (clickedCountry: ICountryListDataItem) => {
     setSelectedCountry(clickedCountry)
   }
-  const handleClickRegion = (clickedRegion: IRegionListDataItem) => {
-    setSelectedRegion(clickedRegion)
-  }
 
   // const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
   // const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
   // const handleAddRegion = (regionName: string) => {
   //   setRegions(prev => [...prev, { name: regionName, id: nanoid() }])
   // }
-  // const handleDeleteRegion = (id: string) => {
-  //   setRegions(prev => prev.filter(p => p.id !== id))
-  //   handleDeleteConfirmationModalClose()
-  //   props.setMessage("Region deleted successfully")
-  // }
+  const handleDeleteRegion = (sk: string, pk: string) => {
+    deleteRegionMutate(
+      { sortKey: sk, partitionKey: pk },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.sortKey ||
+                validationError?.partitionKey ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchRegionList()
+          setSelectedRegion(null)
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+    handleDeleteConfirmationModalClose()
+  }
+  const handleClickRegion = (clickedRegion: IRegionListDataItem) => {
+    setSelectedRegion(clickedRegion)
+  }
 
   // const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
   // const handleAddStationModalClose = () => setIsAddStationModalOpen(false)
@@ -188,7 +228,7 @@ const LocationsTab = () => {
   const handleDeleteMap = useCallback(
     (sk: string, pk: string) => ({
       Country: () => handleDeleteCountry(sk, pk),
-      Region: () => {},
+      Region: () => handleDeleteRegion(sk, pk),
       Station: () => {},
     }),
     []

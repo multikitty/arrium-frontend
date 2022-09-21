@@ -60,3 +60,7 @@ export interface IDeleteCountryResult {
   success: boolean
   validationError?: IDeleteCountryVariables
 }
+
+export interface IDeleteRegionVariables extends IDeleteCountryVariables {}
+
+export interface IDeleteRegionResult extends IDeleteCountryResult {}

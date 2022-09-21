@@ -2,6 +2,8 @@ import {
   ICountryListResult,
   IDeleteCountryResult,
   IDeleteCountryVariables,
+  IDeleteRegionResult,
+  IDeleteRegionVariables,
   IRegionListResult,
   IRegionListVariables,
 } from "@/lib/interfaces/locations"
@@ -20,16 +22,20 @@ export function fetchRegionList(
   country_code: IRegionListVariables["country_code"]
 ): Promise<IRegionListResult> {
   return arriumAPI
-    .get("/location/region", { params: { country_code } })
+    .get("/location/region", { params: { coutnry_code: country_code } })
     .then(response => response.data)
 }
 
 export function useRegionList(
   country_code: IRegionListVariables["country_code"]
 ) {
-  return useQuery("region-list", () => fetchRegionList(country_code), {
-    enabled: !!country_code,
-  })
+  return useQuery(
+    ["region-list", country_code],
+    () => fetchRegionList(country_code),
+    {
+      enabled: !!country_code,
+    }
+  )
 }
 
 export const deleteCountry: MutationFunction<
@@ -38,5 +44,14 @@ export const deleteCountry: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.delete("/location/country", { data: params })
+  ).data
+}
+
+export const deleteRegion: MutationFunction<
+  IDeleteRegionResult,
+  IDeleteRegionVariables
+> = async params => {
+  return await (
+    await arriumAPI.delete("/location/region", { data: params })
   ).data
 }
