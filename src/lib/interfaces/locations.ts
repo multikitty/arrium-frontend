@@ -94,3 +94,7 @@ export interface IDeleteCountryResult {
 export interface IDeleteRegionVariables extends IDeleteCountryVariables {}
 
 export interface IDeleteRegionResult extends IDeleteCountryResult {}
+
+export interface IDeleteStationVariables extends IDeleteCountryVariables {}
+
+export interface IDeleteStationResult extends IDeleteCountryResult {}

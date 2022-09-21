@@ -25,6 +25,7 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal"
 import {
   deleteCountry,
   deleteRegion,
+  deleteStation,
   useCountryList,
   useRegionList,
   useStationList,
@@ -36,6 +37,8 @@ import {
   IDeleteCountryVariables,
   IDeleteRegionResult,
   IDeleteRegionVariables,
+  IDeleteStationResult,
+  IDeleteStationVariables,
   IRegionListDataItem,
 } from "@/lib/interfaces/locations"
 import CountryList from "./CountryList"
@@ -99,6 +102,11 @@ const LocationsTab = () => {
     Error,
     IDeleteRegionVariables
   >(deleteRegion)
+  const { mutate: deleteStationMutate } = useMutation<
+    IDeleteStationResult,
+    Error,
+    IDeleteStationVariables
+  >(deleteStation)
 
   const handleCountrySearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -193,11 +201,34 @@ const LocationsTab = () => {
   // const handleAddStation = (stationName: string) => {
   //   setStations(prev => [...prev, { name: stationName, id: nanoid() }])
   // }
-  // const handleDeleteStation = (id: string) => {
-  //   setStations(prev => prev.filter(p => p.id !== id))
-  //   handleDeleteConfirmationModalClose()
-  //   props.setMessage("Station deleted successfully")
-  // }
+  const handleDeleteStation = (sk: string, pk: string) => {
+    deleteStationMutate(
+      { sortKey: sk, partitionKey: pk },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.sortKey ||
+                validationError?.partitionKey ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchStationList()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+    handleDeleteConfirmationModalClose()
+  }
 
   const handleDeleteConfirmationModalOpen = (deleteItem: LocationsDeleteItem) =>
     setItemToDelete(deleteItem)
@@ -249,7 +280,7 @@ const LocationsTab = () => {
     (sk: string, pk: string) => ({
       Country: () => handleDeleteCountry(sk, pk),
       Region: () => handleDeleteRegion(sk, pk),
-      Station: () => {},
+      Station: () => handleDeleteStation(sk, pk),
     }),
     []
   )
