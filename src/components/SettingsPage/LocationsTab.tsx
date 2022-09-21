@@ -27,6 +27,7 @@ import {
   deleteRegion,
   useCountryList,
   useRegionList,
+  useStationList,
 } from "@/agent/locations"
 import {
   // ICountryListData,
@@ -41,6 +42,7 @@ import CountryList from "./CountryList"
 import RegionList from "./RegionList"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
+import StationList from "./StationList"
 
 type LocationsDeleteItem = {
   type: "Country" | "Region" | "Station"
@@ -78,6 +80,14 @@ const LocationsTab = () => {
     isLoading: isRegionListLoading,
     refetch: refetchRegionList,
   } = useRegionList(selectedCountry?.countryCode || "")
+  const {
+    data: stationListData,
+    isLoading: isStationListLoading,
+    refetch: refetchStationList,
+  } = useStationList(
+    selectedCountry?.countryCode || "",
+    selectedRegion?.regionCode || ""
+  )
 
   const { mutate: deleteCountryMutate } = useMutation<
     IDeleteCountryResult,
@@ -137,6 +147,7 @@ const LocationsTab = () => {
   }
   const handleClickCountry = (clickedCountry: ICountryListDataItem) => {
     setSelectedCountry(clickedCountry)
+    setSelectedRegion(null)
   }
 
   // const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
@@ -217,13 +228,22 @@ const LocationsTab = () => {
     [regionListData, regionSearchQuery]
   )
 
-  // const filteredStations = useMemo(
-  //   () =>
-  //     stations.filter(station =>
-  //       station.name.toLowerCase().includes(stationSearchQuery.toLowerCase())
-  //     ),
-  //   [stations, stationSearchQuery]
-  // )
+  const filteredStations = useMemo(
+    () =>
+      (stationListData?.data?.Items || []).filter(
+        station =>
+          station.stationName
+            .toLowerCase()
+            .includes(stationSearchQuery.toLowerCase()) ||
+          station.stationCode
+            .toLowerCase()
+            .includes(stationSearchQuery.toLowerCase()) ||
+          station.stationID
+            .toLowerCase()
+            .includes(stationSearchQuery.toLowerCase())
+      ),
+    [stationListData, stationSearchQuery]
+  )
 
   const handleDeleteMap = useCallback(
     (sk: string, pk: string) => ({
@@ -382,8 +402,8 @@ const LocationsTab = () => {
             </StyledSettingsColumn>
           )}
         </Grid>
-        {/* <Grid item xs={12} lg={4}>
-          {selectedCountry && (
+        <Grid item xs={12} lg={4}>
+          {selectedCountry && selectedRegion && (
             <StyledSettingsColumn>
               <StyledSettingsColumnContent last>
                 <StyledSettingsColumnContentHeaderContainer>
@@ -392,7 +412,7 @@ const LocationsTab = () => {
                   </StyledSettingsColumnContentHeaderText>
                   <ContainedButton
                     iconButton
-                    onClick={handleAddStationModalOpen}
+                    // onClick={handleAddStationModalOpen}
                   >
                     <AddIcon
                       sx={{ fontSize: 16, color: theme.palette.common.white }}
@@ -410,13 +430,14 @@ const LocationsTab = () => {
                   onChange={handleStationSearchQueryField}
                 />
                 <StyledSettingsColumnContentList>
-                  <SettingsListItem
-                    list={filteredStations}
-                    onDelete={(id, name) => {
+                  <StationList
+                    data={filteredStations}
+                    onDelete={(sk, pk, name) => {
                       handleDeleteConfirmationModalOpen({
                         type: "Station",
+                        sk,
+                        pk,
                         name,
-                        id,
                       })
                     }}
                   />
@@ -424,7 +445,7 @@ const LocationsTab = () => {
               </StyledSettingsColumnContent>
             </StyledSettingsColumn>
           )}
-        </Grid> */}
+        </Grid>
       </Grid>
     </StyledLocationsTab>
   )

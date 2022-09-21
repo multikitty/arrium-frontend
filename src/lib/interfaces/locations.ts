@@ -50,6 +50,36 @@ export interface IRegionListResult {
   validationError?: IRegionListVariables
 }
 
+export interface IStationListVariables {
+  countryCode: string
+  regionCode: string
+}
+
+export interface IStationListDataItem {
+  stationCode: string
+  stationType: string
+  stationID: string
+  stationName: string
+  sk: string
+  regionCode: string
+  pk: string
+  regionName: string
+  regionID: string
+}
+
+export interface IStationListData {
+  Items: IStationListDataItem[]
+  Count: number
+  ScannedCount: number
+}
+
+export interface IStationListResult {
+  message: string
+  success: boolean
+  data?: IStationListData
+  validationError?: IStationListVariables
+}
+
 export interface IDeleteCountryVariables {
   sortKey: string
   partitionKey: string

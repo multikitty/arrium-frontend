@@ -6,6 +6,8 @@ import {
   IDeleteRegionVariables,
   IRegionListResult,
   IRegionListVariables,
+  IStationListResult,
+  IStationListVariables,
 } from "@/lib/interfaces/locations"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
@@ -34,6 +36,28 @@ export function useRegionList(
     () => fetchRegionList(country_code),
     {
       enabled: !!country_code,
+    }
+  )
+}
+
+export function fetchStationList(
+  countryCode: IStationListVariables["countryCode"],
+  regionCode: IStationListVariables["regionCode"]
+): Promise<IStationListResult> {
+  return arriumAPI
+    .get("/location/station", { params: { countryCode, regionCode } })
+    .then(response => response.data)
+}
+
+export function useStationList(
+  countryCode: IStationListVariables["countryCode"],
+  regionCode: IStationListVariables["regionCode"]
+) {
+  return useQuery(
+    ["station-list", countryCode, regionCode],
+    () => fetchStationList(countryCode, regionCode),
+    {
+      enabled: !!countryCode && !!regionCode,
     }
   )
 }
