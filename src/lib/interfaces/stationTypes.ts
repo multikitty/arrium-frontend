@@ -18,6 +18,16 @@ export interface IStationTypeListResult {
   data?: IStationTypeListData
 }
 
+export interface IAddStationTypeVariables {
+  stationType: string
+}
+
+export interface IAddStationTypeResult {
+  success: boolean
+  message: string
+  validationError?: IAddStationTypeVariables
+}
+
 export interface IDeleteStationTypeVariables extends IDeleteCountryVariables {}
 
 export interface IDeleteStationTypeResult extends IDeleteCountryResult {}

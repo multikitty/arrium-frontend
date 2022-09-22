@@ -7,17 +7,15 @@ import {
   StyledAddCountryModalForm as StyledAddBlockTypeModalForm,
   StyledAddCountryModalFormActions as StyledAddBlockTypeModalFormActions,
   StyledAddCountryModalFormField as StyledAddBlockTypeModalFormField,
-  StyledAddCountryModalFormHelperText as StyledAddBlockTypeModalHelperText,
   StyledAddCountryModalTitle as StyledAddBlockTypeModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { blockTypeList } from "./SettingsPage.data"
 
 interface IProps {
   open: boolean
   handleClose: () => void
-  handleAdd: () => void
+  handleAdd: (blockType: string) => void
 }
 
 const AddBlockTypeModal = (props: IProps) => {
@@ -26,8 +24,6 @@ const AddBlockTypeModal = (props: IProps) => {
   const handleBlockTypeField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setBlockType(e.target.value)
-
-  const blockTypeError = !!blockTypeList.find(item => item.name === blockType)
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -47,18 +43,16 @@ const AddBlockTypeModal = (props: IProps) => {
               placeholder={`Block Type`}
               value={blockType}
               onChange={handleBlockTypeField}
-              error={blockTypeError}
             />
-            {blockTypeError && (
-              <StyledAddBlockTypeModalHelperText>
-                Block type already exists
-              </StyledAddBlockTypeModalHelperText>
-            )}
           </Box>
           <StyledAddBlockTypeModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={blockTypeError}
+              disabled={!blockType}
+              onClick={() => {
+                setBlockType("")
+                props.handleAdd(blockType)
+              }}
             >
               Save
             </ContainedButton>

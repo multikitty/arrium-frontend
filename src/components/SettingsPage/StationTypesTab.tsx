@@ -17,8 +17,14 @@ import { rem } from "polished"
 import AddBlockTypeModal from "./AddBlockTypeModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 import StationTypeList from "./StationTypeList"
-import { deleteStationType, useStationTypeList } from "@/agent/stationTypes"
 import {
+  addStationType,
+  deleteStationType,
+  useStationTypeList,
+} from "@/agent/stationTypes"
+import {
+  IAddStationTypeResult,
+  IAddStationTypeVariables,
   IDeleteStationTypeResult,
   IDeleteStationTypeVariables,
 } from "@/lib/interfaces/stationTypes"
@@ -44,6 +50,11 @@ const StationTypesTab = () => {
     isLoading: isStationTypeListLoading,
     refetch: refetchStationTypeList,
   } = useStationTypeList()
+  const { mutate: addStationTypeMutate } = useMutation<
+    IAddStationTypeResult,
+    Error,
+    IAddStationTypeVariables
+  >(addStationType)
   const { mutate: deleteStationTypeMutate } = useMutation<
     IDeleteStationTypeResult,
     Error,
@@ -61,6 +72,30 @@ const StationTypesTab = () => {
     deleteItem: StationTypesDeleteItem
   ) => setItemToDelete(deleteItem)
   const handleDeleteConfirmationModalClose = () => setItemToDelete(null)
+
+  const handleAddBlockType = (blockType: string) => {
+    addStationTypeMutate(
+      { stationType: blockType },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(validationError?.stationType || message, {
+              variant: "error",
+            })
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchStationTypeList()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
+    handleAddBlockTypeModalClose()
+  }
 
   const handleDeleteBlockType = (sk: string, pk: string) => {
     deleteStationTypeMutate(
@@ -111,7 +146,7 @@ const StationTypesTab = () => {
       <AddBlockTypeModal
         open={isAddBlockTypeModalOpen}
         handleClose={handleAddBlockTypeModalClose}
-        handleAdd={() => {}}
+        handleAdd={handleAddBlockType}
       />
       {itemToDelete && (
         <DeleteConfirmationModal

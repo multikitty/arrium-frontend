@@ -1,4 +1,6 @@
 import {
+  IAddStationTypeResult,
+  IAddStationTypeVariables,
   IDeleteStationTypeResult,
   IDeleteStationTypeVariables,
 } from "@/lib/interfaces/stationTypes"
@@ -12,6 +14,15 @@ export function fetchStationTypeList(): Promise<IStationTypeListResult> {
 
 export function useStationTypeList() {
   return useQuery("station-type-list", () => fetchStationTypeList())
+}
+
+export const addStationType: MutationFunction<
+  IAddStationTypeResult,
+  IAddStationTypeVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/location/station-type", params)
+  ).data
 }
 
 export const deleteStationType: MutationFunction<
