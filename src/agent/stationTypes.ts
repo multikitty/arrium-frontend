@@ -1,5 +1,9 @@
+import {
+  IDeleteStationTypeResult,
+  IDeleteStationTypeVariables,
+} from "@/lib/interfaces/stationTypes"
 import { IStationTypeListResult } from "@/lib/interfaces/stationTypes"
-import { useQuery } from "react-query"
+import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
 export function fetchStationTypeList(): Promise<IStationTypeListResult> {
@@ -8,4 +12,13 @@ export function fetchStationTypeList(): Promise<IStationTypeListResult> {
 
 export function useStationTypeList() {
   return useQuery("station-type-list", () => fetchStationTypeList())
+}
+
+export const deleteStationType: MutationFunction<
+  IDeleteStationTypeResult,
+  IDeleteStationTypeVariables
+> = async params => {
+  return await (
+    await arriumAPI.delete("/location/station-type", { data: params })
+  ).data
 }

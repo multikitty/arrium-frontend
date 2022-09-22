@@ -1,3 +1,5 @@
+import { IDeleteCountryResult, IDeleteCountryVariables } from "./locations"
+
 export interface IStationTypeListDataItem {
   sk: string
   stationType: string
@@ -15,3 +17,7 @@ export interface IStationTypeListResult {
   success: boolean
   data?: IStationTypeListData
 }
+
+export interface IDeleteStationTypeVariables extends IDeleteCountryVariables {}
+
+export interface IDeleteStationTypeResult extends IDeleteCountryResult {}

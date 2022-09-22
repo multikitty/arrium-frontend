@@ -17,7 +17,13 @@ import { rem } from "polished"
 import AddBlockTypeModal from "./AddBlockTypeModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 import StationTypeList from "./StationTypeList"
-import { useStationTypeList } from "@/agent/stationTypes"
+import { deleteStationType, useStationTypeList } from "@/agent/stationTypes"
+import {
+  IDeleteStationTypeResult,
+  IDeleteStationTypeVariables,
+} from "@/lib/interfaces/stationTypes"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
 
 type StationTypesDeleteItem = {
   type: "Block Type"
@@ -27,6 +33,8 @@ type StationTypesDeleteItem = {
 }
 
 const StationTypesTab = () => {
+  const { enqueueSnackbar } = useSnackbar()
+
   const [blockTypeSearchQuery, setBlockTypeSearchQuery] = useState("")
   const [isAddBlockTypeModalOpen, setIsAddBlockTypeModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] =
@@ -36,6 +44,11 @@ const StationTypesTab = () => {
     isLoading: isStationTypeListLoading,
     refetch: refetchStationTypeList,
   } = useStationTypeList()
+  const { mutate: deleteStationTypeMutate } = useMutation<
+    IDeleteStationTypeResult,
+    Error,
+    IDeleteStationTypeVariables
+  >(deleteStationType)
 
   const handleAddBlockTypeModalOpen = () => setIsAddBlockTypeModalOpen(true)
   const handleAddBlockTypeModalClose = () => setIsAddBlockTypeModalOpen(false)
@@ -50,6 +63,31 @@ const StationTypesTab = () => {
   const handleDeleteConfirmationModalClose = () => setItemToDelete(null)
 
   const handleDeleteBlockType = (sk: string, pk: string) => {
+    deleteStationTypeMutate(
+      { sortKey: sk, partitionKey: pk },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.sortKey ||
+                validationError?.partitionKey ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchStationTypeList()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
     handleDeleteConfirmationModalClose()
   }
 
