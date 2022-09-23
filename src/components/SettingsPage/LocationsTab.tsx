@@ -18,11 +18,12 @@ import { ContainedButton } from "@/components/commons/Button"
 import theme from "@/theme"
 // import { countryList, regionList, stationList } from "./SettingsPage.data"
 // import AddCountryModal from "./AddCountryModal"
-// import AddRegionModal from "./AddRegionModal"
-// import AddStationModal from "./AddStationModal"
+import AddRegionModal from "./AddRegionModal"
+import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 // import SettingsListItem from "./SettingsListItem"
 import {
+  addStation,
   deleteCountry,
   deleteRegion,
   deleteStation,
@@ -31,6 +32,8 @@ import {
   useStationList,
 } from "@/agent/locations"
 import {
+  IAddStationResult,
+  IAddStationVariables,
   // ICountryListData,
   ICountryListDataItem,
   IDeleteCountryResult,
@@ -65,8 +68,8 @@ const LocationsTab = () => {
   const [selectedRegion, setSelectedRegion] =
     useState<IRegionListDataItem | null>(null)
   // const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
-  // const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
-  // const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
+  const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
+  const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<LocationsDeleteItem | null>(
     null
   )
@@ -102,6 +105,11 @@ const LocationsTab = () => {
     Error,
     IDeleteRegionVariables
   >(deleteRegion)
+  const { mutate: addStationMutate } = useMutation<
+    IAddStationResult,
+    Error,
+    IAddStationVariables
+  >(addStation)
   const { mutate: deleteStationMutate } = useMutation<
     IDeleteStationResult,
     Error,
@@ -158,11 +166,9 @@ const LocationsTab = () => {
     setSelectedRegion(null)
   }
 
-  // const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
-  // const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
-  // const handleAddRegion = (regionName: string) => {
-  //   setRegions(prev => [...prev, { name: regionName, id: nanoid() }])
-  // }
+  const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
+  const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
+  const handleAddRegion = (regionName: string) => {}
   const handleDeleteRegion = (sk: string, pk: string) => {
     deleteRegionMutate(
       { sortKey: sk, partitionKey: pk },
@@ -196,11 +202,38 @@ const LocationsTab = () => {
     setSelectedRegion(clickedRegion)
   }
 
-  // const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
-  // const handleAddStationModalClose = () => setIsAddStationModalOpen(false)
-  // const handleAddStation = (stationName: string) => {
-  //   setStations(prev => [...prev, { name: stationName, id: nanoid() }])
-  // }
+  const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
+  const handleAddStationModalClose = () => setIsAddStationModalOpen(false)
+  const handleAddStation = (variables: IAddStationVariables) => {
+    addStationMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.countryCode ||
+              validationError?.regionCode ||
+              validationError?.regionId ||
+              validationError?.regionName ||
+              validationError?.stationCode ||
+              validationError?.stationId ||
+              validationError?.stationName ||
+              validationError?.stationType ||
+              message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchStationList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+  }
   const handleDeleteStation = (sk: string, pk: string) => {
     deleteStationMutate(
       { sortKey: sk, partitionKey: pk },
@@ -292,21 +325,21 @@ const LocationsTab = () => {
         handleClose={handleAddCountryModalClose}
         handleAdd={handleAddCountry}
       /> */}
-      {/* <AddRegionModal
+      <AddRegionModal
         open={isAddRegionModalOpen}
         handleClose={handleAddRegionModalClose}
         handleAdd={handleAddRegion}
         countries={filteredCountries}
-        regions={filteredRegions}
       />
-      <AddStationModal
-        open={isAddStationModalOpen}
-        handleClose={handleAddStationModalClose}
-        handleAdd={handleAddStation}
-        countries={filteredCountries}
-        regions={filteredRegions}
-        stations={filteredStations}
-      /> */}
+      {isAddStationModalOpen && (
+        <AddStationModal
+          open={isAddStationModalOpen}
+          handleClose={handleAddStationModalClose}
+          handleAdd={handleAddStation}
+          countries={countryListData?.data?.Items || []}
+          regions={regionListData?.data?.Items || []}
+        />
+      )}
       {itemToDelete && (
         <DeleteConfirmationModal
           open={!!itemToDelete}
@@ -443,7 +476,7 @@ const LocationsTab = () => {
                   </StyledSettingsColumnContentHeaderText>
                   <ContainedButton
                     iconButton
-                    // onClick={handleAddStationModalOpen}
+                    onClick={handleAddStationModalOpen}
                   >
                     <AddIcon
                       sx={{ fontSize: 16, color: theme.palette.common.white }}

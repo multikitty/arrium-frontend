@@ -80,6 +80,23 @@ export interface IStationListResult {
   validationError?: IStationListVariables
 }
 
+export interface IAddStationVariables {
+  countryCode: string
+  regionName: string
+  regionCode: string
+  regionId: string
+  stationName: string
+  stationCode: string
+  stationId: string
+  stationType: string
+}
+
+export interface IAddStationResult {
+  success: boolean
+  message: string
+  validationError?: IAddStationVariables
+}
+
 export interface IDeleteCountryVariables {
   sortKey: string
   partitionKey: string
