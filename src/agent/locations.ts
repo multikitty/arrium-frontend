@@ -1,4 +1,6 @@
 import {
+  IAddCountryResult,
+  IAddCountryVariables,
   IAddRegionResult,
   IAddRegionVariables,
   IAddStationResult,
@@ -66,6 +68,15 @@ export function useStationList(
       enabled: !!countryCode && !!regionCode,
     }
   )
+}
+
+export const addCountry: MutationFunction<
+  IAddCountryResult,
+  IAddCountryVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/location/country", params)
+  ).data
 }
 
 export const deleteCountry: MutationFunction<

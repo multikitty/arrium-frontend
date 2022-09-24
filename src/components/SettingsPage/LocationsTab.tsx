@@ -3,7 +3,6 @@ import { Box, CircularProgress, Divider, Grid, IconButton } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
-// import { nanoid } from "nanoid"
 
 import {
   StyledLocationsTab,
@@ -16,13 +15,12 @@ import {
 } from "./SettingsPage.styled"
 import { ContainedButton } from "@/components/commons/Button"
 import theme from "@/theme"
-// import { countryList, regionList, stationList } from "./SettingsPage.data"
-// import AddCountryModal from "./AddCountryModal"
+import AddCountryModal from "./AddCountryModal"
 import AddRegionModal from "./AddRegionModal"
 import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-// import SettingsListItem from "./SettingsListItem"
 import {
+  addCountry,
   addRegion,
   addStation,
   deleteCountry,
@@ -33,11 +31,12 @@ import {
   useStationList,
 } from "@/agent/locations"
 import {
+  IAddCountryResult,
+  IAddCountryVariables,
   IAddRegionResult,
   IAddRegionVariables,
   IAddStationResult,
   IAddStationVariables,
-  // ICountryListData,
   ICountryListDataItem,
   IDeleteCountryResult,
   IDeleteCountryVariables,
@@ -60,17 +59,13 @@ type LocationsDeleteItem = {
   name: string
 }
 
-export interface SettingsTabProps {
-  setMessage: React.Dispatch<React.SetStateAction<string | boolean>>
-}
-
 const LocationsTab = () => {
   const { enqueueSnackbar } = useSnackbar()
   const [selectedCountry, setSelectedCountry] =
     useState<ICountryListDataItem | null>(null)
   const [selectedRegion, setSelectedRegion] =
     useState<IRegionListDataItem | null>(null)
-  // const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
+  const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
   const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
   const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<LocationsDeleteItem | null>(
@@ -98,6 +93,11 @@ const LocationsTab = () => {
     selectedRegion?.regionCode || ""
   )
 
+  const { mutate: addCountryMutate } = useMutation<
+    IAddCountryResult,
+    Error,
+    IAddCountryVariables
+  >(addCountry)
   const { mutate: deleteCountryMutate } = useMutation<
     IDeleteCountryResult,
     Error,
@@ -134,12 +134,34 @@ const LocationsTab = () => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setStationSearchQuery(e.target.value)
 
-  // const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
-  // const handleAddCountryModalClose = () => setIsAddCountryModalOpen(false)
-  // const handleAddCountry = (countryName: string) => {
-  //   setCountries(prev => [...prev, { name: countryName, id: nanoid() }])
-  //   props.setMessage(`<strong>${countryName}</strong> successfully created`)
-  // }
+  const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
+  const handleAddCountryModalClose = () => setIsAddCountryModalOpen(false)
+  const handleAddCountry = (variables: IAddCountryVariables) => {
+    addCountryMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.countryCode ||
+              validationError?.country ||
+              validationError?.tzName ||
+              message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchCountryList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+    handleAddCountryModalClose()
+  }
   const handleDeleteCountry = (sk: string, pk: string) => {
     deleteCountryMutate(
       { sortKey: sk, partitionKey: pk },
@@ -354,11 +376,11 @@ const LocationsTab = () => {
 
   return (
     <StyledLocationsTab>
-      {/* <AddCountryModal
+      <AddCountryModal
         open={isAddCountryModalOpen}
         handleClose={handleAddCountryModalClose}
         handleAdd={handleAddCountry}
-      /> */}
+      />
       <AddRegionModal
         open={isAddRegionModalOpen}
         handleClose={handleAddRegionModalClose}
@@ -393,10 +415,7 @@ const LocationsTab = () => {
                 <StyledSettingsColumnContentHeaderText>
                   Country
                 </StyledSettingsColumnContentHeaderText>
-                <ContainedButton
-                  iconButton
-                  // onClick={handleAddCountryModalOpen}
-                >
+                <ContainedButton iconButton onClick={handleAddCountryModalOpen}>
                   <AddIcon
                     sx={{ fontSize: 16, color: theme.palette.common.white }}
                   />

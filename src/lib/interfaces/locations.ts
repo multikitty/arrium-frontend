@@ -25,6 +25,25 @@ export interface ICountryListResult {
   data?: ICountryListData
 }
 
+export interface IAddCountryVariables {
+  tzEnd?: string
+  country: string
+  countryCode: string
+  tzName?: string
+  tzCAbb?: string
+  tzDst?: string
+  tzNAbb?: string
+  tzGMToffset?: string
+  tzStart?: string
+  dialCode?: string
+}
+
+export interface IAddCountryResult {
+  success: boolean
+  message: string
+  validationError?: IAddCountryVariables
+}
+
 export interface IRegionListVariables {
   country_code: string
 }

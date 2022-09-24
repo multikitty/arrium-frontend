@@ -7,7 +7,6 @@ import {
   StyledAddCountryModalForm,
   StyledAddCountryModalFormActions,
   StyledAddCountryModalFormField,
-  // StyledAddCountryModalFormHelperText,
   StyledAddCountryModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
@@ -16,13 +15,12 @@ import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
 import TimezoneSelect, { ITimezone } from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
-import { ICountryListDataItem } from "@/lib/interfaces/locations"
+import { IAddCountryVariables } from "@/lib/interfaces/locations"
 
 interface IProps {
   open: boolean
   handleClose: () => void
-  handleAdd: (name: string) => void
-  countries: ICountryListDataItem[]
+  handleAdd: (variables: IAddCountryVariables) => void
 }
 
 const useStyles = makeStyles({
@@ -52,7 +50,15 @@ const AddCountryModal = (props: IProps) => {
   }
 
   const handleSave = () => {
-    props.handleClose()
+    if (!country) return
+    props.handleAdd({
+      country: country.countryName,
+      countryCode: country.countryShortName,
+      tzName:
+        typeof selectedTimezone === "string"
+          ? selectedTimezone
+          : selectedTimezone.value,
+    })
   }
 
   return (
@@ -71,11 +77,6 @@ const AddCountryModal = (props: IProps) => {
               country={country}
               setCountry={handleCountryField}
             />
-            {/* {countryError && (
-              <StyledAddCountryModalFormHelperText>
-                Country already exists
-              </StyledAddCountryModalFormHelperText>
-            )} */}
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("24px")}>
             <StyledAddCountryModalFormField
