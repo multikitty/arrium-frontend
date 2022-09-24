@@ -50,6 +50,19 @@ export interface IRegionListResult {
   validationError?: IRegionListVariables
 }
 
+export interface IAddRegionVariables {
+  countryCode: string
+  regionName: string
+  regionCode: string
+  regionId: string
+}
+
+export interface IAddRegionResult {
+  success: boolean
+  message: string
+  validationError?: IAddRegionVariables
+}
+
 export interface IStationListVariables {
   countryCode: string
   regionCode: string

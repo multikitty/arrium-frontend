@@ -23,6 +23,7 @@ import AddStationModal from "./AddStationModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
 // import SettingsListItem from "./SettingsListItem"
 import {
+  addRegion,
   addStation,
   deleteCountry,
   deleteRegion,
@@ -32,6 +33,8 @@ import {
   useStationList,
 } from "@/agent/locations"
 import {
+  IAddRegionResult,
+  IAddRegionVariables,
   IAddStationResult,
   IAddStationVariables,
   // ICountryListData,
@@ -100,6 +103,11 @@ const LocationsTab = () => {
     Error,
     IDeleteCountryVariables
   >(deleteCountry)
+  const { mutate: addRegionMutate } = useMutation<
+    IAddRegionResult,
+    Error,
+    IAddRegionVariables
+  >(addRegion)
   const { mutate: deleteRegionMutate } = useMutation<
     IDeleteRegionResult,
     Error,
@@ -168,7 +176,33 @@ const LocationsTab = () => {
 
   const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
   const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
-  const handleAddRegion = (regionName: string) => {}
+  const handleAddRegion = (variables: IAddRegionVariables) => {
+    addRegionMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.countryCode ||
+              validationError?.regionCode ||
+              validationError?.regionId ||
+              validationError?.regionName ||
+              message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchRegionList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+    handleAddRegionModalClose()
+  }
   const handleDeleteRegion = (sk: string, pk: string) => {
     deleteRegionMutate(
       { sortKey: sk, partitionKey: pk },
@@ -418,7 +452,7 @@ const LocationsTab = () => {
                   </StyledSettingsColumnContentHeaderText>
                   <ContainedButton
                     iconButton
-                    // onClick={handleAddRegionModalOpen}
+                    onClick={handleAddRegionModalOpen}
                   >
                     <AddIcon
                       sx={{ fontSize: 16, color: theme.palette.common.white }}

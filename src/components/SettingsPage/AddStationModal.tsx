@@ -147,8 +147,6 @@ const AddStationModal = (props: IProps) => {
 
   const isSubmitDisabled = !station || !country || !region || !stationType
 
-  console.log("country", country)
-
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledAddStationModal>

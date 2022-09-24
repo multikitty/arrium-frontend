@@ -1,4 +1,6 @@
 import {
+  IAddRegionResult,
+  IAddRegionVariables,
   IAddStationResult,
   IAddStationVariables,
   ICountryListResult,
@@ -72,6 +74,15 @@ export const deleteCountry: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.delete("/location/country", { data: params })
+  ).data
+}
+
+export const addRegion: MutationFunction<
+  IAddRegionResult,
+  IAddRegionVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/location/region", params)
   ).data
 }
 
