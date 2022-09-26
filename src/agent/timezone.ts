@@ -24,7 +24,7 @@ export interface IFetchTimezoneByZoneResult {
   zoneStart: number
 }
 
-export function fetchTimezonesByCountry(
+function fetchTimezonesByCountry(
   country: string
 ): Promise<IFetchTimezonesByCountryResult> {
   return listTimezoneAPI
@@ -40,7 +40,7 @@ export function useTimezonesByCountry(country: string | null) {
   )
 }
 
-export function fetchTimezoneByZone(
+function fetchTimezoneByZone(
   zone: string
 ): Promise<IFetchTimezoneByZoneResult> {
   return getTimezoneAPI
