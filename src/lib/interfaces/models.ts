@@ -48,3 +48,28 @@ export interface IOsVersionListResult {
   data: IOsVersionListData
   validationError?: IOsVersionListVariables
 }
+
+export interface IFlexVersionListVariables {
+  next_page?: boolean
+  sk?: string
+  pk?: string
+}
+
+export interface IFlexVersionListDataItem {
+  sk: string
+  flexVersion: string
+  pk: string
+}
+
+export interface IFlexVersionListData {
+  Items: IFlexVersionListDataItem[]
+  Count: number
+  ScannedCount: number
+}
+
+export interface IFlexVersionListResult {
+  success: boolean
+  message: string
+  data: IFlexVersionListData
+  validationError?: IFlexVersionListVariables
+}

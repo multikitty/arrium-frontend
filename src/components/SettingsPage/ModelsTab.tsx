@@ -26,8 +26,13 @@ import {
 } from "./SettingsPage.data"
 import SettingsListItem from "./SettingsListItem"
 import PhoneModelList from "./PhoneModelList"
-import { useOsVersionList, usePhoneModelList } from "@/agent/models"
+import {
+  useFlexVersionList,
+  useOsVersionList,
+  usePhoneModelList,
+} from "@/agent/models"
 import OsVersionList from "./OsVersionList"
+import FlexVersionList from "./FlexVersionList"
 
 type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
@@ -44,6 +49,7 @@ const ModelsTab = () => {
     useState(false)
   const [phoneModelSearchQuery, setPhoneModelSearchQuery] = useState("")
   const [osVersionSearchQuery, setOsVersionSearchQuery] = useState("")
+  const [flexVersionSearchQuery, setFlexVersionSearchQuery] = useState("")
   const [itemToDelete, setItemToDelete] = useState<ModelsDeleteItem | null>(
     null
   )
@@ -52,6 +58,8 @@ const ModelsTab = () => {
     usePhoneModelList()
   const { data: osVersionListData, isLoading: isOsVersionListLoading } =
     useOsVersionList()
+  const { data: flexVersionListData, isLoading: isFlexVersionListLoading } =
+    useFlexVersionList()
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -73,6 +81,9 @@ const ModelsTab = () => {
   const handleOsVersionSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setOsVersionSearchQuery(e.target.value)
+  const handleFlexVersionSearchQueryField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setFlexVersionSearchQuery(e.target.value)
 
   const filteredPhoneModels = useMemo(
     () =>
@@ -92,6 +103,16 @@ const ModelsTab = () => {
           .includes(osVersionSearchQuery.toLowerCase())
       ),
     [osVersionListData, osVersionSearchQuery]
+  )
+
+  const filteredFlexVersions = useMemo(
+    () =>
+      (flexVersionListData?.data?.Items || []).filter(flexVersion =>
+        flexVersion.flexVersion
+          .toLowerCase()
+          .includes(flexVersionSearchQuery.toLowerCase())
+      ),
+    [flexVersionListData, flexVersionSearchQuery]
   )
 
   return (
@@ -246,6 +267,8 @@ const ModelsTab = () => {
                 </ContainedButton>
               </StyledSettingsColumnContentHeaderContainer>
               <StyledSettingsColumnContentSearchField
+                value={flexVersionSearchQuery}
+                onChange={handleFlexVersionSearchQueryField}
                 placeholder="Search flex version"
                 endAdornment={
                   <IconButton sx={{ mr: rem("8px") }}>
@@ -254,17 +277,28 @@ const ModelsTab = () => {
                 }
               />
               <StyledSettingsColumnContentList>
-                <SettingsListItem
-                  list={flexVersionList}
-                  onDelete={(id, name) => {
-                    handleDeleteConfirmationModalOpen({
-                      type: "Flex Version",
-                      name,
-                      sk: "",
-                      pk: "",
-                    })
-                  }}
-                />
+                {isFlexVersionListLoading ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    width="100%"
+                    my={6}
+                  >
+                    <CircularProgress size={32} />
+                  </Box>
+                ) : (
+                  <FlexVersionList
+                    data={filteredFlexVersions}
+                    onDelete={(id, name) => {
+                      handleDeleteConfirmationModalOpen({
+                        type: "Flex Version",
+                        name,
+                        sk: "",
+                        pk: "",
+                      })
+                    }}
+                  />
+                )}
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
           </StyledSettingsColumn>

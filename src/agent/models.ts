@@ -1,4 +1,5 @@
 import {
+  IFlexVersionListResult,
   IOsVersionListResult,
   IPhoneModelListResult,
 } from "@/lib/interfaces/models"
@@ -23,4 +24,14 @@ function fetchOsVersionList(): Promise<IOsVersionListResult> {
 
 export function useOsVersionList() {
   return useQuery("os-version-list", () => fetchOsVersionList())
+}
+
+function fetchFlexVersionList(): Promise<IFlexVersionListResult> {
+  return arriumAPI
+    .get("/model-versions/list?entityName=flexVersion")
+    .then(response => response.data)
+}
+
+export function useFlexVersionList() {
+  return useQuery("flex-version-list", () => fetchFlexVersionList())
 }
