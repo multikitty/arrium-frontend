@@ -26,7 +26,8 @@ import {
 } from "./SettingsPage.data"
 import SettingsListItem from "./SettingsListItem"
 import PhoneModelList from "./PhoneModelList"
-import { usePhoneModelList } from "@/agent/models"
+import { useOsVersionList, usePhoneModelList } from "@/agent/models"
+import OsVersionList from "./OsVersionList"
 
 type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
@@ -42,12 +43,15 @@ const ModelsTab = () => {
   const [isAddFlexVersionModalOpen, setIsAddFlexVersionModalOpen] =
     useState(false)
   const [phoneModelSearchQuery, setPhoneModelSearchQuery] = useState("")
+  const [osVersionSearchQuery, setOsVersionSearchQuery] = useState("")
   const [itemToDelete, setItemToDelete] = useState<ModelsDeleteItem | null>(
     null
   )
 
   const { data: phoneModelListData, isLoading: isPhoneModelListLoading } =
     usePhoneModelList()
+  const { data: osVersionListData, isLoading: isOsVersionListLoading } =
+    useOsVersionList()
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -66,6 +70,9 @@ const ModelsTab = () => {
   const handlePhoneModelSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setPhoneModelSearchQuery(e.target.value)
+  const handleOsVersionSearchQueryField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setOsVersionSearchQuery(e.target.value)
 
   const filteredPhoneModels = useMemo(
     () =>
@@ -75,6 +82,16 @@ const ModelsTab = () => {
         )
       ),
     [phoneModelListData, phoneModelSearchQuery]
+  )
+
+  const filteredOsVersions = useMemo(
+    () =>
+      (osVersionListData?.data?.Items || []).filter(osVersion =>
+        osVersion.osVersion
+          .toLowerCase()
+          .includes(osVersionSearchQuery.toLowerCase())
+      ),
+    [osVersionListData, osVersionSearchQuery]
   )
 
   return (
@@ -175,6 +192,8 @@ const ModelsTab = () => {
                 </ContainedButton>
               </StyledSettingsColumnContentHeaderContainer>
               <StyledSettingsColumnContentSearchField
+                value={osVersionSearchQuery}
+                onChange={handleOsVersionSearchQueryField}
                 placeholder="Search OS version"
                 endAdornment={
                   <IconButton sx={{ mr: rem("8px") }}>
@@ -183,17 +202,28 @@ const ModelsTab = () => {
                 }
               />
               <StyledSettingsColumnContentList>
-                <SettingsListItem
-                  list={osVersionList}
-                  onDelete={(id, name) => {
-                    handleDeleteConfirmationModalOpen({
-                      type: "OS Version",
-                      name,
-                      pk: "",
-                      sk: "",
-                    })
-                  }}
-                />
+                {isOsVersionListLoading ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    width="100%"
+                    my={6}
+                  >
+                    <CircularProgress size={32} />
+                  </Box>
+                ) : (
+                  <OsVersionList
+                    data={filteredOsVersions}
+                    onDelete={(id, name) => {
+                      handleDeleteConfirmationModalOpen({
+                        type: "OS Version",
+                        name,
+                        pk: "",
+                        sk: "",
+                      })
+                    }}
+                  />
+                )}
               </StyledSettingsColumnContentList>
             </StyledSettingsColumnContent>
             <Divider orientation="vertical" flexItem />

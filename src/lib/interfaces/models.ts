@@ -2,7 +2,6 @@ export interface IPhoneModelListVariables {
   next_page?: boolean
   sk?: string
   pk?: string
-  entityName: "phoneModel"
 }
 
 export interface IPhoneModelListDataItem {
@@ -23,4 +22,29 @@ export interface IPhoneModelListResult {
   message: string
   data: IPhoneModelListData
   validationError?: IPhoneModelListVariables
+}
+
+export interface IOsVersionListVariables {
+  next_page?: boolean
+  sk?: string
+  pk?: string
+}
+
+export interface IOsVersionListDataItem {
+  sk: string
+  osVersion: string
+  pk: string
+}
+
+export interface IOsVersionListData {
+  Items: IOsVersionListDataItem[]
+  Count: number
+  ScannedCount: number
+}
+
+export interface IOsVersionListResult {
+  success: boolean
+  message: string
+  data: IOsVersionListData
+  validationError?: IOsVersionListVariables
 }
