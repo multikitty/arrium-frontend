@@ -27,6 +27,7 @@ import {
 import SettingsListItem from "./SettingsListItem"
 import PhoneModelList from "./PhoneModelList"
 import {
+  addOsVersion,
   addPhoneModel,
   useFlexVersionList,
   useOsVersionList,
@@ -36,6 +37,8 @@ import OsVersionList from "./OsVersionList"
 import FlexVersionList from "./FlexVersionList"
 import { useMutation } from "react-query"
 import {
+  IAddOsVersionResult,
+  IAddOsVersionVariables,
   IAddPhoneModelResult,
   IAddPhoneModelVariables,
 } from "@/lib/interfaces/models"
@@ -67,8 +70,11 @@ const ModelsTab = () => {
     isLoading: isPhoneModelListLoading,
     refetch: refetchPhoneModelList,
   } = usePhoneModelList()
-  const { data: osVersionListData, isLoading: isOsVersionListLoading } =
-    useOsVersionList()
+  const {
+    data: osVersionListData,
+    isLoading: isOsVersionListLoading,
+    refetch: refetchOsVersionList,
+  } = useOsVersionList()
   const { data: flexVersionListData, isLoading: isFlexVersionListLoading } =
     useFlexVersionList()
 
@@ -77,6 +83,11 @@ const ModelsTab = () => {
     Error,
     IAddPhoneModelVariables
   >(addPhoneModel)
+  const { mutate: addOsVersionMutate } = useMutation<
+    IAddOsVersionResult,
+    Error,
+    IAddOsVersionVariables
+  >(addOsVersion)
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -126,6 +137,27 @@ const ModelsTab = () => {
     handleAddPhoneModelModalClose()
   }
 
+  const handleAddOsVersion = (variables: IAddOsVersionVariables) => {
+    addOsVersionMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(validationError?.osVersion || message, {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchOsVersionList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+    handleAddOSVersionModalClose()
+  }
+
   const filteredPhoneModels = useMemo(
     () =>
       (phoneModelListData?.data?.Items || []).filter(phoneModel =>
@@ -166,7 +198,7 @@ const ModelsTab = () => {
       <AddOSVersionModal
         open={isAddOSVersionModalOpen}
         handleClose={handleAddOSVersionModalClose}
-        handleAdd={() => {}}
+        handleAdd={handleAddOsVersion}
       />
       <AddFlexVersionModal
         open={isAddFlexVersionModalOpen}
@@ -222,12 +254,12 @@ const ModelsTab = () => {
                 ) : (
                   <PhoneModelList
                     data={filteredPhoneModels}
-                    onDelete={(id, name) => {
+                    onDelete={(sk, pk, name) => {
                       handleDeleteConfirmationModalOpen({
                         type: "Phone Model",
                         name,
-                        sk: "",
-                        pk: "",
+                        sk,
+                        pk,
                       })
                     }}
                   />
@@ -276,12 +308,12 @@ const ModelsTab = () => {
                 ) : (
                   <OsVersionList
                     data={filteredOsVersions}
-                    onDelete={(id, name) => {
+                    onDelete={(sk, pk, name) => {
                       handleDeleteConfirmationModalOpen({
                         type: "OS Version",
                         name,
-                        pk: "",
-                        sk: "",
+                        sk,
+                        pk,
                       })
                     }}
                   />
@@ -330,12 +362,12 @@ const ModelsTab = () => {
                 ) : (
                   <FlexVersionList
                     data={filteredFlexVersions}
-                    onDelete={(id, name) => {
+                    onDelete={(sk, pk, name) => {
                       handleDeleteConfirmationModalOpen({
                         type: "Flex Version",
                         name,
-                        sk: "",
-                        pk: "",
+                        sk,
+                        pk,
                       })
                     }}
                   />

@@ -7,17 +7,16 @@ import {
   StyledAddCountryModalForm as StyledAddOSVersionModalForm,
   StyledAddCountryModalFormActions as StyledAddOSVersionModalFormActions,
   StyledAddCountryModalFormField as StyledAddOSVersionModalFormField,
-  StyledAddCountryModalFormHelperText as StyledAddOSVersionModalFormHelperText,
   StyledAddCountryModalTitle as StyledAddOSVersionModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { osVersionList } from "./SettingsPage.data"
+import { IAddOsVersionVariables } from "@/lib/interfaces/models"
 
 interface IProps {
   open: boolean
   handleClose: () => void
-  handleAdd: () => void
+  handleAdd: (variables: IAddOsVersionVariables) => void
 }
 
 const AddOSVersionModal = (props: IProps) => {
@@ -27,7 +26,12 @@ const AddOSVersionModal = (props: IProps) => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setOsVersion(e.target.value)
 
-  const osVersionError = !!osVersionList.find(item => item.name === osVersion)
+  const isSaveDisabled = !osVersion
+
+  const handleSave = () => {
+    if (isSaveDisabled) return
+    props.handleAdd({ osVersion })
+  }
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -47,18 +51,13 @@ const AddOSVersionModal = (props: IProps) => {
               placeholder={`OS Version`}
               value={osVersion}
               onChange={handleOsVersionField}
-              error={osVersionError}
             />
-            {osVersionError && (
-              <StyledAddOSVersionModalFormHelperText>
-                OS Version already exists
-              </StyledAddOSVersionModalFormHelperText>
-            )}
           </Box>
           <StyledAddOSVersionModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={osVersionError}
+              disabled={isSaveDisabled}
+              onClick={handleSave}
             >
               Save
             </ContainedButton>

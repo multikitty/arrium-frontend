@@ -1,4 +1,6 @@
 import {
+  IAddOsVersionResult,
+  IAddOsVersionVariables,
   IAddPhoneModelResult,
   IAddPhoneModelVariables,
   IFlexVersionListResult,
@@ -35,6 +37,15 @@ function fetchOsVersionList(): Promise<IOsVersionListResult> {
 
 export function useOsVersionList() {
   return useQuery("os-version-list", () => fetchOsVersionList())
+}
+
+export const addOsVersion: MutationFunction<
+  IAddOsVersionResult,
+  IAddOsVersionVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/model-versions/os-version/add", params)
+  ).data
 }
 
 function fetchFlexVersionList(): Promise<IFlexVersionListResult> {

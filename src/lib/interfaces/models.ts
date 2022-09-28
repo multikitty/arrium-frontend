@@ -60,6 +60,16 @@ export interface IOsVersionListResult {
   validationError?: IOsVersionListVariables
 }
 
+export interface IAddOsVersionVariables {
+  osVersion: string
+}
+
+export interface IAddOsVersionResult {
+  success: boolean
+  message: string
+  validationError?: IAddOsVersionVariables
+}
+
 export interface IFlexVersionListVariables {
   next_page?: boolean
   sk?: string
