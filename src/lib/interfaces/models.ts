@@ -24,6 +24,17 @@ export interface IPhoneModelListResult {
   validationError?: IPhoneModelListVariables
 }
 
+export interface IAddPhoneModelVariables {
+  modelName: string
+  modelId: string
+}
+
+export interface IAddPhoneModelResult {
+  success: boolean
+  message: string
+  validationError?: IAddPhoneModelVariables
+}
+
 export interface IOsVersionListVariables {
   next_page?: boolean
   sk?: string

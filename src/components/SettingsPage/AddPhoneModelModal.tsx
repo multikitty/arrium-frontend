@@ -7,17 +7,16 @@ import {
   StyledAddCountryModalForm as StyledAddPhoneModelModalForm,
   StyledAddCountryModalFormActions as StyledAddPhoneModelModalFormActions,
   StyledAddCountryModalFormField as StyledAddPhoneModelModalFormField,
-  StyledAddCountryModalFormHelperText as StyledAddPhoneModelHelperText,
   StyledAddCountryModalTitle as StyledAddPhoneModelModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { phoneModelList } from "./SettingsPage.data"
+import { IAddPhoneModelVariables } from "@/lib/interfaces/models"
 
 interface IProps {
   open: boolean
   handleClose: () => void
-  handleAdd: () => void
+  handleAdd: (variables: IAddPhoneModelVariables) => void
 }
 
 const AddPhoneModelModal = (props: IProps) => {
@@ -32,9 +31,15 @@ const AddPhoneModelModal = (props: IProps) => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setPhoneID(e.target.value)
 
-  const phoneModelError = !!phoneModelList.find(
-    item => item.name === phoneModel
-  )
+  const isSaveDisabled = !phoneID || !phoneModel
+
+  const handleSave = () => {
+    if (isSaveDisabled) return
+    props.handleAdd({
+      modelId: phoneID,
+      modelName: phoneModel,
+    })
+  }
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -53,14 +58,8 @@ const AddPhoneModelModal = (props: IProps) => {
               placeholder={`Phone Model name`}
               value={phoneModel}
               onChange={handlePhoneModelField}
-              error={phoneModelError}
               autoFocus
             />
-            {phoneModelError && (
-              <StyledAddPhoneModelHelperText>
-                Phone Model name already exists
-              </StyledAddPhoneModelHelperText>
-            )}
           </Box>
           <Box display="flex" mb={rem("44px")}>
             <StyledAddPhoneModelModalFormField
@@ -72,7 +71,8 @@ const AddPhoneModelModal = (props: IProps) => {
           <StyledAddPhoneModelModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={phoneModelError}
+              disabled={isSaveDisabled}
+              onClick={handleSave}
             >
               Save
             </ContainedButton>

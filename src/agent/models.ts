@@ -1,9 +1,11 @@
 import {
+  IAddPhoneModelResult,
+  IAddPhoneModelVariables,
   IFlexVersionListResult,
   IOsVersionListResult,
   IPhoneModelListResult,
 } from "@/lib/interfaces/models"
-import { useQuery } from "react-query"
+import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
 function fetchPhoneModelList(): Promise<IPhoneModelListResult> {
@@ -14,6 +16,15 @@ function fetchPhoneModelList(): Promise<IPhoneModelListResult> {
 
 export function usePhoneModelList() {
   return useQuery("phone-model-list", () => fetchPhoneModelList())
+}
+
+export const addPhoneModel: MutationFunction<
+  IAddPhoneModelResult,
+  IAddPhoneModelVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/model-versions/phone-model/add", params)
+  ).data
 }
 
 function fetchOsVersionList(): Promise<IOsVersionListResult> {

@@ -27,12 +27,19 @@ import {
 import SettingsListItem from "./SettingsListItem"
 import PhoneModelList from "./PhoneModelList"
 import {
+  addPhoneModel,
   useFlexVersionList,
   useOsVersionList,
   usePhoneModelList,
 } from "@/agent/models"
 import OsVersionList from "./OsVersionList"
 import FlexVersionList from "./FlexVersionList"
+import { useMutation } from "react-query"
+import {
+  IAddPhoneModelResult,
+  IAddPhoneModelVariables,
+} from "@/lib/interfaces/models"
+import { useSnackbar } from "notistack"
 
 type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
@@ -42,6 +49,7 @@ type ModelsDeleteItem = {
 }
 
 const ModelsTab = () => {
+  const { enqueueSnackbar } = useSnackbar()
   const [isAddPhoneModelModalOpen, setIsAddPhoneModelModalOpen] =
     useState(false)
   const [isAddOSVersionModalOpen, setIsAddOSVersionModalOpen] = useState(false)
@@ -54,12 +62,21 @@ const ModelsTab = () => {
     null
   )
 
-  const { data: phoneModelListData, isLoading: isPhoneModelListLoading } =
-    usePhoneModelList()
+  const {
+    data: phoneModelListData,
+    isLoading: isPhoneModelListLoading,
+    refetch: refetchPhoneModelList,
+  } = usePhoneModelList()
   const { data: osVersionListData, isLoading: isOsVersionListLoading } =
     useOsVersionList()
   const { data: flexVersionListData, isLoading: isFlexVersionListLoading } =
     useFlexVersionList()
+
+  const { mutate: addPhoneModelMutate } = useMutation<
+    IAddPhoneModelResult,
+    Error,
+    IAddPhoneModelVariables
+  >(addPhoneModel)
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -84,6 +101,30 @@ const ModelsTab = () => {
   const handleFlexVersionSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setFlexVersionSearchQuery(e.target.value)
+
+  const handleAddPhoneModel = (variables: IAddPhoneModelVariables) => {
+    addPhoneModelMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.modelId || validationError?.modelName || message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchPhoneModelList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+    handleAddPhoneModelModalClose()
+  }
 
   const filteredPhoneModels = useMemo(
     () =>
@@ -120,7 +161,7 @@ const ModelsTab = () => {
       <AddPhoneModelModal
         open={isAddPhoneModelModalOpen}
         handleClose={handleAddPhoneModelModalClose}
-        handleAdd={() => {}}
+        handleAdd={handleAddPhoneModel}
       />
       <AddOSVersionModal
         open={isAddOSVersionModalOpen}
