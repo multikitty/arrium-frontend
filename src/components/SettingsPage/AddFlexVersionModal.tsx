@@ -7,17 +7,17 @@ import {
   StyledAddCountryModalForm as StyledAddFlexVersionModalForm,
   StyledAddCountryModalFormActions as StyledAddFlexVersionModalFormActions,
   StyledAddCountryModalFormField as StyledAddFlexVersionModalFormField,
-  StyledAddCountryModalFormHelperText as StyledAddFlexVersionModalFormHelperText,
   StyledAddCountryModalTitle as StyledAddFlexVersionModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { flexVersionList } from "./SettingsPage.data"
+
+import { IAddFlexVersionVariables } from "@/lib/interfaces/models"
 
 interface IProps {
   open: boolean
   handleClose: () => void
-  handleAdd: () => void
+  handleAdd: (variables: IAddFlexVersionVariables) => void
 }
 
 const AddFlexVersionModal = (props: IProps) => {
@@ -27,9 +27,12 @@ const AddFlexVersionModal = (props: IProps) => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setFlexVersion(e.target.value)
 
-  const flexVersionError = !!flexVersionList.find(
-    item => item.name === flexVersion
-  )
+  const isSaveDisabled = !flexVersion
+
+  const handleSave = () => {
+    if (isSaveDisabled) return
+    props.handleAdd({ flexVersion })
+  }
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
@@ -49,18 +52,13 @@ const AddFlexVersionModal = (props: IProps) => {
               placeholder={`Amazon Flex Version`}
               value={flexVersion}
               onChange={handleFlexVersionField}
-              error={flexVersionError}
             />
-            {flexVersionError && (
-              <StyledAddFlexVersionModalFormHelperText>
-                Flex Version already exists
-              </StyledAddFlexVersionModalFormHelperText>
-            )}
           </Box>
           <StyledAddFlexVersionModalFormActions>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
-              disabled={flexVersionError}
+              disabled={isSaveDisabled}
+              onClick={handleSave}
             >
               Save
             </ContainedButton>

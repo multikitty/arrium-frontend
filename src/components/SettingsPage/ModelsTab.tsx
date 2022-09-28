@@ -19,14 +19,9 @@ import AddPhoneModelModal from "./AddPhoneModelModal"
 import AddOSVersionModal from "./AddOSVersionModal"
 import AddFlexVersionModal from "./AddFlexVersionModal"
 import DeleteConfirmationModal from "./DeleteConfirmationModal"
-import {
-  flexVersionList,
-  osVersionList,
-  phoneModelList,
-} from "./SettingsPage.data"
-import SettingsListItem from "./SettingsListItem"
 import PhoneModelList from "./PhoneModelList"
 import {
+  addFlexVersion,
   addOsVersion,
   addPhoneModel,
   useFlexVersionList,
@@ -37,6 +32,8 @@ import OsVersionList from "./OsVersionList"
 import FlexVersionList from "./FlexVersionList"
 import { useMutation } from "react-query"
 import {
+  IAddFlexVersionResult,
+  IAddFlexVersionVariables,
   IAddOsVersionResult,
   IAddOsVersionVariables,
   IAddPhoneModelResult,
@@ -75,8 +72,11 @@ const ModelsTab = () => {
     isLoading: isOsVersionListLoading,
     refetch: refetchOsVersionList,
   } = useOsVersionList()
-  const { data: flexVersionListData, isLoading: isFlexVersionListLoading } =
-    useFlexVersionList()
+  const {
+    data: flexVersionListData,
+    isLoading: isFlexVersionListLoading,
+    refetch: refetchFlexVersionList,
+  } = useFlexVersionList()
 
   const { mutate: addPhoneModelMutate } = useMutation<
     IAddPhoneModelResult,
@@ -88,6 +88,11 @@ const ModelsTab = () => {
     Error,
     IAddOsVersionVariables
   >(addOsVersion)
+  const { mutate: addFlexVersionMutate } = useMutation<
+    IAddFlexVersionResult,
+    Error,
+    IAddFlexVersionVariables
+  >(addFlexVersion)
 
   const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
   const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
@@ -158,6 +163,27 @@ const ModelsTab = () => {
     handleAddOSVersionModalClose()
   }
 
+  const handleAddFlexVersion = (variables: IAddFlexVersionVariables) => {
+    addFlexVersionMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(validationError?.flexVersion || message, {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchFlexVersionList()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+    handleAddFlexVersionModalClose()
+  }
+
   const filteredPhoneModels = useMemo(
     () =>
       (phoneModelListData?.data?.Items || []).filter(phoneModel =>
@@ -203,7 +229,7 @@ const ModelsTab = () => {
       <AddFlexVersionModal
         open={isAddFlexVersionModalOpen}
         handleClose={handleAddFlexVersionModalClose}
-        handleAdd={() => {}}
+        handleAdd={handleAddFlexVersion}
       />
       {itemToDelete && (
         <DeleteConfirmationModal

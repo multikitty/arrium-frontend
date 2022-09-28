@@ -94,3 +94,13 @@ export interface IFlexVersionListResult {
   data: IFlexVersionListData
   validationError?: IFlexVersionListVariables
 }
+
+export interface IAddFlexVersionVariables {
+  flexVersion: string
+}
+
+export interface IAddFlexVersionResult {
+  success: boolean
+  message: string
+  validationError?: IAddFlexVersionVariables
+}

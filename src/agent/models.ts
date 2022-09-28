@@ -1,4 +1,6 @@
 import {
+  IAddFlexVersionResult,
+  IAddFlexVersionVariables,
   IAddOsVersionResult,
   IAddOsVersionVariables,
   IAddPhoneModelResult,
@@ -56,4 +58,13 @@ function fetchFlexVersionList(): Promise<IFlexVersionListResult> {
 
 export function useFlexVersionList() {
   return useQuery("flex-version-list", () => fetchFlexVersionList())
+}
+
+export const addFlexVersion: MutationFunction<
+  IAddFlexVersionResult,
+  IAddFlexVersionVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/model-versions/flex-version/add", params)
+  ).data
 }
