@@ -120,9 +120,10 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               <Box display="flex" alignItems="center" mr={1}>
                 <CheckCircleOutlineIcon
                   sx={{
-                    color: theme.palette.common.green,
+                    color: currentUserData?.data?.emailVerified
+                      ? theme.palette.common.green
+                      : theme.palette.grey3,
                     fontSize: 24,
-                    opacity: currentUserData?.data?.emailVerified ? 1 : 0.4,
                   }}
                 />
               </Box>
@@ -142,9 +143,10 @@ const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
               <Box display="flex" alignItems="center" mr={1}>
                 <CheckCircleOutlineIcon
                   sx={{
-                    color: theme.palette.common.green,
+                    color: currentUserData?.data?.phoneVerified
+                      ? theme.palette.common.green
+                      : theme.palette.grey3,
                     fontSize: 24,
-                    opacity: currentUserData?.data?.phoneVerified ? 1 : 0.4,
                   }}
                 />
               </Box>
