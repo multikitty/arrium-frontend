@@ -133,3 +133,34 @@ export interface IUpdateUserAccountInfoResult {
   success: boolean
   validationError?: IUpdateUserAccountInfoError
 }
+
+export interface IUpdateConfigurationDetailsVariables {
+  userPk: string
+  flexUser: string
+  flexPassword: string
+  devModel: string
+  devType: string
+  devId: string
+  devSerialNumber: string
+  osVersion: string
+  flexVersion: string
+  awsReg1: string
+  cogId1: string
+  awsReg2: string
+  cogId2: string
+  amznId: string
+  flexId: string
+  country: string
+  region: string
+  planName: string
+  blockType: string
+}
+
+export interface IUpdateConfigurationDetailsError
+  extends IUpdateConfigurationDetailsVariables {}
+
+export interface IUpdateConfigurationDetailsResult {
+  message: string
+  success: boolean
+  validationError?: IUpdateConfigurationDetailsError
+}

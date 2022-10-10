@@ -23,34 +23,173 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { ITabProps } from "./AccountInformationTab"
 import { Plans } from "@/constants/common"
 import customerConfigOptions from "@/validation/customerConfig"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import { StyledPlaceholder } from "../commons/uiComponents"
-import { useCustomerConfigInfo } from "@/agent/customers"
+import {
+  updateConfigurationDetails,
+  useCustomerConfigInfo,
+} from "@/agent/customers"
 import LoadingScreen from "../LoadingScreen"
+import {
+  useFlexVersionList,
+  useOsVersionList,
+  usePhoneModelList,
+} from "@/agent/models"
+import { useCountryList, useRegionList } from "@/agent/locations"
+import { useStationTypeList } from "@/agent/stationTypes"
+import { useMutation } from "react-query"
+import {
+  IUpdateConfigurationDetailsResult,
+  IUpdateConfigurationDetailsVariables,
+} from "@/lib/interfaces/customers"
+import { useSnackbar } from "notistack"
 
 interface IConfigurationTabProps extends ITabProps {
   pk: string
 }
 
 const ConfigurationTab = (props: IConfigurationTabProps) => {
+  const { enqueueSnackbar } = useSnackbar()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
-  const { data: configData, isLoading } = useCustomerConfigInfo({
+  const {
+    data: configData,
+    isLoading,
+    refetch: refetchConfigInfo,
+  } = useCustomerConfigInfo({
     pk: props.pk,
   })
+  const { data: phoneModelListData } = usePhoneModelList()
+  const { data: osVersionListData } = useOsVersionList()
+  const { data: flexVersionListData } = useFlexVersionList()
+  const { data: stationTypeListData } = useStationTypeList()
+  const { data: countryListData } = useCountryList()
+  const { mutate: configurationDetailsMutate } = useMutation<
+    IUpdateConfigurationDetailsResult,
+    Error,
+    IUpdateConfigurationDetailsVariables
+  >(updateConfigurationDetails)
+
+  type formPropType = typeof customerConfigOptions.defaultValues
+  const { handleSubmit, control, formState, reset, getValues } =
+    useForm<formPropType>(customerConfigOptions)
+  useWatch({ name: "country", control })
+
+  const { data: regionListData } = useRegionList(getValues("country"))
 
   const handleToggleHidePassword = () => {
     setIsPasswordHidden(p => !p)
   }
 
-  type formPropType = typeof customerConfigOptions.defaultValues
+  const handleSave = (variables: IUpdateConfigurationDetailsVariables) => {
+    configurationDetailsMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.amznId ||
+              validationError?.awsReg1 ||
+              validationError?.awsReg2 ||
+              validationError?.blockType ||
+              validationError?.cogId1 ||
+              validationError?.cogId2 ||
+              validationError?.country ||
+              validationError?.devId ||
+              validationError?.devModel ||
+              validationError?.devSerialNumber ||
+              validationError?.devType ||
+              validationError?.flexId ||
+              validationError?.flexPassword ||
+              validationError?.flexUser ||
+              validationError?.flexVersion ||
+              validationError?.osVersion ||
+              validationError?.planName ||
+              validationError?.region ||
+              validationError?.userPk ||
+              message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        refetchConfigInfo()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+  }
 
-  const { handleSubmit, control, formState, reset } = useForm<formPropType>(
-    customerConfigOptions
+  const deviceModelOptionsJSX = (phoneModelListData?.data?.Items || []).map(
+    model => (
+      <MenuItem value={model.ModelName} key={model.ModelID}>
+        {model.ModelName}
+      </MenuItem>
+    )
   )
 
+  const osVersionOptionsJSX = (osVersionListData?.data?.Items || []).map(
+    version => (
+      <MenuItem value={version.osVersion} key={version.osVersion}>
+        {version.osVersion}
+      </MenuItem>
+    )
+  )
+
+  const flexVersionOptionsJSX = (flexVersionListData?.data?.Items || []).map(
+    version => (
+      <MenuItem value={version.flexVersion} key={version.flexVersion}>
+        {version.flexVersion}
+      </MenuItem>
+    )
+  )
+
+  const planTypeOptionsJSX = (stationTypeListData?.data?.Items || []).map(
+    plan => (
+      <MenuItem value={plan.stationType} key={plan.stationType}>
+        {plan.stationType}
+      </MenuItem>
+    )
+  )
+
+  const countryOptionsJSX = (countryListData?.data?.Items || []).map(
+    country => (
+      <MenuItem value={country.countryCode} key={country.countryCode}>
+        {country.country}
+      </MenuItem>
+    )
+  )
+
+  const regionOptionsJSX = (regionListData?.data?.Items || []).map(region => (
+    <MenuItem value={region.regionCode} key={region.regionCode}>
+      {region.regionName}
+    </MenuItem>
+  ))
+
   const onSubmit = (data: formPropType) => {
-    console.log("Config Info form data", data)
-    reset()
+    handleSave({
+      amznId: data["amznID"],
+      awsReg1: data["awsreg1"],
+      awsReg2: data["awsreg2"],
+      blockType: data["blockType"],
+      cogId1: data["cogid1"],
+      cogId2: data["cogid2"],
+      country: data["country"],
+      devId: data["devID"],
+      devModel: data["devModel"],
+      devSerialNumber: data["devSerial"],
+      devType: data["devType"],
+      flexId: data["flexID"],
+      flexVersion: data["flexVersion"],
+      flexUser: data["amznFlexUser"],
+      flexPassword: data["amznFlexPassword"],
+      osVersion: data["osVersion"],
+      planName: data["planName"],
+      region: data["region"],
+      userPk: props.pk,
+    })
   }
 
   React.useEffect(() => {
@@ -122,8 +261,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose Device Model</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="iphone 12 pro">iPhone 12 Pro</MenuItem>
-                    <MenuItem value="iphone 13 pro">iPhone 13 Pro</MenuItem>
+                    {deviceModelOptionsJSX}
                   </Select>
                 )}
               />
@@ -171,11 +309,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose OS version</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="12.4">12.4</MenuItem>
-                    <MenuItem value="12.8">12.8</MenuItem>
-                    <MenuItem value="13.0">13.0</MenuItem>
-                    <MenuItem value="14.8">14.8</MenuItem>
-                    <MenuItem value="15">15</MenuItem>
+                    {osVersionOptionsJSX}
                   </Select>
                 )}
               />
@@ -289,9 +423,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose Flex version</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="14.0.1">14.0.1</MenuItem>
-                    <MenuItem value="17.8.1">17.8.1</MenuItem>
-                    <MenuItem value="17.8.2">17.8.2</MenuItem>
+                    {flexVersionOptionsJSX}
                   </Select>
                 )}
               />
@@ -473,7 +605,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose country here</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="UK">Great Britain</MenuItem>
+                    {countryOptionsJSX}
                   </Select>
                 )}
               />
@@ -499,11 +631,12 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledConfigurationTabFormField />}
+                    disabled={!getValues("country")}
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose region here</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="London">London</MenuItem>
+                    {regionOptionsJSX}
                   </Select>
                 )}
               />
@@ -571,7 +704,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                     <MenuItem disabled value="">
                       <StyledPlaceholder>Choose Plan type</StyledPlaceholder>
                     </MenuItem>
-                    <MenuItem value="Logistic">Logistic</MenuItem>
+                    {planTypeOptionsJSX}
                   </Select>
                 )}
               />
@@ -594,7 +727,7 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
           >
             Cancel
           </OutlinedButton>
-          <ContainedButton onClick={props.handleSave}>Save</ContainedButton>
+          <ContainedButton type="submit">Save</ContainedButton>
         </StyledConfigurationTabFormActions>
       </StyledConfigurationTabForm>
     </StyledConfigurationTab>

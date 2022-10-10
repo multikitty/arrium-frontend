@@ -94,29 +94,49 @@ const ModelsTab = () => {
     IAddFlexVersionVariables
   >(addFlexVersion)
 
-  const handleAddPhoneModelModalOpen = () => setIsAddPhoneModelModalOpen(true)
-  const handleAddPhoneModelModalClose = () => setIsAddPhoneModelModalOpen(false)
+  const handleAddPhoneModelModalOpen = () => {
+    setIsAddPhoneModelModalOpen(true)
+  }
+  const handleAddPhoneModelModalClose = () => {
+    setIsAddPhoneModelModalOpen(false)
+  }
 
-  const handleAddOSVersionModalOpen = () => setIsAddOSVersionModalOpen(true)
-  const handleAddOSVersionModalClose = () => setIsAddOSVersionModalOpen(false)
+  const handleAddOSVersionModalOpen = () => {
+    setIsAddOSVersionModalOpen(true)
+  }
+  const handleAddOSVersionModalClose = () => {
+    setIsAddOSVersionModalOpen(false)
+  }
 
-  const handleAddFlexVersionModalOpen = () => setIsAddFlexVersionModalOpen(true)
-  const handleAddFlexVersionModalClose = () =>
+  const handleAddFlexVersionModalOpen = () => {
+    setIsAddFlexVersionModalOpen(true)
+  }
+  const handleAddFlexVersionModalClose = () => {
     setIsAddFlexVersionModalOpen(false)
+  }
 
-  const handleDeleteConfirmationModalOpen = (deleteItem: ModelsDeleteItem) =>
+  const handleDeleteConfirmationModalOpen = (deleteItem: ModelsDeleteItem) => {
     setItemToDelete(deleteItem)
-  const handleDeleteConfirmationModalClose = () => setItemToDelete(null)
+  }
+  const handleDeleteConfirmationModalClose = () => {
+    setItemToDelete(null)
+  }
 
   const handlePhoneModelSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setPhoneModelSearchQuery(e.target.value)
+    | undefined = e => {
+    setPhoneModelSearchQuery(e.target.value)
+  }
   const handleOsVersionSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setOsVersionSearchQuery(e.target.value)
+    | undefined = e => {
+    setOsVersionSearchQuery(e.target.value)
+  }
   const handleFlexVersionSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setFlexVersionSearchQuery(e.target.value)
+    | undefined = e => {
+    setFlexVersionSearchQuery(e.target.value)
+  }
 
   const handleAddPhoneModel = (variables: IAddPhoneModelVariables) => {
     addPhoneModelMutate(variables, {

@@ -103,7 +103,7 @@ class UserStore {
     runInAction(() => {
       this.user = null
     })
-    navigate(`/${getLocalStorage("country") || "gb"}/en/${routes.signin}`)
+    navigate(`/${getLocalStorage("country") || "gb"}/en${routes.signin}`)
   }
 }
 
