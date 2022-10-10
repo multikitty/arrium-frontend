@@ -1,4 +1,5 @@
 import React from "react"
+import { useParams } from "@reach/router"
 import {
   StyledFlexGrow,
   StyledFooterSection,
@@ -20,10 +21,11 @@ import FacebookIcon from "@/assets/icons/footer-facebook_logo.inline.svg"
 import { Link } from "react-scroll"
 import { IconButton } from "@mui/material"
 import routes from "@/constants/routes"
-import useNavigate from "@/hooks/useNavigate"
+import useNavigate, { ParamType } from "@/hooks/useNavigate"
 
 const FooterSection = () => {
-  const { navigate } = useNavigate()
+  const params = useParams()
+  const { navigate } = useNavigate(params as ParamType)
 
   const handleRedirectToInstagram = () =>
     window.open("https://www.instagram.com/", "_blank")

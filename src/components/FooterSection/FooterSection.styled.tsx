@@ -69,6 +69,7 @@ export const StyledFooterSectionSocialLinksContainer = styled(
   @media ${devices.web.down} {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     margin-right: 0;
     margin-bottom: ${rem("40px")};
   }
@@ -89,6 +90,10 @@ export const StyledFooterSectionSocialLinkMail = styled.a`
 
   &:hover {
     color: ${p => p.theme.palette.main};
+  }
+
+  @media ${devices.web.down} {
+    margin-bottom: 0;
   }
 `
 
