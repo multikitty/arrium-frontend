@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { rem } from "polished"
 
 import {
@@ -46,11 +46,15 @@ const SigninSection = () => {
 
   type formPropType = typeof emailAndPasswordOptions.defaultValues
   const {
+    control,
     register,
     handleSubmit,
     setError,
     formState: { errors },
+    getValues,
   } = useForm<formPropType>(emailAndPasswordOptions)
+  useWatch({ name: "email", control })
+  useWatch({ name: "password", control })
 
   const onSubmit = (data: formPropType) => {
     mutate(
@@ -105,6 +109,12 @@ const SigninSection = () => {
     navigate(routes.forgotPassword)
   }
 
+  const isLoginDisabled =
+    !getValues("email") ||
+    !getValues("password") ||
+    !!errors.email ||
+    !!errors.password
+
   return isWebView ? (
     <StyledLoginContainer component="form" onSubmit={handleSubmit(onSubmit)}>
       <Box display="flex" justifyContent="center">
@@ -156,6 +166,7 @@ const SigninSection = () => {
         disableElevation
         $marginTop={rem("56px")}
         type="submit"
+        disabled={isLoginDisabled}
       >
         <StyledButtonText>Log In</StyledButtonText>
       </StyledButton>
@@ -234,6 +245,7 @@ const SigninSection = () => {
           disableElevation
           $marginTop={rem("56px")}
           type="submit"
+          disabled={isLoginDisabled}
         >
           <StyledButtonText>Log In</StyledButtonText>
         </StyledButton>
