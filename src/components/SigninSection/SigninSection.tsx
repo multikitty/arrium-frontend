@@ -58,20 +58,10 @@ const SigninSection = () => {
       {
         onSuccess({ data, success }) {
           if (!success) {
-            setError("email", {
-              type: "invalid_credentials",
-              message: "Invalid email or password",
+            setError("password", {
+              message: "Your email address or password is incorrect",
+              type: "validate",
             })
-            return setError(
-              "password",
-              {
-                type: "invalid_credentials",
-                message: "Invalid email or password",
-              },
-              {
-                shouldFocus: true,
-              }
-            )
           }
           if (!data) return
           userStore.authenticateUser({
@@ -121,18 +111,11 @@ const SigninSection = () => {
         <StyledLoginText>Login to your account</StyledLoginText>
       </Box>
       <StyledInputField
-        error={!!errors.email}
         placeholder="Enter Email Address"
         variant="outlined"
         {...register("email")}
       />
-      {errors.email && (
-        <StyledWarningText marginbottom={rem("16px")}>
-          {errors.email.message}
-        </StyledWarningText>
-      )}
       <StyledInputField
-        error={!!errors.password}
         placeholder="Enter Password"
         type={isVisible ? "text" : "password"}
         variant="outlined"
@@ -145,11 +128,6 @@ const SigninSection = () => {
           ),
         }}
       />
-      {errors.password && (
-        <StyledWarningText marginbottom={rem("16px")}>
-          Please enter password
-        </StyledWarningText>
-      )}
       <Box display="flex" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <StyledCheckBox
@@ -167,6 +145,11 @@ const SigninSection = () => {
           </StyledSignUpButton>
         </StyledForgotPassword>
       </Box>
+      {errors.password && (
+        <StyledWarningText marginTop={rem("20px")} marginbottom={rem("-32px")}>
+          {errors.password.message}
+        </StyledWarningText>
+      )}
       <StyledButton
         variant="contained"
         color="primary"
@@ -203,18 +186,11 @@ const SigninSection = () => {
           <StyledLoginText>Login to your account</StyledLoginText>
         </Box>
         <StyledInputField
-          error={!!errors.email}
           placeholder="Enter Email Address"
           variant="outlined"
           {...register("email")}
         />
-        {errors.email && (
-          <StyledWarningText marginbottom={rem("16px")}>
-            {errors.email.message}
-          </StyledWarningText>
-        )}
         <StyledInputField
-          error={!!errors.password}
           placeholder="Enter Password"
           type={isVisible ? "text" : "password"}
           variant="outlined"
@@ -227,11 +203,6 @@ const SigninSection = () => {
             ),
           }}
         />
-        {errors.password && (
-          <StyledWarningText marginbottom={rem("16px")}>
-            {errors.password.message}
-          </StyledWarningText>
-        )}
         <Box display="flex" justifyContent="space-between">
           <Box display="flex" alignItems="center">
             <StyledCheckBox
@@ -249,6 +220,14 @@ const SigninSection = () => {
             </StyledSignUpButton>
           </StyledForgotPassword>
         </Box>
+        {errors.password && (
+          <StyledWarningText
+            marginTop={rem("16px")}
+            marginbottom={rem("-32px")}
+          >
+            {errors.password.message}
+          </StyledWarningText>
+        )}
         <StyledButton
           variant="contained"
           color="primary"
