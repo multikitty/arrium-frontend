@@ -104,3 +104,14 @@ export interface IAddFlexVersionResult {
   message: string
   validationError?: IAddFlexVersionVariables
 }
+
+export interface IDeleteModelsAndVersionsVariables {
+  deletePk: string
+  deleteSk: string
+}
+
+export interface IDeleteModelsAndVersionsResult {
+  success: boolean
+  message: string
+  validationError?: IDeleteModelsAndVersionsVariables
+}

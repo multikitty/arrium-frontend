@@ -141,10 +141,7 @@ const LocationsTab = () => {
       onSuccess({ success, message, validationError }) {
         if (!success) {
           enqueueSnackbar(
-            validationError?.countryCode ||
-              validationError?.country ||
-              validationError?.tzName ||
-              message,
+            validationError?.countryCode || validationError?.country || message,
             {
               variant: "error",
             }

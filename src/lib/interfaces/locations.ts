@@ -26,16 +26,8 @@ export interface ICountryListResult {
 }
 
 export interface IAddCountryVariables {
-  tzEnd?: string
   country: string
   countryCode: string
-  tzName?: string
-  tzCAbb?: string
-  tzDst?: string
-  tzNAbb?: string
-  tzGMToffset?: string
-  tzStart?: string
-  dialCode?: string
 }
 
 export interface IAddCountryResult {

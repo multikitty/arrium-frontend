@@ -24,6 +24,7 @@ import {
   addFlexVersion,
   addOsVersion,
   addPhoneModel,
+  deleteModelsAndVersions,
   useFlexVersionList,
   useOsVersionList,
   usePhoneModelList,
@@ -38,6 +39,8 @@ import {
   IAddOsVersionVariables,
   IAddPhoneModelResult,
   IAddPhoneModelVariables,
+  IDeleteModelsAndVersionsResult,
+  IDeleteModelsAndVersionsVariables,
 } from "@/lib/interfaces/models"
 import { useSnackbar } from "notistack"
 
@@ -93,6 +96,11 @@ const ModelsTab = () => {
     Error,
     IAddFlexVersionVariables
   >(addFlexVersion)
+  const { mutate: deleteModelsAndVersionsMutate } = useMutation<
+    IDeleteModelsAndVersionsResult,
+    Error,
+    IDeleteModelsAndVersionsVariables
+  >(deleteModelsAndVersions)
 
   const handleAddPhoneModelModalOpen = () => {
     setIsAddPhoneModelModalOpen(true)
@@ -204,6 +212,34 @@ const ModelsTab = () => {
     handleAddFlexVersionModalClose()
   }
 
+  const handleDeleteModelsAndVersions = (
+    variables: IDeleteModelsAndVersionsVariables
+  ) => {
+    deleteModelsAndVersionsMutate(variables, {
+      onSuccess({ success, message, validationError }) {
+        if (!success) {
+          enqueueSnackbar(
+            validationError?.deletePk || validationError?.deleteSk || message,
+            {
+              variant: "error",
+            }
+          )
+          return
+        }
+        enqueueSnackbar(message, { variant: "success" })
+        if (variables.deletePk === "phoneModel") refetchPhoneModelList()
+        if (variables.deletePk === "osVersion") refetchOsVersionList()
+        if (variables.deletePk === "flexVersion") refetchFlexVersionList()
+        handleDeleteConfirmationModalClose()
+      },
+      onError(error, variables) {
+        enqueueSnackbar(error.message, { variant: "error" })
+        console.error("ERROR:", error)
+        console.log("VARIABLES USED:", variables)
+      },
+    })
+  }
+
   const filteredPhoneModels = useMemo(
     () =>
       (phoneModelListData?.data?.Items || []).filter(phoneModel =>
@@ -257,7 +293,12 @@ const ModelsTab = () => {
           name={itemToDelete.name}
           type={itemToDelete.type}
           handleClose={handleDeleteConfirmationModalClose}
-          handleDelete={() => {}}
+          handleDelete={() =>
+            handleDeleteModelsAndVersions({
+              deletePk: itemToDelete.pk,
+              deleteSk: itemToDelete.sk,
+            })
+          }
         />
       )}
       <Grid container spacing={2} sx={{ width: "100%" }}>

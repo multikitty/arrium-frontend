@@ -71,8 +71,8 @@ const SettingsPage = () => {
           </StyledTabs>
         </Box>
         {isLocationsTabOpen && <LocationsTab />}
-        {isModelsTabOpen && <ModelsTab setMessage={setMessage} />}
-        {isStationTypesTabOpen && <StationTypesTab setMessage={setMessage} />}
+        {isModelsTabOpen && <ModelsTab />}
+        {isStationTypesTabOpen && <StationTypesTab />}
       </StyledSettingsPageContent>
     </StyledSettingsPage>
   )

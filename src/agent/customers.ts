@@ -13,7 +13,7 @@ import {
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
-export function fetchCustomersList(
+function fetchCustomersList(
   params: ICustomersListVariables
 ): Promise<ICustomersListResult> {
   return arriumAPI.get("/user/list", { params }).then(response => response.data)

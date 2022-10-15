@@ -5,6 +5,8 @@ import {
   IAddOsVersionVariables,
   IAddPhoneModelResult,
   IAddPhoneModelVariables,
+  IDeleteModelsAndVersionsResult,
+  IDeleteModelsAndVersionsVariables,
   IFlexVersionListResult,
   IOsVersionListResult,
   IPhoneModelListResult,
@@ -66,5 +68,14 @@ export const addFlexVersion: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.post("/model-versions/flex-version/add", params)
+  ).data
+}
+
+export const deleteModelsAndVersions: MutationFunction<
+  IDeleteModelsAndVersionsResult,
+  IDeleteModelsAndVersionsVariables
+> = async params => {
+  return await (
+    await arriumAPI.delete("/model-versions/delete", { data: params })
   ).data
 }

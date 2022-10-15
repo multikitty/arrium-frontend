@@ -13,8 +13,6 @@ import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
-import TimezoneSelect, { ITimezone } from "react-timezone-select"
-import { makeStyles } from "@mui/styles"
 import { IAddCountryVariables } from "@/lib/interfaces/locations"
 
 interface IProps {
@@ -23,26 +21,10 @@ interface IProps {
   handleAdd: (variables: IAddCountryVariables) => void
 }
 
-const useStyles = makeStyles({
-  timezoneStyles: {
-    "& > div": {
-      padding: "6px 0",
-      borderRadius: "10px !important",
-    },
-    "& > div > div > span": {
-      display: "none",
-    },
-  },
-})
-
 const AddCountryModal = (props: IProps) => {
-  const classes = useStyles()
   const [country, setCountry] = useState<CountryData | null>(null)
   const [countryCode, setCountryCode] =
     useState<CountryData["countryShortName"]>("")
-  const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
-    Intl.DateTimeFormat().resolvedOptions().timeZone
-  )
 
   const handleCountryField = (c: CountryData | null) => {
     setCountry(c)
@@ -54,10 +36,6 @@ const AddCountryModal = (props: IProps) => {
     props.handleAdd({
       country: country.countryName,
       countryCode: country.countryShortName,
-      tzName:
-        typeof selectedTimezone === "string"
-          ? selectedTimezone
-          : selectedTimezone.value,
     })
   }
 
@@ -78,20 +56,12 @@ const AddCountryModal = (props: IProps) => {
               setCountry={handleCountryField}
             />
           </Box>
-          <Box display="flex" flexDirection="column" mb={rem("24px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddCountryModalFormField
               readOnly
               disabled
               value={countryCode}
               placeholder="Country Code"
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <TimezoneSelect
-              placeholder="Choose timezone"
-              value={selectedTimezone}
-              className={classes.timezoneStyles}
-              onChange={setSelectedTimezone}
             />
           </Box>
           <StyledAddCountryModalFormActions>
