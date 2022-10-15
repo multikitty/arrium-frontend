@@ -119,7 +119,8 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           return
         }
         if (!data) return
-        setLocalStorage("token", JSON.stringify(data.token))
+        console.log("data", data)
+        setLocalStorage("token", data.token)
         setFormStage(prev => prev + 1)
         navigateToSignup(stage + 1)
       },

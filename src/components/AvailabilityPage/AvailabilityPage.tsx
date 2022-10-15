@@ -161,11 +161,13 @@ const AvailabilityPage = () => {
     navigate(routes.automationSchedule)
   }
 
-  const onSubmit = (data: FormValues) => {
-    enqueueSnackbar("Search preferences updated", { variant: "success" })
-    setIsSearchable(false)
-    animateScroll.scrollToTop({ smooth: true, duration: 0 })
-  }
+  const onSubmit = () =>
+    // data: FormValues
+    {
+      enqueueSnackbar("Search preferences updated", { variant: "success" })
+      setIsSearchable(false)
+      animateScroll.scrollToTop({ smooth: true, duration: 0 })
+    }
 
   const onInvalid = (data: any) => {
     const error = data.data.find((d: any) => d?.timeToArrive?.ref)
@@ -283,12 +285,14 @@ const AvailabilityPage = () => {
                       {!isExpanded ? "Show more" : "Show less"}
                     </StyledShowMoreText>
                   </Box>
-                  <ContainedButton
-                    sx={{ m: 1, ml: 2 }}
-                    onClick={handleNavigateToAutomationSchedule}
-                  >
-                    Automation Schedule
-                  </ContainedButton>
+                  {isPremiumUser && (
+                    <ContainedButton
+                      sx={{ m: 1, ml: 2 }}
+                      onClick={handleNavigateToAutomationSchedule}
+                    >
+                      Automation Schedule
+                    </ContainedButton>
+                  )}
                   {/* {isPremiumUser && (
                     <Box sx={{ marginLeft: rem("20px") }}>
                       <StyledShowMoreText>
@@ -320,12 +324,14 @@ const AvailabilityPage = () => {
             ) : (
               <StyledCollapsedSearch>
                 <Box display="flex" alignItems="center">
-                  <ContainedButton
-                    sx={{ m: 1, mr: 2 }}
-                    onClick={handleNavigateToAutomationSchedule}
-                  >
-                    Automation Schedule
-                  </ContainedButton>
+                  {isPremiumUser && (
+                    <ContainedButton
+                      sx={{ m: 1, mr: 2 }}
+                      onClick={handleNavigateToAutomationSchedule}
+                    >
+                      Automation Schedule
+                    </ContainedButton>
+                  )}
                   {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <React.Fragment key={index}>

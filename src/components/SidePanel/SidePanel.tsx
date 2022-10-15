@@ -22,6 +22,7 @@ import routes from "@/constants/routes"
 import { IconButton } from "@mui/material"
 import { observer } from "mobx-react-lite"
 import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import { DriverPages } from "@/constants/common"
 
 const SidePanel: React.FC<SidePanelProps> = () => {
   const { pathname } = useLocation()
@@ -42,23 +43,26 @@ const SidePanel: React.FC<SidePanelProps> = () => {
     href: string,
     Icon: React.FunctionComponent<any>,
     label: string
-  ) => (
-    <StyledSidePanelItem
-      active={active}
-      collapsed={commonStore.isSidePanelCollapsed}
-      onClick={() => navigate(`/${href}`)}
-    >
-      <StyledSidePanelItemIcon
+  ) =>
+    (userStore?.currentUser?.plan &&
+      userStore.currentUser.plan !== "premium" &&
+      href === DriverPages.automationSchedule) || (
+      <StyledSidePanelItem
         active={active}
         collapsed={commonStore.isSidePanelCollapsed}
+        onClick={() => navigate(`/${href}`)}
       >
-        <Icon />
-      </StyledSidePanelItemIcon>
-      {commonStore.isSidePanelCollapsed || (
-        <StyledSidePanelItemText>{label}</StyledSidePanelItemText>
-      )}
-    </StyledSidePanelItem>
-  )
+        <StyledSidePanelItemIcon
+          active={active}
+          collapsed={commonStore.isSidePanelCollapsed}
+        >
+          <Icon />
+        </StyledSidePanelItemIcon>
+        {commonStore.isSidePanelCollapsed || (
+          <StyledSidePanelItemText>{label}</StyledSidePanelItemText>
+        )}
+      </StyledSidePanelItem>
+    )
 
   return (
     <StyledSidePanel collapsed={commonStore.isSidePanelCollapsed}>
