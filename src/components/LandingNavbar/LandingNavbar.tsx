@@ -78,7 +78,7 @@ const LandingNavbar = () => {
           <StyledLandingNavbarInfoLink>
             <Link
               delay={300}
-              offset={-50}
+              offset={-150}
               to="benefits-section"
               spy={true}
               smooth={true}
@@ -89,7 +89,7 @@ const LandingNavbar = () => {
           <StyledLandingNavbarInfoLink>
             <Link
               delay={300}
-              offset={-50}
+              offset={-150}
               to="how-it-works-section"
               spy={true}
               smooth={true}
@@ -100,7 +100,7 @@ const LandingNavbar = () => {
           <StyledLandingNavbarInfoLink>
             <Link
               delay={300}
-              offset={-50}
+              offset={-150}
               to="contact-us-section"
               spy={true}
               smooth={true}
