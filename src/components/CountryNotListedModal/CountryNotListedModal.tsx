@@ -1,14 +1,19 @@
 import React from "react"
-import { Modal } from "@mui/material"
 import { rem } from "polished"
 import {
-  StyledAddCountryModal as StyledCountryNotListedModal,
-  StyledAddCountryModalFormActions as StyledCountryNotListedModalFormActions,
-  StyledAddCountryModalTitle as StyledCountryNotListedModalTitle,
-  StyledDeleteConfirmationModalSubTitle,
-} from "../SettingsPage/SettingsPage.styled"
+  StyledCountryNotListedModal,
+  StyledCountryNotListedModalFormActions,
+  StyledCountryNotListedModalTitle,
+  StyledCountryNotListedModalSubTitle,
+  StyledCountryNotListedModalBrandLogoContainer,
+  StyledCountryNotListedModalBrandLogo,
+  StyledCountryNotListedModalIllustrationContainer,
+  StyledCountryNotListedModalIllustration,
+  StyledModal,
+} from "./CountryNotListedModal.styled"
 import { ContainedButton } from "../commons/Button"
-import { Link } from "react-scroll"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
+import selectYourCountryImage from "@/assets/icons/landing-select_your_country.svg"
 
 interface IProps {
   open: boolean
@@ -17,16 +22,22 @@ interface IProps {
 
 const CountryNotListedModal = (props: IProps) => {
   return (
-    <Modal open={props.open}>
+    <StyledModal open={props.open}>
       <StyledCountryNotListedModal countryNotListed>
+        <StyledCountryNotListedModalBrandLogoContainer>
+          <StyledCountryNotListedModalBrandLogo src={brandLogo} />
+        </StyledCountryNotListedModalBrandLogoContainer>
         <StyledCountryNotListedModalTitle deleteConfirmation selectCountry>
-          We're rolling out Arrium globally so if you're waiting for us, we'll
-          be with you shortly.
+          Sit Tight! We're Coming Soon!
         </StyledCountryNotListedModalTitle>
-        <StyledDeleteConfirmationModalSubTitle>
-          In the meantime, send us a message to let us know where you are from,
-          and we'll let you know how soon we'll be launching in your location.
-        </StyledDeleteConfirmationModalSubTitle>
+        <StyledCountryNotListedModalSubTitle>
+          Our team is working tirelessly to bring our services to your location.
+        </StyledCountryNotListedModalSubTitle>
+        <StyledCountryNotListedModalIllustrationContainer>
+          <StyledCountryNotListedModalIllustration
+            src={selectYourCountryImage}
+          />
+        </StyledCountryNotListedModalIllustrationContainer>
         <StyledCountryNotListedModalFormActions>
           <ContainedButton
             sx={{
@@ -36,19 +47,11 @@ const CountryNotListedModal = (props: IProps) => {
             }}
             onClick={props.handleContinue}
           >
-            {/* <Link
-              delay={300}
-              offset={-50}
-              to="contact-us-section"
-              spy={true}
-              smooth={true}
-            > */}
-            Continue
-            {/* </Link> */}
+            Ok
           </ContainedButton>
         </StyledCountryNotListedModalFormActions>
       </StyledCountryNotListedModal>
-    </Modal>
+    </StyledModal>
   )
 }
 

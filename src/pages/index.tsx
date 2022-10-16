@@ -33,7 +33,7 @@ const IndexPage = () => {
     navigate("/gb/en")
     scroller.scrollTo("contact-us-section", {
       delay: 300,
-      offset: -50,
+      offset: -150,
       spy: true,
       smooth: true,
     })

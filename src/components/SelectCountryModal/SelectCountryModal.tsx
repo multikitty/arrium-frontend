@@ -2,16 +2,20 @@ import React from "react"
 import { Box, MenuItem, Modal, Select } from "@mui/material"
 import { rem } from "polished"
 import {
-  StyledAddCountryModal as StyledSelectCountryModal,
-  StyledAddCountryModalFormActions as StyledSelectCountryModalFormActions,
-  StyledAddCountryModalTitle as StyledSelectCountryModalTitle,
-} from "../SettingsPage/SettingsPage.styled"
+  StyledSelectCountryModal,
+  StyledSelectCountryModalBrandLogo,
+  StyledSelectCountryModalBrandLogoContainer,
+  StyledSelectCountryModalFormActions,
+  StyledSelectCountryModalSubTitle,
+  StyledSelectCountryModalTitle,
+} from "./SelectCountryModal.styled"
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { localStorageUtils } from "@/utils"
 import { getFilteredCountries } from "@/utils/getCountryData"
 import { countriesToSelectList } from "@/constants/common"
 import { StyledAccountInformatiomTabContentField } from "../AddCustomerPage/AddCustomerPage.styled"
+import brandLogo from "@/assets/icons/arrium_logo.svg"
 
 interface IProps {
   open: boolean
@@ -39,7 +43,7 @@ const SelectCountryModal = (props: IProps) => {
         <Box component="span" sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
           <img
             loading="lazy"
-            width="20"
+            width="40"
             src={`https://flagcdn.com/w20/${country.countryShortName.toLowerCase()}.png`}
             srcSet={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png 2x`}
             alt=""
@@ -52,11 +56,17 @@ const SelectCountryModal = (props: IProps) => {
   return (
     <Modal open={props.open}>
       <StyledSelectCountryModal>
+        <StyledSelectCountryModalBrandLogoContainer>
+          <StyledSelectCountryModalBrandLogo src={brandLogo} />
+        </StyledSelectCountryModalBrandLogoContainer>
         <StyledSelectCountryModalTitle deleteConfirmation selectCountry>
-          We couldn't identify which country you're visiting us from. Choose
-          your country from the list below
+          Select your country
         </StyledSelectCountryModalTitle>
-        <Box display="flex" my={2}>
+        <StyledSelectCountryModalSubTitle>
+          We couldn't identify which country you're visiting us from. Please
+          choose your country in order to serve you better
+        </StyledSelectCountryModalSubTitle>
+        <Box display="flex" mb={rem("40px")} mx="auto" maxWidth={rem("408px")}>
           <Select
             autoFocus
             displayEmpty
@@ -76,7 +86,7 @@ const SelectCountryModal = (props: IProps) => {
             sx={{ width: "100%", marginBottom: rem("16px") }}
             onClick={handleSave}
           >
-            Save
+            Continue
           </ContainedButton>
         </StyledSelectCountryModalFormActions>
       </StyledSelectCountryModal>
