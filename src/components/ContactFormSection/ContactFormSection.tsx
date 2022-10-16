@@ -46,11 +46,11 @@ const ContactFormSection = () => {
             Talk to a Human{" "}
           </StyledContactFormSectionCardLeftContainerTitle>
           <StyledContactFormSectionCardLeftContainerText>
-            At Arrium, your email isn’t going to disappear into a black hole,
+            At Arrium, your email isn't going to disappear into a black hole,
             your live chat is going to go unanswered.
             <br />
             <br />
-            We provide great customer service because it’s the kind of customer
+            We provide great customer service because it's the kind of customer
             service we expect to receive ourselves. So, we deliver it in the
             same way we expect it to receive it.
           </StyledContactFormSectionCardLeftContainerText>
