@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 
 import { ContainedButton } from "../commons/Button"
 import {
@@ -13,11 +12,16 @@ import {
 } from "./BannerSection.styled"
 import bannerImage from "@/assets/images/landing-banner.png"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const BannerSection = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface IBannerSectionProps extends IPageProps {}
+
+const BannerSection: React.FC<IBannerSectionProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
 
   const handleNavigateToSignup = () => {
     navigate(routes.signup)

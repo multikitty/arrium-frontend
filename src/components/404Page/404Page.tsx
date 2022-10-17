@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { useMediaQuery } from "@mui/material"
 
 import LandingNavbar from "../LandingNavbar"
@@ -18,11 +17,13 @@ import { ContainedButton } from "../commons/Button"
 import { devices } from "@/constants/device"
 import { content } from "@/constants/content"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const _404Page = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface I404Page extends IPageProps {}
+
+const _404Page: React.FC<I404Page> = ({ country_code, lang }) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
   return (

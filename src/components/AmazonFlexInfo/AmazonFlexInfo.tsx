@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import { rem } from "polished"
@@ -23,14 +22,22 @@ import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import { IFlexInfoResult, IFlexInfoVariables } from "@/lib/interfaces/signup"
 import { updateFlexInfo } from "@/agent/signup"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const AmazonFlexInfo: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
-  const params = useParams()
+interface IAmazonFlexInfoProps extends FormProps, IPageProps {}
+
+const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
+  setFormStage,
+  stage,
+  step,
+  country_code,
+  lang,
+}) => {
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
-  } = useNavigate(params as ParamType)
+  } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
   const [userName, setUserName] = useState("")

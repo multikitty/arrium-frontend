@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { useForm, useWatch } from "react-hook-form"
@@ -29,12 +28,17 @@ import {
   ISigninUserVariables,
 } from "@/lib/interfaces/signin"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const SigninSection = () => {
-  const params = useParams()
-  const { navigateToDefault, navigate } = useNavigate(params as ParamType)
+interface ISigninSectionProps extends IPageProps {}
+
+const SigninSection: React.FC<ISigninSectionProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigateToDefault, navigate } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
@@ -72,13 +76,13 @@ const SigninSection = () => {
             id: data.customerID,
             firstName: data.firstname,
             lastName: data.lastname,
-            country: "GB",
+            country: country_code || "gb",
             phoneNumber: data.phoneNumber,
             isPhoneVerified: data.phoneVerified,
             email: data.email,
             isEmailVerified: data.emailVerified,
             role: data.role,
-            plan: data.role === "admin" ? undefined : "basic",
+            plan: data.planType || "basic",
             tzName: data.tzName,
             amznFlexUser: data.amznFlexUser,
             refCode: data.refCode,
@@ -96,9 +100,6 @@ const SigninSection = () => {
         },
       }
     )
-    // const { href, ...response } = await signIn(data.email, data.password)
-    // userStore.authenticateUser(response)
-    // navigate(`/${href}`)
   }
 
   const handleNavigateToSignUp = () => {

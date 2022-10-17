@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 import { useMutation } from "react-query"
@@ -28,21 +27,25 @@ import {
   IOtpConfirmationVariables,
 } from "@/lib/interfaces/signup"
 import { confirmOtp } from "@/agent/signup"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
 const THIRTY_SECONDS_FROM_NOW = timeFromNowInMs(30 * 1000)
 
-const OtpConfirmationSection: React.FC<FormProps> = ({
+interface IOtpConfirmationSectionProps extends FormProps, IPageProps {}
+
+const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
   setFormStage,
   stage,
   step,
+  country_code,
+  lang,
 }) => {
   const { enqueueSnackbar } = useSnackbar()
-  const params = useParams()
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
-  } = useNavigate(params as ParamType)
+  } = useNavigate({ country_code, lang })
   const isWebView = useMediaQuery(devices.web.up)
   const [otp, setOtp] = useState("")
   const [thirdSecondsFromNow, setThirdSecondsFromNow] = useState(

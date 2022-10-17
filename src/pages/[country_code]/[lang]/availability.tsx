@@ -5,10 +5,10 @@ import DriverLayout from "@/components/DriverLayout"
 import AvailabilityPage from "@/components/AvailabilityPage"
 import { UserRoles } from "@/constants/common"
 
-const Availability = () => (
+const Availability = ({ params }: any) => (
   <DriverLayout roles={[UserRoles.driver]}>
     <Seo title="Availability | Arrium" />
-    <AvailabilityPage />
+    <AvailabilityPage country_code={params.country_code} lang={params.lang} />
   </DriverLayout>
 )
 

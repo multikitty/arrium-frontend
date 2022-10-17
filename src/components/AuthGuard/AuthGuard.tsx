@@ -1,24 +1,26 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { observer } from "mobx-react-lite"
 
 import isBrowser from "@/utils/isBrowser"
 import { useStore } from "@/store"
 import { UserRolesType } from "@/types/common"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-interface IProps {
+interface IAuthGuardProps extends IPageProps {
   children: React.ReactNode
   roles: UserRolesType[]
 }
 
-const AuthGuard = (props: IProps) => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+const AuthGuard = (props: IAuthGuardProps) => {
+  const { navigate } = useNavigate({
+    country_code: props.country_code,
+    lang: props.lang,
+  })
   const { userStore } = useStore()
 
-  if (params?.country_code === "uk" || params?.lang === "en") {
+  if (props?.country_code === "uk" || props?.lang === "en") {
     isBrowser() && navigate(routes[404])
     return null
   }

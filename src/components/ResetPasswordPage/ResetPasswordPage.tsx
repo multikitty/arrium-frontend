@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { rem } from "polished"
@@ -19,11 +18,16 @@ import {
 import { devices } from "@/constants/device"
 import formOptions from "@/validation/emailAndPassword"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const ResetPassword = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface IResetPasswordProps extends IPageProps {}
+
+const ResetPassword: React.FC<IResetPasswordProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
     useState(false)

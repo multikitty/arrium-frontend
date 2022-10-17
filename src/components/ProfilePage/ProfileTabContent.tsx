@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, Fade, Grid, IconButton, Menu, MenuItem } from "@mui/material"
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
@@ -26,7 +25,7 @@ import CloseAccountModal from "./CloseAccountModal"
 import theme from "@/theme"
 import { useStore } from "@/store"
 import { personalInformationOptions } from "@/validation"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import routes from "@/constants/routes"
 import { requestEmailVerify, updateProfile, useCurrentUser } from "@/agent/user"
 import LoadingScreen from "../LoadingScreen"
@@ -38,6 +37,7 @@ import {
 } from "@/lib/interfaces/user"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
+import { IPageProps } from "@/lib/interfaces/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -60,10 +60,14 @@ const useStyles = makeStyles({
   },
 })
 
-const ProfileTabContent = () => {
+interface IProfileTabContentProps extends IPageProps {}
+
+const ProfileTabContent: React.FC<IProfileTabContentProps> = ({
+  country_code,
+  lang,
+}) => {
   const classes = useStyles()
-  const params = useParams()
-  const { navigate, navigateToDefault } = useNavigate(params as ParamType)
+  const { navigate, navigateToDefault } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { data: userData, isLoading, refetch } = useCurrentUser()

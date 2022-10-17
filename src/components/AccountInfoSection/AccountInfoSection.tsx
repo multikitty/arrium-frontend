@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import TimeZoneSelect, { ITimezone } from "react-timezone-select"
@@ -30,7 +29,8 @@ import routes from "@/constants/routes"
 import { useStore } from "@/store"
 import { IAccountInfoResult, IAccountInfoVariables } from "@/lib/interfaces/signup"
 import { updateAccountInfo } from "@/agent/signup"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -56,13 +56,16 @@ const useStyles = makeStyles({
   },
 })
 
-const AccountInfoSection: React.FC<FormProps> = ({
+interface IAccountInfoSection extends FormProps, IPageProps {}
+
+const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   setFormStage,
   stage,
   step,
+  country_code,
+  lang
 }) => {
-  const params = useParams()
-  const {navigate, navigateWithQuery: {navigateToSignup}} = useNavigate(params as ParamType)
+  const {navigate, navigateWithQuery: {navigateToSignup}} = useNavigate({country_code, lang})
   const {enqueueSnackbar} = useSnackbar()
 
   const {userStore} = useStore()

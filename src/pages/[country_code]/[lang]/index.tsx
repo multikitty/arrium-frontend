@@ -1,14 +1,15 @@
 import * as React from "react"
-import { useParams } from "@reach/router"
 
 import LandingPage from "@/components/LandingPage"
 import isBrowser from "@/utils/isBrowser"
 import { useStore } from "@/store"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 
-const IndexPage = () => {
-  const params = useParams()
-  const { navigateToDefault } = useNavigate(params as ParamType)
+const IndexPage = ({ params }: any) => {
+  const { navigateToDefault } = useNavigate({
+    country_code: params.country_code || "uk",
+    lang: params.lang || "en",
+  })
   const { userStore } = useStore()
 
   if (userStore.isAuthenticated) {
@@ -19,7 +20,10 @@ const IndexPage = () => {
 
   return (
     <React.Fragment>
-      <LandingPage />
+      <LandingPage
+        country_code={params.country_code || "uk"}
+        lang={params.lang || "en"}
+      />
     </React.Fragment>
   )
 }

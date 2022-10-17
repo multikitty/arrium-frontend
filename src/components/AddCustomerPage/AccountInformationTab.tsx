@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import {
   Box,
   FormControlLabel,
@@ -37,7 +36,8 @@ import { DatePicker } from "@mui/x-date-pickers"
 import { useStore } from "@/store"
 import { StyledAccountInformationTabDateField } from "../CustomerDetailPage/CustomerDetailPage.styled"
 import { observer } from "mobx-react-lite"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -68,7 +68,7 @@ const radioOptions = [
   },
 ]
 
-interface IProps {
+interface IProps extends IPageProps {
   tab: TabType
   role: UserRolesType
   setRole: React.Dispatch<
@@ -76,11 +76,16 @@ interface IProps {
   >
 }
 
-const AccountInformationTab: React.FC<IProps> = ({ tab, role, setRole }) => {
-  const params = useParams()
+const AccountInformationTab: React.FC<IProps> = ({
+  tab,
+  role,
+  setRole,
+  country_code,
+  lang,
+}) => {
   const {
     navigateWithQuery: { navigateToAddCustomerPage },
-  } = useNavigate(params as ParamType)
+  } = useNavigate({ country_code, lang })
   const classes = useStyles()
   const { messageStore, userStore } = useStore()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)

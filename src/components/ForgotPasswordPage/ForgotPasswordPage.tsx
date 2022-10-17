@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { useForm } from "react-hook-form"
@@ -20,7 +19,7 @@ import {
 import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import { useMutation } from "react-query"
 import {
   IForgotPasswordResult,
@@ -28,10 +27,15 @@ import {
 } from "@/lib/interfaces/forgotPassword"
 import { forgotPassword } from "@/agent/forgotPassword"
 import { useSnackbar } from "notistack"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const ForgotPasswordPage = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface IForgotPasswordPageProps extends IPageProps {}
+
+const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const { mutate } = useMutation<
     IForgotPasswordResult,

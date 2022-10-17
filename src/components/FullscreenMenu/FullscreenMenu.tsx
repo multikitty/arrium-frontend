@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useLocation, useParams } from "@reach/router"
+import { useLocation } from "@reach/router"
 import { Avatar, Badge, Box } from "@mui/material"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import { rem } from "polished"
@@ -22,16 +22,21 @@ import FullscreenMenuNotifications from "./FullscreenMenuNotifications"
 import { driverNavigationData } from "./FullscreenMenu.data"
 import { Settings } from "@mui/icons-material"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-export interface IProps {
+export interface IFullscreenMenuProps extends IPageProps {
   open: boolean
   handleFullscreenMenuClose: () => void
 }
 
-const FullscreenMenu = ({ open, handleFullscreenMenuClose }: IProps) => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+const FullscreenMenu = ({
+  open,
+  handleFullscreenMenuClose,
+  country_code,
+  lang,
+}: IFullscreenMenuProps) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const { pathname } = useLocation()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)

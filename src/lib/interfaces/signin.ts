@@ -1,4 +1,4 @@
-import { RegistrationStepsType, UserRolesType } from "@/types/common"
+import { PlansType, RegistrationStepsType, UserRolesType } from "@/types/common"
 
 export interface ISigninUserVariables {
   email: string
@@ -22,6 +22,7 @@ export interface ISigninUserData {
   pk: string
   customerID: string
   token: string
+  planType: PlansType
 }
 
 export interface ISigninUserResult {

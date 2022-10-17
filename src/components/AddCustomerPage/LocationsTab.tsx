@@ -4,7 +4,6 @@ import AddIcon from "@mui/icons-material/Add"
 import DeleteIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
 import { nanoid } from "nanoid"
-import { useParams } from "@reach/router"
 
 import {
   StyledReferralTab as StyledLocationsTab,
@@ -19,7 +18,8 @@ import RegionSelect from "../RegionSelect"
 import SaveChangesModal from "../SaveChangesModal"
 import { useSnackbar } from "notistack"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
 export interface LocationState {
   country: CountryData | null
@@ -33,9 +33,10 @@ const initialLocationState: LocationState = {
   id: nanoid(),
 }
 
-const LocationsTab = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface ILocationsTabProps extends IPageProps {}
+
+const LocationsTab: React.FC<ILocationsTabProps> = ({ country_code, lang }) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const [locationState, setLocationState] = React.useState<LocationState[]>([
     initialLocationState,

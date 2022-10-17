@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { useMediaQuery } from "@mui/material"
 import { observer } from "mobx-react-lite"
 
@@ -19,11 +18,13 @@ import { ContainedButton } from "@/components/commons/Button"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { content } from "@/constants/content"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const _403Page = () => {
-  const params = useParams()
-  const { navigateToDefault } = useNavigate(params as ParamType)
+interface I403Props extends IPageProps {}
+
+const _403Page: React.FC<I403Props> = ({ country_code, lang }) => {
+  const { navigateToDefault } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const isDesktopView = useMediaQuery(devices.desktop.up)
 

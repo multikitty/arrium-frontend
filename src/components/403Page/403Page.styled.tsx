@@ -50,7 +50,7 @@ export const Styled403PageContentTextContainerHeader = styled.h1`
   color: ${p => p.theme.palette.blackText};
 `
 
-export const Styled403PageContentTextContainerSubHeader = styled.p`
+export const Styled403PageContentTextContainerSubHeader = styled.div`
   font-family: Inter;
   font-style: normal;
   font-weight: 400;

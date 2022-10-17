@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import { rem } from "polished"
@@ -35,16 +34,24 @@ import {
 } from "@/lib/interfaces/signup"
 import { useSnackbar } from "notistack"
 import { setLocalStorage } from "@/utils/localStorage"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
+interface ISignupSectionProps extends FormProps, IPageProps {}
+
+const SignupSection: React.FC<ISignupSectionProps> = ({
+  setFormStage,
+  stage,
+  step,
+  country_code,
+  lang,
+}) => {
   const isWebView = useMediaQuery(devices.web.up)
   const { enqueueSnackbar } = useSnackbar()
-  const params = useParams()
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
-  } = useNavigate(params as ParamType)
+  } = useNavigate({ country_code, lang })
 
   const [email, setEmail] = useState("")
   const [isVisible, SetIsVisible] = useState(false)
@@ -102,7 +109,7 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
       email,
       password,
       refCode,
-      countryCode: (params?.country_code || "UK").toUpperCase(),
+      countryCode: (country_code || "UK").toUpperCase(),
     }
 
     mutate(variables, {
@@ -119,7 +126,6 @@ const SignupSection: React.FC<FormProps> = ({ setFormStage, stage, step }) => {
           return
         }
         if (!data) return
-        console.log("data", data)
         setLocalStorage("token", data.token)
         setFormStage(prev => prev + 1)
         navigateToSignup(stage + 1)

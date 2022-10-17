@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useParams } from "@reach/router"
 import {
   Box,
   Chip,
@@ -31,11 +30,10 @@ import {
   StyledCustomersPageHeader,
 } from "./CustomersPage.styled"
 import AddDropdown from "./AddDropdown"
-import { CustomerData, rows } from "./CustomersPage.data"
 import routes from "@/constants/routes"
-import { nanoid } from "nanoid"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import { useCustomersList } from "@/agent/customers"
+import { IPageProps } from "@/lib/interfaces/common"
 
 const statusColorMap = {
   active: "#3DCC70",
@@ -43,11 +41,13 @@ const statusColorMap = {
   disabled: theme.palette.grey5,
 }
 
-const CUSTOMER_ID = nanoid()
+interface ICustomersPageProps extends IPageProps {}
 
-const CustomersPage = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+const CustomersPage: React.FC<ICustomersPageProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const { data: customersData, isLoading } = useCustomersList({})
   const [searchQuery, setSearchQuery] = React.useState("")
   const [addDropdownAnchorEl, setAddDropdownAnchorEl] =
@@ -84,6 +84,8 @@ const CustomersPage = () => {
                 anchorEl={addDropdownAnchorEl}
                 open={isAddDropdownOpen}
                 handleClose={handleAddDropdownClose}
+                country_code={country_code}
+                lang={lang}
               />
             )}
           </Box>

@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 const landingContactSchema = Yup.object().shape({
   fullName: Yup.string().required("The Full Name field must not be empty"),
   email: Yup.string()
-    .required("The Email Address field must not be empty")
+    .required("Please enter a valid email address")
     .email("Please enter a valid email address"),
   question: Yup.string().required("This field must not be empty"),
 })

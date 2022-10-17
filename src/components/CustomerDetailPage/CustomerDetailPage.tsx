@@ -106,12 +106,6 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
             </StyledCustomerDetailPageSubHeader>
           </Box>
         </Box>
-        {/* <Message
-          text={messageStore.message}
-          variant={messageStore.variant}
-          visible={messageStore.open}
-          setVisible={(isOpen: boolean) => (messageStore.setOpen = isOpen)}
-        /> */}
       </StyledCustomerDetailPageHeaderContainer>
       <StyledCustomerDetailPageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

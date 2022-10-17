@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { Box, IconButton, tabsClasses, Tooltip } from "@mui/material"
 import { Close } from "@mui/icons-material"
 import { rem } from "polished"
@@ -13,11 +12,13 @@ import ProfileTabContent from "./ProfileTabContent"
 import FlexAccountTabContent from "./FlexAccountTabContent"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import { useStore } from "@/store"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const ProfilePage = () => {
-  const params = useParams()
-  const { navigateToDefault } = useNavigate(params as ParamType)
+interface IProfilePageProps extends IPageProps {}
+
+const ProfilePage: React.FC<IProfilePageProps> = ({ country_code, lang }) => {
+  const { navigateToDefault } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const [tab, setTab] = React.useState("personalInformation")
 
@@ -81,7 +82,9 @@ const ProfilePage = () => {
             />
           </StyledTabs>
         </Box>
-        {isProfileTabOpen && <ProfileTabContent />}
+        {isProfileTabOpen && (
+          <ProfileTabContent country_code={country_code} lang={lang} />
+        )}
         {isFlexAccountTabOpen && <FlexAccountTabContent />}
       </StyledProfilePageContent>
     </StyledProfilePage>

@@ -1,7 +1,7 @@
 import React from "react"
 import { Box, IconButton } from "@mui/material"
 import { rem } from "polished"
-import { useLocation, useParams } from "@reach/router"
+import { useLocation } from "@reach/router"
 import {
   StyledAddCustomerPage,
   StyledAddCustomerPageHeaderContainer,
@@ -21,14 +21,19 @@ import { TabType, tabs } from "./AddCustomersPage.data"
 import LocationsTab from "./LocationsTab"
 import routes from "@/constants/routes"
 import BillingTab from "./BillingTab"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const AddCustomerPage = () => {
-  const params = useParams()
+interface IAddCustomersPageProps extends IPageProps {}
+
+const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
+  country_code,
+  lang,
+}) => {
   const {
     navigate,
     navigateWithQuery: { navigateToAddCustomerPage },
-  } = useNavigate(params as ParamType)
+  } = useNavigate({ country_code, lang })
   const location = useLocation()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
@@ -126,12 +131,20 @@ const AddCustomerPage = () => {
           </StyledTabs>
         </Box>
         {isAccountInfoTabOpen && (
-          <AccountInformationTab tab={tab} role={role} setRole={setRole} />
+          <AccountInformationTab
+            tab={tab}
+            role={role}
+            setRole={setRole}
+            country_code={country_code}
+            lang={lang}
+          />
         )}
         {isBillingTabOpen && <BillingTab />}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
-        {isLocationsTabOpen && <LocationsTab />}
+        {isLocationsTabOpen && (
+          <LocationsTab country_code={country_code} lang={lang} />
+        )}
       </StyledAddCustomerPageContent>
     </StyledAddCustomerPage>
   )

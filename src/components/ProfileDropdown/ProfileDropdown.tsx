@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import {
   Box,
   CircularProgress,
@@ -24,20 +23,27 @@ import {
 } from "./ProfileDropdown.styled"
 import theme from "@/theme"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { ProfileDropDownProps } from "./ProfileDropDown.types"
 import { useStore } from "@/store"
 import { UserRoles } from "@/constants/common"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import { useCurrentUser } from "@/agent/user"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const ProfileDropdown: React.FC<ProfileDropDownProps> = ({
+interface IProfileDropdownProps extends IPageProps {
+  handleClose: () => void
+  anchorEl: null | HTMLElement
+  open: boolean
+}
+
+const ProfileDropdown: React.FC<IProfileDropdownProps> = ({
   handleClose,
   anchorEl,
   open,
+  country_code,
+  lang,
 }) => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+  const { navigate } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const { data: currentUserData, isLoading } = useCurrentUser()
 

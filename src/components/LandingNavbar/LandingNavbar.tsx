@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from "react"
-import { useParams } from "@reach/router"
 
 import {
   StyledLandingNavbar,
@@ -20,11 +19,13 @@ import { rem } from "polished"
 import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
 import theme from "@/theme"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const LandingNavbar = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface ILandingPageProps extends IPageProps {}
+
+const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code, lang }) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const [hasBackground, setHasBackground] = useState(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
@@ -57,6 +58,8 @@ const LandingNavbar = () => {
       <FullscreenLandingMenu
         open={isFullscreenMenuOpen}
         handleClose={handleFullscreenMenuClose}
+        country_code={country_code}
+        lang={lang}
       />
       {isWebView || (
         <IconButton

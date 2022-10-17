@@ -5,10 +5,10 @@ import AdminLayout from "@/components/AdminLayout"
 import CustomersPage from "@/components/CustomersPage"
 import { UserRoles } from "@/constants/common"
 
-const Customers = () => (
+const Customers = ({ params }: any) => (
   <AdminLayout roles={[UserRoles.admin]}>
     <Seo title="Customers | Arrium" />
-    <CustomersPage />
+    <CustomersPage country_code={params.country_code} lang={params.lang} />
   </AdminLayout>
 )
 

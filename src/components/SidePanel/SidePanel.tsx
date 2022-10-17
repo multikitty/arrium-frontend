@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useLocation, useParams } from "@reach/router"
+import { useLocation } from "@reach/router"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 
@@ -13,7 +13,6 @@ import {
   StyledSidePanelItemText,
 } from "./SidePanel.styled"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { SidePanelProps } from "./SidePanel.types"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import brandLogoSmall from "@/assets/icons/arrium_logo--small.svg"
 import sidePanelData from "./SidePanel.data"
@@ -21,13 +20,18 @@ import { useStore } from "@/store"
 import routes from "@/constants/routes"
 import { IconButton } from "@mui/material"
 import { observer } from "mobx-react-lite"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
 import { DriverPages } from "@/constants/common"
+import { UserRolesType } from "@/types/common"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const SidePanel: React.FC<SidePanelProps> = () => {
+interface ISidePanelProps extends IPageProps {
+  role: UserRolesType
+}
+
+const SidePanel: React.FC<ISidePanelProps> = ({ country_code, lang }) => {
   const { pathname } = useLocation()
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+  const { navigate } = useNavigate({ country_code, lang })
   const { userStore, commonStore } = useStore()
 
   const handleNavigateToHomePage = () => {

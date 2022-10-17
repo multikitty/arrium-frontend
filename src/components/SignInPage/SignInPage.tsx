@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
 
@@ -10,11 +9,13 @@ import {
 import SigninSection from "@/components/SigninSection"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const SignInPage = () => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+interface ISignInPageProps extends IPageProps {}
+
+const SignInPage: React.FC<ISignInPageProps> = ({ country_code, lang }) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const isWebView = useMediaQuery(devices.web.up)
 
   const handleNavigateToHome = () => {
@@ -42,7 +43,7 @@ const SignInPage = () => {
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
-        <SigninSection />
+        <SigninSection country_code={country_code} lang={lang} />
       </Box>
     </React.Fragment>
   )

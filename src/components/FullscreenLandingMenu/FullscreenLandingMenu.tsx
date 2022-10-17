@@ -1,5 +1,4 @@
 import React from "react"
-import { useParams } from "@reach/router"
 import { IconButton } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
@@ -18,16 +17,22 @@ import {
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import { FullscreenLandingMenuProps } from "./FullscreenLandingMenu.types"
 import routes from "@/constants/routes"
-import useNavigate, { ParamType } from "@/hooks/useNavigate"
+import useNavigate from "@/hooks/useNavigate"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const FullscreenLandingMenu = ({
+interface IFullscreenLandingMenuProps extends IPageProps {
+  open: boolean
+  handleClose: () => void
+}
+
+const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
   handleClose,
   open,
-}: FullscreenLandingMenuProps) => {
-  const params = useParams()
-  const { navigate } = useNavigate(params as ParamType)
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
 
   const handleLoginButtonClick = () => {
     handleClose()
