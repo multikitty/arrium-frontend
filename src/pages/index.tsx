@@ -4,12 +4,16 @@ import SelectCountryModal from "@/components/SelectCountryModal"
 import CountryNotListedModal from "@/components/CountryNotListedModal"
 import { navigate } from "gatsby-link"
 import { scroller } from "react-scroll"
+import { useGeolocation } from "@/agent/geolocation"
+import LoadingScreen from "@/components/LoadingScreen"
+import { countriesToSelectList } from "@/constants/common"
 
 const IndexPage = () => {
   const [selectCountryModalOpen, setSelectCountryModalOpen] =
-    React.useState(true)
+    React.useState(false)
   const [countryNotListedModalOpen, setCountryNotListedModalOpen] =
     React.useState(false)
+  const { data: geolocationData, isLoading } = useGeolocation()
 
   const handleSelectCountryModalClose = () => {
     setSelectCountryModalOpen(false)
@@ -39,6 +43,21 @@ const IndexPage = () => {
     })
   }
 
+  React.useEffect(() => {
+    if (!geolocationData) return
+    if (
+      countriesToSelectList.includes(
+        geolocationData.country_code2.toLowerCase()
+      )
+    ) {
+      navigate(`/${geolocationData.country_code2.toLowerCase()}/en`)
+      return
+    }
+    setSelectCountryModalOpen(true)
+  }, [geolocationData])
+
+  if (isLoading) return <LoadingScreen />
+
   return (
     <React.Fragment>
       <SelectCountryModal
@@ -50,7 +69,7 @@ const IndexPage = () => {
         open={countryNotListedModalOpen}
         handleContinue={handleCountryNotListedModalContinue}
       />
-      <LandingPage />
+      <LandingPage country_code={""} lang={""} />
     </React.Fragment>
   )
 }

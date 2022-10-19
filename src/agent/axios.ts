@@ -46,4 +46,8 @@ export const getTimezoneAPI = createInstance(
   `http://api.timezonedb.com/v2.1/get-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json&by=zone&fields=zoneStart,zoneEnd,zoneName,gmtOffset`
 )
 
+export const getGeolocationAPI =
+  createInstance(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.GATSBY_GEOLOCATION_API_KEY}&fields=geo,calling_code,country_flag,time_zone&excludes=continent_code,continent_name,country_code3,state_prov,district,city,zipcode
+`)
+
 export { arriumAPI }
