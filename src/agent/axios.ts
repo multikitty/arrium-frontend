@@ -51,7 +51,7 @@ export const getTimezoneAPI = createInstance(
 // `)
 
 export const getGeolocationAPI =
-  createInstance(`http://ipwho.is?fields=country,country_code,calling_code,timezone,flag
+  createInstance(`https://ipwho.is?fields=country,country_code,calling_code,timezone,flag
 `)
 
 export { arriumAPI }
