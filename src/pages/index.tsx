@@ -13,7 +13,9 @@ const IndexPage = () => {
     React.useState(false)
   const [countryNotListedModalOpen, setCountryNotListedModalOpen] =
     React.useState(false)
-  const { data: geolocationData, isLoading } = useGeolocation()
+  const { data: geolocationData, isLoading, isError } = useGeolocation()
+
+  console.log("geolocation data:", geolocationData)
 
   const handleSelectCountryModalClose = () => {
     setSelectCountryModalOpen(false)
@@ -46,15 +48,13 @@ const IndexPage = () => {
   React.useEffect(() => {
     if (!geolocationData) return
     if (
-      countriesToSelectList.includes(
-        geolocationData.country_code2.toLowerCase()
-      )
-    ) {
-      navigate(`/${geolocationData.country_code2.toLowerCase()}/en`)
-      return
-    }
-    setSelectCountryModalOpen(true)
-  }, [geolocationData])
+      countriesToSelectList.includes(geolocationData.country_code.toLowerCase())
+    )
+      navigate(`/${geolocationData.country_code.toLowerCase()}/en`)
+    else setSelectCountryModalOpen(true)
+
+    if (isError) setSelectCountryModalOpen(true)
+  }, [geolocationData, isError])
 
   if (isLoading) return <LoadingScreen />
 
