@@ -17,10 +17,10 @@ export const clearLocalStorage = () => {
 }
 
 const localStorageUtils = {
-  setLocalStorage,
-  getLocalStorage,
-  removeLocalStorage,
-  clearLocalStorage,
+  set: setLocalStorage,
+  get: getLocalStorage,
+  remove: removeLocalStorage,
+  clear: clearLocalStorage,
 }
 
 export default localStorageUtils

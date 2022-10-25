@@ -1,4 +1,4 @@
-export interface AddModalProps {
+export interface ModalProps {
   open: boolean
   handleClose: () => void
 }

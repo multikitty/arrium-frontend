@@ -7,15 +7,19 @@ import { scroller } from "react-scroll"
 import { useGeolocation } from "@/agent/geolocation"
 import LoadingScreen from "@/components/LoadingScreen"
 import { countriesToSelectList } from "@/constants/common"
+import { localStorageUtils } from "@/utils"
+import { COUNTRY_CODE } from "@/constants/localStorage"
 
 const IndexPage = () => {
   const [selectCountryModalOpen, setSelectCountryModalOpen] =
     React.useState(false)
   const [countryNotListedModalOpen, setCountryNotListedModalOpen] =
     React.useState(false)
-  const { data: geolocationData, isLoading, isError } = useGeolocation()
-
-  console.log("geolocation data:", geolocationData)
+  const {
+    data: geolocationData,
+    isLoading,
+    isError,
+  } = useGeolocation({ enabled: !!localStorageUtils.get(COUNTRY_CODE) })
 
   const handleSelectCountryModalClose = () => {
     setSelectCountryModalOpen(false)
@@ -46,12 +50,19 @@ const IndexPage = () => {
   }
 
   React.useEffect(() => {
+    const codeInStorage = localStorageUtils.get(COUNTRY_CODE)
+    if (codeInStorage) {
+      navigate(`/${codeInStorage}/en`)
+      return
+    }
     if (!geolocationData) return
     if (
       countriesToSelectList.includes(geolocationData.country_code.toLowerCase())
-    )
-      navigate(`/${geolocationData.country_code.toLowerCase()}/en`)
-    else setSelectCountryModalOpen(true)
+    ) {
+      const countryCode = geolocationData.country_code.toLowerCase()
+      localStorageUtils.set(COUNTRY_CODE, countryCode)
+      navigate(`/${countryCode}/en`)
+    } else setSelectCountryModalOpen(true)
 
     if (isError) setSelectCountryModalOpen(true)
   }, [geolocationData, isError])

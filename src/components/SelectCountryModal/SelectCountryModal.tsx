@@ -16,6 +16,7 @@ import { getFilteredCountries } from "@/utils/getCountryData"
 import { countriesToSelectList } from "@/constants/common"
 import { StyledAccountInformatiomTabContentField } from "../AddCustomerPage/AddCustomerPage.styled"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
+import { COUNTRY_CODE } from "@/constants/localStorage"
 
 interface IProps {
   open: boolean
@@ -30,10 +31,7 @@ const SelectCountryModal = (props: IProps) => {
 
   const handleSave = () => {
     if (selectedCountry === "") return props.handleSave()
-    localStorageUtils.setLocalStorage(
-      "country",
-      selectedCountry?.toLowerCase() || "gb"
-    )
+    localStorageUtils.set(COUNTRY_CODE, selectedCountry?.toLowerCase() || "gb")
     navigate(`/${selectedCountry?.toLowerCase() || "gb"}/en`)
   }
 

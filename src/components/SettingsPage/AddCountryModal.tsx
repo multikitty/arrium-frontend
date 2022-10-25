@@ -14,10 +14,9 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
 import { IAddCountryVariables } from "@/lib/interfaces/locations"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
+interface IProps extends ModalProps {
   handleAdd: (variables: IAddCountryVariables) => void
 }
 

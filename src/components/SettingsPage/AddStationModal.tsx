@@ -25,10 +25,9 @@ import {
 } from "@/lib/interfaces/locations"
 import { IStationTypeListDataItem } from "@/lib/interfaces/stationTypes"
 import { useStationTypeList } from "@/agent/stationTypes"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
+interface IProps extends ModalProps {
   handleAdd: (variables: IAddStationVariables) => void
   countries: ICountryListDataItem[]
   regions: IRegionListDataItem[]

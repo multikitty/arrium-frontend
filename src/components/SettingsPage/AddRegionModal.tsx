@@ -22,10 +22,9 @@ import {
   IAddRegionVariables,
   ICountryListDataItem,
 } from "@/lib/interfaces/locations"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
+interface IProps extends ModalProps {
   handleAdd: (variables: IAddRegionVariables) => void
   countries: ICountryListDataItem[]
 }

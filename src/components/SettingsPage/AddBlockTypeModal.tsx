@@ -11,10 +11,9 @@ import {
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
+interface IProps extends ModalProps {
   handleAdd: (blockType: string) => void
 }
 

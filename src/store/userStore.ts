@@ -2,17 +2,14 @@ import { makeAutoObservable, runInAction } from "mobx"
 
 import { UserType } from "@/types/auth"
 import isBrowser from "@/utils/isBrowser"
-import {
-  setLocalStorage,
-  removeLocalStorage,
-  getLocalStorage,
-} from "@/utils/localStorage"
+import localStorageUtils from "@/utils/localStorage"
 import { getCurrencySymbolByCountryCode } from "@/utils"
 import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 import countryToCurrency from "country-to-currency"
 import { noCase } from "change-case"
 import routes from "@/constants/routes"
 import { navigate } from "gatsby-link"
+import { COUNTRY_CODE, TOKEN, USER } from "@/constants/localStorage"
 
 class UserStore {
   user: UserType = null
@@ -22,13 +19,13 @@ class UserStore {
   }
 
   get userToken() {
-    return getLocalStorage("token") || null
+    return localStorageUtils.get(TOKEN) || null
   }
 
   get currentUser() {
     return (
       this.user ||
-      (JSON.parse(getLocalStorage("user") as string) as UserType) ||
+      (JSON.parse(localStorageUtils.get(USER) as string) as UserType) ||
       null
     )
   }
@@ -72,38 +69,40 @@ class UserStore {
 
   set setUser(user: NonNullable<UserType>) {
     this.user = user
-    setLocalStorage("user", JSON.stringify(user))
+    localStorageUtils.set(USER, JSON.stringify(user))
   }
 
   verifyPhone = () => {
     runInAction(() => {
       this.user = { ...this.currentUser, isPhoneVerified: true } as UserType
     })
-    setLocalStorage("user", JSON.stringify(this.user))
+    localStorageUtils.set(USER, JSON.stringify(this.user))
   }
 
   verifyEmail = () => {
     runInAction(() => {
       this.user = { ...this.currentUser, isEmailVerified: true } as UserType
     })
-    setLocalStorage("user", JSON.stringify(this.user))
+    localStorageUtils.set(USER, JSON.stringify(this.user))
   }
 
   authenticateUser = (user: UserType) => {
     runInAction(() => {
       this.user = user
     })
-    setLocalStorage("user", JSON.stringify(user))
+    localStorageUtils.set(USER, JSON.stringify(user))
   }
 
   logout = () => {
     if (!isBrowser()) return
-    removeLocalStorage("token")
-    removeLocalStorage("user")
+    localStorageUtils.remove(TOKEN)
+    localStorageUtils.remove(USER)
     runInAction(() => {
       this.user = null
     })
-    navigate(`/${getLocalStorage("country") || "gb"}/en${routes.signin}`)
+    navigate(
+      `/${localStorageUtils.get(COUNTRY_CODE) || "gb"}/en${routes.signin}`
+    )
   }
 }
 

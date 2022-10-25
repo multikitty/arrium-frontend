@@ -36,6 +36,7 @@ import { useSnackbar } from "notistack"
 import { setLocalStorage } from "@/utils/localStorage"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { TOKEN } from "@/constants/localStorage"
 
 interface ISignupSectionProps extends FormProps, IPageProps {}
 
@@ -126,7 +127,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
           return
         }
         if (!data) return
-        setLocalStorage("token", data.token)
+        setLocalStorage(TOKEN, data.token)
         setFormStage(prev => prev + 1)
         navigateToSignup(stage + 1)
       },

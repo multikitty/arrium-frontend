@@ -1,9 +1,10 @@
+import { IS_SIDE_PANEL_COLLAPSED } from "@/constants/localStorage"
 import { localStorageUtils } from "@/utils"
 import { makeAutoObservable, runInAction } from "mobx"
 
 class CommonStore {
   isSidePanelCollapsed = Boolean(
-    localStorageUtils.getLocalStorage("isSidePanelCollapsed") || false
+    localStorageUtils.get(IS_SIDE_PANEL_COLLAPSED) || false
   )
 
   constructor() {
@@ -14,8 +15,8 @@ class CommonStore {
     runInAction(() => {
       const newIsSidePanelCollapsed = !this.isSidePanelCollapsed
       this.isSidePanelCollapsed = newIsSidePanelCollapsed
-      localStorageUtils.setLocalStorage(
-        "isSidePanelCollapsed",
+      localStorageUtils.set(
+        IS_SIDE_PANEL_COLLAPSED,
         JSON.stringify(newIsSidePanelCollapsed)
       )
     })

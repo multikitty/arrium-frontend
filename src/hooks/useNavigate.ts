@@ -4,6 +4,7 @@ import { defaultRoutes, UserRoles } from "@/constants/common"
 import { TabType } from "@/components/AddCustomerPage/AddCustomersPage.data"
 import routes from "@/constants/routes"
 import { localStorageUtils } from "@/utils"
+import { COUNTRY_CODE } from "@/constants/localStorage"
 
 export type ParamType = {
   country_code: string
@@ -14,9 +15,7 @@ const useNavigate = (params: ParamType) => {
   const navigate = (path: string, ...args: any[]) => {
     gatsbyNavigate(
       `/${
-        params?.country_code ||
-        localStorageUtils.getLocalStorage("country") ||
-        "uk"
+        params?.country_code || localStorageUtils.get(COUNTRY_CODE) || "gb"
       }/${params?.lang || "en"}${path}`,
       ...args
     )

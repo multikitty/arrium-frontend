@@ -31,6 +31,11 @@ import { IAccountInfoResult, IAccountInfoVariables } from "@/lib/interfaces/sign
 import { updateAccountInfo } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { useGeolocation } from "@/agent/geolocation"
+import LoadingScreen from "../LoadingScreen"
+import {getFilteredCountries} from "@/utils/getCountryData"
+import { localStorageUtils } from "@/utils"
+import { COUNTRY_CODE } from "@/constants/localStorage"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -68,13 +73,13 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   const {navigate, navigateWithQuery: {navigateToSignup}} = useNavigate({country_code, lang})
   const {enqueueSnackbar} = useSnackbar()
 
-  const {userStore} = useStore()
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )
   const [phoneNo, setPhoneNo] = useState("")
+  const [phoneCountry, setPhoneCountry] = useState(localStorageUtils.get(COUNTRY_CODE) || "gb")
   const [dialCode, setDialCode] = useState("")
   const [firstName, setFirstName] = useState("")
   const [surName, setSurName] = useState("")
@@ -84,7 +89,8 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     IAccountInfoResult,
     Error,
     IAccountInfoVariables
-  >(updateAccountInfo)
+    >(updateAccountInfo)
+  const {data: geolocationData, isLoading} = useGeolocation()
 
   const handleNavigateToSignin = () => {
     navigate(routes.signin)
@@ -95,7 +101,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     const phoneNumber = phoneNo.slice(dialCode.length || 0)
 
     const variables: IAccountInfoVariables = {
-      countryCode: country?.countryShortName || "UK",
+      countryCode: country?.countryShortName || "gb",
       phoneNumber,
       dialCode,
       firstname: firstName,
@@ -117,7 +123,9 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
 
   const handlePhoneNoField = (phone: string, data: CountryData | {}) => {
     const countryDialCode = (data as CountryData).dialCode
+    const countryCode = (data as CountryData).countryCode
     setPhoneNo(phone)
+    setPhoneCountry(countryCode)
     setDialCode(countryDialCode)
   }
 
@@ -127,13 +135,24 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
         phoneNo.length &&
         selectedTimezone &&
         firstName.length &&
-        surName.length && country
+        surName.length && !!country
       ) {
         return false
       }
       return true
     })
   }, [phoneNo, selectedTimezone, firstName, surName, country])
+
+  useEffect(() => {
+    if (!geolocationData) return
+    const countryData = getFilteredCountries([geolocationData.country_code.toLowerCase()])[0]
+    setCountry(countryData)
+    setPhoneCountry(countryData.countryShortName.toLowerCase())
+    setDialCode(geolocationData.calling_code)
+    setSelectedTimezone(geolocationData.timezone.id)
+  }, [geolocationData])
+
+  if (isLoading) return <LoadingScreen />
 
   return isWebView ? (
     <StyledLoginContainer component="form" onSubmit={onSubmit}>
@@ -158,7 +177,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
       />
       <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
       <ReactPhoneInput
-        country={userStore.lowerCaseCountry}
+        country={phoneCountry}
         containerClass={classes.telephoneInputContainer}
         placeholder=""
         value={phoneNo}
@@ -220,7 +239,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
         />
         <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
         <ReactPhoneInput
-          country={userStore.lowerCaseCountry}
+          country={phoneCountry}
           containerClass={classes.telephoneInputContainer}
           placeholder=""
           value={phoneNo}

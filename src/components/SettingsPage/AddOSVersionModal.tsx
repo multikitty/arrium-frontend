@@ -12,10 +12,9 @@ import {
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { IAddOsVersionVariables } from "@/lib/interfaces/models"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
-  open: boolean
-  handleClose: () => void
+interface IProps extends ModalProps {
   handleAdd: (variables: IAddOsVersionVariables) => void
 }
 

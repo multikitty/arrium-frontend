@@ -31,6 +31,7 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
 import { IPageProps } from "@/lib/interfaces/common"
+import { TOKEN } from "@/constants/localStorage"
 
 interface ISigninSectionProps extends IPageProps {}
 
@@ -88,7 +89,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
             refCode: data.refCode,
             currentSteps: data.currentSteps,
           })
-          setLocalStorage("token", data.token)
+          setLocalStorage(TOKEN, data.token)
           navigateToDefault(data.role)
         },
         onError(error) {

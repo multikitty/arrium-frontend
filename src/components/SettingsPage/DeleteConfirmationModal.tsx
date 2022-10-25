@@ -11,12 +11,11 @@ import {
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import pluralize from "pluralize"
+import { ModalProps } from "./SettingsPage.types"
 
-interface IProps {
+interface IProps extends ModalProps {
   type: string
   name: string
-  open: boolean
-  handleClose: () => void
   handleDelete: () => void
 }
 
