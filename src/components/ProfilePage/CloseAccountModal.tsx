@@ -44,6 +44,7 @@ const CloseAccountModal = (props: IProps) => {
         <StyledDeleteConfirmationModalFormActions>
           <ContainedButton
             error
+            autoFocus
             sx={{ width: "100%", marginBottom: rem("16px") }}
             onClick={props.handleCloseAccount}
           >

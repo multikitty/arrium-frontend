@@ -30,11 +30,12 @@ const AddCountryModal = (props: IProps) => {
     setCountryCode(c?.countryShortName || "")
   }
 
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!country) return
     props.handleAdd({
       country: country.countryName,
-      countryCode: country.countryShortName,
+      countryCode: country.countryShortName.toLowerCase(),
     })
   }
 
@@ -47,7 +48,7 @@ const AddCountryModal = (props: IProps) => {
           </IconButton>
         </StyledAddCountryModalCloseIconContainer>
         <StyledAddCountryModalTitle>Add new Country</StyledAddCountryModalTitle>
-        <StyledAddCountryModalForm>
+        <StyledAddCountryModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("24px")}>
             <CountrySelect
               autoFocus
@@ -67,7 +68,6 @@ const AddCountryModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={!country}
-              onClick={handleSave}
               type="submit"
             >
               Save

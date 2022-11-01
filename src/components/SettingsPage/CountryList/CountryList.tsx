@@ -4,6 +4,7 @@ import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/S
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
 import { ICountryListDataItem } from "@/lib/interfaces/locations"
+import { capitalCase } from "change-case"
 
 interface IProps {
   data: ICountryListDataItem[]
@@ -30,7 +31,9 @@ const CountryList: React.FC<IProps> = ({
             }
           >
             <Box className="settings__list__item__text">
-              {`${item.country} ${item.tzName ? `(${item.tzName})` : ""}`}
+              {`${capitalCase(item.country)} ${
+                item.tzName ? `(${item.tzName})` : ""
+              }`}
             </Box>
             <Box className="settings__list__item__actions">
               <IconButton

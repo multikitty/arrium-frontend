@@ -24,6 +24,12 @@ const AddBlockTypeModal = (props: IProps) => {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setBlockType(e.target.value)
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setBlockType("")
+    props.handleAdd(blockType)
+  }
+
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledAddBlockTypeModal>
@@ -35,7 +41,7 @@ const AddBlockTypeModal = (props: IProps) => {
         <StyledAddBlockTypeModalTitle>
           Add new Block Type
         </StyledAddBlockTypeModalTitle>
-        <StyledAddBlockTypeModalForm>
+        <StyledAddBlockTypeModalForm onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddBlockTypeModalFormField
               autoFocus
@@ -48,10 +54,7 @@ const AddBlockTypeModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={!blockType}
-              onClick={() => {
-                setBlockType("")
-                props.handleAdd(blockType)
-              }}
+              type="submit"
             >
               Save
             </ContainedButton>

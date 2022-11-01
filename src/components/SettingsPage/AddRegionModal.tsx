@@ -23,6 +23,7 @@ import {
   ICountryListDataItem,
 } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
+import { capitalCase } from "change-case"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddRegionVariables) => void
@@ -59,12 +60,13 @@ const AddRegionModal = (props: IProps) => {
 
   const countrySelectItemJSX = props.countries.map(country => (
     <MenuItem key={country.sk} value={country.country}>
-      {country.country}
+      {capitalCase(country.country)}
     </MenuItem>
   ))
 
   const isSaveDisabled = !country || !region || !regionCode || !regionID
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isSaveDisabled) return
     props.handleAdd({
       countryCode: country.countryCode,
@@ -83,7 +85,7 @@ const AddRegionModal = (props: IProps) => {
           </IconButton>
         </StyledAddRegionModalCloseIconContainer>
         <StyledAddRegionModalTitle>Add new Region</StyledAddRegionModalTitle>
-        <StyledAddRegionModalForm>
+        <StyledAddRegionModalForm onSubmit={handleSave}>
           <Box display="flex" mb={rem("16px")}>
             <Select
               displayEmpty
@@ -123,7 +125,7 @@ const AddRegionModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSaveDisabled}
-              onClick={handleSave}
+              type="submit"
             >
               Save
             </ContainedButton>

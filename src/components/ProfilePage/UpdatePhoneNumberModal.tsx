@@ -24,7 +24,8 @@ const UpdatePhoneNumberModal = (props: IProps) => {
   const [otp, setOtp] = useState("")
 
   const handleOtpFieldChange = (otpValue: string) => setOtp(otpValue)
-  const handleConfirm = () => {
+  const handleConfirm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     props.handlePhoneNumberChange()
     props.handleClose()
   }
@@ -44,14 +45,14 @@ const UpdatePhoneNumberModal = (props: IProps) => {
           Enter a 4-digit code that we've sent you on{" "}
           {maskPhoneNumber(props.newPhoneNumber)} in SMS
         </StyledUpdatePhoneNumberModalSubTitle>
-        <StyledUpdatePhoneNumberModalForm>
+        <StyledUpdatePhoneNumberModalForm onSubmit={handleConfirm}>
           <Box display="flex" justifyContent="center" marginTop={rem("16px")}>
             <StyledOtpInput
+              isInputNum
+              shouldAutoFocus
               value={otp}
               onChange={handleOtpFieldChange}
               numInputs={4}
-              isInputNum
-              shouldAutoFocus
             />
           </Box>
           <Box
@@ -66,8 +67,8 @@ const UpdatePhoneNumberModal = (props: IProps) => {
             </LinkButton>
             <ContainedButton
               sx={{ width: "100%" }}
-              onClick={handleConfirm}
               disabled={otp.length !== 4}
+              type="submit"
             >
               Confirm
             </ContainedButton>

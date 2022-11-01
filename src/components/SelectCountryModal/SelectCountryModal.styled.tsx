@@ -19,6 +19,8 @@ export const StyledSelectCountryModal = styled(StyledAddCountryModal)`
   max-width: ${rem("628px")};
 `
 
+export const StyledSelectCountryModalForm = styled.form``
+
 export const StyledSelectCountryModalBrandLogoContainer = styled.div`
   display: flex;
   width: 100%;

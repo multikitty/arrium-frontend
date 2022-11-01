@@ -38,6 +38,7 @@ const SaveChangesModal = (props: IProps) => {
         )}
         <StyledSaveChangesModalFormActions>
           <ContainedButton
+            autoFocus
             sx={{ width: "100%", marginBottom: rem("16px") }}
             onClick={props.handleSave}
           >

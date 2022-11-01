@@ -28,7 +28,8 @@ const AddFlexVersionModal = (props: IProps) => {
 
   const isSaveDisabled = !flexVersion
 
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isSaveDisabled) return
     props.handleAdd({ flexVersion })
   }
@@ -44,7 +45,7 @@ const AddFlexVersionModal = (props: IProps) => {
         <StyledAddFlexVersionModalTitle>
           Add new Amazon Flex Version
         </StyledAddFlexVersionModalTitle>
-        <StyledAddFlexVersionModalForm>
+        <StyledAddFlexVersionModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddFlexVersionModalFormField
               autoFocus
@@ -57,7 +58,7 @@ const AddFlexVersionModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSaveDisabled}
-              onClick={handleSave}
+              type="submit"
             >
               Save
             </ContainedButton>

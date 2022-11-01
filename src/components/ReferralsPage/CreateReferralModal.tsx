@@ -35,6 +35,10 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
     isSalesAgent ? userStore.userFullName : ""
   )
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledCreateReferralModal>
@@ -46,7 +50,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
         <StyledCreateReferralModalTitle>
           Create new referral codes
         </StyledCreateReferralModalTitle>
-        <StyledCreateReferralModalForm>
+        <StyledCreateReferralModalForm onSubmit={handleSubmit}>
           <Box display="flex" mb={rem("16px")}>
             <CountrySelect
               fullWidth

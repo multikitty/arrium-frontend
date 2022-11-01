@@ -32,7 +32,8 @@ const AddPhoneModelModal = (props: IProps) => {
 
   const isSaveDisabled = !phoneID || !phoneModel
 
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isSaveDisabled) return
     props.handleAdd({
       modelId: phoneID,
@@ -51,7 +52,7 @@ const AddPhoneModelModal = (props: IProps) => {
         <StyledAddPhoneModelModalTitle>
           Add new Phone Model
         </StyledAddPhoneModelModalTitle>
-        <StyledAddPhoneModelModalForm>
+        <StyledAddPhoneModelModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <StyledAddPhoneModelModalFormField
               placeholder={`Phone Model name`}
@@ -71,7 +72,7 @@ const AddPhoneModelModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSaveDisabled}
-              onClick={handleSave}
+              type="submit"
             >
               Save
             </ContainedButton>

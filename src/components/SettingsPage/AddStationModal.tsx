@@ -26,6 +26,7 @@ import {
 import { IStationTypeListDataItem } from "@/lib/interfaces/stationTypes"
 import { useStationTypeList } from "@/agent/stationTypes"
 import { ModalProps } from "./SettingsPage.types"
+import { capitalCase } from "change-case"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddStationVariables) => void
@@ -58,7 +59,7 @@ const AddStationModal = (props: IProps) => {
 
   const countrySelectItemJSX = props.countries.map(country => (
     <MenuItem key={country.sk} value={country.country}>
-      {country.country}
+      {capitalCase(country.country)}
     </MenuItem>
   ))
 
@@ -114,7 +115,8 @@ const AddStationModal = (props: IProps) => {
     setStationType("")
   }
 
-  const handleSaveAndClose = async () => {
+  const handleSaveAndClose = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!country || !region || !station || !stationType) return
     await props.handleAdd({
       countryCode: country.countryCode,
@@ -155,7 +157,7 @@ const AddStationModal = (props: IProps) => {
           </IconButton>
         </StyledAddStationModalCloseIconContainer>
         <StyledAddStationModalTitle>Add new Station</StyledAddStationModalTitle>
-        <StyledAddStationModalForm>
+        <StyledAddStationModalForm onSubmit={handleSaveAndClose}>
           <Box display="flex" mb={rem("16px")}>
             <Select
               displayEmpty
@@ -221,7 +223,7 @@ const AddStationModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSubmitDisabled}
-              onClick={handleSaveAndClose}
+              type="submit"
             >
               Save and close
             </ContainedButton>

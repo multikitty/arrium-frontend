@@ -40,6 +40,7 @@ const CountryNotListedModal = (props: IProps) => {
         </StyledCountryNotListedModalIllustrationContainer>
         <StyledCountryNotListedModalFormActions>
           <ContainedButton
+            autoFocus
             sx={{
               width: "90%",
               margin: "0 auto",

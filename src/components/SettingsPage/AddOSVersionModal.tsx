@@ -27,7 +27,8 @@ const AddOSVersionModal = (props: IProps) => {
 
   const isSaveDisabled = !osVersion
 
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (isSaveDisabled) return
     props.handleAdd({ osVersion })
   }
@@ -43,7 +44,7 @@ const AddOSVersionModal = (props: IProps) => {
         <StyledAddOSVersionModalTitle>
           Add new OS Version
         </StyledAddOSVersionModalTitle>
-        <StyledAddOSVersionModalForm>
+        <StyledAddOSVersionModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledAddOSVersionModalFormField
               autoFocus
@@ -56,7 +57,7 @@ const AddOSVersionModal = (props: IProps) => {
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSaveDisabled}
-              onClick={handleSave}
+              type="submit"
             >
               Save
             </ContainedButton>
