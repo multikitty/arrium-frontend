@@ -194,20 +194,25 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
           />
         </a>
       </Box>
-      <Script id="amazon-sdk" type="text/javascript">
-        {`
+      <Script
+        strategy="idle"
+        type="text/javascript"
+        id="amazon-sdk"
+        dangerouslySetInnerHTML={{
+          __html: `
           document.getElementById('LoginWithAmazon').onclick = function() {
-            options = {}
+            options = {};
             options.scope = 'profile';
             options.scope_data = {
                 'profile' : {'essential': false}
             };
             amazon.Login.authorize(options,
-                'https://www.arrium.io/gb/en/signin');
+                'https://www.arrium.io/');
             return false;
           };
-        `}
-      </Script>
+        `,
+        }}
+      ></Script>
     </StyledLoginContainer>
   ) : (
     <StyledLoginContainerMobile

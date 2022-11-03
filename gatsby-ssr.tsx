@@ -7,6 +7,10 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { ThemeProvider } from "styled-components"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { SnackbarProvider } from "notistack"
+import theme from "./src/theme"
+import muiTheme from "./src/muiTheme"
+import "./src/global.css"
+import { GatsbySSR } from "gatsby"
 
 const HtmlAttributes = {
   lang: "en",
@@ -21,18 +25,39 @@ const HeadComponents = [
   <script src="https://cdn.jsdelivr.net/npm/jsvectormap/dist/maps/world.js"></script>,
 ]
 
+const PreBodyComponents = [<div id="amazon-root"></div>]
+
+const PostBodyComponents = [
+  <script
+    type="text/javascript"
+    id="amazon-sdk-setup"
+    dangerouslySetInnerHTML={{
+      __html: `window.onAmazonLoginReady = function() {
+            // TODO: Replace the Client ID with env variable
+            amazon.Login.setClientId("amzn1.application-oa2-client.cdff02c8bfb34434a61941e9836410f7");
+            console.log("script logging test");
+          };
+          (function(d) {
+            var a = d.createElement('script'); a.type = 'text/javascript';
+            a.async = true; a.id = 'amazon-login-sdk';
+            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+            d.getElementById('amazon-root').appendChild(a);
+          })(document);`,
+    }}
+  ></script>,
+]
+
 export const onRenderBody: GatsbySSR["onRenderBody"] = ({
-  setHeadComponents,
   setHtmlAttributes,
+  setHeadComponents,
+  setPreBodyComponents,
+  setPostBodyComponents,
 }) => {
   setHtmlAttributes(HtmlAttributes)
   setHeadComponents(HeadComponents)
+  setPreBodyComponents(PreBodyComponents)
+  setPostBodyComponents(PostBodyComponents)
 }
-
-import theme from "./src/theme"
-import muiTheme from "./src/muiTheme"
-import "./src/global.css"
-import { GatsbySSR } from "gatsby"
 
 export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({

@@ -10,7 +10,7 @@ import { SnackbarProvider } from "notistack"
 import theme from "./src/theme"
 import muiTheme from "./src/muiTheme"
 import "./src/global.css"
-import { GatsbyBrowser, Script } from "gatsby"
+import { GatsbyBrowser } from "gatsby"
 
 const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({
@@ -27,19 +27,6 @@ const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
 
   return (
     <React.Fragment>
-      <div id="amazon-root"></div>
-      <Script id="amazon-sdk-setup" strategy="idle" type="text/javascript">
-        {`window.onAmazonLoginReady = function() {
-            // TODO: Replace the Client ID with env variable
-            amazon.Login.setClientId("amzn1.application-oa2-client.cdff02c8bfb34434a61941e9836410f7");
-          };
-          (function(d) {
-            var a = d.createElement('script'); a.type = 'text/javascript';
-            a.async = true; a.id = 'amazon-login-sdk';
-            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
-            d.getElementById('amazon-root').appendChild(a);
-          })(document);`}
-      </Script>
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={muiTheme}>
           <ThemeProvider theme={theme}>
