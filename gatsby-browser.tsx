@@ -30,7 +30,8 @@ const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
       <div id="amazon-root"></div>
       <Script id="amazon-sdk-setup" strategy="idle" type="text/javascript">
         {`window.onAmazonLoginReady = function() {
-            amazon.Login.setClientId("${process.env.GATSBY_AMAZON_CLIENT_ID}");
+            // TODO: Replace the Client ID with env variable
+            amazon.Login.setClientId("amzn1.application-oa2-client.cdff02c8bfb34434a61941e9836410f7");
           };
           (function(d) {
             var a = d.createElement('script'); a.type = 'text/javascript';
