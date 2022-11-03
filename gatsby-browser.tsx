@@ -10,7 +10,7 @@ import { SnackbarProvider } from "notistack"
 import theme from "./src/theme"
 import muiTheme from "./src/muiTheme"
 import "./src/global.css"
-import { GatsbyBrowser } from "gatsby"
+import { GatsbyBrowser, Script } from "gatsby"
 
 const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({
@@ -26,26 +26,40 @@ const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
   })
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <MuiThemeProvider theme={muiTheme}>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider
-            dense
-            preventDuplicate
-            maxSnack={3}
-            autoHideDuration={4000}
-            anchorOrigin={{ horizontal: "right", vertical: "top" }}
-          >
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <React.Fragment>
-                <CssBaseline />
-                {element}
-              </React.Fragment>
-            </LocalizationProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </MuiThemeProvider>
-    </QueryClientProvider>
+    <React.Fragment>
+      <div id="amazon-root"></div>
+      <Script id="amazon-sdk-setup" strategy="idle" type="text/javascript">
+        {`window.onAmazonLoginReady = function() {
+            amazon.Login.setClientId("${process.env.GATSBY_AMAZON_CLIENT_ID}");
+          };
+          (function(d) {
+            var a = d.createElement('script'); a.type = 'text/javascript';
+            a.async = true; a.id = 'amazon-login-sdk';
+            a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+            d.getElementById('amazon-root').appendChild(a);
+          })(document);`}
+      </Script>
+      <QueryClientProvider client={queryClient}>
+        <MuiThemeProvider theme={muiTheme}>
+          <ThemeProvider theme={theme}>
+            <SnackbarProvider
+              dense
+              preventDuplicate
+              maxSnack={3}
+              autoHideDuration={4000}
+              anchorOrigin={{ horizontal: "right", vertical: "top" }}
+            >
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <React.Fragment>
+                  <CssBaseline />
+                  {element}
+                </React.Fragment>
+              </LocalizationProvider>
+            </SnackbarProvider>
+          </ThemeProvider>
+        </MuiThemeProvider>
+      </QueryClientProvider>
+    </React.Fragment>
   )
 }
 

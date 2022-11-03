@@ -32,6 +32,7 @@ import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
 import { IPageProps } from "@/lib/interfaces/common"
 import { TOKEN } from "@/constants/localStorage"
+import { Script } from "gatsby"
 
 interface ISigninSectionProps extends IPageProps {}
 
@@ -183,6 +184,30 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
+      <Box display="flex" justifyContent="center" mt={3}>
+        <a id="LoginWithAmazon">
+          <img
+            alt="Login with Amazon"
+            src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_drkgry_156x32.png"
+            width="156"
+            height="32"
+          />
+        </a>
+      </Box>
+      <Script id="amazon-sdk" type="text/javascript">
+        {`
+          document.getElementById('LoginWithAmazon').onclick = function() {
+            options = {}
+            options.scope = 'profile';
+            options.scope_data = {
+                'profile' : {'essential': false}
+            };
+            amazon.Login.authorize(options,
+                'https://www.arrium.io/gb/en/signin');
+            return false;
+          };
+        `}
+      </Script>
     </StyledLoginContainer>
   ) : (
     <StyledLoginContainerMobile
