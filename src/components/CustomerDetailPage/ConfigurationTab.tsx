@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import {
+  Box,
   capitalize,
   Divider,
   Grid,
@@ -43,6 +44,7 @@ import {
   IUpdateConfigurationDetailsVariables,
 } from "@/lib/interfaces/customers"
 import { useSnackbar } from "notistack"
+import { Script } from "gatsby"
 
 interface IConfigurationTabProps extends ITabProps {
   pk: string
@@ -325,37 +327,68 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
               <StyledConfigurationTabFormLabel>
                 Amazon Flex Password
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"amznFlexPassword"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    autoComplete="new-password"
-                    type={isPasswordHidden ? "password" : "text"}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Password here"
-                    endAdornment={
-                      <IconButton
-                        size="small"
-                        onClick={handleToggleHidePassword}
-                        sx={{ mr: rem("8px") }}
-                      >
-                        {isPasswordHidden ? (
-                          <VisibilityIcon />
-                        ) : (
-                          <VisibilityOffIcon />
-                        )}
-                      </IconButton>
-                    }
-                  />
+              <Box display="flex" alignItems="center">
+                <Controller
+                  name={"amznFlexPassword"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledConfigurationTabFormField
+                      autoComplete="new-password"
+                      type={isPasswordHidden ? "password" : "text"}
+                      value={value}
+                      onChange={onChange}
+                      placeholder="Password here"
+                      endAdornment={
+                        <IconButton
+                          size="small"
+                          onClick={handleToggleHidePassword}
+                          sx={{ mr: rem("8px") }}
+                        >
+                          {isPasswordHidden ? (
+                            <VisibilityIcon />
+                          ) : (
+                            <VisibilityOffIcon />
+                          )}
+                        </IconButton>
+                      }
+                    />
+                  )}
+                />
+                {!!formState.errors?.amznFlexPassword && (
+                  <StyledAccountInformationTabFormHelperText>
+                    {formState.errors?.amznFlexPassword?.message}
+                  </StyledAccountInformationTabFormHelperText>
                 )}
-              />
-              {!!formState.errors?.amznFlexPassword && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.amznFlexPassword?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+                <Box display="flex" justifyContent="center" ml={1}>
+                  <a id="LoginWithAmazon">
+                    <img
+                      alt="Login with Amazon"
+                      src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_drkgry_76x32.png"
+                      width="76"
+                      height="32"
+                    />
+                  </a>
+                </Box>
+                <Script
+                  strategy="idle"
+                  type="text/javascript"
+                  id="amazon-sdk"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                    document.getElementById('LoginWithAmazon').onclick = function() {
+                      options = {};
+                      options.scope = 'profile';
+                      options.scope_data = {
+                          'profile' : {'essential': false}
+                      };
+                      amazon.Login.authorize(options,
+                          'https://www.arrium.io/');
+                      return false;
+                    };
+                  `,
+                  }}
+                ></Script>
+              </Box>
             </StyledConfigurationTabFormItem>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>

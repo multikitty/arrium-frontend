@@ -124,6 +124,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
         <StyledLoginText>Login to your account</StyledLoginText>
       </Box>
       <StyledInputField
+        autoFocus
         placeholder="Enter Email Address"
         variant="outlined"
         {...register("email")}
@@ -184,35 +185,6 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
           </StyledSignUpButton>
         </StyledSignUpText>
       </Box>
-      <Box display="flex" justifyContent="center" mt={3}>
-        <a id="LoginWithAmazon">
-          <img
-            alt="Login with Amazon"
-            src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_drkgry_156x32.png"
-            width="156"
-            height="32"
-          />
-        </a>
-      </Box>
-      <Script
-        strategy="idle"
-        type="text/javascript"
-        id="amazon-sdk"
-        dangerouslySetInnerHTML={{
-          __html: `
-          document.getElementById('LoginWithAmazon').onclick = function() {
-            options = {};
-            options.scope = 'profile';
-            options.scope_data = {
-                'profile' : {'essential': false}
-            };
-            amazon.Login.authorize(options,
-                'https://www.arrium.io/');
-            return false;
-          };
-        `,
-        }}
-      ></Script>
     </StyledLoginContainer>
   ) : (
     <StyledLoginContainerMobile
