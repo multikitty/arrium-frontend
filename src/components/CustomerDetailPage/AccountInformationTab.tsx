@@ -132,7 +132,9 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
   }
 
   const renderRoleOptions = LabelledUserRoles.map(role => (
-    <MenuItem value={role.value}>{role.label}</MenuItem>
+    <MenuItem key={role.value} value={role.value}>
+      {role.label}
+    </MenuItem>
   ))
 
   type formPropType = typeof accountInformationOptions.defaultValues

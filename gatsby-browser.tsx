@@ -12,6 +12,8 @@ import muiTheme from "./src/muiTheme"
 import "./src/global.css"
 import { GatsbyBrowser } from "gatsby"
 
+const UnSafeSnackbarProvider = SnackbarProvider as any
+
 const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -30,7 +32,7 @@ const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
       <QueryClientProvider client={queryClient}>
         <MuiThemeProvider theme={muiTheme}>
           <ThemeProvider theme={theme}>
-            <SnackbarProvider
+            <UnSafeSnackbarProvider
               dense
               preventDuplicate
               maxSnack={3}
@@ -43,7 +45,7 @@ const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({ element }) => {
                   {element}
                 </React.Fragment>
               </LocalizationProvider>
-            </SnackbarProvider>
+            </UnSafeSnackbarProvider>
           </ThemeProvider>
         </MuiThemeProvider>
       </QueryClientProvider>
