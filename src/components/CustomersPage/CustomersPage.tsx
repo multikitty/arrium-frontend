@@ -195,117 +195,119 @@ const CustomersPage: React.FC<ICustomersPageProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {isLoading ||
-                customersData?.data?.Items?.map(row => (
-                  <TableRow
-                    hover
-                    key={row.pkEmail}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      cursor: "pointer",
-                    }}
-                    onClick={() =>
-                      navigate(
-                        routes.customersDetail(
-                          row.pk,
-                          row.sk.replace("#", "%23")
+              <React.Fragment>
+                {isLoading ||
+                  customersData?.data?.Items?.map(row => (
+                    <TableRow
+                      hover
+                      key={row.pkEmail}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        cursor: "pointer",
+                      }}
+                      onClick={() =>
+                        navigate(
+                          routes.customersDetail(
+                            row.pk,
+                            row.sk.replace("#", "%23")
+                          )
                         )
-                      )
-                    }
-                  >
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: 600,
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                        paddingLeft: rem("32px"),
-                      }}
+                      }
                     >
-                      {row.firstname}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: 600,
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                      }}
-                      align="left"
-                    >
-                      {row.lastname}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: "normal",
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                      }}
-                      align="left"
-                    >
-                      {row.pkEmail}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: "normal",
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                        textTransform: "capitalize",
-                      }}
-                      align="left"
-                    >
-                      {/* {row.country} */}
-                      Great Britain
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: "normal",
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                      }}
-                      align="left"
-                    >
-                      {/* {row.region} */}
-                      Knowsley
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontFamily: "Inter",
-                        fontWeight: "normal",
-                        fontSize: rem("16px"),
-                        lineHeight: rem("20px"),
-                        color: theme.palette.blackText,
-                      }}
-                      align="left"
-                    >
-                      <Chip
-                        label={capitalCase(row.accountStatus)}
+                      <TableCell
                         sx={{
-                          backgroundColor:
-                            statusColorMap[
-                              row.accountStatus as keyof typeof statusColorMap
-                            ],
                           fontFamily: "Inter",
-                          fontStyle: "normal",
                           fontWeight: 600,
-                          fontSize: rem("14px"),
+                          fontSize: rem("16px"),
                           lineHeight: rem("20px"),
-                          color: theme.palette.common.white,
-                          padding: `${rem("4px")} ${rem("16px")}`,
-                          borderRadius: rem("16px"),
+                          color: theme.palette.blackText,
+                          paddingLeft: rem("32px"),
                         }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      >
+                        {row.firstname}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontFamily: "Inter",
+                          fontWeight: 600,
+                          fontSize: rem("16px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.blackText,
+                        }}
+                        align="left"
+                      >
+                        {row.lastname}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontFamily: "Inter",
+                          fontWeight: "normal",
+                          fontSize: rem("16px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.blackText,
+                        }}
+                        align="left"
+                      >
+                        {row.pkEmail}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontFamily: "Inter",
+                          fontWeight: "normal",
+                          fontSize: rem("16px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.blackText,
+                          textTransform: "capitalize",
+                        }}
+                        align="left"
+                      >
+                        {/* {row.country} */}
+                        Great Britain
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontFamily: "Inter",
+                          fontWeight: "normal",
+                          fontSize: rem("16px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.blackText,
+                        }}
+                        align="left"
+                      >
+                        {/* {row.region} */}
+                        Knowsley
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontFamily: "Inter",
+                          fontWeight: "normal",
+                          fontSize: rem("16px"),
+                          lineHeight: rem("20px"),
+                          color: theme.palette.blackText,
+                        }}
+                        align="left"
+                      >
+                        <Chip
+                          label={capitalCase(row.accountStatus)}
+                          sx={{
+                            backgroundColor:
+                              statusColorMap[
+                                row.accountStatus as keyof typeof statusColorMap
+                              ],
+                            fontFamily: "Inter",
+                            fontStyle: "normal",
+                            fontWeight: 600,
+                            fontSize: rem("14px"),
+                            lineHeight: rem("20px"),
+                            color: theme.palette.common.white,
+                            padding: `${rem("4px")} ${rem("16px")}`,
+                            borderRadius: rem("16px"),
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </React.Fragment>
             </TableBody>
           </Table>
         </TableContainer>

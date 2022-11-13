@@ -9,6 +9,7 @@ import LoadingScreen from "@/components/LoadingScreen"
 import { countriesToSelectList } from "@/constants/common"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
+import { AllowedCountries } from "@/types/common"
 
 const IndexPage = () => {
   const [selectCountryModalOpen, setSelectCountryModalOpen] =
@@ -55,16 +56,20 @@ const IndexPage = () => {
       navigate(`/${codeInStorage}/en`)
       return
     }
-    if (!geolocationData) return
-    if (
-      countriesToSelectList.includes(geolocationData.country_code.toLowerCase())
-    ) {
-      const countryCode = geolocationData.country_code.toLowerCase()
+
+    if (geolocationData === undefined || isError) {
+      setSelectCountryModalOpen(true)
+      return
+    }
+
+    const countryCode =
+      geolocationData.country_code.toLowerCase() as AllowedCountries
+    if (countriesToSelectList.includes(countryCode)) {
       localStorageUtils.set(COUNTRY_CODE, countryCode)
       navigate(`/${countryCode}/en`)
-    } else setSelectCountryModalOpen(true)
-
-    if (isError) setSelectCountryModalOpen(true)
+    } else {
+      setSelectCountryModalOpen(true)
+    }
   }, [geolocationData, isError])
 
   if (isLoading) return <LoadingScreen />

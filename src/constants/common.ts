@@ -70,4 +70,4 @@ export const registrationSteps = {
   finished: "finished",
 }
 
-export const countriesToSelectList = ["gb", "es", "de", "us"]
+export const countriesToSelectList = ["gb", "es", "de", "us"] as const
