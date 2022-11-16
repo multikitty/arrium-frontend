@@ -25,8 +25,30 @@ export interface ISigninUserData {
   planType: PlansType
 }
 
+export interface ISigninFlexData {
+  flexID: string
+  devModel: string
+  devSerial: string
+  devID: string
+  country: string
+  amznFlexUser: string
+  amznFlexPassword: string
+  amznID: string
+  flexVersion: string
+  osVersion: string
+  region: string
+  devType: string
+  sk: string
+  pk: string
+}
+
+export interface ISigninData {
+  userData: ISigninUserData
+  flexData: ISigninFlexData
+}
+
 export interface ISigninUserResult {
   message: string
   success: boolean
-  data?: ISigninUserData
+  data?: ISigninData
 }

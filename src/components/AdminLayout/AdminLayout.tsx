@@ -9,24 +9,36 @@ import {
 import { UserRoles } from "@/constants/common"
 import { devices } from "@/constants/device"
 import { useMediaQuery } from "@mui/material"
-import { AdminLayoutProps } from "./AdminLayout.types"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
+import { UserRolesType } from "@/types/common"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children, roles }) => {
+interface IAdminLayoutProps extends IPageProps {
+  children: React.ReactNode
+  roles: UserRolesType[]
+}
+
+const AdminLayout: React.FC<IAdminLayoutProps> = ({
+  children,
+  roles,
+  country_code,
+}) => {
   const { commonStore } = useStore()
   const isDesktopView = useMediaQuery(devices.web.up)
 
   return (
-    <AuthGuard roles={roles}>
+    <AuthGuard roles={roles} country_code={country_code}>
       <StyledAdminLayout>
-        <SidePanel role={UserRoles.admin} />
+        <SidePanel role={UserRoles.admin} country_code={country_code} />
         <StyledAdminLayoutContent
           isDesktopView={isDesktopView}
           isCollapsed={commonStore.isSidePanelCollapsed}
         >
-          <Topbar />
-          {children}
+          <React.Fragment>
+            <Topbar />
+            {children}
+          </React.Fragment>
         </StyledAdminLayoutContent>
       </StyledAdminLayout>
     </AuthGuard>

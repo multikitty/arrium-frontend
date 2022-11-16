@@ -32,15 +32,12 @@ import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
 import { IPageProps } from "@/lib/interfaces/common"
 import { TOKEN } from "@/constants/localStorage"
-import { Script } from "gatsby"
+import { DEFAULT_COUNTRY, DEFAULT_PLAN } from "@/constants/common"
 
 interface ISigninSectionProps extends IPageProps {}
 
-const SigninSection: React.FC<ISigninSectionProps> = ({
-  country_code,
-  lang,
-}) => {
-  const { navigateToDefault, navigate } = useNavigate({ country_code, lang })
+const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
+  const { navigateToDefault, navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
@@ -62,9 +59,9 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
   useWatch({ name: "email", control })
   useWatch({ name: "password", control })
 
-  const onSubmit = (data: formPropType) => {
+  const onSubmit = (props: formPropType) => {
     mutate(
-      { email: data.email, password: data.password },
+      { email: props.email, password: props.password },
       {
         onSuccess({ data, success }) {
           if (!success) {
@@ -75,23 +72,23 @@ const SigninSection: React.FC<ISigninSectionProps> = ({
           }
           if (!data) return
           userStore.authenticateUser({
-            id: data.customerID,
-            firstName: data.firstname,
-            lastName: data.lastname,
-            country: country_code || "gb",
-            phoneNumber: data.phoneNumber,
-            isPhoneVerified: data.phoneVerified,
-            email: data.email,
-            isEmailVerified: data.emailVerified,
-            role: data.role,
-            plan: data.planType || "basic",
-            tzName: data.tzName,
-            amznFlexUser: data.amznFlexUser,
-            refCode: data.refCode,
-            currentSteps: data.currentSteps,
+            id: data.userData.customerID,
+            firstName: data.userData.firstname,
+            lastName: data.userData.lastname,
+            country: country_code || DEFAULT_COUNTRY,
+            phoneNumber: data.userData.phoneNumber,
+            isPhoneVerified: data.userData.phoneVerified,
+            email: data.userData.email,
+            isEmailVerified: data.userData.emailVerified,
+            role: data.userData.role,
+            plan: data.userData.planType || DEFAULT_PLAN,
+            tzName: data.userData.tzName,
+            amznFlexUser: data.userData.amznFlexUser,
+            refCode: data.userData.refCode,
+            currentSteps: data.userData.currentSteps,
           })
-          setLocalStorage(TOKEN, data.token)
-          navigateToDefault(data.role)
+          setLocalStorage(TOKEN, data.userData.token)
+          navigateToDefault(data.userData.role)
         },
         onError(error) {
           console.log(error)

@@ -1,22 +1,20 @@
 import { navigate as gatsbyNavigate } from "gatsby-link"
 import { UserRolesType } from "@/types/common"
-import { defaultRoutes, UserRoles } from "@/constants/common"
+import { defaultRoutes, DEFAULT_COUNTRY, UserRoles } from "@/constants/common"
 import { TabType } from "@/components/AddCustomerPage/AddCustomersPage.data"
 import routes from "@/constants/routes"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
+import { IPageProps } from "@/lib/interfaces/common"
 
-export type ParamType = {
-  country_code: string
-  lang: string
-}
-
-const useNavigate = (params: ParamType) => {
+const useNavigate = (params: IPageProps) => {
   const navigate = (path: string, ...args: any[]) => {
     gatsbyNavigate(
       `/${
-        params?.country_code || localStorageUtils.get(COUNTRY_CODE) || "gb"
-      }/${params?.lang || "en"}${path}`,
+        params?.country_code ||
+        localStorageUtils.get(COUNTRY_CODE) ||
+        DEFAULT_COUNTRY
+      }/en${path}`,
       ...args
     )
   }

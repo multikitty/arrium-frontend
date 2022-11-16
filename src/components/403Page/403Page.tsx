@@ -30,7 +30,7 @@ const _403Page: React.FC<I403Props> = ({ country_code, lang }) => {
 
   return (
     <Styled403Page>
-      <LandingNavbar />
+      <LandingNavbar country_code={country_code} lang={lang} />
       <Styled403PageContent>
         <Styled403PageContentTextContainer>
           <Styled403PageContentTextContainerHeader>

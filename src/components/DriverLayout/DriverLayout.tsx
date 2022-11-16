@@ -15,13 +15,18 @@ import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
+import { IPageProps } from "@/lib/interfaces/common"
 
-export interface DriverLayoutProps {
+export interface IDriverLayoutProps extends IPageProps {
   children: React.ReactNode
   roles: UserRolesType[]
 }
 
-const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
+const DriverLayout: React.FC<IDriverLayoutProps> = ({
+  children,
+  roles,
+  country_code,
+}) => {
   const { commonStore } = useStore()
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isDesktopView = useMediaQuery(devices.desktop.up)
@@ -30,9 +35,11 @@ const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
   const handleFullscreenMenuClose = () => setFullscreenMenuOpen(false)
 
   return (
-    <AuthGuard roles={roles}>
+    <AuthGuard roles={roles} country_code={country_code}>
       <StyledDriverLayout>
-        {isDesktopView && <SidePanel role={UserRoles.driver} />}
+        {isDesktopView && (
+          <SidePanel role={UserRoles.driver} country_code={country_code} />
+        )}
         <StyledDriverLayoutContent
           isDesktopView={isDesktopView}
           isCollapsed={commonStore.isSidePanelCollapsed}
@@ -46,10 +53,12 @@ const DriverLayout = ({ children, roles }: DriverLayoutProps) => {
                   handleFullscreenMenuOpen={handleFullscreenMenuOpen}
                   handleFullscreenMenuClose={handleFullscreenMenuClose}
                   isFullscreenMenuOpen={isFullscreenMenuOpen}
+                  country_code={country_code}
                 />
                 <FullscreenMenu
                   open={isFullscreenMenuOpen}
                   handleFullscreenMenuClose={handleFullscreenMenuClose}
+                  country_code={country_code}
                 />
               </React.Fragment>
             )}

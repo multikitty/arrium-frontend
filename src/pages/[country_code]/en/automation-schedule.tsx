@@ -4,11 +4,16 @@ import Seo from "@/components/Seo"
 import DriverLayout from "@/components/DriverLayout"
 import AutomationSchedulePage from "@/components/AutomationSchedulePage"
 import { UserRoles } from "@/constants/common"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const AutomationSchedule = () => (
-  <DriverLayout roles={[UserRoles.driver]}>
+interface IAutomationScheduleProps {
+  params: IPageProps
+}
+
+const AutomationSchedule: React.FC<IAutomationScheduleProps> = ({ params }) => (
+  <DriverLayout roles={[UserRoles.driver]} country_code={params.country_code}>
     <Seo title="Automation Schedule | Arrium" />
-    <AutomationSchedulePage />
+    <AutomationSchedulePage country_code={params.country_code} />
   </DriverLayout>
 )
 

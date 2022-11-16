@@ -4,11 +4,16 @@ import Seo from "@/components/Seo"
 import DriverLayout from "@/components/DriverLayout"
 import AvailabilityPage from "@/components/AvailabilityPage"
 import { UserRoles } from "@/constants/common"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const Availability = ({ params }: any) => (
-  <DriverLayout roles={[UserRoles.driver]}>
+interface IAvailabilityProps {
+  params: IPageProps
+}
+
+const Availability: React.FC<IAvailabilityProps> = ({ params }) => (
+  <DriverLayout roles={[UserRoles.driver]} country_code={params.country_code}>
     <Seo title="Availability | Arrium" />
-    <AvailabilityPage country_code={params.country_code} lang={params.lang} />
+    <AvailabilityPage country_code={params.country_code} />
   </DriverLayout>
 )
 

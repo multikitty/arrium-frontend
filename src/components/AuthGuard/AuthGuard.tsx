@@ -16,20 +16,19 @@ interface IAuthGuardProps extends IPageProps {
 const AuthGuard = (props: IAuthGuardProps) => {
   const { navigate } = useNavigate({
     country_code: props.country_code,
-    lang: props.lang,
   })
   const { userStore } = useStore()
 
-  if (props?.country_code === "uk" || props?.lang === "en") {
-    isBrowser() && navigate(routes[404])
-    return null
-  }
+  // if (props?.country_code === DEFAULT_COUNTRY) {
+  //   isBrowser() && navigate(routes[404])
+  //   return null
+  // }
 
   if (!userStore.isAuthenticated) {
     isBrowser() && navigate(routes.signin)
     return null
   }
-  if (!props.roles.includes(userStore.currentUser?.role as never)) {
+  if (!props.roles.includes(userStore.currentUser?.role as UserRolesType)) {
     isBrowser() && navigate(routes[403])
     return null
   }

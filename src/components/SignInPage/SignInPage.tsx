@@ -14,8 +14,8 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface ISignInPageProps extends IPageProps {}
 
-const SignInPage: React.FC<ISignInPageProps> = ({ country_code, lang }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const SignInPage: React.FC<ISignInPageProps> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
 
   const handleNavigateToHome = () => {
@@ -43,7 +43,7 @@ const SignInPage: React.FC<ISignInPageProps> = ({ country_code, lang }) => {
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
-        <SigninSection country_code={country_code} lang={lang} />
+        <SigninSection country_code={country_code} />
       </Box>
     </React.Fragment>
   )

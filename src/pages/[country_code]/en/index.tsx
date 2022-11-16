@@ -4,11 +4,11 @@ import LandingPage from "@/components/LandingPage"
 import isBrowser from "@/utils/isBrowser"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
+import { DEFAULT_COUNTRY } from "@/constants/common"
 
 const IndexPage = ({ params }: any) => {
   const { navigateToDefault } = useNavigate({
-    country_code: params.country_code || "uk",
-    lang: params.lang || "en",
+    country_code: params.country_code || DEFAULT_COUNTRY,
   })
   const { userStore } = useStore()
 
@@ -20,10 +20,7 @@ const IndexPage = ({ params }: any) => {
 
   return (
     <React.Fragment>
-      <LandingPage
-        country_code={params.country_code || "uk"}
-        lang={params.lang || "en"}
-      />
+      <LandingPage country_code={params.country_code} />
     </React.Fragment>
   )
 }

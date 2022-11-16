@@ -1,3 +1,5 @@
+import { AllowedCountries, PlansType } from "@/types/common"
+
 export const UserRoles = {
   driver: "driver",
   admin: "admin",
@@ -71,3 +73,5 @@ export const registrationSteps = {
 }
 
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const
+export const DEFAULT_COUNTRY: AllowedCountries = "gb"
+export const DEFAULT_PLAN: PlansType = "basic"

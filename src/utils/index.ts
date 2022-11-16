@@ -5,6 +5,7 @@ export { default as getCurrencySymbolByCountryCode } from "./getCurrencySymbolBy
 export { default as isBrowser } from "./isBrowser"
 export { default as localStorageUtils } from "./localStorage"
 export { default as maskPhoneNumber } from "./maskPhoneNumber"
+export { default as navigate } from "./navigate"
 export { default as navigateToDefault } from "./navigateToDefault"
 export { default as navigateWithQuery } from "./navigateWithQuery"
 export { default as pxSuffix } from "./pxSuffix"

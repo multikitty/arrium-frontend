@@ -22,11 +22,11 @@ import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
 import useNavigate from "@/hooks/useNavigate"
 import { useCustomerAccountInfo } from "@/agent/customers"
-import { Params } from "@/lib/interfaces/route"
 import { tabs, TabType } from "../AddCustomerPage/AddCustomersPage.data"
 import LoadingScreen from "../LoadingScreen"
+import { IPageProps } from "@/lib/interfaces/common"
 
-export interface ICustomerDetailPageProps extends Params {
+export interface ICustomerDetailPageProps extends IPageProps {
   pk: string
   sk: string
 }
@@ -46,8 +46,8 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
     isLoading,
     refetch,
   } = useCustomerAccountInfo({
-    pk: pk || "",
-    sk: sk,
+    pk,
+    sk,
   })
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
