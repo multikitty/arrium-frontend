@@ -23,12 +23,12 @@ const sidePanelData = [
     href: DriverPages.availability,
     roles: [UserRoles.driver],
   },
-  {
-    label: "Automation Schedule",
-    icon: AutomationScheduleIcon,
-    href: DriverPages.automationSchedule,
-    roles: [UserRoles.driver],
-  },
+  // {
+  //   label: "Automation Schedule",
+  //   icon: AutomationScheduleIcon,
+  //   href: DriverPages.automationSchedule,
+  //   roles: [UserRoles.driver],
+  // },
   {
     label: "Subscription",
     icon: SubscriptionIcon,
