@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Box,
   FormControlLabel,
@@ -61,8 +61,13 @@ import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
 import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
+
+import { setPrefrences, usePreferences } from "@/agent/prefrences"
+import { IGetPrefrencesResultData, ISetPrefrencesResult, ISetPrefrencesVariables } from "@/lib/interfaces/prefrences"
+import { useMutation } from "react-query"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { createDateInHM } from "@/utils"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -119,6 +124,10 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
+  const { data: preferenceData, isLoading } = usePreferences()
+
+
+
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
       ...searchTableInitialValues,
@@ -126,6 +135,26 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     mode: "onBlur",
     resolver: availabilityResolver,
   })
+  
+  useEffect(() => {
+    if (!isLoading) {
+      methods.reset({
+        data: preferenceData?.data?.map((value : IGetPrefrencesResultData) => ({
+          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
+          checked: value?.preference?.active === "Y" ? true : false,
+          timeToArrive: value.preference.tta,
+          startTime: createDateInHM(Number(value.preference.bStartTime.split(":")[0]), Number(value.preference.bStartTime.split(":")[1])),
+          endTime: createDateInHM(Number(value.preference.bEndTime.split(":")[0]), Number(value.preference.bEndTime.split(":")[1])),
+          minimumPay: value.preference.minPay,
+          minimumHourlyRate: value.preference.minHourlyRate,
+          stationCode: value.station.stationCode,
+          stationId: value.station.stationID,
+          regionId: value.station.regionID,
+        }))
+      })
+    }
+  }, [isLoading, preferenceData])
+  
 
   const handleClick = (item: WeekType) => {
     const activeChips = weekData.filter(data => data.active)
@@ -165,13 +194,49 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     navigate(routes.automationSchedule)
   }
 
-  const onSubmit = () =>
-    // data: FormValues
-    {
-      enqueueSnackbar("Search preferences updated", { variant: "success" })
-      setIsSearchable(false)
-      animateScroll.scrollToTop({ smooth: true, duration: 0 })
-    }
+  const { mutate } = useMutation<
+    ISetPrefrencesResult,
+    Error,
+    ISetPrefrencesVariables
+  >(setPrefrences)
+
+  const onSubmit = async (preferences: FormValues) => {
+    const apiData = preferences.data.map((obj) => {
+      return ({
+        stationCode : obj.stationCode,
+        regionId : obj.regionId,
+        stationId : obj.stationId,
+        day : "",
+        tta : obj.timeToArrive,
+        minPay: obj.minimumPay,
+        minHourlyRate : obj.minimumHourlyRate,
+        startTime : new Date(obj.startTime).toLocaleTimeString([],{ hour12: false }),
+        endTime : new Date(obj.endTime).toLocaleTimeString([],{ hour12: false }),
+        active : obj.checked ? "Y" : "N"
+      })
+    })
+    
+    mutate(
+      {
+        preferences: apiData
+      },
+      {
+        onSuccess({ data, success }) {
+          if (!success) {
+            enqueueSnackbar("Some Error Occured", { variant: "error" })
+          }
+          else{
+            enqueueSnackbar("Search Prefrences Saved", { variant: "success" })
+          }
+        },
+        onError() {
+          enqueueSnackbar("Some Error Occured", { variant: "error" })
+        }
+      }
+    )
+    setIsSearchable(false)
+    animateScroll.scrollToTop({ smooth: true, duration: 0 })
+  }
 
   const onInvalid = (data: any) => {
     const error = data.data.find((d: any) => d?.timeToArrive?.ref)
@@ -216,7 +281,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
           </StyledAvailabilityPageHeader>
           <StyledAvailablityPageWrapper
             component="form"
-            onSubmit={handleSubmit(onSubmit, onInvalid)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <StyledHeader>
               <StyledTextWrapper>

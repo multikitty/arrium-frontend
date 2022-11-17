@@ -25,6 +25,8 @@ const theme = {
     grey6: "#888A95",
     grey7: "#585A61",
     errorText: "#F25555",
+    green1: "#F5FBF7",
+    main1: "#F7F9FF",
   },
   breakpoints: {
     web: pxSuffix(Sizes.web),

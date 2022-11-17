@@ -59,11 +59,13 @@ interface IProps {
 
 const SearchTable: React.FC<IProps> = ({ isMobile }) => {
   const { formState, control, ...methods } = useFormContext()
+ 
   useWatch({ name: "data", control })
 
   const handleClearTime = (name: "startTime" | "endTime", idx: number) => {
     methods.setValue(`data.${idx}.${name}`, null)
   }
+  
 
   const renderTableCells = React.useCallback(
     (index: number, disabled: boolean) =>
@@ -209,7 +211,7 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
     () =>
       methods
         .getValues()
-        .data.map((data: FormValues["data"][0], index: number) => {
+        ?.data?.map((data: FormValues["data"][0], index: number) => {
           return (
             <TableRow
               key={index}
@@ -246,6 +248,7 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
               </TableCell>
               {renderTableCells(index, !data.checked)}
             </TableRow>
+         
           )
         }),
     [control, methods, renderTableCells]
@@ -255,7 +258,7 @@ const SearchTable: React.FC<IProps> = ({ isMobile }) => {
     () =>
       methods
         .getValues()
-        .data.map((data: FormValues["data"][0], index: number) => (
+        ?.data?.map((data: FormValues["data"][0], index: number) => (
           <StyledSearchTable key={data.location}>
             <StyledSearchTableHeader searchTable>
               <StyledSearchTableHeaderTitle isSubHeaderBelow>

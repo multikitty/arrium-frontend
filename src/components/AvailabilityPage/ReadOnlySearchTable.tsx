@@ -11,6 +11,7 @@ import {
 import theme from "@/theme"
 import { rem } from "polished"
 import { devices } from "@/constants/device"
+import { useFormContext } from "react-hook-form"
 import {
   StyledSubscriptionPageInvoice,
   StyledSubscriptionPageInvoiceHeader,
@@ -21,10 +22,11 @@ import {
   StyledSubscriptionPageInvoiceItemValue,
   StyledSubscriptionPageInvoicesContainer as StyledReadOnlySearchTableContainer,
 } from "../SubscriptionPage/SubscriptionPage.styled"
-import { rowSearches } from "./AvailabilityPage.data"
+import { FormValues } from "./AvailablityPage.types"
 
 const ReadOnlySearchTable = () => {
   const isWebView = useMediaQuery(devices.web.up)
+  const { formState, control, ...methods } = useFormContext()
 
   return isWebView ? (
     <TableContainer>
@@ -106,155 +108,163 @@ const ReadOnlySearchTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowSearches.map(row => (
-            <TableRow
-              key={row.location}
-              sx={{
-                height: "72px",
-                "&:last-child td, &:last-child th": { border: 0 },
-                "& td:first-of-type, & th:first-of-type": {
-                  paddingLeft: rem("32px"),
-                },
-              }}
-            >
-              <TableCell
+          {
+            methods.getValues()?.data?.map((data: FormValues["data"][0], index: number) => {
+              return (
+                <TableRow
+                key={index}
                 sx={{
-                  fontFamily: "Inter",
-                  fontWeight: 600,
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
+                  height: "72px",
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "& td:first-of-type, & th:first-of-type": {
+                    paddingLeft: rem("32px"),
+                  },
                 }}
-                scope="row"
               >
-                {row.location}
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "Inter",
-                  fontWeight: "normal",
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
-                }}
-                align="left"
-              >
-                {row.timeToArrive}
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "Inter",
-                  fontWeight: "normal",
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
-                }}
-                align="left"
-              >
-                {row.startTime || "-"}
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "Inter",
-                  fontWeight: "normal",
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
-                }}
-                align="left"
-              >
-                {row.endTime || "-"}
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "Inter",
-                  fontWeight: "normal",
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
-                  textTransform: "capitalize",
-                }}
-                align="left"
-              >
-                {row.minPay && <React.Fragment>&#163;</React.Fragment>}
-                {row.minPay || "-"}
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontFamily: "Inter",
-                  fontWeight: "normal",
-                  fontSize: rem("16px"),
-                  lineHeight: rem("20px"),
-                  color: theme.palette.blackText,
-                }}
-                align="left"
-              >
-                {row.minHourlyRate && <React.Fragment>&#163;</React.Fragment>}
-                {row.minHourlyRate || "-"}
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: 600,
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  scope="row"
+                >
+                  {data.location}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  align="left"
+                >
+                  {data.timeToArrive} min
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  align="left"
+                >
+                  {new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  align="left"
+                >
+                  {new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  || "-"}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                    textTransform: "capitalize",
+                  }}
+                  align="left"
+                >
+                  {data.minimumPay && <React.Fragment>&#163;</React.Fragment>}
+                  {data.minimumPay || "-"}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  align="left"
+                >
+                  {data.minimumHourlyRate && <React.Fragment>&#163;</React.Fragment>}
+                  {data.minimumHourlyRate || "-"}
+                </TableCell>
+                </TableRow>      
+              )
+            })
+          }
         </TableBody>
       </Table>
     </TableContainer>
   ) : (
     <StyledReadOnlySearchTableContainer>
-      {rowSearches.map(row => (
-        <StyledSubscriptionPageInvoice key={row.location}>
-          <StyledSubscriptionPageInvoiceHeader>
-            <StyledSubscriptionPageInvoiceHeaderTitle>
-              Location
-            </StyledSubscriptionPageInvoiceHeaderTitle>
-            <StyledSubscriptionPageInvoiceItemValue bold>
-              {row.location}
-            </StyledSubscriptionPageInvoiceItemValue>
-          </StyledSubscriptionPageInvoiceHeader>
-          <StyledSubscriptionPageInvoiceItemsContainer>
-            <StyledSubscriptionPageInvoiceItem>
-              <StyledSubscriptionPageInvoiceItemLabel>
-                Time to arrive
-              </StyledSubscriptionPageInvoiceItemLabel>
-              <StyledSubscriptionPageInvoiceItemValue>
-                {row.timeToArrive}
-              </StyledSubscriptionPageInvoiceItemValue>
-            </StyledSubscriptionPageInvoiceItem>
-            <StyledSubscriptionPageInvoiceItem>
-              <StyledSubscriptionPageInvoiceItemLabel>
-                Start time
-              </StyledSubscriptionPageInvoiceItemLabel>
-              <StyledSubscriptionPageInvoiceItemValue>
-                {row.startTime || "-"}
-              </StyledSubscriptionPageInvoiceItemValue>
-            </StyledSubscriptionPageInvoiceItem>
-            <StyledSubscriptionPageInvoiceItem>
-              <StyledSubscriptionPageInvoiceItemLabel>
-                End time
-              </StyledSubscriptionPageInvoiceItemLabel>
-              <StyledSubscriptionPageInvoiceItemValue>
-                {row.endTime || "-"}
-              </StyledSubscriptionPageInvoiceItemValue>
-            </StyledSubscriptionPageInvoiceItem>
-            <StyledSubscriptionPageInvoiceItem>
-              <StyledSubscriptionPageInvoiceItemLabel>
-                Minimum pay
-              </StyledSubscriptionPageInvoiceItemLabel>
-              <StyledSubscriptionPageInvoiceItemValue>
-                {row.minPay && <React.Fragment>&#163;</React.Fragment>}
-                {row.minPay || "-"}
-              </StyledSubscriptionPageInvoiceItemValue>
-            </StyledSubscriptionPageInvoiceItem>
-            <StyledSubscriptionPageInvoiceItem>
-              <StyledSubscriptionPageInvoiceItemLabel>
-                Minimum hourly rate
-              </StyledSubscriptionPageInvoiceItemLabel>
-              <StyledSubscriptionPageInvoiceItemValue>
-                {row.minHourlyRate && <React.Fragment>&#163;</React.Fragment>}
-                {row.minHourlyRate || "-"}
-              </StyledSubscriptionPageInvoiceItemValue>
-            </StyledSubscriptionPageInvoiceItem>
-          </StyledSubscriptionPageInvoiceItemsContainer>
-        </StyledSubscriptionPageInvoice>
-      ))}
+      {
+        methods.getValues()?.data?.map((data: FormValues["data"][0], index: number) => {  
+          return (
+            <StyledSubscriptionPageInvoice key={index}>
+              <StyledSubscriptionPageInvoiceHeader>
+                <StyledSubscriptionPageInvoiceHeaderTitle>
+                  Location
+                </StyledSubscriptionPageInvoiceHeaderTitle>
+                <StyledSubscriptionPageInvoiceItemValue bold>
+                  {data.location}
+                </StyledSubscriptionPageInvoiceItemValue>
+              </StyledSubscriptionPageInvoiceHeader>
+              <StyledSubscriptionPageInvoiceItemsContainer>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Time to arrive
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {data.timeToArrive} min
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Start time
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || "-"}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    End time
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  || "-"}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Minimum pay
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {data.minimumPay && <React.Fragment>&#163;</React.Fragment>}
+                    {data.minimumPay || "-"}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
+                    Minimum hourly rate
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
+                    {data.minimumHourlyRate && <React.Fragment>&#163;</React.Fragment>}
+                    {data.minimumHourlyRate || "-"}
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+              </StyledSubscriptionPageInvoiceItemsContainer>
+            </StyledSubscriptionPageInvoice>
+          )
+        })
+      }
     </StyledReadOnlySearchTableContainer>
   )
 }

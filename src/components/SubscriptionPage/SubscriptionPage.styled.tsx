@@ -7,9 +7,16 @@ import {
   StyledFAQPageContent,
 } from "../FAQPage/FAQPage.styled"
 
-export const StyledSubscriptionPage = styled(StyledFAQPage)``
+export const StyledSubscriptionPage = styled(StyledFAQPage)`
+  padding-left : ${rem("20px")};
+`
 
-export const StyledSubscriptionPageHeader = styled(StyledFAQPageHeader)``
+export const StyledSubscriptionPageHeader = styled(StyledFAQPageHeader)`
+  padding : ${rem("15px")};
+  padding-bottom : ${rem("0px")};
+  font-size: ${rem("28px")};
+  color: ${p => p.theme.palette.grey7};
+`
 
 export const StyledSubscriptionPageDetailsContainer = styled(
   StyledFAQPageContent
