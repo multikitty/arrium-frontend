@@ -215,7 +215,6 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         active : obj.checked ? "Y" : "N"
       })
     })
-    
     mutate(
       {
         preferences: apiData
