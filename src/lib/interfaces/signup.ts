@@ -1,7 +1,7 @@
 export interface IRegistrationUserVariables {
   email: string
   password: string
-  countryCode: string
+  country: string
   refCode: string
 }
 
@@ -22,7 +22,7 @@ export interface IRegistrationUserResult {
 export interface IAccountInfoVariables {
   firstname: string
   lastname: string
-  countryCode: string
+  country: string
   dialCode: string
   phoneNumber: string
   tzName: string

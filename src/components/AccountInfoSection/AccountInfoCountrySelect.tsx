@@ -11,7 +11,7 @@ import { StyledInputField } from "../commons/uiComponents"
 // }
 
 interface IProps
-  extends Partial<AutocompleteProps<CountryData, false, false, false>> {
+  extends Partial<AutocompleteProps<CountryData, false, boolean, false>> {
   country: CountryData | null
   setCountry:
     | React.Dispatch<React.SetStateAction<CountryData | null | undefined>>
@@ -77,12 +77,15 @@ const AccountInfoCountrySelect: React.FC<IProps> = ({
       onChange={(_: any, newValue: CountryData | null) => {
         setCountry(newValue)
       }}
+      disableClearable
       renderInput={params => (
         <StyledInputField
           {...params}
           sx={{ label: { color: "#8e8e8e" } }}
           required={Boolean(required)}
-          label={label}
+          InputLabelProps={{
+            shrink: false,
+          }}
           InputProps={{
             ...params.InputProps,
 

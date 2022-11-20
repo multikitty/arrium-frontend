@@ -23,14 +23,14 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface I403Props extends IPageProps {}
 
-const _403Page: React.FC<I403Props> = ({ country_code, lang }) => {
-  const { navigateToDefault } = useNavigate({ country_code, lang })
+const _403Page: React.FC<I403Props> = ({ country_code }) => {
+  const { navigateToDefault } = useNavigate({ country_code })
   const { userStore } = useStore()
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
   return (
     <Styled403Page>
-      <LandingNavbar country_code={country_code} lang={lang} />
+      <LandingNavbar country_code={country_code} />
       <Styled403PageContent>
         <Styled403PageContentTextContainer>
           <Styled403PageContentTextContainerHeader>

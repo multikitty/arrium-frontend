@@ -70,6 +70,13 @@ export const registrationSteps = {
   otp: "otp",
   amazon_flex: "amazon_flex",
   finished: "finished",
+} as const
+
+export const REGISTRATION_STEP_MAP = {
+  [registrationSteps.account_info]: 1,
+  [registrationSteps.otp]: 2,
+  [registrationSteps.amazon_flex]: 3,
+  [registrationSteps.finished]: 4,
 }
 
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const

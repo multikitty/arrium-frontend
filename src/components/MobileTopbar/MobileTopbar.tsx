@@ -24,9 +24,8 @@ const MobileTopbar: React.FC<IMobileTopbarProps> = ({
   handleFullscreenMenuOpen,
   isFullscreenMenuOpen,
   country_code,
-  lang,
 }) => {
-  const { navigateToDefault } = useNavigate({ country_code, lang })
+  const { navigateToDefault } = useNavigate({ country_code })
   const { userStore } = useStore()
 
   const handleMenuButtonClick = () => {

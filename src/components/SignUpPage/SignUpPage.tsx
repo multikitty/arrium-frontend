@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useLocation } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
 import { rem } from "polished"
@@ -19,6 +19,11 @@ import HoldingPage from "@/components/HoldingPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import LoadingScreen from "../LoadingScreen"
+import { localStorageUtils } from "@/utils"
+import { TOKEN } from "@/constants/localStorage"
+import { REGISTRATION_STEP_MAP } from "@/constants/common"
+import { fetchCurrentUserData } from "@/agent/user"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -36,23 +41,50 @@ const steps = [
 
 interface ISignUpPageProps extends IPageProps {}
 
-const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
+  const {
+    navigate,
+    navigateWithQuery: { navigateToSignup },
+  } = useNavigate({ country_code })
   const location = useLocation()
   const isWebView = useMediaQuery(devices.web.up)
   const [formStage, setFormStage] = useState(0)
   const [showOnHold, setShowOnHold] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
   }
 
+  const handleNavigateToCurrentStep = useCallback(async (step: string) => {
+    const { data } = await fetchCurrentUserData()
+    if (!data || step === REGISTRATION_STEP_MAP[data.currentSteps].toString()) {
+      setFormStage(+step)
+      setIsLoading(false)
+      return
+    }
+    const currentStep = REGISTRATION_STEP_MAP[data.currentSteps]
+    navigateToSignup(currentStep)
+    setFormStage(currentStep)
+    setIsLoading(false)
+  }, [])
+
   React.useEffect(() => {
-    if (!location.search) return
     const { step } = queryString.parse(location.search)
-    if (!step) return
-    setFormStage(+step)
+    if (!step || Array.isArray(step) || Number.isNaN(parseInt(step, 10))) {
+      setFormStage(0)
+      setIsLoading(false)
+      return
+    }
+    if (!localStorageUtils.get(TOKEN)) {
+      setFormStage(+step)
+      setIsLoading(false)
+      return
+    }
+    handleNavigateToCurrentStep(step)
   }, [location])
+
+  if (isLoading) return <LoadingScreen />
 
   return (
     <React.Fragment>
@@ -83,7 +115,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
             stage={formStage}
             step="Registration"
             country_code={country_code}
-            lang={lang}
           />
         )}
         {formStage === 1 && (
@@ -92,7 +123,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
             stage={formStage}
             step="Account Info"
             country_code={country_code}
-            lang={lang}
           />
         )}
         {formStage === 2 && (
@@ -101,7 +131,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
             stage={formStage}
             step="OTP Confirmation"
             country_code={country_code}
-            lang={lang}
           />
         )}
         {formStage === 3 && (
@@ -110,7 +139,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
             stage={formStage}
             step="Amazon Flex Info"
             country_code={country_code}
-            lang={lang}
           />
         )}
         {formStage === 4 &&
@@ -126,7 +154,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code, lang }) => {
               stage={formStage}
               step="Finish"
               country_code={country_code}
-              lang={lang}
             />
           ))}
       </Box>

@@ -8,6 +8,9 @@ import {
   SelectChangeEvent,
 } from "@mui/material"
 import { rem } from "polished"
+import CloseIcon from "@mui/icons-material/Close"
+import { capitalCase } from "change-case"
+
 import {
   StyledAddCountryModal as StyledAddStationModal,
   StyledAddCountryModalCloseIconContainer as StyledAddStationModalCloseIconContainer,
@@ -16,8 +19,6 @@ import {
   StyledAddCountryModalFormField as StyledAddStationModalFormField,
   StyledAddCountryModalTitle as StyledAddStationModalTitle,
 } from "./SettingsPage.styled"
-import CloseIcon from "@mui/icons-material/Close"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
 import {
   IAddStationVariables,
   ICountryListDataItem,
@@ -26,7 +27,8 @@ import {
 import { IStationTypeListDataItem } from "@/lib/interfaces/stationTypes"
 import { useStationTypeList } from "@/agent/stationTypes"
 import { ModalProps } from "./SettingsPage.types"
-import { capitalCase } from "change-case"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { StyledFieldLabel } from "../commons/uiComponents"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddStationVariables) => void
@@ -45,17 +47,23 @@ const AddStationModal = (props: IProps) => {
   )
   const { data: stationTypeList } = useStationTypeList()
 
-  const handleStationField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setStation(e.target.value)
+  const handleStationField: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = e => {
+    setStation(e.target.value)
+  }
 
-  const handleStationCodeField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setStationCode(e.target.value)
+  const handleStationCodeField: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = e => {
+    setStationCode(e.target.value)
+  }
 
-  const handleStationIdField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setStationId(e.target.value)
+  const handleStationIdField: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = e => {
+    setStationId(e.target.value)
+  }
 
   const countrySelectItemJSX = props.countries.map(country => (
     <MenuItem key={country.sk} value={country.country}>
@@ -158,7 +166,8 @@ const AddStationModal = (props: IProps) => {
         </StyledAddStationModalCloseIconContainer>
         <StyledAddStationModalTitle>Add new Station</StyledAddStationModalTitle>
         <StyledAddStationModalForm onSubmit={handleSaveAndClose}>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <Select
               displayEmpty
               autoFocus
@@ -172,7 +181,8 @@ const AddStationModal = (props: IProps) => {
               {countrySelectItemJSX}
             </Select>
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!region}>Region</StyledFieldLabel>
             <Select
               displayEmpty
               value={region ? region.regionName : ""}
@@ -186,27 +196,39 @@ const AddStationModal = (props: IProps) => {
             </Select>
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!station}>
+              Station name
+            </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station name`}
               value={station}
               onChange={handleStationField}
             />
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!stationCode}>
+              Station code
+            </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station code`}
               value={stationCode}
               onChange={handleStationCodeField}
             />
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!stationId}>
+              Station ID
+            </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station ID`}
               value={stationId}
               onChange={handleStationIdField}
             />
           </Box>
-          <Box display="flex" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledFieldLabel $isHidden={!stationType}>
+              Station type
+            </StyledFieldLabel>
             <Select
               displayEmpty
               value={stationType ? stationType.stationType : ""}

@@ -251,3 +251,19 @@ export const StyledTab = muiStyled((props: StyledTabProps) => (
 export const StyledPlaceholder = styled.span`
   color: ${p => p.theme.palette.grey6};
 `
+
+export const StyledFieldLabel = styled.span<{ $isHidden?: boolean }>`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: ${rem("12px")};
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  opacity: ${p => (p.$isHidden ? 0 : 1)};
+
+  color: #${p => p.theme.palette.grey6};
+
+  transition: opacity 150ms ease-out;
+`

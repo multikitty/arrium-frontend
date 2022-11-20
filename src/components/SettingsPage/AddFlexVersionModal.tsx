@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
+
 import {
   StyledAddCountryModal as StyledAddFlexVersionModal,
   StyledAddCountryModalCloseIconContainer as StyledAddFlexVersionModalCloseIconContainer,
@@ -9,9 +11,8 @@ import {
   StyledAddCountryModalFormField as StyledAddFlexVersionModalFormField,
   StyledAddCountryModalTitle as StyledAddFlexVersionModalTitle,
 } from "./SettingsPage.styled"
-import CloseIcon from "@mui/icons-material/Close"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import { StyledFieldLabel } from "@/components/commons/uiComponents"
 import { IAddFlexVersionVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
 
@@ -22,9 +23,11 @@ interface IProps extends ModalProps {
 const AddFlexVersionModal = (props: IProps) => {
   const [flexVersion, setFlexVersion] = useState("")
 
-  const handleFlexVersionField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setFlexVersion(e.target.value)
+  const handleFlexVersionField: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = e => {
+    setFlexVersion(e.target.value)
+  }
 
   const isSaveDisabled = !flexVersion
 
@@ -47,6 +50,9 @@ const AddFlexVersionModal = (props: IProps) => {
         </StyledAddFlexVersionModalTitle>
         <StyledAddFlexVersionModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledFieldLabel $isHidden={!flexVersion}>
+              Amazon Flex Version
+            </StyledFieldLabel>
             <StyledAddFlexVersionModalFormField
               autoFocus
               placeholder={`Amazon Flex Version`}

@@ -43,11 +43,8 @@ const statusColorMap = {
 
 interface ICustomersPageProps extends IPageProps {}
 
-const CustomersPage: React.FC<ICustomersPageProps> = ({
-  country_code,
-  lang,
-}) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const CustomersPage: React.FC<ICustomersPageProps> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
   const { data: customersData, isLoading } = useCustomersList({})
   const [searchQuery, setSearchQuery] = React.useState("")
   const [addDropdownAnchorEl, setAddDropdownAnchorEl] =
@@ -85,7 +82,6 @@ const CustomersPage: React.FC<ICustomersPageProps> = ({
                 open={isAddDropdownOpen}
                 handleClose={handleAddDropdownClose}
                 country_code={country_code}
-                lang={lang}
               />
             )}
           </Box>

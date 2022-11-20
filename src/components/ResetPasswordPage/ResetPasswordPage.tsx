@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import {
   StyledButton,
   StyledButtonText,
+  StyledFieldLabel,
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
@@ -23,11 +24,8 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface IResetPasswordProps extends IPageProps {}
 
-const ResetPassword: React.FC<IResetPasswordProps> = ({
-  country_code,
-  lang,
-}) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const ResetPassword: React.FC<IResetPasswordProps> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
     useState(false)
@@ -75,6 +73,9 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({
             >
               <StyledLoginText>Reset Password</StyledLoginText>
             </Box>
+            <StyledFieldLabel $isHidden={!password}>
+              New Password
+            </StyledFieldLabel>
             <StyledInputField
               placeholder="New password"
               type={isPasswordVisible ? "text" : "password"}
@@ -96,6 +97,9 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({
                 ),
               }}
             />
+            <StyledFieldLabel $isHidden={!confirmPassword}>
+              Confirm new Password
+            </StyledFieldLabel>
             <StyledInputField
               placeholder="Confirm new password"
               type={isConfirmPasswordVisible ? "text" : "password"}
@@ -149,6 +153,9 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({
               >
                 <StyledLoginText>Reset Password</StyledLoginText>
               </Box>
+              <StyledFieldLabel $isHidden={!password}>
+                New Password
+              </StyledFieldLabel>
               <StyledInputField
                 placeholder="New password"
                 type={isPasswordVisible ? "text" : "password"}
@@ -170,6 +177,9 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({
                   ),
                 }}
               />
+              <StyledFieldLabel $isHidden={!confirmPassword}>
+                Confirm new Password
+              </StyledFieldLabel>
               <StyledInputField
                 placeholder="Confirm new password"
                 type={isConfirmPasswordVisible ? "text" : "password"}

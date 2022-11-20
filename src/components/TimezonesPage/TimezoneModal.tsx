@@ -15,6 +15,7 @@ import { ContainedButton } from "@/components/commons/Button"
 import CountrySelect from "@/components/CountrySelect"
 import { CountryData } from "@/utils/getCountryData"
 import { useTimezonesByCountry } from "@/agent/timezone"
+import { StyledFieldLabel } from "../commons/uiComponents"
 
 export interface IProps {
   open: boolean
@@ -55,7 +56,8 @@ const TimezoneModal: React.FC<IProps> = ({
         </StyledTimezoneModalCloseIconContainer>
         <StyledTimezoneModalTitle>{label}</StyledTimezoneModalTitle>
         <StyledTimezoneModalForm onSubmit={handleSubmit}>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <CountrySelect
               fullWidth
               required
@@ -68,7 +70,8 @@ const TimezoneModal: React.FC<IProps> = ({
             />
           </Box>
 
-          <Box display="flex" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledFieldLabel $isHidden={!timezone}>Timezone</StyledFieldLabel>
             <Autocomplete
               fullWidth
               disabled={!zoneListData}
