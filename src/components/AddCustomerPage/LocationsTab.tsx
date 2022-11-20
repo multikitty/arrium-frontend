@@ -35,8 +35,8 @@ const initialLocationState: LocationState = {
 
 interface ILocationsTabProps extends IPageProps {}
 
-const LocationsTab: React.FC<ILocationsTabProps> = ({ country_code, lang }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const LocationsTab: React.FC<ILocationsTabProps> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
   const { enqueueSnackbar } = useSnackbar()
   const [locationState, setLocationState] = React.useState<LocationState[]>([
     initialLocationState,

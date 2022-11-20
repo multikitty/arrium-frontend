@@ -23,6 +23,6 @@ const routes = {
   subscription: "/subscription",
   support: "/support",
   timezones: "/timezones",
-}
+} as const
 
 export default routes

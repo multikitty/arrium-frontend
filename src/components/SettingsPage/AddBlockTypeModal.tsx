@@ -1,6 +1,9 @@
 import React, { useState } from "react"
+
 import { Box, IconButton, Modal } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
+
 import {
   StyledAddCountryModal as StyledAddBlockTypeModal,
   StyledAddCountryModalCloseIconContainer as StyledAddBlockTypeModalCloseIconContainer,
@@ -9,9 +12,9 @@ import {
   StyledAddCountryModalFormField as StyledAddBlockTypeModalFormField,
   StyledAddCountryModalTitle as StyledAddBlockTypeModalTitle,
 } from "./SettingsPage.styled"
-import CloseIcon from "@mui/icons-material/Close"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { ModalProps } from "./SettingsPage.types"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
 interface IProps extends ModalProps {
   handleAdd: (blockType: string) => void
@@ -20,9 +23,11 @@ interface IProps extends ModalProps {
 const AddBlockTypeModal = (props: IProps) => {
   const [blockType, setBlockType] = useState("")
 
-  const handleBlockTypeField:
-    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-    | undefined = e => setBlockType(e.target.value)
+  const handleBlockTypeField: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = e => {
+    setBlockType(e.target.value)
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -38,6 +43,7 @@ const AddBlockTypeModal = (props: IProps) => {
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </StyledAddBlockTypeModalCloseIconContainer>
+        <StyledFieldLabel $isHidden={!blockType}>Block type</StyledFieldLabel>
         <StyledAddBlockTypeModalTitle>
           Add new Block Type
         </StyledAddBlockTypeModalTitle>

@@ -28,12 +28,11 @@ interface IAddCustomersPageProps extends IPageProps {}
 
 const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
   country_code,
-  lang,
 }) => {
   const {
     navigate,
     navigateWithQuery: { navigateToAddCustomerPage },
-  } = useNavigate({ country_code, lang })
+  } = useNavigate({ country_code })
   const location = useLocation()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
@@ -136,15 +135,12 @@ const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
             role={role}
             setRole={setRole}
             country_code={country_code}
-            lang={lang}
           />
         )}
         {isBillingTabOpen && <BillingTab />}
         {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
-        {isLocationsTabOpen && (
-          <LocationsTab country_code={country_code} lang={lang} />
-        )}
+        {isLocationsTabOpen && <LocationsTab country_code={country_code} />}
       </StyledAddCustomerPageContent>
     </StyledAddCustomerPage>
   )

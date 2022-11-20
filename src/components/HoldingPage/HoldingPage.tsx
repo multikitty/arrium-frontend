@@ -26,67 +26,75 @@ const HoldingPage: React.FC<IHoldingPageProps> = ({
   stage,
   step,
   country_code,
-  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+  const { navigate } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
 
-  const handleNavigateToSignIn = () => {
+  const onSubmit = (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault()
     navigate(routes.signin)
   }
 
-  return isWebView ? (
-    <StyledLoginContainer>
-      <Box display="flex" justifyContent="center">
-        <StyledLoginText>We are setting your account up</StyledLoginText>
-      </Box>
-      <StyledText>
-        You&apos;ll receive a confirmation email within 24 hours.
-      </StyledText>
-      <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
-        <EmailSvg />
-      </Box>
-      <StyledButton
-        variant="contained"
-        color="primary"
-        disableElevation
-        $marginTop={rem("56px")}
-      >
-        <StyledSignUpButton onClick={handleNavigateToSignIn}>
-          <StyledButtonText>OK</StyledButtonText>
-        </StyledSignUpButton>
-      </StyledButton>
-    </StyledLoginContainer>
-  ) : (
-    <StyledLoginContainerMobile>
-      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
-      <Box
-        display="flex"
-        flexDirection="column"
-        maxWidth={rem("375px")}
-        mx={"auto"}
-      >
-        <Box display="flex" justifyContent="center">
-          <StyledLoginText>We are setting your account up</StyledLoginText>
-        </Box>
-        <StyledText>
-          You&apos;ll receive a confirmation email within 24 hours.
-        </StyledText>
-        <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
-          <EmailSvg />
-        </Box>
-        <StyledButton
-          variant="contained"
-          color="primary"
-          disableElevation
-          $marginTop={rem("56px")}
-        >
-          <StyledSignUpButton onClick={handleNavigateToSignIn}>
-            <StyledButtonText>OK</StyledButtonText>
-          </StyledSignUpButton>
-        </StyledButton>
-      </Box>
-    </StyledLoginContainerMobile>
+  return (
+    <React.Fragment>
+      {isWebView ? (
+        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+          <Box display="flex" justifyContent="center">
+            <StyledLoginText>We are setting your account up</StyledLoginText>
+          </Box>
+          <StyledText>
+            You&apos;ll receive a confirmation email within 24 hours.
+          </StyledText>
+          <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
+            <EmailSvg />
+          </Box>
+          <StyledButton
+            variant="contained"
+            color="primary"
+            disableElevation
+            $marginTop={rem("56px")}
+            type="submit"
+          >
+            <StyledSignUpButton>
+              <StyledButtonText>OK</StyledButtonText>
+            </StyledSignUpButton>
+          </StyledButton>
+        </StyledLoginContainer>
+      ) : (
+        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+          {!isWebView && (
+            <SignupStepsProgressMobile stage={stage} steps={step} />
+          )}
+          <Box
+            display="flex"
+            flexDirection="column"
+            maxWidth={rem("375px")}
+            mx={"auto"}
+          >
+            <Box display="flex" justifyContent="center">
+              <StyledLoginText>We are setting your account up</StyledLoginText>
+            </Box>
+            <StyledText>
+              You&apos;ll receive a confirmation email within 24 hours.
+            </StyledText>
+            <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
+              <EmailSvg />
+            </Box>
+            <StyledButton
+              variant="contained"
+              color="primary"
+              disableElevation
+              $marginTop={rem("56px")}
+              type="submit"
+            >
+              <StyledSignUpButton>
+                <StyledButtonText>OK</StyledButtonText>
+              </StyledSignUpButton>
+            </StyledButton>
+          </Box>
+        </StyledLoginContainerMobile>
+      )}
+    </React.Fragment>
   )
 }
 

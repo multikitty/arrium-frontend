@@ -29,9 +29,9 @@ interface ISidePanelProps extends IPageProps {
   role: UserRolesType
 }
 
-const SidePanel: React.FC<ISidePanelProps> = ({ country_code, lang }) => {
+const SidePanel: React.FC<ISidePanelProps> = ({ country_code }) => {
   const { pathname } = useLocation()
-  const { navigate } = useNavigate({ country_code, lang })
+  const { navigate } = useNavigate({ country_code })
   const { userStore, commonStore } = useStore()
 
   const handleNavigateToHomePage = () => {

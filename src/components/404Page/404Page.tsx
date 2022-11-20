@@ -22,13 +22,13 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface I404Page extends IPageProps {}
 
-const _404Page: React.FC<I404Page> = ({ country_code, lang }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const _404Page: React.FC<I404Page> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
   const isDesktopView = useMediaQuery(devices.desktop.up)
 
   return (
     <Styled404Page>
-      <LandingNavbar />
+      <LandingNavbar country_code={country_code} />
       <Styled404PageContent>
         <Styled404PageContentTextContainer>
           <Styled404PageContentTextContainerHeader>

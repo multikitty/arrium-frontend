@@ -63,7 +63,11 @@ import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
 
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
-import { IGetPrefrencesResultData, ISetPrefrencesResult, ISetPrefrencesVariables } from "@/lib/interfaces/prefrences"
+import {
+  IGetPrefrencesResultData,
+  ISetPrefrencesResult,
+  ISetPrefrencesVariables,
+} from "@/lib/interfaces/prefrences"
 import { useMutation } from "react-query"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
@@ -112,9 +116,8 @@ interface IAvailabilityPageProps extends IPageProps {}
 
 const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   country_code,
-  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code, lang })
+  const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
@@ -126,8 +129,6 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
   const { data: preferenceData, isLoading } = usePreferences()
 
-
-
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
       ...searchTableInitialValues,
@@ -135,26 +136,33 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     mode: "onBlur",
     resolver: availabilityResolver,
   })
-  
+
   useEffect(() => {
     if (!isLoading) {
       methods.reset({
-        data: preferenceData?.data?.map((value : IGetPrefrencesResultData) => ({
+        data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
           location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
           checked: value?.preference?.active === "Y" ? true : false,
-          timeToArrive: value.preference.tta,
-          startTime: createDateInHM(Number(value.preference.bStartTime.split(":")[0]), Number(value.preference.bStartTime.split(":")[1])),
-          endTime: createDateInHM(Number(value.preference.bEndTime.split(":")[0]), Number(value.preference.bEndTime.split(":")[1])),
+          timeToArrive: value?.preference?.tta
+            ? parseInt(value?.preference?.tta)
+            : undefined,
+          startTime: createDateInHM(
+            Number(value.preference.bStartTime.split(":")[0]),
+            Number(value.preference.bStartTime.split(":")[1])
+          ),
+          endTime: createDateInHM(
+            Number(value.preference.bEndTime.split(":")[0]),
+            Number(value.preference.bEndTime.split(":")[1])
+          ),
           minimumPay: value.preference.minPay,
           minimumHourlyRate: value.preference.minHourlyRate,
           stationCode: value.station.stationCode,
           stationId: value.station.stationID,
           regionId: value.station.regionID,
-        }))
+        })),
       })
     }
   }, [isLoading, preferenceData])
-  
 
   const handleClick = (item: WeekType) => {
     const activeChips = weekData.filter(data => data.active)
@@ -201,36 +209,43 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   >(setPrefrences)
 
   const onSubmit = async (preferences: FormValues) => {
-    const apiData = preferences.data.map((obj) => {
-      return ({
-        stationCode : obj.stationCode,
-        regionId : obj.regionId,
-        stationId : obj.stationId,
-        day : "",
-        tta : obj.timeToArrive,
+    const apiData = preferences.data.map(obj => {
+      return {
+        stationCode: obj.stationCode,
+        regionId: obj.regionId,
+        stationId: obj.stationId,
+        day: "",
+        tta: obj.timeToArrive,
         minPay: obj.minimumPay,
-        minHourlyRate : obj.minimumHourlyRate,
-        startTime : new Date(obj.startTime).toLocaleTimeString([],{ hour12: false }),
-        endTime : new Date(obj.endTime).toLocaleTimeString([],{ hour12: false }),
-        active : obj.checked ? "Y" : "N"
-      })
+        minHourlyRate: obj.minimumHourlyRate,
+        startTime: obj.startTime
+          ? new Date(obj.startTime).toLocaleTimeString([], {
+              hour12: false,
+            })
+          : "",
+        endTime: obj.endTime
+          ? new Date(obj.endTime).toLocaleTimeString([], {
+              hour12: false,
+            })
+          : "",
+        active: obj.checked ? "Y" : "N",
+      }
     })
     mutate(
       {
-        preferences: apiData
+        preferences: apiData,
       },
       {
-        onSuccess({ data, success }) {
+        onSuccess({ success }) {
           if (!success) {
             enqueueSnackbar("Some Error Occured", { variant: "error" })
-          }
-          else{
+          } else {
             enqueueSnackbar("Search Prefrences Saved", { variant: "success" })
           }
         },
         onError() {
           enqueueSnackbar("Some Error Occured", { variant: "error" })
-        }
+        },
       }
     )
     setIsSearchable(false)

@@ -9,10 +9,11 @@ import { useSnackbar } from "notistack"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
-import { type FormProps } from "@/components/SignUpPage"
+import { FormProps } from "@/components/SignUpPage"
 import {
   StyledButton,
   StyledButtonText,
+  StyledFieldLabel,
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
@@ -23,19 +24,22 @@ import {
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
 import { content } from "@/constants/content"
-import  { CountryData as CountryDataType } from "@/utils/getCountryData"
+import { CountryData as CountryDataType } from "@/utils/getCountryData"
 import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
 import routes from "@/constants/routes"
-import { useStore } from "@/store"
-import { IAccountInfoResult, IAccountInfoVariables } from "@/lib/interfaces/signup"
+import {
+  IAccountInfoResult,
+  IAccountInfoVariables,
+} from "@/lib/interfaces/signup"
 import { updateAccountInfo } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
 import { useGeolocation } from "@/agent/geolocation"
 import LoadingScreen from "../LoadingScreen"
-import {getFilteredCountries} from "@/utils/getCountryData"
+import { getFilteredCountries } from "@/utils/getCountryData"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
+import { DEFAULT_COUNTRY } from "@/constants/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -68,10 +72,12 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   stage,
   step,
   country_code,
-  lang
 }) => {
-  const {navigate, navigateWithQuery: {navigateToSignup}} = useNavigate({country_code, lang})
-  const {enqueueSnackbar} = useSnackbar()
+  const {
+    navigate,
+    navigateWithQuery: { navigateToSignup },
+  } = useNavigate({ country_code })
+  const { enqueueSnackbar } = useSnackbar()
 
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
@@ -79,7 +85,9 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   )
   const [phoneNo, setPhoneNo] = useState("")
-  const [phoneCountry, setPhoneCountry] = useState(localStorageUtils.get(COUNTRY_CODE) || "gb")
+  const [phoneCountry, setPhoneCountry] = useState(
+    localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY
+  )
   const [dialCode, setDialCode] = useState("")
   const [firstName, setFirstName] = useState("")
   const [surName, setSurName] = useState("")
@@ -89,8 +97,8 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     IAccountInfoResult,
     Error,
     IAccountInfoVariables
-    >(updateAccountInfo)
-  const {data: geolocationData, isLoading} = useGeolocation()
+  >(updateAccountInfo)
+  const { data: geolocationData, isLoading } = useGeolocation()
 
   const handleNavigateToSignin = () => {
     navigate(routes.signin)
@@ -101,22 +109,33 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     const phoneNumber = phoneNo.slice(dialCode.length || 0)
 
     const variables: IAccountInfoVariables = {
-      countryCode: country?.countryShortName || "gb",
+      country: country?.countryShortName
+        ? country?.countryShortName.toUpperCase()
+        : DEFAULT_COUNTRY.toUpperCase(),
       phoneNumber,
       dialCode,
       firstname: firstName,
       lastname: surName,
-      tzName: selectedTimezone.toString()
+      tzName: selectedTimezone.toString(),
     }
 
     mutate(variables, {
-      onSuccess({success, message, validationError}) {
+      onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(validationError?.countryCode || validationError?.phoneNumber || validationError?.dialCode || validationError?.firstname || validationError?.lastname || validationError?.tzName ||message, {variant: "error"})
+          enqueueSnackbar(
+            validationError?.country ||
+              validationError?.phoneNumber ||
+              validationError?.dialCode ||
+              validationError?.firstname ||
+              validationError?.lastname ||
+              validationError?.tzName ||
+              message,
+            { variant: "error" }
+          )
           return
         }
-        setFormStage((prev: number) => (prev + 1))
-        navigateToSignup((stage + 1))
+        setFormStage((prev: number) => prev + 1)
+        navigateToSignup(stage + 1)
       },
     })
   }
@@ -135,7 +154,8 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
         phoneNo.length &&
         selectedTimezone &&
         firstName.length &&
-        surName.length && !!country
+        surName.length &&
+        !!country
       ) {
         return false
       }
@@ -145,7 +165,9 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
 
   useEffect(() => {
     if (!geolocationData) return
-    const countryData = getFilteredCountries([geolocationData.country_code.toLowerCase()])[0]
+    const countryData = getFilteredCountries([
+      geolocationData.country_code.toLowerCase(),
+    ])[0]
     setCountry(countryData)
     setPhoneCountry(countryData.countryShortName.toLowerCase())
     setDialCode(geolocationData.calling_code)
@@ -154,133 +176,169 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
 
   if (isLoading) return <LoadingScreen />
 
-  return isWebView ? (
-    <StyledLoginContainer component="form" onSubmit={onSubmit}>
-      <Box display="flex" justifyContent="center">
-        <StyledLoginText>{content.accountInfoSection.title}</StyledLoginText>
-      </Box>
-      <StyledInputField
-        type="text"
-        placeholder="First Name"
-        variant="outlined"
-        value={firstName}
-        onChange={e => setFirstName(e.target.value)}
-        required
-      />
-      <StyledInputField
-        placeholder="Surname"
-        type="text"
-        variant="outlined"
-        value={surName}
-        onChange={e => setSurName(e.target.value)}
-        required
-      />
-      <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
-      <ReactPhoneInput
-        country={phoneCountry}
-        containerClass={classes.telephoneInputContainer}
-        placeholder=""
-        value={phoneNo}
-        onChange={handlePhoneNoField}
-        inputProps={{
-          required: true,
-        }}
-      />
-      <TimeZoneSelect
-        placeholder="choose timezone"
-        className={classes.timezoneStyles}
-        value={selectedTimezone}
-        onChange={setSelectedTimezone}
-      />
-      <StyledButton
-        variant="contained"
-        color="primary"
-        disableElevation
-        $marginTop={rem("56px")}
-        type="submit"
-        disabled={isButtonDisabled}
-      >
-        <StyledButtonText>
-          {content.accountInfoSection.buttonText}
-        </StyledButtonText>
-      </StyledButton>
-      <Box display="flex" justifyContent="center">
-        <StyledSignUpText>
-          {content.accountInfoSection.alreadyHaveAnAccount}
-          <StyledSignUpButton onClick={handleNavigateToSignin}>
-            {content.accountInfoSection.logIn}
-          </StyledSignUpButton>
-        </StyledSignUpText>
-      </Box>
-    </StyledLoginContainer>
-  ) : (
-    <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
-      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
-      <Box
-        display="flex"
-        flexDirection="column"
-        maxWidth={rem("375px")}
-        mx={"auto"}
-      >
-        <Box display="flex" justifyContent="center">
-          <StyledLoginText>{content.accountInfoSection.title}</StyledLoginText>
-        </Box>
-        <StyledInputField
-          placeholder="First Name"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
-          variant="outlined"
-        />
-        <StyledInputField
-          placeholder="Surname"
-          value={surName}
-          onChange={e => setSurName(e.target.value)}
-          variant="outlined"
-        />
-        <AccountInfoCountrySelect country={country} setCountry={setCountry} label="Choose country"  />
-        <ReactPhoneInput
-          country={phoneCountry}
-          containerClass={classes.telephoneInputContainer}
-          placeholder=""
-          value={phoneNo}
-          onChange={handlePhoneNoField}
-          inputProps={{
-            required: true,
-          }}
-        />
-        <TimeZoneSelect
-          placeholder="choose timezone"
-          value={selectedTimezone}
-          className={classes.timezoneStyles}
-          onChange={setSelectedTimezone}
-        />
-        <StyledButton
-          variant="contained"
-          color="primary"
-          disableElevation
-          $marginTop={rem("56px")}
-          type="submit"
-          disabled={isButtonDisabled}
-        >
-          <StyledButtonText>
-            {content.accountInfoSection.buttonText}
-          </StyledButtonText>
-        </StyledButton>
-        <Box
-          display="flex"
-          justifyContent="center"
-          flexDirection="column"
-          alignItems="center"
-        >
-          <StyledSignUpText>
-            {content.accountInfoSection.alreadyHaveAnAccount}
-          </StyledSignUpText>
-          <StyledSignUpButton onClick={handleNavigateToSignin}>
-            {content.accountInfoSection.logIn}
-          </StyledSignUpButton>
-        </Box>
-      </Box>
-    </StyledLoginContainerMobile>
+  return (
+    <React.Fragment>
+      {isWebView ? (
+        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+          <Box display="flex" justifyContent="center">
+            <StyledLoginText>
+              {content.accountInfoSection.title}
+            </StyledLoginText>
+          </Box>
+          <StyledFieldLabel $isHidden={!firstName}>First Name</StyledFieldLabel>
+          <StyledInputField
+            type="text"
+            placeholder="First Name"
+            variant="outlined"
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+            required
+          />
+          <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
+          <StyledInputField
+            type="text"
+            placeholder="Surname"
+            variant="outlined"
+            value={surName}
+            onChange={e => setSurName(e.target.value)}
+            required
+          />
+          <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
+          <AccountInfoCountrySelect
+            country={country}
+            setCountry={setCountry}
+            label="Choose country"
+          />
+          <StyledFieldLabel $isHidden={!phoneNo}>Phone Number</StyledFieldLabel>
+          <ReactPhoneInput
+            country={phoneCountry}
+            containerClass={classes.telephoneInputContainer}
+            placeholder=""
+            value={phoneNo}
+            onChange={handlePhoneNoField}
+            inputProps={{
+              required: true,
+            }}
+          />
+          <StyledFieldLabel $isHidden={!selectedTimezone}>
+            Timezone
+          </StyledFieldLabel>
+          <TimeZoneSelect
+            placeholder="choose timezone"
+            className={classes.timezoneStyles}
+            value={selectedTimezone}
+            onChange={setSelectedTimezone}
+          />
+          <StyledButton
+            variant="contained"
+            color="primary"
+            disableElevation
+            $marginTop={rem("56px")}
+            type="submit"
+            disabled={isButtonDisabled}
+          >
+            <StyledButtonText>
+              {content.accountInfoSection.buttonText}
+            </StyledButtonText>
+          </StyledButton>
+          <Box display="flex" justifyContent="center">
+            <StyledSignUpText>
+              {content.accountInfoSection.alreadyHaveAnAccount}
+              <StyledSignUpButton onClick={handleNavigateToSignin}>
+                {content.accountInfoSection.logIn}
+              </StyledSignUpButton>
+            </StyledSignUpText>
+          </Box>
+        </StyledLoginContainer>
+      ) : (
+        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+          {!isWebView && (
+            <SignupStepsProgressMobile stage={stage} steps={step} />
+          )}
+          <Box
+            display="flex"
+            flexDirection="column"
+            maxWidth={rem("375px")}
+            mx={"auto"}
+          >
+            <Box display="flex" justifyContent="center">
+              <StyledLoginText>
+                {content.accountInfoSection.title}
+              </StyledLoginText>
+            </Box>
+            <StyledFieldLabel $isHidden={!firstName}>
+              First Name
+            </StyledFieldLabel>
+            <StyledInputField
+              placeholder="First Name"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              variant="outlined"
+            />
+            <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
+            <StyledInputField
+              placeholder="Surname"
+              value={surName}
+              onChange={e => setSurName(e.target.value)}
+              variant="outlined"
+            />
+            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
+            <AccountInfoCountrySelect
+              country={country}
+              setCountry={setCountry}
+              label="Choose country"
+            />
+            <StyledFieldLabel $isHidden={!phoneNo}>
+              Phone Number
+            </StyledFieldLabel>
+            <ReactPhoneInput
+              country={phoneCountry}
+              containerClass={classes.telephoneInputContainer}
+              placeholder=""
+              value={phoneNo}
+              onChange={handlePhoneNoField}
+              inputProps={{
+                required: true,
+              }}
+            />
+            <StyledFieldLabel $isHidden={!selectedTimezone}>
+              Timezone
+            </StyledFieldLabel>
+            <TimeZoneSelect
+              placeholder="choose timezone"
+              value={selectedTimezone}
+              className={classes.timezoneStyles}
+              onChange={setSelectedTimezone}
+            />
+            <StyledButton
+              variant="contained"
+              color="primary"
+              disableElevation
+              $marginTop={rem("56px")}
+              type="submit"
+              disabled={isButtonDisabled}
+            >
+              <StyledButtonText>
+                {content.accountInfoSection.buttonText}
+              </StyledButtonText>
+            </StyledButton>
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <StyledSignUpText>
+                {content.accountInfoSection.alreadyHaveAnAccount}
+              </StyledSignUpText>
+              <StyledSignUpButton onClick={handleNavigateToSignin}>
+                {content.accountInfoSection.logIn}
+              </StyledSignUpButton>
+            </Box>
+          </Box>
+        </StyledLoginContainerMobile>
+      )}
+    </React.Fragment>
   )
 }
 

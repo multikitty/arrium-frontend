@@ -34,9 +34,8 @@ const FullscreenMenu = ({
   open,
   handleFullscreenMenuClose,
   country_code,
-  lang,
 }: IFullscreenMenuProps) => {
-  const { navigate } = useNavigate({ country_code, lang })
+  const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { pathname } = useLocation()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)

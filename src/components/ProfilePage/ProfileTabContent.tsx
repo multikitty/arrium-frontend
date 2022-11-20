@@ -64,10 +64,9 @@ interface IProfileTabContentProps extends IPageProps {}
 
 const ProfileTabContent: React.FC<IProfileTabContentProps> = ({
   country_code,
-  lang,
 }) => {
   const classes = useStyles()
-  const { navigate, navigateToDefault } = useNavigate({ country_code, lang })
+  const { navigate, navigateToDefault } = useNavigate({ country_code })
   const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { data: userData, isLoading, refetch } = useCurrentUser()

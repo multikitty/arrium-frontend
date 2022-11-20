@@ -1,15 +1,11 @@
-export type UserCurrentStepsType =
-  | "account_info"
-  | "otp"
-  | "amazon_flex"
-  | "finished"
+import { RegistrationStepsType } from "@/types/common"
 
 export interface ICurrentUserData {
   phoneNumber: string
   refCode: string
   countryCode: string
   tzName: string
-  currentSteps: UserCurrentStepsType
+  currentSteps: RegistrationStepsType
   email: string
   emailVerified: boolean
   pkEmail: string

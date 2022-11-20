@@ -25,11 +25,8 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface IFooterSectionProps extends IPageProps {}
 
-const FooterSection: React.FC<IFooterSectionProps> = ({
-  country_code,
-  lang,
-}) => {
-  const { navigate } = useNavigate({ country_code, lang })
+const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
+  const { navigate } = useNavigate({ country_code })
 
   const handleRedirectToInstagram = () =>
     window.open("https://www.instagram.com/", "_blank")

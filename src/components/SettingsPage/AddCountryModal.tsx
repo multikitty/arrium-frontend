@@ -15,6 +15,7 @@ import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
 import { IAddCountryVariables } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
+import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddCountryVariables) => void
@@ -35,7 +36,7 @@ const AddCountryModal = (props: IProps) => {
     if (!country) return
     props.handleAdd({
       country: country.countryName,
-      countryCode: country.countryShortName.toLowerCase(),
+      countryCode: country.countryShortName.toUpperCase(),
     })
   }
 
@@ -50,6 +51,7 @@ const AddCountryModal = (props: IProps) => {
         <StyledAddCountryModalTitle>Add new Country</StyledAddCountryModalTitle>
         <StyledAddCountryModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("24px")}>
+            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <CountrySelect
               autoFocus
               country={country}
@@ -57,6 +59,9 @@ const AddCountryModal = (props: IProps) => {
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledFieldLabel $isHidden={!countryCode}>
+              Country code
+            </StyledFieldLabel>
             <StyledAddCountryModalFormField
               readOnly
               disabled

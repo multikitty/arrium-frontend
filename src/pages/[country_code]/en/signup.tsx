@@ -11,7 +11,7 @@ interface ISignupProps {
 const Signup: React.FC<ISignupProps> = ({ params }) => {
   return (
     <React.Fragment>
-      <Seo title="Sign In | Arrium" />
+      <Seo title="Sign Up | Arrium" />
       <SignUpPage country_code={params.country_code} />
     </React.Fragment>
   )

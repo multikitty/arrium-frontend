@@ -6,13 +6,14 @@ import { rem } from "polished"
 import {
   StyledButton,
   StyledButtonText,
+  StyledFieldLabel,
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/uiComponents"
+} from "@/components/commons/uiComponents"
 import {
   StyledPasswordValidationContainer,
   StyledTextBox,
@@ -33,10 +34,11 @@ import {
   IRegistrationUserResult,
 } from "@/lib/interfaces/signup"
 import { useSnackbar } from "notistack"
-import { setLocalStorage } from "@/utils/localStorage"
+import localStorageUtils, { setLocalStorage } from "@/utils/localStorage"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
-import { TOKEN } from "@/constants/localStorage"
+import { COUNTRY_CODE, TOKEN } from "@/constants/localStorage"
+import { DEFAULT_COUNTRY } from "@/constants/common"
 
 interface ISignupSectionProps extends FormProps, IPageProps {}
 
@@ -45,17 +47,16 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
   stage,
   step,
   country_code,
-  lang,
 }) => {
   const isWebView = useMediaQuery(devices.web.up)
   const { enqueueSnackbar } = useSnackbar()
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
-  } = useNavigate({ country_code, lang })
+  } = useNavigate({ country_code })
 
   const [email, setEmail] = useState("")
-  const [isVisible, SetIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
   const [password, setPassword] = useState("")
   const [refCode, setRefCode] = useState("")
   const [isFocused, setIsFocused] = useState(false)
@@ -110,7 +111,11 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
       email,
       password,
       refCode,
-      countryCode: (country_code || "UK").toUpperCase(),
+      country: (
+        country_code ||
+        localStorageUtils.get(COUNTRY_CODE) ||
+        DEFAULT_COUNTRY
+      ).toUpperCase(),
     }
 
     mutate(variables, {
@@ -120,7 +125,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
             validationError?.email ||
               validationError?.password ||
               validationError?.refCode ||
-              validationError?.countryCode ||
+              validationError?.country ||
               message,
             { variant: "error" }
           )
@@ -138,221 +143,245 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
     navigate(routes.signin)
   }
 
-  return isWebView ? (
-    <StyledLoginContainer component="form" onSubmit={onSubmit}>
-      <Box display="flex" justifyContent="center">
-        <StyledLoginText>Sign up</StyledLoginText>
-      </Box>
-      <StyledInputField
-        placeholder="Enter Email Address"
-        variant="outlined"
-        type="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
-      <Box position="relative">
-        <StyledInputField
-          placeholder="Enter Password"
-          type={isVisible ? "text" : "password"}
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          variant="outlined"
-          required
-          InputProps={{
-            endAdornment: (
-              <IconButton onClick={() => SetIsVisible(prev => !prev)}>
-                {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
-              </IconButton>
-            ),
-          }}
-        />
-        {isFocused && (
-          <StyledPasswordValidationContainer isWebView={isWebView}>
-            <StyledValidationTextWrapper
-              isRequired={!isRequiredSet.minEightChar}
-            >
-              {!isRequiredSet.minEightChar ? (
-                <img src={RightCheckMarkIcon} />
-              ) : (
-                <img src={RightCheckGreenMarkIcon} />
-              )}
-              <StyledValidationText>minimum 8 characters</StyledValidationText>
-            </StyledValidationTextWrapper>
-            <StyledValidationTextWrapper isRequired={!isRequiredSet.uppercase}>
-              {!isRequiredSet.uppercase ? (
-                <img src={RightCheckMarkIcon} />
-              ) : (
-                <img src={RightCheckGreenMarkIcon} />
-              )}
-              <StyledValidationText>1 uppercase</StyledValidationText>
-            </StyledValidationTextWrapper>
-            <StyledValidationTextWrapper isRequired={!isRequiredSet.lowercase}>
-              {!isRequiredSet.lowercase ? (
-                <img src={RightCheckMarkIcon} />
-              ) : (
-                <img src={RightCheckGreenMarkIcon} />
-              )}
-              <StyledValidationText>1 lowercase</StyledValidationText>
-            </StyledValidationTextWrapper>
-            <StyledValidationTextWrapper isRequired={!isRequiredSet.digit}>
-              {!isRequiredSet.digit ? (
-                <img src={RightCheckMarkIcon} />
-              ) : (
-                <img src={RightCheckGreenMarkIcon} />
-              )}
-              <StyledValidationText>1 number</StyledValidationText>
-            </StyledValidationTextWrapper>
-          </StyledPasswordValidationContainer>
-        )}
-      </Box>
-      <StyledTextBox>If you have a 6-digit code, enter it below</StyledTextBox>
-      <StyledInputField
-        mb={"0"}
-        placeholder="6-digit code"
-        variant="outlined"
-        value={refCode}
-        onChange={e => setRefCode(e.target.value)}
-      />
-      <StyledButton
-        variant="contained"
-        color="primary"
-        disableElevation
-        $marginTop={rem("56px")}
-        type="submit"
-      >
-        <StyledButtonText>Continue</StyledButtonText>
-      </StyledButton>
-      <Box display="flex" justifyContent="center">
-        <StyledSignUpText>
-          Already have an account?
-          <StyledSignUpButton onClick={handleNavigateToSignIn}>
-            Log In
-          </StyledSignUpButton>
-        </StyledSignUpText>
-      </Box>
-    </StyledLoginContainer>
-  ) : (
-    <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
-      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
-      <Box
-        display="flex"
-        flexDirection="column"
-        maxWidth={rem("375px")}
-        mx={"auto"}
-      >
-        <Box display="flex" justifyContent="center">
-          <StyledLoginText>Sign up</StyledLoginText>
-        </Box>
-        <StyledInputField
-          placeholder="Enter Email Address"
-          variant="outlined"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <Box position="relative">
+  return (
+    <React.Fragment>
+      {isWebView ? (
+        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+          <Box display="flex" justifyContent="center">
+            <StyledLoginText>Sign up</StyledLoginText>
+          </Box>
+          <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
           <StyledInputField
-            placeholder="Enter Password"
-            type={isVisible ? "text" : "password"}
-            value={password}
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
-            required
-            onChange={e => setPassword(e.target.value)}
+            placeholder="Enter Email Address"
             variant="outlined"
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => SetIsVisible(prev => !prev)}>
-                  {isVisible ? (
-                    <VisibilityOffOutlined />
-                  ) : (
-                    <VisibilityOutlined />
-                  )}
-                </IconButton>
-              ),
-            }}
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
           />
-          {isFocused && (
-            <StyledPasswordValidationContainer isWebView={isWebView}>
-              <StyledValidationTextWrapper
-                isRequired={!isRequiredSet.minEightChar}
-              >
-                {!isRequiredSet.minEightChar ? (
-                  <img src={RightCheckMarkIcon} />
-                ) : (
-                  <img src={RightCheckGreenMarkIcon} />
-                )}
-                <StyledValidationText>
-                  minimum 8 characters
-                </StyledValidationText>
-              </StyledValidationTextWrapper>
-              <StyledValidationTextWrapper
-                isRequired={!isRequiredSet.uppercase}
-              >
-                {!isRequiredSet.uppercase ? (
-                  <img src={RightCheckMarkIcon} />
-                ) : (
-                  <img src={RightCheckGreenMarkIcon} />
-                )}
-                <StyledValidationText>1 uppercase</StyledValidationText>
-              </StyledValidationTextWrapper>
-              <StyledValidationTextWrapper
-                isRequired={!isRequiredSet.lowercase}
-              >
-                {!isRequiredSet.lowercase ? (
-                  <img src={RightCheckMarkIcon} />
-                ) : (
-                  <img src={RightCheckGreenMarkIcon} />
-                )}
-                <StyledValidationText>1 lowercase</StyledValidationText>
-              </StyledValidationTextWrapper>
-              <StyledValidationTextWrapper isRequired={!isRequiredSet.digit}>
-                {!isRequiredSet.digit ? (
-                  <img src={RightCheckMarkIcon} />
-                ) : (
-                  <img src={RightCheckGreenMarkIcon} />
-                )}
-                <StyledValidationText>1 number</StyledValidationText>
-              </StyledValidationTextWrapper>
-            </StyledPasswordValidationContainer>
+          <StyledFieldLabel $isHidden={!password}>Password</StyledFieldLabel>
+          <Box position="relative">
+            <StyledInputField
+              placeholder="Enter Password"
+              type={isVisible ? "text" : "password"}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              variant="outlined"
+              required
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={() => setIsVisible(prev => !prev)}>
+                    {isVisible ? (
+                      <VisibilityOffOutlined />
+                    ) : (
+                      <VisibilityOutlined />
+                    )}
+                  </IconButton>
+                ),
+              }}
+            />
+            {isFocused && (
+              <StyledPasswordValidationContainer isWebView={isWebView}>
+                <StyledValidationTextWrapper
+                  isRequired={!isRequiredSet.minEightChar}
+                >
+                  {!isRequiredSet.minEightChar ? (
+                    <img src={RightCheckMarkIcon} />
+                  ) : (
+                    <img src={RightCheckGreenMarkIcon} />
+                  )}
+                  <StyledValidationText>
+                    minimum 8 characters
+                  </StyledValidationText>
+                </StyledValidationTextWrapper>
+                <StyledValidationTextWrapper
+                  isRequired={!isRequiredSet.uppercase}
+                >
+                  {!isRequiredSet.uppercase ? (
+                    <img src={RightCheckMarkIcon} />
+                  ) : (
+                    <img src={RightCheckGreenMarkIcon} />
+                  )}
+                  <StyledValidationText>1 uppercase</StyledValidationText>
+                </StyledValidationTextWrapper>
+                <StyledValidationTextWrapper
+                  isRequired={!isRequiredSet.lowercase}
+                >
+                  {!isRequiredSet.lowercase ? (
+                    <img src={RightCheckMarkIcon} />
+                  ) : (
+                    <img src={RightCheckGreenMarkIcon} />
+                  )}
+                  <StyledValidationText>1 lowercase</StyledValidationText>
+                </StyledValidationTextWrapper>
+                <StyledValidationTextWrapper isRequired={!isRequiredSet.digit}>
+                  {!isRequiredSet.digit ? (
+                    <img src={RightCheckMarkIcon} />
+                  ) : (
+                    <img src={RightCheckGreenMarkIcon} />
+                  )}
+                  <StyledValidationText>1 number</StyledValidationText>
+                </StyledValidationTextWrapper>
+              </StyledPasswordValidationContainer>
+            )}
+          </Box>
+          <StyledTextBox>
+            If you have a 6-digit code, enter it below
+          </StyledTextBox>
+          <StyledInputField
+            mb={"0"}
+            placeholder="6-digit code"
+            variant="outlined"
+            value={refCode}
+            onChange={e => setRefCode(e.target.value)}
+          />
+          <StyledButton
+            variant="contained"
+            color="primary"
+            disableElevation
+            $marginTop={rem("56px")}
+            type="submit"
+          >
+            <StyledButtonText>Continue</StyledButtonText>
+          </StyledButton>
+          <Box display="flex" justifyContent="center">
+            <StyledSignUpText>
+              Already have an account?
+              <StyledSignUpButton onClick={handleNavigateToSignIn}>
+                Log In
+              </StyledSignUpButton>
+            </StyledSignUpText>
+          </Box>
+        </StyledLoginContainer>
+      ) : (
+        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+          {!isWebView && (
+            <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
-        </Box>
-        <StyledTextBox>
-          If you have a 6-digit code, enter it below
-        </StyledTextBox>
-        <StyledInputField
-          mb={"0"}
-          placeholder="6-digit code"
-          variant="outlined"
-          value={refCode}
-          onChange={e => setRefCode(e.target.value)}
-        />
-        <StyledButton
-          variant="contained"
-          color="primary"
-          disableElevation
-          $marginTop={rem("56px")}
-          type="submit"
-        >
-          <StyledButtonText>Continue</StyledButtonText>
-        </StyledButton>
-        <Box
-          display="flex"
-          justifyContent="center"
-          flexDirection="column"
-          alignItems="center"
-        >
-          <StyledSignUpText>Already have an account?</StyledSignUpText>
-          <StyledSignUpButton onClick={handleNavigateToSignIn}>
-            Log In
-          </StyledSignUpButton>
-        </Box>
-      </Box>
-    </StyledLoginContainerMobile>
+          <Box
+            display="flex"
+            flexDirection="column"
+            maxWidth={rem("375px")}
+            mx={"auto"}
+          >
+            <Box display="flex" justifyContent="center">
+              <StyledLoginText>Sign up</StyledLoginText>
+            </Box>
+            <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
+            <StyledInputField
+              placeholder="Enter Email Address"
+              variant="outlined"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+            <StyledFieldLabel $isHidden={!password}>Password</StyledFieldLabel>
+            <Box position="relative">
+              <StyledInputField
+                placeholder="Enter Password"
+                type={isVisible ? "text" : "password"}
+                value={password}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                required
+                onChange={e => setPassword(e.target.value)}
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={() => setIsVisible(prev => !prev)}>
+                      {isVisible ? (
+                        <VisibilityOffOutlined />
+                      ) : (
+                        <VisibilityOutlined />
+                      )}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {isFocused && (
+                <StyledPasswordValidationContainer isWebView={isWebView}>
+                  <StyledValidationTextWrapper
+                    isRequired={!isRequiredSet.minEightChar}
+                  >
+                    {!isRequiredSet.minEightChar ? (
+                      <img src={RightCheckMarkIcon} />
+                    ) : (
+                      <img src={RightCheckGreenMarkIcon} />
+                    )}
+                    <StyledValidationText>
+                      minimum 8 characters
+                    </StyledValidationText>
+                  </StyledValidationTextWrapper>
+                  <StyledValidationTextWrapper
+                    isRequired={!isRequiredSet.uppercase}
+                  >
+                    {!isRequiredSet.uppercase ? (
+                      <img src={RightCheckMarkIcon} />
+                    ) : (
+                      <img src={RightCheckGreenMarkIcon} />
+                    )}
+                    <StyledValidationText>1 uppercase</StyledValidationText>
+                  </StyledValidationTextWrapper>
+                  <StyledValidationTextWrapper
+                    isRequired={!isRequiredSet.lowercase}
+                  >
+                    {!isRequiredSet.lowercase ? (
+                      <img src={RightCheckMarkIcon} />
+                    ) : (
+                      <img src={RightCheckGreenMarkIcon} />
+                    )}
+                    <StyledValidationText>1 lowercase</StyledValidationText>
+                  </StyledValidationTextWrapper>
+                  <StyledValidationTextWrapper
+                    isRequired={!isRequiredSet.digit}
+                  >
+                    {!isRequiredSet.digit ? (
+                      <img src={RightCheckMarkIcon} />
+                    ) : (
+                      <img src={RightCheckGreenMarkIcon} />
+                    )}
+                    <StyledValidationText>1 number</StyledValidationText>
+                  </StyledValidationTextWrapper>
+                </StyledPasswordValidationContainer>
+              )}
+            </Box>
+            <StyledTextBox>
+              If you have a 6-digit code, enter it below
+            </StyledTextBox>
+            <StyledInputField
+              mb={"0"}
+              placeholder="6-digit code"
+              variant="outlined"
+              value={refCode}
+              onChange={e => setRefCode(e.target.value)}
+            />
+            <StyledButton
+              variant="contained"
+              color="primary"
+              disableElevation
+              $marginTop={rem("56px")}
+              type="submit"
+            >
+              <StyledButtonText>Continue</StyledButtonText>
+            </StyledButton>
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <StyledSignUpText>Already have an account?</StyledSignUpText>
+              <StyledSignUpButton onClick={handleNavigateToSignIn}>
+                Log In
+              </StyledSignUpButton>
+            </Box>
+          </Box>
+        </StyledLoginContainerMobile>
+      )}
+    </React.Fragment>
   )
 }
 export default SignupSection

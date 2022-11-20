@@ -18,6 +18,7 @@ import { UserRoles } from "@/constants/common"
 import CountrySelect from "../CountrySelect"
 import { CountryData, RegionData } from "@/utils/getCountryData"
 import RegionSelect from "../RegionSelect"
+import { StyledFieldLabel } from "../commons/uiComponents"
 
 export interface IProps {
   open: boolean
@@ -31,6 +32,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
   const { userStore } = useStore()
   const [country, setCountry] = React.useState<CountryData | null>(null)
   const [region, setRegion] = React.useState<RegionData | null>(null)
+  const [numberOfReferrals, setNumberOfReferrals] = React.useState(0)
   const [assignTo, setAssignTo] = React.useState(
     isSalesAgent ? userStore.userFullName : ""
   )
@@ -51,7 +53,8 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
           Create new referral codes
         </StyledCreateReferralModalTitle>
         <StyledCreateReferralModalForm onSubmit={handleSubmit}>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <CountrySelect
               fullWidth
               required
@@ -60,7 +63,8 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
               setCountry={setCountry}
             />
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!region}>Region</StyledFieldLabel>
             <RegionSelect
               fullWidth
               required
@@ -71,7 +75,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
               setRegion={setRegion}
             />
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <Autocomplete
               fullWidth
               disabled={!country || !region}
@@ -81,8 +85,15 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
               )}
             />
           </Box>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledFieldLabel $isHidden={!numberOfReferrals}>
+              Number of Referrals
+            </StyledFieldLabel>
             <StyledCreateReferralModalFormField
+              value={numberOfReferrals}
+              onChange={e => {
+                setNumberOfReferrals(parseInt(e.target.value))
+              }}
               placeholder="Number of referrals"
               type="number"
               required
@@ -92,7 +103,8 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
               }}
             />
           </Box>
-          <Box display="flex" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledFieldLabel $isHidden={!assignTo}>Assign to</StyledFieldLabel>
             {userStore.userFullName && (
               <Autocomplete
                 fullWidth
