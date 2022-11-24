@@ -41,6 +41,8 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
     e.preventDefault()
   }
 
+  const isSaveDisabled = !country || !region || !numberOfReferrals || !assignTo
+
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledCreateReferralModal>
@@ -58,7 +60,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
             <CountrySelect
               fullWidth
               required
-              label="Choose Country"
+              placeholder="Choose Country*"
               country={country}
               setCountry={setCountry}
             />
@@ -68,7 +70,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
             <RegionSelect
               fullWidth
               required
-              label="Choose Region"
+              placeholder="Choose Region*"
               disabled={!country}
               country={country?.countryShortName}
               region={region}
@@ -86,7 +88,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!numberOfReferrals}>
+            <StyledFieldLabel $isHidden={Number.isNaN(numberOfReferrals)}>
               Number of Referrals
             </StyledFieldLabel>
             <StyledCreateReferralModalFormField
@@ -114,7 +116,7 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
                 renderInput={params => (
                   <TextField
                     {...params}
-                    label="Assign To"
+                    placeholder="Assign to*"
                     required
                     InputProps={{ readOnly: isSalesAgent }}
                   />
@@ -123,7 +125,11 @@ const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
             )}
           </Box>
           <StyledCreateReferralModalFormAction>
-            <ContainedButton sx={{ width: "100%" }} type="submit">
+            <ContainedButton
+              sx={{ width: "100%" }}
+              type="submit"
+              disabled={isSaveDisabled}
+            >
               Save
             </ContainedButton>
           </StyledCreateReferralModalFormAction>

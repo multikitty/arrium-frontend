@@ -3,7 +3,7 @@ import { RegistrationStepsType } from "@/types/common"
 export interface ICurrentUserData {
   phoneNumber: string
   refCode: string
-  countryCode: string
+  country: string
   tzName: string
   currentSteps: RegistrationStepsType
   email: string
