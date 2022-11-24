@@ -1,6 +1,6 @@
 import { rem } from "polished"
 import styled from "styled-components"
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TextField, Typography, Paper } from "@mui/material"
 import theme from "@/theme"
 import { devices } from "@/constants/device"
 
@@ -42,6 +42,9 @@ export const StyledSearchButton = styled(Button)`
     font-size: ${rem("16px")};
     line-height: ${rem("20px")};
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
@@ -167,5 +170,53 @@ export const StyledNoSearchResultsText = styled(Typography)`
     line-height: ${rem("20px")};
     text-align: center;
     max-width: ${rem("270px")};
+  }
+`
+
+export const StyledAvailablityAutomationModal = styled(Paper).attrs({ elevation: 1 })<{}>`
+  border-radius: ${rem("20px")};
+  padding: ${rem("16px")};
+  width: 100%;
+  max-width: ${rem("642px")};
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height:${rem("760px")};
+  overflow: scroll;
+  overflow-x: hidden;
+`
+
+export const StyledAvailablityAutomationModalTitle = styled.p`
+  font-family: Inter;
+  font-weight: 300;
+  font-size: ${rem("28px")};
+  line-height: ${rem("32px")};
+  color: ${theme.palette.blackText};
+  margin-bottom: ${rem("16px")};
+`
+
+export const StyledAvailablityAutomationModalTitleDesc = styled.p`
+font-family: Inter;
+font-weight: 400;
+font-size: ${rem("18px")};
+font-height: ${rem("32px")};
+color: ${theme.palette.grey7};
+width:${rem("443px")};
+height: ${rem("64px")};
+margin-bottom: ${rem("12px")};
+`
+
+export const StyledAvailablityAutomationDeleteButton = styled(Button)`
+  &&& {
+    margin-left: ${rem("20px")};
+    border: 1px solid #e6e6ed;
+    border-radius: ${rem("6px")};
+    padding: ${rem("6px")} ${rem("16px")};
+    text-transform: capitalize;
+    font-size: ${rem("16px")};
+    line-height: ${rem("20px")};
+    font-weight: 600;
+    color: ${theme.palette.grey7};
   }
 `

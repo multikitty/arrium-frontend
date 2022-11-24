@@ -7,9 +7,9 @@ import { createDateInHM } from "@/utils"
 import { store } from "@/store"
 
 export const availabilityStatusOptions = {
-  accepted: { label: "Accepted", value: "accepted" },
-  ignored: { label: "Ignored", value: "ignored" },
-  rejected: { label: "Rejected", value: "rejected" },
+  Accepted: { label: "Accepted", value: "accepted" },
+  Ignored: { label: "Ignored", value: "ignored" },
+  Rejected: { label: "Rejected", value: "rejected" },
 }
 
 export type AvailabilityStatusType = keyof typeof availabilityStatusOptions
@@ -21,7 +21,7 @@ const createData = (
   time: string,
   duration: string,
   pay: string,
-  status: AvailabilityStatusType
+  status: string
 ) => {
   return { location, day, date, time, duration, pay, status }
 }
@@ -263,52 +263,52 @@ export const searchTableShape = [
 //   createSearchesData("Wakefield (DLS4)", "32 min"),
 // ]
 
-export const rows: AvailabilityTableData[] = []
+// export const rows: AvailabilityTableData[] = []
 
-// export const rows = [
-//   createData(
-//     "Knowsley (DWN1) - AMZL",
-//     "Wed",
-//     "Sep 22",
-//     "17:45 - 21:15",
-//     "3 h 30 min",
-//     "54.50",
-//     availabilityStatusOptions.accepted.value as AvailabilityStatusType
-//   ),
-//   createData(
-//     "Leyland (DPR1) - AMZL",
-//     "Wed",
-//     "Sep 22",
-//     "17:30 - 21:00",
-//     "3 h 30 min",
-//     "45.50",
-//     availabilityStatusOptions.accepted.value as AvailabilityStatusType
-//   ),
-//   createData(
-//     "Knowsley (DWN1) - AMZL",
-//     "Wed",
-//     "Sep 22",
-//     "18:15 - 21:45",
-//     "3 h 30 min",
-//     "54.50",
-//     availabilityStatusOptions.rejected.value as AvailabilityStatusType
-//   ),
-//   createData(
-//     "Manchester (CMC2) - Morrisons",
-//     "Wed",
-//     "Sep 22",
-//     "18:00 - 20:00",
-//     "2 h",
-//     "26",
-//     availabilityStatusOptions.ignored.value as AvailabilityStatusType
-//   ),
-// ]
+export const rows = [
+  createData(
+    "Knowsley (DWN1) - AMZL",
+    "Wed",
+    "Sep 22",
+    "17:45 - 21:15",
+    "3 h 30 min",
+    "54.50",
+    "Accepted"
+  ),
+  createData(
+    "Leyland (DPR1) - AMZL",
+    "Wed",
+    "Sep 22",
+    "17:30 - 21:00",
+    "3 h 30 min",
+    "45.50",
+    "Accepted"
+  ),
+  createData(
+    "Knowsley (DWN1) - AMZL",
+    "Wed",
+    "Sep 22",
+    "18:15 - 21:45",
+    "3 h 30 min",
+    "54.50",
+    "Rejected"
+  ),
+  createData(
+    "Manchester (CMC2) - Morrisons",
+    "Wed",
+    "Sep 22",
+    "18:00 - 20:00",
+    "2 h",
+    "26",
+    "Ignored"
+  ),
+]
 
 export const availabilityStatusColorMap: Record<
-  AvailabilityStatusType,
+  AvailabilityStatusType| string,
   string
 > = {
-  accepted: "#3DCC70",
-  ignored: "#FAB11E",
-  rejected: "#FA6464",
+  Accepted: "#3DCC70",
+  Ignored: "#FAB11E",
+  Rejected: "#FA6464",
 }

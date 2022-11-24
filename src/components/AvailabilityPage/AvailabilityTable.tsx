@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useEffect, useState } from "react"
 import Chip from "@mui/material/Chip"
 import {
   Table,
@@ -13,11 +13,7 @@ import {
 import theme from "@/theme"
 import { rem } from "polished"
 import { AvailabilityTableTabType } from "./AvailabilityPage"
-import {
-  availabilityStatusColorMap,
-  availabilityStatusOptions,
-  rows,
-} from "./AvailabilityPage.data"
+import { availabilityStatusColorMap } from "./AvailabilityPage.data"
 import { devices } from "@/constants/device"
 import {
   StyledSubscriptionPageInvoicesContainer as StyledAvailabilityTableContainer,
@@ -37,6 +33,8 @@ import {
   StyledNoSearchResultsText,
   StyledNoSearchResultsTitle,
 } from "./AvailabilityPage.styled"
+import {useSearchedBlocks} from "@/agent/availability"
+import socketIOClient from "socket.io-client";
 
 interface IProps {
   tab: AvailabilityTableTabType
@@ -45,6 +43,25 @@ interface IProps {
 const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
   const isWebView = useMediaQuery(devices.web.up)
   const { userStore } = useStore()
+  const { data: searchedBlocksData } = useSearchedBlocks()
+  const [rows, setRows] = useState<any[]>([])
+  let socket = socketIOClient("https://api.arrium.io/");
+
+  socket.on('block-data-updated', (socketData) => {
+    console.log("Message: ",  socketData);
+    let socketRowData = socketData.data;
+    if(socketData.userPk === userStore.currentUser?.pk){
+      setRows(rows => [socketRowData, ...rows]);
+    }
+  });
+
+useEffect(() => {
+  if(searchedBlocksData?.data !== undefined){
+    setRows(searchedBlocksData?.data)
+  }
+
+}, [searchedBlocksData])
+
 
   return isWebView ? (
     /* // * DESKTOP VIEW */
@@ -140,8 +157,8 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
         </TableHead>
         <TableBody>
           {rows
-            .filter(row => (tab === "all" ? true : row.status === tab))
-            .map((row, index) => (
+            .filter(row => (tab === "all" ? true : row.Status === tab))
+            .map((row:any, index) => (
               <TableRow
                 key={index}
                 sx={{
@@ -159,7 +176,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   scope="row"
                 >
-                  {row.location}
+                  {row.stationName} ({row.stationCode})
                 </TableCell>
                 <TableCell
                   sx={{
@@ -171,7 +188,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.day}
+                  {row.bDay}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -183,7 +200,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.date}
+                  {row.bDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -196,7 +213,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.time}
+                  {row.bStartTime}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -221,7 +238,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   align="left"
                 >
                   {userStore.currencySymbol}
-                  {row.pay}
+                  {row.price}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -234,7 +251,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   align="left"
                 >
                   <Chip
-                    label={availabilityStatusOptions[row.status].label}
+                    label={[row.Status]}
                     sx={{
                       fontFamily: "Inter",
                       fontSize: "14px",
@@ -242,7 +259,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                       fontWeight: 600,
                       lineHeight: "20px",
                       color: "white",
-                      background: availabilityStatusColorMap[row.status],
+                      background: availabilityStatusColorMap[row.Status],
                     }}
                   />
                 </TableCell>
@@ -275,15 +292,15 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
     <React.Fragment>
       <StyledAvailabilityTableContainer>
         {rows
-          .filter(row => (tab === "all" ? true : row.status === tab))
-          .map(row => (
-            <StyledAvailabilityTable key={row.time}>
+          .filter(row => (tab === "all" ? true : row.Status === tab))
+          .map((row:any) => (
+            <StyledAvailabilityTable key={row.bStartTime}>
               <StyledAvailabilityTableHeader>
                 <StyledAvailabilityTableHeaderTitle>
                   Location
                 </StyledAvailabilityTableHeaderTitle>
                 <StyledAvailabilityTableHeaderText>
-                  {row.location}
+                  {row.stationName} ({row.stationCode})
                 </StyledAvailabilityTableHeaderText>
               </StyledAvailabilityTableHeader>
               <StyledAvailabilityTableItemsContainer>
@@ -292,7 +309,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     Day
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.day}
+                    {row.bDay}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -300,7 +317,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     Date
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.date}
+                    {row.bDate}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -308,7 +325,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     Time
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.time}
+                    {row.bStartTime}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -325,7 +342,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
                     {userStore.currencySymbol}
-                    {row.pay}
+                    {row.price}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -335,7 +352,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   <StyledAvailabilityTableItemValue>
                     <Chip
                       component="span"
-                      label={availabilityStatusOptions[row.status].label}
+                      label={[row.Status]}
                       sx={{
                         fontFamily: "Inter",
                         fontSize: "14px",
@@ -343,7 +360,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                         fontWeight: 600,
                         lineHeight: "20px",
                         color: "white",
-                        background: availabilityStatusColorMap[row.status],
+                        background: availabilityStatusColorMap[row.Status],
                       }}
                     />
                   </StyledAvailabilityTableItemValue>
