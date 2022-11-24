@@ -59,19 +59,19 @@ import {
 } from "./AvailabilityPage.styled"
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
-import routes from "@/constants/routes"
+// import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
-
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
-import {
-  IGetPrefrencesResultData,
-  ISetPrefrencesResult,
-  ISetPrefrencesVariables,
-} from "@/lib/interfaces/prefrences"
+import { IGetPrefrencesResultData, IGetPrefrencesScheduleResultData, ISetPrefrencesResult, ISetPrefrencesVariables } from "@/lib/interfaces/prefrences"
 import { useMutation } from "react-query"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
-import { createDateInHM } from "@/utils"
+import { createDateInHM, localStorageUtils } from "@/utils"
+import AvailabilityAutomationModal from "./AvailabilityAutomationModal"
+import { IAddStationTypeResult, IAddStationTypeVariables } from "@/lib/interfaces/stationTypes"
+import { setBlockStartSearch, setBlockStopSearch, useBlockStopSearch } from "@/agent/availability"
+import { TASK_ID } from "@/constants/localStorage"
+import { setLocalStorage } from "@/utils/localStorage"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -124,10 +124,18 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
   const [weekData, setWeekData] = useState<WeekType[]>(initialWeekData)
+  const [taskId, setTaskId] = useState<string>(localStorageUtils.get(TASK_ID) || "")
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const [isSearching, setIsSearching] = useState<boolean>(false)
+  const [isSearching, setIsSearching] = useState<boolean>(taskId? true: false)
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
   const { data: preferenceData, isLoading } = usePreferences()
+  const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
+
+
+
+  // const { data: blockStopSearch } = useBlockStopSearch({params: "12345678"});
+  // console.log('getting block stop data',blockStopSearch )
+
 
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
@@ -136,6 +144,26 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     mode: "onBlur",
     resolver: availabilityResolver,
   })
+  
+  useEffect(() => {
+    if (!isLoading) {
+      methods.reset({
+        data: preferenceData?.data?.map((value : IGetPrefrencesResultData) => ({
+          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
+          checked: value?.preference?.active === "Y" ? true : false,
+          timeToArrive: value.preference?.tta,
+          startTime: createDateInHM(Number(value.preference?.bStartTime?.split(":")[0]), Number(value.preference?.bStartTime?.split(":")[1])),
+          endTime: createDateInHM(Number(value.preference?.bEndTime?.split(":")[0]), Number(value.preference?.bEndTime?.split(":")[1])),
+          minimumPay: value.preference?.minPay,
+          minimumHourlyRate: value.preference?.minHourlyRate,
+          stationCode: value.station.stationCode,
+          stationId: value.station.stationID,
+          regionId: value.station.regionID,
+        }))
+      })
+    }
+  }, [isLoading, preferenceData])
+  
 
   useEffect(() => {
     if (!isLoading) {
@@ -147,12 +175,12 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
             ? parseInt(value?.preference?.tta)
             : undefined,
           startTime: createDateInHM(
-            Number(value.preference.bStartTime.split(":")[0]),
-            Number(value.preference.bStartTime.split(":")[1])
+            Number(value.preference?.bStartTime?.split(":")[0]),
+            Number(value.preference?.bStartTime?.split(":")[1])
           ),
           endTime: createDateInHM(
-            Number(value.preference.bEndTime.split(":")[0]),
-            Number(value.preference.bEndTime.split(":")[1])
+            Number(value.preference?.bEndTime?.split(":")[0]),
+            Number(value.preference?.bEndTime?.split(":")[1])
           ),
           minimumPay: value.preference.minPay,
           minimumHourlyRate: value.preference.minHourlyRate,
@@ -198,9 +226,9 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     methods.reset()
   }
 
-  const handleNavigateToAutomationSchedule = () => {
-    navigate(routes.automationSchedule)
-  }
+  // const handleNavigateToAutomationSchedule = () => {
+  //   navigate(routes.automationSchedule)
+  // }
 
   const { mutate } = useMutation<
     ISetPrefrencesResult,
@@ -280,6 +308,75 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   }, [])
 
   const isPremiumUser = userStore.currentUser?.plan === Plans.premium
+
+  const handleAutomationClick = () => {
+    setIsAutomationModalOpen(true)
+  }
+
+  const handleAutomationModalClose = () => {
+    setIsAutomationModalOpen(false)
+  }
+
+
+  const { mutate: blockStartSearchMutate } = useMutation<
+  any,
+  Error,
+  any
+>(setBlockStartSearch)
+
+const handleBlockStartSearch = () => {
+  blockStartSearchMutate(
+    { },
+    {
+      onSuccess(response) {
+        if (!response?.success) {
+          enqueueSnackbar( "Something went wrong, please try after sometime.", {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(response?.message, { variant: "success" })
+        setIsSearching(true);
+        setTaskId(response?.taskId)
+        setLocalStorage(TASK_ID, response?.taskId)
+      },
+      onError(error) {
+        enqueueSnackbar(error.message, { variant: "error" })
+      },
+    }
+  )
+}
+
+
+
+const { mutate: blockStopSearchMutate } = useMutation<
+any,
+Error,
+any
+>(setBlockStopSearch)
+
+const handleBlockStopSearch=()=>{
+  blockStopSearchMutate(
+    {taskId: taskId },
+    {
+      onSuccess(response) {
+        if (!response?.success) {
+          enqueueSnackbar( "Something went wrong, please try after sometime.", {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(response?.message, { variant: "success" })
+        setIsSearching(false);
+        localStorageUtils.remove(TASK_ID)        
+      },
+      onError(error) {
+        enqueueSnackbar(error.message, { variant: "error" })
+      },
+    }
+  )
+}
+
 
   return (
     <FormProvider
@@ -371,18 +468,11 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   {isPremiumUser && (
                     <ContainedButton
                       sx={{ m: 1, ml: 2 }}
-                      onClick={handleNavigateToAutomationSchedule}
+                      onClick={handleAutomationClick}
                     >
-                      Automation Schedule
+                      Automation
                     </ContainedButton>
                   )}
-                  {/* {isPremiumUser && (
-                    <Box sx={{ marginLeft: rem("20px") }}>
-                      <StyledShowMoreText>
-                        Autostart Search <strong>16:00</strong>
-                      </StyledShowMoreText>
-                    </Box>
-                  )} */}
                 </Box>
                 <Box display="flex">
                   <Box
@@ -397,7 +487,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   </Box>
                   <Box>
                     <ContainedButton
-                      onClick={() => setIsSearching(prev => !prev)}
+                      onClick={() => {isSearching ? handleBlockStopSearch() :handleBlockStartSearch()}}
                     >
                       {isSearching ? "Stop Search" : "Start Searching"}
                     </ContainedButton>
@@ -410,11 +500,11 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   {isPremiumUser && (
                     <ContainedButton
                       sx={{ m: 1, mr: 2 }}
-                      onClick={handleNavigateToAutomationSchedule}
+                      onClick={handleAutomationClick}
                     >
-                      Automation Schedule
+                      Automation
                     </ContainedButton>
-                  )}
+                   )} 
                   {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <React.Fragment key={index}>
@@ -563,9 +653,9 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                       {!isExpanded ? "Show more" : "Show less"}
                     </StyledShowMoreText>
                   </Box>
-                  <ContainedButton onClick={handleNavigateToAutomationSchedule}>
+                  {/* <ContainedButton onClick={handleNavigateToAutomationSchedule}>
                     Automation Schedule
-                  </ContainedButton>
+                  </ContainedButton> */}
                   {/* {isPremiumUser && (
                     <Box>
                       <StyledShowMoreText>
@@ -603,13 +693,13 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   justifyContent="center"
                 >
                   {isPremiumUser && (
-                    <ContainedButton
-                      sx={{ maxWidth: 160, whiteSpace: "nowrap", mb: 1 }}
-                      onClick={handleNavigateToAutomationSchedule}
+                  <ContainedButton
+                      sx={{ m: 1, mr: 2 }}
+                      onClick={handleAutomationClick}
                     >
-                      Automation Schedule
+                      Automation
                     </ContainedButton>
-                  )}
+                   )} 
                   {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <Box key={index}>
@@ -686,6 +776,12 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
             )}
           </Box>
         </StyledAvailabilityMobile>
+      )}
+      {isAutomationModalOpen && (
+        <AvailabilityAutomationModal
+          open={isAutomationModalOpen}
+          handleClose={handleAutomationModalClose}
+        />
       )}
     </FormProvider>
   )

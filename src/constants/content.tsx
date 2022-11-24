@@ -26,16 +26,16 @@ export const content = {
     labelsForTabs: [
       { label: "All", value: "all" },
       {
-        label: availabilityStatusOptions.accepted.label,
-        value: availabilityStatusOptions.accepted.value,
+        label: "Accepted",
+        value: "Accepted",
       },
       {
-        label: availabilityStatusOptions.ignored.label,
-        value: availabilityStatusOptions.ignored.value,
+        label: "Ignored",
+        value: "Ignored",
       },
       {
-        label: availabilityStatusOptions.rejected.label,
-        value: availabilityStatusOptions.rejected.value,
+        label: "Rejected",
+        value: "Rejected",
       },
     ],
     formControlLabelForSwitches: [
@@ -56,5 +56,8 @@ export const content = {
   },
   automationSchedule: {
     tableHeadLabels: ["Active", "Day", "Start time", "End time"],
+  },
+  automationScheduleModal: {
+    tableHeadLabels: ["Status", "Day", "Auto-start at"],
   },
 }

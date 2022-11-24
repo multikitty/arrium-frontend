@@ -4,8 +4,8 @@ import Seo from "@/components/Seo"
 import DriverLayout from "@/components/DriverLayout"
 import SubscriptionPage from "@/components/SubscriptionPage"
 import { UserRoles } from "@/constants/common"
-import { IPageProps } from "@/lib/interfaces/common"
 import PricingPlansPage from "@/components/PricingPlansPage"
+import { IPageProps } from "@/lib/interfaces/common"
 
 interface ISubscriptionProps {
   params: IPageProps

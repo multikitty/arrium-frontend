@@ -21,6 +21,14 @@ export type FormValues = {
   }[]
 }
 
+export type FormValuesAutomationSchedule = {
+  data: {
+    day : string,
+    startTime : string,
+    active : boolean
+  }[]
+}
+
 export interface SearchTableProps {
   register: UseFormRegister<FormValues>
   unregister: UseFormUnregister<FormValues>
