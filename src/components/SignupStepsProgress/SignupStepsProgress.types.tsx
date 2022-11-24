@@ -1,6 +1,6 @@
 export interface StepProps {
   stage: number
-  steps: string[]
+  steps: ReadonlyArray<string>
 }
 
 export interface StepMobileProps {

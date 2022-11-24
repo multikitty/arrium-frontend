@@ -29,6 +29,7 @@ import {
 import { confirmOtp } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { REGISTRATION_STEP_MAP } from "@/constants/common"
 
 const THIRTY_SECONDS_FROM_NOW = timeFromNowInMs(30 * 1000)
 
@@ -63,6 +64,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
 
   const handlePhoneNumberChange = () => {
     setFormStage(prev => prev - 1)
+    navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
@@ -86,7 +88,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
   }
 
   const handleResendOtp = () => {
-    setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
+    setThirdSecondsFromNow(THIRTY_SECONDS_FROM_NOW)
   }
 
   return (
@@ -119,6 +121,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
               sx={{ marginBottom: "0.5rem" }}
               variant="text"
               onClick={handleResendOtp}
+              disabled={seconds > 0}
             >
               Resend Code
             </LinkButton>
@@ -179,6 +182,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
                 sx={{ marginBottom: "0.5rem" }}
                 variant="text"
                 disabled={seconds > 0}
+                onClick={handleResendOtp}
               >
                 Resend Code
               </LinkButton>
