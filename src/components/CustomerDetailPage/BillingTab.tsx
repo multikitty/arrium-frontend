@@ -1,4 +1,5 @@
 import {
+  Box,
   Divider,
   Grid,
   Paper,
@@ -25,33 +26,52 @@ import {
 } from "./CustomerDetailPage.styled"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
+import { useInvoicesByAdmin } from "@/agent/stripe"
+import LoadingScreen from "../LoadingScreen"
+import { capitalCase } from "change-case"
+import getSymbolFromCurrency from "currency-symbol-map"
+import {
+  StyledNoSearchResultsText as StyledNoInvoicesText,
+  StyledNoSearchResultsTitle as StyledNoInvoicesTitle,
+} from "../AvailabilityPage/AvailabilityPage.styled"
 
-function createData(
-  invoiceId: string,
-  plan: string,
-  amount: number,
-  invoiceStatus: "pending" | "overdue" | "paid",
-  dueDate: string,
-  paymentDate: string
-) {
-  return { invoiceId, plan, amount, invoiceStatus, dueDate, paymentDate }
+const NoInvoices = () => (
+  <Box
+    display="flex"
+    flexDirection="column"
+    my={6}
+    width="100%"
+    justifyContent="center"
+    alignItems="center"
+  >
+    <StyledNoInvoicesTitle>No invoices to show</StyledNoInvoicesTitle>
+    <StyledNoInvoicesText>
+      There is no billing data, so far.
+    </StyledNoInvoicesText>
+  </Box>
+)
+
+interface IBillingTabProps {
+  sk: string
+  pk: string
 }
 
-const rows = [
-  createData("12345", "Plan name 3", 10, "overdue", "Sep 23, 2021", ""),
-  createData(
-    "67890",
-    "Plan name 2",
-    10,
-    "paid",
-    "Aug 23, 2021",
-    "Aug 21, 2021"
-  ),
-  createData("09876", "Plan name 1", 8, "paid", "", "Jun 23, 2021"),
-]
-
-const BillingTab = () => {
+const BillingTab: React.FC<IBillingTabProps> = ({ pk, sk }) => {
   const { userStore } = useStore()
+  const { data: stripeData, isLoading } = useInvoicesByAdmin({
+    pk,
+    sk,
+  })
+
+  if (isLoading) return <LoadingScreen />
+  if (!stripeData) return <NoInvoices />
+
+  const stripeId = stripeData.invoices.invoices_data[0].stripe_id
+  const currencyCode =
+    userStore.currencyCode ||
+    stripeData.invoices.invoices.data[0].currency.toUpperCase()
+  const currencySymbol =
+    userStore.currencySymbol || getSymbolFromCurrency(currencyCode)
 
   return (
     <StyledBillingTab>
@@ -62,7 +82,7 @@ const BillingTab = () => {
               Stripe ID
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              123456
+              {stripeId}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -72,7 +92,7 @@ const BillingTab = () => {
               Currency
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              {userStore.currencySymbol}
+              {currencySymbol}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -82,7 +102,7 @@ const BillingTab = () => {
               Currency Code
             </StyledBillingTabUpperContainerItemTitle>
             <StyledBillingTabUpperContainerItemText>
-              {userStore.currencyCode}
+              {currencyCode}
             </StyledBillingTabUpperContainerItemText>
           </StyledBillingTabUpperContainerItem>
         </Grid>
@@ -171,9 +191,9 @@ const BillingTab = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
+              {stripeData.invoices.invoices_data.map(invoice => (
                 <TableRow
-                  key={row.invoiceId}
+                  key={invoice.id}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}
@@ -190,7 +210,7 @@ const BillingTab = () => {
                     }}
                     scope="row"
                   >
-                    {row.invoiceId}
+                    {invoice.invoice_no}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -203,7 +223,7 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {row.plan}
+                    {invoice.description}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -216,8 +236,8 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {userStore.currencySymbol}
-                    {row.amount}
+                    {currencySymbol}
+                    {invoice.amount_due}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -231,7 +251,7 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {row.invoiceStatus}
+                    {capitalCase(invoice.paid_status)}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -244,7 +264,7 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {row.dueDate}
+                    {invoice.due_date}
                   </TableCell>
                   <TableCell
                     size="medium"
@@ -257,7 +277,7 @@ const BillingTab = () => {
                     }}
                     align="left"
                   >
-                    {row.paymentDate}
+                    {invoice.paid_at}
                   </TableCell>
                 </TableRow>
               ))}

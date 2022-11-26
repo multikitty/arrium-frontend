@@ -1,11 +1,7 @@
 import { store } from "../store"
 import axios from "axios"
-import {
-  GATSBY_ARRIUM_PROD_URL,
-  GATSBY_TIMEZONE_API_KEY,
-} from "@/constants/env"
 
-export default function createInstance(baseURL = "http://localhost:8080/api") {
+export default function createInstance(baseURL = "http://localhost:9000/v1/") {
   return axios.create({
     baseURL,
     headers: {
@@ -16,7 +12,9 @@ export default function createInstance(baseURL = "http://localhost:8080/api") {
 }
 
 const arriumAPI = createInstance(
-  process.env[GATSBY_ARRIUM_PROD_URL] || "https://api.arrium.io/v1/"
+  process.env.NODE_ENV === "development"
+    ? undefined
+    : "https://api.arrium.io/v1/"
 )
 
 arriumAPI.interceptors.request.use(config => {
@@ -43,16 +41,12 @@ arriumAPI.interceptors.response.use(
 )
 
 export const listTimezoneAPI = createInstance(
-  `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env[GATSBY_TIMEZONE_API_KEY]}&format=json`
+  `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json`
 )
 
 export const getTimezoneAPI = createInstance(
-  `http://api.timezonedb.com/v2.1/get-time-zone?key=${process.env[GATSBY_TIMEZONE_API_KEY]}&format=json&by=zone&fields=zoneStart,zoneEnd,zoneName,gmtOffset`
+  `http://api.timezonedb.com/v2.1/get-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json&by=zone&fields=zoneStart,zoneEnd,zoneName,gmtOffset`
 )
-
-// export const getGeolocationAPI =
-//   createInstance(`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.GATSBY_GEOLOCATION_API_KEY}&fields=geo,calling_code,country_flag,time_zone&excludes=continent_code,continent_name,country_code3,state_prov,district,city,zipcode
-// `)
 
 export const getGeolocationAPI =
   createInstance(`https://ipwho.is?fields=country,country_code,calling_code,timezone,flag

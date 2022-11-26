@@ -170,7 +170,7 @@ const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
             isLoading={isLoading}
           />
         )}
-        {isBillingTabOpen && <BillingTab />}
+        {isBillingTabOpen && <BillingTab sk={sk} pk={pk} />}
         {isConfigurationTabOpen && (
           <ConfigurationTab
             handleSave={handleSave}
