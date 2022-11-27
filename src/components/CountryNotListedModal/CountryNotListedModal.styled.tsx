@@ -17,6 +17,7 @@ export const StyledModal = muiStyled(Modal)({
 export const StyledCountryNotListedModal = styled(StyledAddCountryModal)`
   width: 90%;
   max-width: ${rem("628px")};
+  position: relative;
 `
 
 export const StyledCountryNotListedModalBrandLogoContainer = styled.div`
@@ -55,12 +56,43 @@ export const StyledCountryNotListedModalIllustrationContainer = styled.div`
   width: 100%;
   justify-content: center;
   margin-top: ${rem("17px")};
-  margin-bottom: ${rem("33px")};
+  margin-bottom: ${rem("50px")};
 `
 
 export const StyledCountryNotListedModalIllustration = styled.img`
   height: ${rem("115px")};
   width: ${rem("132px")};
+`
+
+export const StyledCountryNotListedModalWaitingListTitle = styled.h3`
+  width: 100%;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: ${rem("24px")};
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: ${p => p.theme.palette.blackText};
+
+  margin-bottom: ${rem("8px")};
+`
+
+export const StyledCountryNotListedModalWaitingListSubTitle = styled.p`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-size: ${rem("16px")};
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: ${p => p.theme.palette.blackText};
+
+  max-width: ${rem("520px")};
+  margin: 0 auto;
+  margin-bottom: ${rem("20px")};
 `
 
 export const StyledCountryNotListedModalFormActions = styled(

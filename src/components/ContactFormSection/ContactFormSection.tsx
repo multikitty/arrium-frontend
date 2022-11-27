@@ -15,7 +15,8 @@ import {
   StyledContactFormSectionCardRightContainerSubTitle,
   StyledContactFormSectionCardRightContainerTitle,
 } from "./ContactFormSection.styled"
-import ContactFormSuccessModal from "../ContactFormSuccessModal"
+import FormSuccessModal from "../FormSuccessModal"
+import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 const ContactFormSection = () => {
   const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false)
@@ -35,8 +36,8 @@ const ContactFormSection = () => {
   }
 
   return (
-    <StyledContactFormSection id="contact-us-section">
-      <ContactFormSuccessModal
+    <StyledContactFormSection id={LANDING_PAGE_IDS["contact-us-section"]}>
+      <FormSuccessModal
         open={isSuccessModalOpen}
         handleClose={handleSuccessModalClose}
       />

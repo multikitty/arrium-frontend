@@ -41,12 +41,13 @@ import offersLeftImage from "@/assets/images/landing-working-03_offers_that_matc
 import notificationsTopImage from "@/assets/images/landing-working-04_notifications-top.png"
 import notificationsBottomImage from "@/assets/images/landing-working-04_notifications-bottom.png"
 import { devices } from "@/constants/device"
+import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 const WorkingSection = () => {
   const isWebView = useMediaQuery(devices.web.up)
 
   return (
-    <StyledWorkingSection id="how-it-works-section">
+    <StyledWorkingSection id={LANDING_PAGE_IDS["working-section"]}>
       <StyledWorkingSectionHeader>How Arrium Works</StyledWorkingSectionHeader>
       <Grid container spacing={3}>
         <Grid item xs={12}>

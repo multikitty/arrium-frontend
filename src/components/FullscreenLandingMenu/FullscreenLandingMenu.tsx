@@ -20,6 +20,7 @@ import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 interface IFullscreenLandingMenuProps extends IPageProps {
   open: boolean
@@ -67,7 +68,7 @@ const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
             onClick={handleClose}
             delay={300}
             offset={-50}
-            to="benefits-section"
+            to={LANDING_PAGE_IDS["benefits-section"]}
             spy={true}
             smooth={true}
           >
@@ -79,7 +80,7 @@ const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
             onClick={handleClose}
             delay={300}
             offset={-50}
-            to="how-it-works-section"
+            to={LANDING_PAGE_IDS["working-section"]}
             spy={true}
             smooth={true}
           >
@@ -91,7 +92,7 @@ const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
             onClick={handleClose}
             delay={300}
             offset={-50}
-            to="contact-us-section"
+            to={LANDING_PAGE_IDS["contact-us-section"]}
             spy={true}
             smooth={true}
           >
