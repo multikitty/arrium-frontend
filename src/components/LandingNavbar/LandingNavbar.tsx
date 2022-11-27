@@ -21,6 +21,7 @@ import theme from "@/theme"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
+import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 interface ILandingPageProps extends IPageProps {}
 
@@ -54,7 +55,10 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
   }, [])
 
   return (
-    <StyledLandingNavbar $hasBackground={hasBackground}>
+    <StyledLandingNavbar
+      $hasBackground={hasBackground}
+      id={LANDING_PAGE_IDS["landing-navbar"]}
+    >
       <FullscreenLandingMenu
         open={isFullscreenMenuOpen}
         handleClose={handleFullscreenMenuClose}
@@ -81,7 +85,7 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
             <Link
               delay={300}
               offset={-150}
-              to="benefits-section"
+              to={LANDING_PAGE_IDS["benefits-section"]}
               spy={true}
               smooth={true}
             >
@@ -92,7 +96,7 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
             <Link
               delay={300}
               offset={-150}
-              to="how-it-works-section"
+              to={LANDING_PAGE_IDS["working-section"]}
               spy={true}
               smooth={true}
             >
@@ -103,7 +107,7 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
             <Link
               delay={300}
               offset={-150}
-              to="contact-us-section"
+              to={LANDING_PAGE_IDS["contact-us-section"]}
               spy={true}
               smooth={true}
             >
