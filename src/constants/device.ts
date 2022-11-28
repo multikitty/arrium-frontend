@@ -1,10 +1,10 @@
 import pxSuffix from "@/utils/pxSuffix"
 
 export const Sizes = {
-  container: 1280,
+  container: 1200,
   topbarHeight: 64,
   web: 768,
-  desktop: 1280,
+  desktop: 1200,
 } as const
 
 export const ZIndices = {
@@ -24,4 +24,4 @@ export const devices = {
     up: `(min-width: ${pxSuffix(Sizes.desktop)})`,
     down: `(max-width: ${pxSuffix(Sizes.desktop)})`,
   },
-}
+} as const

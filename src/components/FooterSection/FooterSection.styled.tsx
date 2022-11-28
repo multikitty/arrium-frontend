@@ -7,6 +7,11 @@ export const StyledFooterSection = styled.div`
   padding: ${rem("48px")} ${rem("80px")} ${rem("56px")};
   width: 100%;
   margin: 0 auto;
+  justify-content: center;
+
+  @media ${devices.desktop.down} {
+    padding: ${rem("40px")} ${rem("32px")} ${rem("68px")};
+  }
 
   @media ${devices.web.down} {
     padding: ${rem("40px")} ${rem("16px")} ${rem("68px")};
@@ -20,6 +25,10 @@ export const StyledFooterSectionBrandLogoContainer = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   margin-right: ${rem("96px")};
+
+  @media ${devices.desktop.down} {
+    margin-right: ${rem("67px")};
+  }
 
   @media ${devices.web.down} {
     margin-right: 0;
@@ -37,6 +46,10 @@ export const StyledFooterSectionInfoLinksContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${rem("96px")};
+
+  @media ${devices.desktop.down} {
+    margin-right: ${rem("67px")};
+  }
 
   @media ${devices.web.down} {
     margin-right: 0;
@@ -66,12 +79,24 @@ export const StyledFooterSectionInfoLink = styled.div`
 export const StyledFooterSectionSocialLinksContainer = styled(
   StyledFooterSectionInfoLinksContainer
 )`
-  @media ${devices.web.down} {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  margin-right: ${rem("78px")};
+
+  @media ${devices.desktop.down} {
     margin-right: 0;
-    margin-bottom: ${rem("40px")};
+    margin-bottom: ${rem("12px")};
+    margin-top: -${rem("12px")};
+  }
+`
+
+export const StyledFooterSectionCountryDropdownContainer = styled(
+  StyledFooterSectionInfoLinksContainer
+)`
+  @media ${devices.desktop.up} {
+    margin-right: ${rem("96px")};
+  }
+
+  @media ${devices.web.up} {
+    margin-right: ${rem("67px")};
   }
 `
 

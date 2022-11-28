@@ -21,10 +21,11 @@ export const StyledWorkingSectionEnterPreferencesCard = styled.div`
   background: #e6f3f9;
   height: ${rem("380px")};
   border-radius: ${rem("40px")};
+  border: 1.5px solid #e6f9ef;
   display: flex;
   overflow: hidden;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     flex-direction: column;
     height: auto;
   }
@@ -35,7 +36,7 @@ export const StyledWorkingSectionEnterPreferencesCardContent = styled.div`
   padding-left: ${rem("72px")};
   padding-bottom: ${rem("136px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     padding: ${rem("40px")} ${rem("20px")};
   }
 `
@@ -72,7 +73,7 @@ export const StyledWorkingSectionEnterPreferencesCardText = styled.p`
 
   color: ${p => p.theme.palette.blackText};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-left: ${rem("7px")};
   }
 `
@@ -83,7 +84,7 @@ export const StyledWorkingSectionEnterPreferencesCardImage = styled.img`
   margin-top: ${rem("32px")};
   filter: drop-shadow(-6.54802px 8.18502px 26.1921px rgba(5, 23, 51, 0.05));
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     width: ${rem("459px")};
     margin-top: 0;
     margin-left: ${rem("20px")};
@@ -98,7 +99,7 @@ export const StyledWorkingSectionStartButtonCard = styled(
   display: block;
   position: relative;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     height: ${rem("554px")};
     display: flex;
     flex-direction: column;
@@ -134,7 +135,7 @@ export const StyledWorkingSectionStartButtonCardImageContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     height: ${rem("221px")};
     bottom: 0;
     right: ${rem("12px")};
@@ -155,7 +156,7 @@ export const StyledWorkingSectionOffersCard = styled(
   display: block;
   position: relative;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     height: ${rem("522px")};
   }
 `
@@ -185,7 +186,7 @@ export const StyledWorkingSectionOffersCardRightImageContainer = styled.div`
   justify-content: flex-start;
   z-index: ${p => p.theme.zIndices.bottomImage};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     left: ${rem("75px")};
     bottom: ${rem("56px")};
   }
@@ -207,7 +208,7 @@ export const StyledWorkingSectionOffersCardLeftImageContainer = styled.div`
   justify-content: flex-start;
   z-index: ${p => p.theme.zIndices.topImage};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     right: ${rem("143px")};
   }
 `
@@ -227,7 +228,7 @@ export const StyledWorkingSectionNotificationsCard = styled(
   display: flex;
   position: relative;
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     height: ${rem("682px")};
   }
 `
@@ -261,7 +262,7 @@ export const StyledWorkingSectionNotificationsCardTopImageContainer = styled.div
   justify-content: flex-end;
   z-index: ${p => p.theme.zIndices.topImage};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     top: unset;
     bottom: ${rem("28px")};
     right: 0;
@@ -283,7 +284,7 @@ export const StyledWorkingSectionNotificationsCardBottomImageContainer = styled.
   justify-content: flex-start;
   z-index: ${p => p.theme.zIndices.bottomImage};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-top: ${rem("80px")};
     margin-left: ${rem("20px")};
   }
