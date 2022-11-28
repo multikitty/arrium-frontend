@@ -28,7 +28,7 @@ export const StyledBannerSectionPrimaryHeader = styled.h5`
   padding-top: ${rem("125px")};
   margin-bottom: ${rem("24px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     line-height: ${rem("24px")};
     margin-bottom: ${rem("32px")};
   }
@@ -70,7 +70,7 @@ export const StyledBannerSectionButtonContainer = styled.div`
   justify-content: center;
   margin-bottom: ${rem("56px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-bottom: ${rem("34px")};
   }
 `

@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, MenuItem, Modal, Select } from "@mui/material"
+import { Modal } from "@mui/material"
 import { rem } from "polished"
 import {
   StyledSelectCountryModal,
@@ -13,12 +13,10 @@ import {
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { localStorageUtils } from "@/utils"
-import { getFilteredCountries } from "@/utils/getCountryData"
-import { countriesToSelectList } from "@/constants/common"
-import { StyledAccountInformatiomTabContentField } from "../AddCustomerPage/AddCustomerPage.styled"
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { COUNTRY_CODE } from "@/constants/localStorage"
-import { capitalCase } from "change-case"
+import SubDirCountrySelect from "../SubDirCountrySelect"
+import { DEFAULT_COUNTRY } from "@/constants/common"
 
 interface IProps {
   open: boolean
@@ -34,26 +32,12 @@ const SelectCountryModal = (props: IProps) => {
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedCountry === "") return props.handleSave()
-    localStorageUtils.set(COUNTRY_CODE, selectedCountry?.toLowerCase() || "gb")
-    navigate(`/${selectedCountry?.toLowerCase() || "gb"}/en`)
+    localStorageUtils.set(
+      COUNTRY_CODE,
+      selectedCountry?.toLowerCase() || DEFAULT_COUNTRY
+    )
+    navigate(`/${selectedCountry?.toLowerCase() || DEFAULT_COUNTRY}/en`)
   }
-
-  const renderCountryOptions = () =>
-    getFilteredCountries(countriesToSelectList).map(country => (
-      <MenuItem key={country.countryShortName} value={country.countryShortName}>
-        <Box component="span" sx={{ "& > img": { mr: 2, flexShrink: 0 } }}>
-          <img
-            loading="lazy"
-            width="40"
-            src={`https://flagcdn.com/w20/${country.countryShortName.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png 2x`}
-            alt=""
-          />
-          {capitalCase(country.countryName)} (
-          {country.countryShortName.toUpperCase()})
-        </Box>
-      </MenuItem>
-    ))
 
   return (
     <Modal open={props.open}>
@@ -69,25 +53,17 @@ const SelectCountryModal = (props: IProps) => {
           choose your country in order to serve you better
         </StyledSelectCountryModalSubTitle>
         <StyledSelectCountryModalForm onSubmit={handleSave}>
-          <Box
-            display="flex"
-            mb={rem("40px")}
-            mx="auto"
-            maxWidth={rem("408px")}
-          >
-            <Select
-              autoFocus
-              displayEmpty
-              onChange={(e: any) => {
-                setSelectedCountry(e.target.value)
-              }}
-              value={selectedCountry}
-              input={<StyledAccountInformatiomTabContentField large />}
-            >
-              {renderCountryOptions()}
-              <MenuItem value="">Country Not Listed</MenuItem>
-            </Select>
-          </Box>
+          <SubDirCountrySelect
+            isCountryNotListed
+            country={selectedCountry}
+            onChange={e => setSelectedCountry(e.target.value)}
+            boxProps={{
+              display: "flex",
+              mb: rem("40px"),
+              mx: "auto",
+              maxWidth: rem("408px"),
+            }}
+          />
           <StyledSelectCountryModalFormActions>
             <ContainedButton
               disabled={selectedCountry === null}

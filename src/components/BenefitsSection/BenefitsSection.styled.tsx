@@ -47,7 +47,7 @@ export const StyledBenefitsSectionCard = styled.div`
     background-color: ${p => p.theme.palette.common.white};
   }
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     padding: ${rem("16px")};
   }
 `
@@ -57,7 +57,7 @@ export const StyledBenefitsSectionCardIcon = styled.div`
   height: ${rem("40px")};
   margin-bottom: ${rem("32px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-bottom: ${rem("24px")};
   }
 `
@@ -81,7 +81,7 @@ export const StyledBenefitsSectionCardText = styled.p`
   color: ${p => p.theme.palette.common.black};
   margin-bottom: ${rem("48px")};
 
-  @media ${devices.web.down} {
+  @media ${devices.desktop.down} {
     margin-bottom: ${rem("24px")};
   }
 `

@@ -44,7 +44,7 @@ import { devices } from "@/constants/device"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 const WorkingSection = () => {
-  const isWebView = useMediaQuery(devices.web.up)
+  const isWebView = useMediaQuery(devices.desktop.up)
 
   return (
     <StyledWorkingSection id={LANDING_PAGE_IDS["working-section"]}>
