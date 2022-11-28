@@ -108,105 +108,118 @@ const ReadOnlySearchTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {
-            methods.getValues()?.data?.map((data: FormValues["data"][0], index: number) => {
+          {methods
+            .getValues()
+            ?.data?.map((data: FormValues["data"][0], index: number) => {
               return (
                 <TableRow
-                key={index}
-                sx={{
-                  height: "72px",
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "& td:first-of-type, & th:first-of-type": {
-                    paddingLeft: rem("32px"),
-                  },
-                }}
-              >
-                <TableCell
+                  key={index}
                   sx={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
+                    height: "72px",
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "& td:first-of-type, & th:first-of-type": {
+                      paddingLeft: rem("32px"),
+                    },
                   }}
-                  scope="row"
                 >
-                  {data.location}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  {data.timeToArrive} min
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  {new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  {new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  || "-"}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                    textTransform: "capitalize",
-                  }}
-                  align="left"
-                >
-                  {data.minimumPay && <React.Fragment>&#163;</React.Fragment>}
-                  {data.minimumPay || "-"}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  {data.minimumHourlyRate && <React.Fragment>&#163;</React.Fragment>}
-                  {data.minimumHourlyRate || "-"}
-                </TableCell>
-                </TableRow>      
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: 600,
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                    }}
+                    scope="row"
+                  >
+                    {data.location}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                    }}
+                    align="left"
+                  >
+                    {data.timeToArrive} min
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                    }}
+                    align="left"
+                  >
+                    {data?.startTime !== null
+                      ? new Date(data?.startTime).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "-"}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                    }}
+                    align="left"
+                  >
+                    {data?.endTime !== null
+                      ? new Date(data.endTime).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "-"}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                      textTransform: "capitalize",
+                    }}
+                    align="left"
+                  >
+                    {data.minimumPay && <React.Fragment>&#163;</React.Fragment>}
+                    {data.minimumPay || "-"}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontFamily: "Inter",
+                      fontWeight: "normal",
+                      fontSize: rem("16px"),
+                      lineHeight: rem("20px"),
+                      color: theme.palette.blackText,
+                    }}
+                    align="left"
+                  >
+                    {data.minimumHourlyRate && (
+                      <React.Fragment>&#163;</React.Fragment>
+                    )}
+                    {data.minimumHourlyRate || "-"}
+                  </TableCell>
+                </TableRow>
               )
-            })
-          }
+            })}
         </TableBody>
       </Table>
     </TableContainer>
   ) : (
     <StyledReadOnlySearchTableContainer>
-      {
-        methods.getValues()?.data?.map((data: FormValues["data"][0], index: number) => {  
+      {methods
+        .getValues()
+        ?.data?.map((data: FormValues["data"][0], index: number) => {
           return (
             <StyledSubscriptionPageInvoice key={index}>
               <StyledSubscriptionPageInvoiceHeader>
@@ -231,7 +244,12 @@ const ReadOnlySearchTable = () => {
                     Start time
                   </StyledSubscriptionPageInvoiceItemLabel>
                   <StyledSubscriptionPageInvoiceItemValue>
-                    {new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || "-"}
+                    {data?.startTime !== null
+                      ? new Date(data?.startTime).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "-"}
                   </StyledSubscriptionPageInvoiceItemValue>
                 </StyledSubscriptionPageInvoiceItem>
                 <StyledSubscriptionPageInvoiceItem>
@@ -239,7 +257,12 @@ const ReadOnlySearchTable = () => {
                     End time
                   </StyledSubscriptionPageInvoiceItemLabel>
                   <StyledSubscriptionPageInvoiceItemValue>
-                    {new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  || "-"}
+                    {data?.endTime !== null
+                      ? new Date(data.endTime).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "-"}
                   </StyledSubscriptionPageInvoiceItemValue>
                 </StyledSubscriptionPageInvoiceItem>
                 <StyledSubscriptionPageInvoiceItem>
@@ -256,15 +279,16 @@ const ReadOnlySearchTable = () => {
                     Minimum hourly rate
                   </StyledSubscriptionPageInvoiceItemLabel>
                   <StyledSubscriptionPageInvoiceItemValue>
-                    {data.minimumHourlyRate && <React.Fragment>&#163;</React.Fragment>}
+                    {data.minimumHourlyRate && (
+                      <React.Fragment>&#163;</React.Fragment>
+                    )}
                     {data.minimumHourlyRate || "-"}
                   </StyledSubscriptionPageInvoiceItemValue>
                 </StyledSubscriptionPageInvoiceItem>
               </StyledSubscriptionPageInvoiceItemsContainer>
             </StyledSubscriptionPageInvoice>
           )
-        })
-      }
+        })}
     </StyledReadOnlySearchTableContainer>
   )
 }

@@ -18,14 +18,15 @@ export const scheduleDataInitialValues: AutomationScheduleType["data"] = [
     day: "tue",
     startTime: createDateInHM(12, 15),
   },
-  { active: false, day: "wed", startTime: null},
-  { active: false, day: "thu", startTime: null},
-  { active: false, day: "fri", startTime: null},
-  { active: false, day: "sat", startTime: null},
-  { active: false, day: "sun", startTime: null},
+  { active: false, day: "wed", startTime: null },
+  { active: false, day: "thu", startTime: null },
+  { active: false, day: "fri", startTime: null },
+  { active: false, day: "sat", startTime: null },
+  { active: false, day: "sun", startTime: null },
 ]
 
-interface TimePickerProps extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
+interface TimePickerProps
+  extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
   fullWidth?: boolean
 }
 
