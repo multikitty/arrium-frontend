@@ -4,28 +4,31 @@ import { AutomationScheduleType } from "@/validation/automationSchedule"
 import { FormControl, TextField, TextFieldProps } from "@mui/material"
 import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"
 // import DaySelect from "../DaySelect"
-import DaySelectAutomationSchedule, { DaySelectAutomationScheduleProps } from "../DaySelectAutomationSchedule/DaySelectAutomationSchedule"
+import DaySelectAutomationSchedule, {
+  DaySelectAutomationScheduleProps,
+} from "../DaySelectAutomationSchedule/DaySelectAutomationSchedule"
 import { rem } from "polished"
 
 export const scheduleDataInitialValues: AutomationScheduleType["data"] = [
   {
     active: false,
-    day: "",
+    day: "mon",
     startTime: null,
   },
   {
     active: false,
-    day: "",
+    day: "tue",
     startTime: null,
   },
-  { active: false, day: "", startTime: null, },
-  { active: false, day: "", startTime: null, },
-  { active: false, day: "", startTime: null, },
-  { active: false, day: "", startTime: null, },
-  { active: false, day: "", startTime: null, },
+  { active: false, day: "wed", startTime: null },
+  { active: false, day: "thu", startTime: null },
+  { active: false, day: "fri", startTime: null },
+  { active: false, day: "sat", startTime: null },
+  { active: false, day: "sun", startTime: null },
 ]
 
-interface TimePickerProps extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
+interface TimePickerProps
+  extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {
   fullWidth?: boolean
 }
 
