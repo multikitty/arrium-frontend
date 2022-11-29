@@ -51,6 +51,7 @@ import RegionList from "./RegionList"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
 import StationList from "./StationList"
+import AddStationAddressModal from "./AddStationAddressModal"
 
 type LocationsDeleteItem = {
   type: "Country" | "Region" | "Station"
@@ -58,6 +59,27 @@ type LocationsDeleteItem = {
   pk: string
   name: string
 }
+
+const STATION_DATA_DEFAULT_VALUES = {
+  countryCode: "",
+  regionCode: "",
+  regionId: "",
+  regionName: "",
+  stationName: "",
+  stationId: "",
+  stationCode: "",
+  stationType: "",
+  address1: "",
+  address2: "",
+  address3: "",
+  city: "",
+  state: "",
+  postalCode: "",
+  longitude: "",
+  latitude: "",
+} as const
+
+export type StationFieldName = keyof typeof STATION_DATA_DEFAULT_VALUES
 
 const LocationsTab = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -68,12 +90,18 @@ const LocationsTab = () => {
   const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
   const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
   const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
+  const [isAddStationAddressModalOpen, setIsAddStationAddressModalOpen] =
+    useState(false)
   const [itemToDelete, setItemToDelete] = useState<LocationsDeleteItem | null>(
     null
   )
   const [countrySearchQuery, setCountrySearchQuery] = useState("")
   const [regionSearchQuery, setRegionSearchQuery] = useState("")
   const [stationSearchQuery, setStationSearchQuery] = useState("")
+  const [stationData, setStationData] = useState<
+    Required<IAddStationVariables>
+  >(STATION_DATA_DEFAULT_VALUES)
+
   const {
     data: countryListData,
     isLoading: isCountryListLoading,
@@ -133,6 +161,10 @@ const LocationsTab = () => {
   const handleStationSearchQueryField:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined = e => setStationSearchQuery(e.target.value)
+
+  const handleStationField = (name: StationFieldName, value: string) => {
+    setStationData(prev => ({ ...prev, [name]: value }))
+  }
 
   const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
   const handleAddCountryModalClose = () => setIsAddCountryModalOpen(false)
@@ -255,8 +287,16 @@ const LocationsTab = () => {
     setSelectedRegion(clickedRegion)
   }
 
-  const handleAddStationModalOpen = () => setIsAddStationModalOpen(true)
-  const handleAddStationModalClose = () => setIsAddStationModalOpen(false)
+  const handleAddStationModalOpen = () => {
+    setIsAddStationModalOpen(true)
+  }
+  const handleAddStationModalClose = () => {
+    setIsAddStationModalOpen(false)
+  }
+  const handleAddStationModalNext = () => {
+    handleAddStationModalClose()
+    handleAddStationAddressModalOpen()
+  }
   const handleAddStation = (variables: IAddStationVariables) => {
     addStationMutate(variables, {
       onSuccess({ success, message, validationError }) {
@@ -270,6 +310,13 @@ const LocationsTab = () => {
               validationError?.stationId ||
               validationError?.stationName ||
               validationError?.stationType ||
+              validationError?.address1 ||
+              validationError?.address2 ||
+              validationError?.address3 ||
+              validationError?.city ||
+              validationError?.state ||
+              validationError?.longitude ||
+              validationError?.latitude ||
               message,
             {
               variant: "error",
@@ -314,6 +361,22 @@ const LocationsTab = () => {
       }
     )
     handleDeleteConfirmationModalClose()
+  }
+
+  const handleAddStationAddressModalOpen = () => {
+    setIsAddStationAddressModalOpen(true)
+  }
+  const handleAddStationAddressModalClose = () => {
+    setIsAddStationAddressModalOpen(false)
+  }
+
+  const handleAddStationClearFields = () => {
+    setStationData(STATION_DATA_DEFAULT_VALUES)
+  }
+
+  const handleAddStationAddressModalGoBack = () => {
+    handleAddStationAddressModalClose()
+    handleAddStationModalOpen()
   }
 
   const handleDeleteConfirmationModalOpen = (deleteItem: LocationsDeleteItem) =>
@@ -384,15 +447,32 @@ const LocationsTab = () => {
         handleAdd={handleAddRegion}
         countries={filteredCountries}
       />
-      {isAddStationModalOpen && (
+      {isAddStationModalOpen ? (
         <AddStationModal
           open={isAddStationModalOpen}
           handleClose={handleAddStationModalClose}
           handleAdd={handleAddStation}
+          handleNext={handleAddStationModalNext}
+          handleClearFields={handleAddStationClearFields}
           countries={countryListData?.data?.Items || []}
           regions={regionListData?.data?.Items || []}
+          stationData={stationData}
+          handleStationField={handleStationField}
         />
-      )}
+      ) : null}
+      {isAddStationAddressModalOpen ? (
+        <AddStationAddressModal
+          open={isAddStationAddressModalOpen}
+          handleClose={handleAddStationAddressModalClose}
+          handleAdd={handleAddStation}
+          handleClearFields={handleAddStationClearFields}
+          handleGoBack={handleAddStationAddressModalGoBack}
+          countries={countryListData?.data?.Items || []}
+          regions={regionListData?.data?.Items || []}
+          stationData={stationData}
+          handleStationField={handleStationField}
+        />
+      ) : null}
       {itemToDelete && (
         <DeleteConfirmationModal
           open={!!itemToDelete}
