@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   Box,
   IconButton,
@@ -29,44 +29,41 @@ import { useStationTypeList } from "@/agent/stationTypes"
 import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFieldLabel } from "../commons/uiComponents"
+import { StationFieldName } from "./LocationsTab"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddStationVariables) => void
+  handleNext: () => void
+  handleClearFields: () => void
   countries: ICountryListDataItem[]
   regions: IRegionListDataItem[]
+  stationData: Required<IAddStationVariables>
+  handleStationField: (name: StationFieldName, value: string) => void
 }
 
 const AddStationModal = (props: IProps) => {
-  const [station, setStation] = useState("")
-  const [stationCode, setStationCode] = useState("")
-  const [stationId, setStationId] = useState("")
-  const [country, setCountry] = useState<ICountryListDataItem | "">("")
-  const [region, setRegion] = useState<IRegionListDataItem | "">("")
-  const [stationType, setStationType] = useState<IStationTypeListDataItem | "">(
-    ""
-  )
   const { data: stationTypeList } = useStationTypeList()
 
   const handleStationField: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = e => {
-    setStation(e.target.value)
+    props.handleStationField("stationName", e.target.value)
   }
 
   const handleStationCodeField: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = e => {
-    setStationCode(e.target.value)
+    props.handleStationField("stationCode", e.target.value)
   }
 
   const handleStationIdField: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = e => {
-    setStationId(e.target.value)
+    props.handleStationField("stationId", e.target.value)
   }
 
   const countrySelectItemJSX = props.countries.map(country => (
-    <MenuItem key={country.sk} value={country.country}>
+    <MenuItem key={country.sk} value={country.countryCode}>
       {capitalCase(country.country)}
     </MenuItem>
   ))
@@ -75,10 +72,7 @@ const AddStationModal = (props: IProps) => {
     e: SelectChangeEvent<ICountryListDataItem["country"]>
   ) => {
     const selectedCountry = e.target.value
-    const countryToSet = props.countries.find(
-      c => c.country === selectedCountry
-    )
-    setCountry(countryToSet!)
+    props.handleStationField("countryCode", selectedCountry)
   }
 
   const regionSelectItemJSX = props.regions.map(region => (
@@ -92,7 +86,9 @@ const AddStationModal = (props: IProps) => {
   ) => {
     const selectedRegion = e.target.value
     const regionToSet = props.regions.find(r => r.regionName === selectedRegion)
-    setRegion(regionToSet!)
+    props.handleStationField("regionName", regionToSet!.regionName)
+    props.handleStationField("regionId", regionToSet!.regionID)
+    props.handleStationField("regionCode", regionToSet!.regionCode)
   }
 
   const stationTypeSelectItemJSX = (stationTypeList?.data?.Items || []).map(
@@ -108,70 +104,71 @@ const AddStationModal = (props: IProps) => {
   ) => {
     if (!stationTypeList?.data?.Items?.length) return
     const selectedStationType = e.target.value
-    const stationTypeToSet = (stationTypeList?.data?.Items || []).find(
-      s => s.stationType === selectedStationType
-    )
-    setStationType(stationTypeToSet!)
+    props.handleStationField("stationType", selectedStationType)
   }
 
-  const resetFields = () => {
-    setStation("")
-    setStationCode("")
-    setStationId("")
-    setCountry("")
-    setRegion("")
-    setStationType("")
-  }
-
-  const handleSaveAndClose = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!country || !region || !station || !stationType) return
+    if (
+      !props.stationData.countryCode ||
+      !props.stationData.regionCode ||
+      !props.stationData.stationName ||
+      !props.stationData.stationType
+    )
+      return
+    props.handleNext()
+  }
+
+  const handleSaveAndClose = async () => {
+    if (
+      !props.stationData.countryCode ||
+      !props.stationData.regionCode ||
+      !props.stationData.stationName ||
+      !props.stationData.stationType
+    )
+      return
     await props.handleAdd({
-      countryCode: country.countryCode,
-      regionCode: region.regionCode,
-      regionId: region.regionID,
-      regionName: region.regionName,
-      stationCode,
-      stationId,
-      stationName: station,
-      stationType: stationType.stationType,
+      countryCode: props.stationData.countryCode,
+      regionCode: props.stationData.regionCode,
+      regionId: props.stationData.regionId,
+      regionName: props.stationData.regionName,
+      stationCode: props.stationData.stationCode,
+      stationId: props.stationData.stationId,
+      stationName: props.stationData.stationName,
+      stationType: props.stationData.stationType,
     })
+    handleClose()
+  }
+
+  const handleClose = () => {
+    props.handleClearFields()
     props.handleClose()
   }
 
-  const handleSaveAndCreateAnother = async () => {
-    if (!country || !region || !station || !stationType) return
-    await props.handleAdd({
-      countryCode: country.countryCode,
-      regionCode: region.regionCode,
-      regionId: region.regionID,
-      regionName: region.regionName,
-      stationCode,
-      stationId,
-      stationName: station,
-      stationType: stationType.stationType,
-    })
-    resetFields()
-  }
-
-  const isSubmitDisabled = !station || !country || !region || !stationType
+  const isSubmitDisabled =
+    !props.stationData.stationName ||
+    !props.stationData.countryCode ||
+    !props.stationData.regionName ||
+    !props.stationData.stationType
 
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal sx={{ overflow: "scroll" }} open={props.open} onClose={handleClose}>
       <StyledAddStationModal>
         <StyledAddStationModalCloseIconContainer>
-          <IconButton size="small" onClick={props.handleClose}>
+          <IconButton size="small" onClick={handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </StyledAddStationModalCloseIconContainer>
         <StyledAddStationModalTitle>Add new Station</StyledAddStationModalTitle>
-        <StyledAddStationModalForm onSubmit={handleSaveAndClose}>
+        <StyledAddStationModalForm onSubmit={onSubmit}>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
+            <StyledFieldLabel $isHidden={!props.stationData.countryCode}>
+              Country
+            </StyledFieldLabel>
             <Select
               displayEmpty
               autoFocus
-              value={country ? country.country : ""}
+              value={props.stationData.countryCode}
               onChange={handleCountryFieldChange}
               input={<StyledAddStationModalFormField />}
             >
@@ -182,10 +179,12 @@ const AddStationModal = (props: IProps) => {
             </Select>
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!region}>Region</StyledFieldLabel>
+            <StyledFieldLabel $isHidden={!props.stationData.regionName}>
+              Region
+            </StyledFieldLabel>
             <Select
               displayEmpty
-              value={region ? region.regionName : ""}
+              value={props.stationData.regionName}
               onChange={handleRegionFieldChange}
               input={<StyledAddStationModalFormField />}
             >
@@ -196,42 +195,42 @@ const AddStationModal = (props: IProps) => {
             </Select>
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!station}>
+            <StyledFieldLabel $isHidden={!props.stationData.stationName}>
               Station name
             </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station name`}
-              value={station}
+              value={props.stationData.stationName}
               onChange={handleStationField}
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!stationCode}>
+            <StyledFieldLabel $isHidden={!props.stationData.stationCode}>
               Station code
             </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station code`}
-              value={stationCode}
+              value={props.stationData.stationCode}
               onChange={handleStationCodeField}
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!stationId}>
+            <StyledFieldLabel $isHidden={!props.stationData.stationId}>
               Station ID
             </StyledFieldLabel>
             <StyledAddStationModalFormField
               placeholder={`Station ID`}
-              value={stationId}
+              value={props.stationData.stationId}
               onChange={handleStationIdField}
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledFieldLabel $isHidden={!stationType}>
+            <StyledFieldLabel $isHidden={!props.stationData.stationType}>
               Station type
             </StyledFieldLabel>
             <Select
               displayEmpty
-              value={stationType ? stationType.stationType : ""}
+              value={props.stationData.stationType}
               onChange={handleStationTypeFieldChange}
               input={<StyledAddStationModalFormField />}
             >
@@ -247,20 +246,16 @@ const AddStationModal = (props: IProps) => {
               disabled={isSubmitDisabled}
               type="submit"
             >
-              Save and close
+              Next
             </ContainedButton>
             <ContainedButton
               sx={{ width: "100%", marginBottom: rem("16px") }}
               disabled={isSubmitDisabled}
-              onClick={handleSaveAndCreateAnother}
+              onClick={handleSaveAndClose}
             >
-              Save and create another
+              Save and Close
             </ContainedButton>
-            <OutlinedButton
-              grey
-              sx={{ width: "100%" }}
-              onClick={props.handleClose}
-            >
+            <OutlinedButton grey sx={{ width: "100%" }} onClick={handleClose}>
               Cancel
             </OutlinedButton>
           </StyledAddStationModalFormActions>
