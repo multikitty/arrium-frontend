@@ -441,12 +441,14 @@ const LocationsTab = () => {
         handleClose={handleAddCountryModalClose}
         handleAdd={handleAddCountry}
       />
-      <AddRegionModal
-        open={isAddRegionModalOpen}
-        handleClose={handleAddRegionModalClose}
-        handleAdd={handleAddRegion}
-        countries={filteredCountries}
-      />
+      {isAddRegionModalOpen ? (
+        <AddRegionModal
+          open={isAddRegionModalOpen}
+          handleClose={handleAddRegionModalClose}
+          handleAdd={handleAddRegion}
+          countries={filteredCountries}
+        />
+      ) : null}
       {isAddStationModalOpen ? (
         <AddStationModal
           open={isAddStationModalOpen}
