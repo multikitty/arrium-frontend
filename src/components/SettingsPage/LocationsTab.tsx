@@ -436,11 +436,13 @@ const LocationsTab = () => {
 
   return (
     <StyledLocationsTab>
-      <AddCountryModal
-        open={isAddCountryModalOpen}
-        handleClose={handleAddCountryModalClose}
-        handleAdd={handleAddCountry}
-      />
+      {isAddCountryModalOpen ? (
+        <AddCountryModal
+          open={isAddCountryModalOpen}
+          handleClose={handleAddCountryModalClose}
+          handleAdd={handleAddCountry}
+        />
+      ) : null}
       {isAddRegionModalOpen ? (
         <AddRegionModal
           open={isAddRegionModalOpen}
