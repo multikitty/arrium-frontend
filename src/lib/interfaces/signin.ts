@@ -23,6 +23,11 @@ export interface ISigninUserData {
   customerID: string
   token: string
   planType: PlansType
+  accountStatus: string
+  flexCountry: string
+  stationType: string
+  startDate: Date | null
+  endDate: Date | null
 }
 
 export interface ISigninFlexData {

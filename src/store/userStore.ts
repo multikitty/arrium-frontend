@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx"
 
-import { UserType } from "@/types/auth"
+import { FlexDataType, UserType } from "@/types/auth"
 import isBrowser from "@/utils/isBrowser"
 import localStorageUtils from "@/utils/localStorage"
 import { getCurrencySymbolByCountryCode } from "@/utils"
@@ -9,11 +9,11 @@ import countryToCurrency from "country-to-currency"
 import { noCase } from "change-case"
 import routes from "@/constants/routes"
 import { navigate } from "gatsby-link"
-import { COUNTRY_CODE, TOKEN, USER } from "@/constants/localStorage"
+import { COUNTRY_CODE, FLEX, TOKEN, USER } from "@/constants/localStorage"
 
 class UserStore {
   user: UserType = null
-
+  flexDetails : FlexDataType = null
   constructor() {
     makeAutoObservable(this)
   }
@@ -72,6 +72,21 @@ class UserStore {
   set setUser(user: NonNullable<UserType>) {
     this.user = user
     localStorageUtils.set(USER, JSON.stringify(user))
+  }
+
+  get getFlexData() {
+    return (
+      this.user ||
+      (JSON.parse(localStorageUtils.get(FLEX) as string) as UserType) ||
+      null
+    )
+  }
+
+  setUserFlexData = (flexDetails: FlexDataType) => {
+    runInAction(() => {
+      this.flexDetails = flexDetails
+    })
+    localStorageUtils.set(FLEX, JSON.stringify(flexDetails))
   }
 
   verifyPhone = () => {

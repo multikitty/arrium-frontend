@@ -84,6 +84,9 @@ import {
 } from "@/agent/availability"
 import { TASK_ID } from "@/constants/localStorage"
 import { setLocalStorage } from "@/utils/localStorage"
+import isBrowser from "@/utils/isBrowser"
+import { Script } from "gatsby"
+
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -144,8 +147,9 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
   const { data: preferenceData, isLoading } = usePreferences()
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
-
   const isPremiumUser = userStore.currentUser?.plan === Plans.premium
+
+  const isEnableIdentityScript = userStore.currentUser.id || userStore.currentUser.firstName || userStore.currentUser?.lastName ||  userStore.currentUser.email ||  userStore.currentUser.emailVerified || userStore.currentUser.tzName || userStore.currentUser.plan || userStore.getFlexData?.region
 
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
@@ -287,7 +291,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
           ? new Date(obj.endTime).toLocaleTimeString([], {
               hour12: false,
             })
-          : "",
+          : "23:59:00",
         active: obj.checked ? "Y" : "N",
       }
     })
@@ -413,6 +417,36 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
       handleSubmit={handleSubmit}
       {...methods}
     >
+      {isBrowser() && isEnableIdentityScript &&
+        <Script
+        type="text/javascript"
+        id="user-guiding-identify-complete"
+        dangerouslySetInnerHTML={{
+          __html: `    
+          // example with attributes
+          window.userGuiding.identify('${userStore.currentUser.pk}', {
+            customerID: '${userStore.currentUser.id}',
+            firstName: '${userStore.currentUser.firstName}',
+            lastName: '${userStore.currentUser?.lastName}',
+            email: '${userStore.currentUser.email}',
+            emailVerified: ${userStore.currentUser.isEmailVerified },
+            tzName: '${userStore.currentUser.tzName}',
+            role: '${userStore.currentUser?.role}',
+            accountStatus: '${userStore.currentUser.accountStatus}',
+            flexCountry: '${userStore.currentUser?.flexCountry}',
+            region: '${userStore.getFlexData?.region}',
+            planType: '${userStore.currentUser.plan}',
+            stationType: '${userStore.currentUser?.stationType}',
+            PricingPlanEnabled: true,
+            startDate: '${userStore.currentUser?.startDate}',
+            endDate: '${userStore.currentUser?.endDate}'
+
+          })
+          `
+        }}
+      ></Script>
+      }
+
       {isWebView ? (
         /* // * WEB VIEW */
         <StyledAvailabilityPage>

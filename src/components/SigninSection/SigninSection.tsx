@@ -110,9 +110,31 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             currentSteps: data.userData.currentSteps,
             sk: data.userData.sk,
             pk: data.userData.pk,
+            accountStatus: data.userData.accountStatus,
+            flexCountry: data.userData.flexCountry,
+            stationType: data.userData.stationType,
+            startDate: data.userData.startDate,
+            endDate: data.userData.endDate
           })
           setLocalStorage(TOKEN, data.userData.token)
           navigateToDefault(data.userData.role)
+
+          userStore.setUserFlexData({
+            flexID: data.flexData.flexID,
+            devModel: data.flexData.devModel,
+            devSerial: data.flexData.devSerial,
+            devID: data.flexData.devID,
+            country: data.flexData.country,
+            amznFlexUser: data.flexData.amznFlexUser,
+            amznFlexPassword: data.flexData.amznFlexPassword,
+            amznID: data.flexData.amznID,
+            flexVersion: data.flexData.flexVersion,
+            osVersion: data.flexData.osVersion,
+            region: data.flexData.region,
+            devType: data.flexData.devType,
+            sk: data.flexData.sk,
+            pk: data.flexData.pk
+          })
         },
         onError(error) {
           console.log(error)
