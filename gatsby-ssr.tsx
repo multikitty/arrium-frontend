@@ -44,7 +44,7 @@ const PostBodyComponents = [
           })(document);`,
     }}
   ></script>,
-  
+
   <script
     type="text/javascript"
     id="user-guiding-script"

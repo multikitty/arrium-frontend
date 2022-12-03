@@ -18,4 +18,26 @@ export type UserType = {
   currentSteps?: RegistrationStepsType
   sk?: string
   pk?: string
+  accountStatus: string,
+  flexCountry: string,
+  stationType: string,
+  startDate: Date | null,
+  endDate: Date | null
+} | null
+
+export type FlexDataType = {
+  flexID: string
+  devModel: string
+  devSerial: string
+  devID: string
+  country: string
+  amznFlexUser: string
+  amznFlexPassword: string
+  amznID: string
+  flexVersion: string
+  osVersion: string
+  region: string
+  devType: string
+  sk: string
+  pk: string
 } | null
