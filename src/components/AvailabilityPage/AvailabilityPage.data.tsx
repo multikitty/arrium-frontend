@@ -68,7 +68,7 @@ export const searchTableInitialValues: FormValues = {
     {
       location: "Manchester (CMC2) - Morrisons",
       checked: true,
-      timeToArrive: 120,
+      timeToArrive: "120",
       startTime: createDateInHM(12, 0),
       endTime: createDateInHM(13, 0),
       minimumPay: 80,
