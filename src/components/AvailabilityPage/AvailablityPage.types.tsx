@@ -10,7 +10,7 @@ export type FormValues = {
   data: {
     location: string
     checked: boolean
-    timeToArrive: number | ""
+    timeToArrive: string
     startTime: Date | null
     endTime: Date | null
     minimumPay: number | ""

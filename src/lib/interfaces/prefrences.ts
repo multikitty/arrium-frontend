@@ -1,5 +1,8 @@
+import { WeekType } from "@/components/AvailabilityPage/AvailabilityPage.data"
+
 export interface ISetPrefrencesVariables {
   preferences: Array<ISetPrefrencesVariableData>
+  days: WeekType[]
 }
 
 export interface ISetPrefrencesVariableData {
@@ -7,13 +10,12 @@ export interface ISetPrefrencesVariableData {
   regionId: string
   stationId: string
   day: string
-  timeToArrive: string
-  minPay: number
-  minHourlyRate: number
-  startTime: Date
-  endTime: Date
-  checked: boolean
-  location: string
+  tta: string
+  minPay: string
+  minHourlyRate: string
+  startTime: string
+  endTime: string
+  active: string
 }
 
 export interface ISetPrefrencesResult {

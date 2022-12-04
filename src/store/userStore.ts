@@ -13,7 +13,7 @@ import { COUNTRY_CODE, FLEX, TOKEN, USER } from "@/constants/localStorage"
 
 class UserStore {
   user: UserType = null
-  flexDetails : FlexDataType = null
+  flexDetails: FlexDataType = null
   constructor() {
     makeAutoObservable(this)
   }
@@ -74,10 +74,10 @@ class UserStore {
     localStorageUtils.set(USER, JSON.stringify(user))
   }
 
-  get getFlexData() {
+  get flexData() {
     return (
-      this.user ||
-      (JSON.parse(localStorageUtils.get(FLEX) as string) as UserType) ||
+      this.flexDetails ||
+      (JSON.parse(localStorageUtils.get(FLEX) as string) as FlexDataType) ||
       null
     )
   }
