@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material"
 import React, { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, SubmitErrorHandler, useForm } from "react-hook-form"
 import landingContactOptions from "@/validation/landingContact"
 import {
   StyledContactFormSection,
@@ -10,29 +10,38 @@ import {
   StyledContactFormSectionCardLeftContainerTitle,
   StyledContactFormSectionCardRightContainer,
   StyledContactFormSectionCardRightContainerField,
-  StyledContactFormSectionCardRightContainerFieldHelperText,
   StyledContactFormSectionCardRightContainerSendButton,
   StyledContactFormSectionCardRightContainerSubTitle,
   StyledContactFormSectionCardRightContainerTitle,
 } from "./ContactFormSection.styled"
 import FormSuccessModal from "../FormSuccessModal"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
+import { useSnackbar } from "notistack"
+import { StyledHelperText } from "../commons/uiComponents"
 
 const ContactFormSection = () => {
+  const { enqueueSnackbar } = useSnackbar()
   const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false)
 
   const handleSuccessModalOpen = () => setSuccessModalOpen(true)
   const handleSuccessModalClose = () => setSuccessModalOpen(false)
 
-  type formPropType = typeof landingContactOptions.defaultValues
-  const { handleSubmit, control, formState, reset } = useForm<formPropType>(
+  type FormPropType = typeof landingContactOptions.defaultValues
+  const { handleSubmit, control, formState, reset } = useForm<FormPropType>(
     landingContactOptions
   )
 
-  const onSubmit = (data: formPropType) => {
-    console.log(data)
+  const onSubmit = (data: FormPropType) => {
+    console.log("Contact Form Data: ", data)
     handleSuccessModalOpen()
     reset()
+  }
+
+  const onInvalid: SubmitErrorHandler<FormPropType> = data => {
+    enqueueSnackbar(
+      data.fullName?.message || data.email?.message || data.question?.message,
+      { variant: "error" }
+    )
   }
 
   return (
@@ -63,7 +72,7 @@ const ContactFormSection = () => {
           <StyledContactFormSectionCardRightContainerSubTitle>
             Get in touch and tell us how we can help
           </StyledContactFormSectionCardRightContainerSubTitle>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
             <Grid container rowSpacing={3} columnSpacing={2}>
               <Grid item xs={12}>
                 <Controller
@@ -79,11 +88,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.fullName && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText
-                    isLandingPage
-                  >
+                  <StyledHelperText>
                     {formState.errors?.fullName?.message}
-                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                  </StyledHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -101,11 +108,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.email && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText
-                    isLandingPage
-                  >
+                  <StyledHelperText>
                     {formState.errors?.email?.message}
-                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                  </StyledHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -124,11 +129,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.question && (
-                  <StyledContactFormSectionCardRightContainerFieldHelperText
-                    isLandingPage
-                  >
+                  <StyledHelperText>
                     {formState.errors?.question?.message}
-                  </StyledContactFormSectionCardRightContainerFieldHelperText>
+                  </StyledHelperText>
                 )}
               </Grid>
             </Grid>
