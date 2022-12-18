@@ -46,7 +46,7 @@ const DriverLayout: React.FC<IDriverLayoutProps> = ({
         >
           <React.Fragment>
             {isDesktopView ? (
-              <Topbar />
+              <Topbar country_code={country_code} />
             ) : (
               <React.Fragment>
                 <MobileTopbar

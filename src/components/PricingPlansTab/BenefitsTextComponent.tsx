@@ -3,9 +3,9 @@ import { Box } from "@mui/material"
 import CheckIcon from "@mui/icons-material/Check"
 import CloseIcon from "@mui/icons-material/Close"
 import {
-  StyledBenefitsActiveText,
-  StyledBenefitsInactiveText,
-} from "./PricingPlansPage.styled"
+  StyledPricingPlansColumnBenefitsActiveText,
+  StyledPricingPlansColumnBenefitsInactiveText,
+} from "./PricingPlansTab.styled"
 import theme from "@/theme"
 
 interface IProps {
@@ -28,9 +28,9 @@ export default function BenefitsTextComponent(props: IProps) {
                 marginTop: "4px",
               }}
             />
-            <StyledBenefitsActiveText>
+            <StyledPricingPlansColumnBenefitsActiveText>
               {props.benefits}
-            </StyledBenefitsActiveText>
+            </StyledPricingPlansColumnBenefitsActiveText>
           </>
         ) : (
           <>
@@ -42,9 +42,9 @@ export default function BenefitsTextComponent(props: IProps) {
                 marginTop: "4px",
               }}
             />
-            <StyledBenefitsInactiveText>
+            <StyledPricingPlansColumnBenefitsInactiveText>
               {props.benefits}
-            </StyledBenefitsInactiveText>
+            </StyledPricingPlansColumnBenefitsInactiveText>
           </>
         )}
       </Box>
