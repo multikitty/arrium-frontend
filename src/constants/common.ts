@@ -1,4 +1,6 @@
 import { AllowedCountries, PlansType } from "@/types/common"
+import { getCurrencySymbolByCountryCode } from "@/utils"
+import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 export const UserRoles = {
   driver: "driver",
@@ -24,12 +26,12 @@ export const LabelledUserRoles = [
 export const Plans = {
   basic: "basic",
   premium: "premium",
-}
+} as const
 
 export const LabelledPlans = [
   { label: "Basic", value: Plans.basic },
   { label: "Premium", value: Plans.premium },
-]
+] as const
 
 export const AdminPages = {
   customers: "customers",
@@ -63,7 +65,7 @@ export const daysInWeek = [
   { short: "Fri", long: "Friday" },
   { short: "Sat", long: "Saturday" },
   { short: "Sun", long: "Sunday" },
-]
+] as const
 
 export const daysInAutomationSchedule = [
   { value: "mon", short: "Mon", long: "Monday" },
@@ -76,7 +78,7 @@ export const daysInAutomationSchedule = [
   { value: "everyday", short: "Everyday", long: "Everyday" },
   { value: "weekdays", short: "Weekdays", long: "Weekdays Only" },
   { value: "weekends", short: "Weekends", long: "Weekends Only" },
-]
+] as const
 
 export const registrationSteps = {
   account_info: "account_info",
@@ -95,3 +97,6 @@ export const REGISTRATION_STEP_MAP = {
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const
 export const DEFAULT_COUNTRY: AllowedCountries = "gb"
 export const DEFAULT_PLAN: PlansType = "basic"
+export const DEFAULT_CURRENCY_SYMBOL = getCurrencySymbolByCountryCode(
+  "GB"
+) as CountryCodes

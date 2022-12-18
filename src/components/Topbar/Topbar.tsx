@@ -9,8 +9,11 @@ import theme from "@/theme"
 import ProfileDropdown from "@/components/ProfileDropdown"
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { useStore } from "@/store"
+import { IPageProps } from "@/lib/interfaces/common"
 
-const Topbar = () => {
+interface ITopbarProps extends IPageProps {}
+
+const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
   const { userStore } = useStore()
   const [profileDropdownAnchorEl, setProfileDropdownAnchorEl] =
     React.useState<null | HTMLElement>(null)
@@ -82,6 +85,7 @@ const Topbar = () => {
           anchorEl={profileDropdownAnchorEl}
           open={profileDropdownOpen}
           handleClose={handleProfileDropdownClose}
+          country_code={country_code}
         />
       )}
       {notificationsDropdownOpen && (
