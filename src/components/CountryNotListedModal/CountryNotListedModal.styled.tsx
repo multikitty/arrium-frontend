@@ -9,6 +9,7 @@ import {
 } from "../SettingsPage/SettingsPage.styled"
 
 export const StyledModal = muiStyled(Modal)({
+  // TODO: better selector for border-radius
   "& .css-1ps6pg7-MuiPaper-root": {
     borderRadius: rem("20px"),
   },

@@ -1,6 +1,10 @@
 export interface IFetchInvoicesByAdminVariables {
   pk: string
   sk: string
+  page?: number
+  limit?: number
+  end_before?: string
+  start_after?: string
 }
 
 export type InvoicePaidStatus = "paid" | "due" | "overdue"
@@ -217,4 +221,34 @@ export interface IFetchInvoicesByAdminResult {
   success: boolean
   message: string
   invoices: IFetchInvoicesByAdminData
+}
+
+export interface IFetchInvoicesByDriverVariables {
+  page?: number
+  limit?: number
+  end_before?: string
+  start_after?: string
+}
+
+export interface IFetchInvoicesByDriverData {
+  id: string
+  invoice_no: string
+  stripe_id: string
+  description: string
+  amount_due: number
+  due_date: string
+  paid_at: string | null
+  invoice_url: string
+  paid_status: InvoicePaidStatus
+  period_start: string
+  period_end: string
+}
+
+export interface IFetchInvoicesByDriverResult {
+  success: boolean
+  message: string
+  data: Array<IFetchInvoicesByDriverData>
+  has_more: boolean
+  starting_after: string | null
+  ending_before: string | null
 }
