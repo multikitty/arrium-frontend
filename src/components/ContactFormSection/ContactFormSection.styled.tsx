@@ -20,7 +20,11 @@ export const StyledContactFormSection = styled.div`
 
 export const StyledContactFormSectionCard = styled.div`
   border-radius: ${rem("32px")};
-  background: url(${contactFormBackground}) ${p => p.theme.palette.main}
+  background: url(${contactFormBackground}) ,
+  linear-gradient(174deg,#3071f2,rgba(255,0,0,0) 61.71%),
+  linear-gradient(58deg,#45c3dc,#ffff 57.71%),
+  linear-gradient(177deg,#36A08F,rgba(0,0,255,0) 70.71%),
+  linear-gradient(336deg,#3075f3,rgba(0,0,255,0) 70.71%)
     no-repeat;
   background-size: cover;
   padding: ${rem("64px")} ${rem("88px")};
