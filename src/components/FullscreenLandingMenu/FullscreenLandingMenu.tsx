@@ -67,7 +67,7 @@ const FullscreenLandingMenu: React.FC<FullscreenLandingMenuProps> = ({
           <Link
             onClick={handleClose}
             delay={300}
-            offset={-50}
+            offset={-100}
             to={LANDING_PAGE_IDS["benefits-section"]}
             spy={true}
             smooth={true}
@@ -79,7 +79,7 @@ const FullscreenLandingMenu: React.FC<FullscreenLandingMenuProps> = ({
           <Link
             onClick={handleClose}
             delay={300}
-            offset={-50}
+            offset={-100}
             to={LANDING_PAGE_IDS["working-section"]}
             spy={true}
             smooth={true}
@@ -91,7 +91,7 @@ const FullscreenLandingMenu: React.FC<FullscreenLandingMenuProps> = ({
           <Link
             onClick={handleClose}
             delay={300}
-            offset={-50}
+            offset={-100}
             to={LANDING_PAGE_IDS["contact-us-section"]}
             spy={true}
             smooth={true}
