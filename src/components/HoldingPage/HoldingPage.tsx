@@ -9,7 +9,7 @@ import {
   StyledButtonText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledSignUpButton,
 } from "../commons/uiComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
@@ -30,7 +30,7 @@ const HoldingPage: React.FC<IHoldingPageProps> = ({
   const { navigate } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
 
-  const onSubmit = (e: React.FormEvent<HTMLDivElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
     navigate(routes.signin)
   }
@@ -38,9 +38,9 @@ const HoldingPage: React.FC<IHoldingPageProps> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
-            <StyledLoginText>We are setting your account up</StyledLoginText>
+            <StyledCardHeader>We are setting your account up</StyledCardHeader>
           </Box>
           <StyledText>
             You&apos;ll receive a confirmation email within 24 hours.
@@ -61,7 +61,7 @@ const HoldingPage: React.FC<IHoldingPageProps> = ({
           </StyledButton>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -72,7 +72,9 @@ const HoldingPage: React.FC<IHoldingPageProps> = ({
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledLoginText>We are setting your account up</StyledLoginText>
+              <StyledCardHeader>
+                We are setting your account up
+              </StyledCardHeader>
             </Box>
             <StyledText>
               You&apos;ll receive a confirmation email within 24 hours.

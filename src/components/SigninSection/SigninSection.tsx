@@ -13,7 +13,7 @@ import {
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledRemeberMeText,
   StyledSignUpButton,
   StyledSignUpText,
@@ -114,7 +114,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             flexCountry: data.userData.flexCountry,
             stationType: data.userData.stationType,
             startDate: data.userData.startDate,
-            endDate: data.userData.endDate
+            endDate: data.userData.endDate,
           })
           setLocalStorage(TOKEN, data.userData.token)
           navigateToDefault(data.userData.role)
@@ -133,7 +133,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             region: data.flexData.region,
             devType: data.flexData.devType,
             sk: data.flexData.sk,
-            pk: data.flexData.pk
+            pk: data.flexData.pk,
           })
         },
         onError(error) {
@@ -158,12 +158,9 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
           <Box display="flex" justifyContent="center">
-            <StyledLoginText>Login to your account</StyledLoginText>
+            <StyledCardHeader>Login to your account</StyledCardHeader>
           </Box>
           <StyledFieldLabel $isHidden={!getValues("email")}>
             Email ID
@@ -241,10 +238,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
           <Box
             display="flex"
             flexDirection="column"
@@ -252,7 +246,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledLoginText>Login to your account</StyledLoginText>
+              <StyledCardHeader>Login to your account</StyledCardHeader>
             </Box>
             <StyledFieldLabel $isHidden={!getValues("email")}>
               Email ID

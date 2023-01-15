@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
-import { rem } from "polished"
 
 import {
   StyledButton,
@@ -10,7 +9,7 @@ import {
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledSignUpButton,
   StyledSignUpText,
 } from "@/components/commons/uiComponents"
@@ -93,7 +92,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
     setIsFocused(false)
   }
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
     if (
       !(
@@ -143,26 +142,28 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
     navigate(routes.signin)
   }
 
+  const isSubmitDisabled = !email || !password
+
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
-            <StyledLoginText>Sign up</StyledLoginText>
+            <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
-          <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
+          <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
           <StyledInputField
-            placeholder="Enter Email Address"
+            placeholder="Enter Email Address*"
             variant="outlined"
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
           />
-          <StyledFieldLabel $isHidden={!password}>Password</StyledFieldLabel>
+          <StyledFieldLabel $isHidden={!password}>Password*</StyledFieldLabel>
           <Box position="relative">
             <StyledInputField
-              placeholder="Enter Password"
+              placeholder="Enter Password*"
               type={isVisible ? "text" : "password"}
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -241,8 +242,9 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
             variant="contained"
             color="primary"
             disableElevation
-            $marginTop={rem("56px")}
+            $marginTop={"40px"}
             type="submit"
+            disabled={isSubmitDisabled}
           >
             <StyledButtonText>Continue</StyledButtonText>
           </StyledButton>
@@ -256,18 +258,18 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
           <Box
             display="flex"
             flexDirection="column"
-            maxWidth={rem("375px")}
+            maxWidth={"375px"}
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledLoginText>Sign up</StyledLoginText>
+              <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
             <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
             <StyledInputField
@@ -362,8 +364,9 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
               variant="contained"
               color="primary"
               disableElevation
-              $marginTop={rem("56px")}
+              $marginTop={"40px"}
               type="submit"
+              disabled={isSubmitDisabled}
             >
               <StyledButtonText>Continue</StyledButtonText>
             </StyledButton>
