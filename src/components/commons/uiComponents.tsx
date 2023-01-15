@@ -20,29 +20,26 @@ export const StyledInputField = styled(TextField)<{
   &&& {
     background-color: #ffffff;
     width: 100%;
-    height: ${rem("52px")};
+    height: 48px;
     border: none;
     outline: none;
+    margin-bottom: ${p => p.mb || "16px"};
     ${p =>
       p.$isCentered &&
       css`
         margin: 0 auto;
       `}
-    ${p =>
-      p.mb
-        ? css`
-            margin-bottom: ${p.mb};
-          `
-        : css`
-            margin-bottom: ${rem("16px")};
-          `};
-    border-radius: ${rem("10px")};
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 20px;
 
     & > .MuiOutlinedInput-root {
-      max-width: ${p => rem(p.$maxWidth || "378px")};
-      height: ${rem("52px")};
-      min-width: ${p => rem(p.$minWidth || "250px")};
-      border-radius: ${rem("10px")};
+      max-width: ${p => p.$maxWidth || "378px"};
+      min-width: ${p => p.$minWidth || "250px"};
+      height: 48px;
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 20px;
       ${p =>
         p.$centerInput &&
         css`
@@ -64,7 +61,7 @@ export const StyledTitle = styled.p`
   cursor: pointer;
 `
 
-export const StyledLoginContainer = styled(Box)`
+export const StyledLoginContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,13 +71,14 @@ export const StyledLoginContainer = styled(Box)`
   width: ${rem("458px")};
 `
 
-export const StyledLoginText = styled.h4`
-  font-size: ${rem("28px")};
+export const StyledCardHeader = styled.h4`
+  font-size: 28px;
+  line-height: 32px;
   font-weight: 400;
   text-align: center;
   color: #0a0a0a;
-  padding: 0 ${rem("40px")} ${rem("40px")} ${rem("40px")};
-  line-height: ${rem("32px")};
+  padding: 0 40px;
+  margin-bottom: 40px;
 `
 
 export const StyledRemeberMeText = styled.label`
@@ -170,7 +168,7 @@ export const StyledTitleMobile = styled.div`
   cursor: pointer;
 `
 
-export const StyledLoginContainerMobile = styled(Box)`
+export const StyledLoginContainerMobile = styled.form`
   display: flex;
   flex-direction: column;
   margin: 0 auto;

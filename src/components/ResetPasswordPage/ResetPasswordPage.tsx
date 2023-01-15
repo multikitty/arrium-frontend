@@ -11,7 +11,7 @@ import {
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledTitle,
   StyledTitleMobile,
   StyledWarningText,
@@ -61,17 +61,14 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({ country_code }) => {
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
         {isWebView ? (
-          <StyledLoginContainer
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
             >
-              <StyledLoginText>Reset Password</StyledLoginText>
+              <StyledCardHeader>Reset Password</StyledCardHeader>
             </Box>
             <StyledFieldLabel $isHidden={!password}>
               New Password
@@ -135,10 +132,7 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({ country_code }) => {
             </StyledButton>
           </StyledLoginContainer>
         ) : (
-          <StyledLoginContainerMobile
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
               flexDirection="column"
@@ -151,7 +145,7 @@ const ResetPassword: React.FC<IResetPasswordProps> = ({ country_code }) => {
                 alignItems="center"
                 flexDirection="column"
               >
-                <StyledLoginText>Reset Password</StyledLoginText>
+                <StyledCardHeader>Reset Password</StyledCardHeader>
               </Box>
               <StyledFieldLabel $isHidden={!password}>
                 New Password

@@ -13,7 +13,7 @@ import {
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
@@ -52,7 +52,7 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
     navigate(routes.signin)
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
 
     mutate(
@@ -89,9 +89,9 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer component="form" onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
-            <StyledLoginText>Sign up</StyledLoginText>
+            <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
           <StyledText>Please enter your Amazon Flex account details</StyledText>
           <Box mt={2}>
@@ -153,7 +153,7 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -164,7 +164,7 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledLoginText>Sign up</StyledLoginText>
+              <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
             <StyledFieldLabel $isHidden={!userName}>
               Amazon Flex Username

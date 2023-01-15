@@ -12,7 +12,7 @@ import {
   StyledInstructionsText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText as StyledForgotPasswordText,
+  StyledCardHeader as StyledForgotPasswordCardHeader,
   StyledTitle,
   StyledTitleMobile,
   StyledWarningText,
@@ -111,10 +111,7 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
         {isWebView ? (
-          <StyledLoginContainer
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
               justifyContent="center"
@@ -128,9 +125,9 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
                   />
                 </Box>
               )}
-              <StyledForgotPasswordText>
+              <StyledForgotPasswordCardHeader>
                 {isClicked ? "Email Sent" : "Forgot password"}
-              </StyledForgotPasswordText>
+              </StyledForgotPasswordCardHeader>
               <StyledInstructionsText>
                 {isClicked
                   ? "An email has been sent to your email address. Follow the instructions in the email to reset your password"
@@ -180,10 +177,7 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
             )}
           </StyledLoginContainer>
         ) : (
-          <StyledLoginContainerMobile
-            component="form"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
             <Box
               display="flex"
               flexDirection="column"
@@ -203,9 +197,9 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
                     />
                   </Box>
                 )}
-                <StyledForgotPasswordText>
+                <StyledForgotPasswordCardHeader>
                   {isClicked ? "Email Sent" : "Forgot password"}
-                </StyledForgotPasswordText>
+                </StyledForgotPasswordCardHeader>
                 <StyledInstructionsText>
                   {isClicked
                     ? "An email has been sent to your email address. Follow the instructions in the email to reset your password"

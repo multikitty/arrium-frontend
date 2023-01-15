@@ -10,7 +10,7 @@ import {
   StyledButtonText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledLoginText,
+  StyledCardHeader,
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
@@ -67,7 +67,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
     navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
 
     mutate(
@@ -94,9 +94,9 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer component="form" onSubmit={handleSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
-            <StyledLoginText>Sign up</StyledLoginText>
+            <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
           <StyledText>
             Enter a 4-digit code that we&apos;ve sent you in SMS
@@ -148,7 +148,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile component="form" onSubmit={handleSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -159,7 +159,7 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledLoginText>Sign up</StyledLoginText>
+              <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
             <StyledText>
               Enter a 4-digit code that we&apos;ve sent you in SMS
