@@ -92,7 +92,15 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
       >
         {renderCountryOptions()}
         {isCountryNotListed ? (
-          <MenuItem value="">Country Not Listed</MenuItem>
+          <MenuItem value="">
+            <Box
+              display="flex"
+              alignItems="center"
+              component="span"
+            >
+              <Box sx={{ width: size === "large" ? 40 : 32, mr: 2 }}></Box>
+              Country Not Listed
+            </Box></MenuItem>
         ) : null}
       </Select>
     </Box>
