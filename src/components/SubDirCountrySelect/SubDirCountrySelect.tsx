@@ -55,10 +55,7 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             />
             {size === "large"
               ? capitalCase(country.countryName)
-              : country.countryShortName.toUpperCase()}{" "}
-            {isCountryCode
-              ? `(${country.countryShortName.toUpperCase()})`
-              : null}
+              : country.countryShortName.toUpperCase()}
           </Box>
         </MenuItem>
       )),
