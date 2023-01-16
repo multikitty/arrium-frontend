@@ -8,7 +8,6 @@ import theme from "@/theme"
 import contactFormBackground from "@/assets/images/landing-contact_form_background.png"
 
 export const StyledContactFormSection = styled.div`
-  position: relative;
   max-width: ${p => p.theme.sizes.container};
   width: 100%;
   margin: 0 auto;
