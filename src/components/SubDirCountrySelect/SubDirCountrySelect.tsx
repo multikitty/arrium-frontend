@@ -48,7 +48,7 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             <img
               loading="lazy"
               width={size === "large" ? "40" : "32"}
-              src={`https://flagcdn.com/w20/${country.countryShortName.toLowerCase()}.png`}
+              src={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png`}
               srcSet={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png 2x`}
               alt=""
             />
@@ -75,15 +75,15 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
         MenuProps={
           openUpwards
             ? {
-                anchorOrigin: {
-                  vertical: "bottom",
-                  horizontal: "left",
-                },
-                transformOrigin: {
-                  vertical: "bottom",
-                  horizontal: "left",
-                },
-              }
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+            }
             : undefined
         }
       >
