@@ -8,10 +8,7 @@ import DashboardIcon from "@/assets/icons/sidepanel_admin-dashboard_icon.inline.
 import MessagesIcon from "@/assets/icons/sidepanel_admin-messages_icon.inline.svg"
 import SettingsIcon from "@/assets/icons/sidepanel_admin-settings_icon.inline.svg"
 import ReferralsIcon from "@/assets/icons/sidepanel_admin-referral_icon.inline.svg"
-import {
-  GrMapLocation as TimezonesIcon,
-  GrCycle as AutomationScheduleIcon,
-} from "react-icons/gr"
+import { GrMapLocation as TimezonesIcon } from "react-icons/gr"
 import PlansIcon from "@/assets/icons/sidepanel_admin-plans_icon.inline.svg"
 import { AdminPages, UserRoles } from "@/constants/common"
 import { DriverPages } from "@/constants/common"

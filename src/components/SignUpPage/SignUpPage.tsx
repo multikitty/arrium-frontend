@@ -18,7 +18,7 @@ import FinishPage from "@/components/FinishPage"
 import HoldingPage from "@/components/HoldingPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import LoadingScreen from "../LoadingScreen"
 import { localStorageUtils } from "@/utils"
 import { TOKEN } from "@/constants/localStorage"
@@ -48,9 +48,9 @@ export type AccountInfoData = {
   dialCode: string
 }
 
-interface ISignUpPageProps extends IPageProps {}
+interface SignUpPageProps extends PageProps {}
 
-const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
+const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },

@@ -5,9 +5,9 @@ import { TabType } from "@/components/AddCustomerPage/AddCustomersPage.data"
 import routes from "@/constants/routes"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-const useNavigate = (params: IPageProps) => {
+const useNavigate = (params: PageProps) => {
   const navigate = (path: string, ...args: any[]) => {
     gatsbyNavigate(
       `/${

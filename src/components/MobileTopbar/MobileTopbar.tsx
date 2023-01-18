@@ -11,15 +11,15 @@ import {
 import brandLogo from "@/assets/icons/arrium_logo.svg"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-export interface IMobileTopbarProps extends IPageProps {
+export interface MobileTopbarProps extends PageProps {
   isFullscreenMenuOpen: boolean
   handleFullscreenMenuOpen: () => void
   handleFullscreenMenuClose: () => void
 }
 
-const MobileTopbar: React.FC<IMobileTopbarProps> = ({
+const MobileTopbar: React.FC<MobileTopbarProps> = ({
   handleFullscreenMenuClose,
   handleFullscreenMenuOpen,
   isFullscreenMenuOpen,

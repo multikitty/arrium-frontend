@@ -19,15 +19,15 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
 
-interface IFullscreenLandingMenuProps extends IPageProps {
+interface FullscreenLandingMenuProps extends PageProps {
   open: boolean
   handleClose: () => void
 }
 
-const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
+const FullscreenLandingMenu: React.FC<FullscreenLandingMenuProps> = ({
   handleClose,
   open,
   country_code,

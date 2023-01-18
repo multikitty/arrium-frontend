@@ -6,7 +6,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledFieldLabel,
-  StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
@@ -23,25 +22,26 @@ import RightCheckMarkIcon from "@/assets/icons/checkmark_icon.svg"
 import RightCheckGreenMarkIcon from "@/assets/icons/checkmark-green_icon.svg"
 import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { IRequiredSet } from "./RegistrationSection.types"
+import { RequiredSet } from "./RegistrationSection.types"
 import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import { useMutation } from "react-query"
 import { registerUser } from "@/agent/signup"
 import {
-  IRegistrationUserVariables,
-  IRegistrationUserResult,
+  RegistrationUserVariables,
+  RegistrationUserResult,
 } from "@/lib/interfaces/signup"
 import { useSnackbar } from "notistack"
 import localStorageUtils, { setLocalStorage } from "@/utils/localStorage"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { COUNTRY_CODE, TOKEN } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
+import InputField from "../commons/InputField"
 
-interface ISignupSectionProps extends FormProps, IPageProps {}
+interface SignupSectionProps extends FormProps, PageProps {}
 
-const SignupSection: React.FC<ISignupSectionProps> = ({
+const SignupSection: React.FC<SignupSectionProps> = ({
   setFormStage,
   stage,
   step,
@@ -59,16 +59,16 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
   const [password, setPassword] = useState("")
   const [refCode, setRefCode] = useState("")
   const [isFocused, setIsFocused] = useState(false)
-  const [isRequiredSet, setIsRequiredSet] = useState<IRequiredSet>({
+  const [isRequiredSet, setIsRequiredSet] = useState<RequiredSet>({
     digit: true,
     lowercase: true,
     minEightChar: true,
     uppercase: true,
   })
   const { mutate } = useMutation<
-    IRegistrationUserResult,
+    RegistrationUserResult,
     Error,
-    IRegistrationUserVariables
+    RegistrationUserVariables
   >(registerUser)
 
   const atLeastALowercase = new RegExp(/(?=.*[a-z])/)
@@ -106,7 +106,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
       return
     }
 
-    const variables: IRegistrationUserVariables = {
+    const variables: RegistrationUserVariables = {
       email,
       password,
       refCode,
@@ -151,9 +151,9 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
-          <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
-          <StyledInputField
-            placeholder="Enter Email Address*"
+          <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
+          <InputField
+            placeholder="Enter Email Address"
             variant="outlined"
             type="email"
             value={email}
@@ -162,8 +162,8 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
           />
           <StyledFieldLabel $isHidden={!password}>Password*</StyledFieldLabel>
           <Box position="relative">
-            <StyledInputField
-              placeholder="Enter Password*"
+            <InputField
+              placeholder="Enter Password"
               type={isVisible ? "text" : "password"}
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -231,7 +231,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
           <StyledTextBox>
             If you have a 6-digit code, enter it below
           </StyledTextBox>
-          <StyledInputField
+          <InputField
             mb={"0"}
             placeholder="6-digit code"
             variant="outlined"
@@ -272,7 +272,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
               <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
             <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
-            <StyledInputField
+            <InputField
               placeholder="Enter Email Address"
               variant="outlined"
               type="email"
@@ -282,7 +282,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
             />
             <StyledFieldLabel $isHidden={!password}>Password</StyledFieldLabel>
             <Box position="relative">
-              <StyledInputField
+              <InputField
                 placeholder="Enter Password"
                 type={isVisible ? "text" : "password"}
                 value={password}
@@ -353,7 +353,7 @@ const SignupSection: React.FC<ISignupSectionProps> = ({
             <StyledTextBox>
               If you have a 6-digit code, enter it below
             </StyledTextBox>
-            <StyledInputField
+            <InputField
               mb={"0"}
               placeholder="6-digit code"
               variant="outlined"

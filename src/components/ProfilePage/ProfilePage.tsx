@@ -13,11 +13,11 @@ import FlexAccountTabContent from "./FlexAccountTabContent"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IProfilePageProps extends IPageProps {}
+interface ProfilePageProps extends PageProps {}
 
-const ProfilePage: React.FC<IProfilePageProps> = ({ country_code }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
   const { navigateToDefault } = useNavigate({ country_code })
   const { userStore } = useStore()
   const [tab, setTab] = React.useState("personalInformation")

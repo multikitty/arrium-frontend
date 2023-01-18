@@ -31,20 +31,20 @@ import {
   useStationList,
 } from "@/agent/locations"
 import {
-  IAddCountryResult,
-  IAddCountryVariables,
-  IAddRegionResult,
-  IAddRegionVariables,
-  IAddStationResult,
-  IAddStationVariables,
-  ICountryListDataItem,
-  IDeleteCountryResult,
-  IDeleteCountryVariables,
-  IDeleteRegionResult,
-  IDeleteRegionVariables,
-  IDeleteStationResult,
-  IDeleteStationVariables,
-  IRegionListDataItem,
+  AddCountryResult,
+  AddCountryVariables,
+  AddRegionResult,
+  AddRegionVariables,
+  AddStationResult,
+  AddStationVariables,
+  CountryListDataItem,
+  DeleteCountryResult,
+  DeleteCountryVariables,
+  DeleteRegionResult,
+  DeleteRegionVariables,
+  DeleteStationResult,
+  DeleteStationVariables,
+  RegionListDataItem,
 } from "@/lib/interfaces/locations"
 import CountryList from "./CountryList"
 import RegionList from "./RegionList"
@@ -84,9 +84,9 @@ export type StationFieldName = keyof typeof STATION_DATA_DEFAULT_VALUES
 const LocationsTab = () => {
   const { enqueueSnackbar } = useSnackbar()
   const [selectedCountry, setSelectedCountry] =
-    useState<ICountryListDataItem | null>(null)
+    useState<CountryListDataItem | null>(null)
   const [selectedRegion, setSelectedRegion] =
-    useState<IRegionListDataItem | null>(null)
+    useState<RegionListDataItem | null>(null)
   const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
   const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
   const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
@@ -98,9 +98,9 @@ const LocationsTab = () => {
   const [countrySearchQuery, setCountrySearchQuery] = useState("")
   const [regionSearchQuery, setRegionSearchQuery] = useState("")
   const [stationSearchQuery, setStationSearchQuery] = useState("")
-  const [stationData, setStationData] = useState<
-    Required<IAddStationVariables>
-  >(STATION_DATA_DEFAULT_VALUES)
+  const [stationData, setStationData] = useState<Required<AddStationVariables>>(
+    STATION_DATA_DEFAULT_VALUES
+  )
 
   const {
     data: countryListData,
@@ -122,34 +122,34 @@ const LocationsTab = () => {
   )
 
   const { mutate: addCountryMutate } = useMutation<
-    IAddCountryResult,
+    AddCountryResult,
     Error,
-    IAddCountryVariables
+    AddCountryVariables
   >(addCountry)
   const { mutate: deleteCountryMutate } = useMutation<
-    IDeleteCountryResult,
+    DeleteCountryResult,
     Error,
-    IDeleteCountryVariables
+    DeleteCountryVariables
   >(deleteCountry)
   const { mutate: addRegionMutate } = useMutation<
-    IAddRegionResult,
+    AddRegionResult,
     Error,
-    IAddRegionVariables
+    AddRegionVariables
   >(addRegion)
   const { mutate: deleteRegionMutate } = useMutation<
-    IDeleteRegionResult,
+    DeleteRegionResult,
     Error,
-    IDeleteRegionVariables
+    DeleteRegionVariables
   >(deleteRegion)
   const { mutate: addStationMutate } = useMutation<
-    IAddStationResult,
+    AddStationResult,
     Error,
-    IAddStationVariables
+    AddStationVariables
   >(addStation)
   const { mutate: deleteStationMutate } = useMutation<
-    IDeleteStationResult,
+    DeleteStationResult,
     Error,
-    IDeleteStationVariables
+    DeleteStationVariables
   >(deleteStation)
 
   const handleCountrySearchQueryField:
@@ -168,7 +168,7 @@ const LocationsTab = () => {
 
   const handleAddCountryModalOpen = () => setIsAddCountryModalOpen(true)
   const handleAddCountryModalClose = () => setIsAddCountryModalOpen(false)
-  const handleAddCountry = (variables: IAddCountryVariables) => {
+  const handleAddCountry = (variables: AddCountryVariables) => {
     addCountryMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -220,14 +220,14 @@ const LocationsTab = () => {
     )
     handleDeleteConfirmationModalClose()
   }
-  const handleClickCountry = (clickedCountry: ICountryListDataItem) => {
+  const handleClickCountry = (clickedCountry: CountryListDataItem) => {
     setSelectedCountry(clickedCountry)
     setSelectedRegion(null)
   }
 
   const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
   const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
-  const handleAddRegion = (variables: IAddRegionVariables) => {
+  const handleAddRegion = (variables: AddRegionVariables) => {
     addRegionMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -283,7 +283,7 @@ const LocationsTab = () => {
     )
     handleDeleteConfirmationModalClose()
   }
-  const handleClickRegion = (clickedRegion: IRegionListDataItem) => {
+  const handleClickRegion = (clickedRegion: RegionListDataItem) => {
     setSelectedRegion(clickedRegion)
   }
 
@@ -297,7 +297,7 @@ const LocationsTab = () => {
     handleAddStationModalClose()
     handleAddStationAddressModalOpen()
   }
-  const handleAddStation = (variables: IAddStationVariables) => {
+  const handleAddStation = (variables: AddStationVariables) => {
     addStationMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {

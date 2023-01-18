@@ -18,17 +18,18 @@ import brandLogo from "@/assets/icons/arrium_logo.svg"
 import selectYourCountryImage from "@/assets/icons/landing-select_your_country.svg"
 import { Box, IconButton } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
-import { StyledHelperText, StyledInputField } from "../commons/uiComponents"
 import countryNotListedOptions from "@/validation/countryNotListed"
 import { useForm } from "react-hook-form"
+import HelperText from "../commons/HelperText"
+import InputField from "../commons/InputField"
 
-interface IProps {
+interface CountryNotListedModalProps {
   open: boolean
   handleContinue: () => void
   handleClose: () => void
 }
 
-const CountryNotListedModal = (props: IProps) => {
+const CountryNotListedModal = (props: CountryNotListedModalProps) => {
   type FormProps = typeof countryNotListedOptions.defaultValues
 
   const {
@@ -38,7 +39,7 @@ const CountryNotListedModal = (props: IProps) => {
   } = useForm<FormProps>(countryNotListedOptions)
 
   const onSubmit = (data: FormProps) => {
-    console.log("CountryNotListedModal Form Data", data)
+    console.log("Country Not Listed Modal Form Data", data)
     props.handleContinue()
   }
 
@@ -81,26 +82,21 @@ const CountryNotListedModal = (props: IProps) => {
             alignItems="center"
             sx={{ marginBottom: rem("40px") }}
           >
-            <StyledInputField
+            <InputField
               {...register("email")}
-              $isCentered
-              $centerInput
+              isCentered
+              centerInput
               mb="0"
-              $maxWidth="410px"
-              $minWidth="410px"
+              maxWidth="410px"
+              minWidth="410px"
               placeholder="Email Address"
               variant="outlined"
               error={!!errors.email}
             />
             {errors.email && (
-              <StyledHelperText
-                $isCentered
-                $marginLeft="0px"
-                $maxWidth="410px"
-                $minWidth="410px"
-              >
+              <HelperText isCentered ml="0" maxWidth="410px" minWidth="410px">
                 {errors.email.message}
-              </StyledHelperText>
+              </HelperText>
             )}
           </Box>
           <StyledCountryNotListedModalFormActions>

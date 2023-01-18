@@ -24,14 +24,14 @@ import useNavigate from "@/hooks/useNavigate"
 import { useCustomerAccountInfo } from "@/agent/customers"
 import { tabs, TabType } from "../AddCustomerPage/AddCustomersPage.data"
 import LoadingScreen from "../LoadingScreen"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-export interface ICustomerDetailPageProps extends IPageProps {
+export interface CustomerDetailPageProps extends PageProps {
   pk: string
   sk: string
 }
 
-const CustomerDetailPage: React.FC<ICustomerDetailPageProps> = ({
+const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
   pk,
   sk,
   ...params

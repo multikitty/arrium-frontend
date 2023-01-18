@@ -1,4 +1,4 @@
-export interface ICustomersListVariables {
+export interface CustomersListVariables {
   nextPage?: boolean
   sk?: string
   pk?: string
@@ -7,8 +7,7 @@ export interface ICustomersListVariables {
 }
 
 export type CustomerAccountStatus = "inActive" | "active" | "disabled"
-
-export interface ICustomersListDataItem {
+export interface CustomersListDataItem {
   phoneNumber: string
   currentSteps: string
   pkEmail: string
@@ -25,32 +24,32 @@ export interface ICustomersListDataItem {
   customerID: string
 }
 
-export interface ICustomersListDataLastEvaluatedKey {
+export interface CustomersListDataLastEvaluatedKey {
   pkEmail: string
   sk: string
   pk: string
   customerID: string
 }
 
-export interface ICustomersListData {
-  Items: ICustomersListDataItem[]
+export interface CustomersListData {
+  Items: CustomersListDataItem[]
   Count: number
   ScannedCount: number
-  LastEvaluatedKey: ICustomersListDataLastEvaluatedKey
+  LastEvaluatedKey: CustomersListDataLastEvaluatedKey
 }
 
-export interface ICustomersListResult {
+export interface CustomersListResult {
   message: string
   success: boolean
-  data?: ICustomersListData
+  data?: CustomersListData
 }
 
-export interface ICustomerAccountInfoVariables {
+export interface CustomerAccountInfoVariables {
   pk: string
   sk: string
 }
 
-export interface ICustomerAccountInfoData {
+export interface CustomerAccountInfoData {
   phoneNumber: string
   refCode: string
   countryCode: string
@@ -72,17 +71,17 @@ export interface ICustomerAccountInfoData {
   customerID: string
 }
 
-export interface ICustomerAccountInfoResult {
+export interface CustomerAccountInfoResult {
   message: string
   success: boolean
-  data?: ICustomerAccountInfoData
+  data?: CustomerAccountInfoData
 }
 
-export interface ICustomerConfigInfoVariables {
+export interface CustomerConfigInfoVariables {
   pk: string
 }
 
-export interface ICustomerConfigInfoData {
+export interface CustomerConfigInfoData {
   awsreg1: string
   awsreg2: string
   flexID: string
@@ -105,13 +104,13 @@ export interface ICustomerConfigInfoData {
   cogid2: string
 }
 
-export interface ICustomerConfigInfoResult {
+export interface CustomerConfigInfoResult {
   message: string
   success: boolean
-  data?: ICustomerConfigInfoData
+  data?: CustomerConfigInfoData
 }
 
-export interface IUpdateUserAccountInfoVariables {
+export interface UpdateUserAccountInfoVariables {
   userSK: string
   userPK: string
   firstname: string
@@ -127,16 +126,16 @@ export interface IUpdateUserAccountInfoVariables {
   passwordChangeRequest: boolean
 }
 
-export interface IUpdateUserAccountInfoError
-  extends IUpdateUserAccountInfoVariables {}
+export interface UpdateUserAccountInfoError
+  extends UpdateUserAccountInfoVariables {}
 
-export interface IUpdateUserAccountInfoResult {
+export interface UpdateUserAccountInfoResult {
   message: string
   success: boolean
-  validationError?: IUpdateUserAccountInfoError
+  validationError?: UpdateUserAccountInfoError
 }
 
-export interface IUpdateConfigurationDetailsVariables {
+export interface UpdateConfigurationDetailsVariables {
   userPk: string
   flexUser: string
   flexPassword: string
@@ -158,11 +157,11 @@ export interface IUpdateConfigurationDetailsVariables {
   blockType: string
 }
 
-export interface IUpdateConfigurationDetailsError
-  extends IUpdateConfigurationDetailsVariables {}
+export interface UpdateConfigurationDetailsError
+  extends UpdateConfigurationDetailsVariables {}
 
-export interface IUpdateConfigurationDetailsResult {
+export interface UpdateConfigurationDetailsResult {
   message: string
   success: boolean
-  validationError?: IUpdateConfigurationDetailsError
+  validationError?: UpdateConfigurationDetailsError
 }

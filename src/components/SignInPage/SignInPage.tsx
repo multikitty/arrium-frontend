@@ -10,11 +10,11 @@ import SigninSection from "@/components/SigninSection"
 import { devices } from "@/constants/device"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ISignInPageProps extends IPageProps {}
+interface SignInPageProps extends PageProps {}
 
-const SignInPage: React.FC<ISignInPageProps> = ({ country_code }) => {
+const SignInPage: React.FC<SignInPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
 

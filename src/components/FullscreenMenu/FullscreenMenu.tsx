@@ -23,9 +23,9 @@ import { driverNavigationData } from "./FullscreenMenu.data"
 import { Settings } from "@mui/icons-material"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-export interface IFullscreenMenuProps extends IPageProps {
+export interface FullscreenMenuProps extends PageProps {
   open: boolean
   handleFullscreenMenuClose: () => void
 }
@@ -34,7 +34,7 @@ const FullscreenMenu = ({
   open,
   handleFullscreenMenuClose,
   country_code,
-}: IFullscreenMenuProps) => {
+}: FullscreenMenuProps) => {
   const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { pathname } = useLocation()

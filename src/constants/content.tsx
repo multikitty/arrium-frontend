@@ -1,5 +1,4 @@
 import React from "react"
-import { availabilityStatusOptions } from "@/components/AvailabilityPage/AvailabilityPage.data"
 
 export const content = {
   page403: {

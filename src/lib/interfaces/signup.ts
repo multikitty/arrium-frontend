@@ -1,25 +1,25 @@
-export interface IRegistrationUserVariables {
+export interface RegistrationUserVariables {
   email: string
   password: string
   country: string
   refCode: string
 }
 
-export interface IRegistrationUserData {
+export interface RegistrationUserData {
   token: string
 }
 
-export interface IRegistrationUserValidationError
-  extends IRegistrationUserVariables {}
+export interface RegistrationUserValidationError
+  extends RegistrationUserVariables {}
 
-export interface IRegistrationUserResult {
+export interface RegistrationUserResult {
   message: string
   success: boolean
-  data?: IRegistrationUserData
-  validationError?: IRegistrationUserValidationError
+  data?: RegistrationUserData
+  validationError?: RegistrationUserValidationError
 }
 
-export interface IAccountInfoVariables {
+export interface AccountInfoVariables {
   firstname: string
   lastname: string
   country: string
@@ -28,37 +28,37 @@ export interface IAccountInfoVariables {
   tzName: string
 }
 
-export interface IAccountInfoValidationError extends IAccountInfoVariables {}
+export interface AccountInfoValidationError extends AccountInfoVariables {}
 
-export interface IAccountInfoResult {
+export interface AccountInfoResult {
   message: string
   success: boolean
-  validationError?: IAccountInfoValidationError
+  validationError?: AccountInfoValidationError
 }
 
-export interface IOtpConfirmationVariables {
+export interface OtpConfirmationVariables {
   otp: string
 }
 
-export interface IOtpConfirmationValidationError {
+export interface OtpConfirmationValidationError {
   otp?: string
 }
 
-export interface IOtpConfirmationResult {
+export interface OtpConfirmationResult {
   message: string
   success: boolean
-  validationError?: IOtpConfirmationValidationError
+  validationError?: OtpConfirmationValidationError
 }
 
-export interface IFlexInfoVariables {
+export interface FlexInfoVariables {
   amznFlexUser: string
   amznFlexPassword: string
 }
 
-export interface IFlexInfoValidationError extends Partial<IFlexInfoVariables> {}
+export interface FlexInfoValidationError extends Partial<FlexInfoVariables> {}
 
-export interface IFlexInfoResult {
+export interface FlexInfoResult {
   message: string
   success: boolean
-  validationError?: IFlexInfoValidationError
+  validationError?: FlexInfoValidationError
 }

@@ -1,5 +1,4 @@
 import React from "react"
-import { createDateInHM } from "@/utils"
 import { AutomationScheduleType } from "@/validation/automationSchedule"
 import { FormControl, TextField, TextFieldProps } from "@mui/material"
 import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"

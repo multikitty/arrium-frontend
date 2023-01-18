@@ -1,117 +1,117 @@
-export interface IPhoneModelListVariables {
+export interface PhoneModelListVariables {
   next_page?: boolean
   sk?: string
   pk?: string
 }
 
-export interface IPhoneModelListDataItem {
+export interface PhoneModelListDataItem {
   ModelID: string
   sk: string
   ModelName: string
   pk: string
 }
 
-export interface IPhoneModelListData {
-  Items: IPhoneModelListDataItem[]
+export interface PhoneModelListData {
+  Items: PhoneModelListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IPhoneModelListResult {
+export interface PhoneModelListResult {
   success: boolean
   message: string
-  data: IPhoneModelListData
-  validationError?: IPhoneModelListVariables
+  data: PhoneModelListData
+  validationError?: PhoneModelListVariables
 }
 
-export interface IAddPhoneModelVariables {
+export interface AddPhoneModelVariables {
   modelName: string
   modelId: string
 }
 
-export interface IAddPhoneModelResult {
+export interface AddPhoneModelResult {
   success: boolean
   message: string
-  validationError?: IAddPhoneModelVariables
+  validationError?: AddPhoneModelVariables
 }
 
-export interface IOsVersionListVariables {
+export interface OsVersionListVariables {
   next_page?: boolean
   sk?: string
   pk?: string
 }
 
-export interface IOsVersionListDataItem {
+export interface OsVersionListDataItem {
   sk: string
   osVersion: string
   pk: string
 }
 
-export interface IOsVersionListData {
-  Items: IOsVersionListDataItem[]
+export interface OsVersionListData {
+  Items: OsVersionListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IOsVersionListResult {
+export interface OsVersionListResult {
   success: boolean
   message: string
-  data: IOsVersionListData
-  validationError?: IOsVersionListVariables
+  data: OsVersionListData
+  validationError?: OsVersionListVariables
 }
 
-export interface IAddOsVersionVariables {
+export interface AddOsVersionVariables {
   osVersion: string
 }
 
-export interface IAddOsVersionResult {
+export interface AddOsVersionResult {
   success: boolean
   message: string
-  validationError?: IAddOsVersionVariables
+  validationError?: AddOsVersionVariables
 }
 
-export interface IFlexVersionListVariables {
+export interface FlexVersionListVariables {
   next_page?: boolean
   sk?: string
   pk?: string
 }
 
-export interface IFlexVersionListDataItem {
+export interface FlexVersionListDataItem {
   sk: string
   flexVersion: string
   pk: string
 }
 
-export interface IFlexVersionListData {
-  Items: IFlexVersionListDataItem[]
+export interface FlexVersionListData {
+  Items: FlexVersionListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IFlexVersionListResult {
+export interface FlexVersionListResult {
   success: boolean
   message: string
-  data: IFlexVersionListData
-  validationError?: IFlexVersionListVariables
+  data: FlexVersionListData
+  validationError?: FlexVersionListVariables
 }
 
-export interface IAddFlexVersionVariables {
+export interface AddFlexVersionVariables {
   flexVersion: string
 }
 
-export interface IAddFlexVersionResult {
+export interface AddFlexVersionResult {
   success: boolean
   message: string
-  validationError?: IAddFlexVersionVariables
+  validationError?: AddFlexVersionVariables
 }
 
-export interface IDeleteModelsAndVersionsVariables {
+export interface DeleteModelsAndVersionsVariables {
   deletePk: string
   deleteSk: string
 }
 
-export interface IDeleteModelsAndVersionsResult {
+export interface DeleteModelsAndVersionsResult {
   success: boolean
   message: string
-  validationError?: IDeleteModelsAndVersionsVariables
+  validationError?: DeleteModelsAndVersionsVariables
 }

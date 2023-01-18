@@ -51,12 +51,12 @@ const NoInvoices = () => (
   </Box>
 )
 
-interface IBillingTabProps {
+interface BillingTabProps {
   sk: string
   pk: string
 }
 
-const BillingTab: React.FC<IBillingTabProps> = ({ pk, sk }) => {
+const BillingTab: React.FC<BillingTabProps> = ({ pk, sk }) => {
   const { userStore } = useStore()
   const { data: stripeData, isLoading } = useInvoicesByAdmin({
     pk,

@@ -4,13 +4,13 @@ import Seo from "@/components/Seo"
 import AdminLayout from "@/components/AdminLayout"
 import TimezonesPage from "@/components/TimezonesPage"
 import { UserRoles } from "@/constants/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ITimezonesProps {
-  params: IPageProps
+interface TimezonesProps {
+  params: PageProps
 }
 
-const Timezones: React.FC<ITimezonesProps> = ({ params }) => {
+const Timezones: React.FC<TimezonesProps> = ({ params }) => {
   console.log("timezones props", params)
 
   return (

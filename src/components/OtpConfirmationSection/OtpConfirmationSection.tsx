@@ -23,19 +23,19 @@ import routes from "@/constants/routes"
 import useCountDown from "@/hooks/useCountDown"
 import { timeFromNowInMs } from "@/utils"
 import {
-  IOtpConfirmationResult,
-  IOtpConfirmationVariables,
+  OtpConfirmationResult,
+  OtpConfirmationVariables,
 } from "@/lib/interfaces/signup"
 import { confirmOtp } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 
 const THIRTY_SECONDS_FROM_NOW = timeFromNowInMs(30 * 1000)
 
-interface IOtpConfirmationSectionProps extends FormProps, IPageProps {}
+interface OtpConfirmationSectionProps extends FormProps, PageProps {}
 
-const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
+const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   setFormStage,
   stage,
   step,
@@ -53,9 +53,9 @@ const OtpConfirmationSection: React.FC<IOtpConfirmationSectionProps> = ({
   )
   const { minutes, seconds } = useCountDown(thirdSecondsFromNow)
   const { mutate } = useMutation<
-    IOtpConfirmationResult,
+    OtpConfirmationResult,
     Error,
-    IOtpConfirmationVariables
+    OtpConfirmationVariables
   >(confirmOtp)
 
   const handleNavigateToSignIn = () => {

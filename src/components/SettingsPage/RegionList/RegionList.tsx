@@ -3,16 +3,16 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
-import { IRegionListDataItem } from "@/lib/interfaces/locations"
+import { RegionListDataItem } from "@/lib/interfaces/locations"
 
-interface IProps {
-  data: IRegionListDataItem[]
+interface RegionListProps {
+  data: RegionListDataItem[]
   onDelete: (sk: string, pk: string, name: string) => void
-  onClick: (selectedRegion: IRegionListDataItem) => void
-  selectedRegion: IRegionListDataItem | null
+  onClick: (selectedRegion: RegionListDataItem) => void
+  selectedRegion: RegionListDataItem | null
 }
 
-const RegionList: React.FC<IProps> = ({
+const RegionList: React.FC<RegionListProps> = ({
   data,
   onDelete,
   onClick,

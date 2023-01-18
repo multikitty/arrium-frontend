@@ -13,14 +13,14 @@ import {
 } from "./SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
-import { IAddFlexVersionVariables } from "@/lib/interfaces/models"
+import { AddFlexVersionVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddFlexVersionVariables) => void
+interface AddFlexVersionModalProps extends ModalProps {
+  handleAdd: (variables: AddFlexVersionVariables) => void
 }
 
-const AddFlexVersionModal = (props: IProps) => {
+const AddFlexVersionModal = (props: AddFlexVersionModalProps) => {
   const [flexVersion, setFlexVersion] = useState("")
 
   const handleFlexVersionField: React.ChangeEventHandler<

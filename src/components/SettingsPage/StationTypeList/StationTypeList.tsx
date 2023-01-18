@@ -3,14 +3,17 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
-import { IStationTypeListDataItem } from "@/lib/interfaces/stationTypes"
+import { StationTypeListDataItem } from "@/lib/interfaces/stationTypes"
 
-interface IProps {
-  data: IStationTypeListDataItem[]
+interface StationTypeListProps {
+  data: StationTypeListDataItem[]
   onDelete: (sk: string, pk: string, name: string) => void
 }
 
-const StationTypeList: React.FC<IProps> = ({ data, onDelete }) => {
+const StationTypeList: React.FC<StationTypeListProps> = ({
+  data,
+  onDelete,
+}) => {
   return (
     <React.Fragment>
       {data.map(item => {

@@ -13,13 +13,13 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import pluralize from "pluralize"
 import { ModalProps } from "./SettingsPage.types"
 
-interface IProps extends ModalProps {
+interface DeleteConfirmationModalProps extends ModalProps {
   type: string
   name: string
   handleDelete: () => void
 }
 
-const DeleteConfirmationModal = (props: IProps) => {
+const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledDeleteConfirmationModal>

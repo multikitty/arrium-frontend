@@ -2,13 +2,13 @@ import * as React from "react"
 
 import Seo from "@/components/Seo"
 import _404Page from "@/components/404Page"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface I404Props {
-  params: IPageProps
+interface _404Props {
+  params: PageProps
 }
 
-const Error: React.FC<I404Props> = ({ params }) => (
+const Error: React.FC<_404Props> = ({ params }) => (
   <React.Fragment>
     <Seo title="404: Not found" />
     <_404Page country_code={params.country_code} />

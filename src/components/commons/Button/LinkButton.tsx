@@ -2,9 +2,9 @@ import React from "react"
 import { StyledLinkButton } from "./LinkButton.styled"
 import { ButtonProps } from "@mui/material/Button"
 
-interface IButtonProps extends ButtonProps {}
+interface LinkButtonProps extends ButtonProps {}
 
-const LinkButton = ({ children, ...props }: IButtonProps) => {
+const LinkButton = ({ children, ...props }: LinkButtonProps) => {
   return <StyledLinkButton {...props}>{children}</StyledLinkButton>
 }
 

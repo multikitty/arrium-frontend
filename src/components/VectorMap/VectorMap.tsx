@@ -4,7 +4,7 @@ import useWindowSize from "@/hooks/useWindowSize"
 import { lighten } from "polished"
 import { isBrowser } from "@/utils"
 
-interface IVectorMap {
+interface VectorMapProps {
   setSelectedRegion:
     | React.Dispatch<React.SetStateAction<string>>
     | ((region: string) => void)
@@ -15,7 +15,7 @@ interface IVectorMap {
   width?: string | number
 }
 
-const VectorMap: React.FC<IVectorMap> = ({
+const VectorMap: React.FC<VectorMapProps> = ({
   setSelectedRegion,
   zoomOnScroll = false,
   regionsSelectable = true,

@@ -6,7 +6,6 @@ import {
   StyledSubscriptionPageContent,
   StyledSubscriptionPageHeaderContainer,
 } from "./SubscriptionPage.styled"
-import { Box } from "@mui/material"
 
 import { rem } from "polished"
 import { StyledTabs, StyledTab } from "../commons/uiComponents"
@@ -17,9 +16,10 @@ import {
   SubscriptionPageTab,
   SUBSCRIPTION_PAGE_TABS,
 } from "./SubscriptionPage.data"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
+import { Box } from "@mui/material"
 
-interface ISubscriptionPageProps extends IPageProps {}
+interface ISubscriptionPageProps extends PageProps {}
 
 const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
   country_code,

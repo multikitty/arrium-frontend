@@ -1,11 +1,8 @@
-import { WeekType } from "@/components/AvailabilityPage/AvailabilityPage.data"
-
-export interface ISetPrefrencesVariables {
-  preferences: Array<ISetPrefrencesVariableData>
-  days: WeekType[]
+export interface SetPrefrencesVariables {
+  preferences: Array<SetPrefrencesVariableData>
 }
 
-export interface ISetPrefrencesVariableData {
+export interface SetPrefrencesVariableData {
   stationCode: string
   regionId: string
   stationId: string
@@ -18,24 +15,24 @@ export interface ISetPrefrencesVariableData {
   active: string
 }
 
-export interface ISetPrefrencesResult {
+export interface SetPrefrencesResult {
   message: string
   success: boolean
   data?: Array<any>
 }
 
-export interface IGetPrefrencesResult {
+export interface GetPrefrencesResult {
   message: string
   success: boolean
-  data?: Array<IGetPrefrencesResultData>
+  data?: Array<GetPrefrencesResultData>
 }
 
-export interface IGetPrefrencesResultData {
-  station: IGetPreferencesStationResult
-  preference: IGetPreferencesPreferenceResult
+export interface GetPrefrencesResultData {
+  station: GetPreferencesStationResult
+  preference: GetPreferencesPreferenceResult
 }
 
-export interface IGetPreferencesStationResult {
+export interface GetPreferencesStationResult {
   stationCode: string
   stationType: string
   stationID: string
@@ -47,7 +44,7 @@ export interface IGetPreferencesStationResult {
   regionID: string
 }
 
-export interface IGetPreferencesPreferenceResult {
+export interface GetPreferencesPreferenceResult {
   bDay: string
   tta: string
   active: string
@@ -61,13 +58,13 @@ export interface IGetPreferencesPreferenceResult {
   regionID: string
 }
 
-export interface IGetPrefrencesScheduleResult {
+export interface GetPrefrencesScheduleResult {
   message: string
   success: boolean
-  data?: Array<IGetPrefrencesScheduleResultData>
+  data?: Array<GetPrefrencesScheduleResultData>
 }
 
-export interface IGetPrefrencesScheduleResultData {
+export interface GetPrefrencesScheduleResultData {
   startTime: string
   sk: string
   active: boolean
@@ -75,11 +72,11 @@ export interface IGetPrefrencesScheduleResultData {
   pk: string
 }
 
-export interface ISetPrefrencesScheduleVariables {
-  schedules: Array<ISetPrefrencesScheduleVariableData>
+export interface SetPrefrencesScheduleVariables {
+  schedules: Array<SetPrefrencesScheduleVariableData>
 }
 
-export interface ISetPrefrencesScheduleVariableData {
+export interface SetPrefrencesScheduleVariableData {
   day: string
   startTime: string
   active: boolean

@@ -1,3 +1,3 @@
-export interface IPageProps {
+export interface PageProps {
   country_code: string
 }

@@ -44,9 +44,9 @@ import {
   useMutation,
 } from "react-query"
 import {
-  ICustomerAccountInfoResult,
-  IUpdateUserAccountInfoResult,
-  IUpdateUserAccountInfoVariables,
+  CustomerAccountInfoResult,
+  UpdateUserAccountInfoResult,
+  UpdateUserAccountInfoVariables,
 } from "@/lib/interfaces/customers"
 import { updateUserAccountInfo } from "@/agent/customers"
 import { useSnackbar } from "notistack"
@@ -81,12 +81,12 @@ const radioOptions = [
   },
 ]
 
-export interface ITabProps {
+export interface TabProps {
   handleSave: () => void
   handleCancel: () => void
 }
 
-interface IAccountInformationTabProps extends ITabProps {
+interface AccountInformationTabProps extends TabProps {
   customerID: string
   dialCode: string
   phoneNumber: string
@@ -103,20 +103,20 @@ interface IAccountInformationTabProps extends ITabProps {
   pk: string
   refetchCustomerData: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<ICustomerAccountInfoResult, unknown>>
+  ) => Promise<QueryObserverResult<CustomerAccountInfoResult, unknown>>
   isLoading: boolean
 }
 
-const AccountInformationTab = (props: IAccountInformationTabProps) => {
+const AccountInformationTab = (props: AccountInformationTabProps) => {
   const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const { enqueueSnackbar } = useSnackbar()
   const { messageStore, userStore } = useStore()
   const { mutate, isLoading } = useMutation<
-    IUpdateUserAccountInfoResult,
+    UpdateUserAccountInfoResult,
     Error,
-    IUpdateUserAccountInfoVariables
+    UpdateUserAccountInfoVariables
   >(updateUserAccountInfo)
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
@@ -145,7 +145,7 @@ const AccountInformationTab = (props: IAccountInformationTabProps) => {
   const onSubmit = async (data: formPropType) => {
     const startDate = +new Date(data.startDate as unknown as string) / 1000 // converting to a timestamp of seconds and not ms
     const endDate = data.endDate ? +new Date(data.endDate) / 1000 : null
-    const mutationParams: IUpdateUserAccountInfoVariables = {
+    const mutationParams: UpdateUserAccountInfoVariables = {
       email: data.email,
       emailVerified: data.isEmailVerified,
       endDate,

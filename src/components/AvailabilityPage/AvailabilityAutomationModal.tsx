@@ -2,17 +2,11 @@ import React, { useEffect } from "react"
 import { IconButton, Modal, Box } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import DeleteIconActive from "@/assets/icons/delete_icon.inline.svg"
-import DeleteIconInactive from "@/assets/icons/delete_icon_disabled.inline.svg"
 import { FormProvider, useForm } from "react-hook-form"
 import { useMutation } from "react-query"
-import {
-  StyledAddCountryModalCloseIconContainer as StyledAvailablityAutomationModalCloseIconContainer,
-  StyledAddCountryModalFormActions as StyledAvailablityAutomationModalFormActions,
-  StyledDeleteConfirmationModalSubTitle,
-} from "@/components/SettingsPage/SettingsPage.styled"
+import { StyledAddCountryModalCloseIconContainer as StyledAvailablityAutomationModalCloseIconContainer } from "@/components/SettingsPage/SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import {
-  StyledAvailablityAutomationDeleteButton,
   StyledAvailablityAutomationModal,
   StyledAvailablityAutomationModalTitle,
   StyledAvailablityAutomationModalTitleDesc,
@@ -25,11 +19,11 @@ import {
 } from "@/validation/automationSchedule"
 import AutomationScheduleTable from "./AutomationScheduleTable"
 import { scheduleDataInitialValues } from "./AutomationSchedule.data"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import {
-  IGetPrefrencesScheduleResult,
-  IGetPrefrencesScheduleResultData,
-  ISetPrefrencesScheduleVariables,
+  GetPrefrencesScheduleResult,
+  GetPrefrencesScheduleResultData,
+  SetPrefrencesScheduleVariables,
 } from "@/lib/interfaces/prefrences"
 import {
   setPrefrencesSchedule,
@@ -38,12 +32,12 @@ import {
 import { FormValuesAutomationSchedule } from "./AvailablityPage.types"
 import { createDateInHM } from "@/utils"
 
-interface IAutomationScheduleProps extends IPageProps {
+interface AutomationScheduleProps extends PageProps {
   open: boolean
   handleClose: () => void
 }
 
-const AvailabilityAutomationModal: React.FC<IAutomationScheduleProps> = ({
+const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
   open,
   handleClose,
 }) => {
@@ -61,7 +55,7 @@ const AvailabilityAutomationModal: React.FC<IAutomationScheduleProps> = ({
     if (open === true) {
       fetchPreferencesSchedule().then(res => {
         methods.reset({
-          data: res?.data?.map((value: IGetPrefrencesScheduleResultData) => ({
+          data: res?.data?.map((value: GetPrefrencesScheduleResultData) => ({
             startTime: createDateInHM(
               Number(value.startTime.split(":")[0]),
               Number(value.startTime.split(":")[1])
@@ -81,9 +75,9 @@ const AvailabilityAutomationModal: React.FC<IAutomationScheduleProps> = ({
   }
 
   const { mutate } = useMutation<
-    IGetPrefrencesScheduleResult,
+    GetPrefrencesScheduleResult,
     Error,
-    ISetPrefrencesScheduleVariables
+    SetPrefrencesScheduleVariables
   >(setPrefrencesSchedule)
 
   const onSubmit = async (schedules: FormValuesAutomationSchedule) => {

@@ -19,9 +19,9 @@ import { Controller, useForm, useWatch } from "react-hook-form"
 import { StyledPlaceholder } from "../commons/uiComponents"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { Script } from "gatsby"
-import { ITabProps } from "../CustomerDetailPage/AccountInformationTab"
+import { TabProps } from "../CustomerDetailPage/AccountInformationTab"
 
-interface IConfigurationTabProps extends ITabProps {}
+interface IConfigurationTabProps extends TabProps {}
 
 const ConfigurationTab = (props: IConfigurationTabProps) => {
   // const { enqueueSnackbar } = useSnackbar()

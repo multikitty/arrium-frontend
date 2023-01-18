@@ -23,10 +23,10 @@ import {
   StyledReferralTabFormLabel,
 } from "./CustomerDetailPage.styled"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { ITabProps } from "./AccountInformationTab"
+import { TabProps } from "./AccountInformationTab"
 import { subDays } from "date-fns"
 
-const ReferralTab = (props: ITabProps) => {
+const ReferralTab = (props: TabProps) => {
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const [dateGenerated, setDateGenerated] = React.useState<Date>(

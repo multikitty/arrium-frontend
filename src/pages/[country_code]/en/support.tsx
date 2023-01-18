@@ -4,13 +4,13 @@ import Seo from "@/components/Seo"
 import DriverLayout from "@/components/DriverLayout"
 import SupportPage from "@/components/SupportPage"
 import { UserRoles } from "@/constants/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ISupportProps {
-  params: IPageProps
+interface SupportProps {
+  params: PageProps
 }
 
-const Support: React.FC<ISupportProps> = ({ params }) => {
+const Support: React.FC<SupportProps> = ({ params }) => {
   console.log("support props", params)
 
   return (

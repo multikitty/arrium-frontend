@@ -30,14 +30,14 @@ import routes from "@/constants/routes"
 import { requestEmailVerify, updateProfile, useCurrentUser } from "@/agent/user"
 import LoadingScreen from "../LoadingScreen"
 import {
-  IRequestEmailVerifyResult,
-  IRequestEmailVerifyVariables,
-  IUpdateProfileResult,
-  IUpdateProfileVariables,
+  RequestEmailVerifyResult,
+  RequestEmailVerifyVariables,
+  UpdateProfileResult,
+  UpdateProfileVariables,
 } from "@/lib/interfaces/user"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -60,9 +60,9 @@ const useStyles = makeStyles({
   },
 })
 
-interface IProfileTabContentProps extends IPageProps {}
+interface ProfileTabContentProps extends PageProps {}
 
-const ProfileTabContent: React.FC<IProfileTabContentProps> = ({
+const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   country_code,
 }) => {
   const classes = useStyles()
@@ -71,14 +71,14 @@ const ProfileTabContent: React.FC<IProfileTabContentProps> = ({
   const { userStore } = useStore()
   const { data: userData, isLoading, refetch } = useCurrentUser()
   const { mutate: updateProfileMutate } = useMutation<
-    IUpdateProfileResult,
+    UpdateProfileResult,
     Error,
-    IUpdateProfileVariables
+    UpdateProfileVariables
   >(updateProfile)
   const { mutate: requestEmailVerifyMutate } = useMutation<
-    IRequestEmailVerifyResult,
+    RequestEmailVerifyResult,
     Error,
-    IRequestEmailVerifyVariables
+    RequestEmailVerifyVariables
   >(requestEmailVerify)
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
@@ -119,7 +119,7 @@ const ProfileTabContent: React.FC<IProfileTabContentProps> = ({
     setIsNameEditEnabled(false)
   }
 
-  const updateProfileMutation = async (params: IUpdateProfileVariables) => {
+  const updateProfileMutation = async (params: UpdateProfileVariables) => {
     await updateProfileMutate(
       { fieldName: params.fieldName, fieldValue: params.fieldValue },
       {

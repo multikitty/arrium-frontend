@@ -37,11 +37,11 @@ import { useSearchedBlocks } from "@/agent/availability"
 import socketIOClient from "socket.io-client"
 import currencyCodeToCurrencySymbol from "@/utils/currencyCodeToCurrencySymbol"
 
-interface IProps {
+interface AvailabilityTableProps {
   tab: AvailabilityTableTabType
 }
 
-const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
+const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
   const isWebView = useMediaQuery(devices.web.up)
   const { userStore } = useStore()
   const { data: searchedBlocksData } = useSearchedBlocks()

@@ -16,11 +16,11 @@ import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
-interface IProps extends ModalProps {
+interface AddBlockTypeModalProps extends ModalProps {
   handleAdd: (blockType: string) => void
 }
 
-const AddBlockTypeModal = (props: IProps) => {
+const AddBlockTypeModal = (props: AddBlockTypeModalProps) => {
   const [blockType, setBlockType] = useState("")
 
   const handleBlockTypeField: React.ChangeEventHandler<

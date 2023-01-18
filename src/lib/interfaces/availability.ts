@@ -1,4 +1,4 @@
-export interface IGetAvailabilityTableResult {
+export interface GetAvailabilityTableResult {
   message: string
   success: boolean
   data?: Array<AvailabilityTableData>

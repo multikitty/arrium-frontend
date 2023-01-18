@@ -12,26 +12,26 @@ import {
   StyledAddCountryModalTitle as StyledAddStationModalTitle,
 } from "./SettingsPage.styled"
 import {
-  IAddStationVariables,
-  ICountryListDataItem,
-  IRegionListDataItem,
+  AddStationVariables,
+  CountryListDataItem,
+  RegionListDataItem,
 } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFieldLabel } from "../commons/uiComponents"
 import { StationFieldName } from "./LocationsTab"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddStationVariables) => void
+interface AddStationAddressModalProps extends ModalProps {
+  handleAdd: (variables: AddStationVariables) => void
   handleClearFields: () => void
   handleGoBack: () => void
-  countries: ICountryListDataItem[]
-  regions: IRegionListDataItem[]
-  stationData: Required<IAddStationVariables>
+  countries: CountryListDataItem[]
+  regions: RegionListDataItem[]
+  stationData: Required<AddStationVariables>
   handleStationField: (name: StationFieldName, value: string) => void
 }
 
-const AddStationAddressModal = (props: IProps) => {
+const AddStationAddressModal = (props: AddStationAddressModalProps) => {
   const handleAddressLine1Field: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = e => {

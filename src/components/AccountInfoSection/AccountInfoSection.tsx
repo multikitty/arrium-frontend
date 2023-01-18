@@ -14,7 +14,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledFieldLabel,
-  StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
@@ -28,12 +27,12 @@ import { CountryData as CountryDataType } from "@/utils/getCountryData"
 import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
 import routes from "@/constants/routes"
 import {
-  IAccountInfoResult,
-  IAccountInfoVariables,
+  AccountInfoResult,
+  AccountInfoVariables,
 } from "@/lib/interfaces/signup"
 import { updateAccountInfo } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { useGeolocation } from "@/agent/geolocation"
 import LoadingScreen from "../LoadingScreen"
 import { getFilteredCountries } from "@/utils/getCountryData"
@@ -41,6 +40,7 @@ import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
 import { AccountInfoData } from "../SignUpPage/SignUpPage"
+import InputField from "../commons/InputField"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -66,11 +66,11 @@ const useStyles = makeStyles({
   },
 })
 
-interface IAccountInfoSection extends FormProps, IPageProps {
+interface AccountInfoSection extends FormProps, PageProps {
   data: AccountInfoData | null
 }
 
-const AccountInfoSection: React.FC<IAccountInfoSection> = ({
+const AccountInfoSection: React.FC<AccountInfoSection> = ({
   setFormStage,
   stage,
   step,
@@ -102,9 +102,9 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   )
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
   const { mutate } = useMutation<
-    IAccountInfoResult,
+    AccountInfoResult,
     Error,
-    IAccountInfoVariables
+    AccountInfoVariables
   >(updateAccountInfo)
   const { data: geolocationData, isLoading } = useGeolocation()
 
@@ -116,7 +116,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     e.preventDefault()
     const phoneNumber = phoneNo.slice(dialCode.length || 0)
 
-    const variables: IAccountInfoVariables = {
+    const variables: AccountInfoVariables = {
       country: country?.countryShortName
         ? country?.countryShortName.toUpperCase()
         : DEFAULT_COUNTRY.toUpperCase(),
@@ -207,7 +207,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
             </StyledCardHeader>
           </Box>
           <StyledFieldLabel $isHidden={!firstName}>First Name</StyledFieldLabel>
-          <StyledInputField
+          <InputField
             type="text"
             placeholder="First Name"
             variant="outlined"
@@ -216,7 +216,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
             required
           />
           <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
-          <StyledInputField
+          <InputField
             type="text"
             placeholder="Surname"
             variant="outlined"
@@ -290,14 +290,14 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
             <StyledFieldLabel $isHidden={!firstName}>
               First Name
             </StyledFieldLabel>
-            <StyledInputField
+            <InputField
               placeholder="First Name"
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               variant="outlined"
             />
             <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
-            <StyledInputField
+            <InputField
               placeholder="Surname"
               value={surName}
               onChange={e => setSurName(e.target.value)}

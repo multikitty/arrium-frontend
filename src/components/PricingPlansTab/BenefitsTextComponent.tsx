@@ -8,13 +8,15 @@ import {
 } from "./PricingPlansTab.styled"
 import theme from "@/theme"
 
-interface IProps {
+interface BenefitsTextComponentProps {
   iconColor: string | null
   status: boolean | string
   benefits: string
 }
 
-export default function BenefitsTextComponent(props: IProps) {
+export default function BenefitsTextComponent(
+  props: BenefitsTextComponentProps
+) {
   return (
     <>
       <Box sx={{ display: "flex", paddingBottom: "16px" }}>

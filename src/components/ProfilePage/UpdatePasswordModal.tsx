@@ -16,13 +16,13 @@ import {
 import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
 
-interface IProps {
+interface UpdatePasswordModalProps {
   open: boolean
   handleClose: () => void
   handleSave: () => void
 }
 
-const ChangePasswordModal = (props: IProps) => {
+const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
   const { userStore } = useStore()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 

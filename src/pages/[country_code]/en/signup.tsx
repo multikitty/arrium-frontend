@@ -2,13 +2,13 @@ import React from "react"
 
 import Seo from "@/components/Seo"
 import SignUpPage from "@/components/SignUpPage"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ISignupProps {
-  params: IPageProps
+interface SignupProps {
+  params: PageProps
 }
 
-const Signup: React.FC<ISignupProps> = ({ params }) => {
+const Signup: React.FC<SignupProps> = ({ params }) => {
   return (
     <React.Fragment>
       <Seo title="Sign Up | Arrium" />

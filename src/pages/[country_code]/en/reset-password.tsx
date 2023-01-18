@@ -2,13 +2,13 @@ import * as React from "react"
 
 import Seo from "@/components/Seo"
 import ResetPasswordPage from "@/components/ResetPasswordPage"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IResetPasswordProps {
-  params: IPageProps
+interface ResetPasswordProps {
+  params: PageProps
 }
 
-const ResetPassword: React.FC<IResetPasswordProps> = ({ params }) => (
+const ResetPassword: React.FC<ResetPasswordProps> = ({ params }) => (
   <React.Fragment>
     <Seo title="Reset Password | Arrium" />
     <ResetPasswordPage country_code={params.country_code} />

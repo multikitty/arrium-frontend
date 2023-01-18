@@ -33,14 +33,14 @@ import OsVersionList from "./OsVersionList"
 import FlexVersionList from "./FlexVersionList"
 import { useMutation } from "react-query"
 import {
-  IAddFlexVersionResult,
-  IAddFlexVersionVariables,
-  IAddOsVersionResult,
-  IAddOsVersionVariables,
-  IAddPhoneModelResult,
-  IAddPhoneModelVariables,
-  IDeleteModelsAndVersionsResult,
-  IDeleteModelsAndVersionsVariables,
+  AddFlexVersionResult,
+  AddFlexVersionVariables,
+  AddOsVersionResult,
+  AddOsVersionVariables,
+  AddPhoneModelResult,
+  AddPhoneModelVariables,
+  DeleteModelsAndVersionsResult,
+  DeleteModelsAndVersionsVariables,
 } from "@/lib/interfaces/models"
 import { useSnackbar } from "notistack"
 
@@ -82,24 +82,24 @@ const ModelsTab = () => {
   } = useFlexVersionList()
 
   const { mutate: addPhoneModelMutate } = useMutation<
-    IAddPhoneModelResult,
+    AddPhoneModelResult,
     Error,
-    IAddPhoneModelVariables
+    AddPhoneModelVariables
   >(addPhoneModel)
   const { mutate: addOsVersionMutate } = useMutation<
-    IAddOsVersionResult,
+    AddOsVersionResult,
     Error,
-    IAddOsVersionVariables
+    AddOsVersionVariables
   >(addOsVersion)
   const { mutate: addFlexVersionMutate } = useMutation<
-    IAddFlexVersionResult,
+    AddFlexVersionResult,
     Error,
-    IAddFlexVersionVariables
+    AddFlexVersionVariables
   >(addFlexVersion)
   const { mutate: deleteModelsAndVersionsMutate } = useMutation<
-    IDeleteModelsAndVersionsResult,
+    DeleteModelsAndVersionsResult,
     Error,
-    IDeleteModelsAndVersionsVariables
+    DeleteModelsAndVersionsVariables
   >(deleteModelsAndVersions)
 
   const handleAddPhoneModelModalOpen = () => {
@@ -146,7 +146,7 @@ const ModelsTab = () => {
     setFlexVersionSearchQuery(e.target.value)
   }
 
-  const handleAddPhoneModel = (variables: IAddPhoneModelVariables) => {
+  const handleAddPhoneModel = (variables: AddPhoneModelVariables) => {
     addPhoneModelMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -170,7 +170,7 @@ const ModelsTab = () => {
     handleAddPhoneModelModalClose()
   }
 
-  const handleAddOsVersion = (variables: IAddOsVersionVariables) => {
+  const handleAddOsVersion = (variables: AddOsVersionVariables) => {
     addOsVersionMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -191,7 +191,7 @@ const ModelsTab = () => {
     handleAddOSVersionModalClose()
   }
 
-  const handleAddFlexVersion = (variables: IAddFlexVersionVariables) => {
+  const handleAddFlexVersion = (variables: AddFlexVersionVariables) => {
     addFlexVersionMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -213,7 +213,7 @@ const ModelsTab = () => {
   }
 
   const handleDeleteModelsAndVersions = (
-    variables: IDeleteModelsAndVersionsVariables
+    variables: DeleteModelsAndVersionsVariables
   ) => {
     deleteModelsAndVersionsMutate(variables, {
       onSuccess({ success, message, validationError }) {

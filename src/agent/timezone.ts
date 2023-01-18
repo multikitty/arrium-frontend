@@ -1,7 +1,7 @@
 import { useQuery } from "react-query"
 import { getTimezoneAPI, listTimezoneAPI } from "./axios"
 
-export interface ITimezone {
+export interface Timezone {
   countryCode: string
   countryName: string
   gmtOffset: number
@@ -9,13 +9,13 @@ export interface ITimezone {
   zoneName: string
 }
 
-export interface IFetchTimezonesByCountryResult {
+export interface FetchTimezonesByCountryResult {
   message: string
   status: string
-  zones: ITimezone[]
+  zones: Timezone[]
 }
 
-export interface IFetchTimezoneByZoneResult {
+export interface FetchTimezoneByZoneResult {
   gmtOffset: number
   message: string
   status: string
@@ -26,7 +26,7 @@ export interface IFetchTimezoneByZoneResult {
 
 function fetchTimezonesByCountry(
   country: string
-): Promise<IFetchTimezonesByCountryResult> {
+): Promise<FetchTimezonesByCountryResult> {
   return listTimezoneAPI
     .get("", { params: { country } })
     .then(response => response.data)
@@ -40,9 +40,7 @@ export function useTimezonesByCountry(country: string | null) {
   )
 }
 
-function fetchTimezoneByZone(
-  zone: string
-): Promise<IFetchTimezoneByZoneResult> {
+function fetchTimezoneByZone(zone: string): Promise<FetchTimezoneByZoneResult> {
   return getTimezoneAPI
     .get("", { params: { zone } })
     .then(response => response.data)

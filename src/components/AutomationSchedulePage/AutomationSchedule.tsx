@@ -22,11 +22,11 @@ import { scheduleDataInitialValues } from "./AutomationSchedule.data"
 import AutomationScheduleTable from "./AutomationScheduleTable"
 import { useSnackbar } from "notistack"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IAutomationScheduleProps extends IPageProps {}
+interface AutomationScheduleProps extends PageProps {}
 
-const AutomationSchedulePage: React.FC<IAutomationScheduleProps> = ({
+const AutomationSchedulePage: React.FC<AutomationScheduleProps> = ({
   country_code,
 }) => {
   const { navigate } = useNavigate({ country_code })

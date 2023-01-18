@@ -1,4 +1,4 @@
-const mockTimezoneData: Record<string, IMockTimezone[]> = {
+const mockTimezoneData: Record<string, MockTimezone[]> = {
   ES: [
     {
       countryCode: "ES",
@@ -37,7 +37,7 @@ const mockTimezoneData: Record<string, IMockTimezone[]> = {
   ],
 }
 
-export interface IMockTimezone {
+export interface MockTimezone {
   countryCode: string
   countryName: string
   zoneName: string

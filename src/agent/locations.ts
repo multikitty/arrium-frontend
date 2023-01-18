@@ -1,43 +1,43 @@
 import {
-  IAddCountryResult,
-  IAddCountryVariables,
-  IAddRegionResult,
-  IAddRegionVariables,
-  IAddStationResult,
-  IAddStationVariables,
-  ICountryListResult,
-  IDeleteCountryResult,
-  IDeleteCountryVariables,
-  IDeleteRegionResult,
-  IDeleteRegionVariables,
-  IDeleteStationResult,
-  IDeleteStationVariables,
-  IRegionListResult,
-  IRegionListVariables,
-  IStationListResult,
-  IStationListVariables,
+  AddCountryResult,
+  AddCountryVariables,
+  AddRegionResult,
+  AddRegionVariables,
+  AddStationResult,
+  AddStationVariables,
+  CountryListResult,
+  DeleteCountryResult,
+  DeleteCountryVariables,
+  DeleteRegionResult,
+  DeleteRegionVariables,
+  DeleteStationResult,
+  DeleteStationVariables,
+  RegionListResult,
+  RegionListVariables,
+  StationListResult,
+  StationListVariables,
 } from "@/lib/interfaces/locations"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
-export function fetchCountryList(): Promise<ICountryListResult> {
+export function fetchCountryList(): Promise<CountryListResult> {
   return arriumAPI.get("/location/country").then(response => response.data)
 }
 
 export function useCountryList() {
-  return useQuery("country-list", () => fetchCountryList())
+  return useQuery<CountryListResult>("country-list", () => fetchCountryList())
 }
 
 export function fetchRegionList(
-  country_code: IRegionListVariables["country_code"]
-): Promise<IRegionListResult> {
+  country_code: RegionListVariables["country_code"]
+): Promise<RegionListResult> {
   return arriumAPI
     .get("/location/region", { params: { coutnry_code: country_code } })
     .then(response => response.data)
 }
 
 export function useRegionList(
-  country_code: IRegionListVariables["country_code"]
+  country_code: RegionListVariables["country_code"]
 ) {
   return useQuery(
     ["region-list", country_code],
@@ -49,17 +49,17 @@ export function useRegionList(
 }
 
 export function fetchStationList(
-  countryCode: IStationListVariables["countryCode"],
-  regionCode: IStationListVariables["regionCode"]
-): Promise<IStationListResult> {
+  countryCode: StationListVariables["countryCode"],
+  regionCode: StationListVariables["regionCode"]
+): Promise<StationListResult> {
   return arriumAPI
     .get("/location/station", { params: { countryCode, regionCode } })
     .then(response => response.data)
 }
 
 export function useStationList(
-  countryCode: IStationListVariables["countryCode"],
-  regionCode: IStationListVariables["regionCode"]
+  countryCode: StationListVariables["countryCode"],
+  regionCode: StationListVariables["regionCode"]
 ) {
   return useQuery(
     ["station-list", countryCode, regionCode],
@@ -71,8 +71,8 @@ export function useStationList(
 }
 
 export const addCountry: MutationFunction<
-  IAddCountryResult,
-  IAddCountryVariables
+  AddCountryResult,
+  AddCountryVariables
 > = async params => {
   return await (
     await arriumAPI.post("/location/country", params)
@@ -80,26 +80,24 @@ export const addCountry: MutationFunction<
 }
 
 export const deleteCountry: MutationFunction<
-  IDeleteCountryResult,
-  IDeleteCountryVariables
+  DeleteCountryResult,
+  DeleteCountryVariables
 > = async params => {
   return await (
     await arriumAPI.delete("/location/country", { data: params })
   ).data
 }
 
-export const addRegion: MutationFunction<
-  IAddRegionResult,
-  IAddRegionVariables
-> = async params => {
-  return await (
-    await arriumAPI.post("/location/region", params)
-  ).data
-}
+export const addRegion: MutationFunction<AddRegionResult, AddRegionVariables> =
+  async params => {
+    return await (
+      await arriumAPI.post("/location/region", params)
+    ).data
+  }
 
 export const deleteRegion: MutationFunction<
-  IDeleteRegionResult,
-  IDeleteRegionVariables
+  DeleteRegionResult,
+  DeleteRegionVariables
 > = async params => {
   return await (
     await arriumAPI.delete("/location/region", { data: params })
@@ -107,8 +105,8 @@ export const deleteRegion: MutationFunction<
 }
 
 export const addStation: MutationFunction<
-  IAddStationResult,
-  IAddStationVariables
+  AddStationResult,
+  AddStationVariables
 > = async params => {
   return await (
     await arriumAPI.post("/location/station", params)
@@ -116,8 +114,8 @@ export const addStation: MutationFunction<
 }
 
 export const deleteStation: MutationFunction<
-  IDeleteStationResult,
-  IDeleteStationVariables
+  DeleteStationResult,
+  DeleteStationVariables
 > = async params => {
   return await (
     await arriumAPI.delete("/location/station", { data: params })

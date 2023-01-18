@@ -1,11 +1,11 @@
-export interface IForgotPasswordVariables {
+export interface ForgotPasswordVariables {
   email: string
 }
 
-export interface IForgotPasswordError extends IForgotPasswordVariables {}
+export interface ForgotPasswordError extends ForgotPasswordVariables {}
 
-export interface IForgotPasswordResult {
+export interface ForgotPasswordResult {
   message: string
   success: boolean
-  validationError?: IForgotPasswordError
+  validationError?: ForgotPasswordError
 }

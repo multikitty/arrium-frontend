@@ -1,13 +1,10 @@
-import {
-  ISigninUserResult,
-  ISigninUserVariables,
-} from "@/lib/interfaces/signin"
+import { SigninUserResult, SigninUserVariables } from "@/lib/interfaces/signin"
 import { MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
 
 export const signinUser: MutationFunction<
-  ISigninUserResult,
-  ISigninUserVariables
+  SigninUserResult,
+  SigninUserVariables
 > = async signinData => {
   return await (
     await arriumAPI.post("/signin", signinData)

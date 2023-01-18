@@ -1,6 +1,6 @@
 import { RegistrationStepsType } from "@/types/common"
 
-export interface ICurrentUserData {
+export interface CurrentUserData {
   phoneNumber: string
   refCode: string
   country: string
@@ -21,38 +21,38 @@ export interface ICurrentUserData {
   customerID: string
 }
 
-export interface ICurrentUserResult {
+export interface CurrentUserResult {
   message: string
   success: boolean
-  data?: ICurrentUserData
+  data?: CurrentUserData
 }
 
-export interface IUpdateProfileVariables {
+export interface UpdateProfileVariables {
   fieldName: "firstname" | "lastname" | "phoneNumber" | "tzName"
   fieldValue: string
 }
 
-export interface IUpdateProfileError {
+export interface UpdateProfileError {
   fieldName: string
   fieldValue: string
 }
 
-export interface IUpdateProfileResult {
+export interface UpdateProfileResult {
   message: string
   success: boolean
-  validationError?: IUpdateProfileError
+  validationError?: UpdateProfileError
 }
 
-export interface IRequestEmailVerifyVariables {
+export interface RequestEmailVerifyVariables {
   email: string
 }
 
-export interface IRequestEmailVerifyError {
+export interface RequestEmailVerifyError {
   email: string
 }
 
-export interface IRequestEmailVerifyResult {
+export interface RequestEmailVerifyResult {
   message: string
   success: boolean
-  validationError?: IRequestEmailVerifyError
+  validationError?: RequestEmailVerifyError
 }

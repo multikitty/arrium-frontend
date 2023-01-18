@@ -17,7 +17,7 @@ import { CountryData } from "@/utils/getCountryData"
 import { useTimezonesByCountry } from "@/agent/timezone"
 import { StyledFieldLabel } from "../commons/uiComponents"
 
-export interface IProps {
+interface TimezoneModalProps {
   open: boolean
   handleClose: () => void
   _country?: CountryData
@@ -25,7 +25,7 @@ export interface IProps {
   label?: "Add new Timezone" | "Edit Timezone"
 }
 
-const TimezoneModal: React.FC<IProps> = ({
+const TimezoneModal: React.FC<TimezoneModalProps> = ({
   handleClose,
   open,
   _country = null,

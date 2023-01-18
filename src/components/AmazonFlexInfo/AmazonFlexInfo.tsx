@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import { rem } from "polished"
@@ -10,7 +10,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledFieldLabel,
-  StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
@@ -21,14 +20,20 @@ import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsPro
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
-import { IFlexInfoResult, IFlexInfoVariables } from "@/lib/interfaces/signup"
+import { FlexInfoResult, FlexInfoVariables } from "@/lib/interfaces/signup"
 import { updateFlexInfo } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
+import Hidden from "../Hidden"
+import amazonFlexOptions from "@/validation/signup/amazonFlex"
+import { Controller, useForm, useWatch } from "react-hook-form"
+import HelperText from "../commons/HelperText"
+import theme from "@/theme"
+import InputField from "../commons/InputField"
 
-interface IAmazonFlexInfoProps extends FormProps, IPageProps {}
+interface AmazonFlexInfoProps extends FormProps, PageProps {}
 
-const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
+const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
   setFormStage,
   stage,
   step,
@@ -40,23 +45,24 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
   } = useNavigate({ country_code })
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
-  const [userName, setUserName] = useState("")
-  const [isVisible, setIsVisible] = useState(false)
-  const [password, setPassword] = useState("")
-  const [isButtonDisable, setIsButtonDisable] = useState(true)
-  const { mutate } = useMutation<IFlexInfoResult, Error, IFlexInfoVariables>(
+  const [isPasswordVisible, setPasswordVisible] = useState(false)
+  const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
+  const { mutate } = useMutation<FlexInfoResult, Error, FlexInfoVariables>(
     updateFlexInfo
   )
+
+  type FormPropType = typeof amazonFlexOptions.defaultValues
+  const { handleSubmit, control, formState, reset, setValue, ...methods } =
+    useForm<FormPropType>(amazonFlexOptions)
+  useWatch({ control })
 
   const handleNavigateToSignIn = () => {
     navigate(routes.signin)
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
-    e.preventDefault()
-
+  const onSubmit = (data: FormPropType) => {
     mutate(
-      { amznFlexUser: userName, amznFlexPassword: password },
+      { amznFlexUser: data.userName, amznFlexPassword: data.password },
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
@@ -77,69 +83,160 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
     )
   }
 
-  useEffect(() => {
-    setIsButtonDisable(() => {
-      if (password.length && userName.length) {
-        return false
-      }
-      return true
-    })
-  }, [password, userName])
+  const isSaveDisabled =
+    !methods.getValues("userName") ||
+    !methods.getValues("password") ||
+    !methods.getValues("confirmPassword") ||
+    !!Object.keys(formState.errors).length
 
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
           <StyledText>Please enter your Amazon Flex account details</StyledText>
+          {/* User Name Field */}
           <Box mt={2}>
-            <StyledFieldLabel $isHidden={!userName}>
+            <StyledFieldLabel $isHidden={!methods.getValues("userName")}>
               Amazon Flex Username
             </StyledFieldLabel>
+            <Controller
+              name={"userName"}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <InputField
+                  InputProps={{
+                    autoComplete: "off",
+                  }}
+                  autoComplete="off"
+                  name="amazon-flex-username"
+                  placeholder="Amazon Flex Username"
+                  variant="outlined"
+                  type="email"
+                  value={value}
+                  onChange={onChange}
+                  error={!!formState.errors?.userName}
+                  required
+                />
+              )}
+            />
+            {!!formState.errors?.userName && (
+              <HelperText
+                type="large"
+                mt="-12px"
+                ml="0"
+                color={theme.palette.errorText}
+              >
+                {formState.errors?.userName?.message}
+              </HelperText>
+            )}
           </Box>
-          <StyledInputField
-            autoComplete="amazon-flex-username"
-            name="amazon-flex-username"
-            placeholder="Amazon Flex Username"
-            variant="outlined"
-            type="email"
-            value={userName}
-            onChange={e => setUserName(e.target.value)}
-            required
-          />
-          <StyledFieldLabel $isHidden={!password}>
-            Amazon Flex Password
-          </StyledFieldLabel>
-          <StyledInputField
-            autoComplete="amazon-flex-password"
-            name="amazon-flex-password"
-            placeholder="Amazon Flex Password"
-            type={isVisible ? "text" : "password"}
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            variant="outlined"
-            required
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                  {isVisible ? (
-                    <VisibilityOffOutlined />
-                  ) : (
-                    <VisibilityOutlined />
-                  )}
-                </IconButton>
-              ),
-            }}
-          />
+          {/* Password Field */}
+          <Box>
+            <StyledFieldLabel $isHidden={!methods.getValues("password")}>
+              Amazon Flex Password
+            </StyledFieldLabel>
+            <Controller
+              name={"password"}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <InputField
+                  name="amazon-flex-password"
+                  placeholder="Amazon Flex Password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  value={value}
+                  onChange={e => {
+                    onChange(e)
+                    if (!methods.getFieldState("confirmPassword").error) return
+                    methods.trigger("confirmPassword")
+                  }}
+                  variant="outlined"
+                  required
+                  autoComplete="new-password"
+                  InputProps={{
+                    autoComplete: "new-password",
+                    endAdornment: (
+                      <IconButton
+                        onClick={() => setPasswordVisible(prev => !prev)}
+                      >
+                        {isPasswordVisible ? (
+                          <VisibilityOffOutlined />
+                        ) : (
+                          <VisibilityOutlined />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+              )}
+            />
+            {!!formState.errors?.password && (
+              <HelperText
+                type="large"
+                mt="-12px"
+                ml="0"
+                color={theme.palette.errorText}
+              >
+                {formState.errors?.password?.message}
+              </HelperText>
+            )}
+          </Box>
+          {/* Confirm Password Field */}
+          <Hidden when={!methods.getValues("password")}>
+            <StyledFieldLabel $isHidden={!methods.getValues("confirmPassword")}>
+              Confirm Password
+            </StyledFieldLabel>
+            <Controller
+              name={"confirmPassword"}
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <InputField
+                  name="amazon-flex-confirm-password"
+                  placeholder="Confirm Password"
+                  type={isConfirmPasswordVisible ? "text" : "password"}
+                  value={value}
+                  onChange={onChange}
+                  variant="outlined"
+                  error={!!formState.errors?.confirmPassword}
+                  required
+                  autoComplete="new-password"
+                  InputProps={{
+                    autoComplete: "new-password",
+                    endAdornment: (
+                      <IconButton
+                        onClick={() => setConfirmPasswordVisible(prev => !prev)}
+                      >
+                        {isConfirmPasswordVisible ? (
+                          <VisibilityOffOutlined />
+                        ) : (
+                          <VisibilityOutlined />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+              )}
+            />
+            {!!formState.errors?.confirmPassword && (
+              <HelperText
+                type="large"
+                mt="-12px"
+                ml="0"
+                color={theme.palette.errorText}
+              >
+                {formState.errors?.confirmPassword?.message}
+              </HelperText>
+            )}
+          </Hidden>
           <StyledButton
             variant="contained"
             color="primary"
             disableElevation
             $marginTop={rem("56px")}
             type="submit"
-            disabled={isButtonDisable}
+            disabled={isSaveDisabled}
           >
             <StyledButtonText>Continue</StyledButtonText>
           </StyledButton>
@@ -153,7 +250,7 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -166,50 +263,143 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
             <Box display="flex" justifyContent="center">
               <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!userName}>
-              Amazon Flex Username
-            </StyledFieldLabel>
-            <StyledInputField
-              autoComplete="amazon-flex-username"
-              name="amazon-flex-username"
-              placeholder="Amazon Flex Username"
-              variant="outlined"
-              value={userName}
-              onChange={e => setUserName(e.target.value)}
-              type="email"
-              required
-            />
-            <StyledFieldLabel $isHidden={!password}>
-              Amazon Flex Password
-            </StyledFieldLabel>
-            <StyledInputField
-              autoComplete="amazon-flex-password"
-              name="amazon-flex-password"
-              placeholder="Amazon Flex Password"
-              type={isVisible ? "text" : "password"}
-              value={password}
-              required
-              onChange={e => setPassword(e.target.value)}
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                    {isVisible ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
+            <Box mt={2}>
+              <StyledFieldLabel $isHidden={!methods.getValues("userName")}>
+                Amazon Flex Username
+              </StyledFieldLabel>
+              <Controller
+                name={"userName"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <InputField
+                    autoComplete="off"
+                    InputProps={{
+                      autoComplete: "off",
+                    }}
+                    name="amazon-flex-username"
+                    placeholder="Amazon Flex Username"
+                    variant="outlined"
+                    type="email"
+                    value={value}
+                    onChange={onChange}
+                    error={!!formState.errors?.userName}
+                    required
+                  />
+                )}
+              />
+              {!!formState.errors?.userName && (
+                <HelperText
+                  type="large"
+                  mt="-12px"
+                  ml="0"
+                  color={theme.palette.errorText}
+                >
+                  {formState.errors?.userName?.message}
+                </HelperText>
+              )}
+            </Box>
+            {/* Password Field */}
+            <Box>
+              <StyledFieldLabel $isHidden={!methods.getValues("password")}>
+                Amazon Flex Password
+              </StyledFieldLabel>
+              <Controller
+                name={"password"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <InputField
+                    name="amazon-flex-password"
+                    placeholder="Amazon Flex Password"
+                    type={isPasswordVisible ? "text" : "password"}
+                    value={value}
+                    onChange={onChange}
+                    variant="outlined"
+                    required
+                    autoComplete="new-password"
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton
+                          onClick={() => setPasswordVisible(prev => !prev)}
+                        >
+                          {isPasswordVisible ? (
+                            <VisibilityOffOutlined />
+                          ) : (
+                            <VisibilityOutlined />
+                          )}
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              {!!formState.errors?.password && (
+                <HelperText
+                  type="large"
+                  mt="-12px"
+                  ml="0"
+                  color={theme.palette.errorText}
+                >
+                  {formState.errors?.password?.message}
+                </HelperText>
+              )}
+            </Box>
+            {/* Confirm Password Field */}
+            <Hidden when={!methods.getValues("password")}>
+              <StyledFieldLabel
+                $isHidden={!methods.getValues("confirmPassword")}
+              >
+                Confirm Password
+              </StyledFieldLabel>
+              <Controller
+                name={"confirmPassword"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <InputField
+                    name="amazon-flex-confirm-password"
+                    placeholder="Confirm Password"
+                    type={isConfirmPasswordVisible ? "text" : "password"}
+                    value={value}
+                    onChange={onChange}
+                    variant="outlined"
+                    required
+                    autoComplete="new-password"
+                    InputProps={{
+                      autoComplete: "new-password",
+                      endAdornment: (
+                        <IconButton
+                          onClick={() =>
+                            setConfirmPasswordVisible(prev => !prev)
+                          }
+                        >
+                          {isConfirmPasswordVisible ? (
+                            <VisibilityOffOutlined />
+                          ) : (
+                            <VisibilityOutlined />
+                          )}
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              {!!formState.errors?.confirmPassword && (
+                <HelperText
+                  type="large"
+                  mt="-12px"
+                  ml="0"
+                  color={theme.palette.errorText}
+                >
+                  {formState.errors?.confirmPassword?.message}
+                </HelperText>
+              )}
+            </Hidden>
             <StyledButton
               variant="contained"
               color="primary"
               disableElevation
               $marginTop={rem("56px")}
               type="submit"
-              disabled={isButtonDisable}
+              disabled={isSaveDisabled}
             >
               <StyledButtonText>Continue</StyledButtonText>
             </StyledButton>

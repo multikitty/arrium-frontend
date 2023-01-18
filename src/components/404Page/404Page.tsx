@@ -18,11 +18,11 @@ import { devices } from "@/constants/device"
 import { content } from "@/constants/content"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface I404Page extends IPageProps {}
+interface _404PageProps extends PageProps {}
 
-const _404Page: React.FC<I404Page> = ({ country_code }) => {
+const _404Page: React.FC<_404PageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const isDesktopView = useMediaQuery(devices.desktop.up)
 

@@ -12,13 +12,13 @@ import {
 } from "@/components/SettingsPage/SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 
-interface IProps {
+interface CloseAccountModalProps {
   open: boolean
   handleClose: () => void
   handleCloseAccount: () => void
 }
 
-const CloseAccountModal = (props: IProps) => {
+const CloseAccountModal = (props: CloseAccountModalProps) => {
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledDeleteConfirmationModal>

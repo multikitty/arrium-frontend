@@ -11,14 +11,14 @@ import {
 import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 
-interface IProps {
+interface SaveChangesModal {
   open: boolean
   handleClose: () => void
   handleSave: () => void
   noSubHeader?: boolean
 }
 
-const SaveChangesModal = (props: IProps) => {
+const SaveChangesModal = (props: SaveChangesModal) => {
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledSaveChangesModal>

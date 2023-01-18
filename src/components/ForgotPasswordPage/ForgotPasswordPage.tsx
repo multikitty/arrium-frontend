@@ -8,7 +8,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledFieldLabel,
-  StyledInputField,
   StyledInstructionsText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
@@ -23,24 +22,25 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { useMutation } from "react-query"
 import {
-  IForgotPasswordResult,
-  IForgotPasswordVariables,
+  ForgotPasswordResult,
+  ForgotPasswordVariables,
 } from "@/lib/interfaces/forgotPassword"
 import { forgotPassword } from "@/agent/forgotPassword"
 import { useSnackbar } from "notistack"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
+import InputField from "../commons/InputField"
 
-interface IForgotPasswordPageProps extends IPageProps {}
+interface ForgotPasswordPageProps extends PageProps {}
 
-const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
+const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
   country_code,
 }) => {
   const { navigate } = useNavigate({ country_code })
   const { enqueueSnackbar } = useSnackbar()
   const { mutate } = useMutation<
-    IForgotPasswordResult,
+    ForgotPasswordResult,
     Error,
-    IForgotPasswordVariables
+    ForgotPasswordVariables
   >(forgotPassword)
 
   type formPropType = typeof emailOptions.defaultValues
@@ -139,7 +139,7 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
                 <StyledFieldLabel $isHidden={!getValues("email")}>
                   Email ID
                 </StyledFieldLabel>
-                <StyledInputField
+                <InputField
                   placeholder="Enter Email Address"
                   variant="outlined"
                   error={!!errors.email}
@@ -211,7 +211,7 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
                   <StyledFieldLabel $isHidden={!getValues("email")}>
                     Email ID
                   </StyledFieldLabel>
-                  <StyledInputField
+                  <InputField
                     placeholder="Enter Email Address"
                     variant="outlined"
                     error={!!errors.email}

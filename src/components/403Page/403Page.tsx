@@ -19,11 +19,11 @@ import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { content } from "@/constants/content"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface I403Props extends IPageProps {}
+interface _403PageProps extends PageProps {}
 
-const _403Page: React.FC<I403Props> = ({ country_code }) => {
+const _403Page: React.FC<_403PageProps> = ({ country_code }) => {
   const { navigateToDefault } = useNavigate({ country_code })
   const { userStore } = useStore()
   const isDesktopView = useMediaQuery(devices.desktop.up)

@@ -15,14 +15,14 @@ import { UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-export interface IDriverLayoutProps extends IPageProps {
+export interface DriverLayoutProps extends PageProps {
   children: React.ReactNode
   roles: UserRolesType[]
 }
 
-const DriverLayout: React.FC<IDriverLayoutProps> = ({
+const DriverLayout: React.FC<DriverLayoutProps> = ({
   children,
   roles,
   country_code,

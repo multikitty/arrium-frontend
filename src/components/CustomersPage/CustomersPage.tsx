@@ -33,7 +33,7 @@ import AddDropdown from "./AddDropdown"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { useCustomersList } from "@/agent/customers"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { CustomerAccountStatus } from "@/lib/interfaces/customers"
 
 const statusColorMap: Record<CustomerAccountStatus, string> = {
@@ -42,9 +42,9 @@ const statusColorMap: Record<CustomerAccountStatus, string> = {
   disabled: theme.palette.grey5,
 }
 
-interface ICustomersPageProps extends IPageProps {}
+interface CustomersPageProps extends PageProps {}
 
-const CustomersPage: React.FC<ICustomersPageProps> = ({ country_code }) => {
+const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const { data: customersData, isLoading } = useCustomersList({})
   const [searchQuery, setSearchQuery] = React.useState("")

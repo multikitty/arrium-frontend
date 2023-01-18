@@ -2,13 +2,13 @@ import * as React from "react"
 
 import Seo from "@/components/Seo"
 import ForgotPasswordPage from "@/components/ForgotPasswordPage"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IForgotPasswordProps {
-  params: IPageProps
+interface ForgotPasswordProps {
+  params: PageProps
 }
 
-const ForgotPassword: React.FC<IForgotPasswordProps> = ({ params }) => (
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({ params }) => (
   <React.Fragment>
     <Seo title="Forgot Password | Arrium" />
     <ForgotPasswordPage country_code={params.country_code} />

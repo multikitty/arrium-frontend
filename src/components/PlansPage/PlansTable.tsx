@@ -11,16 +11,16 @@ import {
 } from "@mui/material"
 import { rem } from "polished"
 
-import { IMockPlans } from "./PlansPage.mock"
+import { MockPlans } from "./PlansPage.mock"
 import getCurrencySymbolByCountryCode, {
   CountryCodes,
 } from "@/utils/getCurrencySymbolByCountryCode"
 
-interface IPlansTableProps {
-  plansData: IMockPlans[]
+interface PlansTableProps {
+  plansData: MockPlans[]
 }
 
-const PlansTable = (props: IPlansTableProps) => {
+const PlansTable = (props: PlansTableProps) => {
   const theme = useTheme()
 
   const noData = !props.plansData.length

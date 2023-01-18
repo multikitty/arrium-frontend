@@ -19,7 +19,7 @@ import SaveChangesModal from "../SaveChangesModal"
 import { useSnackbar } from "notistack"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
 export interface LocationState {
   country: CountryData | null
@@ -33,9 +33,9 @@ const initialLocationState: LocationState = {
   id: nanoid(),
 }
 
-interface ILocationsTabProps extends IPageProps {}
+interface LocationsTabProps extends PageProps {}
 
-const LocationsTab: React.FC<ILocationsTabProps> = ({ country_code }) => {
+const LocationsTab: React.FC<LocationsTabProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const { enqueueSnackbar } = useSnackbar()
   const [locationState, setLocationState] = React.useState<LocationState[]>([
