@@ -18,6 +18,7 @@ export const StyledSelectCountryModal = styled(StyledAddCountryModal)`
   width: 90%;
   max-width: ${rem("628px")};
   outline: none;
+  overflow:auto;
 `
 
 export const StyledSelectCountryModalForm = styled.form``
