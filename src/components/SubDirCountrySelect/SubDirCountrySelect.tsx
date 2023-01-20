@@ -9,6 +9,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material"
 import { capitalCase } from "change-case"
+import DropDownArrow from "@/assets/icons/country_selection_pop_up_drop_down_arrow.inline.svg"
 import { StyledAccountInformatiomTabContentField as StyledInputField } from "../AddCustomerPage/AddCustomerPage.styled"
 
 type Size = "small" | "large"
@@ -86,6 +87,11 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             }
             : undefined
         }
+        IconComponent={props => (
+          <i className={`material-icons ${props.className}`}>
+            <DropDownArrow />
+          </i>
+        )}
       >
         {renderCountryOptions()}
         {isCountryNotListed ? (
