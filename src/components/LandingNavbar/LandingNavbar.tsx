@@ -22,14 +22,17 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
+import { COUNTRY_CODE } from "@/constants/localStorage"
+import { localStorageUtils } from "@/utils"
 
-interface ILandingPageProps extends IPageProps {}
+interface ILandingPageProps extends IPageProps { }
 
 const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const [hasBackground, setHasBackground] = useState(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
+  const codeInStorage = localStorageUtils.get(COUNTRY_CODE)
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
@@ -49,6 +52,15 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
     else setHasBackground(false)
   }
 
+  const handleSigninNavigate = () => {
+    if (codeInStorage) {
+      navigate(routes.signin)
+    }
+  }
+
+  const handleSignupNavigate = () => {
+    navigate(routes.signup)
+  }
   useLayoutEffect(() => {
     window.addEventListener("scroll", windowScrollEventHandler)
     return () => window.removeEventListener("scroll", windowScrollEventHandler)
@@ -119,13 +131,13 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
       <StyledFlexGrow />
       <StyledLandingNavbarRightContainer>
         <StyledLandingNavbarRightContainerLoginButton
-          onClick={() => navigate(routes.signin)}
+          onClick={handleSigninNavigate}
         >
           Login
         </StyledLandingNavbarRightContainerLoginButton>
         {isWebView && (
           <ContainedButton
-            onClick={() => navigate(routes.signup)}
+            onClick={handleSignupNavigate}
             sx={{ width: "100%", whiteSpace: "nowrap" }}
           >
             Start Free Trial

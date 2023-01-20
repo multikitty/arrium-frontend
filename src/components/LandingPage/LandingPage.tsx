@@ -9,7 +9,7 @@ import ContactFormSection from "../ContactFormSection"
 import LandingNavbar from "../LandingNavbar"
 import { IPageProps } from "@/lib/interfaces/common"
 
-interface ILandingPageProps extends IPageProps {}
+interface ILandingPageProps extends IPageProps { }
 
 const LandingPage: React.FC<ILandingPageProps> = ({ country_code }) => (
   <>
