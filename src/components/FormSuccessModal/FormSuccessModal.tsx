@@ -23,8 +23,7 @@ const ContactFormSuccessModal = ({
   handleClose,
   open,
   title = "Message sent!",
-  text = `A member of the team will be in with you touch at the email address
-            provided`,
+  text = `A member of the team will be in touch with you at the email address provided.`,
 }: ContactFormSuccessModalProps) => {
   const handleOverlayClick: React.MouseEventHandler<HTMLDivElement> = e => {
     e.stopPropagation()
