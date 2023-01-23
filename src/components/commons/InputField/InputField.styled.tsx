@@ -2,9 +2,10 @@ import styled from "@emotion/styled"
 import { css } from "@emotion/react"
 import { TextField } from "@mui/material"
 import theme from "@/theme"
+import { Property } from "csstype"
 
 interface StyledInputFieldProps {
-  mb: string
+  mb: Property.MarginBottom
   isCentered: boolean
   maxWidth?: string
   minWidth?: string

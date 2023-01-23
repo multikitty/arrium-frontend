@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { Box, IconButton, useMediaQuery } from "@mui/material"
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { useForm, useWatch } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import { rem } from "polished"
 
 import {
@@ -16,7 +16,6 @@ import {
   StyledRemeberMeText,
   StyledSignUpButton,
   StyledSignUpText,
-  StyledWarningText,
 } from "@/components/commons/uiComponents"
 import emailAndPasswordOptions from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
@@ -36,10 +35,13 @@ import {
 } from "@/constants/common"
 import { RegistrationStepsType } from "@/types/common"
 import InputField from "../commons/InputField"
+import HelperText from "../commons/HelperText"
+import IDS from "@/constants/ids"
 
 interface SigninSectionProps extends PageProps {}
 
 const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
+  const theme = useTheme()
   const {
     navigateToDefault,
     navigate,
@@ -60,6 +62,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
     setError,
     formState: { errors },
     getValues,
+    ...methods
   } = useForm<FormPropType>(emailAndPasswordOptions)
 
   useWatch({ name: "email", control })
@@ -78,14 +81,17 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
       {
         onSuccess({ data, success }) {
           if (!success) {
-            setError("password", {
+            setError("checkbox", {
               message: "Your email address or password is incorrect",
               type: "validate",
             })
           }
           if (!data) return
           setLocalStorage(TOKEN, data.userData.token)
-          if (data.userData.currentSteps !== "finished") {
+          if (
+            data.userData.role !== "admin" &&
+            data.userData.currentSteps !== "finished"
+          ) {
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
           }
@@ -133,9 +139,9 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
         },
         onError(error) {
           console.log(error)
-          setError("email", new Error("Invalid email or password"))
-          setError("password", new Error("Invalid email or password"), {
-            shouldFocus: true,
+          setError("checkbox", {
+            message: "Your email address or password is incorrect",
+            type: "validate",
           })
         },
       }
@@ -153,47 +159,102 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
+        <StyledLoginContainer noValidate onSubmit={handleSubmit(onSubmit)}>
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Login to your account</StyledCardHeader>
           </Box>
-          <StyledFieldLabel $isHidden={!getValues("email")}>
-            Email ID
-          </StyledFieldLabel>
-          <InputField
-            autoFocus
-            placeholder="Enter Email Address"
-            variant="outlined"
-            {...register("email")}
-          />
-          <StyledFieldLabel $isHidden={!getValues("password")}>
-            Password
-          </StyledFieldLabel>
-          <InputField
-            placeholder="Enter Password"
-            type={isVisible ? "text" : "password"}
-            variant="outlined"
-            {...register("password")}
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                  {isVisible ? (
-                    <VisibilityOffOutlined />
-                  ) : (
-                    <VisibilityOutlined />
-                  )}
-                </IconButton>
-              ),
-            }}
-          />
+          <Box display="flex" flexDirection="column" mb={"16px"}>
+            <StyledFieldLabel $isHidden={!getValues("email")}>
+              Email ID
+            </StyledFieldLabel>
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { value, onChange } }) => (
+                <InputField
+                  autoFocus
+                  mb={0}
+                  type="email"
+                  id={IDS.signin.form.email}
+                  name={IDS.signin.form.email}
+                  placeholder="Enter Email Address"
+                  variant="outlined"
+                  value={value}
+                  onChange={e => {
+                    onChange(e)
+                    methods.clearErrors("checkbox")
+                  }}
+                  error={!!errors.email}
+                  autoComplete="off"
+                  InputProps={{ autoComplete: "off" }}
+                />
+              )}
+            />
+            {errors.email && (
+              <HelperText
+                type="large"
+                ml="0"
+                mt="4px"
+                color={theme.palette.error.main}
+              >
+                {errors.email.message}
+              </HelperText>
+            )}
+          </Box>
+          <Box display="flex" flexDirection="column" mb="16px">
+            <StyledFieldLabel $isHidden={!getValues("password")}>
+              Password
+            </StyledFieldLabel>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { value, onChange } }) => (
+                <InputField
+                  mb="0"
+                  id={IDS.signin.form.password}
+                  name={IDS.signin.form.password}
+                  placeholder="Enter Password"
+                  type={isVisible ? "text" : "password"}
+                  variant="outlined"
+                  value={value}
+                  onChange={e => {
+                    onChange(e)
+                    methods.clearErrors("checkbox")
+                  }}
+                  error={!!errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton onClick={() => setIsVisible(prev => !prev)}>
+                        {isVisible ? (
+                          <VisibilityOffOutlined />
+                        ) : (
+                          <VisibilityOutlined />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+              )}
+            />
+            {errors.password && (
+              <HelperText
+                type="large"
+                ml="0"
+                mt="4px"
+                color={theme.palette.error.main}
+              >
+                {errors.password.message}
+              </HelperText>
+            )}
+          </Box>
           <Box display="flex" justifyContent="space-between">
             <Box display="flex" alignItems="center">
               <StyledCheckBox
                 type="checkbox"
-                id="remember-me-checkbox"
+                id={IDS.signin.form.checkbox}
                 {...register("checkbox")}
               />
-              <StyledRemeberMeText htmlFor="remember-me-checkbox">
+              <StyledRemeberMeText htmlFor={IDS.signin.form.checkbox}>
                 Remember me
               </StyledRemeberMeText>
             </Box>
@@ -203,19 +264,21 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               </StyledSignUpButton>
             </StyledForgotPassword>
           </Box>
-          {errors.password && (
-            <StyledWarningText
-              marginTop={rem("20px")}
-              marginbottom={rem("-32px")}
+          {errors.checkbox && (
+            <HelperText
+              type="large"
+              ml="0"
+              mt="8px"
+              color={theme.palette.error.main}
             >
-              {errors.password.message}
-            </StyledWarningText>
+              {errors.checkbox.message}
+            </HelperText>
           )}
           <StyledButton
             variant="contained"
             color="primary"
             disableElevation
-            $marginTop={rem("56px")}
+            $marginTop={errors.checkbox ? "28px" : "56px"}
             type="submit"
           >
             <StyledButtonText>Log In</StyledButtonText>
@@ -233,7 +296,10 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
+        <StyledLoginContainerMobile
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Box
             display="flex"
             flexDirection="column"
@@ -243,42 +309,98 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             <Box display="flex" justifyContent="center">
               <StyledCardHeader>Login to your account</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!getValues("email")}>
-              Email ID
-            </StyledFieldLabel>
-            <InputField
-              placeholder="Enter Email Address"
-              variant="outlined"
-              {...register("email")}
-            />
-            <StyledFieldLabel $isHidden={!getValues("password")}>
-              Password
-            </StyledFieldLabel>
-            <InputField
-              placeholder="Enter Password"
-              type={isVisible ? "text" : "password"}
-              variant="outlined"
-              {...register("password")}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                    {isVisible ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
+            <Box display="flex" flexDirection="column" mb={"16px"}>
+              <StyledFieldLabel $isHidden={!getValues("email")}>
+                Email ID
+              </StyledFieldLabel>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { value, onChange } }) => (
+                  <InputField
+                    autoFocus
+                    mb={0}
+                    type="email"
+                    id={IDS.signin.form.email}
+                    name={IDS.signin.form.email}
+                    placeholder="Enter Email Address"
+                    variant="outlined"
+                    value={value}
+                    onChange={e => {
+                      onChange(e)
+                      methods.clearErrors("checkbox")
+                    }}
+                    error={!!errors.email}
+                    autoComplete="off"
+                    InputProps={{ autoComplete: "off" }}
+                  />
+                )}
+              />
+              {errors.email && (
+                <HelperText
+                  type="large"
+                  ml="0"
+                  mt="4px"
+                  color={theme.palette.error.main}
+                >
+                  {errors.email.message}
+                </HelperText>
+              )}
+            </Box>
+            <Box display="flex" flexDirection="column" mb="16px">
+              <StyledFieldLabel $isHidden={!getValues("password")}>
+                Password
+              </StyledFieldLabel>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { value, onChange } }) => (
+                  <InputField
+                    mb="0"
+                    id={IDS.signin.form.password}
+                    name={IDS.signin.form.password}
+                    placeholder="Enter Password"
+                    type={isVisible ? "text" : "password"}
+                    variant="outlined"
+                    value={value}
+                    onChange={e => {
+                      onChange(e)
+                      methods.clearErrors("checkbox")
+                    }}
+                    error={!!errors.password}
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton onClick={() => setIsVisible(prev => !prev)}>
+                          {isVisible ? (
+                            <VisibilityOffOutlined />
+                          ) : (
+                            <VisibilityOutlined />
+                          )}
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              {errors.password && (
+                <HelperText
+                  type="large"
+                  ml="0"
+                  mt="4px"
+                  color={theme.palette.error.main}
+                >
+                  {errors.password.message}
+                </HelperText>
+              )}
+            </Box>
             <Box display="flex" justifyContent="space-between">
               <Box display="flex" alignItems="center">
                 <StyledCheckBox
                   type="checkbox"
-                  id="remember-me-checkbox"
+                  id={IDS.signin.form.checkbox}
                   {...register("checkbox")}
                 />
-                <StyledRemeberMeText htmlFor="remember-me-checkbox">
+                <StyledRemeberMeText htmlFor={IDS.signin.form.checkbox}>
                   Remember me
                 </StyledRemeberMeText>
               </Box>
@@ -288,19 +410,21 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 </StyledSignUpButton>
               </StyledForgotPassword>
             </Box>
-            {errors.password && (
-              <StyledWarningText
-                marginTop={rem("16px")}
-                marginbottom={rem("-32px")}
+            {errors.checkbox && (
+              <HelperText
+                type="large"
+                ml="0"
+                mt="8px"
+                color={theme.palette.error.main}
               >
-                {errors.password.message}
-              </StyledWarningText>
+                {errors.checkbox.message}
+              </HelperText>
             )}
             <StyledButton
               variant="contained"
               color="primary"
               disableElevation
-              $marginTop={rem("56px")}
+              $marginTop={errors.checkbox ? "28px" : "56px"}
               type="submit"
             >
               <StyledButtonText>Log In</StyledButtonText>

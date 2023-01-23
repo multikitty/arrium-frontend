@@ -4,23 +4,23 @@ import { yupResolver } from "@hookform/resolvers/yup"
 const emailAndPasswordSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
-    .min(8, "minimum 8 characters"),
+    .min(8, "Please enter at least 8 characters"),
 
   email: Yup.string()
     .required("Please enter email!")
-    .email("Please enter valid email!"),
+    .email("Please enter valid email"),
 })
 
 const emailSchema = Yup.object().shape({
   email: Yup.string()
     .required("Please enter email!")
-    .email("Please enter valid email!"),
+    .email("Please enter valid email"),
 })
 
 const passwordSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
-    .min(8, "minimum 8 characters"),
+    .min(8, "Please enter at least 8 characters"),
 })
 
 export const emailAndPasswordOptions = {

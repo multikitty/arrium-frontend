@@ -19,8 +19,10 @@ interface HelperTextProps {
   isCentered?: boolean
   maxWidth?: Property.MaxWidth
   minWidth?: Property.MinWidth
-  ml?: Property.MarginLeft
   mt?: Property.MarginTop
+  mb?: Property.MarginBottom
+  ml?: Property.MarginLeft
+  mr?: Property.MarginRight
   color?: Property.Color
   type?: "small" | "large"
 }
