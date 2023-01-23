@@ -57,6 +57,7 @@ const IndexPage = () => {
 
   React.useEffect(() => {
     const codeInStorage = localStorageUtils.get(COUNTRY_CODE)
+
     if (codeInStorage) {
       navigate(`/${codeInStorage}/en`)
       return
