@@ -20,23 +20,23 @@ import {
   StyledAddCountryModalTitle as StyledAddRegionModalTitle,
 } from "./SettingsPage.styled"
 import {
-  IAddRegionVariables,
-  ICountryListDataItem,
+  AddRegionVariables,
+  CountryListDataItem,
 } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddRegionVariables) => void
-  countries: ICountryListDataItem[]
+interface AddRegionModalProps extends ModalProps {
+  handleAdd: (variables: AddRegionVariables) => void
+  countries: CountryListDataItem[]
 }
 
-const AddRegionModal = (props: IProps) => {
+const AddRegionModal = (props: AddRegionModalProps) => {
   const [region, setRegion] = useState("")
   const [regionCode, setRegionCode] = useState("")
   const [regionID, setRegionID] = useState("")
-  const [country, setCountry] = useState<ICountryListDataItem | "">("")
+  const [country, setCountry] = useState<CountryListDataItem | "">("")
 
   const handleRegionField: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -57,7 +57,7 @@ const AddRegionModal = (props: IProps) => {
   }
 
   const handleCountryFieldChange = (
-    e: SelectChangeEvent<ICountryListDataItem["country"]>
+    e: SelectChangeEvent<CountryListDataItem["country"]>
   ) => {
     const selectedCountry = e.target.value
     const countryToSet = props.countries.find(

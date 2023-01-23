@@ -20,14 +20,14 @@ import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMen
 import theme from "@/theme"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { localStorageUtils } from "@/utils"
 
-interface ILandingPageProps extends IPageProps { }
+interface LandingPageProps extends PageProps { }
 
-const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
+const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
   const [hasBackground, setHasBackground] = useState(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)

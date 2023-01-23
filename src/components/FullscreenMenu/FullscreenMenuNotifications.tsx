@@ -15,11 +15,13 @@ import theme from "@/theme"
 import InvoiceNotification from "../NotificationsDropdown/InvoiceNotification"
 import BlockAcceptNotification from "../NotificationsDropdown/BlockAcceptNotification"
 
-interface IProps {
+interface FullscreenMenuNotificationsProps {
   handleClose: () => void
 }
 
-const FullscreenMenuNotifications = (props: IProps) => {
+const FullscreenMenuNotifications = (
+  props: FullscreenMenuNotificationsProps
+) => {
   return (
     <StyledFullscreenMenuNotifications>
       <StyledFullscreenMenuNotificationsUpperContainer>

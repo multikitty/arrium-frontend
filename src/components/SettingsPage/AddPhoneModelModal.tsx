@@ -11,16 +11,16 @@ import {
   StyledAddCountryModalFormField as StyledAddPhoneModelModalFormField,
   StyledAddCountryModalTitle as StyledAddPhoneModelModalTitle,
 } from "./SettingsPage.styled"
-import { IAddPhoneModelVariables } from "@/lib/interfaces/models"
+import { AddPhoneModelVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFieldLabel } from "../commons/uiComponents"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddPhoneModelVariables) => void
+interface AddPhoneModalModalProps extends ModalProps {
+  handleAdd: (variables: AddPhoneModelVariables) => void
 }
 
-const AddPhoneModelModal = (props: IProps) => {
+const AddPhoneModelModal = (props: AddPhoneModalModalProps) => {
   const [phoneModel, setPhoneModel] = useState("")
   const [phoneID, setPhoneID] = useState("")
 

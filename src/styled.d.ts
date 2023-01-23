@@ -11,6 +11,8 @@ declare module "styled-components" {
         violet: string
         green: string
         lightGreen: string
+        red: string
+        darkRed: string
       }
       main: string
       mainHover: string

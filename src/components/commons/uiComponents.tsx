@@ -10,45 +10,6 @@ import {
   TextField,
 } from "@mui/material"
 
-export const StyledInputField = styled(TextField)<{
-  mb?: string
-  $isCentered?: boolean
-  $maxWidth?: string
-  $minWidth?: string
-  $centerInput?: boolean
-}>`
-  &&& {
-    background-color: #ffffff;
-    width: 100%;
-    height: 48px;
-    border: none;
-    outline: none;
-    margin-bottom: ${p => p.mb || "16px"};
-    ${p =>
-      p.$isCentered &&
-      css`
-        margin: 0 auto;
-      `}
-    border-radius: 10px;
-    font-size: 16px;
-    line-height: 20px;
-
-    & > .MuiOutlinedInput-root {
-      max-width: ${p => p.$maxWidth || "378px"};
-      min-width: ${p => p.$minWidth || "250px"};
-      height: 48px;
-      border-radius: 10px;
-      font-size: 16px;
-      line-height: 20px;
-      ${p =>
-        p.$centerInput &&
-        css`
-          margin: 0 auto;
-        `}
-    }
-  }
-`
-
 export const StyledTitle = styled.p`
   font-weight: 700;
   font-size: ${rem("34px")};
@@ -280,36 +241,4 @@ export const StyledFieldLabel = styled.span<{ $isHidden?: boolean }>`
   color: #${p => p.theme.palette.grey6};
 
   transition: opacity 150ms ease-out;
-`
-
-export const StyledHelperText = styled.p<{
-  $isCentered?: boolean
-  $maxWidth?: string
-  $minWidth?: string
-  $marginLeft?: string
-}>`
-  font-family: Inter;
-  font-style: normal;
-  font-weight: normal;
-  font-size: ${rem("10px")};
-  line-height: ${rem("16px")};
-  margin-left: ${p => rem(p.$marginLeft || "16px")};
-  ${p =>
-    p.$isCentered &&
-    css`
-      margin: 0 auto;
-    `}
-
-  ${p =>
-    p.$maxWidth &&
-    css`
-      max-width: ${rem(p.$maxWidth)};
-    `}
-  ${p =>
-    p.$minWidth &&
-    css`
-      min-width: ${rem(p.$minWidth)};
-    `}
-
-  color: #a60000;
 `

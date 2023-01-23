@@ -23,10 +23,10 @@ import {
   useStationTypeList,
 } from "@/agent/stationTypes"
 import {
-  IAddStationTypeResult,
-  IAddStationTypeVariables,
-  IDeleteStationTypeResult,
-  IDeleteStationTypeVariables,
+  AddStationTypeResult,
+  AddStationTypeVariables,
+  DeleteStationTypeResult,
+  DeleteStationTypeVariables,
 } from "@/lib/interfaces/stationTypes"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
@@ -51,14 +51,14 @@ const StationTypesTab = () => {
     refetch: refetchStationTypeList,
   } = useStationTypeList()
   const { mutate: addStationTypeMutate } = useMutation<
-    IAddStationTypeResult,
+    AddStationTypeResult,
     Error,
-    IAddStationTypeVariables
+    AddStationTypeVariables
   >(addStationType)
   const { mutate: deleteStationTypeMutate } = useMutation<
-    IDeleteStationTypeResult,
+    DeleteStationTypeResult,
     Error,
-    IDeleteStationTypeVariables
+    DeleteStationTypeVariables
   >(deleteStationType)
 
   const handleAddBlockTypeModalOpen = () => setIsAddBlockTypeModalOpen(true)

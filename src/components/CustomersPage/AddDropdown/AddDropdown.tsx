@@ -5,15 +5,15 @@ import { rem } from "polished"
 import { StyledAddDropdownMenuItemText } from "./AddDropdown.styled"
 import { LabelledUserRoles } from "@/constants/common"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IAddDropDownProps extends IPageProps {
+interface AddDropDownProps extends PageProps {
   handleClose: () => void
   anchorEl: null | HTMLElement
   open: boolean
 }
 
-const AddDropdown: React.FC<IAddDropDownProps> = ({
+const AddDropdown: React.FC<AddDropDownProps> = ({
   handleClose,
   anchorEl,
   open,

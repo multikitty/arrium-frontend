@@ -13,15 +13,15 @@ import CloseIcon from "@mui/icons-material/Close"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { CountryData } from "@/utils/getCountryData"
 import CountrySelect from "../CountrySelect"
-import { IAddCountryVariables } from "@/lib/interfaces/locations"
+import { AddCountryVariables } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddCountryVariables) => void
+interface AddCountryModalProps extends ModalProps {
+  handleAdd: (variables: AddCountryVariables) => void
 }
 
-const AddCountryModal = (props: IProps) => {
+const AddCountryModal = (props: AddCountryModalProps) => {
   const [country, setCountry] = useState<CountryData | null>(null)
   const [countryCode, setCountryCode] =
     useState<CountryData["countryShortName"]>("")

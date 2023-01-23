@@ -20,28 +20,28 @@ import {
   StyledAddCountryModalTitle as StyledAddStationModalTitle,
 } from "./SettingsPage.styled"
 import {
-  IAddStationVariables,
-  ICountryListDataItem,
-  IRegionListDataItem,
+  AddStationVariables,
+  CountryListDataItem,
+  RegionListDataItem,
 } from "@/lib/interfaces/locations"
-import { IStationTypeListDataItem } from "@/lib/interfaces/stationTypes"
+import { StationTypeListDataItem } from "@/lib/interfaces/stationTypes"
 import { useStationTypeList } from "@/agent/stationTypes"
 import { ModalProps } from "./SettingsPage.types"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFieldLabel } from "../commons/uiComponents"
 import { StationFieldName } from "./LocationsTab"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddStationVariables) => void
+interface AddStationModalProps extends ModalProps {
+  handleAdd: (variables: AddStationVariables) => void
   handleNext: () => void
   handleClearFields: () => void
-  countries: ICountryListDataItem[]
-  regions: IRegionListDataItem[]
-  stationData: Required<IAddStationVariables>
+  countries: CountryListDataItem[]
+  regions: RegionListDataItem[]
+  stationData: Required<AddStationVariables>
   handleStationField: (name: StationFieldName, value: string) => void
 }
 
-const AddStationModal = (props: IProps) => {
+const AddStationModal = (props: AddStationModalProps) => {
   const { data: stationTypeList } = useStationTypeList()
 
   const handleStationField: React.ChangeEventHandler<
@@ -69,7 +69,7 @@ const AddStationModal = (props: IProps) => {
   ))
 
   const handleCountryFieldChange = (
-    e: SelectChangeEvent<ICountryListDataItem["country"]>
+    e: SelectChangeEvent<CountryListDataItem["country"]>
   ) => {
     const selectedCountry = e.target.value
     props.handleStationField("countryCode", selectedCountry)
@@ -82,7 +82,7 @@ const AddStationModal = (props: IProps) => {
   ))
 
   const handleRegionFieldChange = (
-    e: SelectChangeEvent<IRegionListDataItem["regionName"]>
+    e: SelectChangeEvent<RegionListDataItem["regionName"]>
   ) => {
     const selectedRegion = e.target.value
     const regionToSet = props.regions.find(r => r.regionName === selectedRegion)
@@ -100,7 +100,7 @@ const AddStationModal = (props: IProps) => {
   )
 
   const handleStationTypeFieldChange = (
-    e: SelectChangeEvent<IStationTypeListDataItem["stationType"]>
+    e: SelectChangeEvent<StationTypeListDataItem["stationType"]>
   ) => {
     if (!stationTypeList?.data?.Items?.length) return
     const selectedStationType = e.target.value

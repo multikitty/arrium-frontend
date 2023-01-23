@@ -33,7 +33,9 @@ const Message: React.FC<MessagePageProps> = props => {
       <StyledMessageIconContainer>
         {iconMap[props.variant]}
       </StyledMessageIconContainer>
-      <StyledMessageText>{props.text}</StyledMessageText>
+      <StyledMessageText>
+        <React.Fragment>{props.text}</React.Fragment>
+      </StyledMessageText>
       <Box display="flex" alignItems="flex-start" alignSelf="flex-start">
         <IconButton size="small" onClick={() => props.setVisible(false)}>
           <CloseIcon sx={{ fontSize: 10, color: theme.palette.grey5 }} />

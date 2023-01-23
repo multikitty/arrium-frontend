@@ -3,17 +3,17 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
-import { ICountryListDataItem } from "@/lib/interfaces/locations"
+import { CountryListDataItem } from "@/lib/interfaces/locations"
 import { capitalCase } from "change-case"
 
-interface IProps {
-  data: ICountryListDataItem[]
+interface CountryListProps {
+  data: CountryListDataItem[]
   onDelete: (sk: string, pk: string, name: string) => void
-  onClick: (selectedCountry: ICountryListDataItem) => void
-  selectedCountry: ICountryListDataItem | null
+  onClick: (selectedCountry: CountryListDataItem) => void
+  selectedCountry: CountryListDataItem | null
 }
 
-const CountryList: React.FC<IProps> = ({
+const CountryList: React.FC<CountryListProps> = ({
   data,
   onDelete,
   onClick,

@@ -37,7 +37,7 @@ import { Box, useMediaQuery } from "@mui/material"
 import { capitalCase } from "change-case"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import getCurrencySymbolByCountryCode, {
   CountryCodes,
 } from "@/utils/getCurrencySymbolByCountryCode"
@@ -47,7 +47,7 @@ import LoadingScreen from "../LoadingScreen"
 import PaginationButton from "../commons/Button/PaginationButton"
 import useFeatureFlags from "@/hooks/useFeatureFlags"
 
-interface ISubscriptionTabProps extends IPageProps {}
+interface ISubscriptionTabProps extends PageProps {}
 
 const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
   const isDesktopView = useMediaQuery(devices.desktop.up)

@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField"
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
 import getCountryData, { RegionData } from "@/utils/getCountryData"
 
-interface IProps
+interface RegionSelectProps
   extends Partial<AutocompleteProps<RegionData, false, false, false>> {
   country: string | undefined
   region: RegionData | null
@@ -14,7 +14,7 @@ interface IProps
   placeholder?: string
 }
 
-const RegionSelect: React.FC<IProps> = ({
+const RegionSelect: React.FC<RegionSelectProps> = ({
   country,
   region,
   setRegion,

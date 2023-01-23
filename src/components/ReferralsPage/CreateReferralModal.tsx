@@ -20,13 +20,17 @@ import { CountryData, RegionData } from "@/utils/getCountryData"
 import RegionSelect from "../RegionSelect"
 import { StyledFieldLabel } from "../commons/uiComponents"
 
-export interface IProps {
+export interface CreateReferralModalProps {
   open: boolean
   handleClose: () => void
   role: UserRolesType
 }
 
-const CreateReferralModal: React.FC<IProps> = ({ handleClose, open, role }) => {
+const CreateReferralModal: React.FC<CreateReferralModalProps> = ({
+  handleClose,
+  open,
+  role,
+}) => {
   const isSalesAgent = role === UserRoles.salesAgent
 
   const { userStore } = useStore()

@@ -4,13 +4,13 @@ import Seo from "@/components/Seo"
 import AdminLayout from "@/components/AdminLayout"
 import ReferralsPage from "@/components/ReferralsPage"
 import { UserRoles } from "@/constants/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IReferralsProps {
-  params: IPageProps
+interface ReferralsProps {
+  params: PageProps
 }
 
-const Referrals: React.FC<IReferralsProps> = ({ params }) => (
+const Referrals: React.FC<ReferralsProps> = ({ params }) => (
   <AdminLayout
     roles={[UserRoles.admin, UserRoles.salesAgent]}
     country_code={params.country_code}

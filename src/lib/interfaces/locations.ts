@@ -1,4 +1,4 @@
-export interface ICountryListDataItem {
+export interface CountryListDataItem {
   tzEnd?: string
   countryCode: string
   tzName?: string
@@ -13,34 +13,34 @@ export interface ICountryListDataItem {
   dialCode?: string
 }
 
-export interface ICountryListData {
-  Items: ICountryListDataItem[]
+export interface CountryListData {
+  Items: CountryListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface ICountryListResult {
+export interface CountryListResult {
   message: string
   success: boolean
-  data?: ICountryListData
+  data?: CountryListData
 }
 
-export interface IAddCountryVariables {
+export interface AddCountryVariables {
   country: string
   countryCode: string
 }
 
-export interface IAddCountryResult {
+export interface AddCountryResult {
   success: boolean
   message: string
-  validationError?: IAddCountryVariables
+  validationError?: AddCountryVariables
 }
 
-export interface IRegionListVariables {
+export interface RegionListVariables {
   country_code: string
 }
 
-export interface IRegionListDataItem {
+export interface RegionListDataItem {
   sk: string
   regionCode: string
   pk: string
@@ -48,38 +48,38 @@ export interface IRegionListDataItem {
   regionID: string
 }
 
-export interface IRegionListData {
-  Items: IRegionListDataItem[]
+export interface RegionListData {
+  Items: RegionListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IRegionListResult {
+export interface RegionListResult {
   message: string
   success: boolean
-  data?: IRegionListData
-  validationError?: IRegionListVariables
+  data?: RegionListData
+  validationError?: RegionListVariables
 }
 
-export interface IAddRegionVariables {
+export interface AddRegionVariables {
   countryCode: string
   regionName: string
   regionCode: string
   regionId: string
 }
 
-export interface IAddRegionResult {
+export interface AddRegionResult {
   success: boolean
   message: string
-  validationError?: IAddRegionVariables
+  validationError?: AddRegionVariables
 }
 
-export interface IStationListVariables {
+export interface StationListVariables {
   countryCode: string
   regionCode: string
 }
 
-export interface IStationListDataItem {
+export interface StationListDataItem {
   stationCode: string
   stationType: string
   stationID: string
@@ -91,20 +91,20 @@ export interface IStationListDataItem {
   regionID: string
 }
 
-export interface IStationListData {
-  Items: IStationListDataItem[]
+export interface StationListData {
+  Items: StationListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IStationListResult {
+export interface StationListResult {
   message: string
   success: boolean
-  data?: IStationListData
-  validationError?: IStationListVariables
+  data?: StationListData
+  validationError?: StationListVariables
 }
 
-export interface IAddStationVariables {
+export interface AddStationVariables {
   countryCode: string
   regionName: string
   regionCode: string
@@ -123,27 +123,27 @@ export interface IAddStationVariables {
   latitude?: string
 }
 
-export interface IAddStationResult {
+export interface AddStationResult {
   success: boolean
   message: string
-  validationError?: IAddStationVariables
+  validationError?: AddStationVariables
 }
 
-export interface IDeleteCountryVariables {
+export interface DeleteCountryVariables {
   sortKey: string
   partitionKey: string
 }
 
-export interface IDeleteCountryResult {
+export interface DeleteCountryResult {
   message: string
   success: boolean
-  validationError?: IDeleteCountryVariables
+  validationError?: DeleteCountryVariables
 }
 
-export interface IDeleteRegionVariables extends IDeleteCountryVariables {}
+export interface DeleteRegionVariables extends DeleteCountryVariables {}
 
-export interface IDeleteRegionResult extends IDeleteCountryResult {}
+export interface DeleteRegionResult extends DeleteCountryResult {}
 
-export interface IDeleteStationVariables extends IDeleteCountryVariables {}
+export interface DeleteStationVariables extends DeleteCountryVariables {}
 
-export interface IDeleteStationResult extends IDeleteCountryResult {}
+export interface DeleteStationResult extends DeleteCountryResult {}

@@ -4,13 +4,13 @@ import Seo from "@/components/Seo"
 import AdminLayout from "@/components/AdminLayout"
 import SettingsPage from "@/components/SettingsPage"
 import { UserRoles } from "@/constants/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ISettingsProps {
-  params: IPageProps
+interface SettingsProps {
+  params: PageProps
 }
 
-const Settings: React.FC<ISettingsProps> = ({ params }) => (
+const Settings: React.FC<SettingsProps> = ({ params }) => (
   <AdminLayout roles={[UserRoles.admin]} country_code={params.country_code}>
     <Seo title="Settings | Arrium" />
     <SettingsPage />

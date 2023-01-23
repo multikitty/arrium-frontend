@@ -9,6 +9,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material"
 import { capitalCase } from "change-case"
+import DropDownArrow from "@/assets/icons/country_selection_pop_up_drop_down_arrow.inline.svg"
 import { StyledAccountInformatiomTabContentField as StyledInputField } from "../AddCustomerPage/AddCustomerPage.styled"
 
 type Size = "small" | "large"
@@ -48,16 +49,13 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             <img
               loading="lazy"
               width={size === "large" ? "40" : "32"}
-              src={`https://flagcdn.com/w20/${country.countryShortName.toLowerCase()}.png`}
+              src={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png`}
               srcSet={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png 2x`}
               alt=""
             />
             {size === "large"
               ? capitalCase(country.countryName)
-              : country.countryShortName.toUpperCase()}{" "}
-            {isCountryCode
-              ? `(${country.countryShortName.toUpperCase()})`
-              : null}
+              : country.countryShortName.toUpperCase()}
           </Box>
         </MenuItem>
       )),
@@ -75,17 +73,22 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
         MenuProps={
           openUpwards
             ? {
-                anchorOrigin: {
-                  vertical: "bottom",
-                  horizontal: "left",
-                },
-                transformOrigin: {
-                  vertical: "bottom",
-                  horizontal: "left",
-                },
-              }
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+            }
             : undefined
         }
+        IconComponent={props => (
+          <i className={`material-icons ${props.className}`}>
+            <DropDownArrow />
+          </i>
+        )}
       >
         {renderCountryOptions()}
         {isCountryNotListed ? (

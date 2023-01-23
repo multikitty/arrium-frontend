@@ -10,7 +10,6 @@ import {
   StyledCheckBox,
   StyledFieldLabel,
   StyledForgotPassword,
-  StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
@@ -24,14 +23,11 @@ import { devices } from "@/constants/device"
 import { useStore } from "@/store"
 import { useMutation } from "react-query"
 import { signinUser } from "@/agent/signin"
-import {
-  ISigninUserResult,
-  ISigninUserVariables,
-} from "@/lib/interfaces/signin"
+import { SigninUserResult, SigninUserVariables } from "@/lib/interfaces/signin"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { TOKEN } from "@/constants/localStorage"
 import {
   DEFAULT_COUNTRY,
@@ -39,10 +35,11 @@ import {
   REGISTRATION_STEP_MAP,
 } from "@/constants/common"
 import { RegistrationStepsType } from "@/types/common"
+import InputField from "../commons/InputField"
 
-interface ISigninSectionProps extends IPageProps {}
+interface SigninSectionProps extends PageProps {}
 
-const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
+const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
   const {
     navigateToDefault,
     navigate,
@@ -51,13 +48,11 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
-  const { mutate } = useMutation<
-    ISigninUserResult,
-    Error,
-    ISigninUserVariables
-  >(signinUser)
+  const { mutate } = useMutation<SigninUserResult, Error, SigninUserVariables>(
+    signinUser
+  )
 
-  type formPropType = typeof emailAndPasswordOptions.defaultValues
+  type FormPropType = typeof emailAndPasswordOptions.defaultValues
   const {
     control,
     register,
@@ -65,7 +60,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
     setError,
     formState: { errors },
     getValues,
-  } = useForm<formPropType>(emailAndPasswordOptions)
+  } = useForm<FormPropType>(emailAndPasswordOptions)
 
   useWatch({ name: "email", control })
   useWatch({ name: "password", control })
@@ -74,7 +69,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
     navigateToSignup(REGISTRATION_STEP_MAP[step])
   }
 
-  const onSubmit = (props: formPropType) => {
+  const onSubmit = (props: FormPropType) => {
     mutate(
       {
         email: props.email,
@@ -89,6 +84,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             })
           }
           if (!data) return
+          setLocalStorage(TOKEN, data.userData.token)
           if (data.userData.currentSteps !== "finished") {
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
@@ -116,7 +112,6 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             startDate: data.userData.startDate,
             endDate: data.userData.endDate,
           })
-          setLocalStorage(TOKEN, data.userData.token)
           navigateToDefault(data.userData.role)
 
           userStore.setUserFlexData({
@@ -165,7 +160,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
           <StyledFieldLabel $isHidden={!getValues("email")}>
             Email ID
           </StyledFieldLabel>
-          <StyledInputField
+          <InputField
             autoFocus
             placeholder="Enter Email Address"
             variant="outlined"
@@ -174,7 +169,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
           <StyledFieldLabel $isHidden={!getValues("password")}>
             Password
           </StyledFieldLabel>
-          <StyledInputField
+          <InputField
             placeholder="Enter Password"
             type={isVisible ? "text" : "password"}
             variant="outlined"
@@ -251,7 +246,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             <StyledFieldLabel $isHidden={!getValues("email")}>
               Email ID
             </StyledFieldLabel>
-            <StyledInputField
+            <InputField
               placeholder="Enter Email Address"
               variant="outlined"
               {...register("email")}
@@ -259,7 +254,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             <StyledFieldLabel $isHidden={!getValues("password")}>
               Password
             </StyledFieldLabel>
-            <StyledInputField
+            <InputField
               placeholder="Enter Password"
               type={isVisible ? "text" : "password"}
               variant="outlined"

@@ -2,7 +2,7 @@ import * as React from "react"
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
 import CircularProgress from "@mui/material/CircularProgress"
 import getCountryData, { CountryData } from "@/utils/getCountryData"
-import { StyledInputField } from "../commons/uiComponents"
+import InputField from "../commons/InputField"
 
 // function sleep(delay = 0) {
 //   return new Promise(resolve => {
@@ -10,7 +10,7 @@ import { StyledInputField } from "../commons/uiComponents"
 //   })
 // }
 
-interface IProps
+interface AccountInfoCountrySelectProps
   extends Partial<AutocompleteProps<CountryData, false, boolean, false>> {
   country: CountryData | null
   setCountry:
@@ -20,7 +20,7 @@ interface IProps
   label?: string
 }
 
-const AccountInfoCountrySelect: React.FC<IProps> = ({
+const AccountInfoCountrySelect: React.FC<AccountInfoCountrySelectProps> = ({
   country,
   setCountry,
   required,
@@ -79,7 +79,7 @@ const AccountInfoCountrySelect: React.FC<IProps> = ({
       }}
       disableClearable
       renderInput={params => (
-        <StyledInputField
+        <InputField
           {...params}
           sx={{ label: { color: "#8e8e8e" } }}
           required={Boolean(required)}

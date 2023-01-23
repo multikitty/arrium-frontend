@@ -13,14 +13,14 @@ import { ContainedButton, LinkButton } from "../commons/Button"
 import { StyledOtpInput } from "../OtpConfirmationSection/OtpConfirmationSection.styled"
 import maskPhoneNumber from "@/utils/maskPhoneNumber"
 
-interface IProps {
+interface UpdatePhoneNumberModalProps {
   open: boolean
   handleClose: () => void
   handlePhoneNumberChange: () => void
   newPhoneNumber: string
 }
 
-const UpdatePhoneNumberModal = (props: IProps) => {
+const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
   const [otp, setOtp] = useState("")
 
   const handleOtpFieldChange = (otpValue: string) => setOtp(otpValue)

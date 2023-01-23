@@ -1,7 +1,13 @@
 import * as React from "react"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
-import { SEOProps } from "./Seo.types"
+
+export interface SEOProps {
+  description?: string
+  lang?: string
+  meta?: Array<{ name: string; content: string }>
+  title: string
+}
 
 const Seo: React.FC<SEOProps> = ({
   description = "",

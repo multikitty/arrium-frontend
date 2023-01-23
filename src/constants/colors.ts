@@ -6,6 +6,7 @@ export const VIOLET = "#8059F7"
 export const GREEN = "#2DB560"
 export const LIGHT_GREEN = "#98D9B8"
 export const RED = "#FA6464"
+export const DARK_RED = "#a60000"
 export const COMMON = {
   black: BLACK,
   white: WHITE,
@@ -15,6 +16,7 @@ export const COMMON = {
   green: GREEN,
   lightGreen: LIGHT_GREEN,
   red: RED,
+  darkRed: DARK_RED,
 } as const
 
 export const PRIMARY = "#3071F2"

@@ -13,14 +13,14 @@ import {
 } from "./SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
-import { IAddOsVersionVariables } from "@/lib/interfaces/models"
+import { AddOsVersionVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
 
-interface IProps extends ModalProps {
-  handleAdd: (variables: IAddOsVersionVariables) => void
+interface AddOSVersionModalProps extends ModalProps {
+  handleAdd: (variables: AddOsVersionVariables) => void
 }
 
-const AddOSVersionModal = (props: IProps) => {
+const AddOSVersionModal = (props: AddOSVersionModalProps) => {
   const [osVersion, setOsVersion] = useState("")
 
   const handleOsVersionField: React.ChangeEventHandler<

@@ -1,11 +1,11 @@
 import { PlansType, RegistrationStepsType, UserRolesType } from "@/types/common"
 
-export interface ISigninUserVariables {
+export interface SigninUserVariables {
   email: string
   password: string
 }
 
-export interface ISigninUserData {
+export interface SigninUserData {
   phoneNumber: string
   refCode: string
   created_at: number
@@ -30,7 +30,7 @@ export interface ISigninUserData {
   endDate: Date | null
 }
 
-export interface ISigninFlexData {
+export interface SigninFlexData {
   flexID: string
   devModel: string
   devSerial: string
@@ -47,13 +47,13 @@ export interface ISigninFlexData {
   pk: string
 }
 
-export interface ISigninData {
-  userData: ISigninUserData
-  flexData: ISigninFlexData
+export interface SigninData {
+  userData: SigninUserData
+  flexData: SigninFlexData
 }
 
-export interface ISigninUserResult {
+export interface SigninUserResult {
   message: string
   success: boolean
-  data?: ISigninData
+  data?: SigninData
 }

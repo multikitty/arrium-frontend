@@ -37,7 +37,7 @@ import { useStore } from "@/store"
 import { StyledAccountInformationTabDateField } from "../CustomerDetailPage/CustomerDetailPage.styled"
 import { observer } from "mobx-react-lite"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -68,7 +68,7 @@ const radioOptions = [
   },
 ]
 
-interface IProps extends IPageProps {
+interface AccountInformationProps extends PageProps {
   tab: TabType
   role: UserRolesType
   setRole: React.Dispatch<
@@ -76,7 +76,7 @@ interface IProps extends IPageProps {
   >
 }
 
-const AccountInformationTab: React.FC<IProps> = ({
+const AccountInformationTab: React.FC<AccountInformationProps> = ({
   tab,
   role,
   setRole,
@@ -106,9 +106,9 @@ const AccountInformationTab: React.FC<IProps> = ({
     </MenuItem>
   ))
 
-  type formPropType = typeof accountInformationOptions.defaultValues
+  type FormPropType = typeof accountInformationOptions.defaultValues
   const { handleSubmit, control, formState, reset, setValue, ...methods } =
-    useForm<formPropType>({
+    useForm<FormPropType>({
       resolver: accountInformationOptions.resolver,
       defaultValues: {
         ...accountInformationOptions.defaultValues,
@@ -122,7 +122,7 @@ const AccountInformationTab: React.FC<IProps> = ({
     messageStore.setOpen = true
   }
 
-  const onSubmit = (data: formPropType) => {
+  const onSubmit = (data: FormPropType) => {
     console.log("Personal Information form data", data)
     reset()
   }

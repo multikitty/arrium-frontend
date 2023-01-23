@@ -12,14 +12,14 @@ import { useMediaQuery } from "@mui/material"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
 import { UserRolesType } from "@/types/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IAdminLayoutProps extends IPageProps {
+interface AdminLayoutProps extends PageProps {
   children: React.ReactNode
   roles: UserRolesType[]
 }
 
-const AdminLayout: React.FC<IAdminLayoutProps> = ({
+const AdminLayout: React.FC<AdminLayoutProps> = ({
   children,
   roles,
   country_code,

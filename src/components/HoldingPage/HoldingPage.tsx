@@ -18,11 +18,11 @@ import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsPro
 import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IHoldingPageProps extends FormProps, IPageProps {}
+interface HoldingPageProps extends FormProps, PageProps {}
 
-const HoldingPage: React.FC<IHoldingPageProps> = ({
+const HoldingPage: React.FC<HoldingPageProps> = ({
   stage,
   step,
   country_code,

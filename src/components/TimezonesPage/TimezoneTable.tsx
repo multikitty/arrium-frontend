@@ -15,15 +15,15 @@ import {
 } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import { IMockTimezone } from "./TimezonePage.mock"
+import { MockTimezone } from "./TimezonePage.mock"
 
-interface ITimezoneTableProps {
-  timezones: IMockTimezone[]
-  handleEditTimezoneModalOpen: (tz: IMockTimezone) => void
-  handleDeleteTimezoneModalOpen: (tz: IMockTimezone) => void
+interface TimezoneTableProps {
+  timezones: MockTimezone[]
+  handleEditTimezoneModalOpen: (tz: MockTimezone) => void
+  handleDeleteTimezoneModalOpen: (tz: MockTimezone) => void
 }
 
-const TimezoneTable = (props: ITimezoneTableProps) => {
+const TimezoneTable = (props: TimezoneTableProps) => {
   const theme = useTheme()
 
   const noData = !props.timezones.length

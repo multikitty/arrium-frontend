@@ -28,15 +28,15 @@ import { UserRoles } from "@/constants/common"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { useCurrentUser } from "@/agent/user"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IProfileDropdownProps extends IPageProps {
+interface ProfileDropdownProps extends PageProps {
   handleClose: () => void
   anchorEl: null | HTMLElement
   open: boolean
 }
 
-const ProfileDropdown: React.FC<IProfileDropdownProps> = ({
+const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   handleClose,
   anchorEl,
   open,

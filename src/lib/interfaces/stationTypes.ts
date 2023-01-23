@@ -1,33 +1,33 @@
-import { IDeleteCountryResult, IDeleteCountryVariables } from "./locations"
+import { DeleteCountryResult, DeleteCountryVariables } from "./locations"
 
-export interface IStationTypeListDataItem {
+export interface StationTypeListDataItem {
   sk: string
   stationType: string
   pk: string
 }
 
-export interface IStationTypeListData {
-  Items: IStationTypeListDataItem[]
+export interface StationTypeListData {
+  Items: StationTypeListDataItem[]
   Count: number
   ScannedCount: number
 }
 
-export interface IStationTypeListResult {
+export interface StationTypeListResult {
   message: string
   success: boolean
-  data?: IStationTypeListData
+  data?: StationTypeListData
 }
 
-export interface IAddStationTypeVariables {
+export interface AddStationTypeVariables {
   stationType: string
 }
 
-export interface IAddStationTypeResult {
+export interface AddStationTypeResult {
   success: boolean
   message: string
-  validationError?: IAddStationTypeVariables
+  validationError?: AddStationTypeVariables
 }
 
-export interface IDeleteStationTypeVariables extends IDeleteCountryVariables {}
+export interface DeleteStationTypeVariables extends DeleteCountryVariables {}
 
-export interface IDeleteStationTypeResult extends IDeleteCountryResult {}
+export interface DeleteStationTypeResult extends DeleteCountryResult {}

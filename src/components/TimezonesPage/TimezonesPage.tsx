@@ -11,7 +11,7 @@ import {
 } from "./TimezonesPage.styled"
 // import { useTimezoneByZone } from "@/api/timezone"
 import TimezoneTable from "./TimezoneTable"
-import mockTimezoneData, { IMockTimezone } from "./TimezonePage.mock"
+import mockTimezoneData, { MockTimezone } from "./TimezonePage.mock"
 import { Box } from "@mui/material"
 import { ContainedButton } from "../commons/Button"
 import TimezoneModal from "./TimezoneModal"
@@ -26,14 +26,14 @@ const TimezonesPage = () => {
   const [isDeleteTimezoneModalOpen, setIsDeleteTimezoneModalOpen] =
     React.useState(false)
   const [selectedCountry, setSelectedCountry] = React.useState("")
-  const [timezoneData, setTimezoneData] = React.useState<IMockTimezone[]>([])
+  const [timezoneData, setTimezoneData] = React.useState<MockTimezone[]>([])
   const [selectedTimezone, setSelectedTimezone] =
-    React.useState<IMockTimezone | null>(null)
+    React.useState<MockTimezone | null>(null)
   // const { data: zoneListData, isSuccess: isListTimezonesSuccess } =
   //   useTimezonesByCountry(selectedCountry)
   // useTimezoneByZone("Europe/London")
 
-  const handleEditTimezoneModalOpen = (tzData: IMockTimezone) => {
+  const handleEditTimezoneModalOpen = (tzData: MockTimezone) => {
     setSelectedTimezone(tzData)
     setIsEditTimezoneModalOpen(true)
   }
@@ -43,7 +43,7 @@ const TimezonesPage = () => {
     setIsEditTimezoneModalOpen(false)
   }
 
-  const handleDeleteTimezoneModalOpen = (tzData: IMockTimezone) => {
+  const handleDeleteTimezoneModalOpen = (tzData: MockTimezone) => {
     setSelectedTimezone(tzData)
     setIsDeleteTimezoneModalOpen(true)
   }

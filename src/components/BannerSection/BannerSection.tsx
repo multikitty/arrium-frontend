@@ -13,12 +13,12 @@ import {
 import bannerImage from "@/assets/images/landing-banner.png"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
 
-interface IBannerSectionProps extends IPageProps {}
+interface BannerSectionProps extends PageProps {}
 
-const BannerSection: React.FC<IBannerSectionProps> = ({ country_code }) => {
+const BannerSection: React.FC<BannerSectionProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
 
   const handleNavigateToSignup = () => {

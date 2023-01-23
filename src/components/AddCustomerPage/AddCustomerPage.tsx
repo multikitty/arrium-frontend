@@ -22,15 +22,13 @@ import LocationsTab from "./LocationsTab"
 import routes from "@/constants/routes"
 import BillingTab from "./BillingTab"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
-import SaveChangesModal from "../SaveChangesModal"
 import { useSnackbar } from "notistack"
+import { PageProps } from "@/lib/interfaces/common"
+import SaveChangesModal from "../SaveChangesModal"
 
-interface IAddCustomersPageProps extends IPageProps {}
+interface AddCustomersPageProps extends PageProps {}
 
-const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
-  country_code,
-}) => {
+const AddCustomerPage: React.FC<AddCustomersPageProps> = ({ country_code }) => {
   const {
     navigate,
     navigateWithQuery: { navigateToAddCustomerPage },

@@ -1,6 +1,6 @@
 import { arriumAPI } from "./axios"
 import { MutationFunction, useQuery } from "react-query"
-import { IGetAvailabilityTableResult } from "@/lib/interfaces/availability"
+import { GetAvailabilityTableResult } from "@/lib/interfaces/availability"
 
 export const setBlockStartSearch: MutationFunction<any, any> = async params => {
   return await (
@@ -14,7 +14,7 @@ export const setBlockStopSearch: MutationFunction<any, any> = async params => {
   )?.data
 }
 
-export async function fetchSearchedBlocksData(): Promise<IGetAvailabilityTableResult> {
+export async function fetchSearchedBlocksData(): Promise<GetAvailabilityTableResult> {
   return await arriumAPI.get("/block/").then(response => response?.data)
 }
 

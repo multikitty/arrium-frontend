@@ -13,8 +13,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { ITabProps } from "./AccountInformationTab"
-
+import { TabProps } from "./AccountInformationTab"
 import customerConfigOptions from "@/validation/customerConfig"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import { StyledPlaceholder } from "../commons/uiComponents"
@@ -23,11 +22,11 @@ import LoadingScreen from "../LoadingScreen"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { Script } from "gatsby"
 
-interface IConfigurationTabProps extends ITabProps {
+interface ConfigurationTabProps extends TabProps {
   pk: string
 }
 
-const ConfigurationTab = (props: IConfigurationTabProps) => {
+const ConfigurationTab = (props: ConfigurationTabProps) => {
   // const { enqueueSnackbar } = useSnackbar()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const {

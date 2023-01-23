@@ -1,4 +1,4 @@
-export interface IFetchInvoicesByAdminVariables {
+export interface FetchInvoicesByAdminVariables {
   pk: string
   sk: string
   page?: number
@@ -9,7 +9,7 @@ export interface IFetchInvoicesByAdminVariables {
 
 export type InvoicePaidStatus = "paid" | "due" | "overdue"
 
-export interface IFetchInvoicesByAdminDataInvoicesData {
+export interface FetchInvoicesByAdminDataInvoicesData {
   id: string
   invoice_no: string
   stripe_id: string
@@ -24,7 +24,7 @@ export interface IFetchInvoicesByAdminDataInvoicesData {
   period_end: string | null
 }
 
-export interface IFetchInvoicesByAdminDataInvoices {
+export interface FetchInvoicesByAdminDataInvoices {
   object: string
   data: [
     {
@@ -211,16 +211,46 @@ export interface IFetchInvoicesByAdminDataInvoices {
   url: string
 }
 
-export interface IFetchInvoicesByAdminData {
-  invoices_data: IFetchInvoicesByAdminDataInvoicesData[]
+export interface FetchInvoicesByAdminData {
+  invoices_data: FetchInvoicesByAdminDataInvoicesData[]
   has_more: boolean
-  invoices: IFetchInvoicesByAdminDataInvoices
+  invoices: FetchInvoicesByAdminDataInvoices
 }
 
-export interface IFetchInvoicesByAdminResult {
+export interface FetchInvoicesByAdminResult {
   success: boolean
   message: string
-  invoices: IFetchInvoicesByAdminData
+  invoices: FetchInvoicesByAdminData
+}
+
+export interface FetchInvoicesByDriverVariables {
+  page?: number
+  limit?: number
+  end_before?: string
+  start_after?: string
+}
+
+export interface FetchInvoicesByDriverData {
+  id: string
+  invoice_no: string
+  stripe_id: string
+  description: string
+  amount_due: number
+  due_date: string
+  paid_at: string | null
+  invoice_url: string
+  paid_status: InvoicePaidStatus
+  period_start: string
+  period_end: string
+}
+
+export interface FetchInvoicesByDriverResult {
+  success: boolean
+  message: string
+  data: Array<FetchInvoicesByDriverData>
+  has_more: boolean
+  starting_after: string | null
+  ending_before: string | null
 }
 
 export interface IFetchInvoicesByDriverVariables {

@@ -23,13 +23,13 @@ import { observer } from "mobx-react-lite"
 import useNavigate from "@/hooks/useNavigate"
 import { DriverPages } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ISidePanelProps extends IPageProps {
+interface SidePanelProps extends PageProps {
   role: UserRolesType
 }
 
-const SidePanel: React.FC<ISidePanelProps> = ({ country_code }) => {
+const SidePanel: React.FC<SidePanelProps> = ({ country_code }) => {
   const { pathname } = useLocation()
   const { navigate } = useNavigate({ country_code })
   const { userStore, commonStore } = useStore()

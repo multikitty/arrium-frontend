@@ -1,20 +1,20 @@
 import {
-  IAddFlexVersionResult,
-  IAddFlexVersionVariables,
-  IAddOsVersionResult,
-  IAddOsVersionVariables,
-  IAddPhoneModelResult,
-  IAddPhoneModelVariables,
-  IDeleteModelsAndVersionsResult,
-  IDeleteModelsAndVersionsVariables,
-  IFlexVersionListResult,
-  IOsVersionListResult,
-  IPhoneModelListResult,
+  AddFlexVersionResult,
+  AddFlexVersionVariables,
+  AddOsVersionResult,
+  AddOsVersionVariables,
+  AddPhoneModelResult,
+  AddPhoneModelVariables,
+  DeleteModelsAndVersionsResult,
+  DeleteModelsAndVersionsVariables,
+  FlexVersionListResult,
+  OsVersionListResult,
+  PhoneModelListResult,
 } from "@/lib/interfaces/models"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
-function fetchPhoneModelList(): Promise<IPhoneModelListResult> {
+function fetchPhoneModelList(): Promise<PhoneModelListResult> {
   return arriumAPI
     .get("/model-versions/list?entityName=phoneModel")
     .then(response => response.data)
@@ -25,15 +25,15 @@ export function usePhoneModelList() {
 }
 
 export const addPhoneModel: MutationFunction<
-  IAddPhoneModelResult,
-  IAddPhoneModelVariables
+  AddPhoneModelResult,
+  AddPhoneModelVariables
 > = async params => {
   return await (
     await arriumAPI.post("/model-versions/phone-model/add", params)
   ).data
 }
 
-function fetchOsVersionList(): Promise<IOsVersionListResult> {
+function fetchOsVersionList(): Promise<OsVersionListResult> {
   return arriumAPI
     .get("/model-versions/list?entityName=osVersion")
     .then(response => response.data)
@@ -44,15 +44,15 @@ export function useOsVersionList() {
 }
 
 export const addOsVersion: MutationFunction<
-  IAddOsVersionResult,
-  IAddOsVersionVariables
+  AddOsVersionResult,
+  AddOsVersionVariables
 > = async params => {
   return await (
     await arriumAPI.post("/model-versions/os-version/add", params)
   ).data
 }
 
-function fetchFlexVersionList(): Promise<IFlexVersionListResult> {
+function fetchFlexVersionList(): Promise<FlexVersionListResult> {
   return arriumAPI
     .get("/model-versions/list?entityName=flexVersion")
     .then(response => response.data)
@@ -63,8 +63,8 @@ export function useFlexVersionList() {
 }
 
 export const addFlexVersion: MutationFunction<
-  IAddFlexVersionResult,
-  IAddFlexVersionVariables
+  AddFlexVersionResult,
+  AddFlexVersionVariables
 > = async params => {
   return await (
     await arriumAPI.post("/model-versions/flex-version/add", params)
@@ -72,8 +72,8 @@ export const addFlexVersion: MutationFunction<
 }
 
 export const deleteModelsAndVersions: MutationFunction<
-  IDeleteModelsAndVersionsResult,
-  IDeleteModelsAndVersionsVariables
+  DeleteModelsAndVersionsResult,
+  DeleteModelsAndVersionsVariables
 > = async params => {
   return await (
     await arriumAPI.delete("/model-versions/delete", { data: params })

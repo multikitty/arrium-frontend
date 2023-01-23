@@ -1,35 +1,35 @@
 import {
-  ICustomerAccountInfoResult,
-  ICustomersListResult,
-  ICustomersListVariables,
-  ICustomerAccountInfoVariables,
-  ICustomerConfigInfoVariables,
-  ICustomerConfigInfoResult,
-  IUpdateUserAccountInfoResult,
-  IUpdateUserAccountInfoVariables,
-  IUpdateConfigurationDetailsResult,
-  IUpdateConfigurationDetailsVariables,
+  CustomerAccountInfoResult,
+  CustomersListResult,
+  CustomersListVariables,
+  CustomerAccountInfoVariables,
+  CustomerConfigInfoVariables,
+  CustomerConfigInfoResult,
+  UpdateUserAccountInfoResult,
+  UpdateUserAccountInfoVariables,
+  UpdateConfigurationDetailsResult,
+  UpdateConfigurationDetailsVariables,
 } from "@/lib/interfaces/customers"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
 
 function fetchCustomersList(
-  params: ICustomersListVariables
-): Promise<ICustomersListResult> {
+  params: CustomersListVariables
+): Promise<CustomersListResult> {
   return arriumAPI.get("/user/list", { params }).then(response => response.data)
 }
 
-export function useCustomersList(params: ICustomersListVariables) {
+export function useCustomersList(params: CustomersListVariables) {
   return useQuery(["customers-list", params], () => fetchCustomersList(params!))
 }
 
 export function fetchCustomerAccountInfo(
-  params: ICustomerAccountInfoVariables
-): Promise<ICustomerAccountInfoResult> {
+  params: CustomerAccountInfoVariables
+): Promise<CustomerAccountInfoResult> {
   return arriumAPI.get("/user/get", { params }).then(response => response.data)
 }
 
-export function useCustomerAccountInfo(params: ICustomerAccountInfoVariables) {
+export function useCustomerAccountInfo(params: CustomerAccountInfoVariables) {
   return useQuery(
     ["customer-account-info", params],
     () => fetchCustomerAccountInfo(params!),
@@ -40,14 +40,14 @@ export function useCustomerAccountInfo(params: ICustomerAccountInfoVariables) {
 }
 
 export function fetchCustomerConfigInfo(
-  params: ICustomerConfigInfoVariables
-): Promise<ICustomerConfigInfoResult> {
+  params: CustomerConfigInfoVariables
+): Promise<CustomerConfigInfoResult> {
   return arriumAPI
     .get("/user/flex-details/" + params.pk)
     .then(response => response.data)
 }
 
-export function useCustomerConfigInfo(params: ICustomerConfigInfoVariables) {
+export function useCustomerConfigInfo(params: CustomerConfigInfoVariables) {
   return useQuery(
     ["customer-config-info", params],
     () => fetchCustomerConfigInfo(params!),
@@ -58,8 +58,8 @@ export function useCustomerConfigInfo(params: ICustomerConfigInfoVariables) {
 }
 
 export const updateUserAccountInfo: MutationFunction<
-  IUpdateUserAccountInfoResult,
-  IUpdateUserAccountInfoVariables
+  UpdateUserAccountInfoResult,
+  UpdateUserAccountInfoVariables
 > = async params => {
   return await (
     await arriumAPI.put("/user/update-account-info", params)
@@ -67,8 +67,8 @@ export const updateUserAccountInfo: MutationFunction<
 }
 
 export const updateConfigurationDetails: MutationFunction<
-  IUpdateConfigurationDetailsResult,
-  IUpdateConfigurationDetailsVariables
+  UpdateConfigurationDetailsResult,
+  UpdateConfigurationDetailsVariables
 > = async params => {
   return await (
     await arriumAPI.put("/user/flex-details/update", params)

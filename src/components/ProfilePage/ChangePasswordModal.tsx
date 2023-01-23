@@ -15,13 +15,13 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 
-interface IProps {
+interface ChangePasswordModalProps {
   open: boolean
   handleClose: () => void
   handleSave: () => void
 }
 
-const ChangePasswordModal = (props: IProps) => {
+const ChangePasswordModal = (props: ChangePasswordModalProps) => {
   const [currentPassword, setCurrentPassword] = useState("")
   const [isCurrentPasswordHidden, setIsCurrentPasswordHidden] = useState(true)
   const [newPassword, setNewPassword] = useState("")

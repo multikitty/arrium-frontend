@@ -3,14 +3,14 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
 import { StyledSettingsColumnContentListItem } from "@/components/SettingsPage/SettingsPage.styled"
 import { Box, IconButton } from "@mui/material"
 import theme from "@/theme"
-import { IOsVersionListDataItem } from "@/lib/interfaces/models"
+import { OsVersionListDataItem } from "@/lib/interfaces/models"
 
-interface IProps {
-  data: IOsVersionListDataItem[]
+interface OsVersionListProps {
+  data: OsVersionListDataItem[]
   onDelete: (sk: string, pk: string, name: string) => void
 }
 
-const OsVersionList: React.FC<IProps> = ({ data, onDelete }) => {
+const OsVersionList: React.FC<OsVersionListProps> = ({ data, onDelete }) => {
   return (
     <React.Fragment>
       {data.map(item => {

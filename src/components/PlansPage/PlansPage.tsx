@@ -10,11 +10,11 @@ import {
   StyledPlansPageMapWrapper,
 } from "./PlansPage.styled"
 import PlansTable from "./PlansTable"
-import mockPlansData, {type IMockPlans} from "./PlansPage.mock"
+import mockPlansData, { MockPlans } from "./PlansPage.mock"
 
 const PlansPage = () => {
   const [selectedRegion, setSelectedRegion] = React.useState("")
-  const [plansData, setPlansData] = React.useState<IMockPlans[]>([])
+  const [plansData, setPlansData] = React.useState<MockPlans[]>([])
 
   React.useEffect(() => {
     if (!selectedRegion || !["ES", "GB"].includes(selectedRegion)) return

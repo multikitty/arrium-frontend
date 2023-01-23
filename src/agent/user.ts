@@ -1,14 +1,14 @@
 import {
-  ICurrentUserResult,
-  IRequestEmailVerifyResult,
-  IRequestEmailVerifyVariables,
-  IUpdateProfileResult,
-  IUpdateProfileVariables,
+  CurrentUserResult,
+  RequestEmailVerifyResult,
+  RequestEmailVerifyVariables,
+  UpdateProfileResult,
+  UpdateProfileVariables,
 } from "@/lib/interfaces/user"
 import { useQuery, MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
 
-export function fetchCurrentUserData(): Promise<ICurrentUserResult> {
+export function fetchCurrentUserData(): Promise<CurrentUserResult> {
   return arriumAPI.get("/user").then(response => response.data)
 }
 
@@ -17,8 +17,8 @@ export function useCurrentUser() {
 }
 
 export const updateProfile: MutationFunction<
-  IUpdateProfileResult,
-  IUpdateProfileVariables
+  UpdateProfileResult,
+  UpdateProfileVariables
 > = async updateProfileData => {
   return await (
     await arriumAPI.post("/user/update-profile", updateProfileData)
@@ -26,8 +26,8 @@ export const updateProfile: MutationFunction<
 }
 
 export const requestEmailVerify: MutationFunction<
-  IRequestEmailVerifyResult,
-  IRequestEmailVerifyVariables
+  RequestEmailVerifyResult,
+  RequestEmailVerifyVariables
 > = async params => {
   return await (
     await arriumAPI.post("/user/request-verify-email", { email: params.email })

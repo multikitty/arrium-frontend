@@ -1,13 +1,13 @@
 import {
-  IForgotPasswordResult,
-  IForgotPasswordVariables,
+  ForgotPasswordResult,
+  ForgotPasswordVariables,
 } from "@/lib/interfaces/forgotPassword"
 import { MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
 
 export const forgotPassword: MutationFunction<
-  IForgotPasswordResult,
-  IForgotPasswordVariables
+  ForgotPasswordResult,
+  ForgotPasswordVariables
 > = async params => {
   return await (
     await arriumAPI.post("/forgot-password", params)

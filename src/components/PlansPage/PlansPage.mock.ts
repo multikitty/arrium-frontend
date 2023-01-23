@@ -1,6 +1,6 @@
 import countryToCurrency from "country-to-currency"
 
-const mockPlansData: Record<string, IMockPlans[]> = {
+const mockPlansData: Record<string, MockPlans[]> = {
   ES: [
     {
       countryName: "Spain",
@@ -35,7 +35,7 @@ const mockPlansData: Record<string, IMockPlans[]> = {
   ],
 }
 
-export interface IMockPlans {
+export interface MockPlans {
   productName: string
   currency: string
   countryName: string

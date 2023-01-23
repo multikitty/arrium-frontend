@@ -1,19 +1,19 @@
 import { MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
 import {
-  IAccountInfoResult,
-  IAccountInfoVariables,
-  IFlexInfoResult,
-  IFlexInfoVariables,
-  IOtpConfirmationResult,
-  IOtpConfirmationVariables,
-  IRegistrationUserResult,
-  IRegistrationUserVariables,
+  AccountInfoResult,
+  AccountInfoVariables,
+  FlexInfoResult,
+  FlexInfoVariables,
+  OtpConfirmationResult,
+  OtpConfirmationVariables,
+  RegistrationUserResult,
+  RegistrationUserVariables,
 } from "@/lib/interfaces/signup"
 
 export const registerUser: MutationFunction<
-  IRegistrationUserResult,
-  IRegistrationUserVariables
+  RegistrationUserResult,
+  RegistrationUserVariables
 > = async registrationData => {
   return await (
     await arriumAPI.post("/signup/registration", registrationData)
@@ -21,8 +21,8 @@ export const registerUser: MutationFunction<
 }
 
 export const updateAccountInfo: MutationFunction<
-  IAccountInfoResult,
-  IAccountInfoVariables
+  AccountInfoResult,
+  AccountInfoVariables
 > = async updatedAccountInfo => {
   return await (
     await arriumAPI.post("/signup/account-info", updatedAccountInfo)
@@ -30,8 +30,8 @@ export const updateAccountInfo: MutationFunction<
 }
 
 export const confirmOtp: MutationFunction<
-  IOtpConfirmationResult,
-  IOtpConfirmationVariables
+  OtpConfirmationResult,
+  OtpConfirmationVariables
 > = async otp => {
   return await (
     await arriumAPI.post("/signup/otp-confirmation", otp)
@@ -39,8 +39,8 @@ export const confirmOtp: MutationFunction<
 }
 
 export const updateFlexInfo: MutationFunction<
-  IFlexInfoResult,
-  IFlexInfoVariables
+  FlexInfoResult,
+  FlexInfoVariables
 > = async flexInfoData => {
   return await (
     await arriumAPI.post("/signup/update-amazon-flex-info", flexInfoData)

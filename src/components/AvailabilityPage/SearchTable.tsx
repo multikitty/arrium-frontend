@@ -53,12 +53,12 @@ const tableHeaderBlackTextStyles = {
   color: theme.palette.blackText,
 }
 
-interface IProps {
+interface SearchTableProps {
   isMobile?: boolean
 }
 
-const SearchTable: React.FC<IProps> = ({ isMobile }) => {
-  const { formState, control, ...methods } = useFormContext<FormValues>()
+const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
+  const { formState, control, ...methods } = useFormContext()
 
   useWatch({ name: "data", control })
 

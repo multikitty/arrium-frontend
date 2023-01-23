@@ -61,12 +61,12 @@ import { Plans } from "@/constants/common"
 import { useSnackbar } from "notistack"
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
 import {
-  IGetPrefrencesResultData,
-  ISetPrefrencesResult,
-  ISetPrefrencesVariables,
+  GetPrefrencesResultData,
+  SetPrefrencesResult,
+  SetPrefrencesVariables,
 } from "@/lib/interfaces/prefrences"
 import { useMutation } from "react-query"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 import { createDateInHM, localStorageUtils } from "@/utils"
 import AvailabilityAutomationModal from "./AvailabilityAutomationModal"
 import { setBlockStartSearch, setBlockStopSearch } from "@/agent/availability"
@@ -114,9 +114,9 @@ const tabStyles = {
   padding: rem("32px"),
 }
 
-interface IAvailabilityPageProps extends IPageProps {}
+interface AvailabilityPageProps extends PageProps {}
 
-const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
+const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   country_code,
 }) => {
   const { userStore } = useStore()
@@ -158,7 +158,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   useEffect(() => {
     if (!isLoading) {
       methods.reset({
-        data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
+        data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
           location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
           checked: value?.preference?.active === "Y" ? true : false,
           timeToArrive: value.preference?.tta,
@@ -183,7 +183,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   useEffect(() => {
     if (!isLoading) {
       methods.reset({
-        data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
+        data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
           location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
           checked: value?.preference?.active === "Y" ? true : false,
           timeToArrive: value?.preference?.tta,
@@ -238,7 +238,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
 
   const handleFormReset = () => {
     methods.reset({
-      data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
+      data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
         location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
         checked: false,
         timeToArrive: value?.preference?.tta,
@@ -257,9 +257,9 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   }
 
   const { mutate } = useMutation<
-    ISetPrefrencesResult,
+    SetPrefrencesResult,
     Error,
-    ISetPrefrencesVariables
+    SetPrefrencesVariables
   >(setPrefrences)
 
   const onSubmit = async (preferences: FormValues) => {
@@ -270,8 +270,8 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         stationId: obj.stationId,
         day: "",
         tta: obj.timeToArrive,
-        minPay: obj.minimumPay.toString() ?? "",
-        minHourlyRate: obj.minimumHourlyRate.toString() ?? "",
+        minPay: obj.minimumPay,
+        minHourlyRate: obj.minimumHourlyRate ?? "",
         startTime: obj.startTime
           ? new Date(obj.startTime).toLocaleTimeString([], {
               hour12: false,

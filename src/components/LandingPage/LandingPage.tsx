@@ -7,11 +7,11 @@ import WorkingSection from "../WorkingSection"
 import FooterSection from "../FooterSection"
 import ContactFormSection from "../ContactFormSection"
 import LandingNavbar from "../LandingNavbar"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ILandingPageProps extends IPageProps { }
+interface LandingPageProps extends PageProps { }
 
-const LandingPage: React.FC<ILandingPageProps> = ({ country_code }) => (
+const LandingPage: React.FC<LandingPageProps> = ({ country_code }) => (
   <>
     <Seo title="Home | Arrium" />
     <LandingNavbar country_code={country_code} />

@@ -11,7 +11,7 @@ import { Box } from "@mui/material"
 //   })
 // }
 
-interface IProps
+interface CountrySelectProps
   extends Partial<AutocompleteProps<CountryData, false, false, false>> {
   country: CountryData | null
   setCountry:
@@ -23,7 +23,7 @@ interface IProps
   filterCountries?: string[]
 }
 
-const CountrySelect: React.FC<IProps> = ({
+const CountrySelect: React.FC<CountrySelectProps> = ({
   country,
   setCountry,
   required,

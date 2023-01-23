@@ -5,7 +5,7 @@ import AdminLayout from "@/components/AdminLayout"
 import CustomerDetailPage from "@/components/CustomerDetailPage"
 import { UserRoles } from "@/constants/common"
 
-interface ICustomerDetail {
+interface CustomerDetail {
   params: {
     country_code: string
     pk: string
@@ -13,7 +13,7 @@ interface ICustomerDetail {
   }
 }
 
-const CustomerDetail: React.FC<ICustomerDetail> = ({ params }) => {
+const CustomerDetail: React.FC<CustomerDetail> = ({ params }) => {
   return (
     <AdminLayout roles={[UserRoles.admin]} country_code={params.country_code}>
       <Seo title="Customer Detail | Arrium" />

@@ -18,13 +18,13 @@ import { COUNTRY_CODE } from "@/constants/localStorage"
 import SubDirCountrySelect from "../SubDirCountrySelect"
 import { DEFAULT_COUNTRY } from "@/constants/common"
 
-interface IProps {
+interface SelectCountryModalProps {
   open: boolean
   handleClose: () => void
   handleSave: () => void
 }
 
-const SelectCountryModal = (props: IProps) => {
+const SelectCountryModal = (props: SelectCountryModalProps) => {
   const [selectedCountry, setSelectedCountry] = React.useState<string | null>(
     "GB"
   )

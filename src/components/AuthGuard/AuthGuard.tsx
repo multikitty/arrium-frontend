@@ -6,14 +6,14 @@ import { useStore } from "@/store"
 import { UserRolesType } from "@/types/common"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface IAuthGuardProps extends IPageProps {
+interface AuthGuardProps extends PageProps {
   children: React.ReactNode
   roles: UserRolesType[]
 }
 
-const AuthGuard = (props: IAuthGuardProps) => {
+const AuthGuard = (props: AuthGuardProps) => {
   const { navigate } = useNavigate({
     country_code: props.country_code,
   })
