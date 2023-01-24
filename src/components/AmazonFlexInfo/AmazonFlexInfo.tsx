@@ -87,7 +87,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
     !methods.getValues("userName") ||
     !methods.getValues("password") ||
     !methods.getValues("confirmPassword") ||
-    !!Object.keys(formState.errors).length
+    !!objectLength(formState.errors)
 
   return (
     <React.Fragment>
