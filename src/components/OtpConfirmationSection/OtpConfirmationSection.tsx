@@ -50,7 +50,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   const [thirdSecondsFromNow, setThirdSecondsFromNow] = useState(
     timeFromNowInMs(30 * 1000)
   )
-  const { minutes, seconds } = useCountDown(thirdSecondsFromNow)
+  const { seconds } = useCountDown(thirdSecondsFromNow)
   const { mutate } = useMutation<
     OtpConfirmationResult,
     Error,
@@ -102,6 +102,8 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
     setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
   }
 
+  const isContinueDisabled = otp.length !== 4
+
   return (
     <React.Fragment>
       {isWebView ? (
@@ -141,6 +143,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
             </LinkButton>
           </Box>
           <StyledButton
+            disabled={isContinueDisabled}
             variant="contained"
             color="primary"
             disableElevation
@@ -195,21 +198,14 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
                 disabled={seconds > 0}
                 onClick={handleResendOtp}
               >
-                Resend Code
+                Resend Code {seconds > 0 ? `(${seconds})` : ""}
               </LinkButton>
-              {seconds > 0 && (
-                <Box component="span" ml={-0.5}>
-                  in{" "}
-                  {`${minutes.toString().padStart(2, "0")}: ${seconds
-                    .toString()
-                    .padStart(2, "0")}`}{" "}
-                </Box>
-              )}
               <LinkButton variant="text" onClick={handlePhoneNumberChange}>
                 Change Phone Number
               </LinkButton>
             </Box>
             <StyledButton
+              disabled={isContinueDisabled}
               variant="contained"
               color="primary"
               disableElevation
