@@ -34,7 +34,7 @@ import SubDirCountrySelect from "../SubDirCountrySelect"
 import { navigate as gatsbyNavigate } from "gatsby"
 import { devices } from "@/constants/device"
 
-interface IFooterSectionProps extends IPageProps {}
+interface IFooterSectionProps extends IPageProps { }
 
 const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
@@ -113,7 +113,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
           justifyContent: { xs: "space-around", lg: "space-between" },
         }}
       >
-        <StyledFooterSectionSocialLinksContainer>
+        {/* <StyledFooterSectionSocialLinksContainer>
           <StyledFooterSectionSocialIconsContainer>
             <StyledFooterSectionSocialIcon
               mr
@@ -129,7 +129,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
               </IconButton>
             </StyledFooterSectionSocialIcon>
           </StyledFooterSectionSocialIconsContainer>
-        </StyledFooterSectionSocialLinksContainer>
+        </StyledFooterSectionSocialLinksContainer> */}
         <StyledFooterSectionCountryDropdownContainer>
           <SubDirCountrySelect
             openUpwards
