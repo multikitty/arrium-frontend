@@ -26,7 +26,7 @@ const useCountDown = (targetDate: number): ReturnType => {
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      if (countDown > 0) setCountDown(countDownDate - new Date().getTime())
+      setCountDown(countDownDate - new Date().getTime())
     }, 1000)
 
     return () => clearInterval(interval)

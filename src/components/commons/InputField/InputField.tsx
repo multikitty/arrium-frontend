@@ -1,9 +1,10 @@
 import React from "react"
 import { StyledInputField } from "./InputField.styled"
 import { TextFieldProps } from "@mui/material"
+import { Property } from "csstype"
 
 type InputFieldProps = {
-  mb?: string
+  mb?: Property.MarginBottom
   isCentered?: boolean
   maxWidth?: string
   minWidth?: string

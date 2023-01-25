@@ -30,6 +30,7 @@ import { Controller, useForm, useWatch } from "react-hook-form"
 import HelperText from "../commons/HelperText"
 import theme from "@/theme"
 import InputField from "../commons/InputField"
+import { objectLength } from "@/utils"
 
 interface AmazonFlexInfoProps extends FormProps, PageProps {}
 
@@ -87,7 +88,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
     !methods.getValues("userName") ||
     !methods.getValues("password") ||
     !methods.getValues("confirmPassword") ||
-    !!Object.keys(formState.errors).length
+    !!objectLength(formState.errors)
 
   return (
     <React.Fragment>

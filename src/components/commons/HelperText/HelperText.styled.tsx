@@ -12,6 +12,8 @@ interface StyledHelperTextProps {
   maxWidth?: Property.MaxWidth
   minWidth?: Property.MinWidth
   mt?: Property.MarginTop
+  mb?: Property.MarginBottom
+  mr?: Property.MarginRight
 }
 
 export const StyledHelperText = styled.p<StyledHelperTextProps>`
@@ -31,6 +33,16 @@ export const StyledHelperText = styled.p<StyledHelperTextProps>`
     p.mt &&
     css`
       margin-top: ${p.mt};
+    `}
+  ${p =>
+    p.mb &&
+    css`
+      margin-top: ${p.mb};
+    `}
+  ${p =>
+    p.mr &&
+    css`
+      margin-top: ${p.mr};
     `}
   ${p =>
     p.maxWidth &&

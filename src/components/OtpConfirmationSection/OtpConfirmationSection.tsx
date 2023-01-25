@@ -31,8 +31,6 @@ import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 
-const THIRTY_SECONDS_FROM_NOW = timeFromNowInMs(30 * 1000)
-
 interface OtpConfirmationSectionProps extends FormProps, PageProps {}
 
 const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
@@ -48,10 +46,11 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
   const [otp, setOtp] = useState("")
+  const [countOtpResent, setCountOtpResent] = useState(0)
   const [thirdSecondsFromNow, setThirdSecondsFromNow] = useState(
-    THIRTY_SECONDS_FROM_NOW
+    timeFromNowInMs(30 * 1000)
   )
-  const { minutes, seconds } = useCountDown(thirdSecondsFromNow)
+  const { seconds } = useCountDown(thirdSecondsFromNow)
   const { mutate } = useMutation<
     OtpConfirmationResult,
     Error,
@@ -88,8 +87,22 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   }
 
   const handleResendOtp = () => {
-    setThirdSecondsFromNow(THIRTY_SECONDS_FROM_NOW)
+    const newCount = countOtpResent + 1
+    if (newCount > 3) {
+      enqueueSnackbar("You have exceeded your number of maximum attempts.", {
+        variant: "error",
+      })
+      setTimeout(() => {
+        navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
+      }, 1000)
+      setCountOtpResent(0)
+      return
+    }
+    setCountOtpResent(newCount)
+    setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
   }
+
+  const isContinueDisabled = otp.length !== 4
 
   return (
     <React.Fragment>
@@ -123,13 +136,14 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
               onClick={handleResendOtp}
               disabled={seconds > 0}
             >
-              Resend Code
+              Resend Code {seconds > 0 ? `(${seconds})` : ""}
             </LinkButton>
             <LinkButton variant="text" onClick={handlePhoneNumberChange}>
               Change Phone Number
             </LinkButton>
           </Box>
           <StyledButton
+            disabled={isContinueDisabled}
             variant="contained"
             color="primary"
             disableElevation
@@ -184,21 +198,14 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
                 disabled={seconds > 0}
                 onClick={handleResendOtp}
               >
-                Resend Code
+                Resend Code {seconds > 0 ? `(${seconds})` : ""}
               </LinkButton>
-              {seconds > 0 && (
-                <Box component="span" ml={-0.5}>
-                  in{" "}
-                  {`${minutes.toString().padStart(2, "0")}: ${seconds
-                    .toString()
-                    .padStart(2, "0")}`}{" "}
-                </Box>
-              )}
               <LinkButton variant="text" onClick={handlePhoneNumberChange}>
                 Change Phone Number
               </LinkButton>
             </Box>
             <StyledButton
+              disabled={isContinueDisabled}
               variant="contained"
               color="primary"
               disableElevation
