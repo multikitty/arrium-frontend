@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Box, IconButton, useMediaQuery } from "@mui/material"
+import React, { useEffect, useMemo, useState } from "react"
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 
 import {
@@ -38,6 +38,7 @@ import { PageProps } from "@/lib/interfaces/common"
 import { COUNTRY_CODE, TOKEN } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
 import InputField from "../commons/InputField"
+import HelperText from "../commons/HelperText"
 
 interface SignupSectionProps extends FormProps, PageProps {}
 
@@ -47,6 +48,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
   step,
   country_code,
 }) => {
+  const theme = useTheme()
   const isWebView = useMediaQuery(devices.web.up)
   const { enqueueSnackbar } = useSnackbar()
   const {
@@ -59,6 +61,8 @@ const SignupSection: React.FC<SignupSectionProps> = ({
   const [password, setPassword] = useState("")
   const [refCode, setRefCode] = useState("")
   const [isFocused, setIsFocused] = useState(false)
+  const [isPasswordFieldDirty, setIsPasswordFieldDirty] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string> | null>(null)
   const [isRequiredSet, setIsRequiredSet] = useState<RequiredSet>({
     digit: true,
     lowercase: true,
@@ -85,23 +89,37 @@ const SignupSection: React.FC<SignupSectionProps> = ({
     })
   }, [password])
 
+  const handlePasswordFieldChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setPassword(e.target.value)
+    setIsPasswordFieldDirty(true)
+    if (!isPasswordValid && !!errors?.password) {
+      setErrors(errs => ({
+        ...errs,
+        password: "Please choose a stronger password",
+      }))
+    } else {
+      setErrors(null)
+    }
+  }
+
   const handleInputFocus = () => {
     setIsFocused(true)
   }
   const handleInputBlur = () => {
     setIsFocused(false)
+    if (!isPasswordValid && isPasswordFieldDirty) {
+      setErrors(errs => ({
+        ...errs,
+        password: "Please choose a stronger password",
+      }))
+    }
   }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
-    if (
-      !(
-        isRequiredSet.digit &&
-        isRequiredSet.lowercase &&
-        isRequiredSet.minEightChar &&
-        isRequiredSet.uppercase
-      )
-    ) {
+    if (!isPasswordValid) {
       handleInputFocus()
       return
     }
@@ -142,7 +160,16 @@ const SignupSection: React.FC<SignupSectionProps> = ({
     navigate(routes.signin)
   }
 
-  const isSubmitDisabled = !email || !password
+  const isPasswordValid = useMemo(
+    () =>
+      isRequiredSet.digit &&
+      isRequiredSet.lowercase &&
+      isRequiredSet.minEightChar &&
+      isRequiredSet.uppercase,
+    [isRequiredSet]
+  )
+
+  const isSubmitDisabled = !email || !password || !isPasswordValid
 
   return (
     <React.Fragment>
@@ -151,7 +178,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
-          <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
+          <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
           <InputField
             placeholder="Enter Email Address"
             variant="outlined"
@@ -166,7 +193,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
               placeholder="Enter Password"
               type={isVisible ? "text" : "password"}
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={handlePasswordFieldChange}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               variant="outlined"
@@ -227,6 +254,16 @@ const SignupSection: React.FC<SignupSectionProps> = ({
                 </StyledValidationTextWrapper>
               </StyledPasswordValidationContainer>
             )}
+            {!!errors?.password && (
+              <HelperText
+                type="large"
+                ml="0"
+                mt="-8px"
+                color={theme.palette.error.main}
+              >
+                {errors.password}
+              </HelperText>
+            )}
           </Box>
           <StyledTextBox>
             If you have a 6-digit code, enter it below
@@ -271,7 +308,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
             <Box display="flex" justifyContent="center">
               <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!email}>Email ID</StyledFieldLabel>
+            <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
             <InputField
               placeholder="Enter Email Address"
               variant="outlined"
@@ -280,7 +317,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
               onChange={e => setEmail(e.target.value)}
               required
             />
-            <StyledFieldLabel $isHidden={!password}>Password</StyledFieldLabel>
+            <StyledFieldLabel $isHidden={!password}>Password*</StyledFieldLabel>
             <Box position="relative">
               <InputField
                 placeholder="Enter Password"
@@ -289,7 +326,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 required
-                onChange={e => setPassword(e.target.value)}
+                onChange={handlePasswordFieldChange}
                 variant="outlined"
                 InputProps={{
                   endAdornment: (
