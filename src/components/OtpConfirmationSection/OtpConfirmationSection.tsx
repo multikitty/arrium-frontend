@@ -47,6 +47,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   const isWebView = useMediaQuery(devices.web.up)
   const [otp, setOtp] = useState("")
   const [countOtpResent, setCountOtpResent] = useState(0)
+  const [countSubmitError, setCountSubmitError] = useState(0)
   const [thirdSecondsFromNow, setThirdSecondsFromNow] = useState(
     timeFromNowInMs(30 * 1000)
   )
@@ -68,6 +69,20 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
+    const newCountSubmitError = countSubmitError + 1
+    if (newCountSubmitError === 3) {
+      enqueueSnackbar(
+        "Please go back to re-enter your number or provide the correct number.",
+        {
+          variant: "error",
+        }
+      )
+      setTimeout(() => {
+        navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
+      }, 3000)
+      setCountSubmitError(0)
+      return
+    }
 
     mutate(
       { otp },
@@ -77,6 +92,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
             enqueueSnackbar(validationError?.otp || message, {
               variant: "error",
             })
+            setCountSubmitError(newCountSubmitError)
             return
           }
           setFormStage(prev => prev + 1)
@@ -94,7 +110,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
       })
       setTimeout(() => {
         navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
-      }, 1000)
+      }, 3000)
       setCountOtpResent(0)
       return
     }
