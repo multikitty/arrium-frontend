@@ -113,7 +113,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
           justifyContent: { xs: "space-around", lg: "space-between" },
         }}
       >
-        <StyledFooterSectionSocialLinksContainer>
+        {/* <StyledFooterSectionSocialLinksContainer>
           <StyledFooterSectionSocialIconsContainer>
             <StyledFooterSectionSocialIcon
               mr
@@ -129,7 +129,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
               </IconButton>
             </StyledFooterSectionSocialIcon>
           </StyledFooterSectionSocialIconsContainer>
-        </StyledFooterSectionSocialLinksContainer>
+        </StyledFooterSectionSocialLinksContainer> */}
         <StyledFooterSectionCountryDropdownContainer>
           <SubDirCountrySelect
             openUpwards
