@@ -37,12 +37,12 @@ export const StyledHelperText = styled.p<StyledHelperTextProps>`
   ${p =>
     p.mb &&
     css`
-      margin-top: ${p.mb};
+      margin-bottom: ${p.mb};
     `}
   ${p =>
     p.mr &&
     css`
-      margin-top: ${p.mr};
+      margin-right: ${p.mr};
     `}
   ${p =>
     p.maxWidth &&

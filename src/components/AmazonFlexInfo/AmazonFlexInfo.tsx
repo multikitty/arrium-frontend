@@ -93,7 +93,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={handleSubmit(onSubmit)}>
+        <StyledLoginContainer onSubmit={handleSubmit(onSubmit)} noValidate>
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
@@ -125,6 +125,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
             />
             {!!formState.errors?.userName && (
               <HelperText
+                mb="12px"
                 type="large"
                 mt="-12px"
                 ml="0"
@@ -175,6 +176,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
             />
             {!!formState.errors?.password && (
               <HelperText
+                mb="12px"
                 type="large"
                 mt="-12px"
                 ml="0"
@@ -222,6 +224,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
             />
             {!!formState.errors?.confirmPassword && (
               <HelperText
+                mb="12px"
                 type="large"
                 mt="-12px"
                 ml="0"
@@ -251,7 +254,10 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={handleSubmit(onSubmit)}>
+        <StyledLoginContainerMobile
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -290,6 +296,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               />
               {!!formState.errors?.userName && (
                 <HelperText
+                  mb="12px"
                   type="large"
                   mt="-12px"
                   ml="0"
@@ -335,6 +342,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               />
               {!!formState.errors?.password && (
                 <HelperText
+                  mb="12px"
                   type="large"
                   mt="-12px"
                   ml="0"
@@ -385,6 +393,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               />
               {!!formState.errors?.confirmPassword && (
                 <HelperText
+                  mb="12px"
                   type="large"
                   mt="-12px"
                   ml="0"
