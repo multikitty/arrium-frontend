@@ -1,10 +1,10 @@
 import React from "react"
 import { InputAdornment, TextFieldProps } from "@mui/material"
-import { SearchTableTextField } from "../commons/uiComponents"
 import { FormValues } from "./AvailablityPage.types"
 import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"
 import { createDateInHM } from "@/utils"
 import { store } from "@/store"
+import { StyledSearchTableTextField } from "./AvailabilityPage.styled"
 
 export const availabilityStatusOptions = {
   Accepted: { label: "Accepted", value: "accepted" },
@@ -40,17 +40,6 @@ export type WeekType = {
   label: string
   value: string
   active: boolean
-}
-
-const createSearchesData = (
-  location: string,
-  timeToArrive: string,
-  startTime: string = "",
-  endTime: string = "",
-  minPay: number | "" = "",
-  minHourlyRate: number | "" = ""
-) => {
-  return { location, timeToArrive, startTime, endTime, minPay, minHourlyRate }
 }
 
 export const initialWeekData: WeekType[] = [
@@ -143,7 +132,7 @@ export const searchTableShape = [
     renderInput(props: TextFieldProps) {
       props.error = props.error || false
       return (
-        <SearchTableTextField
+        <StyledSearchTableTextField
           type="number"
           inputProps={{
             min: 0,
@@ -167,7 +156,7 @@ export const searchTableShape = [
           value={props.value}
           onChange={props.onChange}
           renderInput={(params: TextFieldProps) => (
-            <SearchTableTextField
+            <StyledSearchTableTextField
               {...params}
               {...(props.fullWidth && {
                 sx: { width: "100% !important", textAlign: "center" },
@@ -191,7 +180,7 @@ export const searchTableShape = [
           value={props.value}
           onChange={props.onChange}
           renderInput={(params: TextFieldProps) => (
-            <SearchTableTextField
+            <StyledSearchTableTextField
               {...params}
               {...(props.fullWidth && {
                 sx: { width: "100% !important", textAlign: "center" },
@@ -207,7 +196,7 @@ export const searchTableShape = [
     name: "minimumPay",
     renderInput(props: TextFieldProps) {
       return (
-        <SearchTableTextField
+        <StyledSearchTableTextField
           type="number"
           inputProps={{
             min: 0,
@@ -230,7 +219,7 @@ export const searchTableShape = [
     name: "minimumHourlyRate",
     renderInput(props: TextFieldProps) {
       return (
-        <SearchTableTextField
+        <StyledSearchTableTextField
           type="number"
           inputProps={{
             min: 0,

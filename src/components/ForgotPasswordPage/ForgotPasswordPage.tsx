@@ -8,7 +8,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledFieldLabel,
-  StyledInstructionsText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader as StyledForgotPasswordCardHeader,
@@ -29,6 +28,7 @@ import { forgotPassword } from "@/agent/forgotPassword"
 import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
 import InputField from "../commons/InputField"
+import { StyledInstructionsText } from "./ForgotPasswordPage.styled"
 
 interface ForgotPasswordPageProps extends PageProps {}
 

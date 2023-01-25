@@ -1,14 +1,7 @@
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { rem } from "polished"
-import {
-  Tab,
-  Tabs,
-  styled as muiStyled,
-  Box,
-  Button,
-  TextField,
-} from "@mui/material"
+import { Tab, Tabs, styled as muiStyled, Button } from "@mui/material"
 
 export const StyledTitle = styled.p`
   font-weight: 700;
@@ -40,30 +33,6 @@ export const StyledCardHeader = styled.h4`
   color: #0a0a0a;
   padding: 0 40px;
   margin-bottom: 40px;
-`
-
-export const StyledRemeberMeText = styled.label`
-  font-weight: 500;
-  font-size: ${rem("16px")};
-  line-height: ${rem("20px")};
-  color: #888a95;
-`
-
-export const StyledCheckBox = styled.input`
-  margin-right: ${rem("8px")};
-  width: ${rem("16px")};
-  height: ${rem("16px")};
-`
-
-export const StyledForgotPassword = styled(Box)`
-  cursor: pointer;
-  font-weight: 500;
-  font-size: ${rem("16px")};
-  line-height: ${rem("20px")};
-  & > a {
-    color: #888a95;
-    text-decoration: none;
-  }
 `
 
 export const StyledButton = styled(Button)<{ $marginTop?: string }>`
@@ -109,14 +78,6 @@ export const StyledSignUpButton = styled.span`
   }
 `
 
-export const StyledInstructionsText = styled.p`
-  font-size: ${rem("16px")};
-  font-weight: 400;
-  line-height: ${rem("24px")};
-  margin-bottom: ${rem("16px")};
-  text-align: center;
-`
-
 export const StyledTitleMobile = styled.div`
   font-weight: 800;
   font-size: ${rem("24px")};
@@ -150,39 +111,6 @@ export const StyledWarningText = styled.p<{
   line-height: ${rem("20px")};
   margin-bottom: ${p => p.marginbottom};
   margin-top: ${p => p.marginTop};
-`
-
-export const SearchTableTextField = styled(TextField)`
-  &&& {
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    input[type="number"] {
-      -moz-appearance: textfield;
-    }
-    width: ${rem("130px")};
-    height: ${rem("32px")};
-    & > div {
-      border-radius: ${rem("6px")};
-      height: ${rem("32px")};
-    }
-    & > div > input {
-      padding: ${rem("2px")} ${rem("8px")};
-      height: ${rem("28px")};
-      border-radius: ${rem("6px")};
-    }
-
-    & fieldset.MuiOutlinedInput-notchedOutline {
-      border-color: rgba(0, 0, 0, 0.8);
-    }
-
-    & .Mui-disabled fieldset.MuiOutlinedInput-notchedOutline {
-      border-color: rgba(0, 0, 0, 0.23);
-    }
-  }
 `
 
 interface StyledTabProps {

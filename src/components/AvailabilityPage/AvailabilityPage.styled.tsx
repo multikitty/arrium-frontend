@@ -222,3 +222,36 @@ export const StyledAvailablityAutomationDeleteButton = styled(Button)`
     color: ${theme.palette.grey7};
   }
 `
+
+export const StyledSearchTableTextField = styled(TextField)`
+  &&& {
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    width: ${rem("130px")};
+    height: ${rem("32px")};
+    & > div {
+      border-radius: ${rem("6px")};
+      height: ${rem("32px")};
+    }
+    & > div > input {
+      padding: ${rem("2px")} ${rem("8px")};
+      height: ${rem("28px")};
+      border-radius: ${rem("6px")};
+    }
+
+    & fieldset.MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.8);
+    }
+
+    & .Mui-disabled fieldset.MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.23);
+    }
+  }
+`

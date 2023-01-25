@@ -7,13 +7,10 @@ import { rem } from "polished"
 import {
   StyledButton,
   StyledButtonText,
-  StyledCheckBox,
   StyledFieldLabel,
-  StyledForgotPassword,
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
-  StyledRemeberMeText,
   StyledSignUpButton,
   StyledSignUpText,
 } from "@/components/commons/uiComponents"
@@ -37,6 +34,11 @@ import { RegistrationStepsType } from "@/types/common"
 import InputField from "../commons/InputField"
 import HelperText from "../commons/HelperText"
 import IDS from "@/constants/ids"
+import {
+  StyledCheckBox,
+  StyledForgotPassword,
+  StyledRemeberMeText,
+} from "./SigninSection.styled"
 
 interface SigninSectionProps extends PageProps {}
 

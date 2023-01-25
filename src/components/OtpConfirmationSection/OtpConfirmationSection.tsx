@@ -25,8 +25,9 @@ import { timeFromNowInMs } from "@/utils"
 import {
   OtpConfirmationResult,
   OtpConfirmationVariables,
+  ResendOtpResult,
 } from "@/lib/interfaces/signup"
-import { confirmOtp } from "@/agent/signup"
+import { confirmOtp, resendOtp } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
@@ -57,6 +58,9 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
     Error,
     OtpConfirmationVariables
   >(confirmOtp)
+  const { mutate: resendOtpMutate } = useMutation<ResendOtpResult, Error>(
+    resendOtp
+  )
 
   const handleNavigateToSignIn = () => {
     navigate(routes.signin)
@@ -114,8 +118,18 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
       setCountOtpResent(0)
       return
     }
-    setCountOtpResent(newCount)
-    setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
+    resendOtpMutate(undefined, {
+      onSuccess({ success, message }) {
+        if (!success) {
+          enqueueSnackbar(message, {
+            variant: "error",
+          })
+          return
+        }
+        setCountOtpResent(newCount)
+        setThirdSecondsFromNow(timeFromNowInMs(30 * 1000))
+      },
+    })
   }
 
   const isContinueDisabled = otp.length !== 4

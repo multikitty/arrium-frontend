@@ -9,6 +9,7 @@ import {
   OtpConfirmationVariables,
   RegistrationUserResult,
   RegistrationUserVariables,
+  ResendOtpResult,
 } from "@/lib/interfaces/signup"
 
 export const registerUser: MutationFunction<
@@ -26,6 +27,12 @@ export const updateAccountInfo: MutationFunction<
 > = async updatedAccountInfo => {
   return await (
     await arriumAPI.post("/signup/account-info", updatedAccountInfo)
+  ).data
+}
+
+export const resendOtp: MutationFunction<ResendOtpResult> = async () => {
+  return await (
+    await arriumAPI.post("/user/send-otp")
   ).data
 }
 

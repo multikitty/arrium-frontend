@@ -36,6 +36,11 @@ export interface AccountInfoResult {
   validationError?: AccountInfoValidationError
 }
 
+export interface ResendOtpResult {
+  message: string
+  success: boolean
+}
+
 export interface OtpConfirmationVariables {
   otp: string
 }
