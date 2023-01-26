@@ -208,6 +208,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           </Box>
           <StyledFieldLabel $isHidden={!firstName}>First Name</StyledFieldLabel>
           <InputField
+            allowNumbers={false}
             type="text"
             placeholder="First Name"
             variant="outlined"
@@ -217,6 +218,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           />
           <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
           <InputField
+            allowNumbers={false}
             type="text"
             placeholder="Surname"
             variant="outlined"
@@ -291,17 +293,23 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
               First Name
             </StyledFieldLabel>
             <InputField
+              allowNumbers={false}
+              type="text"
               placeholder="First Name"
+              variant="outlined"
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
-              variant="outlined"
+              required
             />
             <StyledFieldLabel $isHidden={!surName}>Surname</StyledFieldLabel>
             <InputField
+              allowNumbers={false}
+              type="text"
               placeholder="Surname"
+              variant="outlined"
               value={surName}
               onChange={e => setSurName(e.target.value)}
-              variant="outlined"
+              required
             />
             <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <AccountInfoCountrySelect

@@ -9,12 +9,37 @@ type InputFieldProps = {
   maxWidth?: string
   minWidth?: string
   centerInput?: boolean
+  allowNumbers?: boolean
 } & TextFieldProps
 
 const InputField: React.FC<InputFieldProps> = React.forwardRef(
-  ({ children, mb = "16px", isCentered = false, ...props }, ref) => {
+  (
+    {
+      children,
+      mb = "16px",
+      isCentered = false,
+      allowNumbers = true,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
+    const handleChange = (
+      e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) => {
+      const nonDigitRegex = /^\D*$/
+      if (!allowNumbers && !e.target.value.match(nonDigitRegex)) return
+      onChange?.(e)
+    }
+
     return (
-      <StyledInputField mb={mb} isCentered={isCentered} ref={ref} {...props}>
+      <StyledInputField
+        mb={mb}
+        isCentered={isCentered}
+        ref={ref}
+        onChange={handleChange}
+        {...props}
+      >
         <React.Fragment>{children}</React.Fragment>
       </StyledInputField>
     )
