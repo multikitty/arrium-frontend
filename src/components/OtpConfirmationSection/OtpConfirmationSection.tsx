@@ -137,7 +137,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit} noValidate>
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
@@ -192,7 +192,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit} noValidate>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}

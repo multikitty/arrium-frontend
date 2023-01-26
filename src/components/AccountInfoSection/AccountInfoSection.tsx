@@ -200,7 +200,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={onSubmit}>
+        <StyledLoginContainer onSubmit={onSubmit} noValidate>
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>
               {content.accountInfoSection.title}
@@ -272,7 +272,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={onSubmit}>
+        <StyledLoginContainerMobile onSubmit={onSubmit} noValidate>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
