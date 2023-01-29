@@ -28,7 +28,6 @@ import Hidden from "../Hidden"
 import amazonFlexOptions from "@/validation/signup/amazonFlex"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import HelperText from "../commons/HelperText"
-import theme from "@/theme"
 import InputField from "../commons/InputField"
 import { objectLength } from "@/utils"
 
@@ -124,13 +123,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               )}
             />
             {!!formState.errors?.userName && (
-              <HelperText
-                mb="12px"
-                type="large"
-                mt="-12px"
-                ml="0"
-                color={theme.palette.errorText}
-              >
+              <HelperText mb="12px" type="large" mt="-12px">
                 {formState.errors?.userName?.message}
               </HelperText>
             )}
@@ -175,13 +168,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               )}
             />
             {!!formState.errors?.password && (
-              <HelperText
-                mb="12px"
-                type="large"
-                mt="-12px"
-                ml="0"
-                color={theme.palette.errorText}
-              >
+              <HelperText mb="12px" type="large" mt="-12px">
                 {formState.errors?.password?.message}
               </HelperText>
             )}
@@ -223,13 +210,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
               )}
             />
             {!!formState.errors?.confirmPassword && (
-              <HelperText
-                mb="12px"
-                type="large"
-                mt="-12px"
-                ml="0"
-                color={theme.palette.errorText}
-              >
+              <HelperText mb="12px" type="large" mt="-12px">
                 {formState.errors?.confirmPassword?.message}
               </HelperText>
             )}
@@ -295,13 +276,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
                 )}
               />
               {!!formState.errors?.userName && (
-                <HelperText
-                  mb="12px"
-                  type="large"
-                  mt="-12px"
-                  ml="0"
-                  color={theme.palette.errorText}
-                >
+                <HelperText mb="12px" type="large" mt="-12px">
                   {formState.errors?.userName?.message}
                 </HelperText>
               )}
@@ -341,13 +316,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
                 )}
               />
               {!!formState.errors?.password && (
-                <HelperText
-                  mb="12px"
-                  type="large"
-                  mt="-12px"
-                  ml="0"
-                  color={theme.palette.errorText}
-                >
+                <HelperText mb="12px" type="large" mt="-12px">
                   {formState.errors?.password?.message}
                 </HelperText>
               )}
@@ -392,13 +361,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
                 )}
               />
               {!!formState.errors?.confirmPassword && (
-                <HelperText
-                  mb="12px"
-                  type="large"
-                  mt="-12px"
-                  ml="0"
-                  color={theme.palette.errorText}
-                >
+                <HelperText mb="12px" type="large" mt="-12px">
                   {formState.errors?.confirmPassword?.message}
                 </HelperText>
               )}

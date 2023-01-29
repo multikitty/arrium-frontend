@@ -94,7 +94,7 @@ const CountryNotListedModal = (props: CountryNotListedModalProps) => {
               error={!!errors.email}
             />
             {errors.email && (
-              <HelperText isCentered ml="0" maxWidth="410px" minWidth="410px">
+              <HelperText isCentered maxWidth="410px" minWidth="410px">
                 {errors.email.message}
               </HelperText>
             )}

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material"
+import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import { rem } from "polished"
@@ -31,8 +31,8 @@ import {
   REGISTRATION_STEP_MAP,
 } from "@/constants/common"
 import { RegistrationStepsType } from "@/types/common"
-import InputField from "../commons/InputField"
-import HelperText from "../commons/HelperText"
+import InputField from "@/components/commons/InputField"
+import HelperText from "@/components/commons/HelperText"
 import IDS from "@/constants/ids"
 import {
   StyledCheckBox,
@@ -43,7 +43,6 @@ import {
 interface SigninSectionProps extends PageProps {}
 
 const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
-  const theme = useTheme()
   const {
     navigateToDefault,
     navigate,
@@ -193,12 +192,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               )}
             />
             {errors.email && (
-              <HelperText
-                type="large"
-                ml="0"
-                mt="4px"
-                color={theme.palette.error.main}
-              >
+              <HelperText type="large" mt="4px">
                 {errors.email.message}
               </HelperText>
             )}
@@ -239,12 +233,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               )}
             />
             {errors.password && (
-              <HelperText
-                type="large"
-                ml="0"
-                mt="4px"
-                color={theme.palette.error.main}
-              >
+              <HelperText type="large" mt="4px">
                 {errors.password.message}
               </HelperText>
             )}
@@ -267,14 +256,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             </StyledForgotPassword>
           </Box>
           {errors.checkbox && (
-            <HelperText
-              type="large"
-              ml="0"
-              mt="8px"
-              color={theme.palette.error.main}
-            >
-              {errors.checkbox.message}
-            </HelperText>
+            <HelperText type="large">{errors.checkbox.message}</HelperText>
           )}
           <StyledButton
             variant="contained"
@@ -339,12 +321,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 )}
               />
               {errors.email && (
-                <HelperText
-                  type="large"
-                  ml="0"
-                  mt="4px"
-                  color={theme.palette.error.main}
-                >
+                <HelperText type="large" mt="4px">
                   {errors.email.message}
                 </HelperText>
               )}
@@ -385,12 +362,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 )}
               />
               {errors.password && (
-                <HelperText
-                  type="large"
-                  ml="0"
-                  mt="4px"
-                  color={theme.palette.error.main}
-                >
+                <HelperText type="large" mt="4px">
                   {errors.password.message}
                 </HelperText>
               )}
@@ -413,12 +385,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               </StyledForgotPassword>
             </Box>
             {errors.checkbox && (
-              <HelperText
-                type="large"
-                ml="0"
-                mt="8px"
-                color={theme.palette.error.main}
-              >
+              <HelperText type="large" mt="8px">
                 {errors.checkbox.message}
               </HelperText>
             )}

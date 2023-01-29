@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { Box, useMediaQuery } from "@mui/material"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { useForm } from "react-hook-form"
-import { rem } from "polished"
 
 import {
   StyledButton,
@@ -13,7 +12,6 @@ import {
   StyledCardHeader as StyledForgotPasswordCardHeader,
   StyledTitle,
   StyledTitleMobile,
-  StyledWarningText,
 } from "@/components/commons/uiComponents"
 import { emailOptions } from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
@@ -27,8 +25,9 @@ import {
 import { forgotPassword } from "@/agent/forgotPassword"
 import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
-import InputField from "../commons/InputField"
 import { StyledInstructionsText } from "./ForgotPasswordPage.styled"
+import InputField from "@/components/commons/InputField"
+import HelperText from "@/components/commons/HelperText"
 
 interface ForgotPasswordPageProps extends PageProps {}
 
@@ -43,7 +42,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
     ForgotPasswordVariables
   >(forgotPassword)
 
-  type formPropType = typeof emailOptions.defaultValues
+  type FormPropType = typeof emailOptions.defaultValues
 
   const isWebView = useMediaQuery(devices.web.up)
   const [isClicked, setIsClicked] = useState(false)
@@ -53,9 +52,11 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
     formState: { errors },
     setError,
     getValues,
-  } = useForm<formPropType>(emailOptions)
+    watch,
+  } = useForm<FormPropType>({ ...emailOptions, mode: "onBlur" })
+  watch("email")
 
-  const onSubmit = async (data: formPropType) => {
+  const onSubmit = async (data: FormPropType) => {
     await mutate(
       { email: data.email },
       {
@@ -89,6 +90,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
     navigate(routes.signin)
   }
 
+  const isSubmitDisabled = !getValues("email") || !!errors.email
+
   return (
     <React.Fragment>
       {isWebView ? (
@@ -101,7 +104,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
         </Box>
       ) : (
         <Box
-          height={rem("64px")}
+          height={"64px"}
           display="flex"
           alignItems="center"
           onClick={handleNavigateToHome}
@@ -119,7 +122,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
               flexDirection="column"
             >
               {isClicked && (
-                <Box mb={rem("24px")}>
+                <Box mb={"24px"}>
                   <CheckCircleIcon
                     style={{ color: "#2DB560", fontSize: "56px" }}
                   />
@@ -148,16 +151,16 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
               </React.Fragment>
             )}
             {errors.email && (
-              <StyledWarningText marginbottom={rem("16px")}>
+              <HelperText type="large" mb={"16px"}>
                 {errors.email.message}
-              </StyledWarningText>
+              </HelperText>
             )}
             {isClicked ? (
               <StyledButton
                 variant="contained"
                 color="primary"
                 disableElevation
-                $marginTop={rem("32px")}
+                $marginTop={"32px"}
                 type="submit"
               >
                 <StyledButtonText onClick={handleNavigateToSignIn}>
@@ -170,7 +173,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                 color="primary"
                 disableElevation
                 type="submit"
-                $marginTop={rem("44px")}
+                $marginTop={"44px"}
+                disabled={isSubmitDisabled}
               >
                 <StyledButtonText>Send Instruction</StyledButtonText>
               </StyledButton>
@@ -181,7 +185,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
             <Box
               display="flex"
               flexDirection="column"
-              maxWidth={rem("375px")}
+              maxWidth={"375px"}
               mx={"auto"}
             >
               <Box
@@ -191,7 +195,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                 flexDirection="column"
               >
                 {isClicked && (
-                  <Box mb={rem("24px")}>
+                  <Box mb={"24px"}>
                     <CheckCircleIcon
                       style={{ color: "#2DB560", fontSize: "56px" }}
                     />
@@ -220,9 +224,9 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                 </React.Fragment>
               )}
               {errors.email && (
-                <StyledWarningText marginbottom={rem("16px")}>
+                <HelperText type="large" mb={"16px"}>
                   {errors.email.message}
-                </StyledWarningText>
+                </HelperText>
               )}
               {isClicked ? (
                 <StyledButton
@@ -230,7 +234,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                   color="primary"
                   disableElevation
                   type="submit"
-                  $marginTop={rem("32px")}
+                  $marginTop={"32px"}
                 >
                   <StyledButtonText onClick={handleNavigateToSignIn}>
                     Done
@@ -242,7 +246,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                   color="primary"
                   disableElevation
                   type="submit"
-                  $marginTop={rem("44px")}
+                  $marginTop={"44px"}
+                  disabled={isSubmitDisabled}
                 >
                   <StyledButtonText>Send Instruction</StyledButtonText>
                 </StyledButton>

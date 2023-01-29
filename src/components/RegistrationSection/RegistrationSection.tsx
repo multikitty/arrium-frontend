@@ -255,12 +255,7 @@ const SignupSection: React.FC<SignupSectionProps> = ({
               </StyledPasswordValidationContainer>
             )}
             {!!errors?.password && (
-              <HelperText
-                type="large"
-                ml="0"
-                mt="-8px"
-                color={theme.palette.error.main}
-              >
+              <HelperText type="large" mt="-8px">
                 {errors.password}
               </HelperText>
             )}
