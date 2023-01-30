@@ -113,14 +113,6 @@ export interface IAddStationVariables {
   stationCode: string
   stationId: string
   stationType: string
-  address1?: string
-  address2?: string
-  address3?: string
-  city?: string
-  state?: string
-  postalCode?: string
-  longitude?: string
-  latitude?: string
 }
 
 export interface IAddStationResult {

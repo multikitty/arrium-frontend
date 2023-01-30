@@ -83,7 +83,6 @@ const CountryNotListedModal = (props: IProps) => {
             <StyledInputField
               {...register("email")}
               $isCentered
-              $centerInput
               mb="0"
               $maxWidth="410px"
               $minWidth="410px"

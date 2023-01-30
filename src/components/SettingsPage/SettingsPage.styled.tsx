@@ -121,8 +121,10 @@ export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })<{
   padding: ${rem("16px")};
   width: 100%;
   max-width: ${p => (p.countryNotListed ? rem("720px") : rem("420px"))};
-  margin: ${rem("20px")} auto;
-  overflow: scroll;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `
 
 export const StyledAddCountryModalCloseIconContainer = styled.div`

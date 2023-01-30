@@ -15,7 +15,6 @@ export const StyledInputField = styled(TextField)<{
   $isCentered?: boolean
   $maxWidth?: string
   $minWidth?: string
-  $centerInput?: boolean
 }>`
   &&& {
     background-color: #ffffff;
@@ -43,11 +42,7 @@ export const StyledInputField = styled(TextField)<{
       height: ${rem("52px")};
       min-width: ${p => rem(p.$minWidth || "250px")};
       border-radius: ${rem("10px")};
-      ${p =>
-        p.$centerInput &&
-        css`
-          margin: 0 auto;
-        `}
+      margin: 0 auto;
     }
   }
 `
