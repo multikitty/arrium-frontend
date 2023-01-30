@@ -84,7 +84,7 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             : undefined
         }
         IconComponent={props => (
-          <i className={`material-icons ${props.className}`}>
+          <i className={`material-icons ${props.className}`} style={{ top: 'auto' }}>
             <DropDownArrow />
           </i>
         )}
