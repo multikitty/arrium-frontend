@@ -22,7 +22,6 @@ import { IconButton } from "@mui/material"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
-import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 interface IFooterSectionProps extends IPageProps {}
 
@@ -38,7 +37,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
   }
 
   return (
-    <StyledFooterSection id={LANDING_PAGE_IDS["footer-section"]}>
+    <StyledFooterSection>
       <StyledFooterSectionBrandLogoContainer>
         <StyledFooterSectionBrandLogo
           src={brandLogo}
@@ -50,7 +49,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
           <Link
             delay={300}
             offset={-50}
-            to={LANDING_PAGE_IDS["benefits-section"]}
+            to="benefits-section"
             spy={true}
             smooth={true}
           >
@@ -61,7 +60,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
           <Link
             delay={300}
             offset={-50}
-            to={LANDING_PAGE_IDS["working-section"]}
+            to="how-it-works-section"
             spy={true}
             smooth={true}
           >
@@ -72,7 +71,7 @@ const FooterSection: React.FC<IFooterSectionProps> = ({ country_code }) => {
           <Link
             delay={300}
             offset={-50}
-            to={LANDING_PAGE_IDS["contact-us-section"]}
+            to="contact-us-section"
             spy={true}
             smooth={true}
           >

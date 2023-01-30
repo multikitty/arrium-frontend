@@ -2,29 +2,21 @@ import { ClickAwayListener, IconButton, Tooltip } from "@mui/material"
 import React from "react"
 import {
   StyledContactFormSuccessModalCard,
+  // StyledContactFormSuccessModalCardIcon,
   StyledContactFormSuccessModalCardIconContainer,
   StyledContactFormSuccessModalCardText,
   StyledContactFormSuccessModalCardTitle,
   StyledContactFormSuccessModalCloseIconContainer,
   StyledContactFormSuccessModalOverlay,
-} from "./FormSuccessModal.styled"
+} from "./ContactFormSuccessModal.styled"
 import CloseIcon from "@mui/icons-material/Close"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import theme from "@/theme"
-
-interface ContactFormSuccessModalProps {
-  open: boolean
-  handleClose: () => void
-  title?: string
-  text?: string
-}
+import { ContactFormSuccessModalProps } from "./ContactFormSuccessModal.types"
 
 const ContactFormSuccessModal = ({
   handleClose,
   open,
-  title = "Message sent!",
-  text = `A member of the team will be in with you touch at the email address
-            provided`,
 }: ContactFormSuccessModalProps) => {
   const handleOverlayClick: React.MouseEventHandler<HTMLDivElement> = e => {
     e.stopPropagation()
@@ -54,10 +46,11 @@ const ContactFormSuccessModal = ({
             />
           </StyledContactFormSuccessModalCardIconContainer>
           <StyledContactFormSuccessModalCardTitle>
-            {title}
+            Message sent!
           </StyledContactFormSuccessModalCardTitle>
           <StyledContactFormSuccessModalCardText>
-            {text}
+            A member of the team will be in with you touch at the email address
+            provided
           </StyledContactFormSuccessModalCardText>
         </StyledContactFormSuccessModalCard>
       </StyledContactFormSuccessModalOverlay>

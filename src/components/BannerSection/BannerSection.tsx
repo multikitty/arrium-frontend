@@ -14,7 +14,6 @@ import bannerImage from "@/assets/images/landing-banner.png"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
-import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 interface IBannerSectionProps extends IPageProps {}
 
@@ -26,7 +25,7 @@ const BannerSection: React.FC<IBannerSectionProps> = ({ country_code }) => {
   }
 
   return (
-    <StyledBannerSection id={LANDING_PAGE_IDS["banner-section"]}>
+    <StyledBannerSection>
       <StyledBannerSectionContent>
         <StyledBannerSectionPrimaryHeader>
           No refreshing. Auto accepting. Instant notifications.

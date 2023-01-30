@@ -17,11 +17,10 @@ import moreDaysOffIcon from "@/assets/icons/landing-benefits_section-more_days_o
 import driveSafelyIcon from "@/assets/icons/landing-benefits_section-drive_safely.svg"
 import safeAndSecureIcon from "@/assets/icons/landing-benefits_section-safe_and_secure.svg"
 import earnMoreIcon from "@/assets/icons/landing-benefits_section-earn_more.svg"
-import { LANDING_PAGE_IDS } from "@/constants/ids"
 
 const BenefitsSection = () => {
   return (
-    <StyledBenefitsSection id={LANDING_PAGE_IDS["benefits-section"]}>
+    <StyledBenefitsSection id="benefits-section">
       <StyledBenefitsSectionHeader>
         The Amazing Benefits
       </StyledBenefitsSectionHeader>

@@ -3,20 +3,19 @@ import LandingPage from "@/components/LandingPage"
 import SelectCountryModal from "@/components/SelectCountryModal"
 import CountryNotListedModal from "@/components/CountryNotListedModal"
 import { navigate } from "gatsby-link"
+import { scroller } from "react-scroll"
 import { useGeolocation } from "@/agent/geolocation"
 import LoadingScreen from "@/components/LoadingScreen"
-import { countriesToSelectList, DEFAULT_COUNTRY } from "@/constants/common"
+import { countriesToSelectList } from "@/constants/common"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { AllowedCountries } from "@/types/common"
-import FormSuccessModal from "@/components/FormSuccessModal"
 
 const IndexPage = () => {
   const [selectCountryModalOpen, setSelectCountryModalOpen] =
     React.useState(false)
   const [countryNotListedModalOpen, setCountryNotListedModalOpen] =
     React.useState(false)
-  const [formSuccessModalOpen, setFormSuccessModalOpen] = React.useState(false)
   const {
     data: geolocationData,
     isLoading,
@@ -35,16 +34,6 @@ const IndexPage = () => {
     setCountryNotListedModalOpen(false)
   }
 
-  const handleFormSuccessModalOpen = () => {
-    setFormSuccessModalOpen(true)
-  }
-
-  const handleFormSuccessModalClose = () => {
-    setFormSuccessModalOpen(false)
-    localStorageUtils.set(COUNTRY_CODE, DEFAULT_COUNTRY)
-    navigate(`/${DEFAULT_COUNTRY}/en`)
-  }
-
   const handleSelectCountryModalSave = () => {
     handleSelectCountryModalClose()
     handleCountryNotListedModalOpen()
@@ -52,7 +41,13 @@ const IndexPage = () => {
 
   const handleCountryNotListedModalContinue = () => {
     handleCountryNotListedModalClose()
-    handleFormSuccessModalOpen()
+    navigate("/gb/en")
+    scroller.scrollTo("contact-us-section", {
+      delay: 300,
+      offset: -150,
+      spy: true,
+      smooth: true,
+    })
   }
 
   React.useEffect(() => {
@@ -89,13 +84,6 @@ const IndexPage = () => {
       <CountryNotListedModal
         open={countryNotListedModalOpen}
         handleContinue={handleCountryNotListedModalContinue}
-        handleClose={handleCountryNotListedModalClose}
-      />
-      <FormSuccessModal
-        open={formSuccessModalOpen}
-        handleClose={handleFormSuccessModalClose}
-        title="Added to waitlist!"
-        text="We'll let you know when we're in the area!"
       />
       <LandingPage country_code={""} />
     </React.Fragment>
