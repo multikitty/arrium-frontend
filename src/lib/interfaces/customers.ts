@@ -6,8 +6,6 @@ export interface ICustomersListVariables {
   pkEmail?: string
 }
 
-export type CustomerAccountStatus = "inActive" | "active" | "disabled"
-
 export interface ICustomersListDataItem {
   phoneNumber: string
   currentSteps: string
@@ -15,7 +13,7 @@ export interface ICustomersListDataItem {
   emailVerified: boolean
   lastname: string
   password: string
-  accountStatus: CustomerAccountStatus
+  accountStatus: string
   role: string
   firstname: string
   sk: string

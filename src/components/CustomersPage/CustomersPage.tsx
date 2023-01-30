@@ -34,11 +34,10 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { useCustomersList } from "@/agent/customers"
 import { IPageProps } from "@/lib/interfaces/common"
-import { CustomerAccountStatus } from "@/lib/interfaces/customers"
 
-const statusColorMap: Record<CustomerAccountStatus, string> = {
+const statusColorMap = {
   active: "#3DCC70",
-  inActive: theme.palette.common.orange,
+  inactive: theme.palette.common.orange,
   disabled: theme.palette.grey5,
 }
 
@@ -285,11 +284,7 @@ const CustomersPage: React.FC<ICustomersPageProps> = ({ country_code }) => {
                         align="left"
                       >
                         <Chip
-                          label={
-                            row.accountStatus === "inActive"
-                              ? "Inactive"
-                              : capitalCase(row.accountStatus)
-                          }
+                          label={capitalCase(row.accountStatus)}
                           sx={{
                             backgroundColor:
                               statusColorMap[

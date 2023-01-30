@@ -31,7 +31,9 @@ const CountryList: React.FC<IProps> = ({
             }
           >
             <Box className="settings__list__item__text">
-              {capitalCase(item.country)}
+              {`${capitalCase(item.country)} ${
+                item.tzName ? `(${item.tzName})` : ""
+              }`}
             </Box>
             <Box className="settings__list__item__actions">
               <IconButton
