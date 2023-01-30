@@ -28,6 +28,8 @@ const PricingPlansPage = () => {
     setIsSticky(fixed)
   }
 
+  console.log("isSticky", isSticky)
+
   return (
     <StyledPricingPlansTab>
       {!isMobile && (

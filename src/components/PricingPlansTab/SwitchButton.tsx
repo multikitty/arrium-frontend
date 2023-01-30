@@ -12,7 +12,6 @@ const SwitchButton = (props: IProps) => {
     <div className="switcher">
       <input
         id={`switcher--${PLAN_TYPES.basic}`}
-        readOnly
         type="radio"
         name="planType"
         value={PLAN_TYPES.basic}
@@ -29,7 +28,6 @@ const SwitchButton = (props: IProps) => {
 
       <input
         id={`switcher--${PLAN_TYPES.premium}`}
-        readOnly
         type="radio"
         name="planType"
         value={PLAN_TYPES.premium}

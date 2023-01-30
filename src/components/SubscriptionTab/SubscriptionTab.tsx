@@ -1,7 +1,7 @@
-import * as React from "react"
+import React from "react"
 import { rem } from "polished"
 import theme from "@/theme"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ContainedButton } from "../commons/Button"
 import {
   StyledSubscriptionTab,
   StyledSubscriptionTabDetailsActionsSection,
@@ -42,27 +42,41 @@ import getCurrencySymbolByCountryCode, {
   CountryCodes,
 } from "@/utils/getCurrencySymbolByCountryCode"
 import { DEFAULT_CURRENCY_SYMBOL } from "@/constants/common"
-import { useInvoicesByDriver } from "@/agent/stripe"
-import LoadingScreen from "../LoadingScreen"
-import PaginationButton from "../commons/Button/PaginationButton"
+
+function createData(
+  invoiceId: string,
+  plan: string,
+  amount: number,
+  invoiceStatus: "pending" | "overdue" | "paid",
+  dueDate: string,
+  paymentDate: string
+) {
+  return { invoiceId, plan, amount, invoiceStatus, dueDate, paymentDate }
+}
+
+const rows = [
+  createData("12345", "Plan name 3", 10, "overdue", "Sep 23, 2021", ""),
+  createData(
+    "67890",
+    "Plan name 2",
+    10,
+    "paid",
+    "Aug 23, 2021",
+    "Aug 21, 2021"
+  ),
+  createData("09876", "Plan name 1", 8, "paid", "", "Jun 23, 2021"),
+]
 
 interface ISubscriptionTabProps extends IPageProps {}
 
 const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
   const isDesktopView = useMediaQuery(devices.desktop.up)
-  const [startAfter, setStartAfter] = React.useState("")
   const { userStore } = useStore()
-  const { data: invoicesData, isLoading } = useInvoicesByDriver({
-    start_after: startAfter,
-  })
 
   const currencySymbol =
     getCurrencySymbolByCountryCode(country_code as CountryCodes) ||
     userStore.currencySymbol ||
     DEFAULT_CURRENCY_SYMBOL
-
-  if (isLoading) return <LoadingScreen />
-  if (!invoicesData?.data || invoicesData?.data?.length === 0) return null
 
   return (
     <StyledSubscriptionTab>
@@ -86,20 +100,15 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
         </StyledSubscriptionTabDetailsPriceSection>
         <StyledSubscriptionTabDetailsActionsSection>
           <ContainedButton
-            fullWidth={!isDesktopView}
             sx={{
               whiteSpace: "nowrap",
               mr: !isDesktopView ? 0 : rem("16px"),
               mb: isDesktopView ? 0 : rem("16px"),
-              maxWidth: rem("375px"),
             }}
           >
             Pay now
           </ContainedButton>
-          <ContainedButton
-            fullWidth={!isDesktopView}
-            sx={{ whiteSpace: "nowrap", maxWidth: rem("375px") }}
-          >
+          <ContainedButton sx={{ whiteSpace: "nowrap" }}>
             Pay with Crypto
           </ContainedButton>
         </StyledSubscriptionTabDetailsActionsSection>
@@ -195,9 +204,9 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {invoicesData.data.map(row => (
+                {rows.map(row => (
                   <TableRow
-                    key={row.id}
+                    key={row.invoiceId}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                     }}
@@ -214,7 +223,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       scope="row"
                       align="center"
                     >
-                      {row.invoice_no}
+                      {row.invoiceId}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -226,7 +235,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {row.description}
+                      {row.plan}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -238,8 +247,8 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {currencySymbol}
-                      {row.amount_due}
+                      {userStore.currencySymbol}
+                      {row.amount}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -252,7 +261,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {capitalCase(row.paid_status)}
+                      {row.invoiceStatus}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -264,7 +273,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {row.due_date}
+                      {row.dueDate}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -276,7 +285,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {row.paid_at}
+                      {row.paymentDate}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -288,8 +297,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       }}
                       align="left"
                     >
-                      {row.paid_status === "overdue" ||
-                      row.paid_status === "due" ? (
+                      {row.invoiceStatus === "overdue" ? (
                         <Box display="flex" flexDirection="column">
                           <StyledSubscriptionTabInvoiceTableContainedButton
                             fullWidth
@@ -306,7 +314,6 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                       ) : (
                         <StyledSubscriptionTabInvoiceTableOutlinedButton
                           fullWidth
-                          onClick={() => window.open(row.invoice_url, "_blank")}
                         >
                           View Invoice
                         </StyledSubscriptionTabInvoiceTableOutlinedButton>
@@ -323,14 +330,14 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
           <StyledSubscriptionTabInvoicesHeader>
             Invoices
           </StyledSubscriptionTabInvoicesHeader>
-          {invoicesData.data.map(row => (
-            <StyledSubscriptionTabInvoice key={row.id}>
+          {rows.map(row => (
+            <StyledSubscriptionTabInvoice key={row.invoiceId}>
               <StyledSubscriptionTabInvoiceHeader>
                 <StyledSubscriptionTabInvoiceHeaderTitle>
                   Invoice ID
                 </StyledSubscriptionTabInvoiceHeaderTitle>
                 <StyledSubscriptionTabInvoiceHeaderText>
-                  {row.invoice_no}
+                  {row.invoiceId}
                 </StyledSubscriptionTabInvoiceHeaderText>
               </StyledSubscriptionTabInvoiceHeader>
               <StyledSubscriptionTabInvoiceItemsContainer>
@@ -339,8 +346,8 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                     Amount
                   </StyledSubscriptionTabInvoiceItemLabel>
                   <StyledSubscriptionTabInvoiceItemValue bold>
-                    {currencySymbol}
-                    {row.amount_due}
+                    {userStore.currencySymbol}
+                    {row.amount}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
                 <StyledSubscriptionTabInvoiceItem>
@@ -348,7 +355,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                     Plan
                   </StyledSubscriptionTabInvoiceItemLabel>
                   <StyledSubscriptionTabInvoiceItemValue>
-                    {row.description}
+                    {row.plan}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
                 <StyledSubscriptionTabInvoiceItem>
@@ -356,7 +363,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                     Invoice status
                   </StyledSubscriptionTabInvoiceItemLabel>
                   <StyledSubscriptionTabInvoiceItemValue>
-                    {capitalCase(row.paid_status)}
+                    {capitalCase(row.invoiceStatus)}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
                 <StyledSubscriptionTabInvoiceItem>
@@ -364,7 +371,7 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                     Due date
                   </StyledSubscriptionTabInvoiceItemLabel>
                   <StyledSubscriptionTabInvoiceItemValue>
-                    {row.due_date}
+                    {row.dueDate}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
                 <StyledSubscriptionTabInvoiceItem>
@@ -372,48 +379,28 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
                     Payment date
                   </StyledSubscriptionTabInvoiceItemLabel>
                   <StyledSubscriptionTabInvoiceItemValue>
-                    {row.paid_at}
+                    {row.paymentDate}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
-                <Box display="flex" flexDirection="column" width="100%" mt={2}>
-                  {row.paid_status === "overdue" ||
-                  row.paid_status === "due" ? (
-                    <React.Fragment>
+                <Box width="100%" display="flex">
+                  {row.invoiceStatus === "overdue" ? (
+                    <Box display="flex" flexDirection="column" width="100%">
                       <ContainedButton
-                        fullWidth
                         sx={{
                           whiteSpace: "nowrap",
-                          mx: "auto",
                           mb: rem("16px"),
-                          maxWidth: rem("375px"),
                         }}
                       >
                         Pay with Card
                       </ContainedButton>
-                      <ContainedButton
-                        fullWidth
-                        sx={{
-                          whiteSpace: "nowrap",
-                          mx: "auto",
-                          maxWidth: rem("375px"),
-                        }}
-                      >
+                      <ContainedButton sx={{ whiteSpace: "nowrap" }}>
                         Pay with Crypto
                       </ContainedButton>
-                    </React.Fragment>
+                    </Box>
                   ) : (
-                    <OutlinedButton
-                      fullWidth
-                      grey
-                      sx={{
-                        whiteSpace: "nowrap",
-                        mx: "auto",
-                        maxWidth: rem("375px"),
-                      }}
-                      onClick={() => window.open(row.invoice_url, "_blank")}
-                    >
+                    <StyledSubscriptionTabInvoiceTableOutlinedButton fullWidth>
                       View Invoice
-                    </OutlinedButton>
+                    </StyledSubscriptionTabInvoiceTableOutlinedButton>
                   )}
                 </Box>
               </StyledSubscriptionTabInvoiceItemsContainer>
@@ -421,22 +408,6 @@ const SubscriptionTab: React.FC<ISubscriptionTabProps> = ({ country_code }) => {
           ))}
         </StyledSubscriptionTabInvoicesContainer>
       )}
-      <Box display="flex" justifyContent="center" my={2}>
-        <PaginationButton
-          grey
-          size="small"
-          disabled={!invoicesData.has_more || !invoicesData.starting_after}
-          onClick={() =>
-            setStartAfter(
-              invoicesData.starting_after === null
-                ? ""
-                : invoicesData.starting_after
-            )
-          }
-        >
-          Load more
-        </PaginationButton>
-      </Box>
     </StyledSubscriptionTab>
   )
 }
