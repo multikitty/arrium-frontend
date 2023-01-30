@@ -27,7 +27,7 @@ const getCountryData = () => {
   return countryData
 }
 
-export const getFilteredCountries = (filterCountryList: readonly string[]) =>
+export const getFilteredCountries = (filterCountryList: string[]) =>
   Object.values(getCountryData()).filter(c =>
     filterCountryList.includes(c.countryShortName.toLowerCase())
   )

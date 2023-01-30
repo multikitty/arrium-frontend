@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import { darken, rgba } from "polished"
+import { darken, rem, rgba } from "polished"
 import { styled as muiStyled } from "@mui/material/styles"
 import theme from "@/theme"
 
@@ -14,12 +14,12 @@ export const StyledContainedButton = muiStyled(Button, {
   ({ iconButton, error, fontSize = 16 }) => ({
     boxShadow: "none",
     textTransform: "none",
-    fontSize: `${fontSize}px`,
-    lineHeight: `${fontSize + fontSize / 4}px`,
+    fontSize: rem(`${fontSize}px`),
+    lineHeight: rem(`${fontSize + fontSize / 4}px`),
     backgroundColor: error ? theme.palette.errorText : theme.palette.main,
-    padding: iconButton ? "4px" : `${"14px"} ${"28px"}`,
+    padding: iconButton ? rem("4px") : `${rem("14px")} ${rem("28px")}`,
     minWidth: iconButton ? 0 : "64px",
-    borderRadius: iconButton ? "4px" : "10px",
+    borderRadius: iconButton ? rem("4px") : rem("10px"),
     border: "1px solid",
     borderColor: error ? theme.palette.errorText : theme.palette.main,
     fontFamily: ["Inter", "sans-serif"].join(","),

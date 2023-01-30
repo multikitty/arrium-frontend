@@ -1,4 +1,5 @@
 import { Button } from "@mui/material"
+import { rem } from "polished"
 import { styled as muiStyled } from "@mui/material/styles"
 import theme from "@/theme"
 
@@ -7,11 +8,11 @@ export const StyledOutlinedButton = muiStyled(Button, {
 })<{ grey?: boolean; fontSize?: number }>(({ grey, fontSize = 16 }) => ({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: `${fontSize}px`,
-  lineHeight: `${fontSize + fontSize / 4}px`,
-  padding: `${"14px"} ${"28px"}`,
+  fontSize: rem(`${fontSize}px`),
+  lineHeight: rem(`${fontSize + fontSize / 4}px`),
+  padding: `${rem("14px")} ${rem("28px")}`,
   border: "1px solid",
-  borderRadius: "10px",
+  borderRadius: rem("10px"),
   backgroundColor: theme.palette.common.white,
   borderColor: grey ? theme.palette.grey3 : theme.palette.main,
   fontFamily: ["Inter", "sans-serif"].join(","),

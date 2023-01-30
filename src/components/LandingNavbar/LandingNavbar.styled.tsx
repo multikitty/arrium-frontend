@@ -26,7 +26,7 @@ export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
       box-shadow: 0px 2px 4px rgba(5, 23, 51, 0.05);
     `}
 
-  @media ${devices.desktop.down} {
+  @media ${devices.web.down} {
     padding: ${rem("20px")} ${rem("16px")};
   }
 `

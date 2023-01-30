@@ -27,7 +27,7 @@ export const StyledContactFormSectionCard = styled.div`
   padding: ${rem("64px")} ${rem("88px")};
   display: flex;
 
-  @media ${devices.desktop.down} {
+  @media ${devices.web.down} {
     padding: ${rem("48px")} ${rem("24px")};
     flex-direction: column;
   }
@@ -39,7 +39,7 @@ export const StyledContactFormSectionCardLeftContainer = styled.div`
   margin-right: ${rem("80px")};
   max-width: ${rem("455px")};
 
-  @media ${devices.desktop.down} {
+  @media ${devices.web.down} {
     margin-right: 0;
     margin-bottom: ${rem("64px")};
   }
@@ -55,7 +55,7 @@ export const StyledContactFormSectionCardLeftContainerTitle = styled.h3`
 
   color: ${p => p.theme.palette.common.white};
 
-  @media ${devices.desktop.down} {
+  @media ${devices.web.down} {
     margin-bottom: ${rem("24px")};
   }
 `

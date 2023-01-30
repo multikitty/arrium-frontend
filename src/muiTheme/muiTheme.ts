@@ -1,6 +1,16 @@
 import { createTheme } from "@mui/material/styles"
+import { Sizes } from "@/constants/device"
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: Sizes.web,
+      md: 980,
+      lg: Sizes.desktop,
+      xl: 1536,
+    },
+  },
   palette: {
     primary: {
       main: "hsl(220, 88%, 57%)",
