@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material"
 import React, { useState } from "react"
-import { Controller, SubmitErrorHandler, useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import landingContactOptions from "@/validation/landingContact"
 import {
   StyledContactFormSection,
@@ -10,38 +10,29 @@ import {
   StyledContactFormSectionCardLeftContainerTitle,
   StyledContactFormSectionCardRightContainer,
   StyledContactFormSectionCardRightContainerField,
+  StyledContactFormSectionCardRightContainerFieldHelperText,
   StyledContactFormSectionCardRightContainerSendButton,
   StyledContactFormSectionCardRightContainerSubTitle,
   StyledContactFormSectionCardRightContainerTitle,
 } from "./ContactFormSection.styled"
 import FormSuccessModal from "../FormSuccessModal"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
-import { useSnackbar } from "notistack"
-import { StyledHelperText } from "../commons/uiComponents"
 
 const ContactFormSection = () => {
-  const { enqueueSnackbar } = useSnackbar()
   const [isSuccessModalOpen, setSuccessModalOpen] = useState<boolean>(false)
 
   const handleSuccessModalOpen = () => setSuccessModalOpen(true)
   const handleSuccessModalClose = () => setSuccessModalOpen(false)
 
-  type FormPropType = typeof landingContactOptions.defaultValues
-  const { handleSubmit, control, formState, reset } = useForm<FormPropType>(
+  type formPropType = typeof landingContactOptions.defaultValues
+  const { handleSubmit, control, formState, reset } = useForm<formPropType>(
     landingContactOptions
   )
 
-  const onSubmit = (data: FormPropType) => {
-    console.log("Contact Form Data: ", data)
+  const onSubmit = (data: formPropType) => {
+    console.log(data)
     handleSuccessModalOpen()
     reset()
-  }
-
-  const onInvalid: SubmitErrorHandler<FormPropType> = data => {
-    enqueueSnackbar(
-      data.fullName?.message || data.email?.message || data.question?.message,
-      { variant: "error" }
-    )
   }
 
   return (
@@ -72,7 +63,7 @@ const ContactFormSection = () => {
           <StyledContactFormSectionCardRightContainerSubTitle>
             Get in touch and tell us how we can help
           </StyledContactFormSectionCardRightContainerSubTitle>
-          <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container rowSpacing={3} columnSpacing={2}>
               <Grid item xs={12}>
                 <Controller
@@ -88,9 +79,11 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.fullName && (
-                  <StyledHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.fullName?.message}
-                  </StyledHelperText>
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -108,9 +101,11 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.email && (
-                  <StyledHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.email?.message}
-                  </StyledHelperText>
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -129,9 +124,11 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.question && (
-                  <StyledHelperText>
+                  <StyledContactFormSectionCardRightContainerFieldHelperText
+                    isLandingPage
+                  >
                     {formState.errors?.question?.message}
-                  </StyledHelperText>
+                  </StyledContactFormSectionCardRightContainerFieldHelperText>
                 )}
               </Grid>
             </Grid>

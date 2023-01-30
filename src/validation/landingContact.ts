@@ -6,7 +6,7 @@ const landingContactSchema = Yup.object().shape({
   email: Yup.string()
     .required("Please enter a valid email address")
     .email("Please enter a valid email address"),
-  question: Yup.string().required("The Question field must not be empty"),
+  question: Yup.string().required("This field must not be empty"),
 })
 
 const landingContactOptions = {
