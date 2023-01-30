@@ -51,16 +51,14 @@ class UserStore {
   get currencySymbol() {
     if (this.currentUser)
       return getCurrencySymbolByCountryCode(
-        localStorageUtils.get(COUNTRY_CODE) as CountryCodes
+        this.currentUser.country as CountryCodes
       )
     return getCurrencySymbolByCountryCode("GB")
   }
 
   get currencyCode() {
     if (this.currentUser)
-      return countryToCurrency[
-        localStorageUtils.get(COUNTRY_CODE) as CountryCodes
-      ]
+      return countryToCurrency[this.currentUser.country as CountryCodes]
     return "GBP"
   }
 
