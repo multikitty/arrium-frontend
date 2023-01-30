@@ -36,6 +36,7 @@ import { useStore } from "@/store"
 import {
   AvailabilityStatusType,
   initialWeekData,
+  searchTableEmptyData,
   searchTableInitialValues,
   WeekType,
 } from "./AvailabilityPage.data"
@@ -58,22 +59,34 @@ import {
 } from "./AvailabilityPage.styled"
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
+// import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
 import {
   IGetPrefrencesResultData,
+  IGetPrefrencesScheduleResultData,
   ISetPrefrencesResult,
   ISetPrefrencesVariables,
 } from "@/lib/interfaces/prefrences"
 import { useMutation } from "react-query"
+import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
 import { createDateInHM, localStorageUtils } from "@/utils"
 import AvailabilityAutomationModal from "./AvailabilityAutomationModal"
-import { setBlockStartSearch, setBlockStopSearch } from "@/agent/availability"
+import {
+  IAddStationTypeResult,
+  IAddStationTypeVariables,
+} from "@/lib/interfaces/stationTypes"
+import {
+  setBlockStartSearch,
+  setBlockStopSearch,
+  useBlockStopSearch,
+} from "@/agent/availability"
 import { TASK_ID } from "@/constants/localStorage"
 import { setLocalStorage } from "@/utils/localStorage"
 import isBrowser from "@/utils/isBrowser"
 import { Script } from "gatsby"
+
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -119,6 +132,7 @@ interface IAvailabilityPageProps extends IPageProps {}
 const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   country_code,
 }) => {
+  const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
@@ -135,17 +149,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
   const isPremiumUser = userStore.currentUser?.plan === Plans.premium
 
-  const isEnableIdentityScript =
-    userStore.currentUser &&
-    userStore.currentUser.id &&
-    userStore.currentUser.firstName &&
-    userStore.currentUser?.lastName &&
-    userStore.currentUser.email &&
-    userStore.currentUser.isEmailVerified &&
-    userStore.currentUser.tzName &&
-    userStore.currentUser.plan &&
-    userStore.flexData &&
-    userStore.flexData.region
+  const isEnableIdentityScript = userStore.currentUser.id || userStore.currentUser.firstName || userStore.currentUser?.lastName ||  userStore.currentUser.email ||  userStore.currentUser.emailVerified || userStore.currentUser.tzName || userStore.currentUser.plan || userStore.getFlexData?.region
 
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
@@ -186,7 +190,9 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
           location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
           checked: value?.preference?.active === "Y" ? true : false,
-          timeToArrive: value?.preference?.tta,
+          timeToArrive: value?.preference?.tta
+            ? parseInt(value?.preference?.tta)
+            : undefined,
           startTime:
             value.preference?.bStartTime !== ""
               ? createDateInHM(
@@ -241,9 +247,13 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
       data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
         location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
         checked: false,
-        timeToArrive: value?.preference?.tta,
+        timeToArrive: value?.preference?.tta
+          ? parseInt(value?.preference?.tta)
+          : undefined,
         startTime: null,
         endTime: null,
+        minimumPay: null,
+        minimumHourlyRate: null,
         stationCode: value.station.stationCode,
         stationId: value.station.stationID,
         regionId: value.station.regionID,
@@ -270,8 +280,8 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         stationId: obj.stationId,
         day: "",
         tta: obj.timeToArrive,
-        minPay: obj.minimumPay.toString() ?? "",
-        minHourlyRate: obj.minimumHourlyRate.toString() ?? "",
+        minPay: obj.minimumPay,
+        minHourlyRate: obj.minimumHourlyRate??"",
         startTime: obj.startTime
           ? new Date(obj.startTime).toLocaleTimeString([], {
               hour12: false,
@@ -407,24 +417,24 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
       handleSubmit={handleSubmit}
       {...methods}
     >
-      {isBrowser() && isEnableIdentityScript && (
+      {isBrowser() && isEnableIdentityScript &&
         <Script
-          type="text/javascript"
-          id="user-guiding-identify-complete"
-          dangerouslySetInnerHTML={{
-            __html: `
+        type="text/javascript"
+        id="user-guiding-identify-complete"
+        dangerouslySetInnerHTML={{
+          __html: `    
           // example with attributes
           window.userGuiding.identify('${userStore.currentUser.pk}', {
             customerID: '${userStore.currentUser.id}',
             firstName: '${userStore.currentUser.firstName}',
             lastName: '${userStore.currentUser?.lastName}',
             email: '${userStore.currentUser.email}',
-            emailVerified: ${userStore.currentUser.isEmailVerified},
+            emailVerified: ${userStore.currentUser.isEmailVerified },
             tzName: '${userStore.currentUser.tzName}',
             role: '${userStore.currentUser?.role}',
             accountStatus: '${userStore.currentUser.accountStatus}',
             flexCountry: '${userStore.currentUser?.flexCountry}',
-            region: '${userStore.flexData.region}',
+            region: '${userStore.getFlexData?.region}',
             planType: '${userStore.currentUser.plan}',
             stationType: '${userStore.currentUser?.stationType}',
             PricingPlanEnabled: true,
@@ -432,10 +442,10 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
             endDate: '${userStore.currentUser?.endDate}'
 
           })
-          `,
-          }}
-        ></Script>
-      )}
+          `
+        }}
+      ></Script>
+      }
 
       {isWebView ? (
         /* // * WEB VIEW */
@@ -838,7 +848,6 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         <AvailabilityAutomationModal
           open={isAutomationModalOpen}
           handleClose={handleAutomationModalClose}
-          country_code={country_code}
         />
       )}
     </FormProvider>
