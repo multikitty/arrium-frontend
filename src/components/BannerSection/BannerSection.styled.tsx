@@ -21,7 +21,6 @@ export const StyledBannerSectionPrimaryHeader = styled.h5`
   font-weight: bold;
   font-size: ${rem("18px")};
   line-height: 100%;
-  color: ${p => p.theme.palette.main};
   width: 96%;
   max-width: ${rem("464px")};
   margin: 0 auto;
