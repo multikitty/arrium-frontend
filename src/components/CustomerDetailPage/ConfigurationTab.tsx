@@ -375,33 +375,15 @@ const ConfigurationTab = (props: IConfigurationTabProps) => {
                   id="amazon-sdk"
                   dangerouslySetInnerHTML={{
                     __html: `
-                      document.getElementById('LoginWithAmazon').onclick = function() {
-                        setTimeout(window.doLogin, 1);
-                        return false;
+                    document.getElementById('LoginWithAmazon').onclick = function() {
+                      options = {};
+                      options.scope = 'profile';
+                      options.scope_data = {
+                          'profile' : {'essential': false}
                       };
-                      window.doLogin = function() {
-                          options = {};
-                          options.scope = 'profile';
-                          options.pkce = true;
-                          amazon.Login.authorize(options, function(response) {
-                              if ( response.error ) {
-                                  alert('oauth error ' + response.error);
-                              return;
-                              }
-                              amazon.Login.retrieveToken(response.code, function(response) {
-                                  if ( response.error ) {
-                                      alert('oauth error ' + response.error);
-                                  return;
-                                  }
-                                  amazon.Login.retrieveProfile(response.access_token, function(response) {
-                                      alert('Hello, ' + response.profile.Name);
-                                      alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-                                      alert('Your unique ID is ' + response.profile.CustomerId);
-                                      if ( window.console && window.console.log )
-                                        window.console.log(response);
-                                  });
-                              });
-                          });
+                      amazon.Login.authorize(options,
+                          'https://www.arrium.io/');
+                      return false;
                     };
                   `,
                   }}
