@@ -65,7 +65,6 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
   return (
     <Box {...boxProps}>
       <Select
-        autoFocus
         displayEmpty
         onChange={onChange}
         value={country}
