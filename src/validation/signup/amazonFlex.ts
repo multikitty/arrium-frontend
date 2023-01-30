@@ -8,7 +8,7 @@ const amazonFlexSchema = Yup.object().shape({
   password: Yup.string().required("The Password field must not be empty"),
   confirmPassword: Yup.string()
     .required("The Confirm Password field must not be empty")
-    .oneOf([Yup.ref("password"), null], "Password doesn't match"),
+    .oneOf([Yup.ref("password"), null], "Passwords do not match"),
 })
 
 const amazonFlexOptions = {
