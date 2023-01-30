@@ -35,6 +35,7 @@ const PostBodyComponents = [
       __html: `window.onAmazonLoginReady = function() {
             // TODO: Replace the Client ID with env variable
             amazon.Login.setClientId("amzn1.application-oa2-client.cdff02c8bfb34434a61941e9836410f7");
+            console.log("script logging test");
           };
           (function(d) {
             var a = d.createElement('script'); a.type = 'text/javascript';
@@ -58,8 +59,6 @@ export const onRenderBody: GatsbySSR["onRenderBody"] = ({
   setPostBodyComponents(PostBodyComponents)
 }
 
-const UnSafeSnackbarProvider = SnackbarProvider as any
-
 export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -77,7 +76,7 @@ export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
     <QueryClientProvider client={queryClient}>
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={theme}>
-          <UnSafeSnackbarProvider
+          <SnackbarProvider
             dense
             preventDuplicate
             maxSnack={3}
@@ -90,7 +89,7 @@ export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
                 {element}
               </React.Fragment>
             </LocalizationProvider>
-          </UnSafeSnackbarProvider>
+          </SnackbarProvider>
         </ThemeProvider>
       </MuiThemeProvider>
     </QueryClientProvider>
