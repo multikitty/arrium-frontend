@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import * as React from "react"
 import Chip from "@mui/material/Chip"
 import {
   Table,
@@ -13,7 +13,11 @@ import {
 import theme from "@/theme"
 import { rem } from "polished"
 import { AvailabilityTableTabType } from "./AvailabilityPage"
-import { availabilityStatusColorMap } from "./AvailabilityPage.data"
+import {
+  availabilityStatusColorMap,
+  availabilityStatusOptions,
+  rows,
+} from "./AvailabilityPage.data"
 import { devices } from "@/constants/device"
 import {
   StyledSubscriptionPageInvoicesContainer as StyledAvailabilityTableContainer,
@@ -33,8 +37,6 @@ import {
   StyledNoSearchResultsText,
   StyledNoSearchResultsTitle,
 } from "./AvailabilityPage.styled"
-import {useSearchedBlocks} from "@/agent/availability"
-import socketIOClient from "socket.io-client";
 
 interface IProps {
   tab: AvailabilityTableTabType
@@ -43,25 +45,6 @@ interface IProps {
 const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
   const isWebView = useMediaQuery(devices.web.up)
   const { userStore } = useStore()
-  const { data: searchedBlocksData } = useSearchedBlocks()
-  const [rows, setRows] = useState<any[]>([])
-  let socket = socketIOClient("https://api.arrium.io/");
-
-  socket.on('block-data-updated', (socketData) => {
-    console.log("Message: ",  socketData);
-    let socketRowData = socketData.data;
-    if(socketData.userPk === userStore.currentUser?.pk){
-      setRows(rows => [socketRowData, ...rows]);
-    }
-  });
-
-useEffect(() => {
-  if(searchedBlocksData?.data !== undefined){
-    setRows(searchedBlocksData?.data)
-  }
-
-}, [searchedBlocksData])
-
 
   return isWebView ? (
     /* // * DESKTOP VIEW */
@@ -157,8 +140,8 @@ useEffect(() => {
         </TableHead>
         <TableBody>
           {rows
-            .filter(row => (tab === "all" ? true : row.Status === tab))
-            .map((row:any, index) => (
+            .filter(row => (tab === "all" ? true : row.status === tab))
+            .map((row, index) => (
               <TableRow
                 key={index}
                 sx={{
@@ -176,7 +159,7 @@ useEffect(() => {
                   }}
                   scope="row"
                 >
-                  {row.stationName} ({row.stationCode})
+                  {row.location}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -188,7 +171,7 @@ useEffect(() => {
                   }}
                   align="left"
                 >
-                  {row.bDay}
+                  {row.day}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -200,7 +183,7 @@ useEffect(() => {
                   }}
                   align="left"
                 >
-                  {row.bDate}
+                  {row.date}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -213,7 +196,7 @@ useEffect(() => {
                   }}
                   align="left"
                 >
-                  {row.bStartTime}
+                  {row.time}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -238,7 +221,7 @@ useEffect(() => {
                   align="left"
                 >
                   {userStore.currencySymbol}
-                  {row.price}
+                  {row.pay}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -251,7 +234,7 @@ useEffect(() => {
                   align="left"
                 >
                   <Chip
-                    label={[row.Status]}
+                    label={availabilityStatusOptions[row.status].label}
                     sx={{
                       fontFamily: "Inter",
                       fontSize: "14px",
@@ -259,7 +242,7 @@ useEffect(() => {
                       fontWeight: 600,
                       lineHeight: "20px",
                       color: "white",
-                      background: availabilityStatusColorMap[row.Status],
+                      background: availabilityStatusColorMap[row.status],
                     }}
                   />
                 </TableCell>
@@ -292,15 +275,15 @@ useEffect(() => {
     <React.Fragment>
       <StyledAvailabilityTableContainer>
         {rows
-          .filter(row => (tab === "all" ? true : row.Status === tab))
-          .map((row:any) => (
-            <StyledAvailabilityTable key={row.bStartTime}>
+          .filter(row => (tab === "all" ? true : row.status === tab))
+          .map(row => (
+            <StyledAvailabilityTable key={row.time}>
               <StyledAvailabilityTableHeader>
                 <StyledAvailabilityTableHeaderTitle>
                   Location
                 </StyledAvailabilityTableHeaderTitle>
                 <StyledAvailabilityTableHeaderText>
-                  {row.stationName} ({row.stationCode})
+                  {row.location}
                 </StyledAvailabilityTableHeaderText>
               </StyledAvailabilityTableHeader>
               <StyledAvailabilityTableItemsContainer>
@@ -309,7 +292,7 @@ useEffect(() => {
                     Day
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bDay}
+                    {row.day}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -317,7 +300,7 @@ useEffect(() => {
                     Date
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bDate}
+                    {row.date}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -325,7 +308,7 @@ useEffect(() => {
                     Time
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bStartTime}
+                    {row.time}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -342,7 +325,7 @@ useEffect(() => {
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
                     {userStore.currencySymbol}
-                    {row.price}
+                    {row.pay}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -352,7 +335,7 @@ useEffect(() => {
                   <StyledAvailabilityTableItemValue>
                     <Chip
                       component="span"
-                      label={[row.Status]}
+                      label={availabilityStatusOptions[row.status].label}
                       sx={{
                         fontFamily: "Inter",
                         fontSize: "14px",
@@ -360,7 +343,7 @@ useEffect(() => {
                         fontWeight: 600,
                         lineHeight: "20px",
                         color: "white",
-                        background: availabilityStatusColorMap[row.Status],
+                        background: availabilityStatusColorMap[row.status],
                       }}
                     />
                   </StyledAvailabilityTableItemValue>

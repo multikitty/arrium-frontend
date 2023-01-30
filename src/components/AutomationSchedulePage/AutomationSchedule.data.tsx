@@ -10,19 +10,21 @@ import { rem } from "polished"
 export const scheduleDataInitialValues: AutomationScheduleType["data"] = [
   {
     active: true,
-    day: "mon",
+    day: "Mon",
     startTime: createDateInHM(12, 0),
+    endTime: createDateInHM(13, 0),
   },
   {
     active: true,
-    day: "tue",
+    day: "Tue",
     startTime: createDateInHM(12, 15),
+    endTime: createDateInHM(13, 15),
   },
-  { active: false, day: "wed", startTime: null},
-  { active: false, day: "thu", startTime: null},
-  { active: false, day: "fri", startTime: null},
-  { active: false, day: "sat", startTime: null},
-  { active: false, day: "sun", startTime: null},
+  { active: false, day: "Wed", startTime: null, endTime: null },
+  { active: false, day: "Thu", startTime: null, endTime: null },
+  { active: false, day: "Fri", startTime: null, endTime: null },
+  { active: false, day: "Sat", startTime: null, endTime: null },
+  { active: false, day: "Sun", startTime: null, endTime: null },
 ]
 
 interface TimePickerProps extends Omit<MobileTimePickerProps<any, any>, "renderInput"> {

@@ -4,9 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 export interface AutomationScheduleType {
   data: Array<{
     active?: boolean
-    day?: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun" | "everyday" | "weekdays" | "weekends" | ""
-    startTime?: Date | string | null
-    // endTime?: Date | null
+    day?: "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun" | ""
+    startTime?: Date | null
+    endTime?: Date | null
   }>
 }
 
@@ -20,12 +20,12 @@ export const automationScheduleValidationSchema: Yup.SchemaOf<AutomationSchedule
           then: schema =>
             schema
               .oneOf(
-                ["mon", "tue", "wed", "thu", "fri", "sat", "sun", "everyday", "weekdays", "weekends"],
+                ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                 "Start time is required"
               )
               .required("Day is required"),
           otherwise: schema =>
-            schema.oneOf(["mon", "tue", "wed", "thu", "fri", "sat", "sun", "everyday", "weekdays", "weekends", ""]),
+            schema.oneOf(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", ""]),
         }),
         startTime: Yup.date()
           .nullable()
@@ -33,7 +33,7 @@ export const automationScheduleValidationSchema: Yup.SchemaOf<AutomationSchedule
             is: (active: boolean) => active === true,
             then: schema => schema.required("Start time is required"),
           }),
-        // endTime: Yup.date().nullable(),
+        endTime: Yup.date().nullable(),
       })
     ),
   })
