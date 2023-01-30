@@ -53,7 +53,10 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
     setError,
     getValues,
     watch,
-  } = useForm<FormPropType>({ ...emailOptions, mode: "onBlur" })
+  } = useForm<FormPropType>({
+    ...emailOptions,
+    mode: "onChange",
+  })
   watch("email")
 
   const onSubmit = async (data: FormPropType) => {
