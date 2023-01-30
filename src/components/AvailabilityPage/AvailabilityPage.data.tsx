@@ -72,9 +72,6 @@ export const searchTableInitialValues: FormValues = {
       endTime: createDateInHM(13, 0),
       minimumPay: 80,
       minimumHourlyRate: 20,
-      stationCode: "",
-      stationId: "",
-      regionId: ""
     },
     {
       location: "Leyland (DPR1) - AMZL",
@@ -84,9 +81,6 @@ export const searchTableInitialValues: FormValues = {
       endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
-      stationCode: "",
-      stationId: "",
-      regionId: ""
     },
     {
       location: "Knowsley (DWN1) - AMZL",
@@ -96,9 +90,6 @@ export const searchTableInitialValues: FormValues = {
       endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
-      stationCode: "",
-      stationId: "",
-      regionId: ""
     },
     {
       location: "Wakefield (DLS4)",
@@ -108,9 +99,6 @@ export const searchTableInitialValues: FormValues = {
       endTime: null,
       minimumPay: "",
       minimumHourlyRate: "",
-      stationCode: "",
-      stationId: "",
-      regionId: ""
     },
   ],
 }
@@ -124,9 +112,6 @@ export const searchTableEmptyData: FormValues = {
     endTime: null,
     minimumPay: "",
     minimumHourlyRate: "",
-    stationCode: "",
-    stationId: "",
-    regionId: ""
   })),
 }
 
@@ -249,19 +234,19 @@ export const searchTableShape = [
   },
 ]
 
-// export const rowSearches = [
-//   createSearchesData(
-//     "Manchester (CMC2) - Morrisons",
-//     "15 min",
-//     "17:45",
-//     "21:00",
-//     30,
-//     10
-//   ),
-//   createSearchesData("Leyland (DPR1) - AMZL", "20 min", "17:30", "", 35, 1),
-//   createSearchesData("Knowsley (DWN1) - AMZL", "32 min", "", "22:00", 40),
-//   createSearchesData("Wakefield (DLS4)", "32 min"),
-// ]
+export const rowSearches = [
+  createSearchesData(
+    "Manchester (CMC2) - Morrisons",
+    "15 min",
+    "17:45",
+    "21:00",
+    30,
+    10
+  ),
+  createSearchesData("Leyland (DPR1) - AMZL", "20 min", "17:30", "", 35, 1),
+  createSearchesData("Knowsley (DWN1) - AMZL", "32 min", "", "22:00", 40),
+  createSearchesData("Wakefield (DLS4)", "32 min"),
+]
 
 export const rows: AvailabilityTableData[] = []
 

@@ -1,7 +1,6 @@
 import { Box, TextField } from "@mui/material"
 import { rem } from "polished"
 import styled, { css } from "styled-components"
-import { StyledProfileTabContentFieldLabel } from "../ProfilePage/ProfilePage.styled"
 
 export const StyledSupportPageWrapper = styled(Box)`
   flex-grow: 1;
@@ -28,15 +27,7 @@ export const StyledContentHeader = styled.p`
   font-size: ${rem("16px")};
   line-height: ${rem("24px")};
   margin-top: ${rem("40px")};
-  margin-bottom: ${rem("32px")};
   color: ${p => p.theme.palette.blackText};
-`
-
-export const StyledSupportFormLabel = styled(
-  StyledProfileTabContentFieldLabel
-)`
-  margin-bottom: ${rem("4px")};
-  font-weight: 400;
 `
 
 export const StyledSupportInputField = styled(TextField)`
@@ -47,7 +38,7 @@ export const StyledSupportInputField = styled(TextField)`
     border: none;
     outline: none;
     border-radius: ${rem("10px")};
-    margin-bottom: ${rem("38px")};
+    margin-top: ${rem("32px")};
 
     & > .MuiOutlinedInput-root {
       width: 100%;
@@ -64,6 +55,7 @@ export const StyledSupportTextArea = styled(TextField)`
     border: none;
     outline: none;
     border-radius: ${rem("10px")};
+    margin-top: ${rem("24px")};
 
     & > .MuiOutlinedInput-root {
       width: 100%;

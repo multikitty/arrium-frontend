@@ -15,9 +15,6 @@ export type FormValues = {
     endTime: Date | null
     minimumPay: number | ""
     minimumHourlyRate: number | ""
-    stationCode : string
-    regionId : string
-    stationId : string
   }[]
 }
 
