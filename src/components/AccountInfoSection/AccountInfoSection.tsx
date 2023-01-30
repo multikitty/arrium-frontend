@@ -17,7 +17,7 @@ import {
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledCardHeader,
+  StyledLoginText,
   StyledSignUpButton,
   StyledSignUpText,
 } from "../commons/uiComponents"
@@ -112,7 +112,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     navigate(routes.signin)
   }
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
+  const onSubmit = (e: React.FormEvent<HTMLDivElement | null>) => {
     e.preventDefault()
     const phoneNumber = phoneNo.slice(dialCode.length || 0)
 
@@ -200,11 +200,11 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   return (
     <React.Fragment>
       {isWebView ? (
-        <StyledLoginContainer onSubmit={onSubmit}>
+        <StyledLoginContainer component="form" onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
-            <StyledCardHeader>
+            <StyledLoginText>
               {content.accountInfoSection.title}
-            </StyledCardHeader>
+            </StyledLoginText>
           </Box>
           <StyledFieldLabel $isHidden={!firstName}>First Name</StyledFieldLabel>
           <StyledInputField
@@ -272,7 +272,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
           </Box>
         </StyledLoginContainer>
       ) : (
-        <StyledLoginContainerMobile onSubmit={onSubmit}>
+        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
           {!isWebView && (
             <SignupStepsProgressMobile stage={stage} steps={step} />
           )}
@@ -283,9 +283,9 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledCardHeader>
+              <StyledLoginText>
                 {content.accountInfoSection.title}
-              </StyledCardHeader>
+              </StyledLoginText>
             </Box>
             <StyledFieldLabel $isHidden={!firstName}>
               First Name

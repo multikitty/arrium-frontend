@@ -20,26 +20,29 @@ export const StyledInputField = styled(TextField)<{
   &&& {
     background-color: #ffffff;
     width: 100%;
-    height: 48px;
+    height: ${rem("52px")};
     border: none;
     outline: none;
-    margin-bottom: ${p => p.mb || "16px"};
     ${p =>
       p.$isCentered &&
       css`
         margin: 0 auto;
       `}
-    border-radius: 10px;
-    font-size: 16px;
-    line-height: 20px;
+    ${p =>
+      p.mb
+        ? css`
+            margin-bottom: ${p.mb};
+          `
+        : css`
+            margin-bottom: ${rem("16px")};
+          `};
+    border-radius: ${rem("10px")};
 
     & > .MuiOutlinedInput-root {
-      max-width: ${p => p.$maxWidth || "378px"};
-      min-width: ${p => p.$minWidth || "250px"};
-      height: 48px;
-      border-radius: 10px;
-      font-size: 16px;
-      line-height: 20px;
+      max-width: ${p => rem(p.$maxWidth || "378px")};
+      height: ${rem("52px")};
+      min-width: ${p => rem(p.$minWidth || "250px")};
+      border-radius: ${rem("10px")};
       ${p =>
         p.$centerInput &&
         css`
@@ -61,7 +64,7 @@ export const StyledTitle = styled.p`
   cursor: pointer;
 `
 
-export const StyledLoginContainer = styled.form`
+export const StyledLoginContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,14 +74,13 @@ export const StyledLoginContainer = styled.form`
   width: ${rem("458px")};
 `
 
-export const StyledCardHeader = styled.h4`
-  font-size: 28px;
-  line-height: 32px;
+export const StyledLoginText = styled.h4`
+  font-size: ${rem("28px")};
   font-weight: 400;
   text-align: center;
   color: #0a0a0a;
-  padding: 0 40px;
-  margin-bottom: 40px;
+  padding: 0 ${rem("40px")} ${rem("40px")} ${rem("40px")};
+  line-height: ${rem("32px")};
 `
 
 export const StyledRemeberMeText = styled.label`
@@ -168,7 +170,7 @@ export const StyledTitleMobile = styled.div`
   cursor: pointer;
 `
 
-export const StyledLoginContainerMobile = styled.form`
+export const StyledLoginContainerMobile = styled(Box)`
   display: flex;
   flex-direction: column;
   margin: 0 auto;

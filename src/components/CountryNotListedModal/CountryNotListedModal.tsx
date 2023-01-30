@@ -38,7 +38,6 @@ const CountryNotListedModal = (props: IProps) => {
   } = useForm<FormProps>(countryNotListedOptions)
 
   const onSubmit = (data: FormProps) => {
-    console.log("CountryNotListedModal Form Data", data)
     props.handleContinue()
   }
 

@@ -8,7 +8,7 @@ import {
   StyledButtonText,
   StyledLoginContainer,
   StyledLoginContainerMobile,
-  StyledCardHeader,
+  StyledLoginText,
 } from "../commons/uiComponents"
 import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
 import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
@@ -20,15 +20,15 @@ const FinishPage: React.FC<FinishPageProps> = ({
   step,
 }) => {
   const isWebView = useMediaQuery(devices.web.up)
-  const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
+  const onSubmit = (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault()
     setShowOnHold(true)
   }
 
   return isWebView ? (
-    <StyledLoginContainer onSubmit={onSubmit}>
+    <StyledLoginContainer component="form" onSubmit={onSubmit}>
       <Box display="flex" justifyContent="center">
-        <StyledCardHeader>Account succesfully created</StyledCardHeader>
+        <StyledLoginText>Account succesfully created</StyledLoginText>
       </Box>
       <StyledText>
         Go to main page and start searching for your next delivery
@@ -47,7 +47,7 @@ const FinishPage: React.FC<FinishPageProps> = ({
       </StyledButton>
     </StyledLoginContainer>
   ) : (
-    <StyledLoginContainerMobile onSubmit={onSubmit}>
+    <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
       {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
       <Box
         display="flex"
@@ -56,7 +56,7 @@ const FinishPage: React.FC<FinishPageProps> = ({
         mx={"auto"}
       >
         <Box display="flex" justifyContent="center">
-          <StyledCardHeader>Account succesfully created</StyledCardHeader>
+          <StyledLoginText>Account succesfully created</StyledLoginText>
         </Box>
         <StyledText>
           Go to main page and start searching for your next delivery
