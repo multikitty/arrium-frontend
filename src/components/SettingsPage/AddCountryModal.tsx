@@ -54,7 +54,6 @@ const AddCountryModal = (props: IProps) => {
             <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <CountrySelect
               autoFocus
-              placeholder="Country*"
               country={country}
               setCountry={handleCountryField}
             />

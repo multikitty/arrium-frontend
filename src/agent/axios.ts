@@ -1,9 +1,5 @@
 import { store } from "../store"
 import axios from "axios"
-import {
-  GATSBY_ARRIUM_PROD_URL,
-  GATSBY_TIMEZONE_API_KEY,
-} from "@/constants/env"
 
 export default function createInstance(baseURL = "http://localhost:8080/api") {
   return axios.create({
@@ -16,7 +12,7 @@ export default function createInstance(baseURL = "http://localhost:8080/api") {
 }
 
 const arriumAPI = createInstance(
-  process.env[GATSBY_ARRIUM_PROD_URL] || "https://api.arrium.io/v1/"
+  process.env.GATSBY_ARRIUM_PROD_URL || "https://api.arrium.io/v1/"
 )
 
 arriumAPI.interceptors.request.use(config => {
@@ -43,11 +39,11 @@ arriumAPI.interceptors.response.use(
 )
 
 export const listTimezoneAPI = createInstance(
-  `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env[GATSBY_TIMEZONE_API_KEY]}&format=json`
+  `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json`
 )
 
 export const getTimezoneAPI = createInstance(
-  `http://api.timezonedb.com/v2.1/get-time-zone?key=${process.env[GATSBY_TIMEZONE_API_KEY]}&format=json&by=zone&fields=zoneStart,zoneEnd,zoneName,gmtOffset`
+  `http://api.timezonedb.com/v2.1/get-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json&by=zone&fields=zoneStart,zoneEnd,zoneName,gmtOffset`
 )
 
 // export const getGeolocationAPI =

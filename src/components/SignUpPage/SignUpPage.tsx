@@ -37,16 +37,7 @@ const steps = [
   "OTP Confirmation",
   "Amazon Flex Info",
   "Finish",
-] as const
-
-export type AccountInfoData = {
-  firstname: string
-  lastname: string
-  tzName: string
-  countryCode: string
-  phoneNumber: string
-  dialCode: string
-}
+]
 
 interface ISignUpPageProps extends IPageProps {}
 
@@ -60,8 +51,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
   const [formStage, setFormStage] = useState(0)
   const [showOnHold, setShowOnHold] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [accountInfoData, setAccountInfoData] =
-    useState<null | AccountInfoData>(null)
 
   const handleNavigateToHome = () => {
     navigate(routes.home)
@@ -74,19 +63,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
       setIsLoading(false)
       return
     }
-    if (step === REGISTRATION_STEP_MAP["account_info"].toString()) {
-      setFormStage(+step)
-      setIsLoading(false)
-      setAccountInfoData({
-        firstname: data.firstname,
-        lastname: data.lastname,
-        tzName: data.tzName,
-        countryCode: data.country,
-        phoneNumber: data.phoneNumber,
-        dialCode: data.dialCode,
-      })
-      return
-    }
     const currentStep = REGISTRATION_STEP_MAP[data.currentSteps]
     navigateToSignup(currentStep)
     setFormStage(currentStep)
@@ -94,7 +70,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
   }, [])
 
   React.useEffect(() => {
-    setAccountInfoData(null)
     const { step } = queryString.parse(location.search)
     if (!step || Array.isArray(step) || Number.isNaN(parseInt(step, 10))) {
       setFormStage(0)
@@ -148,7 +123,6 @@ const SignUpPage: React.FC<ISignUpPageProps> = ({ country_code }) => {
             stage={formStage}
             step="Account Info"
             country_code={country_code}
-            data={accountInfoData}
           />
         )}
         {formStage === 2 && (

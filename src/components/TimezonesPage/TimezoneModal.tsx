@@ -61,7 +61,7 @@ const TimezoneModal: React.FC<IProps> = ({
             <CountrySelect
               fullWidth
               required
-              placeholder="Choose Country Code*"
+              label="Choose Country Code"
               country={country}
               setCountry={setCountry}
               getOptionLabel={option =>

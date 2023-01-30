@@ -18,7 +18,7 @@ interface IProps
     | React.Dispatch<React.SetStateAction<CountryData | null | undefined>>
     | ((country: CountryData | null) => void)
   required?: boolean
-  placeholder?: string
+  label?: string
   autoFocus?: boolean
   filterCountries?: string[]
 }
@@ -27,7 +27,7 @@ const CountrySelect: React.FC<IProps> = ({
   country,
   setCountry,
   required,
-  placeholder = "Select Country",
+  label = "Select Country",
   autoFocus,
   filterCountries,
   ...props
@@ -109,9 +109,9 @@ const CountrySelect: React.FC<IProps> = ({
           {...params}
           autoFocus={!!autoFocus}
           required={Boolean(required)}
+          label={label}
           InputProps={{
             ...params.InputProps,
-            placeholder,
             endAdornment: (
               <React.Fragment>
                 {loading ? (

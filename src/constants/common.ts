@@ -90,7 +90,7 @@ export const REGISTRATION_STEP_MAP = {
   [registrationSteps.otp]: 2,
   [registrationSteps.amazon_flex]: 3,
   [registrationSteps.finished]: 4,
-} as const
+}
 
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const
 export const DEFAULT_COUNTRY: AllowedCountries = "gb"

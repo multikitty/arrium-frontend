@@ -43,14 +43,12 @@ const AddBlockTypeModal = (props: IProps) => {
             <CloseIcon sx={{ fontSize: 16 }} />
           </IconButton>
         </StyledAddBlockTypeModalCloseIconContainer>
+        <StyledFieldLabel $isHidden={!blockType}>Block type</StyledFieldLabel>
         <StyledAddBlockTypeModalTitle>
           Add new Block Type
         </StyledAddBlockTypeModalTitle>
         <StyledAddBlockTypeModalForm onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledFieldLabel $isHidden={!blockType}>
-              Block type
-            </StyledFieldLabel>
             <StyledAddBlockTypeModalFormField
               autoFocus
               placeholder={`Block Type`}

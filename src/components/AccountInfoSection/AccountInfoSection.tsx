@@ -40,7 +40,6 @@ import { getFilteredCountries } from "@/utils/getCountryData"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
-import { AccountInfoData } from "../SignUpPage/SignUpPage"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -66,16 +65,13 @@ const useStyles = makeStyles({
   },
 })
 
-interface IAccountInfoSection extends FormProps, IPageProps {
-  data: AccountInfoData | null
-}
+interface IAccountInfoSection extends FormProps, IPageProps {}
 
 const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   setFormStage,
   stage,
   step,
   country_code,
-  data,
 }) => {
   const {
     navigate,
@@ -86,20 +82,16 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
   const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
-    data?.tzName || Intl.DateTimeFormat().resolvedOptions().timeZone
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   )
-  const [phoneNo, setPhoneNo] = useState(data?.phoneNumber || "")
+  const [phoneNo, setPhoneNo] = useState("")
   const [phoneCountry, setPhoneCountry] = useState(
-    data?.countryCode || localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY
+    localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY
   )
-  const [dialCode, setDialCode] = useState(data?.dialCode || "")
-  const [firstName, setFirstName] = useState(data?.firstname || "")
-  const [surName, setSurName] = useState(data?.lastname || "")
-  const [country, setCountry] = useState<CountryDataType | null>(
-    data?.countryCode
-      ? getFilteredCountries([data.countryCode.toLowerCase()])[0]
-      : null
-  )
+  const [dialCode, setDialCode] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [surName, setSurName] = useState("")
+  const [country, setCountry] = useState<CountryDataType | null>(null)
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
   const { mutate } = useMutation<
     IAccountInfoResult,
@@ -172,19 +164,6 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
   }, [phoneNo, selectedTimezone, firstName, surName, country])
 
   useEffect(() => {
-    if (!!data) {
-      const countryData = getFilteredCountries([
-        data.countryCode.toLowerCase(),
-      ])[0]
-      setCountry(countryData)
-      setPhoneCountry(countryData.countryShortName.toLowerCase())
-      setPhoneNo(data.dialCode + data.phoneNumber)
-      setDialCode(data.dialCode)
-      setSelectedTimezone(data.tzName)
-      setFirstName(data.firstname)
-      setSurName(data.lastname)
-      return
-    }
     if (!geolocationData) return
     const countryData = getFilteredCountries([
       geolocationData.country_code.toLowerCase(),
@@ -193,7 +172,7 @@ const AccountInfoSection: React.FC<IAccountInfoSection> = ({
     setPhoneCountry(countryData.countryShortName.toLowerCase())
     setDialCode(geolocationData.calling_code)
     setSelectedTimezone(geolocationData.timezone.id)
-  }, [geolocationData, data])
+  }, [geolocationData])
 
   if (isLoading) return <LoadingScreen />
 
