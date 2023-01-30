@@ -272,27 +272,21 @@ const ModelsTab = () => {
 
   return (
     <StyledModelsTab>
-      {isAddPhoneModelModalOpen ? (
-        <AddPhoneModelModal
-          open={isAddPhoneModelModalOpen}
-          handleClose={handleAddPhoneModelModalClose}
-          handleAdd={handleAddPhoneModel}
-        />
-      ) : null}
-      {isAddOSVersionModalOpen ? (
-        <AddOSVersionModal
-          open={isAddOSVersionModalOpen}
-          handleClose={handleAddOSVersionModalClose}
-          handleAdd={handleAddOsVersion}
-        />
-      ) : null}
-      {isAddFlexVersionModalOpen ? (
-        <AddFlexVersionModal
-          open={isAddFlexVersionModalOpen}
-          handleClose={handleAddFlexVersionModalClose}
-          handleAdd={handleAddFlexVersion}
-        />
-      ) : null}
+      <AddPhoneModelModal
+        open={isAddPhoneModelModalOpen}
+        handleClose={handleAddPhoneModelModalClose}
+        handleAdd={handleAddPhoneModel}
+      />
+      <AddOSVersionModal
+        open={isAddOSVersionModalOpen}
+        handleClose={handleAddOSVersionModalClose}
+        handleAdd={handleAddOsVersion}
+      />
+      <AddFlexVersionModal
+        open={isAddFlexVersionModalOpen}
+        handleClose={handleAddFlexVersionModalClose}
+        handleAdd={handleAddFlexVersion}
+      />
       {itemToDelete && (
         <DeleteConfirmationModal
           open={!!itemToDelete}
