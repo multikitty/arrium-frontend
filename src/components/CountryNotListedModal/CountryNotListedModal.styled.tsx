@@ -19,7 +19,6 @@ export const StyledCountryNotListedModal = styled(StyledAddCountryModal)`
   width: 90%;
   max-width: ${rem("628px")};
   position: relative;
-  outline: none;
 `
 
 export const StyledCountryNotListedModalBrandLogoContainer = styled.div`
