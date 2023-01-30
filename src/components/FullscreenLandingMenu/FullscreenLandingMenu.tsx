@@ -30,8 +30,9 @@ const FullscreenLandingMenu: React.FC<IFullscreenLandingMenuProps> = ({
   handleClose,
   open,
   country_code,
+  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code })
+  const { navigate } = useNavigate({ country_code, lang })
 
   const handleLoginButtonClick = () => {
     handleClose()

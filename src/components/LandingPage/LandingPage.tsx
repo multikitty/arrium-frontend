@@ -11,15 +11,15 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface ILandingPageProps extends IPageProps {}
 
-const LandingPage: React.FC<ILandingPageProps> = ({ country_code }) => (
+const LandingPage: React.FC<ILandingPageProps> = ({ country_code, lang }) => (
   <>
     <Seo title="Home | Arrium" />
-    <LandingNavbar country_code={country_code} />
-    <BannerSection country_code={country_code} />
+    <LandingNavbar country_code={country_code} lang={lang} />
+    <BannerSection country_code={country_code} lang={lang} />
     <BenefitsSection />
     <WorkingSection />
     <ContactFormSection />
-    <FooterSection country_code={country_code} />
+    <FooterSection country_code={country_code} lang={lang} />
   </>
 )
 

@@ -20,8 +20,7 @@ const FinishPage: React.FC<FinishPageProps> = ({
   step,
 }) => {
   const isWebView = useMediaQuery(devices.web.up)
-  const onSubmit = (e: React.FormEvent<HTMLDivElement>) => {
-    e.preventDefault()
+  const onSubmit = () => {
     setShowOnHold(true)
   }
 

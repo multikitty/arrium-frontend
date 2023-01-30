@@ -7,7 +7,6 @@ import { rem } from "polished"
 import {
   StyledButton,
   StyledButtonText,
-  StyledFieldLabel,
   StyledInputField,
   StyledInstructionsText,
   StyledLoginContainer,
@@ -34,8 +33,9 @@ interface IForgotPasswordPageProps extends IPageProps {}
 
 const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
   country_code,
+  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code })
+  const { navigate } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const { mutate } = useMutation<
     IForgotPasswordResult,
@@ -52,7 +52,6 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
     handleSubmit,
     formState: { errors },
     setError,
-    getValues,
   } = useForm<formPropType>(emailOptions)
 
   const onSubmit = async (data: formPropType) => {
@@ -138,17 +137,12 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
               </StyledInstructionsText>
             </Box>
             {!isClicked && (
-              <React.Fragment>
-                <StyledFieldLabel $isHidden={!getValues("email")}>
-                  Email ID
-                </StyledFieldLabel>
-                <StyledInputField
-                  placeholder="Enter Email Address"
-                  variant="outlined"
-                  error={!!errors.email}
-                  {...register("email")}
-                />
-              </React.Fragment>
+              <StyledInputField
+                placeholder="Enter Email Address"
+                variant="outlined"
+                error={!!errors.email}
+                {...register("email")}
+              />
             )}
             {errors.email && (
               <StyledWarningText marginbottom={rem("16px")}>
@@ -213,17 +207,12 @@ const ForgotPasswordPage: React.FC<IForgotPasswordPageProps> = ({
                 </StyledInstructionsText>
               </Box>
               {!isClicked && (
-                <React.Fragment>
-                  <StyledFieldLabel $isHidden={!getValues("email")}>
-                    Email ID
-                  </StyledFieldLabel>
-                  <StyledInputField
-                    placeholder="Enter Email Address"
-                    variant="outlined"
-                    error={!!errors.email}
-                    {...register("email")}
-                  />
-                </React.Fragment>
+                <StyledInputField
+                  placeholder="Enter Email Address"
+                  variant="outlined"
+                  error={!!errors.email}
+                  {...register("email")}
+                />
               )}
               {errors.email && (
                 <StyledWarningText marginbottom={rem("16px")}>

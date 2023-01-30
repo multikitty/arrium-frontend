@@ -28,8 +28,9 @@ interface IAutomationScheduleProps extends IPageProps {}
 
 const AutomationSchedulePage: React.FC<IAutomationScheduleProps> = ({
   country_code,
+  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code })
+  const { navigate } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const handleBackToAvailabilityPage = () => {
     navigate(routes.availability)

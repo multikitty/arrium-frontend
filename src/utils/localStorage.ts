@@ -5,7 +5,7 @@ export const setLocalStorage = (key: string, value: string) => {
 }
 
 export const getLocalStorage = (key: string) => {
-  return isBrowser() ? localStorage.getItem(key) : null
+  return isBrowser() && localStorage.getItem(key)
 }
 
 export const removeLocalStorage = (key: string) => {

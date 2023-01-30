@@ -18,10 +18,11 @@ const AddDropdown: React.FC<IAddDropDownProps> = ({
   anchorEl,
   open,
   country_code,
+  lang,
 }) => {
   const {
     navigateWithQuery: { navigateToAddCustomerPage },
-  } = useNavigate({ country_code })
+  } = useNavigate({ country_code, lang })
 
   const renderMenuItem = LabelledUserRoles.map(role => (
     <MenuItem

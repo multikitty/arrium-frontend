@@ -41,8 +41,9 @@ const ProfileDropdown: React.FC<IProfileDropdownProps> = ({
   anchorEl,
   open,
   country_code,
+  lang,
 }) => {
-  const { navigate } = useNavigate({ country_code })
+  const { navigate } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const { data: currentUserData, isLoading } = useCurrentUser()
 

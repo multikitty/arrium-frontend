@@ -9,7 +9,6 @@ import { devices } from "@/constants/device"
 import {
   StyledButton,
   StyledButtonText,
-  StyledFieldLabel,
   StyledInputField,
   StyledLoginContainer,
   StyledLoginContainerMobile,
@@ -33,15 +32,16 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
   stage,
   step,
   country_code,
+  lang,
 }) => {
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
-  } = useNavigate({ country_code })
+  } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
   const [userName, setUserName] = useState("")
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, SetIsVisible] = useState(false)
   const [password, setPassword] = useState("")
   const [isButtonDisable, setIsButtonDisable] = useState(true)
   const { mutate } = useMutation<IFlexInfoResult, Error, IFlexInfoVariables>(
@@ -86,148 +86,121 @@ const AmazonFlexInfo: React.FC<IAmazonFlexInfoProps> = ({
     })
   }, [password, userName])
 
-  return (
-    <React.Fragment>
-      {isWebView ? (
-        <StyledLoginContainer component="form" onSubmit={onSubmit}>
-          <Box display="flex" justifyContent="center">
-            <StyledLoginText>Sign up</StyledLoginText>
-          </Box>
-          <StyledText>Please enter your Amazon Flex account details</StyledText>
-          <Box mt={2}>
-            <StyledFieldLabel $isHidden={!userName}>
-              Amazon Flex Username
-            </StyledFieldLabel>
-          </Box>
-          <StyledInputField
-            autoComplete="amazon-flex-username"
-            name="amazon-flex-username"
-            placeholder="Amazon Flex Username"
-            variant="outlined"
-            type="email"
-            value={userName}
-            onChange={e => setUserName(e.target.value)}
-            required
-          />
-          <StyledFieldLabel $isHidden={!password}>
-            Amazon Flex Password
-          </StyledFieldLabel>
-          <StyledInputField
-            autoComplete="amazon-flex-password"
-            name="amazon-flex-password"
-            placeholder="Amazon Flex Password"
-            type={isVisible ? "text" : "password"}
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            variant="outlined"
-            required
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                  {isVisible ? (
-                    <VisibilityOffOutlined />
-                  ) : (
-                    <VisibilityOutlined />
-                  )}
-                </IconButton>
-              ),
-            }}
-          />
-          <StyledButton
-            variant="contained"
-            color="primary"
-            disableElevation
-            $marginTop={rem("56px")}
-            type="submit"
-            disabled={isButtonDisable}
-          >
-            <StyledButtonText>Continue</StyledButtonText>
-          </StyledButton>
-          <Box display="flex" justifyContent="center">
-            <StyledSignUpText>
-              Already have an account?
-              <StyledSignUpButton onClick={handleNavigateToSignIn}>
-                Log in
-              </StyledSignUpButton>
-            </StyledSignUpText>
-          </Box>
-        </StyledLoginContainer>
-      ) : (
-        <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
-          {!isWebView && (
-            <SignupStepsProgressMobile stage={stage} steps={step} />
-          )}
-          <Box
-            display="flex"
-            flexDirection="column"
-            maxWidth={rem("375px")}
-            mx={"auto"}
-          >
-            <Box display="flex" justifyContent="center">
-              <StyledLoginText>Sign up</StyledLoginText>
-            </Box>
-            <StyledFieldLabel $isHidden={!userName}>
-              Amazon Flex Username
-            </StyledFieldLabel>
-            <StyledInputField
-              autoComplete="amazon-flex-username"
-              name="amazon-flex-username"
-              placeholder="Amazon Flex Username"
-              variant="outlined"
-              value={userName}
-              onChange={e => setUserName(e.target.value)}
-              type="email"
-              required
-            />
-            <StyledFieldLabel $isHidden={!password}>
-              Amazon Flex Password
-            </StyledFieldLabel>
-            <StyledInputField
-              autoComplete="amazon-flex-password"
-              name="amazon-flex-password"
-              placeholder="Amazon Flex Password"
-              type={isVisible ? "text" : "password"}
-              value={password}
-              required
-              onChange={e => setPassword(e.target.value)}
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                    {isVisible ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
-            <StyledButton
-              variant="contained"
-              color="primary"
-              disableElevation
-              $marginTop={rem("56px")}
-              type="submit"
-              disabled={isButtonDisable}
-            >
-              <StyledButtonText>Continue</StyledButtonText>
-            </StyledButton>
-            <Box
-              display="flex"
-              justifyContent="center"
-              flexDirection="column"
-              alignItems="center"
-            >
-              <StyledSignUpText>Already have an account?</StyledSignUpText>
-              <StyledSignUpButton onClick={handleNavigateToSignIn}>
-                Log In
-              </StyledSignUpButton>
-            </Box>
-          </Box>
-        </StyledLoginContainerMobile>
-      )}
-    </React.Fragment>
+  return isWebView ? (
+    <StyledLoginContainer component="form" onSubmit={onSubmit}>
+      <Box display="flex" justifyContent="center">
+        <StyledLoginText>Sign up</StyledLoginText>
+      </Box>
+      <StyledText>Please enter your Amazon Flex account details</StyledText>
+      <StyledInputField
+        autoComplete="amazon-flex-username"
+        name="amazon-flex-username"
+        placeholder="Amazon Flex Username"
+        variant="outlined"
+        type="email"
+        value={userName}
+        onChange={e => setUserName(e.target.value)}
+        required
+        sx={{ marginTop: "1rem" }}
+      />
+      <StyledInputField
+        autoComplete="amazon-flex-password"
+        name="amazon-flex-password"
+        placeholder="Amazon Flex Password"
+        type={isVisible ? "text" : "password"}
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        variant="outlined"
+        required
+        InputProps={{
+          endAdornment: (
+            <IconButton onClick={() => SetIsVisible(prev => !prev)}>
+              {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+            </IconButton>
+          ),
+        }}
+      />
+      <StyledButton
+        variant="contained"
+        color="primary"
+        disableElevation
+        $marginTop={rem("56px")}
+        type="submit"
+        disabled={isButtonDisable}
+      >
+        <StyledButtonText>Continue</StyledButtonText>
+      </StyledButton>
+      <Box display="flex" justifyContent="center">
+        <StyledSignUpText>
+          Already have an account?
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log in
+          </StyledSignUpButton>
+        </StyledSignUpText>
+      </Box>
+    </StyledLoginContainer>
+  ) : (
+    <StyledLoginContainerMobile component="form" onSubmit={onSubmit}>
+      {!isWebView && <SignupStepsProgressMobile stage={stage} steps={step} />}
+      <Box
+        display="flex"
+        flexDirection="column"
+        maxWidth={rem("375px")}
+        mx={"auto"}
+      >
+        <Box display="flex" justifyContent="center">
+          <StyledLoginText>Sign up</StyledLoginText>
+        </Box>
+        <StyledInputField
+          autoComplete="amazon-flex-username"
+          name="amazon-flex-username"
+          placeholder="Amazon Flex Username"
+          variant="outlined"
+          value={userName}
+          onChange={e => setUserName(e.target.value)}
+          type="email"
+          required
+        />
+        <StyledInputField
+          autoComplete="amazon-flex-password"
+          name="amazon-flex-password"
+          placeholder="Amazon Flex Password"
+          type={isVisible ? "text" : "password"}
+          value={password}
+          required
+          onChange={e => setPassword(e.target.value)}
+          variant="outlined"
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => SetIsVisible(prev => !prev)}>
+                {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+              </IconButton>
+            ),
+          }}
+        />
+        <StyledButton
+          variant="contained"
+          color="primary"
+          disableElevation
+          $marginTop={rem("56px")}
+          type="submit"
+          disabled={isButtonDisable}
+        >
+          <StyledButtonText>Continue</StyledButtonText>
+        </StyledButton>
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <StyledSignUpText>Already have an account?</StyledSignUpText>
+          <StyledSignUpButton onClick={handleNavigateToSignIn}>
+            Log In
+          </StyledSignUpButton>
+        </Box>
+      </Box>
+    </StyledLoginContainerMobile>
   )
 }
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
-
 import {
   StyledAddCountryModal as StyledAddPhoneModelModal,
   StyledAddCountryModalCloseIconContainer as StyledAddPhoneModelModalCloseIconContainer,
@@ -11,10 +9,10 @@ import {
   StyledAddCountryModalFormField as StyledAddPhoneModelModalFormField,
   StyledAddCountryModalTitle as StyledAddPhoneModelModalTitle,
 } from "./SettingsPage.styled"
+import CloseIcon from "@mui/icons-material/Close"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { IAddPhoneModelVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { StyledFieldLabel } from "../commons/uiComponents"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddPhoneModelVariables) => void
@@ -24,17 +22,13 @@ const AddPhoneModelModal = (props: IProps) => {
   const [phoneModel, setPhoneModel] = useState("")
   const [phoneID, setPhoneID] = useState("")
 
-  const handlePhoneModelField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setPhoneModel(e.target.value)
-  }
+  const handlePhoneModelField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setPhoneModel(e.target.value)
 
-  const handlePhoneIDField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setPhoneID(e.target.value)
-  }
+  const handlePhoneIDField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setPhoneID(e.target.value)
 
   const isSaveDisabled = !phoneID || !phoneModel
 
@@ -60,9 +54,6 @@ const AddPhoneModelModal = (props: IProps) => {
         </StyledAddPhoneModelModalTitle>
         <StyledAddPhoneModelModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!phoneModel}>
-              Phone Model name
-            </StyledFieldLabel>
             <StyledAddPhoneModelModalFormField
               placeholder={`Phone Model name`}
               value={phoneModel}
@@ -70,10 +61,7 @@ const AddPhoneModelModal = (props: IProps) => {
               autoFocus
             />
           </Box>
-          <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledFieldLabel $isHidden={!phoneID}>
-              Phone Model ID
-            </StyledFieldLabel>
+          <Box display="flex" mb={rem("44px")}>
             <StyledAddPhoneModelModalFormField
               placeholder={`Phone Model ID`}
               value={phoneID}

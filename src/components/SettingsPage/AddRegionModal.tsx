@@ -7,10 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
-import { capitalCase } from "change-case"
 import { rem } from "polished"
-
 import {
   StyledAddCountryModal as StyledAddRegionModal,
   StyledAddCountryModalCloseIconContainer as StyledAddRegionModalCloseIconContainer,
@@ -19,13 +16,14 @@ import {
   StyledAddCountryModalFormField as StyledAddRegionModalFormField,
   StyledAddCountryModalTitle as StyledAddRegionModalTitle,
 } from "./SettingsPage.styled"
+import CloseIcon from "@mui/icons-material/Close"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import {
   IAddRegionVariables,
   ICountryListDataItem,
 } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
-import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
-import { StyledFieldLabel } from "@/components/commons/uiComponents"
+import { capitalCase } from "change-case"
 
 interface IProps extends ModalProps {
   handleAdd: (variables: IAddRegionVariables) => void
@@ -38,23 +36,17 @@ const AddRegionModal = (props: IProps) => {
   const [regionID, setRegionID] = useState("")
   const [country, setCountry] = useState<ICountryListDataItem | "">("")
 
-  const handleRegionField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setRegion(e.target.value)
-  }
+  const handleRegionField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setRegion(e.target.value)
 
-  const handleRegionCodeField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setRegionCode(e.target.value)
-  }
+  const handleRegionCodeField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setRegionCode(e.target.value)
 
-  const handleRegionIDField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setRegionID(e.target.value)
-  }
+  const handleRegionIDField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setRegionID(e.target.value)
 
   const handleCountryFieldChange = (
     e: SelectChangeEvent<ICountryListDataItem["country"]>
@@ -77,7 +69,7 @@ const AddRegionModal = (props: IProps) => {
     e.preventDefault()
     if (isSaveDisabled) return
     props.handleAdd({
-      countryCode: country.countryCode.toUpperCase(),
+      countryCode: country.countryCode,
       regionCode,
       regionId: regionID,
       regionName: region,
@@ -94,8 +86,7 @@ const AddRegionModal = (props: IProps) => {
         </StyledAddRegionModalCloseIconContainer>
         <StyledAddRegionModalTitle>Add new Region</StyledAddRegionModalTitle>
         <StyledAddRegionModalForm onSubmit={handleSave}>
-          <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
+          <Box display="flex" mb={rem("16px")}>
             <Select
               displayEmpty
               autoFocus
@@ -110,7 +101,6 @@ const AddRegionModal = (props: IProps) => {
             </Select>
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!region}>Region</StyledFieldLabel>
             <StyledAddRegionModalFormField
               placeholder={`Region name`}
               value={region}
@@ -118,17 +108,13 @@ const AddRegionModal = (props: IProps) => {
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledFieldLabel $isHidden={!regionCode}>
-              Region code
-            </StyledFieldLabel>
             <StyledAddRegionModalFormField
               placeholder={`Region code`}
               value={regionCode}
               onChange={handleRegionCodeField}
             />
           </Box>
-          <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledFieldLabel $isHidden={!regionID}>Region ID</StyledFieldLabel>
+          <Box display="flex" mb={rem("44px")}>
             <StyledAddRegionModalFormField
               placeholder={`Region ID`}
               value={regionID}

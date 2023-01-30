@@ -24,8 +24,8 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface ILandingPageProps extends IPageProps {}
 
-const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
-  const { navigate } = useNavigate({ country_code })
+const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code, lang }) => {
+  const { navigate } = useNavigate({ country_code, lang })
   const [hasBackground, setHasBackground] = useState(false)
   const [isFullscreenMenuOpen, setFullscreenMenuOpen] = useState(false)
   const isWebView = useMediaQuery(`(min-width: ${theme.sizes.container})`)
@@ -59,6 +59,7 @@ const LandingNavbar: React.FC<ILandingPageProps> = ({ country_code }) => {
         open={isFullscreenMenuOpen}
         handleClose={handleFullscreenMenuClose}
         country_code={country_code}
+        lang={lang}
       />
       {isWebView || (
         <IconButton

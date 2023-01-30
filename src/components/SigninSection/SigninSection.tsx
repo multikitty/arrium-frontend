@@ -8,7 +8,6 @@ import {
   StyledButton,
   StyledButtonText,
   StyledCheckBox,
-  StyledFieldLabel,
   StyledForgotPassword,
   StyledInputField,
   StyledLoginContainer,
@@ -33,21 +32,12 @@ import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
 import { IPageProps } from "@/lib/interfaces/common"
 import { TOKEN } from "@/constants/localStorage"
-import {
-  DEFAULT_COUNTRY,
-  DEFAULT_PLAN,
-  REGISTRATION_STEP_MAP,
-} from "@/constants/common"
-import { RegistrationStepsType } from "@/types/common"
+import { DEFAULT_COUNTRY, DEFAULT_PLAN } from "@/constants/common"
 
 interface ISigninSectionProps extends IPageProps {}
 
 const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
-  const {
-    navigateToDefault,
-    navigate,
-    navigateWithQuery: { navigateToSignup },
-  } = useNavigate({ country_code })
+  const { navigateToDefault, navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const isWebView = useMediaQuery(devices.web.up)
   const [isVisible, setIsVisible] = useState(false)
@@ -66,20 +56,12 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
     formState: { errors },
     getValues,
   } = useForm<formPropType>(emailAndPasswordOptions)
-
   useWatch({ name: "email", control })
   useWatch({ name: "password", control })
 
-  const handleNavigateToSignupStep = (step: RegistrationStepsType) => {
-    navigateToSignup(REGISTRATION_STEP_MAP[step])
-  }
-
   const onSubmit = (props: formPropType) => {
     mutate(
-      {
-        email: props.email,
-        password: props.password,
-      },
+      { email: props.email, password: props.password },
       {
         onSuccess({ data, success }) {
           if (!success) {
@@ -89,10 +71,6 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             })
           }
           if (!data) return
-          if (data.userData.currentSteps !== "finished") {
-            handleNavigateToSignupStep(data.userData.currentSteps)
-            return
-          }
           userStore.authenticateUser({
             id: data.userData.customerID,
             firstName: data.userData.firstname,
@@ -131,185 +109,163 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
     navigate(routes.forgotPassword)
   }
 
-  return (
-    <React.Fragment>
-      {isWebView ? (
-        <StyledLoginContainer
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Box display="flex" justifyContent="center">
-            <StyledLoginText>Login to your account</StyledLoginText>
-          </Box>
-          <StyledFieldLabel $isHidden={!getValues("email")}>
-            Email ID
-          </StyledFieldLabel>
-          <StyledInputField
-            autoFocus
-            placeholder="Enter Email Address"
-            variant="outlined"
-            {...register("email")}
+  const isLoginDisabled =
+    !getValues("email") ||
+    !getValues("password") ||
+    !!errors.email ||
+    !!errors.password
+
+  return isWebView ? (
+    <StyledLoginContainer component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Box display="flex" justifyContent="center">
+        <StyledLoginText>Login to your account</StyledLoginText>
+      </Box>
+      <StyledInputField
+        autoFocus
+        placeholder="Enter Email Address"
+        variant="outlined"
+        {...register("email")}
+      />
+      <StyledInputField
+        placeholder="Enter Password"
+        type={isVisible ? "text" : "password"}
+        variant="outlined"
+        {...register("password")}
+        InputProps={{
+          endAdornment: (
+            <IconButton onClick={() => setIsVisible(prev => !prev)}>
+              {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+            </IconButton>
+          ),
+        }}
+      />
+      <Box display="flex" justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <StyledCheckBox
+            type="checkbox"
+            id="rememberMe-checkbox"
+            {...register("checkbox")}
           />
-          <StyledFieldLabel $isHidden={!getValues("password")}>
-            Password
-          </StyledFieldLabel>
-          <StyledInputField
-            placeholder="Enter Password"
-            type={isVisible ? "text" : "password"}
-            variant="outlined"
-            {...register("password")}
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                  {isVisible ? (
-                    <VisibilityOffOutlined />
-                  ) : (
-                    <VisibilityOutlined />
-                  )}
-                </IconButton>
-              ),
-            }}
-          />
-          <Box display="flex" justifyContent="space-between">
-            <Box display="flex" alignItems="center">
-              <StyledCheckBox
-                type="checkbox"
-                id="remember-me-checkbox"
-                {...register("checkbox")}
-              />
-              <StyledRemeberMeText htmlFor="remember-me-checkbox">
-                Remember me
-              </StyledRemeberMeText>
-            </Box>
-            <StyledForgotPassword>
-              <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
-                Forgot Password?
-              </StyledSignUpButton>
-            </StyledForgotPassword>
-          </Box>
-          {errors.password && (
-            <StyledWarningText
-              marginTop={rem("20px")}
-              marginbottom={rem("-32px")}
-            >
-              {errors.password.message}
-            </StyledWarningText>
-          )}
-          <StyledButton
-            variant="contained"
-            color="primary"
-            disableElevation
-            $marginTop={rem("56px")}
-            type="submit"
-          >
-            <StyledButtonText>Log In</StyledButtonText>
-          </StyledButton>
-          <Box display="flex" justifyContent="center">
-            <StyledSignUpText>
-              Don't have an account yet?
-              <StyledSignUpButton>
-                <StyledSignUpButton onClick={handleNavigateToSignUp}>
-                  {" "}
-                  Sign Up
-                </StyledSignUpButton>
-              </StyledSignUpButton>
-            </StyledSignUpText>
-          </Box>
-        </StyledLoginContainer>
-      ) : (
-        <StyledLoginContainerMobile
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Box
-            display="flex"
-            flexDirection="column"
-            maxWidth={rem("375px")}
-            mx={"auto"}
-          >
-            <Box display="flex" justifyContent="center">
-              <StyledLoginText>Login to your account</StyledLoginText>
-            </Box>
-            <StyledFieldLabel $isHidden={!getValues("email")}>
-              Email ID
-            </StyledFieldLabel>
-            <StyledInputField
-              placeholder="Enter Email Address"
-              variant="outlined"
-              {...register("email")}
-            />
-            <StyledFieldLabel $isHidden={!getValues("password")}>
-              Password
-            </StyledFieldLabel>
-            <StyledInputField
-              placeholder="Enter Password"
-              type={isVisible ? "text" : "password"}
-              variant="outlined"
-              {...register("password")}
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={() => setIsVisible(prev => !prev)}>
-                    {isVisible ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
-            <Box display="flex" justifyContent="space-between">
-              <Box display="flex" alignItems="center">
-                <StyledCheckBox
-                  type="checkbox"
-                  id="remember-me-checkbox"
-                  {...register("checkbox")}
-                />
-                <StyledRemeberMeText htmlFor="remember-me-checkbox">
-                  Remember me
-                </StyledRemeberMeText>
-              </Box>
-              <StyledForgotPassword>
-                <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
-                  Forgot Password?
-                </StyledSignUpButton>
-              </StyledForgotPassword>
-            </Box>
-            {errors.password && (
-              <StyledWarningText
-                marginTop={rem("16px")}
-                marginbottom={rem("-32px")}
-              >
-                {errors.password.message}
-              </StyledWarningText>
-            )}
-            <StyledButton
-              variant="contained"
-              color="primary"
-              disableElevation
-              $marginTop={rem("56px")}
-              type="submit"
-            >
-              <StyledButtonText>Log In</StyledButtonText>
-            </StyledButton>
-            <Box
-              display="flex"
-              justifyContent="center"
-              flexDirection="column"
-              alignItems="center"
-            >
-              <StyledSignUpText>Don't have an account yet?</StyledSignUpText>
-              <StyledSignUpButton>
-                <StyledSignUpButton onClick={handleNavigateToSignUp}>
-                  {" "}
-                  Sign Up
-                </StyledSignUpButton>
-              </StyledSignUpButton>
-            </Box>
-          </Box>
-        </StyledLoginContainerMobile>
+          <StyledRemeberMeText htmlFor="rememberMe-checkbox">
+            Remember me
+          </StyledRemeberMeText>
+        </Box>
+        <StyledForgotPassword>
+          <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
+            Forgot Password?
+          </StyledSignUpButton>
+        </StyledForgotPassword>
+      </Box>
+      {errors.password && (
+        <StyledWarningText marginTop={rem("20px")} marginbottom={rem("-32px")}>
+          {errors.password.message}
+        </StyledWarningText>
       )}
-    </React.Fragment>
+      <StyledButton
+        variant="contained"
+        color="primary"
+        disableElevation
+        $marginTop={rem("56px")}
+        type="submit"
+        disabled={isLoginDisabled}
+      >
+        <StyledButtonText>Log In</StyledButtonText>
+      </StyledButton>
+      <Box display="flex" justifyContent="center">
+        <StyledSignUpText>
+          Don't have an account yet?
+          <StyledSignUpButton>
+            <StyledSignUpButton onClick={handleNavigateToSignUp}>
+              {" "}
+              Sign Up
+            </StyledSignUpButton>
+          </StyledSignUpButton>
+        </StyledSignUpText>
+      </Box>
+    </StyledLoginContainer>
+  ) : (
+    <StyledLoginContainerMobile
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Box
+        display="flex"
+        flexDirection="column"
+        maxWidth={rem("375px")}
+        mx={"auto"}
+      >
+        <Box display="flex" justifyContent="center">
+          <StyledLoginText>Login to your account</StyledLoginText>
+        </Box>
+        <StyledInputField
+          placeholder="Enter Email Address"
+          variant="outlined"
+          {...register("email")}
+        />
+        <StyledInputField
+          placeholder="Enter Password"
+          type={isVisible ? "text" : "password"}
+          variant="outlined"
+          {...register("password")}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => setIsVisible(prev => !prev)}>
+                {isVisible ? <VisibilityOffOutlined /> : <VisibilityOutlined />}
+              </IconButton>
+            ),
+          }}
+        />
+        <Box display="flex" justifyContent="space-between">
+          <Box display="flex" alignItems="center">
+            <StyledCheckBox
+              type="checkbox"
+              id="rememberMe-checkbox"
+              {...register("checkbox")}
+            />
+            <StyledRemeberMeText htmlFor="rememberMe-checkbox">
+              Remember me
+            </StyledRemeberMeText>
+          </Box>
+          <StyledForgotPassword>
+            <StyledSignUpButton onClick={handleNavigateToForgotPassword}>
+              Forgot Password?
+            </StyledSignUpButton>
+          </StyledForgotPassword>
+        </Box>
+        {errors.password && (
+          <StyledWarningText
+            marginTop={rem("16px")}
+            marginbottom={rem("-32px")}
+          >
+            {errors.password.message}
+          </StyledWarningText>
+        )}
+        <StyledButton
+          variant="contained"
+          color="primary"
+          disableElevation
+          $marginTop={rem("56px")}
+          type="submit"
+          disabled={isLoginDisabled}
+        >
+          <StyledButtonText>Log In</StyledButtonText>
+        </StyledButton>
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <StyledSignUpText>Don't have an account yet?</StyledSignUpText>
+          <StyledSignUpButton>
+            <StyledSignUpButton onClick={handleNavigateToSignUp}>
+              {" "}
+              Sign Up
+            </StyledSignUpButton>
+          </StyledSignUpButton>
+        </Box>
+      </Box>
+    </StyledLoginContainerMobile>
   )
 }
 

@@ -17,8 +17,8 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface IProfilePageProps extends IPageProps {}
 
-const ProfilePage: React.FC<IProfilePageProps> = ({ country_code }) => {
-  const { navigateToDefault } = useNavigate({ country_code })
+const ProfilePage: React.FC<IProfilePageProps> = ({ country_code, lang }) => {
+  const { navigateToDefault } = useNavigate({ country_code, lang })
   const { userStore } = useStore()
   const [tab, setTab] = React.useState("personalInformation")
 
@@ -82,7 +82,9 @@ const ProfilePage: React.FC<IProfilePageProps> = ({ country_code }) => {
             />
           </StyledTabs>
         </Box>
-        {isProfileTabOpen && <ProfileTabContent country_code={country_code} />}
+        {isProfileTabOpen && (
+          <ProfileTabContent country_code={country_code} lang={lang} />
+        )}
         {isFlexAccountTabOpen && <FlexAccountTabContent />}
       </StyledProfilePageContent>
     </StyledProfilePage>

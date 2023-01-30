@@ -81,10 +81,11 @@ const AccountInformationTab: React.FC<IProps> = ({
   role,
   setRole,
   country_code,
+  lang,
 }) => {
   const {
     navigateWithQuery: { navigateToAddCustomerPage },
-  } = useNavigate({ country_code })
+  } = useNavigate({ country_code, lang })
   const classes = useStyles()
   const { messageStore, userStore } = useStore()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)

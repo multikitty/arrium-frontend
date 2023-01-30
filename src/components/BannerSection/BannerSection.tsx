@@ -17,8 +17,11 @@ import { IPageProps } from "@/lib/interfaces/common"
 
 interface IBannerSectionProps extends IPageProps {}
 
-const BannerSection: React.FC<IBannerSectionProps> = ({ country_code }) => {
-  const { navigate } = useNavigate({ country_code })
+const BannerSection: React.FC<IBannerSectionProps> = ({
+  country_code,
+  lang,
+}) => {
+  const { navigate } = useNavigate({ country_code, lang })
 
   const handleNavigateToSignup = () => {
     navigate(routes.signup)

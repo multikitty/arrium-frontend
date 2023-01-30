@@ -85,7 +85,7 @@ const IndexPage = () => {
         open={countryNotListedModalOpen}
         handleContinue={handleCountryNotListedModalContinue}
       />
-      <LandingPage country_code={""} />
+      <LandingPage country_code={""} lang={""} />
     </React.Fragment>
   )
 }

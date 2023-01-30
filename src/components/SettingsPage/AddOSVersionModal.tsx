@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
 import { rem } from "polished"
-
 import {
   StyledAddCountryModal as StyledAddOSVersionModal,
   StyledAddCountryModalCloseIconContainer as StyledAddOSVersionModalCloseIconContainer,
@@ -11,8 +9,8 @@ import {
   StyledAddCountryModalFormField as StyledAddOSVersionModalFormField,
   StyledAddCountryModalTitle as StyledAddOSVersionModalTitle,
 } from "./SettingsPage.styled"
-import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
-import { StyledFieldLabel } from "@/components/commons/uiComponents"
+import CloseIcon from "@mui/icons-material/Close"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { IAddOsVersionVariables } from "@/lib/interfaces/models"
 import { ModalProps } from "./SettingsPage.types"
 
@@ -23,11 +21,9 @@ interface IProps extends ModalProps {
 const AddOSVersionModal = (props: IProps) => {
   const [osVersion, setOsVersion] = useState("")
 
-  const handleOsVersionField: React.ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = e => {
-    setOsVersion(e.target.value)
-  }
+  const handleOsVersionField:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setOsVersion(e.target.value)
 
   const isSaveDisabled = !osVersion
 
@@ -50,9 +46,6 @@ const AddOSVersionModal = (props: IProps) => {
         </StyledAddOSVersionModalTitle>
         <StyledAddOSVersionModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledFieldLabel $isHidden={!osVersion}>
-              OS Version
-            </StyledFieldLabel>
             <StyledAddOSVersionModalFormField
               autoFocus
               placeholder={`OS Version`}
