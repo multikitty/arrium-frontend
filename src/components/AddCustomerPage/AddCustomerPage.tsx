@@ -23,8 +23,6 @@ import routes from "@/constants/routes"
 import BillingTab from "./BillingTab"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
-import SaveChangesModal from "../SaveChangesModal"
-import { useSnackbar } from "notistack"
 
 interface IAddCustomersPageProps extends IPageProps {}
 
@@ -35,34 +33,13 @@ const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
     navigate,
     navigateWithQuery: { navigateToAddCustomerPage },
   } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
   const location = useLocation()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
-  const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
-    React.useState(false)
 
   const handleChange = (_: React.SyntheticEvent, newValue: TabType) => {
     setTab(newValue)
     navigateToAddCustomerPage(role, newValue)
-  }
-
-  const handleSaveChangesModalOpen = () => {
-    setIsSaveChangesModalOpen(true)
-  }
-  const handleSaveChangesModalClose = () => {
-    setIsSaveChangesModalOpen(false)
-  }
-
-  const handleNavigateToCustomersPage = () => {
-    navigate(routes.customers)
-  }
-
-  const handleSave = () => {
-    enqueueSnackbar("Customer Details Added Successfully", {
-      variant: "success",
-    })
-    handleNavigateToCustomersPage()
   }
 
   React.useEffect(() => {
@@ -82,12 +59,6 @@ const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
 
   return (
     <StyledAddCustomerPage>
-      <SaveChangesModal
-        noSubHeader
-        open={isSaveChangesModalOpen}
-        handleClose={handleSaveChangesModalClose}
-        handleSave={handleSave}
-      />
       <StyledAddCustomerPageHeaderContainer>
         <IconButton
           sx={{ mr: rem("20px") }}
@@ -167,12 +138,7 @@ const AddCustomerPage: React.FC<IAddCustomersPageProps> = ({
           />
         )}
         {isBillingTabOpen && <BillingTab />}
-        {isConfigurationTabOpen && (
-          <ConfigurationTab
-            handleSave={handleSave}
-            handleCancel={handleSaveChangesModalOpen}
-          />
-        )}
+        {isConfigurationTabOpen && <ConfigurationTab />}
         {isReferralTabOpen && <ReferralTab />}
         {isLocationsTabOpen && <LocationsTab country_code={country_code} />}
       </StyledAddCustomerPageContent>

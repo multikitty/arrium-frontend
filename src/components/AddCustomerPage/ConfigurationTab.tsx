@@ -1,424 +1,287 @@
 import React, { useState } from "react"
-import { Box, Grid, IconButton, MenuItem, Select } from "@mui/material"
 import {
-  StyledAccountInformationTabFormHelperText,
+  capitalize,
+  Divider,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+} from "@mui/material"
+import {
   StyledConfigurationTab,
   StyledConfigurationTabForm,
   StyledConfigurationTabFormActions,
   StyledConfigurationTabFormField,
   StyledConfigurationTabFormItem,
   StyledConfigurationTabFormLabel,
-} from "../CustomerDetailPage/CustomerDetailPage.styled"
+} from "./AddCustomerPage.styled"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { Plans } from "@/constants/common"
 
-import customerConfigOptions from "@/validation/customerConfig"
-import { Controller, useForm, useWatch } from "react-hook-form"
-import { StyledPlaceholder } from "../commons/uiComponents"
-import { useCountryList, useRegionList } from "@/agent/locations"
-import { Script } from "gatsby"
-import { ITabProps } from "../CustomerDetailPage/AccountInformationTab"
-
-interface IConfigurationTabProps extends ITabProps {}
-
-const ConfigurationTab = (props: IConfigurationTabProps) => {
-  // const { enqueueSnackbar } = useSnackbar()
+const ConfigurationTab = () => {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
-  const { data: countryListData } = useCountryList()
-  // const { mutate: configurationDetailsMutate } = useMutation<
-  //   IUpdateConfigurationDetailsResult,
-  //   Error,
-  //   IUpdateConfigurationDetailsVariables
-  // >(updateConfigurationDetails)
-
-  type FormPropType = typeof customerConfigOptions.defaultValues
-  const { handleSubmit, control, formState, getValues } = useForm<FormPropType>(
-    customerConfigOptions
-  )
-  useWatch({ name: "country", control })
-
-  const { data: regionListData } = useRegionList(getValues("country"))
 
   const handleToggleHidePassword = () => {
     setIsPasswordHidden(p => !p)
   }
 
-  // const handleSave = useCallback(
-  //   (variables: IUpdateConfigurationDetailsVariables) => {
-  //     configurationDetailsMutate(variables, {
-  //       onSuccess({ success, message, validationError }) {
-  //         if (!success) {
-  //           enqueueSnackbar(
-  //             validationError?.amznId ||
-  //               validationError?.awsReg1 ||
-  //               validationError?.awsReg2 ||
-  //               validationError?.blockType ||
-  //               validationError?.cogId1 ||
-  //               validationError?.cogId2 ||
-  //               validationError?.country ||
-  //               validationError?.devId ||
-  //               validationError?.devModel ||
-  //               validationError?.devSerialNumber ||
-  //               validationError?.devType ||
-  //               validationError?.flexId ||
-  //               validationError?.flexPassword ||
-  //               validationError?.flexUser ||
-  //               validationError?.flexVersion ||
-  //               validationError?.osVersion ||
-  //               validationError?.planName ||
-  //               validationError?.region ||
-  //               validationError?.userPk ||
-  //               message,
-  //             {
-  //               variant: "error",
-  //             }
-  //           )
-  //           return
-  //         }
-  //         enqueueSnackbar(message, { variant: "success" })
-  //         refetchConfigInfo()
-  //       },
-  //       onError(error, variables) {
-  //         enqueueSnackbar(error.message, { variant: "error" })
-  //         console.error("ERROR:", error)
-  //         console.log("VARIABLES USED:", variables)
-  //       },
-  //     })
-  //   },
-  //   [configurationDetailsMutate, refetchConfigInfo]
-  // )
-
-  const countryOptionsJSX = (countryListData?.data?.Items || []).map(
-    country => (
-      <MenuItem value={country.countryCode} key={country.countryCode}>
-        {country.country}
-      </MenuItem>
-    )
-  )
-
-  const regionOptionsJSX = (regionListData?.data?.Items || []).map(region => (
-    <MenuItem value={region.regionCode} key={region.regionCode}>
-      {region.regionName}
-    </MenuItem>
-  ))
-
-  const onSubmit = () =>
-    // data: FormPropType
-    {
-      // handleSave({
-      //   amznId: data["amznID"],
-      //   awsReg1: data["awsreg1"],
-      //   awsReg2: data["awsreg2"],
-      //   blockType: data["blockType"],
-      //   cogId1: data["cogid1"],
-      //   cogId2: data["cogid2"],
-      //   country: data["country"],
-      //   devId: data["devID"],
-      //   devModel: data["devModel"],
-      //   devSerialNumber: data["devSerial"],
-      //   devType: data["devType"],
-      //   flexId: data["flexID"],
-      //   flexVersion: data["flexVersion"],
-      //   flexUser: data["amznFlexUser"],
-      //   flexPassword: data["amznFlexPassword"],
-      //   osVersion: data["osVersion"],
-      //   planName: data["planName"],
-      //   region: data["region"],
-      //   userPk: props.pk,
-      // })
-    }
-
   return (
     <StyledConfigurationTab>
-      <StyledConfigurationTabForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledConfigurationTabForm>
         <Grid container spacing={2} sx={{ p: rem("8px") }}>
           <Grid item xs={12} lg={4}>
-            {/* Amazon Flex Username Field */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Amazon Flex Username
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"amznFlexUser"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Username here"
-                  />
-                )}
-              />
-              {!!formState.errors?.amznFlexUser && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.amznFlexUser?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <StyledConfigurationTabFormField placeholder="Username here" />
             </StyledConfigurationTabFormItem>
-            {/* Access Token Textarea */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Access Token
+                Device Model
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"accessToken"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    multiline
-                    minRows={3}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Type..."
-                  />
-                )}
-              />
-              {!!formState.errors?.accessToken && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.accessToken?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose Device Model
+                </MenuItem>
+                <MenuItem value="iPhone12">iPhone 12 Pro</MenuItem>
+                <MenuItem value="iPhone13">iPhone 13 Pro</MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
-            {/* Flex ID Field */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Flex ID
+                Device ID
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"flexID"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Flex ID"
-                  />
-                )}
-              />
-              {!!formState.errors?.flexID && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.flexID?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                OS version
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose OS version
+                </MenuItem>
+                <MenuItem value="iOS 12.4">iOS 12.4</MenuItem>
+                <MenuItem value="iOS 12.8">iOS 12.8</MenuItem>
+                <MenuItem value="iOS 13.0">iOS 13.0</MenuItem>
+                <MenuItem value="iOS 14.8">iOS 14.8</MenuItem>
+                <MenuItem value="iOS 15">iOS 15</MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
           <Grid item xs={12} lg={4}>
-            {/* Amazon Flex Passsword Field */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Amazon Flex Password
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"amznFlexPassword"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    autoComplete="new-password"
-                    type={isPasswordHidden ? "password" : "text"}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Password here"
-                    endAdornment={
-                      <IconButton
-                        size="small"
-                        onClick={handleToggleHidePassword}
-                        sx={{ mr: rem("8px") }}
-                      >
-                        {isPasswordHidden ? (
-                          <VisibilityIcon />
-                        ) : (
-                          <VisibilityOffIcon />
-                        )}
-                      </IconButton>
-                    }
-                  />
-                )}
+              <StyledConfigurationTabFormField
+                type={isPasswordHidden ? "password" : "text"}
+                endAdornment={
+                  <IconButton
+                    size="small"
+                    onClick={handleToggleHidePassword}
+                    sx={{ mr: rem("8px") }}
+                  >
+                    {isPasswordHidden ? (
+                      <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
+                    )}
+                  </IconButton>
+                }
               />
-              {!!formState.errors?.amznFlexPassword && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.amznFlexPassword?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
             </StyledConfigurationTabFormItem>
-            {/* Refresh Token Textarea */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Refresh Token
+                Device type
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"refreshToken"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    multiline
-                    minRows={3}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Type..."
-                  />
-                )}
-              />
-              {!!formState.errors?.refreshToken && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.refreshToken?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose Device type
+                </MenuItem>
+                <MenuItem value="smartphone">Smartphone</MenuItem>
+                <MenuItem value="tablet">Tablet</MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
-            {/* Country Drop-down */}
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Device serial number
+              </StyledConfigurationTabFormLabel>
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Flex version
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose Flex version
+                </MenuItem>
+                <MenuItem value="14.0.1">14.0.1</MenuItem>
+                <MenuItem value="17.8.1">17.8.1</MenuItem>
+                <MenuItem value="17.8.2">17.8.2</MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          <Grid item xs={12} lg={4}></Grid>
+        </Grid>
+        <Divider />
+        <Grid container spacing={2} sx={{ p: rem("8px"), mt: rem("24px") }}>
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                AWS Region
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose region here
+                </MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                AWS Region
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue="none"
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="none">
+                  Choose region here
+                </MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Amazon ID
+              </StyledConfigurationTabFormLabel>
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Cognito ID (1)
+              </StyledConfigurationTabFormLabel>
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Cognito ID (2)
+              </StyledConfigurationTabFormLabel>
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Flex ID
+              </StyledConfigurationTabFormLabel>
+              <StyledConfigurationTabFormField />
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          <Grid item xs={12} lg={4}></Grid>
+        </Grid>
+        <Divider />
+        <Grid container spacing={2} sx={{ p: rem("8px"), mt: rem("24px") }}>
+          {/* Country Drop-down */}
+          <Grid item xs={12} lg={4}>
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Country
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"country"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    displayEmpty
-                    value={value}
-                    onChange={onChange}
-                    input={<StyledConfigurationTabFormField />}
-                  >
-                    <MenuItem disabled value="">
-                      <StyledPlaceholder>Choose country here</StyledPlaceholder>
-                    </MenuItem>
-                    {countryOptionsJSX}
-                  </Select>
-                )}
-              />
-              {!!formState.errors?.country && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.country?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <Select
+                displayEmpty
+                defaultValue=""
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="">
+                  Choose Country
+                </MenuItem>
+                <MenuItem value="Great Britain">Great Britain</MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          {/* Region Drop-down */}
           <Grid item xs={12} lg={4}>
-            {/* LWA Button */}
-            <StyledConfigurationTabFormItem>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight={81}
-                sx={{ "& a": { cursor: "pointer" } }}
-              >
-                <a id="LoginWithAmazon">
-                  <img
-                    alt="Login with Amazon"
-                    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_312x64.png"
-                    width="233"
-                    height="48"
-                  />
-                </a>
-              </Box>
-              <Script
-                strategy="idle"
-                type="text/javascript"
-                id="amazon-sdk"
-                dangerouslySetInnerHTML={{
-                  __html: `
-                      document.getElementById('LoginWithAmazon').onclick = function() {
-                        setTimeout(window.doLogin, 1);
-                        return false;
-                      };
-                      window.doLogin = function() {
-                          options = {};
-                          options.scope = 'profile';
-                          options.pkce = true;
-                          amazon.Login.authorize(options, function(response) {
-                              if ( response.error ) {
-                                  alert('Login with Amazon error ' + response.error);
-                              return;
-                              }
-                              amazon.Login.retrieveToken(response.code, function(response) {
-                                  if ( response.error ) {
-                                    alert('Login with Amazon error ' + response.error);
-                                    return;
-                                  }
-                                  console.log("response for LWA", response);
-                                  amazon.Login.retrieveProfile(response.access_token, function(response) {
-                                      alert('Hello, ' + response.profile.Name);
-                                      alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-                                      alert('Your unique ID is ' + response.profile.CustomerId);
-                                      if ( window.console && window.console.log )
-                                        window.console.log(response);
-                                  });
-                              });
-                          });
-                    };
-                  `,
-                }}
-              ></Script>
-            </StyledConfigurationTabFormItem>
-            {/* User Agent Textarea */}
-            <StyledConfigurationTabFormItem>
-              <StyledConfigurationTabFormLabel>
-                User Agent
-              </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"userAgent"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    multiline
-                    minRows={3}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Type..."
-                  />
-                )}
-              />
-              {!!formState.errors?.userAgent && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.userAgent?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
-            </StyledConfigurationTabFormItem>
-            {/* Region Drop-down */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
                 Region
               </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"region"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    displayEmpty
-                    value={value}
-                    onChange={onChange}
-                    input={<StyledConfigurationTabFormField />}
-                    disabled={!getValues("country")}
-                  >
-                    <MenuItem disabled value="">
-                      <StyledPlaceholder>Choose region here</StyledPlaceholder>
-                    </MenuItem>
-                    {regionOptionsJSX}
-                  </Select>
-                )}
-              />
-              {!!formState.errors?.region && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.region?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
+              <Select
+                displayEmpty
+                defaultValue=""
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value="">Choose Region</MenuItem>
+                <MenuItem disabled value="London">
+                  London
+                </MenuItem>
+              </Select>
             </StyledConfigurationTabFormItem>
           </Grid>
+          <Grid item xs={12} lg={4}></Grid>
+          {/* Plan Name Drop-down */}
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Plan Name
+              </StyledConfigurationTabFormLabel>
+              <Select
+                defaultValue={capitalize(Plans.basic)}
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem value={capitalize(Plans.basic)}>
+                  {capitalize(Plans.basic)}
+                </MenuItem>
+                <MenuItem value={capitalize(Plans.premium)}>
+                  {capitalize(Plans.premium)}
+                </MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          {/* Plan Type Drop-down */}
+          <Grid item xs={12} lg={4}>
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Plan type
+              </StyledConfigurationTabFormLabel>
+              <Select
+                displayEmpty
+                defaultValue=""
+                input={<StyledConfigurationTabFormField />}
+              >
+                <MenuItem disabled value="">
+                  Choose Plan type
+                </MenuItem>
+                <MenuItem value="logistics">Logistics</MenuItem>
+              </Select>
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          <Grid item xs={12} lg={4}></Grid>
         </Grid>
-
-        {/* Tab Actions */}
         <StyledConfigurationTabFormActions>
-          <OutlinedButton
-            grey
-            sx={{ mr: rem("12px") }}
-            onClick={props.handleCancel}
-          >
+          <OutlinedButton grey sx={{ mr: rem("12px") }}>
             Cancel
           </OutlinedButton>
-          <ContainedButton type="submit">Save</ContainedButton>
+          <ContainedButton>Save</ContainedButton>
         </StyledConfigurationTabFormActions>
       </StyledConfigurationTabForm>
     </StyledConfigurationTab>
