@@ -13,9 +13,9 @@ import { rem } from "polished"
 import React from "react"
 import theme from "@/theme"
 import {
-  StyledSubscriptionTabInvoicesContainer,
-  StyledSubscriptionTabInvoicesHeader,
-} from "../SubscriptionTab/SubscriptionTab.styled"
+  StyledSubscriptionPageInvoicesContainer,
+  StyledSubscriptionPageInvoicesHeader,
+} from "../SubscriptionPage/SubscriptionPage.styled"
 import {
   StyledBillingTab,
   StyledBillingTabUpperContainer,
@@ -88,10 +88,10 @@ const BillingTab = () => {
         </Grid>
       </StyledBillingTabUpperContainer>
       <Divider />
-      <StyledSubscriptionTabInvoicesContainer billingTab>
-        <StyledSubscriptionTabInvoicesHeader>
+      <StyledSubscriptionPageInvoicesContainer billingTab>
+        <StyledSubscriptionPageInvoicesHeader>
           Invoices
-        </StyledSubscriptionTabInvoicesHeader>
+        </StyledSubscriptionPageInvoicesHeader>
         <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
           <Table sx={{ minWidth: 650 }} aria-label="invoices table">
             <TableHead sx={{ backgroundColor: theme.palette.grey1 }}>
@@ -264,7 +264,7 @@ const BillingTab = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </StyledSubscriptionTabInvoicesContainer>
+      </StyledSubscriptionPageInvoicesContainer>
     </StyledBillingTab>
   )
 }

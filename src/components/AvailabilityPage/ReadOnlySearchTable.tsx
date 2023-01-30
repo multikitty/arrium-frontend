@@ -13,15 +13,15 @@ import { rem } from "polished"
 import { devices } from "@/constants/device"
 import { useFormContext } from "react-hook-form"
 import {
-  StyledSubscriptionTabInvoice,
-  StyledSubscriptionTabInvoiceHeader,
-  StyledSubscriptionTabInvoiceHeaderTitle,
-  StyledSubscriptionTabInvoiceItem,
-  StyledSubscriptionTabInvoiceItemLabel,
-  StyledSubscriptionTabInvoiceItemsContainer,
-  StyledSubscriptionTabInvoiceItemValue,
-  StyledSubscriptionTabInvoicesContainer as StyledReadOnlySearchTableContainer,
-} from "../SubscriptionTab/SubscriptionTab.styled"
+  StyledSubscriptionPageInvoice,
+  StyledSubscriptionPageInvoiceHeader,
+  StyledSubscriptionPageInvoiceHeaderTitle,
+  StyledSubscriptionPageInvoiceItem,
+  StyledSubscriptionPageInvoiceItemLabel,
+  StyledSubscriptionPageInvoiceItemsContainer,
+  StyledSubscriptionPageInvoiceItemValue,
+  StyledSubscriptionPageInvoicesContainer as StyledReadOnlySearchTableContainer,
+} from "../SubscriptionPage/SubscriptionPage.styled"
 import { FormValues } from "./AvailablityPage.types"
 
 const ReadOnlySearchTable = () => {
@@ -221,72 +221,72 @@ const ReadOnlySearchTable = () => {
         .getValues()
         ?.data?.map((data: FormValues["data"][0], index: number) => {
           return (
-            <StyledSubscriptionTabInvoice key={index}>
-              <StyledSubscriptionTabInvoiceHeader>
-                <StyledSubscriptionTabInvoiceHeaderTitle>
+            <StyledSubscriptionPageInvoice key={index}>
+              <StyledSubscriptionPageInvoiceHeader>
+                <StyledSubscriptionPageInvoiceHeaderTitle>
                   Location
-                </StyledSubscriptionTabInvoiceHeaderTitle>
-                <StyledSubscriptionTabInvoiceItemValue bold>
+                </StyledSubscriptionPageInvoiceHeaderTitle>
+                <StyledSubscriptionPageInvoiceItemValue bold>
                   {data.location}
-                </StyledSubscriptionTabInvoiceItemValue>
-              </StyledSubscriptionTabInvoiceHeader>
-              <StyledSubscriptionTabInvoiceItemsContainer>
-                <StyledSubscriptionTabInvoiceItem>
-                  <StyledSubscriptionTabInvoiceItemLabel>
+                </StyledSubscriptionPageInvoiceItemValue>
+              </StyledSubscriptionPageInvoiceHeader>
+              <StyledSubscriptionPageInvoiceItemsContainer>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
                     Time to arrive
-                  </StyledSubscriptionTabInvoiceItemLabel>
-                  <StyledSubscriptionTabInvoiceItemValue>
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
                     {data.timeToArrive} min
-                  </StyledSubscriptionTabInvoiceItemValue>
-                </StyledSubscriptionTabInvoiceItem>
-                <StyledSubscriptionTabInvoiceItem>
-                  <StyledSubscriptionTabInvoiceItemLabel>
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
                     Start time
-                  </StyledSubscriptionTabInvoiceItemLabel>
-                  <StyledSubscriptionTabInvoiceItemValue>
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
                     {data?.startTime !== null
                       ? new Date(data?.startTime).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
                         })
                       : "-"}
-                  </StyledSubscriptionTabInvoiceItemValue>
-                </StyledSubscriptionTabInvoiceItem>
-                <StyledSubscriptionTabInvoiceItem>
-                  <StyledSubscriptionTabInvoiceItemLabel>
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
                     End time
-                  </StyledSubscriptionTabInvoiceItemLabel>
-                  <StyledSubscriptionTabInvoiceItemValue>
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
                     {data?.endTime !== null
                       ? new Date(data.endTime).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
                         })
                       : "-"}
-                  </StyledSubscriptionTabInvoiceItemValue>
-                </StyledSubscriptionTabInvoiceItem>
-                <StyledSubscriptionTabInvoiceItem>
-                  <StyledSubscriptionTabInvoiceItemLabel>
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
                     Minimum pay
-                  </StyledSubscriptionTabInvoiceItemLabel>
-                  <StyledSubscriptionTabInvoiceItemValue>
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
                     {data.minimumPay && <React.Fragment>&#163;</React.Fragment>}
                     {data.minimumPay || "-"}
-                  </StyledSubscriptionTabInvoiceItemValue>
-                </StyledSubscriptionTabInvoiceItem>
-                <StyledSubscriptionTabInvoiceItem>
-                  <StyledSubscriptionTabInvoiceItemLabel>
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+                <StyledSubscriptionPageInvoiceItem>
+                  <StyledSubscriptionPageInvoiceItemLabel>
                     Minimum hourly rate
-                  </StyledSubscriptionTabInvoiceItemLabel>
-                  <StyledSubscriptionTabInvoiceItemValue>
+                  </StyledSubscriptionPageInvoiceItemLabel>
+                  <StyledSubscriptionPageInvoiceItemValue>
                     {data.minimumHourlyRate && (
                       <React.Fragment>&#163;</React.Fragment>
                     )}
                     {data.minimumHourlyRate || "-"}
-                  </StyledSubscriptionTabInvoiceItemValue>
-                </StyledSubscriptionTabInvoiceItem>
-              </StyledSubscriptionTabInvoiceItemsContainer>
-            </StyledSubscriptionTabInvoice>
+                  </StyledSubscriptionPageInvoiceItemValue>
+                </StyledSubscriptionPageInvoiceItem>
+              </StyledSubscriptionPageInvoiceItemsContainer>
+            </StyledSubscriptionPageInvoice>
           )
         })}
     </StyledReadOnlySearchTableContainer>

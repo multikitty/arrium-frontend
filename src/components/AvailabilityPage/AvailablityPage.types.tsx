@@ -7,7 +7,7 @@ export interface TabPanelProps {
 }
 
 export type FormValues = {
-  data: Array<{
+  data: {
     location: string
     checked: boolean
     timeToArrive: string
@@ -18,7 +18,7 @@ export type FormValues = {
     stationCode: string
     regionId: string
     stationId: string
-  }>
+  }[]
 }
 
 export type FormValuesAutomationSchedule = {

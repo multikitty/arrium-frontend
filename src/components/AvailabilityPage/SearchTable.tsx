@@ -25,16 +25,16 @@ import {
 } from "./AvailabilityPage.styled"
 import { FormValues } from "./AvailablityPage.types"
 import {
-  StyledSubscriptionTabInvoicesContainer as StyledSearchTableContainer,
-  StyledSubscriptionTabInvoice as StyledSearchTable,
-  StyledSubscriptionTabInvoiceHeader as StyledSearchTableHeader,
-  StyledSubscriptionTabInvoiceHeaderText as StyledSearchTableHeaderText,
-  StyledSubscriptionTabInvoiceHeaderTitle as StyledSearchTableHeaderTitle,
-  StyledSubscriptionTabInvoiceItem as StyledSearchTableItem,
-  StyledSubscriptionTabInvoiceItemLabel as StyledSearchTableItemLabel,
-  StyledSubscriptionTabInvoiceItemsContainer as StyledSearchTableItemsContainer,
-  StyledSubscriptionTabInvoiceItemValue as StyledSearchTableItemValue,
-} from "../SubscriptionTab/SubscriptionTab.styled"
+  StyledSubscriptionPageInvoicesContainer as StyledSearchTableContainer,
+  StyledSubscriptionPageInvoice as StyledSearchTable,
+  StyledSubscriptionPageInvoiceHeader as StyledSearchTableHeader,
+  StyledSubscriptionPageInvoiceHeaderText as StyledSearchTableHeaderText,
+  StyledSubscriptionPageInvoiceHeaderTitle as StyledSearchTableHeaderTitle,
+  StyledSubscriptionPageInvoiceItem as StyledSearchTableItem,
+  StyledSubscriptionPageInvoiceItemLabel as StyledSearchTableItemLabel,
+  StyledSubscriptionPageInvoiceItemsContainer as StyledSearchTableItemsContainer,
+  StyledSubscriptionPageInvoiceItemValue as StyledSearchTableItemValue,
+} from "../SubscriptionPage/SubscriptionPage.styled"
 import { Clear } from "@mui/icons-material"
 
 const tableHeaderGreyTextStyles = {
@@ -58,7 +58,7 @@ interface IProps {
 }
 
 const SearchTable: React.FC<IProps> = ({ isMobile }) => {
-  const { formState, control, ...methods } = useFormContext<FormValues>()
+  const { formState, control, ...methods } = useFormContext()
 
   useWatch({ name: "data", control })
 

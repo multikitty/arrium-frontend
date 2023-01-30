@@ -16,16 +16,16 @@ import { AvailabilityTableTabType } from "./AvailabilityPage"
 import { availabilityStatusColorMap } from "./AvailabilityPage.data"
 import { devices } from "@/constants/device"
 import {
-  StyledSubscriptionTabInvoicesContainer as StyledAvailabilityTableContainer,
-  StyledSubscriptionTabInvoice as StyledAvailabilityTable,
-  StyledSubscriptionTabInvoiceHeader as StyledAvailabilityTableHeader,
-  StyledSubscriptionTabInvoiceHeaderText as StyledAvailabilityTableHeaderText,
-  StyledSubscriptionTabInvoiceHeaderTitle as StyledAvailabilityTableHeaderTitle,
-  StyledSubscriptionTabInvoiceItem as StyledAvailabilityTableItem,
-  StyledSubscriptionTabInvoiceItemLabel as StyledAvailabilityTableItemLabel,
-  StyledSubscriptionTabInvoiceItemsContainer as StyledAvailabilityTableItemsContainer,
-  StyledSubscriptionTabInvoiceItemValue as StyledAvailabilityTableItemValue,
-} from "../SubscriptionTab/SubscriptionTab.styled"
+  StyledSubscriptionPageInvoicesContainer as StyledAvailabilityTableContainer,
+  StyledSubscriptionPageInvoice as StyledAvailabilityTable,
+  StyledSubscriptionPageInvoiceHeader as StyledAvailabilityTableHeader,
+  StyledSubscriptionPageInvoiceHeaderText as StyledAvailabilityTableHeaderText,
+  StyledSubscriptionPageInvoiceHeaderTitle as StyledAvailabilityTableHeaderTitle,
+  StyledSubscriptionPageInvoiceItem as StyledAvailabilityTableItem,
+  StyledSubscriptionPageInvoiceItemLabel as StyledAvailabilityTableItemLabel,
+  StyledSubscriptionPageInvoiceItemsContainer as StyledAvailabilityTableItemsContainer,
+  StyledSubscriptionPageInvoiceItemValue as StyledAvailabilityTableItemValue,
+} from "../SubscriptionPage/SubscriptionPage.styled"
 import { observer } from "mobx-react-lite"
 import { useStore } from "@/store"
 import noResultsImage from "@/assets/images/no-search-results.svg"
