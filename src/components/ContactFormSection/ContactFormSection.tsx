@@ -1,6 +1,7 @@
-import { Grid } from "@mui/material"
 import React, { useState } from "react"
+import { Grid } from "@mui/material"
 import { Controller, SubmitErrorHandler, useForm } from "react-hook-form"
+
 import landingContactOptions from "@/validation/landingContact"
 import {
   StyledContactFormSection,
@@ -17,7 +18,8 @@ import {
 import FormSuccessModal from "../FormSuccessModal"
 import { LANDING_PAGE_IDS } from "@/constants/ids"
 import { useSnackbar } from "notistack"
-import { StyledHelperText } from "../commons/uiComponents"
+import HelperText from "@/components/commons/HelperText"
+import { PALETTE } from "@/constants/colors"
 
 const ContactFormSection = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -88,9 +90,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.fullName && (
-                  <StyledHelperText>
+                  <HelperText color={PALETTE.common.darkRed}>
                     {formState.errors?.fullName?.message}
-                  </StyledHelperText>
+                  </HelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -108,9 +110,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.email && (
-                  <StyledHelperText>
+                  <HelperText color={PALETTE.common.darkRed}>
                     {formState.errors?.email?.message}
-                  </StyledHelperText>
+                  </HelperText>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -129,9 +131,9 @@ const ContactFormSection = () => {
                   )}
                 />
                 {!!formState.errors?.question && (
-                  <StyledHelperText>
+                  <HelperText color={PALETTE.common.darkRed}>
                     {formState.errors?.question?.message}
-                  </StyledHelperText>
+                  </HelperText>
                 )}
               </Grid>
             </Grid>

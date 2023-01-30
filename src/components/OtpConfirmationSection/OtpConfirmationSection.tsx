@@ -97,6 +97,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
               variant: "error",
             })
             setCountSubmitError(newCountSubmitError)
+            setOtp("")
             return
           }
           setFormStage(prev => prev + 1)
