@@ -62,26 +62,14 @@ import { Plans } from "@/constants/common"
 // import routes from "@/constants/routes"
 import { useSnackbar } from "notistack"
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
-import {
-  IGetPrefrencesResultData,
-  IGetPrefrencesScheduleResultData,
-  ISetPrefrencesResult,
-  ISetPrefrencesVariables,
-} from "@/lib/interfaces/prefrences"
+import { IGetPrefrencesResultData, IGetPrefrencesScheduleResultData, ISetPrefrencesResult, ISetPrefrencesVariables } from "@/lib/interfaces/prefrences"
 import { useMutation } from "react-query"
 import useNavigate from "@/hooks/useNavigate"
 import { IPageProps } from "@/lib/interfaces/common"
 import { createDateInHM, localStorageUtils } from "@/utils"
 import AvailabilityAutomationModal from "./AvailabilityAutomationModal"
-import {
-  IAddStationTypeResult,
-  IAddStationTypeVariables,
-} from "@/lib/interfaces/stationTypes"
-import {
-  setBlockStartSearch,
-  setBlockStopSearch,
-  useBlockStopSearch,
-} from "@/agent/availability"
+import { IAddStationTypeResult, IAddStationTypeVariables } from "@/lib/interfaces/stationTypes"
+import { setBlockStartSearch, setBlockStopSearch, useBlockStopSearch } from "@/agent/availability"
 import { TASK_ID } from "@/constants/localStorage"
 import { setLocalStorage } from "@/utils/localStorage"
 
@@ -136,16 +124,18 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
   const [weekData, setWeekData] = useState<WeekType[]>(initialWeekData)
-  const [taskId, setTaskId] = useState<string>(
-    localStorageUtils.get(TASK_ID) || ""
-  )
+  const [taskId, setTaskId] = useState<string>(localStorageUtils.get(TASK_ID) || "")
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const [isSearching, setIsSearching] = useState<boolean>(taskId ? true : false)
+  const [isSearching, setIsSearching] = useState<boolean>(taskId? true: false)
   const [isSearchable, setIsSearchable] = useState<boolean>(false)
   const { data: preferenceData, isLoading } = usePreferences()
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
 
-  const isPremiumUser = userStore.currentUser?.plan === Plans.premium
+
+
+  // const { data: blockStopSearch } = useBlockStopSearch({params: "12345678"});
+  // console.log('getting block stop data',blockStopSearch )
+
 
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
@@ -154,31 +144,26 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     mode: "onBlur",
     resolver: availabilityResolver,
   })
-
+  
   useEffect(() => {
     if (!isLoading) {
       methods.reset({
-        data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
+        data: preferenceData?.data?.map((value : IGetPrefrencesResultData) => ({
           location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
           checked: value?.preference?.active === "Y" ? true : false,
           timeToArrive: value.preference?.tta,
-          startTime: createDateInHM(
-            Number(value.preference?.bStartTime?.split(":")[0]),
-            Number(value.preference?.bStartTime?.split(":")[1])
-          ),
-          endTime: createDateInHM(
-            Number(value.preference?.bEndTime?.split(":")[0]),
-            Number(value.preference?.bEndTime?.split(":")[1])
-          ),
+          startTime: createDateInHM(Number(value.preference?.bStartTime?.split(":")[0]), Number(value.preference?.bStartTime?.split(":")[1])),
+          endTime: createDateInHM(Number(value.preference?.bEndTime?.split(":")[0]), Number(value.preference?.bEndTime?.split(":")[1])),
           minimumPay: value.preference?.minPay,
           minimumHourlyRate: value.preference?.minHourlyRate,
           stationCode: value.station.stationCode,
           stationId: value.station.stationID,
           regionId: value.station.regionID,
-        })),
+        }))
       })
     }
   }, [isLoading, preferenceData])
+  
 
   useEffect(() => {
     if (!isLoading) {
@@ -189,20 +174,14 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
           timeToArrive: value?.preference?.tta
             ? parseInt(value?.preference?.tta)
             : undefined,
-          startTime:
-            value.preference?.bStartTime !== ""
-              ? createDateInHM(
-                  Number(value.preference?.bStartTime?.split(":")[0]),
-                  Number(value.preference?.bStartTime?.split(":")[1])
-                )
-              : null,
-          endTime:
-            value.preference?.bEndTime !== ""
-              ? createDateInHM(
-                  Number(value.preference?.bEndTime?.split(":")[0]),
-                  Number(value.preference?.bEndTime?.split(":")[1])
-                )
-              : null,
+          startTime: createDateInHM(
+            Number(value.preference?.bStartTime?.split(":")[0]),
+            Number(value.preference?.bStartTime?.split(":")[1])
+          ),
+          endTime: createDateInHM(
+            Number(value.preference?.bEndTime?.split(":")[0]),
+            Number(value.preference?.bEndTime?.split(":")[1])
+          ),
           minimumPay: value.preference.minPay,
           minimumHourlyRate: value.preference.minHourlyRate,
           stationCode: value.station.stationCode,
@@ -221,12 +200,12 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     if (
       isSearchable &&
       activeChipCount === 1 &&
-      activeChips[0].label === item.label
+      activeChips[0].day === item.day
     )
       return
     setWeekData(
       newWeekData.map(d =>
-        d.label === item.label ? { ...d, active: !d.active } : d
+        d.day === item.day ? { ...d, active: !d.active } : d
       )
     )
   }
@@ -239,28 +218,17 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
   }
 
   const handleFormReset = () => {
-    methods.reset({
-      data: preferenceData?.data?.map((value: IGetPrefrencesResultData) => ({
-        location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
-        checked: false,
-        timeToArrive: value?.preference?.tta
-          ? parseInt(value?.preference?.tta)
-          : undefined,
-        startTime: null,
-        endTime: null,
-        minimumPay: null,
-        minimumHourlyRate: null,
-        stationCode: value.station.stationCode,
-        stationId: value.station.stationID,
-        regionId: value.station.regionID,
-      })),
-    })
+    methods.reset(searchTableEmptyData)
   }
 
   const handleCancel = () => {
     setIsSearchable(false)
     methods.reset()
   }
+
+  // const handleNavigateToAutomationSchedule = () => {
+  //   navigate(routes.automationSchedule)
+  // }
 
   const { mutate } = useMutation<
     ISetPrefrencesResult,
@@ -277,7 +245,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
         day: "",
         tta: obj.timeToArrive,
         minPay: obj.minimumPay,
-        minHourlyRate: obj.minimumHourlyRate??"",
+        minHourlyRate: obj.minimumHourlyRate,
         startTime: obj.startTime
           ? new Date(obj.startTime).toLocaleTimeString([], {
               hour12: false,
@@ -294,7 +262,6 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     mutate(
       {
         preferences: apiData,
-        days: isPremiumUser ? weekData : [],
       },
       {
         onSuccess({ success }) {
@@ -340,6 +307,8 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     )
   }, [])
 
+  const isPremiumUser = userStore.currentUser?.plan === Plans.premium
+
   const handleAutomationClick = () => {
     setIsAutomationModalOpen(true)
   }
@@ -348,64 +317,66 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
     setIsAutomationModalOpen(false)
   }
 
-  const { mutate: blockStartSearchMutate } = useMutation<any, Error, any>(
-    setBlockStartSearch
+
+  const { mutate: blockStartSearchMutate } = useMutation<
+  any,
+  Error,
+  any
+>(setBlockStartSearch)
+
+const handleBlockStartSearch = () => {
+  blockStartSearchMutate(
+    { },
+    {
+      onSuccess(response) {
+        if (!response?.success) {
+          enqueueSnackbar( "Something went wrong, please try after sometime.", {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(response?.message, { variant: "success" })
+        setIsSearching(true);
+        setTaskId(response?.taskId)
+        setLocalStorage(TASK_ID, response?.taskId)
+      },
+      onError(error) {
+        enqueueSnackbar(error.message, { variant: "error" })
+      },
+    }
   )
+}
 
-  const handleBlockStartSearch = () => {
-    blockStartSearchMutate(
-      {},
-      {
-        onSuccess(response) {
-          if (!response?.success) {
-            enqueueSnackbar(
-              "Something went wrong, please try after sometime.",
-              {
-                variant: "error",
-              }
-            )
-            return
-          }
-          enqueueSnackbar(response?.message, { variant: "success" })
-          setIsSearching(true)
-          setTaskId(response?.taskId)
-          setLocalStorage(TASK_ID, response?.taskId)
-        },
-        onError(error) {
-          enqueueSnackbar(error.message, { variant: "error" })
-        },
-      }
-    )
-  }
 
-  const { mutate: blockStopSearchMutate } = useMutation<any, Error, any>(
-    setBlockStopSearch
+
+const { mutate: blockStopSearchMutate } = useMutation<
+any,
+Error,
+any
+>(setBlockStopSearch)
+
+const handleBlockStopSearch=()=>{
+  blockStopSearchMutate(
+    {taskId: taskId },
+    {
+      onSuccess(response) {
+        if (!response?.success) {
+          enqueueSnackbar( "Something went wrong, please try after sometime.", {
+            variant: "error",
+          })
+          return
+        }
+        enqueueSnackbar(response?.message, { variant: "success" })
+        setIsSearching(false);
+        localStorageUtils.remove(TASK_ID)        
+      },
+      onError(error) {
+        enqueueSnackbar(error.message, { variant: "error" })
+      },
+    }
   )
+}
 
-  const handleBlockStopSearch = () => {
-    blockStopSearchMutate(
-      { taskId: taskId },
-      {
-        onSuccess(response) {
-          if (!response?.success) {
-            enqueueSnackbar(
-              "Something went wrong, please try after sometime.",
-              {
-                variant: "error",
-              }
-            )
-            return
-          }
-          enqueueSnackbar(response?.message, { variant: "success" })
-          setIsSearching(false)
-          localStorageUtils.remove(TASK_ID)
-        },
-        onError(error) {
-          enqueueSnackbar(error.message, { variant: "error" })
-        },
-      }
-    )
-  }
 
   return (
     <FormProvider
@@ -447,8 +418,8 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   {weekData.map(item => (
                     <Chip
                       clickable
-                      key={item.label}
-                      label={item.label}
+                      key={item.day}
+                      label={item.day}
                       variant="filled"
                       onClick={() => handleClick(item)}
                       sx={{
@@ -516,11 +487,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   </Box>
                   <Box>
                     <ContainedButton
-                      onClick={() => {
-                        isSearching
-                          ? handleBlockStopSearch()
-                          : handleBlockStartSearch()
-                      }}
+                      onClick={() => {isSearching ? handleBlockStopSearch() :handleBlockStartSearch()}}
                     >
                       {isSearching ? "Stop Search" : "Start Searching"}
                     </ContainedButton>
@@ -537,7 +504,7 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                     >
                       Automation
                     </ContainedButton>
-                  )}
+                   )} 
                   {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <React.Fragment key={index}>
@@ -639,8 +606,8 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                 >
                   {weekData.map(item => (
                     <Chip
-                      key={item.label}
-                      label={item.label.slice(0, 2)}
+                      key={item.day}
+                      label={item.day.slice(0, 2)}
                       variant="filled"
                       onClick={() => handleClick(item)}
                       sx={{
@@ -726,13 +693,13 @@ const AvailabilityPage: React.FC<IAvailabilityPageProps> = ({
                   justifyContent="center"
                 >
                   {isPremiumUser && (
-                    <ContainedButton
+                  <ContainedButton
                       sx={{ m: 1, mr: 2 }}
                       onClick={handleAutomationClick}
                     >
                       Automation
                     </ContainedButton>
-                  )}
+                   )} 
                   {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <Box key={index}>

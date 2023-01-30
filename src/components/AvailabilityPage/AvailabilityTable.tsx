@@ -33,9 +33,8 @@ import {
   StyledNoSearchResultsText,
   StyledNoSearchResultsTitle,
 } from "./AvailabilityPage.styled"
-import { useSearchedBlocks } from "@/agent/availability"
-import socketIOClient from "socket.io-client"
-import currencyCodeToCurrencySymbol from "@/utils/currencyCodeToCurrencySymbol"
+import {useSearchedBlocks} from "@/agent/availability"
+import socketIOClient from "socket.io-client";
 
 interface IProps {
   tab: AvailabilityTableTabType
@@ -46,20 +45,23 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
   const { userStore } = useStore()
   const { data: searchedBlocksData } = useSearchedBlocks()
   const [rows, setRows] = useState<any[]>([])
-  let socket = socketIOClient("https://api.arrium.io/")
+  let socket = socketIOClient("https://api.arrium.io/");
 
-  socket.on("block-data-updated", socketData => {
-    if (socketData.userPk === userStore.currentUser?.pk) {
-      let socketRowData = socketData.data
-      setRows(rows => [...socketRowData, ...rows])
+  socket.on('block-data-updated', (socketData) => {
+    console.log("Message: ",  socketData);
+    let socketRowData = socketData.data;
+    if(socketData.userPk === userStore.currentUser?.pk){
+      setRows(rows => [socketRowData, ...rows]);
     }
-  })
+  });
 
-  useEffect(() => {
-    if (searchedBlocksData?.data !== undefined) {
-      setRows(searchedBlocksData?.data)
-    }
-  }, [searchedBlocksData])
+useEffect(() => {
+  if(searchedBlocksData?.data !== undefined){
+    setRows(searchedBlocksData?.data)
+  }
+
+}, [searchedBlocksData])
+
 
   return isWebView ? (
     /* // * DESKTOP VIEW */
@@ -156,7 +158,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
         <TableBody>
           {rows
             .filter(row => (tab === "all" ? true : row.Status === tab))
-            .map((row: any, index) => (
+            .map((row:any, index) => (
               <TableRow
                 key={index}
                 sx={{
@@ -211,7 +213,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.bStartTime} - {row.bEndTime}
+                  {row.bStartTime}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -235,7 +237,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {currencyCodeToCurrencySymbol(row?.currency)}
+                  {userStore.currencySymbol}
                   {row.price}
                 </TableCell>
                 <TableCell
@@ -291,7 +293,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
       <StyledAvailabilityTableContainer>
         {rows
           .filter(row => (tab === "all" ? true : row.Status === tab))
-          .map((row: any) => (
+          .map((row:any) => (
             <StyledAvailabilityTable key={row.bStartTime}>
               <StyledAvailabilityTableHeader>
                 <StyledAvailabilityTableHeaderTitle>
@@ -323,7 +325,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     Time
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bStartTime} - {row.bEndTime}
+                    {row.bStartTime}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -339,7 +341,7 @@ const AvailabilityTable: React.FC<IProps> = ({ tab }) => {
                     Pay
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {currencyCodeToCurrencySymbol(row?.currency)}
+                    {userStore.currencySymbol}
                     {row.price}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>

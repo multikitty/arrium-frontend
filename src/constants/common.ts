@@ -66,16 +66,16 @@ export const daysInWeek = [
 ]
 
 export const daysInAutomationSchedule = [
-  { value: "mon", short: "Mon", long: "Monday" },
-  { value: "tue", short: "Tue", long: "Tuesday" },
-  { value: "wed", short: "Wed", long: "Wednesday" },
-  { value: "thu", short: "Thu", long: "Thursday" },
-  { value: "fri", short: "Fri", long: "Friday" },
-  { value: "sat", short: "Sat", long: "Saturday" },
-  { value: "sun", short: "Sun", long: "Sunday" },
-  { value: "everyday", short: "Everyday", long: "Everyday" },
-  { value: "weekdays", short: "Weekdays", long: "Weekdays Only" },
-  { value: "weekends", short: "Weekends", long: "Weekends Only" },
+  {value: "mon", short: "Mon", long: "Monday" },
+  {value: "tue", short: "Tue", long: "Tuesday" },
+  {value: "wed", short: "Wed", long: "Wednesday" },
+  {value: "thu", short: "Thu", long: "Thursday" },
+  {value: "fri", short: "Fri", long: "Friday" },
+  {value: "sat", short: "Sat", long: "Saturday" },
+  {value: "sun", short: "Sun", long: "Sunday" },
+  {value: "everyday", short: "Everyday", long: "Everyday"},
+  {value: "weekdays", short: "Weekdays", long:"Weekdays Only"},
+  {value: "weekends", short: "Weekends", long:"Weekends Only"},
 ]
 
 export const registrationSteps = {

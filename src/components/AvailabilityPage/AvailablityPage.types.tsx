@@ -15,17 +15,17 @@ export type FormValues = {
     endTime: Date | null
     minimumPay: number | ""
     minimumHourlyRate: number | ""
-    stationCode: string
-    regionId: string
-    stationId: string
+    stationCode : string
+    regionId : string
+    stationId : string
   }[]
 }
 
 export type FormValuesAutomationSchedule = {
   data: {
-    day: string
-    startTime: string
-    active: boolean
+    day : string,
+    startTime : string,
+    active : boolean
   }[]
 }
 

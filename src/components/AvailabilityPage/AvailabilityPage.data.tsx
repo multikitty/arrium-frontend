@@ -37,8 +37,7 @@ export interface AvailabilityTableData {
 }
 
 export type WeekType = {
-  label: string
-  value: string
+  day: string
   active: boolean
 }
 
@@ -54,13 +53,13 @@ const createSearchesData = (
 }
 
 export const initialWeekData: WeekType[] = [
-  { label: "Mon", value: "mon", active: false },
-  { label: "Tue", value: "tue", active: false },
-  { label: "Wed", value: "wed", active: false },
-  { label: "Thu", value: "thu", active: false },
-  { label: "Fri", value: "fri", active: false },
-  { label: "Sat", value: "sat", active: false },
-  { label: "Sun", value: "sat", active: false },
+  { day: "Mon", active: false },
+  { day: "Tue", active: false },
+  { day: "Wed", active: false },
+  { day: "Thu", active: false },
+  { day: "Fri", active: false },
+  { day: "Sat", active: false },
+  { day: "Sun", active: false },
 ]
 
 export const searchTableInitialValues: FormValues = {
@@ -75,7 +74,7 @@ export const searchTableInitialValues: FormValues = {
       minimumHourlyRate: 20,
       stationCode: "",
       stationId: "",
-      regionId: "",
+      regionId: ""
     },
     {
       location: "Leyland (DPR1) - AMZL",
@@ -87,7 +86,7 @@ export const searchTableInitialValues: FormValues = {
       minimumHourlyRate: "",
       stationCode: "",
       stationId: "",
-      regionId: "",
+      regionId: ""
     },
     {
       location: "Knowsley (DWN1) - AMZL",
@@ -99,7 +98,7 @@ export const searchTableInitialValues: FormValues = {
       minimumHourlyRate: "",
       stationCode: "",
       stationId: "",
-      regionId: "",
+      regionId: ""
     },
     {
       location: "Wakefield (DLS4)",
@@ -111,7 +110,7 @@ export const searchTableInitialValues: FormValues = {
       minimumHourlyRate: "",
       stationCode: "",
       stationId: "",
-      regionId: "",
+      regionId: ""
     },
   ],
 }
@@ -127,7 +126,7 @@ export const searchTableEmptyData: FormValues = {
     minimumHourlyRate: "",
     stationCode: "",
     stationId: "",
-    regionId: "",
+    regionId: ""
   })),
 }
 
@@ -306,7 +305,7 @@ export const rows = [
 ]
 
 export const availabilityStatusColorMap: Record<
-  AvailabilityStatusType | string,
+  AvailabilityStatusType| string,
   string
 > = {
   Accepted: "#3DCC70",

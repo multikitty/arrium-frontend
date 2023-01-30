@@ -173,9 +173,7 @@ export const StyledNoSearchResultsText = styled(Typography)`
   }
 `
 
-export const StyledAvailablityAutomationModal = styled(Paper).attrs({
-  elevation: 1,
-})<{}>`
+export const StyledAvailablityAutomationModal = styled(Paper).attrs({ elevation: 1 })<{}>`
   border-radius: ${rem("20px")};
   padding: ${rem("16px")};
   width: 100%;
@@ -184,7 +182,7 @@ export const StyledAvailablityAutomationModal = styled(Paper).attrs({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: ${rem("760px")};
+  max-height:${rem("760px")};
   overflow: scroll;
   overflow-x: hidden;
 `
@@ -199,14 +197,14 @@ export const StyledAvailablityAutomationModalTitle = styled.p`
 `
 
 export const StyledAvailablityAutomationModalTitleDesc = styled.p`
-  font-family: Inter;
-  font-weight: 400;
-  font-size: ${rem("18px")};
-  font-height: ${rem("32px")};
-  color: ${theme.palette.grey7};
-  width: ${rem("443px")};
-  height: ${rem("64px")};
-  margin-bottom: ${rem("12px")};
+font-family: Inter;
+font-weight: 400;
+font-size: ${rem("18px")};
+font-height: ${rem("32px")};
+color: ${theme.palette.grey7};
+width:${rem("443px")};
+height: ${rem("64px")};
+margin-bottom: ${rem("12px")};
 `
 
 export const StyledAvailablityAutomationDeleteButton = styled(Button)`

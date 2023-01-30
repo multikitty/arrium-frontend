@@ -15,7 +15,7 @@ export type UserType = {
   tzName?: string
   amznFlexUser?: string
   refCode?: string
-  currentSteps?: RegistrationStepsType
-  sk?: string
+  currentSteps?: RegistrationStepsType,
+  sk?: string,
   pk?: string
 } | null

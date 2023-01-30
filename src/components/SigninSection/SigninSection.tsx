@@ -109,7 +109,7 @@ const SigninSection: React.FC<ISigninSectionProps> = ({ country_code }) => {
             refCode: data.userData.refCode,
             currentSteps: data.userData.currentSteps,
             sk: data.userData.sk,
-            pk: data.userData.pk,
+            pk: data.userData.pk
           })
           setLocalStorage(TOKEN, data.userData.token)
           navigateToDefault(data.userData.role)

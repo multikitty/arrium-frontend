@@ -50,7 +50,9 @@ const SupportPage = () => {
             app, please, write to us and our support team will get in contact
             with you shortly.
           </StyledContentHeader>
-          <StyledSupportFormLabel>Subject</StyledSupportFormLabel>
+          <StyledSupportFormLabel>
+            Subject
+          </StyledSupportFormLabel>
           <StyledSupportInputField
             placeholder="Subject"
             variant="outlined"
@@ -62,7 +64,9 @@ const SupportPage = () => {
               {errors.subject.message}
             </StyledWarningText>
           )}
-          <StyledSupportFormLabel>Message</StyledSupportFormLabel>
+          <StyledSupportFormLabel>
+          Message
+          </StyledSupportFormLabel>
           <StyledSupportTextArea
             variant="outlined"
             multiline

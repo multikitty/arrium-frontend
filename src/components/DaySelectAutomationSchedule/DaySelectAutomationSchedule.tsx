@@ -8,11 +8,9 @@ export interface DaySelectAutomationScheduleProps extends SelectProps {
   isMobile?: boolean
 }
 
-const DaySelectAutomationSchedule = (
-  props: DaySelectAutomationScheduleProps
-) => {
+const DaySelectAutomationSchedule = (props: DaySelectAutomationScheduleProps) => {
   const renderDayOptions = daysInAutomationSchedule.map((day, index) => (
-    <MenuItem value={day.value} divider={index === 6 ? true : false}>
+    <MenuItem value={day.value} divider={index === 6 ?true: false}>
       {props.isMobile ? day.short : day.long}
     </MenuItem>
   ))

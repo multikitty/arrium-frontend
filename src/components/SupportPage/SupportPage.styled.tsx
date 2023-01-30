@@ -32,7 +32,9 @@ export const StyledContentHeader = styled.p`
   color: ${p => p.theme.palette.blackText};
 `
 
-export const StyledSupportFormLabel = styled(StyledProfileTabContentFieldLabel)`
+export const StyledSupportFormLabel = styled(
+  StyledProfileTabContentFieldLabel
+)`
   margin-bottom: ${rem("4px")};
   font-weight: 400;
 `
