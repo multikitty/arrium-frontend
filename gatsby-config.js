@@ -8,11 +8,6 @@ module.exports = {
     description: `An Amazon Flex Automation App`,
     author: `Ayush Bendwal`,
     siteUrl: `https://arrium.io/`,
-    featureFlags: {
-      FEATURE_SPEED_BUTTON: false,
-      FEATURE_PAY_WITH_CRYPTO_BUTTON: false,
-      FEATURE_SUBSCRIPTION_SUMMARY: false,
-    },
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
