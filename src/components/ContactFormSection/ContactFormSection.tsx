@@ -39,13 +39,6 @@ const ContactFormSection = () => {
     reset()
   }
 
-  const onInvalid: SubmitErrorHandler<FormPropType> = data => {
-    enqueueSnackbar(
-      data.fullName?.message || data.email?.message || data.question?.message,
-      { variant: "error" }
-    )
-  }
-
   return (
     <StyledContactFormSection id={LANDING_PAGE_IDS["contact-us-section"]}>
       <FormSuccessModal
@@ -74,7 +67,7 @@ const ContactFormSection = () => {
           <StyledContactFormSectionCardRightContainerSubTitle>
             Get in touch and tell us how we can help
           </StyledContactFormSectionCardRightContainerSubTitle>
-          <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container rowSpacing={3} columnSpacing={2}>
               <Grid item xs={12}>
                 <Controller
