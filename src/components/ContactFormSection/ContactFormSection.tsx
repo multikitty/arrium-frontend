@@ -80,10 +80,11 @@ const ContactFormSection = () => {
                 <Controller
                   name={"fullName"}
                   control={control}
+                  rules={{ pattern: /^[A-Za-z]+$/ }}
                   render={({ field: { onChange, value } }) => (
                     <StyledContactFormSectionCardRightContainerField
                       placeholder="Full Name"
-                      onChange={onChange}
+                      onChange={(e) => e.target.value.match(/^[A-Za-z]+$/) || e.target.value.length === 0 ? onChange(e.target.value) : ""}
                       value={value}
                       error={!!formState.errors?.fullName}
                     />
