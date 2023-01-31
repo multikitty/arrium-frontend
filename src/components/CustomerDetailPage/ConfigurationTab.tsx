@@ -376,7 +376,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                                       }
                                       if ( window.fetch ) {
                                         window.fetch("https://api.arrium.io/v1/user/flex-details/update", {
-                                          method: "POST",
+                                          method: "PUT",
                                           body
                                         })
                                       }
