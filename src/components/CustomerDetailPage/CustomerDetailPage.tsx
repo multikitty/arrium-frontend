@@ -176,6 +176,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
             pk={pk}
+            sk={sk}
           />
         )}
         {isReferralTabOpen && (

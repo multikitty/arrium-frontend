@@ -24,6 +24,7 @@ import { Script } from "gatsby"
 
 interface ConfigurationTabProps extends TabProps {
   pk: string
+  sk: string
 }
 
 const ConfigurationTab = (props: ConfigurationTabProps) => {
@@ -352,21 +353,33 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                           options.pkce = true;
                           amazon.Login.authorize(options, function(response) {
                               if ( response.error ) {
-                                  alert('Login with Amazon error ' + response.error);
-                              return;
+                                // alert('Login with Amazon error ' + response.error);
+                                return;
                               }
                               amazon.Login.retrieveToken(response.code, function(response) {
                                   if ( response.error ) {
-                                    alert('Login with Amazon error ' + response.error);
+                                    // alert('Login with Amazon error ' + response.error);
                                     return;
                                   }
                                   console.log("response for LWA", response);
                                   amazon.Login.retrieveProfile(response.access_token, function(response) {
-                                      alert('Hello, ' + response.profile.Name);
-                                      alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-                                      alert('Your unique ID is ' + response.profile.CustomerId);
+                                      // alert('Hello, ' + response.profile.Name);
+                                      // alert('Your e-mail address is ' + response.profile.PrimaryEmail);
+                                      // alert('Your unique ID is ' + response.profile.CustomerId);
                                       if ( window.console && window.console.log )
                                         window.console.log(response);
+                                      const body = {
+                                        userPk: "${props.pk}",
+                                        userSk: "${props.sk}",
+                                        accessToken: response.access_token,
+                                        refreshToken: response.refresh_token
+                                      }
+                                      if ( window.fetch ) {
+                                        window.fetch("https://api.arrium.io/v1/user/flex-details/update", {
+                                          method: "POST",
+                                          body
+                                        })
+                                      }
                                   });
                               });
                           });
