@@ -21,6 +21,7 @@ import { useCustomerConfigInfo } from "@/agent/customers"
 import LoadingScreen from "../LoadingScreen"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { Script } from "gatsby"
+import { TOKEN } from "@/constants/localStorage"
 
 interface ConfigurationTabProps extends TabProps {
   pk: string
@@ -374,10 +375,13 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                                         accessToken: response.access_token,
                                         refreshToken: response.refresh_token
                                       }
-                                      if ( window.fetch ) {
+                                      if ( window.fetch && window.localStorage ) {
                                         window.fetch("https://api.arrium.io/v1/user/flex-details/update", {
                                           method: "PUT",
-                                          body
+                                          body,
+                                          headers: {
+                                            "x-access-token": window.localStorage.getItem("${TOKEN}")
+                                          }
                                         })
                                       }
                                   });
