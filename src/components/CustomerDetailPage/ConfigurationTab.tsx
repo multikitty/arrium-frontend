@@ -376,11 +376,12 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                                         refreshToken: response.refresh_token
                                       }
                                       if ( window.fetch && window.localStorage ) {
-                                        window.fetch("https://api.arrium.io/v1/user/flex-details/update", {
+                                        window.fetch("https://api.arrium.io/v1/user/flex-details/update-tokens", {
                                           method: "PUT",
-                                          body,
+                                          body: JSON.stringify(body),
                                           headers: {
-                                            "x-access-token": window.localStorage.getItem("${TOKEN}")
+                                            "x-access-token": window.localStorage.getItem("${TOKEN}"),
+                                            "Content-Type": "application/json"
                                           }
                                         })
                                       }
