@@ -362,13 +362,12 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                                     // alert('Login with Amazon error ' + response.error);
                                     return;
                                   }
-                                  console.log("response for LWA", response);
-                                  amazon.Login.retrieveProfile(response.access_token, function(response) {
+                                  amazon.Login.retrieveProfile(response.access_token, function() {
                                       // alert('Hello, ' + response.profile.Name);
                                       // alert('Your e-mail address is ' + response.profile.PrimaryEmail);
                                       // alert('Your unique ID is ' + response.profile.CustomerId);
                                       if ( window.console && window.console.log )
-                                        window.console.log(response);
+                                        window.console.log("response", response);
                                       const body = {
                                         userPk: "${props.pk}",
                                         userSk: "${props.sk}",
