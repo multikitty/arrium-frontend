@@ -357,6 +357,8 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                                 // alert('Login with Amazon error ' + response.error);
                                 return;
                               }
+                              if ( window.console && window.console.log )
+                                window.console.log("first response", response);
                               amazon.Login.retrieveToken(response.code, function(response) {
                                   if ( response.error ) {
                                     // alert('Login with Amazon error ' + response.error);
