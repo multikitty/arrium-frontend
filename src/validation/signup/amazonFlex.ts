@@ -3,8 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 
 const amazonFlexSchema = Yup.object().shape({
   userName: Yup.string()
-    .email("Please enter valid amazon flex username.")
-    .required("Please enter valid amazon flex username."),
+    .email("Please enter valid amazon flex username")
+    .required("Please enter valid amazon flex username"),
   password: Yup.string().required("Please enter valid password"),
   confirmPassword: Yup.string()
     .required("The Confirm Password field must not be empty")

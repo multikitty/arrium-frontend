@@ -117,7 +117,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
-    const phoneNumber = phoneNo.slice(dialCode.length || 0)
+    const phoneNumber = getRawPhoneNumber(phoneNo, dialCode)
 
     const variables: AccountInfoVariables = {
       country: country?.countryShortName
