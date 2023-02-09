@@ -7,14 +7,14 @@ const emailAndPasswordSchema = Yup.object().shape({
     .min(8, "Please enter at least 8 characters"),
 
   email: Yup.string()
-    .required("Please enter email")
-    .email("Please enter valid email"),
+    .required("Please enter email adreess")
+    .email("Please enter a valid email adreess"),
 })
 
 const emailSchema = Yup.object().shape({
   email: Yup.string()
-    .required("Please enter email")
-    .email("Please enter valid email"),
+    .required("Please enter email adreess")
+    .email("Please enter a valid email adreess"),
 })
 
 const passwordSchema = Yup.object().shape({

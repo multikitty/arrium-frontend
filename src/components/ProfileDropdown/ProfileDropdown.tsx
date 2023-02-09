@@ -110,94 +110,103 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
-      {isLoading ? (
-        <Box my={2} mx={8}>
-          <CircularProgress size={32} />
-        </Box>
-      ) : (
-        <React.Fragment>
+      <React.Fragment>
+        {currentUserData?.data && (
           <StyledProfileDropdownUpperSection>
-            <StyledProfileDropdownUpperSectionUsername>
-              {currentUserData?.data?.firstname || ""}{" "}
-              {currentUserData?.data?.lastname || ""}
-            </StyledProfileDropdownUpperSectionUsername>
-            <StyledProfileDropdownUpperSectionVerificationContainer>
-              <Box display="flex" alignItems="center" mr={1}>
-                <CheckCircleOutlineIcon
-                  sx={{
-                    color: currentUserData?.data?.emailVerified
-                      ? theme.palette.common.green
-                      : theme.palette.grey3,
-                    fontSize: 24,
-                  }}
-                />
-              </Box>
-              <StyledProfileDropdownUpperSectionVerificationText>
-                {currentUserData?.data?.email || ""}
-              </StyledProfileDropdownUpperSectionVerificationText>
-              <StyledFlexGrow />
-              {currentUserData?.data?.emailVerified || (
-                <StyledProfileDropdownUpperSectionVerificationButton
-                  onClick={handleEmailVerificationClick}
-                >
-                  Verify
-                </StyledProfileDropdownUpperSectionVerificationButton>
-              )}
-            </StyledProfileDropdownUpperSectionVerificationContainer>
-            <StyledProfileDropdownUpperSectionVerificationContainer>
-              <Box display="flex" alignItems="center" mr={1}>
-                <CheckCircleOutlineIcon
-                  sx={{
-                    color: currentUserData?.data?.phoneVerified
-                      ? theme.palette.common.green
-                      : theme.palette.grey3,
-                    fontSize: 24,
-                  }}
-                />
-              </Box>
-              <StyledProfileDropdownUpperSectionVerificationText>
-                {currentUserData?.data?.phoneNumber || ""}
-              </StyledProfileDropdownUpperSectionVerificationText>
-              <StyledFlexGrow />
-              {currentUserData?.data?.phoneVerified || (
-                <StyledProfileDropdownUpperSectionVerificationButton
-                  onClick={handlePhoneVerificationClick}
-                >
-                  Verify
-                </StyledProfileDropdownUpperSectionVerificationButton>
-              )}
-            </StyledProfileDropdownUpperSectionVerificationContainer>
+            {currentUserData.data?.firstname && currentUserData.data?.lastname && (
+              <StyledProfileDropdownUpperSectionUsername>
+                {currentUserData.data.firstname} {currentUserData.data.lastname}
+              </StyledProfileDropdownUpperSectionUsername>
+            )}
+            {currentUserData.data && (
+              <StyledProfileDropdownUpperSectionVerificationContainer>
+                <Box display="flex" alignItems="center" mr={1}>
+                  <CheckCircleOutlineIcon
+                    sx={{
+                      color: currentUserData.data.emailVerified
+                        ? theme.palette.common.green
+                        : theme.palette.grey3,
+                      fontSize: 24,
+                    }}
+                  />
+                </Box>
+                <StyledProfileDropdownUpperSectionVerificationText>
+                  {currentUserData.data.email}
+                </StyledProfileDropdownUpperSectionVerificationText>
+                <StyledFlexGrow />
+                {!currentUserData.data.emailVerified && (
+                  <StyledProfileDropdownUpperSectionVerificationButton
+                    onClick={handleEmailVerificationClick}
+                  >
+                    Verify
+                  </StyledProfileDropdownUpperSectionVerificationButton>
+                )}
+              </StyledProfileDropdownUpperSectionVerificationContainer>
+            )}
+            {currentUserData.data && (
+              <StyledProfileDropdownUpperSectionVerificationContainer>
+                <Box display="flex" alignItems="center" mr={1}>
+                  <CheckCircleOutlineIcon
+                    sx={{
+                      color: currentUserData.data.phoneVerified
+                        ? theme.palette.common.green
+                        : theme.palette.grey3,
+                      fontSize: 24,
+                    }}
+                  />
+                </Box>
+                <StyledProfileDropdownUpperSectionVerificationText>
+                  {currentUserData.data.phoneNumber}
+                </StyledProfileDropdownUpperSectionVerificationText>
+                <StyledFlexGrow />
+                {!currentUserData.data.phoneVerified && (
+                  <StyledProfileDropdownUpperSectionVerificationButton
+                    onClick={handlePhoneVerificationClick}
+                  >
+                    Verify
+                  </StyledProfileDropdownUpperSectionVerificationButton>
+                )}
+              </StyledProfileDropdownUpperSectionVerificationContainer>
+            )}
           </StyledProfileDropdownUpperSection>
-          <Divider />
-          {userStore.currentUser?.role === UserRoles.driver && (
+        )}
+        {isLoading ? (
+          <Box my={2} mx={8}>
+            <CircularProgress size={32} />
+          </Box>
+        ) : (
+          <React.Fragment>
+            <Divider />
+            {userStore.currentUser?.role === UserRoles.driver && (
+              <MenuItem
+                dense
+                divider
+                sx={{ py: rem("12px") }}
+                onClick={handleSettingsButtonClick}
+              >
+                <ListItemIcon>
+                  <SettingsIcon sx={{ fontSize: 24 }} />
+                </ListItemIcon>
+                <StyledProfileDropdownMenuItemText>
+                  Settings
+                </StyledProfileDropdownMenuItemText>
+              </MenuItem>
+            )}
             <MenuItem
               dense
-              divider
               sx={{ py: rem("12px") }}
-              onClick={handleSettingsButtonClick}
+              onClick={handleLogoutButtonClick}
             >
               <ListItemIcon>
-                <SettingsIcon sx={{ fontSize: 24 }} />
+                <Logout sx={{ fontSize: 24 }} />
               </ListItemIcon>
               <StyledProfileDropdownMenuItemText>
-                Settings
+                Log Out
               </StyledProfileDropdownMenuItemText>
             </MenuItem>
-          )}
-          <MenuItem
-            dense
-            sx={{ py: rem("12px") }}
-            onClick={handleLogoutButtonClick}
-          >
-            <ListItemIcon>
-              <Logout sx={{ fontSize: 24 }} />
-            </ListItemIcon>
-            <StyledProfileDropdownMenuItemText>
-              Log Out
-            </StyledProfileDropdownMenuItemText>
-          </MenuItem>
-        </React.Fragment>
-      )}
+          </React.Fragment>
+        )}
+      </React.Fragment>
     </Menu>
   )
 }
