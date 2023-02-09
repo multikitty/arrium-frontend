@@ -19,9 +19,9 @@ import {
   StyledCardHeader,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/uiComponents"
+} from "@/components/commons/uiComponents"
 import { devices } from "@/constants/device"
-import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
+import { SignupStepsProgressMobile } from "@/components/SignupStepsProgress/SignupStepsProgress"
 import { content } from "@/constants/content"
 import { CountryData as CountryDataType } from "@/utils/getCountryData"
 import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
@@ -34,13 +34,15 @@ import { updateAccountInfo } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { useGeolocation } from "@/agent/geolocation"
-import LoadingScreen from "../LoadingScreen"
+import LoadingScreen from "@/components/LoadingScreen"
 import { getFilteredCountries } from "@/utils/getCountryData"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
-import { AccountInfoData } from "../SignUpPage/SignUpPage"
-import InputField from "../commons/InputField"
+import { AccountInfoData } from "@/components/SignUpPage/SignUpPage"
+import InputField from "@/components/commons/InputField"
+import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
+import HelperText from "@/components/commons/HelperText"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -93,6 +95,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     data?.countryCode || localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY
   )
   const [dialCode, setDialCode] = useState(data?.dialCode || "")
+  const [phoneNumberError, setPhoneNumberError] = useState(false)
   const [firstName, setFirstName] = useState(data?.firstname || "")
   const [surName, setSurName] = useState(data?.lastname || "")
   const [country, setCountry] = useState<CountryDataType | null>(
@@ -148,6 +151,11 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     })
   }
 
+  const validateRawPhoneNumber = () => {
+    const rawPhoneNumber = getRawPhoneNumber(phoneNo, dialCode)
+    setPhoneNumberError(rawPhoneNumber.length < 9)
+  }
+
   const handlePhoneNoField = (phone: string, data: CountryData | {}) => {
     const countryDialCode = (data as CountryData).dialCode
     const countryCode = (data as CountryData).countryCode
@@ -156,19 +164,20 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     setDialCode(countryDialCode)
   }
 
+  useEffect(validateRawPhoneNumber, [phoneNo])
+
   useEffect(() => {
-    setIsButtonDisabled(() => {
-      if (
-        phoneNo.length &&
-        selectedTimezone &&
-        firstName.length &&
-        surName.length &&
-        !!country
-      ) {
-        return false
-      }
-      return true
-    })
+    const rawPhoneNumber = getRawPhoneNumber(phoneNo, dialCode)
+
+    const disableButtonCondition =
+      phoneNumberError ||
+      !rawPhoneNumber.length ||
+      !selectedTimezone ||
+      !firstName.length ||
+      !surName.length ||
+      !country
+
+    setIsButtonDisabled(disableButtonCondition)
   }, [phoneNo, selectedTimezone, firstName, surName, country])
 
   useEffect(() => {
@@ -243,6 +252,11 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
               required: true,
             }}
           />
+          {phoneNumberError && (
+            <HelperText type="large" mt="-8px" mb="16px">
+              Please enter valid phone number
+            </HelperText>
+          )}
           <StyledFieldLabel $isHidden={!selectedTimezone}>
             Timezone
           </StyledFieldLabel>
@@ -330,6 +344,11 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
                 required: true,
               }}
             />
+            {phoneNumberError && (
+              <HelperText type="large" mt="-8px" mb="16px">
+                Please enter valid phone number
+              </HelperText>
+            )}
             <StyledFieldLabel $isHidden={!selectedTimezone}>
               Timezone
             </StyledFieldLabel>
