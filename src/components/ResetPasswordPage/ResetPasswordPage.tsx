@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { rem } from "polished"
 import { useForm } from "react-hook-form"
 
 import {
@@ -13,35 +12,35 @@ import {
   StyledCardHeader,
   StyledTitle,
   StyledTitleMobile,
-  StyledWarningText,
 } from "@/components/commons/uiComponents"
 import { devices } from "@/constants/device"
-import formOptions from "@/validation/emailAndPassword"
+import formOptions from "@/validation/signin/resetPassword"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
-import InputField from "../commons/InputField"
+import InputField from "@/components/commons/InputField"
+import { objectLength } from "@/utils"
+import HelperText from "@/components/commons/HelperText"
 
 interface ResetPasswordProps extends PageProps {}
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
-  const [isPasswordVisible, SetIsPasswordVisible] = useState(false)
-  const [isConfirmPasswordVisible, SetIsConfirmPasswordVisible] =
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false)
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [isMatches, setIsMatches] = useState(false)
 
   type FormPropType = typeof formOptions.defaultValues
-  const { register, handleSubmit } = useForm<FormPropType>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    ...methods
+  } = useForm<FormPropType>({
     ...formOptions,
   })
-
-  useEffect(() => {
-    if (password?.length > 0 || confirmPassword?.length > 0)
-      setIsMatches(password === confirmPassword)
-  }, [password, confirmPassword])
+  methods.watch("password")
+  methods.watch("confirmPassword")
 
   const isWebView = useMediaQuery(devices.web.up)
 
@@ -50,6 +49,11 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
     navigate(routes.signin)
   }
 
+  const isSubmitDisabled =
+    !methods.getValues("password") ||
+    !methods.getValues("confirmPassword") ||
+    !!objectLength(errors)
+
   return (
     <React.Fragment>
       {isWebView ? (
@@ -57,7 +61,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
           <StyledTitle>Arrium</StyledTitle>
         </Box>
       ) : (
-        <Box height={rem("64px")} display="flex" alignItems="center">
+        <Box height="64px" display="flex" alignItems="center">
           <StyledTitleMobile>Arrium</StyledTitleMobile>
         </Box>
       )}
@@ -72,20 +76,19 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
             >
               <StyledCardHeader>Reset Password</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!password}>
+            <StyledFieldLabel $isHidden={!methods.getValues("password")}>
               New Password
             </StyledFieldLabel>
             <InputField
               placeholder="New password"
               type={isPasswordVisible ? "text" : "password"}
               variant="outlined"
-              value={password}
               {...register("password")}
-              onChange={e => setPassword(e.target.value)}
+              error={!!errors?.password}
               InputProps={{
                 endAdornment: (
                   <IconButton
-                    onClick={() => SetIsPasswordVisible(prev => !prev)}
+                    onClick={() => setIsPasswordVisible(prev => !prev)}
                   >
                     {isPasswordVisible ? (
                       <VisibilityOffOutlined />
@@ -96,19 +99,24 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
                 ),
               }}
             />
-            <StyledFieldLabel $isHidden={!confirmPassword}>
+            {errors?.password && (
+              <HelperText type="large" mt="-12px">
+                {errors.password.message}
+              </HelperText>
+            )}
+            <StyledFieldLabel $isHidden={!methods.getValues("confirmPassword")}>
               Confirm new Password
             </StyledFieldLabel>
             <InputField
               placeholder="Confirm new password"
               type={isConfirmPasswordVisible ? "text" : "password"}
               variant="outlined"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              {...register("confirmPassword")}
+              error={!!errors.confirmPassword}
               InputProps={{
                 endAdornment: (
                   <IconButton
-                    onClick={() => SetIsConfirmPasswordVisible(prev => !prev)}
+                    onClick={() => setIsConfirmPasswordVisible(prev => !prev)}
                   >
                     {isConfirmPasswordVisible ? (
                       <VisibilityOffOutlined />
@@ -119,16 +127,18 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
                 ),
               }}
             />
-            {password.length > 0 && !isMatches ? (
-              <StyledWarningText>Both Passwords should match</StyledWarningText>
-            ) : null}
+            {errors?.confirmPassword && (
+              <HelperText type="large" mt="-12px">
+                {errors.confirmPassword.message}
+              </HelperText>
+            )}
             <StyledButton
               variant="contained"
               color="primary"
               disableElevation
               type="submit"
-              disabled={!isMatches}
-              $marginTop={rem("32px")}
+              $marginTop="32px"
+              disabled={isSubmitDisabled}
             >
               <StyledButtonText>Save</StyledButtonText>
             </StyledButton>
@@ -138,7 +148,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
             <Box
               display="flex"
               flexDirection="column"
-              maxWidth={rem("375px")}
+              maxWidth="375px"
               mx={"auto"}
             >
               <Box
@@ -149,20 +159,19 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
               >
                 <StyledCardHeader>Reset Password</StyledCardHeader>
               </Box>
-              <StyledFieldLabel $isHidden={!password}>
+              <StyledFieldLabel $isHidden={!methods.getValues("password")}>
                 New Password
               </StyledFieldLabel>
               <InputField
                 placeholder="New password"
                 type={isPasswordVisible ? "text" : "password"}
                 variant="outlined"
-                value={password}
                 {...register("password")}
-                onChange={e => setPassword(e.target.value)}
+                error={!!errors.password}
                 InputProps={{
                   endAdornment: (
                     <IconButton
-                      onClick={() => SetIsPasswordVisible(prev => !prev)}
+                      onClick={() => setIsPasswordVisible(prev => !prev)}
                     >
                       {isPasswordVisible ? (
                         <VisibilityOffOutlined />
@@ -173,19 +182,26 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
                   ),
                 }}
               />
-              <StyledFieldLabel $isHidden={!confirmPassword}>
+              {errors?.password && (
+                <HelperText type="large" mt="-12px">
+                  {errors.password.message}
+                </HelperText>
+              )}
+              <StyledFieldLabel
+                $isHidden={!methods.getValues("confirmPassword")}
+              >
                 Confirm new Password
               </StyledFieldLabel>
               <InputField
                 placeholder="Confirm new password"
                 type={isConfirmPasswordVisible ? "text" : "password"}
                 variant="outlined"
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
+                {...register("confirmPassword")}
+                error={!!errors.confirmPassword}
                 InputProps={{
                   endAdornment: (
                     <IconButton
-                      onClick={() => SetIsConfirmPasswordVisible(prev => !prev)}
+                      onClick={() => setIsConfirmPasswordVisible(prev => !prev)}
                     >
                       {isConfirmPasswordVisible ? (
                         <VisibilityOffOutlined />
@@ -196,18 +212,18 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
                   ),
                 }}
               />
-              {password.length > 0 && !isMatches ? (
-                <StyledWarningText>
-                  Both Passwords should match
-                </StyledWarningText>
-              ) : null}
+              {errors?.confirmPassword && (
+                <HelperText type="large" mt="-12px">
+                  {errors.confirmPassword.message}
+                </HelperText>
+              )}
               <StyledButton
                 variant="contained"
                 color="primary"
                 type="submit"
                 disableElevation
-                disabled={!isMatches}
-                $marginTop={rem("32px")}
+                $marginTop="32px"
+                disabled={isSubmitDisabled}
               >
                 <StyledButtonText>Save</StyledButtonText>
               </StyledButton>
