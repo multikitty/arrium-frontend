@@ -49,8 +49,8 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
             <img
               loading="lazy"
               width={size === "large" ? "40" : "32"}
-              src={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png`}
-              srcSet={`https://flagcdn.com/w40/${country.countryShortName.toLowerCase()}.png 2x`}
+              src={`https://flagcdn.com/w160/${country.countryShortName.toLowerCase()}.png`}
+              srcSet={`https://flagcdn.com/w160/${country.countryShortName.toLowerCase()}.png 2x`}
               alt=""
             />
             {size === "large"
