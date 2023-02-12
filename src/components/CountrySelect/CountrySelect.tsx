@@ -97,8 +97,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
           <img
             loading="lazy"
             width="20"
-            src={`https://flagcdn.com/w20/${option.countryShortName.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${option.countryShortName.toLowerCase()}.png 2x`}
+            src={`https://flagcdn.com/w160/${option.countryShortName.toLowerCase()}.png`}
+            srcSet={`https://flagcdn.com/w160/${option.countryShortName.toLowerCase()}.png 2x`}
             alt=""
           />
           {option.countryName} ({option.countryShortName})
