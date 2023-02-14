@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material"
+import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 
 import {
@@ -12,18 +12,11 @@ import {
   StyledSignUpButton,
   StyledSignUpText,
 } from "@/components/commons/uiComponents"
-import {
-  StyledPasswordValidationContainer,
-  StyledTextBox,
-  StyledValidationText,
-  StyledValidationTextWrapper,
-} from "./RegistrationSection.styled"
-import RightCheckMarkIcon from "@/assets/icons/checkmark_icon.svg"
-import RightCheckGreenMarkIcon from "@/assets/icons/checkmark-green_icon.svg"
+import { StyledTextBox } from "./RegistrationSection.styled"
 import { devices } from "@/constants/device"
-import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
+import { SignupStepsProgressMobile } from "@/components/SignupStepsProgress/SignupStepsProgress"
 import { RequiredSet } from "./RegistrationSection.types"
-import { FormProps } from "../SignUpPage/SignUpPage"
+import { FormProps } from "@/components/SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import { useMutation } from "react-query"
 import { registerUser } from "@/agent/signup"
@@ -37,18 +30,31 @@ import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { COUNTRY_CODE, TOKEN } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
-import InputField from "../commons/InputField"
-import HelperText from "../commons/HelperText"
+import InputField from "@/components/commons/InputField"
+import HelperText from "@/components/commons/HelperText"
+import {
+  atLeastEightChar,
+  atLeastOneLowercase,
+  atLeastOneNumber,
+  atLeastOneUppercase,
+} from "@/constants/regex"
+import PasswordValidationPopUp from "@/components/PasswordValidationPopUp/PasswordValidationPopUp"
 
-interface SignupSectionProps extends FormProps, PageProps {}
+export const REQUIRED_SET_DEFAULT: RequiredSet = {
+  atLeastOneLowercase: true,
+  atLeastOneUppercase: true,
+  atLeastEightChar: true,
+  atLeastOneNumber: true,
+}
 
-const SignupSection: React.FC<SignupSectionProps> = ({
+interface RegistrationSectionProps extends FormProps, PageProps {}
+
+const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   setFormStage,
   stage,
   step,
   country_code,
 }) => {
-  const theme = useTheme()
   const isWebView = useMediaQuery(devices.web.up)
   const { enqueueSnackbar } = useSnackbar()
   const {
@@ -63,29 +69,20 @@ const SignupSection: React.FC<SignupSectionProps> = ({
   const [isFocused, setIsFocused] = useState(false)
   const [isPasswordFieldDirty, setIsPasswordFieldDirty] = useState(false)
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
-  const [isRequiredSet, setIsRequiredSet] = useState<RequiredSet>({
-    digit: true,
-    lowercase: true,
-    minEightChar: true,
-    uppercase: true,
-  })
+  const [requiredSet, setRequiredSet] =
+    useState<RequiredSet>(REQUIRED_SET_DEFAULT)
   const { mutate } = useMutation<
     RegistrationUserResult,
     Error,
     RegistrationUserVariables
   >(registerUser)
 
-  const atLeastALowercase = new RegExp(/(?=.*[a-z])/)
-  const atLeastAnUppercase = new RegExp(/(?=.*[A-Z])/)
-  const atLeastANumber = new RegExp(/(?=.*\d)/)
-  const minEightChar = new RegExp(/.{8,}/)
-
   useEffect(() => {
-    setIsRequiredSet({
-      digit: atLeastANumber.test(password),
-      lowercase: atLeastALowercase.test(password),
-      minEightChar: minEightChar.test(password),
-      uppercase: atLeastAnUppercase.test(password),
+    setRequiredSet({
+      atLeastOneNumber: atLeastOneNumber.test(password),
+      atLeastOneLowercase: atLeastOneLowercase.test(password),
+      atLeastEightChar: atLeastEightChar.test(password),
+      atLeastOneUppercase: atLeastOneUppercase.test(password),
     })
   }, [password])
 
@@ -162,11 +159,11 @@ const SignupSection: React.FC<SignupSectionProps> = ({
 
   const isPasswordValid = useMemo(
     () =>
-      isRequiredSet.digit &&
-      isRequiredSet.lowercase &&
-      isRequiredSet.minEightChar &&
-      isRequiredSet.uppercase,
-    [isRequiredSet]
+      requiredSet.atLeastOneNumber &&
+      requiredSet.atLeastOneLowercase &&
+      requiredSet.atLeastEightChar &&
+      requiredSet.atLeastOneUppercase,
+    [requiredSet]
   )
 
   const isSubmitDisabled = !email || !password || !isPasswordValid
@@ -211,48 +208,13 @@ const SignupSection: React.FC<SignupSectionProps> = ({
               }}
             />
             {isFocused && (
-              <StyledPasswordValidationContainer isWebView={isWebView}>
-                <StyledValidationTextWrapper
-                  isRequired={!isRequiredSet.minEightChar}
-                >
-                  {!isRequiredSet.minEightChar ? (
-                    <img src={RightCheckMarkIcon} />
-                  ) : (
-                    <img src={RightCheckGreenMarkIcon} />
-                  )}
-                  <StyledValidationText>
-                    minimum 8 characters
-                  </StyledValidationText>
-                </StyledValidationTextWrapper>
-                <StyledValidationTextWrapper
-                  isRequired={!isRequiredSet.uppercase}
-                >
-                  {!isRequiredSet.uppercase ? (
-                    <img src={RightCheckMarkIcon} />
-                  ) : (
-                    <img src={RightCheckGreenMarkIcon} />
-                  )}
-                  <StyledValidationText>1 uppercase</StyledValidationText>
-                </StyledValidationTextWrapper>
-                <StyledValidationTextWrapper
-                  isRequired={!isRequiredSet.lowercase}
-                >
-                  {!isRequiredSet.lowercase ? (
-                    <img src={RightCheckMarkIcon} />
-                  ) : (
-                    <img src={RightCheckGreenMarkIcon} />
-                  )}
-                  <StyledValidationText>1 lowercase</StyledValidationText>
-                </StyledValidationTextWrapper>
-                <StyledValidationTextWrapper isRequired={!isRequiredSet.digit}>
-                  {!isRequiredSet.digit ? (
-                    <img src={RightCheckMarkIcon} />
-                  ) : (
-                    <img src={RightCheckGreenMarkIcon} />
-                  )}
-                  <StyledValidationText>1 number</StyledValidationText>
-                </StyledValidationTextWrapper>
-              </StyledPasswordValidationContainer>
+              <PasswordValidationPopUp
+                isWebView
+                atLeastEightChar={requiredSet.atLeastEightChar}
+                atLeastOneLowercase={requiredSet.atLeastOneLowercase}
+                atLeastOneUppercase={requiredSet.atLeastOneUppercase}
+                atLeastOneNumber={requiredSet.atLeastOneNumber}
+              />
             )}
             {!!errors?.password && (
               <HelperText type="large" mt="-8px">
@@ -336,50 +298,18 @@ const SignupSection: React.FC<SignupSectionProps> = ({
                 }}
               />
               {isFocused && (
-                <StyledPasswordValidationContainer isWebView={isWebView}>
-                  <StyledValidationTextWrapper
-                    isRequired={!isRequiredSet.minEightChar}
-                  >
-                    {!isRequiredSet.minEightChar ? (
-                      <img src={RightCheckMarkIcon} />
-                    ) : (
-                      <img src={RightCheckGreenMarkIcon} />
-                    )}
-                    <StyledValidationText>
-                      minimum 8 characters
-                    </StyledValidationText>
-                  </StyledValidationTextWrapper>
-                  <StyledValidationTextWrapper
-                    isRequired={!isRequiredSet.uppercase}
-                  >
-                    {!isRequiredSet.uppercase ? (
-                      <img src={RightCheckMarkIcon} />
-                    ) : (
-                      <img src={RightCheckGreenMarkIcon} />
-                    )}
-                    <StyledValidationText>1 uppercase</StyledValidationText>
-                  </StyledValidationTextWrapper>
-                  <StyledValidationTextWrapper
-                    isRequired={!isRequiredSet.lowercase}
-                  >
-                    {!isRequiredSet.lowercase ? (
-                      <img src={RightCheckMarkIcon} />
-                    ) : (
-                      <img src={RightCheckGreenMarkIcon} />
-                    )}
-                    <StyledValidationText>1 lowercase</StyledValidationText>
-                  </StyledValidationTextWrapper>
-                  <StyledValidationTextWrapper
-                    isRequired={!isRequiredSet.digit}
-                  >
-                    {!isRequiredSet.digit ? (
-                      <img src={RightCheckMarkIcon} />
-                    ) : (
-                      <img src={RightCheckGreenMarkIcon} />
-                    )}
-                    <StyledValidationText>1 number</StyledValidationText>
-                  </StyledValidationTextWrapper>
-                </StyledPasswordValidationContainer>
+                <PasswordValidationPopUp
+                  isWebView={false}
+                  atLeastEightChar={requiredSet.atLeastEightChar}
+                  atLeastOneLowercase={requiredSet.atLeastOneLowercase}
+                  atLeastOneUppercase={requiredSet.atLeastOneUppercase}
+                  atLeastOneNumber={requiredSet.atLeastOneNumber}
+                />
+              )}
+              {!!errors?.password && (
+                <HelperText type="large" mt="-8px">
+                  {errors.password}
+                </HelperText>
               )}
             </Box>
             <StyledTextBox>
@@ -419,4 +349,4 @@ const SignupSection: React.FC<SignupSectionProps> = ({
     </React.Fragment>
   )
 }
-export default SignupSection
+export default RegistrationSection

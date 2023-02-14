@@ -66,6 +66,7 @@ export const StyledValidationTextWrapper = styled.div<{
   font-size: ${rem("14px")};
   font-weight: 400;
   line-height: ${rem("16px")};
+  white-space: nowrap;
   ${p =>
     p.isRequired
       ? css`

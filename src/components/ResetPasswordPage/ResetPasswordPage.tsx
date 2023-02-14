@@ -1,7 +1,7 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 
 import {
   StyledButton,
@@ -21,6 +21,16 @@ import { PageProps } from "@/lib/interfaces/common"
 import InputField from "@/components/commons/InputField"
 import { objectLength } from "@/utils"
 import HelperText from "@/components/commons/HelperText"
+import { REQUIRED_SET_DEFAULT } from "@/components/RegistrationSection/RegistrationSection"
+import { RequiredSet } from "@/components/RegistrationSection/RegistrationSection.types"
+import {
+  atLeastEightChar,
+  atLeastOneLowercase,
+  atLeastOneNumber,
+  atLeastOneUppercase,
+} from "@/constants/regex"
+import useDeepCompareEffect from "use-deep-compare-effect"
+import PasswordValidationPopUp from "@/components/PasswordValidationPopUp/PasswordValidationPopUp"
 
 interface ResetPasswordProps extends PageProps {}
 
@@ -29,25 +39,73 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false)
+  const [isPasswordFieldFocused, setIsPasswordFieldFocused] = useState(false)
+  const [requiredSet, setRequiredSet] =
+    useState<RequiredSet>(REQUIRED_SET_DEFAULT)
 
   type FormPropType = typeof formOptions.defaultValues
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
     ...methods
   } = useForm<FormPropType>({
     ...formOptions,
   })
-  methods.watch("password")
-  methods.watch("confirmPassword")
+  useWatch({ name: "password", control })
+  useWatch({ name: "confirmPassword", control })
 
   const isWebView = useMediaQuery(devices.web.up)
 
   const onSubmit = (data: FormPropType) => {
+    if (!isPasswordValid) {
+      methods.setError("password", {
+        message: "Please choose a stronger password",
+      })
+      return
+    }
     console.log("Reset Password Page Form Submit Data: ", data)
     navigate(routes.signin)
   }
+
+  const handleNavigateToHome = () => {
+    navigate(routes.home)
+  }
+
+  const handleInputFocus = () => {
+    setIsPasswordFieldFocused(true)
+  }
+  const handleInputBlur = () => {
+    setIsPasswordFieldFocused(false)
+    if (!isPasswordValid && methods.getFieldState("password").isDirty) {
+      methods.setError("password", {
+        message: "Please choose a stronger password",
+      })
+    }
+  }
+
+  const isPasswordValid = useMemo(
+    () =>
+      requiredSet.atLeastOneNumber &&
+      requiredSet.atLeastOneLowercase &&
+      requiredSet.atLeastEightChar &&
+      requiredSet.atLeastOneUppercase,
+    [requiredSet]
+  )
+
+  useDeepCompareEffect(() => {
+    setRequiredSet({
+      atLeastOneNumber: atLeastOneNumber.test(methods.getValues("password")),
+      atLeastOneLowercase: atLeastOneLowercase.test(
+        methods.getValues("password")
+      ),
+      atLeastEightChar: atLeastEightChar.test(methods.getValues("password")),
+      atLeastOneUppercase: atLeastOneUppercase.test(
+        methods.getValues("password")
+      ),
+    })
+  }, [methods.getValues()])
 
   const isSubmitDisabled =
     !methods.getValues("password") ||
@@ -58,11 +116,13 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
     <React.Fragment>
       {isWebView ? (
         <Box display="flex" justifyContent="center">
-          <StyledTitle>Arrium</StyledTitle>
+          <StyledTitle onClick={handleNavigateToHome}>Arrium</StyledTitle>
         </Box>
       ) : (
         <Box height="64px" display="flex" alignItems="center">
-          <StyledTitleMobile>Arrium</StyledTitleMobile>
+          <StyledTitleMobile onClick={handleNavigateToHome}>
+            Arrium
+          </StyledTitleMobile>
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">
@@ -76,34 +136,47 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
             >
               <StyledCardHeader>Reset Password</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!methods.getValues("password")}>
-              New Password
-            </StyledFieldLabel>
-            <InputField
-              placeholder="New password"
-              type={isPasswordVisible ? "text" : "password"}
-              variant="outlined"
-              {...register("password")}
-              error={!!errors?.password}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    onClick={() => setIsPasswordVisible(prev => !prev)}
-                  >
-                    {isPasswordVisible ? (
-                      <VisibilityOffOutlined />
-                    ) : (
-                      <VisibilityOutlined />
-                    )}
-                  </IconButton>
-                ),
-              }}
-            />
-            {errors?.password && (
-              <HelperText type="large" mt="-12px">
-                {errors.password.message}
-              </HelperText>
-            )}
+            <Box position="relative" mb={errors?.password ? "8px" : 0}>
+              <StyledFieldLabel $isHidden={!methods.getValues("password")}>
+                New Password
+              </StyledFieldLabel>
+              <InputField
+                placeholder="New password"
+                type={isPasswordVisible ? "text" : "password"}
+                variant="outlined"
+                {...register("password")}
+                error={!!errors?.password}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setIsPasswordVisible(prev => !prev)}
+                    >
+                      {isPasswordVisible ? (
+                        <VisibilityOffOutlined />
+                      ) : (
+                        <VisibilityOutlined />
+                      )}
+                    </IconButton>
+                  ),
+                }}
+              />
+              {isPasswordFieldFocused && (
+                <PasswordValidationPopUp
+                  isWebView
+                  atLeastEightChar={requiredSet.atLeastEightChar}
+                  atLeastOneLowercase={requiredSet.atLeastOneLowercase}
+                  atLeastOneUppercase={requiredSet.atLeastOneUppercase}
+                  atLeastOneNumber={requiredSet.atLeastOneNumber}
+                />
+              )}
+              {errors?.password && (
+                <HelperText type="large" mt="-8px">
+                  {errors.password.message}
+                </HelperText>
+              )}
+            </Box>
             <StyledFieldLabel $isHidden={!methods.getValues("confirmPassword")}>
               Confirm new Password
             </StyledFieldLabel>
@@ -128,7 +201,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
               }}
             />
             {errors?.confirmPassword && (
-              <HelperText type="large" mt="-12px">
+              <HelperText type="large" mt="-8px">
                 {errors.confirmPassword.message}
               </HelperText>
             )}
@@ -159,34 +232,47 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
               >
                 <StyledCardHeader>Reset Password</StyledCardHeader>
               </Box>
-              <StyledFieldLabel $isHidden={!methods.getValues("password")}>
-                New Password
-              </StyledFieldLabel>
-              <InputField
-                placeholder="New password"
-                type={isPasswordVisible ? "text" : "password"}
-                variant="outlined"
-                {...register("password")}
-                error={!!errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      onClick={() => setIsPasswordVisible(prev => !prev)}
-                    >
-                      {isPasswordVisible ? (
-                        <VisibilityOffOutlined />
-                      ) : (
-                        <VisibilityOutlined />
-                      )}
-                    </IconButton>
-                  ),
-                }}
-              />
-              {errors?.password && (
-                <HelperText type="large" mt="-12px">
-                  {errors.password.message}
-                </HelperText>
-              )}
+              <Box position="relative" mb={errors?.password ? "8px" : 0}>
+                <StyledFieldLabel $isHidden={!methods.getValues("password")}>
+                  New Password
+                </StyledFieldLabel>
+                <InputField
+                  placeholder="New password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  variant="outlined"
+                  {...register("password")}
+                  error={!!errors?.password}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        onClick={() => setIsPasswordVisible(prev => !prev)}
+                      >
+                        {isPasswordVisible ? (
+                          <VisibilityOffOutlined />
+                        ) : (
+                          <VisibilityOutlined />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+                {isPasswordFieldFocused && (
+                  <PasswordValidationPopUp
+                    isWebView={false}
+                    atLeastEightChar={requiredSet.atLeastEightChar}
+                    atLeastOneLowercase={requiredSet.atLeastOneLowercase}
+                    atLeastOneUppercase={requiredSet.atLeastOneUppercase}
+                    atLeastOneNumber={requiredSet.atLeastOneNumber}
+                  />
+                )}
+                {errors?.password && (
+                  <HelperText type="large" mt="-8px">
+                    {errors.password.message}
+                  </HelperText>
+                )}
+              </Box>
               <StyledFieldLabel
                 $isHidden={!methods.getValues("confirmPassword")}
               >
@@ -213,7 +299,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
                 }}
               />
               {errors?.confirmPassword && (
-                <HelperText type="large" mt="-12px">
+                <HelperText type="large" mt="-8px">
                   {errors.confirmPassword.message}
                 </HelperText>
               )}
