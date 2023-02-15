@@ -8,7 +8,7 @@ import {
   StyledMobileTopbarBrandLogo,
   StyledMobileTopbarBrandLogoContainer,
 } from "./MobileTopbar.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"

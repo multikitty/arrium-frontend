@@ -13,15 +13,15 @@ import {
   StyledCountryNotListedModalWaitingListTitle,
   StyledCountryNotListedModalWaitingListSubTitle,
 } from "./CountryNotListedModal.styled"
-import { ContainedButton } from "../commons/Button"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
+import { ContainedButton } from "@/components/commons/Button"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 import selectYourCountryImage from "@/assets/icons/landing-select_your_country.svg"
 import { Box, IconButton } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import countryNotListedOptions from "@/validation/countryNotListed"
 import { useForm } from "react-hook-form"
-import HelperText from "../commons/HelperText"
-import InputField from "../commons/InputField"
+import HelperText from "@/components/commons/HelperText"
+import InputField from "@/components/commons/InputField"
 
 interface CountryNotListedModalProps {
   open: boolean

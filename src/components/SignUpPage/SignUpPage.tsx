@@ -24,6 +24,7 @@ import { localStorageUtils } from "@/utils"
 import { TOKEN } from "@/constants/localStorage"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 import { fetchCurrentUserData } from "@/agent/user"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -119,18 +120,27 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
           justifyContent="center"
           alignItems="center"
           flexDirection="column"
+          mt="84px"
+          mb="40px"
         >
-          <StyledTitle onClick={handleNavigateToHome}>Arrium</StyledTitle>
+          <img
+            onClick={handleNavigateToHome}
+            src={brandLogo}
+            style={{ cursor: "pointer", marginBottom: "15px" }}
+            height="69px"
+            width="238px"
+          />
           <SignupStepsProgress stage={formStage} steps={steps} />
         </Box>
       ) : (
-        <Box height={rem("64px")} display="flex" alignItems="center">
-          <StyledTitleMobile
+        <Box height="64px" pl="20px" display="flex" alignItems="center">
+          <img
             onClick={handleNavigateToHome}
+            src={brandLogo}
             style={{ cursor: "pointer" }}
-          >
-            Arrium
-          </StyledTitleMobile>
+            height="36px"
+            width="126px"
+          />
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">

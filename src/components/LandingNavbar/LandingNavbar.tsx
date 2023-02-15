@@ -9,14 +9,14 @@ import {
   StyledLandingNavbarRightContainer,
   StyledLandingNavbarRightContainerLoginButton,
 } from "./LandingNavbar.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
+import brandSmallLogo from "@/assets/icons/arrium_logo--small.png"
 import { Link } from "react-scroll"
-import { ContainedButton } from "../commons/Button"
-import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
+import { ContainedButton } from "@/components/commons/Button"
+import { StyledFlexGrow } from "@/components/FooterSection/FooterSection.styled"
 import { IconButton, useMediaQuery } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import { rem } from "polished"
-import FullscreenLandingMenu from "../FullscreenLandingMenu/FullscreenLandingMenu"
+import FullscreenLandingMenu from "@/components/FullscreenLandingMenu/FullscreenLandingMenu"
 import theme from "@/theme"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
@@ -25,7 +25,7 @@ import { LANDING_PAGE_IDS } from "@/constants/ids"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { localStorageUtils } from "@/utils"
 
-interface LandingPageProps extends PageProps { }
+interface LandingPageProps extends PageProps {}
 
 const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
@@ -76,18 +76,14 @@ const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
         handleClose={handleFullscreenMenuClose}
         country_code={country_code}
       />
-      {isWebView || (
-        <IconButton
-          sx={{ mr: rem("16px") }}
-          size="small"
-          onClick={handleFullscreenMenuOpen}
-        >
-          <MenuIcon sx={{ fontSize: 24 }} />
+      {!isWebView && (
+        <IconButton size="small" onClick={handleFullscreenMenuOpen}>
+          <MenuIcon sx={{ fontSize: 24, mr: "8px" }} />
         </IconButton>
       )}
       <StyledLandingNavbarBrandLogoContainer>
         <StyledLandingNavbarBrandLogo
-          src={brandLogo}
+          src={isWebView ? brandLogo : brandSmallLogo}
           onClick={handleNavigateToHome}
         />
       </StyledLandingNavbarBrandLogoContainer>
@@ -135,6 +131,7 @@ const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
         >
           Login
         </StyledLandingNavbarRightContainerLoginButton>
+
         {isWebView && (
           <ContainedButton
             onClick={handleSignupNavigate}

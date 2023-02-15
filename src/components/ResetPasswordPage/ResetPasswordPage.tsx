@@ -10,8 +10,6 @@ import {
   StyledLoginContainer,
   StyledLoginContainerMobile,
   StyledCardHeader,
-  StyledTitle,
-  StyledTitleMobile,
 } from "@/components/commons/uiComponents"
 import { devices } from "@/constants/device"
 import formOptions from "@/validation/signin/resetPassword"
@@ -31,6 +29,7 @@ import {
 } from "@/constants/regex"
 import useDeepCompareEffect from "use-deep-compare-effect"
 import PasswordValidationPopUp from "@/components/PasswordValidationPopUp/PasswordValidationPopUp"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 
 interface ResetPasswordProps extends PageProps {}
 
@@ -115,14 +114,33 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
   return (
     <React.Fragment>
       {isWebView ? (
-        <Box display="flex" justifyContent="center">
-          <StyledTitle onClick={handleNavigateToHome}>Arrium</StyledTitle>
+        <Box
+          display="flex"
+          justifyContent="center"
+          onClick={handleNavigateToHome}
+          my="80px"
+        >
+          <img
+            src={brandLogo}
+            style={{ cursor: "pointer" }}
+            height="69px"
+            width="238px"
+          />
         </Box>
       ) : (
-        <Box height="64px" display="flex" alignItems="center">
-          <StyledTitleMobile onClick={handleNavigateToHome}>
-            Arrium
-          </StyledTitleMobile>
+        <Box
+          height="64px"
+          pl="20px"
+          display="flex"
+          alignItems="center"
+          onClick={handleNavigateToHome}
+        >
+          <img
+            src={brandLogo}
+            style={{ cursor: "pointer" }}
+            height="36px"
+            width="126px"
+          />
         </Box>
       )}
       <Box display="flex" alignItems="center" flexDirection="column">

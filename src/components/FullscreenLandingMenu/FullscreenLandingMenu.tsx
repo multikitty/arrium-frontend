@@ -14,7 +14,7 @@ import {
   StyledFullscreenLandingMenuBottomSectionButtonContainer,
   StyledFullscreenLandingMenuBottomSection,
 } from "./FullscreenLandingMenu.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
 import routes from "@/constants/routes"

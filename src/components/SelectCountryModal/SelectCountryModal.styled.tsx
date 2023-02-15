@@ -18,7 +18,7 @@ export const StyledSelectCountryModal = styled(StyledAddCountryModal)`
   width: 90%;
   max-width: ${rem("628px")};
   outline: none;
-  overflow:auto;
+  overflow: auto;
 `
 
 export const StyledSelectCountryModalForm = styled.form``
@@ -27,8 +27,8 @@ export const StyledSelectCountryModalBrandLogoContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin-top: ${rem("40px")};
-  margin-bottom: ${rem("40px")};
+  margin-top: 40px;
+  margin-bottom: 40px;
 `
 
 export const StyledSelectCountryModalBrandLogo = styled(

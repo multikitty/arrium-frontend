@@ -8,21 +8,11 @@ import {
   StyledFooterSectionInfoLinksContainer,
   StyledFooterSectionRightContainer,
   StyledFooterSectionRightContainerButtonContainer,
-  StyledFooterSectionSocialIcon,
-  StyledFooterSectionSocialIconsContainer,
-  StyledFooterSectionSocialLinksContainer,
 } from "./FooterSection.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import InstagramIcon from "@/assets/icons/footer-instagram_logo.inline.svg"
-import FacebookIcon from "@/assets/icons/footer-facebook_logo.inline.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { Link } from "react-scroll"
-import {
-  Box,
-  IconButton,
-  SelectChangeEvent,
-  useMediaQuery,
-} from "@mui/material"
+import { Box, SelectChangeEvent, useMediaQuery } from "@mui/material"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
@@ -30,7 +20,7 @@ import { LANDING_PAGE_IDS } from "@/constants/ids"
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { DEFAULT_COUNTRY } from "@/constants/common"
-import SubDirCountrySelect from "../SubDirCountrySelect"
+import SubDirCountrySelect from "@/components/SubDirCountrySelect"
 import { navigate as gatsbyNavigate } from "gatsby"
 import { devices } from "@/constants/device"
 
@@ -55,10 +45,6 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
     gatsbyNavigate(`/${country!.toLowerCase()}/en`)
   }
 
-  const handleRedirectToInstagram = () =>
-    window.open("https://www.instagram.com/", "_blank")
-  const handleRedirectToFacebook = () =>
-    window.open("https://www.facebook.com/", "_blank")
   const handleNavigateToHome = () => {
     navigate(routes.home)
   }
@@ -71,6 +57,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
           onClick={handleNavigateToHome}
         />
       </StyledFooterSectionBrandLogoContainer>
+      <Box display="flex" sx={{ flexGrow: { xs: 0, lg: 1 } }} />
       <StyledFooterSectionInfoLinksContainer>
         <StyledFooterSectionInfoLink>
           <Link
@@ -106,6 +93,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
           </Link>
         </StyledFooterSectionInfoLink>
       </StyledFooterSectionInfoLinksContainer>
+      <Box display="flex" sx={{ flexGrow: { xs: 0, lg: 1 } }} />
       <Box
         display="flex"
         sx={{
@@ -113,23 +101,6 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
           justifyContent: { xs: "space-around", lg: "space-between" },
         }}
       >
-        {/* <StyledFooterSectionSocialLinksContainer>
-          <StyledFooterSectionSocialIconsContainer>
-            <StyledFooterSectionSocialIcon
-              mr
-              onClick={handleRedirectToInstagram}
-            >
-              <IconButton size="small">
-                <InstagramIcon />
-              </IconButton>
-            </StyledFooterSectionSocialIcon>
-            <StyledFooterSectionSocialIcon onClick={handleRedirectToFacebook}>
-              <IconButton size="small">
-                <FacebookIcon />
-              </IconButton>
-            </StyledFooterSectionSocialIcon>
-          </StyledFooterSectionSocialIconsContainer>
-        </StyledFooterSectionSocialLinksContainer> */}
         <StyledFooterSectionCountryDropdownContainer>
           <SubDirCountrySelect
             openUpwards

@@ -35,6 +35,7 @@ import useNavigate from "@/hooks/useNavigate"
 import { useCustomersList } from "@/agent/customers"
 import { PageProps } from "@/lib/interfaces/common"
 import { CustomerAccountStatus } from "@/lib/interfaces/customers"
+import { getFilteredCountries } from "@/utils/getCountryData"
 
 const statusColorMap: Record<CustomerAccountStatus, string> = {
   active: "#3DCC70",
@@ -59,6 +60,22 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
   const handleAddDropdownClose = () => {
     setAddDropdownAnchorEl(null)
   }
+
+  const getCountryName = (country: string) =>
+    getFilteredCountries([country.toLowerCase()])[0]?.countryName || country
+
+  const customerList = React.useMemo(
+    () =>
+      (customersData?.data?.Items || []).filter(
+        c =>
+          c?.firstname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c?.lastname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c?.email?.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [searchQuery, customersData]
+  )
+
+  if (!customersData?.data) return null
 
   return (
     <StyledCustomersPage>
@@ -106,7 +123,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
               Records:
             </StyledCustomersPageContentUpperSectionRecordCountTitle>
             <StyledCustomersPageContentUpperSectionRecordCountText>
-              150
+              {customersData?.data?.Count}
             </StyledCustomersPageContentUpperSectionRecordCountText>
           </StyledCustomersPageContentUpperSectionRecordCount>
         </StyledCustomersPageContentUpperSection>
@@ -194,10 +211,10 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
             <TableBody>
               <React.Fragment>
                 {isLoading ||
-                  customersData?.data?.Items?.map(row => (
+                  (customerList || []).map(row => (
                     <TableRow
                       hover
-                      key={row.pkEmail}
+                      key={row.email}
                       sx={{
                         "&:last-child td, &:last-child th": { border: 0 },
                         cursor: "pointer",
@@ -245,7 +262,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
                         }}
                         align="left"
                       >
-                        {row.pkEmail}
+                        {row.email}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -258,8 +275,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
                         }}
                         align="left"
                       >
-                        {/* {row.country} */}
-                        Great Britain
+                        {getCountryName(row.country)}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -271,8 +287,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
                         }}
                         align="left"
                       >
-                        {/* {row.region} */}
-                        Knowsley
+                        {row.region}
                       </TableCell>
                       <TableCell
                         sx={{

@@ -5,6 +5,8 @@ import {
   StyledFooterSectionBrandLogoContainer,
 } from "../FooterSection/FooterSection.styled"
 
+export type BrandLogoType = "small" | "large"
+
 export const StyledSidePanel = styled.div<{ collapsed?: boolean }>`
   position: fixed;
   top: 0;
@@ -38,7 +40,16 @@ export const StyledSidePanelBrandLogoContainer = styled(
   margin-bottom: ${rem("60px")};
 `
 
-export const StyledSidePanelBrandLogo = styled(StyledFooterSectionBrandLogo)``
+export const StyledSidePanelBrandLogo = styled(StyledFooterSectionBrandLogo)<{
+  $type?: BrandLogoType
+}>`
+  ${p =>
+    p.$type === "small" &&
+    css`
+      width: 38px;
+      height: 41px;
+    `}
+`
 
 export const StyledSidePanelItemList = styled.div`
   display: flex;

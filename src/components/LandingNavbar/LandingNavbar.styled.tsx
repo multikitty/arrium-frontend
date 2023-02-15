@@ -45,7 +45,11 @@ export const StyledLandingNavbarBrandLogoContainer = styled(
 export const StyledLandingNavbarBrandLogo = styled(
   StyledFooterSectionBrandLogo
 )`
-  cursor: pointer;
+  @media ${devices.desktop.down} {
+    width: 38px;
+    height: 41px;
+    cursor: pointer;
+  }
 `
 
 export const StyledLandingNavbarInfoLinksContainer = styled(

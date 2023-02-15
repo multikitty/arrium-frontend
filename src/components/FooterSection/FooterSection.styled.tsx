@@ -37,23 +37,28 @@ export const StyledFooterSectionBrandLogoContainer = styled.div`
 `
 
 export const StyledFooterSectionBrandLogo = styled.img`
-  height: ${rem("20px")};
-  width: ${rem("125px")};
+  height: 42px;
+  width: 145px;
   cursor: pointer;
+
+  @media ${devices.desktop.down} {
+    height: 36px;
+    width: 126px;
+  }
 `
 
 export const StyledFooterSectionInfoLinksContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: ${rem("96px")};
+  margin-right: 96px;
 
   @media ${devices.desktop.down} {
-    margin-right: ${rem("67px")};
+    margin-right: 67px;
   }
 
   @media ${devices.web.down} {
     margin-right: 0;
-    margin-bottom: ${rem("20px")};
+    margin-bottom: 20px;
   }
 `
 

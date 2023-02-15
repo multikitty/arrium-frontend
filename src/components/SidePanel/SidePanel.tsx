@@ -13,8 +13,8 @@ import {
   StyledSidePanelItemText,
 } from "./SidePanel.styled"
 import { StyledFlexGrow } from "../FooterSection/FooterSection.styled"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
-import brandLogoSmall from "@/assets/icons/arrium_logo--small.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
+import brandLogoSmall from "@/assets/icons/arrium_logo--small.png"
 import sidePanelData from "./SidePanel.data"
 import { useStore } from "@/store"
 import routes from "@/constants/routes"
@@ -84,6 +84,7 @@ const SidePanel: React.FC<SidePanelProps> = ({ country_code }) => {
       </IconButton>
       <StyledSidePanelBrandLogoContainer>
         <StyledSidePanelBrandLogo
+          $type={commonStore.isSidePanelCollapsed ? "small" : "large"}
           src={commonStore.isSidePanelCollapsed ? brandLogoSmall : brandLogo}
           onClick={handleNavigateToHomePage}
         />

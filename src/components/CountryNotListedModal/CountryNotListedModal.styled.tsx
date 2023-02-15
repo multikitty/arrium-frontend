@@ -26,8 +26,8 @@ export const StyledCountryNotListedModalBrandLogoContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin-top: ${rem("40px")};
-  margin-bottom: ${rem("40px")};
+  margin-top: 40px;
+  margin-bottom: 40px;
 `
 
 export const StyledCountryNotListedModalBrandLogo = styled(

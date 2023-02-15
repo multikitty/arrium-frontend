@@ -13,7 +13,7 @@ import {
 import { ContainedButton } from "../commons/Button"
 import { navigate } from "gatsby-link"
 import { localStorageUtils } from "@/utils"
-import brandLogo from "@/assets/icons/arrium_logo.svg"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import SubDirCountrySelect from "../SubDirCountrySelect"
 import { DEFAULT_COUNTRY } from "@/constants/common"

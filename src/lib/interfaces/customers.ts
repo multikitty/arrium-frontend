@@ -1,3 +1,5 @@
+import { UserRolesType } from "@/types/common"
+
 export interface CustomersListVariables {
   nextPage?: boolean
   sk?: string
@@ -8,20 +10,20 @@ export interface CustomersListVariables {
 
 export type CustomerAccountStatus = "inActive" | "active" | "disabled"
 export interface CustomersListDataItem {
-  phoneNumber: string
+  accountStatus: CustomerAccountStatus
+  country: string
   currentSteps: string
-  pkEmail: string
-  emailVerified: boolean
+  customerID: string
+  dialCode: string
+  email: string
+  firstname: string
   lastname: string
   password: string
-  accountStatus: CustomerAccountStatus
-  role: string
-  firstname: string
-  sk: string
-  phoneVerified: boolean
+  phoneNumber: string
   pk: string
-  dialCode: string
-  customerID: string
+  region: string
+  role: UserRolesType
+  sk: string
 }
 
 export interface CustomersListDataLastEvaluatedKey {
