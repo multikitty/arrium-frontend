@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Box, Grid, IconButton, MenuItem, Select } from "@mui/material"
+import React, { useCallback, useState } from "react"
+import { Grid, IconButton, MenuItem, Select } from "@mui/material"
 import {
   StyledAccountInformationTabFormHelperText,
   StyledConfigurationTab,
@@ -12,94 +12,98 @@ import {
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { TabProps } from "./AccountInformationTab"
 import customerConfigOptions from "@/validation/customerConfig"
 import { Controller, useForm, useWatch } from "react-hook-form"
-import { StyledPlaceholder } from "../commons/uiComponents"
-import { useCustomerConfigInfo } from "@/agent/customers"
-import LoadingScreen from "../LoadingScreen"
+import { StyledPlaceholder } from "@/components/commons/uiComponents"
+import {
+  updateConfigurationDetails,
+  useCustomerConfigInfo,
+} from "@/agent/customers"
+import LoadingScreen from "@/components/LoadingScreen"
 import { useCountryList, useRegionList } from "@/agent/locations"
-import { Script } from "gatsby"
-import { TOKEN } from "@/constants/localStorage"
+import {
+  UpdateConfigurationDetailsResult,
+  UpdateConfigurationDetailsVariables,
+} from "@/lib/interfaces/customers"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
+import { ZENDESK_ORG_ID } from "@/constants/common"
 
 interface ConfigurationTabProps extends TabProps {
   pk: string
   sk: string
+  zendeskUserId: string
 }
 
 const ConfigurationTab = (props: ConfigurationTabProps) => {
-  // const { enqueueSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const {
     data: configData,
     isLoading,
-    // refetch: refetchConfigInfo,
+    refetch: refetchConfigInfo,
   } = useCustomerConfigInfo({
     pk: props.pk,
   })
   const { data: countryListData } = useCountryList()
-  // const { mutate: configurationDetailsMutate } = useMutation<
-  //   IUpdateConfigurationDetailsResult,
-  //   Error,
-  //   IUpdateConfigurationDetailsVariables
-  // >(updateConfigurationDetails)
+  const { mutate: configurationDetailsMutate } = useMutation<
+    UpdateConfigurationDetailsResult,
+    Error,
+    UpdateConfigurationDetailsVariables
+  >(updateConfigurationDetails)
 
   type FormPropType = typeof customerConfigOptions.defaultValues
   const { handleSubmit, control, formState, reset, getValues } =
     useForm<FormPropType>(customerConfigOptions)
   useWatch({ name: "country", control })
 
-  const { data: regionListData } = useRegionList(getValues("country"))
+  const { data: regionListData } = useRegionList(
+    (getValues("country") || "").toLowerCase()
+  )
 
   const handleToggleHidePassword = () => {
     setIsPasswordHidden(p => !p)
   }
 
-  // const handleSave = useCallback(
-  //   (variables: IUpdateConfigurationDetailsVariables) => {
-  //     configurationDetailsMutate(variables, {
-  //       onSuccess({ success, message, validationError }) {
-  //         if (!success) {
-  //           enqueueSnackbar(
-  //             validationError?.amznId ||
-  //               validationError?.awsReg1 ||
-  //               validationError?.awsReg2 ||
-  //               validationError?.blockType ||
-  //               validationError?.cogId1 ||
-  //               validationError?.cogId2 ||
-  //               validationError?.country ||
-  //               validationError?.devId ||
-  //               validationError?.devModel ||
-  //               validationError?.devSerialNumber ||
-  //               validationError?.devType ||
-  //               validationError?.flexId ||
-  //               validationError?.flexPassword ||
-  //               validationError?.flexUser ||
-  //               validationError?.flexVersion ||
-  //               validationError?.osVersion ||
-  //               validationError?.planName ||
-  //               validationError?.region ||
-  //               validationError?.userPk ||
-  //               message,
-  //             {
-  //               variant: "error",
-  //             }
-  //           )
-  //           return
-  //         }
-  //         enqueueSnackbar(message, { variant: "success" })
-  //         refetchConfigInfo()
-  //       },
-  //       onError(error, variables) {
-  //         enqueueSnackbar(error.message, { variant: "error" })
-  //         console.error("ERROR:", error)
-  //         console.log("VARIABLES USED:", variables)
-  //       },
-  //     })
-  //   },
-  //   [configurationDetailsMutate, refetchConfigInfo]
-  // )
+  const handleSave = useCallback(
+    (variables: UpdateConfigurationDetailsVariables) => {
+      configurationDetailsMutate(variables, {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.accessToken ||
+                validationError?.country ||
+                validationError?.flexId ||
+                validationError?.flexPassword ||
+                validationError?.flexUser ||
+                validationError?.refreshToken ||
+                validationError?.region ||
+                validationError?.userAgent ||
+                validationError?.userPk ||
+                validationError?.userSk ||
+                validationError?.zendeskOrgID ||
+                validationError?.zendeskUserID ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          enqueueSnackbar(message, { variant: "success" })
+          refetchConfigInfo()
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      })
+    },
+    [configurationDetailsMutate, refetchConfigInfo]
+  )
 
   const countryOptionsJSX = (countryListData?.data?.Items || []).map(
     country => (
@@ -115,40 +119,35 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
     </MenuItem>
   ))
 
-  const onSubmit = () =>
-    // data: FormPropType
-    {
-      // handleSave({
-      //   amznId: data["amznID"],
-      //   awsReg1: data["awsreg1"],
-      //   awsReg2: data["awsreg2"],
-      //   blockType: data["blockType"],
-      //   cogId1: data["cogid1"],
-      //   cogId2: data["cogid2"],
-      //   country: data["country"],
-      //   devId: data["devID"],
-      //   devModel: data["devModel"],
-      //   devSerialNumber: data["devSerial"],
-      //   devType: data["devType"],
-      //   flexId: data["flexID"],
-      //   flexVersion: data["flexVersion"],
-      //   flexUser: data["amznFlexUser"],
-      //   flexPassword: data["amznFlexPassword"],
-      //   osVersion: data["osVersion"],
-      //   planName: data["planName"],
-      //   region: data["region"],
-      //   userPk: props.pk,
-      // })
-    }
+  const onSubmit = (data: FormPropType) => {
+    handleSave({
+      accessToken: data.accessToken,
+      country: data.country,
+      flexId: data.flexID,
+      flexPassword: data.amznFlexPassword,
+      flexUser: data.amznFlexUser,
+      refreshToken: data.refreshToken,
+      region: data.region,
+      userAgent: data.userAgent,
+      userPk: props.pk,
+      userSk: props.sk,
+      // TODO: to change with real zendeskIDs
+      zendeskOrgID: ZENDESK_ORG_ID,
+      zendeskUserID: props.zendeskUserId,
+    })
+  }
 
   React.useEffect(() => {
     if (!configData?.data) return
     reset({
+      accessToken: configData.data.accToken,
       amznFlexPassword: configData.data.amznFlexPassword,
       amznFlexUser: configData.data.amznFlexUser,
-      flexID: configData.data.flexID,
       country: configData.data.country,
+      flexID: configData.data.flexID,
+      refreshToken: configData.data.refToken,
       region: configData.data.region,
+      userAgent: configData.data.usrAgent,
     })
   }, [configData])
 
@@ -205,25 +204,31 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                 </StyledAccountInformationTabFormHelperText>
               )}
             </StyledConfigurationTabFormItem>
-            {/* Flex ID Field */}
+            {/* Country Drop-down */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
-                Flex ID
+                Country
               </StyledConfigurationTabFormLabel>
               <Controller
-                name={"flexID"}
+                name={"country"}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
+                  <Select
+                    displayEmpty
                     value={value}
                     onChange={onChange}
-                    placeholder="Flex ID"
-                  />
+                    input={<StyledConfigurationTabFormField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>Choose country here</StyledPlaceholder>
+                    </MenuItem>
+                    {countryOptionsJSX}
+                  </Select>
                 )}
               />
-              {!!formState.errors?.flexID && (
+              {!!formState.errors?.country && (
                 <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.flexID?.message}
+                  {formState.errors?.country?.message}
                 </StyledAccountInformationTabFormHelperText>
               )}
             </StyledConfigurationTabFormItem>
@@ -290,134 +295,6 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                 </StyledAccountInformationTabFormHelperText>
               )}
             </StyledConfigurationTabFormItem>
-            {/* Country Drop-down */}
-            <StyledConfigurationTabFormItem>
-              <StyledConfigurationTabFormLabel>
-                Country
-              </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"country"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    displayEmpty
-                    value={value}
-                    onChange={onChange}
-                    input={<StyledConfigurationTabFormField />}
-                  >
-                    <MenuItem disabled value="">
-                      <StyledPlaceholder>Choose country here</StyledPlaceholder>
-                    </MenuItem>
-                    {countryOptionsJSX}
-                  </Select>
-                )}
-              />
-              {!!formState.errors?.country && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.country?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
-            </StyledConfigurationTabFormItem>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            {/* LWA Button */}
-            <StyledConfigurationTabFormItem>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight={81}
-                sx={{ "& a": { cursor: "pointer" } }}
-              >
-                <a id="LoginWithAmazon">
-                  <img
-                    alt="Login with Amazon"
-                    src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_312x64.png"
-                    width="233"
-                    height="48"
-                  />
-                </a>
-              </Box>
-              <Script
-                strategy="idle"
-                type="text/javascript"
-                id="amazon-sdk"
-                dangerouslySetInnerHTML={{
-                  __html: `
-                      document.getElementById('LoginWithAmazon').onclick = function() {
-                        setTimeout(window.doLogin, 1);
-                        return false;
-                      };
-                      window.doLogin = function() {
-                          options = {};
-                          options.scope = 'profile';
-                          options.pkce = true;
-                          amazon.Login.authorize(options, function(response) {
-                              if ( response.error ) {
-                                // alert('Login with Amazon error ' + response.error);
-                                return;
-                              }
-                              if ( window.console && window.console.log )
-                                window.console.log("first response", response);
-                              amazon.Login.retrieveToken(response.code, function(response) {
-                                  if ( response.error ) {
-                                    // alert('Login with Amazon error ' + response.error);
-                                    return;
-                                  }
-                                  amazon.Login.retrieveProfile(response.access_token, function() {
-                                      // alert('Hello, ' + response.profile.Name);
-                                      // alert('Your e-mail address is ' + response.profile.PrimaryEmail);
-                                      // alert('Your unique ID is ' + response.profile.CustomerId);
-                                      if ( window.console && window.console.log )
-                                        window.console.log("response", response);
-                                      const body = {
-                                        userPk: "${props.pk}",
-                                        userSk: "${props.sk}",
-                                        accessToken: response.access_token,
-                                        refreshToken: response.refresh_token
-                                      }
-                                      if ( window.fetch && window.localStorage ) {
-                                        window.fetch("https://api.arrium.io/v1/user/flex-details/update-tokens", {
-                                          method: "PUT",
-                                          body: JSON.stringify(body),
-                                          headers: {
-                                            "x-access-token": window.localStorage.getItem("${TOKEN}"),
-                                            "Content-Type": "application/json"
-                                          }
-                                        })
-                                      }
-                                  });
-                              });
-                          });
-                    };
-                  `,
-                }}
-              ></Script>
-            </StyledConfigurationTabFormItem>
-            {/* User Agent Textarea */}
-            <StyledConfigurationTabFormItem>
-              <StyledConfigurationTabFormLabel>
-                User Agent
-              </StyledConfigurationTabFormLabel>
-              <Controller
-                name={"userAgent"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledConfigurationTabFormField
-                    multiline
-                    minRows={3}
-                    value={value}
-                    onChange={onChange}
-                    placeholder="Type..."
-                  />
-                )}
-              />
-              {!!formState.errors?.userAgent && (
-                <StyledAccountInformationTabFormHelperText>
-                  {formState.errors?.userAgent?.message}
-                </StyledAccountInformationTabFormHelperText>
-              )}
-            </StyledConfigurationTabFormItem>
             {/* Region Drop-down */}
             <StyledConfigurationTabFormItem>
               <StyledConfigurationTabFormLabel>
@@ -444,6 +321,54 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
               {!!formState.errors?.region && (
                 <StyledAccountInformationTabFormHelperText>
                   {formState.errors?.region?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
+            </StyledConfigurationTabFormItem>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Flex ID Field */}
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                Flex ID
+              </StyledConfigurationTabFormLabel>
+              <Controller
+                name={"flexID"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Flex ID"
+                  />
+                )}
+              />
+              {!!formState.errors?.flexID && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.flexID?.message}
+                </StyledAccountInformationTabFormHelperText>
+              )}
+            </StyledConfigurationTabFormItem>
+            {/* User Agent Textarea */}
+            <StyledConfigurationTabFormItem>
+              <StyledConfigurationTabFormLabel>
+                User Agent
+              </StyledConfigurationTabFormLabel>
+              <Controller
+                name={"userAgent"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledConfigurationTabFormField
+                    multiline
+                    minRows={3}
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Type..."
+                  />
+                )}
+              />
+              {!!formState.errors?.userAgent && (
+                <StyledAccountInformationTabFormHelperText>
+                  {formState.errors?.userAgent?.message}
                 </StyledAccountInformationTabFormHelperText>
               )}
             </StyledConfigurationTabFormItem>

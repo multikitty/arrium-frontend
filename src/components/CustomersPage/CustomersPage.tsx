@@ -35,7 +35,7 @@ import useNavigate from "@/hooks/useNavigate"
 import { useCustomersList } from "@/agent/customers"
 import { PageProps } from "@/lib/interfaces/common"
 import { CustomerAccountStatus } from "@/lib/interfaces/customers"
-import { getFilteredCountries } from "@/utils/getCountryData"
+import { getCountryNameByCode } from "@/utils/getCountryNameByCode"
 
 const statusColorMap: Record<CustomerAccountStatus, string> = {
   active: "#3DCC70",
@@ -60,9 +60,6 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
   const handleAddDropdownClose = () => {
     setAddDropdownAnchorEl(null)
   }
-
-  const getCountryName = (country: string) =>
-    getFilteredCountries([country.toLowerCase()])[0]?.countryName || country
 
   const customerList = React.useMemo(
     () =>
@@ -275,7 +272,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
                         }}
                         align="left"
                       >
-                        {getCountryName(row.country)}
+                        {getCountryNameByCode(row.country)}
                       </TableCell>
                       <TableCell
                         sx={{

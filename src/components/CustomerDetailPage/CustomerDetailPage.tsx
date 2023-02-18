@@ -148,22 +148,11 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             />
           </StyledTabs>
         </Box>
-        {isAccountInfoTabOpen && (
+        {isAccountInfoTabOpen && customerData?.data && (
           <AccountInformationTab
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
-            customerID={customerData?.data?.customerID || ""}
-            dialCode={customerData?.data?.dialCode || ""}
-            phoneNumber={customerData?.data?.phoneNumber || ""}
-            tzName={customerData?.data?.tzName || ""}
-            startDate={customerData?.data?.startDate || null}
-            endDate={customerData?.data?.endDate || null}
-            firstname={customerData?.data?.firstname || ""}
-            email={customerData?.data?.email || ""}
-            lastname={customerData?.data?.lastname || ""}
-            role={customerData?.data?.role || ""}
-            emailVerified={customerData?.data?.emailVerified || false}
-            accountStatus={customerData?.data?.accountStatus || ""}
+            {...customerData.data}
             sk={sk}
             pk={pk}
             refetchCustomerData={refetch}
@@ -177,6 +166,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             handleCancel={handleSaveChangesModalOpen}
             pk={pk}
             sk={sk}
+            zendeskUserId={customerData?.data?.zendeskUserID?.toString() || ""}
           />
         )}
         {isReferralTabOpen && (

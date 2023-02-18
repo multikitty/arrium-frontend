@@ -65,13 +65,11 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
 })<{ large?: boolean }>(({ theme, large, error }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
-    padding: large
-      ? `${rem("20px")} ${rem("16px")}`
-      : `${rem("14px")} ${rem("16px")}`,
+    padding: large ? "20px 16px" : "14px 16px",
     position: "relative",
     color: sTheme.palette.blackText,
-    fontSize: rem("16px"),
-    lineHeight: rem("20px"),
+    fontSize: "16px",
+    lineHeight: "20px",
     fontStyle: "normal",
     fontWeight: "normal",
     width: "100%",

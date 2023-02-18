@@ -2,8 +2,11 @@ import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import { UserRoles } from "@/constants/common"
-import { UserRolesType } from "@/types/common"
-// import { phoneRegExp } from "./personalInformation"
+import { PlansType, UserRolesType } from "@/types/common"
+import {
+  CUSTOMER_ACCOUNT_STATUS,
+  CustomerAccountStatus,
+} from "@/lib/interfaces/customers"
 
 const accountInformationSchema = Yup.object().shape({
   firstName: Yup.string().required("The First Name field must not be empty"),
@@ -11,18 +14,19 @@ const accountInformationSchema = Yup.object().shape({
   email: Yup.string()
     .required("The Email Address field must not be empty")
     .email("Please enter a valid email address"),
-  phoneNumber: Yup.string(),
-  //   .matches(
-  //   phoneRegExp,
-  //   "Please enter a valid phone number"
-  // )
+  phoneNumber: Yup.string().required("Phone number field must not be empty"),
   isEmailVerified: Yup.boolean(),
   timezone: Yup.string().required("The Timezone field must not be empty"),
   role: Yup.string().oneOf([...Object.values(UserRoles)]),
-  status: Yup.string().oneOf(["disabled", "active", "inactive"]),
+  status: Yup.string().oneOf([...Object.values(CUSTOMER_ACCOUNT_STATUS)]),
+  country: Yup.string(),
+  region: Yup.string(),
+  sendAccountApprovedEmail: Yup.boolean(),
+  planType: Yup.string().required("Plan type field must not be empty"),
+  stationType: Yup.string().required("Station type field must not be empty"),
+  enablePricingPlan: Yup.boolean(),
   startDate: Yup.date().nullable(),
   endDate: Yup.date().nullable(),
-  sendPasswordChangeRequest: Yup.boolean(),
 })
 
 const accountInformationOptions = {
@@ -35,10 +39,15 @@ const accountInformationOptions = {
     isEmailVerified: false,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     role: UserRoles.driver as UserRolesType,
-    status: "active",
-    startDate: null,
-    endDate: null,
-    sendPasswordChangeRequest: false,
+    status: "active" as CustomerAccountStatus,
+    country: "",
+    region: "",
+    sendAccountApprovedEmail: false,
+    planType: "basic" as PlansType,
+    stationType: "",
+    enablePricingPlan: false,
+    startDate: null as number | null,
+    endDate: null as number | null,
   },
 }
 

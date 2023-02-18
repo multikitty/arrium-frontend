@@ -100,3 +100,5 @@ export const DEFAULT_PLAN: PlansType = "basic"
 export const DEFAULT_CURRENCY_SYMBOL = getCurrencySymbolByCountryCode(
   "GB"
 ) as CountryCodes
+
+export const ZENDESK_ORG_ID = "8216482522909"

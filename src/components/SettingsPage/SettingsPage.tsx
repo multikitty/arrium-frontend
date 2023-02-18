@@ -1,10 +1,9 @@
 import { Box } from "@mui/material"
 import { rem } from "polished"
 import React from "react"
-import { StyledTab, StyledTabs } from "../commons/uiComponents"
-import Message from "../Message"
+import { StyledTab, StyledTabs } from "@/components/commons/uiComponents"
+import Message from "@/components/Message"
 import LocationsTab from "./LocationsTab"
-import ModelsTab from "./ModelsTab"
 import {
   StyledSettingsPage,
   StyledSettingsPageContent,
@@ -22,7 +21,6 @@ const SettingsPage = () => {
   }
 
   const isLocationsTabOpen = tab === "locations"
-  const isModelsTabOpen = tab === "models"
   const isStationTypesTabOpen = tab === "stationTypes"
 
   return (
@@ -57,21 +55,12 @@ const SettingsPage = () => {
                 padding: `${rem("30px")} ${rem("32px")}`,
                 textTransform: "capitalize",
               }}
-              label="Models and versions"
-              value="models"
-            />
-            <StyledTab
-              sx={{
-                padding: `${rem("30px")} ${rem("32px")}`,
-                textTransform: "capitalize",
-              }}
               label="Station Types"
               value="stationTypes"
             />
           </StyledTabs>
         </Box>
         {isLocationsTabOpen && <LocationsTab />}
-        {isModelsTabOpen && <ModelsTab />}
         {isStationTypesTabOpen && <StationTypesTab />}
       </StyledSettingsPageContent>
     </StyledSettingsPage>

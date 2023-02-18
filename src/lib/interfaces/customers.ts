@@ -1,4 +1,4 @@
-import { UserRolesType } from "@/types/common"
+import { PlansType, UserRolesType } from "@/types/common"
 
 export interface CustomersListVariables {
   nextPage?: boolean
@@ -8,7 +8,13 @@ export interface CustomersListVariables {
   pkEmail?: string
 }
 
-export type CustomerAccountStatus = "inActive" | "active" | "disabled"
+export const CUSTOMER_ACCOUNT_STATUS = {
+  active: "active",
+  inActive: "inActive",
+  disabled: "disabled",
+} as const
+
+export type CustomerAccountStatus = keyof typeof CUSTOMER_ACCOUNT_STATUS
 export interface CustomersListDataItem {
   accountStatus: CustomerAccountStatus
   country: string
@@ -53,24 +59,28 @@ export interface CustomerAccountInfoVariables {
 
 export interface CustomerAccountInfoData {
   phoneNumber: string
+  pricingPlan: boolean
+  planType: PlansType
   refCode: string
-  countryCode: string
   tzName: string
   currentSteps: string
+  otp: number
   email: string
+  country: string
   emailVerified: boolean
-  pkEmail: string
   lastname: string
-  accountStatus: string
-  role: string
+  accountStatus: CustomerAccountStatus
+  role: UserRolesType
+  flexCountry: string
   firstname: string
   startDate: number
-  endDate?: number
   sk: string
   phoneVerified: boolean
+  region: string
   pk: string
   dialCode: string
   customerID: string
+  zendeskUserID: number
 }
 
 export interface CustomerAccountInfoResult {
@@ -84,26 +94,16 @@ export interface CustomerConfigInfoVariables {
 }
 
 export interface CustomerConfigInfoData {
-  awsreg1: string
-  awsreg2: string
   flexID: string
-  devModel: string
-  devSerial: string
-  devID: string
-  blockType: string
+  usrAgent: string
+  refToken: string
+  sk: string
+  accToken: string
+  region: string
+  pk: string
   country: string
   amznFlexPassword: string
   amznFlexUser: string
-  planName: string
-  amznID: string
-  flexVersion: string
-  osVersion: string
-  sk: string
-  region: string
-  pk: string
-  cogid1: string
-  devType: string
-  cogid2: string
 }
 
 export interface CustomerConfigInfoResult {
@@ -118,14 +118,18 @@ export interface UpdateUserAccountInfoVariables {
   firstname: string
   lastname: string
   phoneNumber: string
+  dialCode: string
   email: string
   emailVerified: boolean
   tzName: string
-  userRole: string
-  status: string
+  userRole: UserRolesType
+  status: CustomerAccountStatus
+  planType: PlansType
+  stationType: string
   startDate: number | null
   endDate: number | null
   passwordChangeRequest: boolean
+  zendeskUserID: string
 }
 
 export interface UpdateUserAccountInfoError
@@ -137,26 +141,33 @@ export interface UpdateUserAccountInfoResult {
   validationError?: UpdateUserAccountInfoError
 }
 
+export interface SendAccountApprovedEmailVariables {
+  userSK: string
+  userPK: string
+}
+
+export interface SendAccountApprovedEmailError
+  extends SendAccountApprovedEmailVariables {}
+
+export interface SendAccountApprovedEmailResult {
+  message: string
+  success: boolean
+  validationError?: SendAccountApprovedEmailError
+}
+
 export interface UpdateConfigurationDetailsVariables {
   userPk: string
+  userSk: string
   flexUser: string
   flexPassword: string
-  devModel: string
-  devType: string
-  devId: string
-  devSerialNumber: string
-  osVersion: string
-  flexVersion: string
-  awsReg1: string
-  cogId1: string
-  awsReg2: string
-  cogId2: string
-  amznId: string
+  accessToken: string
+  refreshToken: string
+  userAgent: string
   flexId: string
   country: string
   region: string
-  planName: string
-  blockType: string
+  zendeskUserID: string
+  zendeskOrgID: string
 }
 
 export interface UpdateConfigurationDetailsError

@@ -9,6 +9,8 @@ import {
   UpdateUserAccountInfoVariables,
   UpdateConfigurationDetailsResult,
   UpdateConfigurationDetailsVariables,
+  SendAccountApprovedEmailResult,
+  SendAccountApprovedEmailVariables,
 } from "@/lib/interfaces/customers"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
@@ -63,6 +65,15 @@ export const updateUserAccountInfo: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.put("/user/update-account-info", params)
+  ).data
+}
+
+export const sendAccountApprovedEmail: MutationFunction<
+  SendAccountApprovedEmailResult,
+  SendAccountApprovedEmailVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/user/approve-account", params)
   ).data
 }
 
