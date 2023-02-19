@@ -103,6 +103,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
       >
         <StyledFooterSectionCountryDropdownContainer>
           <SubDirCountrySelect
+            autoFocus={false}
             openUpwards
             size={isDesktopView || isMobileView ? "large" : "small"}
             isCountryCode={false}

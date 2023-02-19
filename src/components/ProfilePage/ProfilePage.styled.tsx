@@ -62,7 +62,7 @@ export const StyledProfileTabContentField = muiStyled(InputBase)(
       fontFamily: ["Inter", "sans-serif"].join(","),
     },
     borderBottom: `1px solid ${sTheme.palette.grey3}`,
-    "&:focus-within": {
+    "&:focus-within, &:hover": {
       borderBottomColor: theme.palette.primary.main,
     },
   })

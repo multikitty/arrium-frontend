@@ -20,7 +20,7 @@ interface CountrySelectProps
   required?: boolean
   placeholder?: string
   autoFocus?: boolean
-  filterCountries?: string[]
+  include?: string[]
 }
 
 const CountrySelect: React.FC<CountrySelectProps> = ({
@@ -29,7 +29,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
   required,
   placeholder = "Select Country",
   autoFocus,
-  filterCountries,
+  include,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false)
@@ -77,9 +77,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
       }
       getOptionLabel={option => option.countryName}
       options={
-        !!filterCountries
+        !!include
           ? options.filter(opt =>
-              filterCountries.includes(opt.countryShortName.toLowerCase())
+              include.includes(opt.countryShortName.toLowerCase())
             )
           : options
       }

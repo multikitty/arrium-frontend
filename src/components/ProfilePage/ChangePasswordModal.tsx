@@ -92,6 +92,7 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <StyledChangePasswordModalFormField
+              autoComplete="new-password"
               type={isNewPasswordHidden ? "password" : "text"}
               value={newPassword}
               onChange={handleNewPasswordFieldChange}
@@ -119,6 +120,7 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
             <StyledChangePasswordModalFormField
+              autoComplete="new-password"
               type={isConfirmNewPasswordHidden ? "password" : "text"}
               value={confirmNewPassword}
               onChange={handleConfirmNewPasswordFieldChange}

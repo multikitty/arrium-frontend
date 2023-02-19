@@ -6,7 +6,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import { rem } from "polished"
 import { Controller, useForm } from "react-hook-form"
-import TimezoneSelect from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
 import { observer } from "mobx-react-lite"
 
@@ -38,6 +37,7 @@ import {
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
+import TimezoneSelect from "@/components/TimezoneSelect"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -45,10 +45,21 @@ const useStyles = makeStyles({
       width: "100%",
       padding: "8px 2px",
       borderWidth: 0,
-      borderBottomWidth: "1px",
     },
     "&:focus-visible": {
       outline: "none",
+    },
+    "& .MuiInput-root::after": {
+      borderBottomWidth: "0",
+    },
+    "& .MuiInput-root::before": {
+      borderBottom: `1px solid ${theme.palette.grey3}`,
+      "&:focus-within": {
+        borderBottom: `1px solid ${theme.palette.main}`,
+      },
+    },
+    "& .MuiInput-root:hover:not(.Mui-disabled):before": {
+      borderBottom: `1px solid ${theme.palette.main}`,
     },
     "&:focus > div": {
       borderWidth: 0,
@@ -94,10 +105,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const isEmailMenuOpen = Boolean(emailAnchorEl)
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
 
-  type formPropType = typeof personalInformationOptions.defaultValues
+  type FormPropType = typeof personalInformationOptions.defaultValues
 
   const { handleSubmit, control, formState, reset, getValues, ...methods } =
-    useForm<formPropType>(personalInformationOptions)
+    useForm<FormPropType>(personalInformationOptions)
 
   const handleEmailMenuButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     setEmailAnchorEl(event.currentTarget)
@@ -199,7 +210,12 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleUpdatePhoneNumberModalOpen = () =>
     setIsUpdatePhoneNumberModalOpen(true)
   const handleUpdatePhoneNumberModalClose = () => {
-    methods.setValue("phoneNumber", userData?.data?.phoneNumber || "")
+    methods.setValue(
+      "phoneNumber",
+      `+${userData?.data?.dialCode.replaceAll("+", "")}${
+        userData?.data?.phoneNumber || ""
+      }`
+    )
     setIsUpdatePhoneNumberModalOpen(false)
     handlePhoneEditDisable()
   }
@@ -232,7 +248,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     handlePhoneMenuClose()
   }
 
-  const onSubmit = (data: formPropType) => {
+  const onSubmit = (data: FormPropType) => {
     console.log("Personal Information form data", data)
     reset()
   }
@@ -260,12 +276,15 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
       email: userData.data.email,
       name: userData.data.firstname,
       surName: userData.data.lastname,
-      phoneNumber: userData.data.phoneNumber,
+      phoneNumber: `+${userData.data.dialCode.replaceAll("+", "")}${
+        userData.data.phoneNumber
+      }`,
       timezone: userData.data.tzName,
     })
   }, [userData])
 
   if (isLoading) return <LoadingScreen />
+  if (!userData?.data) return null
 
   return (
     <StyledProfileTabContent>
@@ -282,6 +301,12 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
           handleClose={handleUpdatePhoneNumberModalClose}
           handlePhoneNumberChange={handlePhoneNumberChange}
           newPhoneNumber={getValues("phoneNumber")}
+          country={userData.data.country}
+          dialCode={userData.data.dialCode}
+          firstname={userData.data.firstname}
+          lastname={userData.data.lastname}
+          tzName={userData.data.tzName}
+          refetchCurrentUser={refetch}
         />
       )}
       {isCloseAccountModalOpen && (
@@ -617,10 +642,11 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <TimezoneSelect
+                    textFieldVariant="standard"
                     placeholder="Choose timezone"
                     className={classes.timezoneStyles}
-                    value={value}
-                    onChange={onChange}
+                    timezone={value}
+                    setTimezone={onChange}
                   />
                 )}
               />

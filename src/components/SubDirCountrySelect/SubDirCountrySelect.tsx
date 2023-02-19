@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  SelectProps,
 } from "@mui/material"
 import { capitalCase } from "change-case"
 import DropDownArrow from "@/assets/icons/country_selection_pop_up_drop_down_arrow.inline.svg"
@@ -14,7 +15,8 @@ import { StyledAccountInformatiomTabContentField as StyledInputField } from "../
 
 type Size = "small" | "large"
 
-interface SubDirCountrySelectProps {
+interface SubDirCountrySelectProps
+  extends Omit<SelectProps<string | null>, "size"> {
   country: string | null
   onChange: (e: SelectChangeEvent<string | null>) => void
   boxProps?: BoxProps
@@ -32,6 +34,7 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
   isCountryCode = true,
   openUpwards = false,
   size = "large",
+  ...props
 }) => {
   const renderCountryOptions = useCallback(
     () =>
@@ -65,6 +68,7 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
   return (
     <Box {...boxProps}>
       <Select
+        {...props}
         displayEmpty
         onChange={onChange}
         value={country}
@@ -72,19 +76,22 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
         MenuProps={
           openUpwards
             ? {
-              anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "left",
-              },
-              transformOrigin: {
-                vertical: "bottom",
-                horizontal: "left",
-              },
-            }
+                anchorOrigin: {
+                  vertical: "bottom",
+                  horizontal: "left",
+                },
+                transformOrigin: {
+                  vertical: "bottom",
+                  horizontal: "left",
+                },
+              }
             : undefined
         }
         IconComponent={props => (
-          <i className={`material-icons ${props.className}`} style={{ top: 'auto' }}>
+          <i
+            className={`material-icons ${props.className}`}
+            style={{ top: "auto" }}
+          >
             <DropDownArrow />
           </i>
         )}
@@ -92,14 +99,11 @@ const SubDirCountrySelect: React.FC<SubDirCountrySelectProps> = ({
         {renderCountryOptions()}
         {isCountryNotListed ? (
           <MenuItem value="">
-            <Box
-              display="flex"
-              alignItems="center"
-              component="span"
-            >
+            <Box display="flex" alignItems="center" component="span">
               <Box sx={{ width: size === "large" ? 40 : 32, mr: 2 }}></Box>
               Country Not Listed
-            </Box></MenuItem>
+            </Box>
+          </MenuItem>
         ) : null}
       </Select>
     </Box>

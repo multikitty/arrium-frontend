@@ -12,9 +12,10 @@ export default function createInstance(baseURL = "http://localhost:9000/v1/") {
 }
 
 const arriumAPI = createInstance(
-  process.env.NODE_ENV === "development"
-    ? undefined
-    : "https://api.arrium.io/v1/"
+  // process.env.NODE_ENV === "development"
+  //   ? undefined
+  //   :
+  "https://api.arrium.io/v1/"
 )
 
 arriumAPI.interceptors.request.use(config => {

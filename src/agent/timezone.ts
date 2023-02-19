@@ -1,12 +1,35 @@
 import { useQuery } from "react-query"
-import { getTimezoneAPI, listTimezoneAPI } from "./axios"
+import { arriumAPI, getTimezoneAPI, listTimezoneAPI } from "./axios"
 
 export interface Timezone {
   countryCode: string
   countryName: string
+  zoneName: string
   gmtOffset: number
   timestamp: number
-  zoneName: string
+}
+
+export interface IFetchAllTimezonesListData {
+  status: string
+  message: string
+  zones: Array<ITimezone>
+}
+
+export interface IFetchAllTimezonesListResult {
+  success: boolean
+  message: string
+  data: IFetchAllTimezonesListData
+}
+
+function fetchAllTimezonesList(): Promise<IFetchAllTimezonesListResult> {
+  return arriumAPI.get("/timezone/list").then(response => response.data)
+}
+
+export function useAllTimezonesList() {
+  return useQuery<IFetchAllTimezonesListResult>(
+    "all-timezones-list",
+    fetchAllTimezonesList
+  )
 }
 
 export interface FetchTimezonesByCountryResult {

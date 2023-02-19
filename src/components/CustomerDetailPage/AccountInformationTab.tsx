@@ -17,7 +17,6 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
 import { Controller, useForm, useWatch } from "react-hook-form"
-import TimeZoneSelect from "react-timezone-select"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
@@ -63,10 +62,11 @@ import { getCountryNameByCode } from "@/utils/getCountryNameByCode"
 import { capitalCase } from "change-case"
 import HelperText from "@/components/commons/HelperText/HelperText"
 import SendAccountApprovedEmailModal from "@/components/CustomerDetailPage/SendAccountApprovedModal"
+import TimezoneSelect from "@/components/TimezoneSelect"
 
 const useStyles = makeStyles({
   timezoneStyles: {
-    "& > div": {
+    "& > .MuiInputBase-root": {
       width: "100%",
       padding: "7px 10px",
       borderRadius: "10px !important",
@@ -137,7 +137,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     setIsSendAccountApprovedEmailModalOpen,
   ] = React.useState(false)
 
-  const generateRadioOptions = () => {
+  const generateRadioOptions = React.useCallback(() => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
         key={singleOption.label}
@@ -146,7 +146,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         control={<Radio sx={{ color: theme.palette.primary.main }} />}
       />
     ))
-  }
+  }, [])
 
   const renderRoleOptions = LabelledUserRoles.map(role => (
     <MenuItem key={role.value} value={role.value}>
@@ -222,7 +222,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       endDate,
       firstname: getValues("firstName"),
       lastname: getValues("surName"),
-      dialCode: `+${dialCode}`,
+      dialCode: dialCode.replaceAll("+", ""),
       phoneNumber: getValues("phoneNumber"),
       startDate,
       status: getValues("status"),
@@ -372,11 +372,12 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   name={"timezone"}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <TimeZoneSelect
+                    <TimezoneSelect
+                      size="medium"
                       placeholder="Choose timezone"
                       className={classes.timezoneStyles}
-                      value={value}
-                      onChange={onChange}
+                      timezone={value}
+                      setTimezone={onChange}
                     />
                   )}
                 />

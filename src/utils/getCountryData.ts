@@ -27,9 +27,16 @@ const getCountryData = () => {
   return countryData
 }
 
-export const getFilteredCountries = (filterCountryList: readonly string[]) =>
+export type FilterMode = "include" | "exclude"
+
+export const getFilteredCountries = (
+  filterCountryList: readonly string[],
+  mode: FilterMode = "include"
+) =>
   Object.values(getCountryData()).filter(c =>
-    filterCountryList.includes(c.countryShortName.toLowerCase())
+    mode === "include"
+      ? filterCountryList.includes(c.countryShortName.toLowerCase())
+      : !filterCountryList.includes(c.countryShortName.toLowerCase())
   )
 
 export default getCountryData

@@ -31,6 +31,7 @@ import { confirmOtp, resendOtp } from "@/agent/signup"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
+import { formatToMMSS } from "@/utils/formatToMMSS"
 
 interface OtpConfirmationSectionProps extends FormProps, PageProps {}
 
@@ -167,7 +168,8 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
               onClick={handleResendOtp}
               disabled={seconds > 0}
             >
-              Resend Code {seconds > 0 ? `(${seconds})` : ""}
+              Resend Code{" "}
+              {seconds > 0 ? `(${formatToMMSS(seconds.toString())})` : ""}
             </LinkButton>
             <LinkButton variant="text" onClick={handlePhoneNumberChange}>
               Change Phone Number
