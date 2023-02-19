@@ -144,7 +144,7 @@ const ReadOnlySearchTable = () => {
                     }}
                     align="left"
                   >
-                    {data.timeToArrive} min
+                    {data.timeToArrive ? `${data.timeToArrive} min` : "-"}
                   </TableCell>
                   <TableCell
                     sx={{

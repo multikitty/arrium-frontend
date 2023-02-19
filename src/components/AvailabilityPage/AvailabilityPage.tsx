@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
   Box,
   FormControlLabel,
@@ -18,13 +18,15 @@ import { FormProvider, useForm } from "react-hook-form"
 import { animateScroll } from "react-scroll"
 
 import EditSearchActiveIcon from "@/assets/icons/edit_icon_active.inline.svg"
+import EditSearchInActiveIcon from "@/assets/icons/edit_icon_inactive.inline.svg"
 import ArrowDownIcon from "@/assets/icons/filter-arrow_down.inline.svg"
 import ArrowUpIcon from "@/assets/icons/filter-arrow_up.inline.svg"
 import RunningIcon from "@/assets/icons/running_ripple_icon.inline.svg"
 import StoppingIcon from "@/assets/icons/stopping_ripple_icon.inline.svg"
 import DeleteIcon from "@/assets/icons/delete_icon.inline.svg"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import Switch from "../commons/Switch"
+import noSearchPreferencesImage from "@/assets/icons/no_search_preferences_icon.svg"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import Switch from "@/components/commons/Switch"
 import theme from "@/theme"
 import TabDataOnSearch from "./ReadOnlySearchTable"
 import SearchTable from "./SearchTable"
@@ -36,14 +38,13 @@ import { useStore } from "@/store"
 import {
   AvailabilityStatusType,
   initialWeekData,
-  searchTableInitialValues,
   WeekType,
 } from "./AvailabilityPage.data"
 import { FormValues, TabPanelProps } from "./AvailablityPage.types"
 import {
   StyledFAQPage as StyledAvailabilityPage,
   StyledFAQPageHeader as StyledAvailabilityPageHeader,
-} from "../FAQPage/FAQPage.styled"
+} from "@/components/FAQPage/FAQPage.styled"
 import {
   StyledAvailablityPageWrapper,
   StyledHeader,
@@ -55,6 +56,7 @@ import {
   StyledShowMoreText,
   StyledAvailabilityMobile,
   StyledAvailabilityTitleMobile,
+  StyledNoSearchResultsTitle,
 } from "./AvailabilityPage.styled"
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
@@ -74,6 +76,7 @@ import { TASK_ID } from "@/constants/localStorage"
 import { setLocalStorage } from "@/utils/localStorage"
 import isBrowser from "@/utils/isBrowser"
 import { Script } from "gatsby"
+import LoadingScreen from "@/components/LoadingScreen"
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -125,13 +128,11 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
   const [weekData, setWeekData] = useState<WeekType[]>(initialWeekData)
-  const [taskId, setTaskId] = useState<string>(
-    localStorageUtils.get(TASK_ID) || ""
-  )
-  const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const [isSearching, setIsSearching] = useState<boolean>(taskId ? true : false)
-  const [isSearchable, setIsSearchable] = useState<boolean>(false)
-  const { data: preferenceData, isLoading } = usePreferences()
+  const [taskId, setTaskId] = useState(localStorageUtils.get(TASK_ID) || "")
+  const [isExpanded, setIsExpanded] = useState(true)
+  const [isSearching, setIsSearching] = useState(taskId ? true : false)
+  const [isSearchable, setIsSearchable] = useState(false)
+  const { data: preferenceData, isLoading, refetch } = usePreferences()
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
   const isPremiumUser = userStore.currentUser?.plan === Plans.premium
 
@@ -149,67 +150,41 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
 
   const { handleSubmit, formState, ...methods } = useForm<FormValues>({
     defaultValues: {
-      ...searchTableInitialValues,
+      data: [],
     },
     mode: "onBlur",
     resolver: availabilityResolver,
   })
 
-  useEffect(() => {
-    if (!isLoading) {
-      methods.reset({
-        data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
-          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
-          checked: value?.preference?.active === "Y" ? true : false,
-          timeToArrive: value.preference?.tta,
-          startTime: createDateInHM(
-            Number(value.preference?.bStartTime?.split(":")[0]),
-            Number(value.preference?.bStartTime?.split(":")[1])
-          ),
-          endTime: createDateInHM(
-            Number(value.preference?.bEndTime?.split(":")[0]),
-            Number(value.preference?.bEndTime?.split(":")[1])
-          ),
-          minimumPay: value.preference?.minPay,
-          minimumHourlyRate: value.preference?.minHourlyRate,
-          stationCode: value.station.stationCode,
-          stationId: value.station.stationID,
-          regionId: value.station.regionID,
-        })),
-      })
-    }
-  }, [isLoading, preferenceData])
-
-  useEffect(() => {
-    if (!isLoading) {
-      methods.reset({
-        data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
-          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
-          checked: value?.preference?.active === "Y" ? true : false,
-          timeToArrive: value?.preference?.tta,
-          startTime:
-            value.preference?.bStartTime !== ""
-              ? createDateInHM(
-                  Number(value.preference?.bStartTime?.split(":")[0]),
-                  Number(value.preference?.bStartTime?.split(":")[1])
-                )
-              : null,
-          endTime:
-            value.preference?.bEndTime !== ""
-              ? createDateInHM(
-                  Number(value.preference?.bEndTime?.split(":")[0]),
-                  Number(value.preference?.bEndTime?.split(":")[1])
-                )
-              : null,
-          minimumPay: value.preference.minPay,
-          minimumHourlyRate: value.preference.minHourlyRate,
-          stationCode: value.station.stationCode,
-          stationId: value.station.stationID,
-          regionId: value.station.regionID,
-        })),
-      })
-    }
-  }, [isLoading, preferenceData])
+  React.useEffect(() => {
+    if (!preferenceData?.data) return
+    methods.reset({
+      data: preferenceData.data.map((value: GetPrefrencesResultData) => ({
+        location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
+        checked: value?.preference?.active === "Y" ? true : false,
+        timeToArrive: value?.preference?.tta,
+        startTime:
+          value.preference?.bStartTime !== ""
+            ? createDateInHM(
+                Number(value.preference?.bStartTime?.split(":")[0]),
+                Number(value.preference?.bStartTime?.split(":")[1])
+              )
+            : null,
+        endTime:
+          value.preference?.bEndTime !== ""
+            ? createDateInHM(
+                Number(value.preference?.bEndTime?.split(":")[0]),
+                Number(value.preference?.bEndTime?.split(":")[1])
+              )
+            : null,
+        minimumPay: value.preference.minPay,
+        minimumHourlyRate: value.preference.minHourlyRate,
+        stationCode: value.station.stationCode,
+        stationId: value.station.stationID,
+        regionId: value.station.regionID,
+      })),
+    })
+  }, [preferenceData])
 
   const handleClick = (item: WeekType) => {
     const activeChips = weekData.filter(data => data.active)
@@ -238,22 +213,23 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
 
   const handleFormReset = () => {
     methods.reset({
-      data: preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
-        location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
-        checked: false,
-        timeToArrive: value?.preference?.tta,
-        startTime: null,
-        endTime: null,
-        stationCode: value.station.stationCode,
-        stationId: value.station.stationID,
-        regionId: value.station.regionID,
-      })),
+      data:
+        preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
+          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
+          checked: false,
+          timeToArrive: value.preference.tta,
+          startTime: null,
+          endTime: null,
+          stationCode: value.station.stationCode,
+          stationId: value.station.stationID,
+          regionId: value.station.regionID,
+        })) || [],
     })
   }
 
   const handleCancel = () => {
     setIsSearchable(false)
-    methods.reset()
+    handleFormReset()
   }
 
   const { mutate } = useMutation<
@@ -263,28 +239,32 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   >(setPrefrences)
 
   const onSubmit = async (preferences: FormValues) => {
-    const apiData = preferences.data.map(obj => {
-      return {
-        stationCode: obj.stationCode,
-        regionId: obj.regionId,
-        stationId: obj.stationId,
-        day: "",
-        tta: obj.timeToArrive,
-        minPay: obj.minimumPay,
-        minHourlyRate: obj.minimumHourlyRate ?? "",
-        startTime: obj.startTime
-          ? new Date(obj.startTime).toLocaleTimeString([], {
-              hour12: false,
-            })
-          : "",
-        endTime: obj.endTime
-          ? new Date(obj.endTime).toLocaleTimeString([], {
-              hour12: false,
-            })
-          : "23:59:00",
-        active: obj.checked ? "Y" : "N",
+    const apiData: SetPrefrencesVariables["preferences"] = preferences.data.map(
+      obj => {
+        return {
+          stationCode: obj.stationCode,
+          regionId: obj.regionId,
+          stationId: obj.stationId,
+          day: "",
+          tta: obj.timeToArrive,
+          minPay: parseInt(obj.minimumPay?.toString() || ""),
+          minHourlyRate: parseInt(obj.minimumHourlyRate?.toString() || ""),
+          startTime:
+            obj.startTime && obj.startTime.toString() !== "Invalid Date"
+              ? new Date(obj.startTime).toLocaleTimeString([], {
+                  hour12: false,
+                })
+              : "",
+          endTime:
+            obj.endTime && obj.endTime.toString() !== "Invalid Date"
+              ? new Date(obj.endTime).toLocaleTimeString([], {
+                  hour12: false,
+                })
+              : "",
+          active: obj.checked ? "Y" : "N",
+        }
       }
-    })
+    )
     mutate(
       {
         preferences: apiData,
@@ -296,6 +276,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
             enqueueSnackbar("Some Error Occured", { variant: "error" })
           } else {
             enqueueSnackbar("Search Prefrences Saved", { variant: "success" })
+            refetch()
           }
         },
         onError() {
@@ -305,14 +286,6 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
     )
     setIsSearchable(false)
     animateScroll.scrollToTop({ smooth: true, duration: 0 })
-  }
-
-  const onInvalid = (data: any) => {
-    const error = data.data.find((d: any) => d?.timeToArrive?.ref)
-    if (error) {
-      enqueueSnackbar("Please fill all required fields", { variant: "error" })
-      error.timeToArrive.ref.focus()
-    }
   }
 
   React.useEffect(() => {
@@ -401,6 +374,12 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
     )
   }
 
+  const isNoSearchPreferences = !(preferenceData?.data || []).filter(
+    d => d.preference.active === "Y"
+  ).length
+
+  if (isLoading) return <LoadingScreen />
+
   return (
     <FormProvider
       formState={formState}
@@ -453,7 +432,14 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
                 {!isSearchable ? (
                   <StyledSearchButton
                     onClick={() => setIsSearchable(true)}
-                    startIcon={<EditSearchActiveIcon />}
+                    startIcon={
+                      isNoSearchPreferences ? (
+                        <EditSearchInActiveIcon />
+                      ) : (
+                        <EditSearchActiveIcon />
+                      )
+                    }
+                    disabled={isNoSearchPreferences}
                   >
                     Edit Search
                   </StyledSearchButton>
@@ -491,15 +477,37 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
               )}
             </StyledHeader>
             {!isSearchable ? (
-              <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                <TabDataOnSearch />
-              </Collapse>
+              !isNoSearchPreferences && (
+                <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                  <TabDataOnSearch />
+                </Collapse>
+              )
             ) : (
               <Box>
                 <SearchTable />
               </Box>
             )}
-            {!isSearchable ? (
+            {isNoSearchPreferences && !isSearchable ? (
+              <Box
+                display="flex"
+                flexDirection="column"
+                my={6}
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <img src={noSearchPreferencesImage} />
+                <StyledNoSearchResultsTitle>
+                  No Search Prefrences
+                </StyledNoSearchResultsTitle>
+                <ContainedButton
+                  color="primary"
+                  onClick={() => setIsSearchable(true)}
+                >
+                  + Search Prefrences
+                </ContainedButton>
+              </Box>
+            ) : !isSearchable ? (
               <StyledCollapsedSearch>
                 <Box
                   display="flex"
@@ -629,7 +637,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
           <StyledAvailabilityTitleMobile>
             Availability
           </StyledAvailabilityTitleMobile>
-          <Box component="form" onSubmit={handleSubmit(onSubmit, onInvalid)}>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
             <Box display="flex" flexDirection="column" p={rem("20px")}>
               <Box
                 display="flex"
@@ -641,7 +649,14 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
                 {!isSearchable ? (
                   <StyledSearchButton
                     onClick={() => setIsSearchable(true)}
-                    startIcon={<EditSearchActiveIcon />}
+                    startIcon={
+                      isNoSearchPreferences ? (
+                        <EditSearchInActiveIcon />
+                      ) : (
+                        <EditSearchActiveIcon />
+                      )
+                    }
+                    disabled={isNoSearchPreferences}
                   >
                     Edit Search
                   </StyledSearchButton>
@@ -683,15 +698,37 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
               )}
             </Box>
             {!isSearchable ? (
-              <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                <TabDataOnSearch />
-              </Collapse>
+              !isNoSearchPreferences && (
+                <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                  <TabDataOnSearch />
+                </Collapse>
+              )
             ) : (
               <Box>
                 <SearchTable isMobile />
               </Box>
             )}
-            {!isSearchable ? (
+            {isNoSearchPreferences && !isSearchable ? (
+              <Box
+                display="flex"
+                flexDirection="column"
+                my={6}
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <img src={noSearchPreferencesImage} />
+                <StyledNoSearchResultsTitle>
+                  No Search Prefrences
+                </StyledNoSearchResultsTitle>
+                <ContainedButton
+                  color="primary"
+                  onClick={() => setIsSearchable(true)}
+                >
+                  + Search Prefrences
+                </ContainedButton>
+              </Box>
+            ) : !isSearchable ? (
               <StyledCollapsedSearch>
                 <Box
                   display="flex"
@@ -757,7 +794,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
                       Automation
                     </ContainedButton>
                   )}
-                  {content.availibility.formControlLabelForSwitches.map(
+                  {/* {content.availibility.formControlLabelForSwitches.map(
                     (label: JSX.Element, index: number) => (
                       <Box key={index}>
                         <FormControlLabel
@@ -766,13 +803,16 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
                         />
                       </Box>
                     )
-                  )}
+                  )} */}
                 </Box>
+
                 <Box
                   display="flex"
                   alignItems="center"
-                  justifyContent="space-around"
-                  mt={rem("16px")}
+                  justifyContent={
+                    isNoSearchPreferences ? "center" : "space-between"
+                  }
+                  mt="16px"
                 >
                   <OutlinedButton
                     sx={{
@@ -785,9 +825,11 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
                   >
                     Cancel
                   </OutlinedButton>
-                  <ContainedButton sx={{ width: rem("159px") }} type="submit">
-                    Save
-                  </ContainedButton>
+                  {!isNoSearchPreferences && (
+                    <ContainedButton sx={{ width: rem("159px") }} type="submit">
+                      Save
+                    </ContainedButton>
+                  )}
                 </Box>
               </StyledCollapsedSearch>
             )}

@@ -1,12 +1,13 @@
 import { rem } from "polished"
-import styled, { css } from "styled-components"
-import { devices } from "@/constants/device"
+import { ZIndices, devices } from "@/constants/device"
 import {
   StyledFooterSectionBrandLogo,
   StyledFooterSectionBrandLogoContainer,
   StyledFooterSectionInfoLink,
   StyledFooterSectionInfoLinksContainer,
-} from "../FooterSection/FooterSection.styled"
+} from "@/components/FooterSection/FooterSection.styled"
+import { PALETTE } from "@/constants/colors"
+import styled, { css } from "styled-components"
 
 export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
   position: fixed;
@@ -14,7 +15,7 @@ export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
   left: 0;
   right: 0;
   width: 100%;
-  z-index: ${p => p.theme.zIndices.navbar};
+  z-index: ${ZIndices.navbar};
   display: flex;
   align-items: center;
   padding: ${rem("28px")} ${rem("80px")};
@@ -22,7 +23,7 @@ export const StyledLandingNavbar = styled.div<{ $hasBackground?: boolean }>`
   ${p =>
     p.$hasBackground &&
     css`
-      background-color: ${p => p.theme.palette.common.white};
+      background-color: ${PALETTE.common.white};
       box-shadow: 0px 2px 4px rgba(5, 23, 51, 0.05);
     `}
 
@@ -70,7 +71,9 @@ export const StyledLandingNavbarRightContainer = styled.div`
   align-items: center;
 `
 
-export const StyledLandingNavbarRightContainerLoginButton = styled.button`
+export const StyledLandingNavbarRightContainerLoginButton = styled.button<{
+  $mobileTopbar?: boolean
+}>`
   all: unset;
   cursor: pointer;
   font-family: Inter;
@@ -78,12 +81,12 @@ export const StyledLandingNavbarRightContainerLoginButton = styled.button`
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-  margin-right: ${rem("40px")};
+  margin-right: ${p => (p.$mobileTopbar ? "20px" : "40px")};
   transition: all 150ms ease-out;
 
-  color: ${p => p.theme.palette.blackText};
+  color: ${PALETTE.blackText};
 
   &:hover {
-    color: ${p => p.theme.palette.main};
+    color: ${PALETTE.main};
   }
 `

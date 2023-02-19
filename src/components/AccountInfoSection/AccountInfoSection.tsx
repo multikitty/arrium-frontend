@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Box, useMediaQuery } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import TimeZoneSelect, { ITimezone } from "react-timezone-select"
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
 import { useMutation } from "react-query"
@@ -43,12 +42,16 @@ import { AccountInfoData } from "@/components/SignUpPage/SignUpPage"
 import InputField from "@/components/commons/InputField"
 import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
 import HelperText from "@/components/commons/HelperText"
+import TimezoneSelect from "@/components/TimezoneSelect"
 
 const useStyles = makeStyles({
   timezoneStyles: {
     "& > div": {
       padding: "6px 0",
+    },
+    "& .MuiInputBase-root": {
       borderRadius: "10px !important",
+      background: "white",
     },
     "& > div > div > span": {
       display: "none",
@@ -87,7 +90,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
 
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
-  const [selectedTimezone, setSelectedTimezone] = useState<ITimezone>(
+  const [selectedTimezone, setSelectedTimezone] = useState(
     data?.tzName || Intl.DateTimeFormat().resolvedOptions().timeZone
   )
   const [phoneNo, setPhoneNo] = useState(data?.phoneNumber || "")
@@ -260,11 +263,12 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           <StyledFieldLabel $isHidden={!selectedTimezone}>
             Timezone
           </StyledFieldLabel>
-          <TimeZoneSelect
-            placeholder="choose timezone"
+          <TimezoneSelect
+            size="medium"
+            placeholder="Choose timezone"
             className={classes.timezoneStyles}
-            value={selectedTimezone}
-            onChange={setSelectedTimezone}
+            timezone={selectedTimezone}
+            setTimezone={(tz: string | null) => setSelectedTimezone(tz || "")}
           />
           <StyledButton
             variant="contained"
@@ -352,11 +356,12 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
             <StyledFieldLabel $isHidden={!selectedTimezone}>
               Timezone
             </StyledFieldLabel>
-            <TimeZoneSelect
-              placeholder="choose timezone"
-              value={selectedTimezone}
+            <TimezoneSelect
+              size="medium"
+              placeholder="Choose timezone"
               className={classes.timezoneStyles}
-              onChange={setSelectedTimezone}
+              timezone={selectedTimezone}
+              setTimezone={(tz: string | null) => setSelectedTimezone(tz || "")}
             />
             <StyledButton
               variant="contained"

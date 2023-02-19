@@ -3,6 +3,7 @@ import React from "react"
 import Seo from "@/components/Seo"
 import SignInPage from "@/components/SignInPage"
 import { PageProps } from "@/lib/interfaces/common"
+import GuestGuard from "@/components/GuestGuard/GuestGuard"
 
 interface SigninProps {
   params: PageProps
@@ -10,10 +11,10 @@ interface SigninProps {
 
 const signin: React.FC<SigninProps> = ({ params }) => {
   return (
-    <React.Fragment>
+    <GuestGuard country_code={params.country_code}>
       <Seo title="Sign In | Arrium" />
       <SignInPage country_code={params.country_code} />
-    </React.Fragment>
+    </GuestGuard>
   )
 }
 

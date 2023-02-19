@@ -1,18 +1,25 @@
 export interface SetPrefrencesVariables {
-  preferences: Array<SetPrefrencesVariableData>
+  preferences: Array<SetPrefrencesVariablesPreferences>
+  days: Array<SetPrefrencesVariablesDays>
 }
 
-export interface SetPrefrencesVariableData {
+export interface SetPrefrencesVariablesPreferences {
   stationCode: string
   regionId: string
   stationId: string
   day: string
   tta: string
-  minPay: string
-  minHourlyRate: string
+  minPay: number
+  minHourlyRate: number
   startTime: string
   endTime: string
   active: string
+}
+
+export interface SetPrefrencesVariablesDays {
+  label: string
+  value: string
+  active: boolean
 }
 
 export interface SetPrefrencesResult {

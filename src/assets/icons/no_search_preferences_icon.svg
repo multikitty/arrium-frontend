@@ -1,0 +1,15 @@
+<svg width="138" height="89" viewBox="0 0 138 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="138" height="89" fill="white"/>
+<rect x="2" y="2" width="62" height="40" rx="6" fill="#F0F0F7" stroke="#F0F0F7" stroke-width="2"/>
+<rect x="8" y="8" width="33" height="5" rx="2.5" fill="white"/>
+<rect x="8" y="17" width="18" height="5" rx="2.5" fill="white"/>
+<rect x="46" y="8" width="12" height="5" rx="2.5" fill="white"/>
+<rect x="74" y="2" width="62" height="40" rx="6" stroke="#F0F0F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 6"/>
+<rect x="80" y="8" width="33" height="5" rx="2.5" fill="#F0F0F7"/>
+<rect x="80" y="17" width="18" height="5" rx="2.5" fill="#F0F0F7"/>
+<rect x="118" y="8" width="12" height="5" rx="2.5" fill="#F0F0F7"/>
+<path d="M79.668 21.333H57.0013C55.5868 21.333 54.2303 21.8949 53.2301 22.8951C52.2299 23.8953 51.668 25.2519 51.668 26.6663V69.333C51.668 70.7475 52.2299 72.1041 53.2301 73.1042C54.2303 74.1044 55.5868 74.6663 57.0013 74.6663H89.0013C90.4158 74.6663 91.7723 74.1044 92.7725 73.1042C93.7727 72.1041 94.3346 70.7475 94.3346 69.333V35.9997L79.668 21.333Z" stroke="#D2D3D9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M78.332 21.333V37.333H94.332" stroke="#D2D3D9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M73 64V48" stroke="#D2D3D9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M65 56H81" stroke="#D2D3D9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

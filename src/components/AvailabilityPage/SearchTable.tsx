@@ -82,7 +82,7 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
               <Controller
                 name={`data.${index}.${name}`}
                 control={control}
-                render={({ field: { value, onChange, onBlur, ref } }) =>
+                render={({ field: { value, onChange, onBlur } }) =>
                   name === "startTime" || name === "endTime" ? (
                     <React.Fragment>
                       {renderInput({
@@ -116,7 +116,6 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
                       value,
                       onChange,
                       onBlur,
-                      ref,
                       disabled,
                       error: !!formState.errors?.data?.[index]?.[name],
                       minTime:
@@ -129,7 +128,10 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
               />
               {formState.errors?.data?.[index]?.[name] && (
                 <StyledAvailabilitySearchTableFieldHelperText>
-                  {formState.errors.data[index][name]?.message}
+                  {(formState.errors.data[index][name].message || "").slice(
+                    0,
+                    40
+                  )}
                 </StyledAvailabilitySearchTableFieldHelperText>
               )}
             </StyledAvailabilitySearchTableFieldContainer>
@@ -142,7 +144,7 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
   const renderTableCellsMobile = React.useCallback(
     (index: number, disabled: boolean) =>
       searchTableShape.map(({ label, name, renderInput }) => (
-        <StyledSearchTableItem>
+        <StyledSearchTableItem key={label}>
           <StyledSearchTableItemLabel>
             {label} {label === "Time to arrive" && <span>*</span>}
           </StyledSearchTableItemLabel>
@@ -196,7 +198,10 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
               />
               {formState.errors?.data?.[index]?.[name] && (
                 <StyledAvailabilitySearchTableFieldHelperText>
-                  {formState.errors.data[index][name]?.message}
+                  {(formState.errors.data[index][name].message || "").slice(
+                    0,
+                    40
+                  )}
                 </StyledAvailabilitySearchTableFieldHelperText>
               )}
             </StyledAvailabilitySearchTableFieldContainer>
@@ -229,12 +234,11 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
                     <Controller
                       name={`data.${index}.checked`}
                       control={control}
-                      render={({ field: { value, onChange, onBlur, ref } }) => (
+                      render={({ field: { value, onChange, onBlur } }) => (
                         <Checkbox
                           id={`checkbox-location-${index}`}
                           checked={!!value}
                           onBlur={onBlur}
-                          ref={ref}
                           onChange={onChange}
                         />
                       )}

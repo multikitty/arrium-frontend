@@ -149,15 +149,15 @@ export const StyledAvailabilitySearchTableFieldHelperText = styled.p`
 
 export const StyledNoSearchResultsTitle = styled(Typography)`
   &&& {
-    margin-top: ${rem("20px")};
-    margin-bottom: ${rem("12px")};
+    margin-top: 20px;
+    margin-bottom: 12px;
     font-family: Inter;
     font-style: normal;
     font-weight: 600;
-    font-size: ${rem("20px")};
-    line-height: ${rem("20px")};
+    font-size: 20px;
+    line-height: 20px;
     text-align: center;
-    max-width: ${rem("270px")};
+    max-width: 270px;
   }
 `
 

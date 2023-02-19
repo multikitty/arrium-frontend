@@ -15,8 +15,8 @@ export const availabilityValidationSchema = Yup.object().shape({
             .max(180, "Value must be between 1 to 180")
             .required("Value cannot be empty"),
         }),
-      startTime: Yup.date().nullable(),
-      endTime: Yup.date().nullable(),
+      startTime: Yup.string().nullable().notRequired(),
+      endTime: Yup.string().nullable().notRequired(),
       minimumPay: Yup.number()
         .transform(value => (isNaN(value) ? undefined : value))
         .when("checked", {

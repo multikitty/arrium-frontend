@@ -1,5 +1,5 @@
 import React from "react"
-import { Badge, IconButton } from "@mui/material"
+import { Badge, Box, IconButton } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import CloseIcon from "@mui/icons-material/Close"
 
@@ -8,10 +8,14 @@ import {
   StyledMobileTopbarBrandLogo,
   StyledMobileTopbarBrandLogoContainer,
 } from "./MobileTopbar.styled"
-import brandLogo from "@/assets/icons/arrium_logo.png"
+import brandLogo from "@/assets/icons/arrium_logo--small.png"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { StyledLandingNavbarRightContainerLoginButton as StyledLoginButton } from "@/components/LandingNavbar/LandingNavbar.styled"
+import { localStorageUtils } from "@/utils"
+import { COUNTRY_CODE } from "@/constants/localStorage"
+import routes from "@/constants/routes"
 
 export interface MobileTopbarProps extends PageProps {
   isFullscreenMenuOpen: boolean
@@ -25,8 +29,9 @@ const MobileTopbar: React.FC<MobileTopbarProps> = ({
   isFullscreenMenuOpen,
   country_code,
 }) => {
-  const { navigateToDefault } = useNavigate({ country_code })
+  const { navigateToDefault, navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
+  const codeInStorage = localStorageUtils.get(COUNTRY_CODE)
 
   const handleMenuButtonClick = () => {
     handleFullscreenMenuOpen()
@@ -41,30 +46,50 @@ const MobileTopbar: React.FC<MobileTopbarProps> = ({
     handleFullscreenMenuClose()
   }
 
+  const handleSigninNavigate = () => {
+    if (codeInStorage) {
+      navigate(routes.signin)
+    }
+  }
+
   return (
     <StyledMobileTopbar>
-      <StyledMobileTopbarBrandLogoContainer>
-        <StyledMobileTopbarBrandLogo
-          src={brandLogo}
-          onClick={handleBrandLogoClick}
-        />
-      </StyledMobileTopbarBrandLogoContainer>
-      {isFullscreenMenuOpen ? (
-        <IconButton size="small" onClick={handleCloseButtonClick}>
-          <CloseIcon sx={{ fontSize: 24 }} />
-        </IconButton>
-      ) : (
-        <IconButton size="small" onClick={handleMenuButtonClick}>
-          <Badge
-            color="error"
-            overlap="circular"
-            badgeContent=" "
-            variant="dot"
+      <Box display="flex">
+        {isFullscreenMenuOpen ? (
+          <IconButton
+            size="small"
+            onClick={handleCloseButtonClick}
+            sx={{
+              mr: "16px",
+            }}
           >
-            <MenuIcon sx={{ fontSize: 24 }} />
-          </Badge>
-        </IconButton>
-      )}
+            <CloseIcon sx={{ fontSize: 24 }} />
+          </IconButton>
+        ) : (
+          <IconButton size="small" onClick={handleMenuButtonClick}>
+            <Badge
+              color="error"
+              overlap="circular"
+              badgeContent=" "
+              variant="dot"
+              sx={{
+                mr: "16px",
+              }}
+            >
+              <MenuIcon sx={{ fontSize: 24 }} />
+            </Badge>
+          </IconButton>
+        )}
+        <StyledMobileTopbarBrandLogoContainer>
+          <StyledMobileTopbarBrandLogo
+            src={brandLogo}
+            onClick={handleBrandLogoClick}
+          />
+        </StyledMobileTopbarBrandLogoContainer>
+      </Box>
+      <StyledLoginButton $mobileTopbar onClick={handleSigninNavigate}>
+        Login
+      </StyledLoginButton>
     </StyledMobileTopbar>
   )
 }

@@ -10,6 +10,7 @@ import { noCase } from "change-case"
 import routes from "@/constants/routes"
 import { navigate } from "gatsby-link"
 import { COUNTRY_CODE, FLEX, TOKEN, USER } from "@/constants/localStorage"
+import { DEFAULT_COUNTRY } from "@/constants/common"
 
 class UserStore {
   user: UserType = null
@@ -118,7 +119,9 @@ class UserStore {
       this.user = null
     })
     navigate(
-      `/${localStorageUtils.get(COUNTRY_CODE) || "gb"}/en${routes.signin}`
+      `/${localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY}/en${
+        routes.signin
+      }`
     )
   }
 }

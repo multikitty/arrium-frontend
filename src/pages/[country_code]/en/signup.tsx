@@ -3,6 +3,7 @@ import React from "react"
 import Seo from "@/components/Seo"
 import SignUpPage from "@/components/SignUpPage"
 import { PageProps } from "@/lib/interfaces/common"
+import GuestGuard from "@/components/GuestGuard/GuestGuard"
 
 interface SignupProps {
   params: PageProps
@@ -10,10 +11,10 @@ interface SignupProps {
 
 const Signup: React.FC<SignupProps> = ({ params }) => {
   return (
-    <React.Fragment>
+    <GuestGuard country_code={params.country_code}>
       <Seo title="Sign Up | Arrium" />
       <SignUpPage country_code={params.country_code} />
-    </React.Fragment>
+    </GuestGuard>
   )
 }
 
