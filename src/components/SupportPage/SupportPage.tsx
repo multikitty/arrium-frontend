@@ -6,12 +6,12 @@ import PaperClipIcon from "@/assets/icons/paperclip.svg"
 import { devices } from "@/constants/device"
 import theme from "@/theme"
 import { supportOptions } from "@/validation"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import { StyledWarningText } from "../commons/uiComponents"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import { StyledWarningText } from "@/components/commons/uiComponents"
 import {
   StyledFAQPage as StyledSupportPage,
   StyledFAQPageHeader as StyledSupportPageHeader,
-} from "../FAQPage/FAQPage.styled"
+} from "@/components/FAQPage/FAQPage.styled"
 import {
   StyledContentHeader,
   StyledSupportPageWrapper,
@@ -23,22 +23,29 @@ import {
   StyledButtonContainer,
   StyledSupportFormLabel,
 } from "./SupportPage.styled"
+import { Helmet } from "react-helmet"
 
 const SupportPage = () => {
-  type formPropType = typeof supportOptions.defaultValues
+  type FormPropType = typeof supportOptions.defaultValues
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<formPropType>(supportOptions)
+  } = useForm<FormPropType>(supportOptions)
 
   const isWebView = useMediaQuery(devices.web.up)
 
-  const onSubmit = (data: formPropType) => console.log(data)
+  const onSubmit = (data: FormPropType) => console.log(data)
 
   return (
     <StyledSupportPage>
+      <Helmet>
+        <script
+          id="ze-snippet"
+          src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
+        />
+      </Helmet>
       <StyledSupportPageHeader>Support</StyledSupportPageHeader>
       <StyledSupportPageWrapper
         component="form"

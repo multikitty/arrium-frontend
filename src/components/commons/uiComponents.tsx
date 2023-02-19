@@ -3,18 +3,6 @@ import styled from "styled-components"
 import { rem } from "polished"
 import { Tab, Tabs, styled as muiStyled, Button } from "@mui/material"
 
-export const StyledTitle = styled.p`
-  font-weight: 700;
-  font-size: ${rem("34px")};
-  color: #2453b2;
-  line-height: ${rem("32px")};
-  letter-spacing: 1.6px;
-  margin-top: ${rem("80px")};
-  margin-bottom: ${rem("56px")};
-  text-transform: uppercase;
-  cursor: pointer;
-`
-
 export const StyledLoginContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -76,18 +64,6 @@ export const StyledSignUpButton = styled.span`
     color: #0a0a0a;
     text-decoration: none;
   }
-`
-
-export const StyledTitleMobile = styled.div`
-  font-weight: 800;
-  font-size: ${rem("24px")};
-  color: #2453b2;
-  text-align: center;
-  line-height: ${rem("32px")};
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-  margin: ${rem("16px")} auto ${rem("16px")} ${rem("20px")};
-  cursor: pointer;
 `
 
 export const StyledLoginContainerMobile = styled.form`

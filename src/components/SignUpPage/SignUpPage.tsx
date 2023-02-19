@@ -1,13 +1,8 @@
 import React, { useCallback, useState } from "react"
 import { useLocation } from "@reach/router"
 import { Box, useMediaQuery } from "@mui/material"
-import { rem } from "polished"
 import queryString from "query-string"
 
-import {
-  StyledTitle,
-  StyledTitleMobile,
-} from "@/components/commons/uiComponents"
 import RegistrationSection from "@/components/RegistrationSection"
 import AccountInfoSection from "@/components/AccountInfoSection"
 import OtpConfirmationSection from "@/components/OtpConfirmationSection"
