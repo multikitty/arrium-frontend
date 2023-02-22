@@ -32,7 +32,7 @@ export function fetchRegionList(
   country_code: RegionListVariables["country_code"]
 ): Promise<RegionListResult> {
   return arriumAPI
-    .get("/location/region", { params: { coutnry_code: country_code } })
+    .get("/location/region", { params: { country_code } })
     .then(response => response.data)
 }
 

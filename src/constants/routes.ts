@@ -16,7 +16,9 @@ const routes = {
   plans: "/plans",
   profile: "/profile",
   referrals: "/referrals",
-  resetPassword: "/reset-password",
+  resetPassword(token: string) {
+    return `/reset-password?token=${token}`
+  },
   settings: "/settings",
   signin: "/signin",
   signup: "/signup",

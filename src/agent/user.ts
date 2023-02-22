@@ -4,6 +4,8 @@ import {
   RequestEmailVerifyVariables,
   UpdateProfileResult,
   UpdateProfileVariables,
+  VerifyEmailResult,
+  VerifyEmailVariables,
 } from "@/lib/interfaces/user"
 import { useQuery, MutationFunction } from "react-query"
 import { arriumAPI } from "./axios"
@@ -31,5 +33,16 @@ export const requestEmailVerify: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.post("/user/request-verify-email", { email: params.email })
+  ).data
+}
+
+export const verifyEmail: MutationFunction<
+  VerifyEmailResult,
+  VerifyEmailVariables
+> = async params => {
+  return await (
+    await arriumAPI.post("/user/verify-email", {
+      verficationToken: params.verficationToken,
+    })
   ).data
 }

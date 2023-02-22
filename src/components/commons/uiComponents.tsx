@@ -7,10 +7,10 @@ export const StyledLoginContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: ${rem("20px")};
+  border-radius: 20px;
   background-color: #f2f3f7;
-  padding: ${rem("40px")};
-  width: ${rem("458px")};
+  padding: 40px;
+  width: 458px;
 `
 
 export const StyledCardHeader = styled.h4`

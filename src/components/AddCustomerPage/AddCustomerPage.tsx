@@ -2,29 +2,33 @@ import React from "react"
 import { Box, IconButton } from "@mui/material"
 import { rem } from "polished"
 import { useLocation } from "@reach/router"
+import queryString from "query-string"
+import { useSnackbar } from "notistack"
+
 import {
   StyledAddCustomerPage,
   StyledAddCustomerPageHeaderContainer,
   StyledAddCustomerPageHeader,
   StyledAddCustomerPageContent,
-} from "./AddCustomerPage.styled"
+} from "@/components/AddCustomerPage/AddCustomerPage.styled"
 import BackNavigationIcon from "@mui/icons-material/ChevronLeft"
 import theme from "@/theme"
-import AccountInformationTab from "./AccountInformationTab"
-import ConfigurationTab from "./ConfigurationTab"
-import ReferralTab from "./ReferralTab"
-import { StyledTab, StyledTabs } from "../commons/uiComponents"
-import queryString from "query-string"
+import AccountInformationTab from "@/components/AddCustomerPage/AccountInformationTab"
+import ConfigurationTab from "@/components/AddCustomerPage/ConfigurationTab"
+import ReferralTab from "@/components/AddCustomerPage/ReferralTab"
+import { StyledTab, StyledTabs } from "@/components/commons/uiComponents"
 import { LabelledUserRoles, UserRoles } from "@/constants/common"
 import { UserRolesType } from "@/types/common"
-import { TabType, tabs } from "./AddCustomersPage.data"
-import LocationsTab from "./LocationsTab"
+import {
+  TabType,
+  tabs,
+} from "@/components/AddCustomerPage/AddCustomersPage.data"
+import LocationsTab from "@/components/AddCustomerPage/LocationsTab"
 import routes from "@/constants/routes"
-import BillingTab from "./BillingTab"
+import BillingTab from "@/components/AddCustomerPage/BillingTab"
 import useNavigate from "@/hooks/useNavigate"
-import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
-import SaveChangesModal from "../SaveChangesModal"
+import SaveChangesModal from "@/components/SaveChangesModal"
 
 interface AddCustomersPageProps extends PageProps {}
 

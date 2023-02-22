@@ -1,10 +1,13 @@
 import React from "react"
 import { InputAdornment, TextFieldProps } from "@mui/material"
-import { FormValues } from "./AvailablityPage.types"
+import {
+  FormValues,
+  FormValuesDataKey,
+} from "@/components/AvailabilityPage/AvailablityPage.types"
 import { MobileTimePicker, MobileTimePickerProps } from "@mui/x-date-pickers"
 import { createDateInHM } from "@/utils"
 import { store } from "@/store"
-import { StyledSearchTableTextField } from "./AvailabilityPage.styled"
+import { StyledSearchTableTextField } from "@/components/AvailabilityPage/AvailabilityPage.styled"
 
 export const availabilityStatusOptions = {
   Accepted: { label: "Accepted", value: "accepted" },
@@ -125,7 +128,18 @@ interface TimePickerProps
   fullWidth?: boolean
 }
 
-export const searchTableShape = [
+export const searchTableShape: (
+  | {
+      label: string
+      name: FormValuesDataKey
+      renderInput(props: TextFieldProps): JSX.Element
+    }
+  | {
+      label: string
+      name: FormValuesDataKey
+      renderInput(props: TimePickerProps): JSX.Element
+    }
+)[] = [
   {
     label: "Time to arrive",
     name: "timeToArrive",

@@ -160,7 +160,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
     if (!preferenceData?.data) return
     methods.reset({
       data: preferenceData.data.map((value: GetPrefrencesResultData) => ({
-        location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
+        location: `${value.station.stationName} (${value.station.stationCode})`,
         checked: value?.preference?.active === "Y" ? true : false,
         timeToArrive: value?.preference?.tta,
         startTime:

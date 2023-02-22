@@ -85,6 +85,7 @@ const FlexAccountTabContent = () => {
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.password}
+                    readOnly
                     endAdornment={
                       <div>
                         <OutlinedButton

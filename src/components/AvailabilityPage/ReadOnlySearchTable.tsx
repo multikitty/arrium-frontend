@@ -103,7 +103,7 @@ const ReadOnlySearchTable = () => {
               }}
               align="left"
             >
-              Minimun Hourly Rate
+              Minimum Hourly Rate
             </TableCell>
           </TableRow>
         </TableHead>

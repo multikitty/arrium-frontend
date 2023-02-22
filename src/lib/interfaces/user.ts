@@ -56,3 +56,17 @@ export interface RequestEmailVerifyResult {
   success: boolean
   validationError?: RequestEmailVerifyError
 }
+
+export interface VerifyEmailVariables {
+  verficationToken: string
+}
+
+export interface VerifyEmailError {
+  verficationToken?: string
+}
+
+export interface VerifyEmailResult {
+  message: string
+  success: boolean
+  validationError?: VerifyEmailError
+}

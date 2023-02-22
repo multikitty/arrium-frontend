@@ -23,7 +23,6 @@ import {
   StyledButtonContainer,
   StyledSupportFormLabel,
 } from "./SupportPage.styled"
-import { Helmet } from "react-helmet"
 
 const SupportPage = () => {
   type FormPropType = typeof supportOptions.defaultValues
@@ -40,12 +39,10 @@ const SupportPage = () => {
 
   return (
     <StyledSupportPage>
-      <Helmet>
-        <script
-          id="ze-snippet"
-          src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
-        />
-      </Helmet>
+      <script
+        id="ze-snippet"
+        src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
+      />
       <StyledSupportPageHeader>Support</StyledSupportPageHeader>
       <StyledSupportPageWrapper
         component="form"

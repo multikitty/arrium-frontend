@@ -21,10 +21,10 @@ export const StyledStepperNode = styled.div<{ state: EState }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${rem("32px")};
-  width: ${rem("32px")};
+  height: 32px;
+  width: 32px;
   border-radius: 50%;
-  margin: ${rem("4px")};
+  margin: 4px;
   border: 1px solid #d2d3d9;
 
   ${p =>

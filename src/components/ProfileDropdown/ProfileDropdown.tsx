@@ -29,6 +29,7 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { useCurrentUser } from "@/agent/user"
 import { PageProps } from "@/lib/interfaces/common"
+import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
 
 interface ProfileDropdownProps extends PageProps {
   handleClose: () => void
@@ -156,7 +157,10 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                   />
                 </Box>
                 <StyledProfileDropdownUpperSectionVerificationText>
-                  {currentUserData.data.phoneNumber}
+                  {`+${currentUserData.data.dialCode}${getRawPhoneNumber(
+                    currentUserData.data.phoneNumber,
+                    currentUserData.data.dialCode
+                  )}`}
                 </StyledProfileDropdownUpperSectionVerificationText>
                 <StyledFlexGrow />
                 {!currentUserData.data.phoneVerified && (

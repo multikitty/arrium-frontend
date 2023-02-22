@@ -58,7 +58,7 @@ interface SearchTableProps {
 }
 
 const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
-  const { formState, control, ...methods } = useFormContext()
+  const { formState, control, ...methods } = useFormContext<FormValues>()
 
   useWatch({ name: "data", control })
 
@@ -118,20 +118,15 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
                       onBlur,
                       disabled,
                       error: !!formState.errors?.data?.[index]?.[name],
-                      minTime:
-                        name === "endTime"
-                          ? methods.getValues(`data.${index}.startTime`)
-                          : null,
                     })
                   )
                 }
               />
               {formState.errors?.data?.[index]?.[name] && (
                 <StyledAvailabilitySearchTableFieldHelperText>
-                  {(formState.errors.data[index][name].message || "").slice(
-                    0,
-                    40
-                  )}
+                  {(
+                    formState?.errors?.data?.[index]?.[name]?.message || ""
+                  ).slice(0, 40)}
                 </StyledAvailabilitySearchTableFieldHelperText>
               )}
             </StyledAvailabilitySearchTableFieldContainer>
@@ -198,10 +193,9 @@ const SearchTable: React.FC<SearchTableProps> = ({ isMobile }) => {
               />
               {formState.errors?.data?.[index]?.[name] && (
                 <StyledAvailabilitySearchTableFieldHelperText>
-                  {(formState.errors.data[index][name].message || "").slice(
-                    0,
-                    40
-                  )}
+                  {(
+                    formState?.errors?.data?.[index]?.[name]?.message || ""
+                  ).slice(0, 40)}
                 </StyledAvailabilitySearchTableFieldHelperText>
               )}
             </StyledAvailabilitySearchTableFieldContainer>

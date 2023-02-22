@@ -19,7 +19,6 @@ import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
-import { Helmet } from "react-helmet"
 
 interface HoldingPageProps extends FormProps, PageProps {}
 
@@ -38,12 +37,10 @@ const HoldingPage: React.FC<HoldingPageProps> = ({
 
   return (
     <React.Fragment>
-      <Helmet>
-        <script
-          id="ze-snippet"
-          src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
-        />
-      </Helmet>
+      <script
+        id="ze-snippet"
+        src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
+      />
       {isWebView ? (
         <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">

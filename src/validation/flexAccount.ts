@@ -10,7 +10,7 @@ const flexAccountOptions = {
   resolver: yupResolver(flexAccountSchema),
   defaultValues: {
     userName: "eliza.doolittle@gmail.com",
-    password: "",
+    password: "somepasss",
   },
 }
 

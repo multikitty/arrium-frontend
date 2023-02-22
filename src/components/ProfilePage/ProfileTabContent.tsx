@@ -276,9 +276,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
       email: userData.data.email,
       name: userData.data.firstname,
       surName: userData.data.lastname,
-      phoneNumber: `+${userData.data.dialCode.replaceAll("+", "")}${
-        userData.data.phoneNumber
-      }`,
+      phoneNumber: `+${userData.data.phoneNumber}`,
       timezone: userData.data.tzName,
     })
   }, [userData])
@@ -582,6 +580,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.phoneNumber}
+                    readOnly={!isPhoneEditEnabled}
                     endAdornment={
                       isPhoneEditEnabled ? (
                         <Box display="flex" mb={rem("8px")}>

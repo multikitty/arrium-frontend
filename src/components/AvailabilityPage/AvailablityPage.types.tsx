@@ -6,19 +6,23 @@ export interface TabPanelProps {
   value: number
 }
 
+export type FormValuesData = {
+  location: string
+  checked: boolean
+  timeToArrive: string
+  startTime: Date | null
+  endTime: Date | null
+  minimumPay: number | ""
+  minimumHourlyRate: number | ""
+  stationCode: string
+  regionId: string
+  stationId: string
+}
+
+export type FormValuesDataKey = keyof FormValuesData
+
 export type FormValues = {
-  data: Array<{
-    location: string
-    checked: boolean
-    timeToArrive: string
-    startTime: Date | null
-    endTime: Date | null
-    minimumPay: number | ""
-    minimumHourlyRate: number | ""
-    stationCode: string
-    regionId: string
-    stationId: string
-  }>
+  data: FormValuesData[]
 }
 
 export type FormValuesAutomationSchedule = {

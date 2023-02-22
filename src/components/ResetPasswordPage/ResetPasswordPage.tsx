@@ -2,6 +2,8 @@ import React, { useMemo, useState } from "react"
 import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { useForm, useWatch } from "react-hook-form"
+import { useLocation } from "@reach/router"
+import queryString from "query-string"
 
 import {
   StyledButton,
@@ -30,17 +32,32 @@ import {
 import useDeepCompareEffect from "use-deep-compare-effect"
 import PasswordValidationPopUp from "@/components/PasswordValidationPopUp/PasswordValidationPopUp"
 import brandLogo from "@/assets/icons/arrium_logo.png"
+import { useMutation } from "react-query"
+import {
+  ForgotPasswordUpdatePasswordResult,
+  ForgotPasswordUpdatePasswordVariables,
+} from "@/lib/interfaces/forgotPassword"
+import { forgotPasswordUpdatePassword } from "@/agent/forgotPassword"
+import { useSnackbar } from "notistack"
 
 interface ResetPasswordProps extends PageProps {}
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
+  const { enqueueSnackbar } = useSnackbar()
   const { navigate } = useNavigate({ country_code })
+  const location = useLocation()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false)
   const [isPasswordFieldFocused, setIsPasswordFieldFocused] = useState(false)
   const [requiredSet, setRequiredSet] =
     useState<RequiredSet>(REQUIRED_SET_DEFAULT)
+  const [token, setToken] = React.useState("")
+  const { mutate } = useMutation<
+    ForgotPasswordUpdatePasswordResult,
+    Error,
+    ForgotPasswordUpdatePasswordVariables
+  >(forgotPasswordUpdatePassword)
 
   type FormPropType = typeof formOptions.defaultValues
   const {
@@ -57,14 +74,41 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
 
   const isWebView = useMediaQuery(devices.web.up)
 
-  const onSubmit = (data: FormPropType) => {
+  const onSubmit = async (data: FormPropType) => {
     if (!isPasswordValid) {
       methods.setError("password", {
         message: "Please choose a stronger password",
       })
       return
     }
-    console.log("Reset Password Page Form Submit Data: ", data)
+    await mutate(
+      {
+        verficationToken: token,
+        password: data.password,
+      },
+      {
+        onSuccess({ success, message, validationError }) {
+          if (!success) {
+            enqueueSnackbar(
+              validationError?.verficationToken ||
+                validationError?.password ||
+                message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+          navigate(routes.signin)
+          enqueueSnackbar(message, { variant: "success" })
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+          console.log("VARIABLES USED:", variables)
+        },
+      }
+    )
     navigate(routes.signin)
   }
 
@@ -105,6 +149,14 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
       ),
     })
   }, [methods.getValues()])
+
+  React.useEffect(() => {
+    if (!location.search) return
+    const parsedQuery = queryString.parse(location.search)
+    const token = parsedQuery?.token as string | null
+    if (!token) return
+    setToken(token)
+  }, [location])
 
   const isSubmitDisabled =
     !methods.getValues("password") ||
