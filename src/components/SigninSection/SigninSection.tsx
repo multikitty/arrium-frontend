@@ -3,6 +3,7 @@ import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import { rem } from "polished"
+import { useMutation } from "react-query"
 
 import {
   StyledButton,
@@ -17,7 +18,6 @@ import {
 import emailAndPasswordOptions from "@/validation/emailAndPassword"
 import { devices } from "@/constants/device"
 import { useStore } from "@/store"
-import { useMutation } from "react-query"
 import { signinUser } from "@/agent/signin"
 import { SigninUserResult, SigninUserVariables } from "@/lib/interfaces/signin"
 import routes from "@/constants/routes"
@@ -34,11 +34,14 @@ import {
   StyledCheckBox,
   StyledForgotPassword,
   StyledRemeberMeText,
-} from "./SigninSection.styled"
+} from "@/components/SigninSection/SigninSection.styled"
+import { SnackbarKey, useSnackbar } from "notistack"
+import Message from "@/components/Message"
 
 interface SigninSectionProps extends PageProps {}
 
 const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const {
     navigateToDefault,
     navigate,
@@ -69,6 +72,11 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
     navigateToSignup(REGISTRATION_STEP_MAP[step])
   }
 
+  const handleNavigateToContactForm = (key: SnackbarKey) => {
+    navigate(`${routes.home}#${IDS.landing["contact-us-section"]}`)
+    closeSnackbar(key)
+  }
+
   const onSubmit = (props: FormPropType) => {
     mutate(
       {
@@ -84,6 +92,36 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             })
           }
           if (!data) return
+          if (data.userData.accountStatus === "disabled") {
+            enqueueSnackbar("", {
+              persist: true,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "center",
+              },
+              content: key => (
+                <Message
+                  id={key}
+                  title="Your account has been disabled."
+                  text={
+                    <div>
+                      To reactivate your account, please contact the Team using
+                      <br />
+                      the{" "}
+                      <span
+                        className="link"
+                        onClick={() => handleNavigateToContactForm(key)}
+                      >
+                        contact form
+                      </span>
+                    </div>
+                  }
+                  variant="error"
+                />
+              ),
+            })
+            return
+          }
           setLocalStorage(TOKEN, data.userData.token)
           if (
             data.userData.role !== "admin" &&

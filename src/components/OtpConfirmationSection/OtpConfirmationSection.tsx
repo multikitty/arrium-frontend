@@ -13,12 +13,12 @@ import {
   StyledCardHeader,
   StyledSignUpButton,
   StyledSignUpText,
-} from "../commons/uiComponents"
-import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
-import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
-import { StyledOtpInput } from "./OtpConfirmationSection.styled"
-import { LinkButton } from "../commons/Button"
-import { FormProps } from "../SignUpPage/SignUpPage"
+} from "@/components/commons/uiComponents"
+import { SignupStepsProgressMobile } from "@/components/SignupStepsProgress/SignupStepsProgress"
+import { StyledText } from "@/components/RegistrationSection/RegistrationSection.styled"
+import { StyledOtpInput } from "@/components/OtpConfirmationSection/OtpConfirmationSection.styled"
+import { LinkButton } from "@/components/commons/Button"
+import { FormProps } from "@/components/SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import useCountDown from "@/hooks/useCountDown"
 import { timeFromNowInMs } from "@/utils"

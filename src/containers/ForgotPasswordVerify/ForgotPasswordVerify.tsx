@@ -4,7 +4,7 @@ import queryString from "query-string"
 import { useMutation } from "react-query"
 import { Box, useMediaQuery } from "@mui/material"
 
-import { devices } from "@/constants/device"
+import { ZIndices, devices } from "@/constants/device"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
@@ -88,7 +88,11 @@ const ForgotPasswordVerify: React.FC<ForgotPasswordVerifyProps> = ({
             <img
               onClick={handleNavigateToHome}
               src={brandLogo}
-              style={{ cursor: "pointer", marginBottom: "15px" }}
+              style={{
+                cursor: "pointer",
+                marginBottom: "15px",
+                zIndex: ZIndices.brandLogo,
+              }}
               height="69px"
               width="238px"
             />

@@ -124,7 +124,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const { enqueueSnackbar } = useSnackbar()
-  const { messageStore, userStore } = useStore()
+  const { userStore } = useStore()
   const { mutate, isLoading: isMutationLoading } = useMutation<
     UpdateUserAccountInfoResult,
     Error,
@@ -285,6 +285,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     }
     try {
       await handleUpdateAccountInfo()
+      if (props.pricingPlan === data.enablePricingPlan) {
+        props.refetchCustomerData()
+        return
+      }
       await updatePricingPlanStatusMutate(
         {
           userSK: props.sk,
@@ -317,8 +321,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
 
   const handleEndDatePickerClick = () => {
     if (getValues("startDate")) return setEndDatePickerOpen(true)
-    messageStore.setMessage = "Please select Start Date first!"
-    messageStore.setOpen = true
+    enqueueSnackbar("Please select Start Date first!", { variant: "error" })
   }
 
   const stationTypeOptionsJSX = (stationTypeListData?.data?.Items || []).map(

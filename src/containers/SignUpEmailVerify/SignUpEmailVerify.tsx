@@ -82,7 +82,7 @@ const SignUpEmailVerify: React.FC<SignUpEmailVerifyProps> = ({
             <img
               onClick={handleNavigateToHome}
               src={brandLogo}
-              style={{ cursor: "pointer", marginBottom: "15px" }}
+              style={{ cursor: "pointer" }}
               height="69px"
               width="238px"
             />

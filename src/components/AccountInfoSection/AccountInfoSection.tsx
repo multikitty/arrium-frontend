@@ -99,6 +99,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
   )
   const [dialCode, setDialCode] = useState(data?.dialCode || "")
   const [phoneNumberError, setPhoneNumberError] = useState(false)
+  const [isPhoneInputDirty, setIsPhoneInputDirty] = useState(false)
   const [firstName, setFirstName] = useState(data?.firstname || "")
   const [surName, setSurName] = useState(data?.lastname || "")
   const [country, setCountry] = useState<CountryDataType | null>(
@@ -165,6 +166,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     setPhoneNo(phone)
     setPhoneCountry(countryCode)
     setDialCode(countryDialCode)
+    setIsPhoneInputDirty(true)
   }
 
   useEffect(validateRawPhoneNumber, [phoneNo])
@@ -255,7 +257,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
               required: true,
             }}
           />
-          {phoneNumberError && (
+          {phoneNumberError && isPhoneInputDirty && (
             <HelperText type="large" mt="-8px" mb="16px">
               Please enter valid phone number
             </HelperText>

@@ -38,6 +38,7 @@ import { StyledAccountInformationTabDateField } from "../CustomerDetailPage/Cust
 import { observer } from "mobx-react-lite"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { useSnackbar } from "notistack"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -82,11 +83,12 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
   setRole,
   country_code,
 }) => {
+  const { enqueueSnackbar } = useSnackbar()
   const {
     navigateWithQuery: { navigateToAddCustomerPage },
   } = useNavigate({ country_code })
   const classes = useStyles()
-  const { messageStore, userStore } = useStore()
+  const { userStore } = useStore()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
@@ -118,8 +120,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
 
   const handleEndDatePickerClick = () => {
     if (methods.getValues("startDate")) return setEndDatePickerOpen(true)
-    messageStore.setMessage = "Please select Start Date first!"
-    messageStore.setOpen = true
+    enqueueSnackbar("Please select Start Date first!", { variant: "error" })
   }
 
   const onSubmit = (data: FormPropType) => {

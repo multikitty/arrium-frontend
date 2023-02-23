@@ -1,20 +1,18 @@
+import React from "react"
 import { Box } from "@mui/material"
 import { rem } from "polished"
-import React from "react"
 import { StyledTab, StyledTabs } from "@/components/commons/uiComponents"
-import Message from "@/components/Message"
-import LocationsTab from "./LocationsTab"
+import LocationsTab from "@/components/SettingsPage/LocationsTab"
 import {
   StyledSettingsPage,
   StyledSettingsPageContent,
   StyledSettingsPageHeader,
   StyledSettingsPageHeaderContainer,
-} from "./SettingsPage.styled"
-import StationTypesTab from "./StationTypesTab"
+} from "@/components/SettingsPage/SettingsPage.styled"
+import StationTypesTab from "@/components/SettingsPage/StationTypesTab"
 
 const SettingsPage = () => {
   const [tab, setTab] = React.useState("locations")
-  const [message, setMessage] = React.useState<string | boolean>("")
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setTab(newValue)
@@ -27,13 +25,6 @@ const SettingsPage = () => {
     <StyledSettingsPage>
       <StyledSettingsPageHeaderContainer>
         <StyledSettingsPageHeader>Settings</StyledSettingsPageHeader>
-        <Message
-          visible={!!message}
-          setVisible={setMessage}
-          autoHide={6000}
-          variant="success"
-          text={message}
-        />
       </StyledSettingsPageHeaderContainer>
       <StyledSettingsPageContent>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

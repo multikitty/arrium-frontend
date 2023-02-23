@@ -1,18 +1,15 @@
 import { createContext, useContext } from "react"
 
-import UserStore from "./userStore"
-import MessageStore from "./messageStore"
-import CommonStore from "./commonStore"
+import UserStore from "@/store/userStore"
+import CommonStore from "@/store/commonStore"
 
 interface Store {
   userStore: UserStore
-  messageStore: MessageStore
   commonStore: CommonStore
 }
 
 export const store: Store = {
   userStore: new UserStore(),
-  messageStore: new MessageStore(),
   commonStore: new CommonStore(),
 }
 

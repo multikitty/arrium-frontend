@@ -79,9 +79,20 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
       options={
         !!include
           ? options.filter(opt =>
-              include.includes(opt.countryShortName.toLowerCase())
+              include.find(
+                inc => inc.toLowerCase() === opt.countryShortName.toLowerCase()
+              )
             )
           : options
+      }
+      filterOptions={(options, state) =>
+        options.filter(countryName =>
+          state.inputValue.toLowerCase()
+            ? countryName.countryName
+                .toLowerCase()
+                .includes(state.inputValue.toLowerCase())
+            : true
+        )
       }
       loading={loading}
       value={country}

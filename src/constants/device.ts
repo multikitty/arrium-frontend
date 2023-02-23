@@ -8,6 +8,7 @@ export const Sizes = {
 } as const
 
 export const ZIndices = {
+  brandLogo: "1500",
   modalOverlay: 990,
   fullscreenLandingMenu: 999,
   navbar: 998,

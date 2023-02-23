@@ -121,7 +121,10 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
           <img
             onClick={handleNavigateToHome}
             src={brandLogo}
-            style={{ cursor: "pointer", marginBottom: "15px" }}
+            style={{
+              cursor: "pointer",
+              marginBottom: "15px",
+            }}
             height="69px"
             width="238px"
           />
