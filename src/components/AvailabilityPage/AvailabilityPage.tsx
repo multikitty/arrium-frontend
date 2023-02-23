@@ -134,17 +134,17 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   const [isSearchable, setIsSearchable] = useState(false)
   const { data: preferenceData, isLoading, refetch } = usePreferences()
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
-  const isPremiumUser = userStore.currentUser?.plan === Plans.premium
+  const isPremiumUser = userStore.currentUser?.planType === Plans.premium
 
   const isEnableIdentityScript =
     userStore.currentUser &&
-    userStore.currentUser.id &&
-    userStore.currentUser.firstName &&
-    userStore.currentUser?.lastName &&
+    userStore.currentUser.customerID &&
+    userStore.currentUser.firstname &&
+    userStore.currentUser.lastname &&
     userStore.currentUser.email &&
-    userStore.currentUser.isEmailVerified &&
+    userStore.currentUser.emailVerified &&
     userStore.currentUser.tzName &&
-    userStore.currentUser.plan &&
+    userStore.currentUser.planType &&
     userStore.flexData &&
     userStore.flexData.region
 
@@ -394,21 +394,21 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
             __html: `
           // example with attributes
           window.userGuiding.identify('${userStore.currentUser.pk}', {
-            customerID: '${userStore.currentUser.id}',
-            firstName: '${userStore.currentUser.firstName}',
-            lastName: '${userStore.currentUser?.lastName}',
+            customerID: '${userStore.currentUser.customerID}',
+            firstName: '${userStore.currentUser.firstname}',
+            lastName: '${userStore.currentUser.lastname}',
             email: '${userStore.currentUser.email}',
-            emailVerified: ${userStore.currentUser.isEmailVerified},
+            emailVerified: ${userStore.currentUser.emailVerified},
             tzName: '${userStore.currentUser.tzName}',
-            role: '${userStore.currentUser?.role}',
+            role: '${userStore.currentUser.role}',
             accountStatus: '${userStore.currentUser.accountStatus}',
-            flexCountry: '${userStore.currentUser?.flexCountry}',
+            flexCountry: '${userStore.currentUser.flexCountry}',
             region: '${userStore.flexData.region}',
-            planType: '${userStore.currentUser.plan}',
-            stationType: '${userStore.currentUser?.stationType}',
+            planType: '${userStore.currentUser.planType}',
+            stationType: '${userStore.currentUser.stationType}',
             PricingPlanEnabled: true,
-            startDate: '${userStore.currentUser?.startDate}',
-            endDate: '${userStore.currentUser?.endDate}'
+            startDate: '${userStore.currentUser.startDate}',
+            endDate: '${userStore.currentUser.endDate}'
 
           })
           `,

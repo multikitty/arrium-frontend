@@ -8,7 +8,7 @@ import {
 } from "./SubscriptionPage.styled"
 
 import { rem } from "polished"
-import { StyledTabs, StyledTab } from "../commons/uiComponents"
+import { StyledTabs, StyledTab } from "@/components/commons/uiComponents"
 
 import SubscriptionTab from "@/components/SubscriptionTab"
 import PricingPlansTab from "@/components/PricingPlansTab"
@@ -18,6 +18,8 @@ import {
 } from "./SubscriptionPage.data"
 import { PageProps } from "@/lib/interfaces/common"
 import { Box } from "@mui/material"
+import { useCurrentUser } from "@/agent/user"
+import LoadingScreen from "@/components/LoadingScreen/LoadingScreen"
 
 interface ISubscriptionPageProps extends PageProps {}
 
@@ -27,6 +29,7 @@ const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
   const [tab, setTab] = React.useState<SubscriptionPageTab>(
     SUBSCRIPTION_PAGE_TABS.subscription
   )
+  const { data: currentUserData, isLoading } = useCurrentUser()
 
   const handleChange = (
     _: React.SyntheticEvent,
@@ -34,6 +37,8 @@ const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
   ) => {
     setTab(newValue)
   }
+
+  if (isLoading) return <LoadingScreen />
 
   return (
     <StyledSubscriptionPage>
@@ -64,14 +69,16 @@ const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
               label="Subscription"
               value={SUBSCRIPTION_PAGE_TABS.subscription}
             />
-            <StyledTab
-              sx={{
-                padding: `${rem("30px")} ${rem("32px")}`,
-                textTransform: "capitalize",
-              }}
-              label="Pricing Plans"
-              value={SUBSCRIPTION_PAGE_TABS.pricingPlans}
-            />
+            {currentUserData?.data?.pricingPlan && (
+              <StyledTab
+                sx={{
+                  padding: `${rem("30px")} ${rem("32px")}`,
+                  textTransform: "capitalize",
+                }}
+                label="Pricing Plans"
+                value={SUBSCRIPTION_PAGE_TABS.pricingPlans}
+              />
+            )}
           </StyledTabs>
         </Box>
         {/* Tab View */}

@@ -1,21 +1,26 @@
-import { RegistrationStepsType } from "@/types/common"
+import { PlansType, RegistrationStepsType, UserRolesType } from "@/types/common"
+import { CustomerAccountStatus } from "./customers"
 
 export interface CurrentUserData {
   phoneNumber: string
+  pricingPlan: boolean
+  planType: PlansType
   refCode: string
-  country: string
   tzName: string
   currentSteps: RegistrationStepsType
+  otp: number
   email: string
+  country: string
   emailVerified: boolean
-  pkEmail: string
   lastname: string
-  accountStatus: string
-  role: string
+  accountStatus: CustomerAccountStatus
+  role: UserRolesType
+  flexCountry: string
   firstname: string
   startDate: number
   sk: string
   phoneVerified: boolean
+  region: string
   pk: string
   dialCode: string
   customerID: string
@@ -69,4 +74,19 @@ export interface VerifyEmailResult {
   message: string
   success: boolean
   validationError?: VerifyEmailError
+}
+
+export interface UpdatePricingPlanStatusVariables {
+  userSK: string
+  userPK: string
+  pricingPlan: boolean
+}
+
+export interface UpdatePricingPlanStatusError
+  extends UpdatePricingPlanStatusVariables {}
+
+export interface UpdatePricingPlanStatusResult {
+  message: string
+  success: boolean
+  validationError?: UpdatePricingPlanStatusError
 }

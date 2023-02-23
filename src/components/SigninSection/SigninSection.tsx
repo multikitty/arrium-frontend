@@ -25,11 +25,7 @@ import useNavigate from "@/hooks/useNavigate"
 import { setLocalStorage } from "@/utils/localStorage"
 import { PageProps } from "@/lib/interfaces/common"
 import { TOKEN } from "@/constants/localStorage"
-import {
-  DEFAULT_COUNTRY,
-  DEFAULT_PLAN,
-  REGISTRATION_STEP_MAP,
-} from "@/constants/common"
+import { REGISTRATION_STEP_MAP } from "@/constants/common"
 import { RegistrationStepsType } from "@/types/common"
 import InputField from "@/components/commons/InputField"
 import HelperText from "@/components/commons/HelperText"
@@ -96,47 +92,9 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
           }
-          userStore.authenticateUser({
-            id: data.userData.customerID,
-            firstName: data.userData.firstname,
-            lastName: data.userData.lastname,
-            country: country_code || DEFAULT_COUNTRY,
-            phoneNumber: data.userData.phoneNumber,
-            isPhoneVerified: data.userData.phoneVerified,
-            email: data.userData.email,
-            isEmailVerified: data.userData.emailVerified,
-            role: data.userData.role,
-            plan: data.userData.planType || DEFAULT_PLAN,
-            tzName: data.userData.tzName,
-            amznFlexUser: data.userData.amznFlexUser,
-            refCode: data.userData.refCode,
-            currentSteps: data.userData.currentSteps,
-            sk: data.userData.sk,
-            pk: data.userData.pk,
-            accountStatus: data.userData.accountStatus,
-            flexCountry: data.userData.flexCountry,
-            stationType: data.userData.stationType,
-            startDate: data.userData.startDate,
-            endDate: data.userData.endDate,
-          })
+          userStore.authenticateUser(data.userData)
+          userStore.setUserFlexData(data.flexData)
           navigateToDefault(data.userData.role)
-
-          userStore.setUserFlexData({
-            flexID: data.flexData.flexID,
-            devModel: data.flexData.devModel,
-            devSerial: data.flexData.devSerial,
-            devID: data.flexData.devID,
-            country: data.flexData.country,
-            amznFlexUser: data.flexData.amznFlexUser,
-            amznFlexPassword: data.flexData.amznFlexPassword,
-            amznID: data.flexData.amznID,
-            flexVersion: data.flexData.flexVersion,
-            osVersion: data.flexData.osVersion,
-            region: data.flexData.region,
-            devType: data.flexData.devType,
-            sk: data.flexData.sk,
-            pk: data.flexData.pk,
-          })
         },
         onError(error) {
           console.log(error)

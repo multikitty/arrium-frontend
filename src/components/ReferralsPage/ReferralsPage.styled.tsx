@@ -77,10 +77,10 @@ export const StyledReferralsPageContentUpperSectionRecordCountText = styled.h6`
 `
 
 export const StyledCreateReferralModal = styled(Paper).attrs({ elevation: 1 })`
-  border-radius: ${rem("20px")};
-  padding: ${rem("16px")};
+  border-radius: 20px;
+  padding: 16px;
   width: 100%;
-  max-width: ${rem("420px")};
+  max-width: 420px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -91,7 +91,7 @@ export const StyledCreateReferralModalCloseIconContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
-  margin-bottom: ${rem("6px")};
+  margin-bottom: 6px;
 `
 
 export const StyledCreateReferralModalTitle = styled.h3`

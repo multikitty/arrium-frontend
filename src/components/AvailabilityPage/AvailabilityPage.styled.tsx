@@ -176,17 +176,24 @@ export const StyledNoSearchResultsText = styled(Typography)`
 export const StyledAvailablityAutomationModal = styled(Paper).attrs({
   elevation: 1,
 })<{}>`
-  border-radius: ${rem("20px")};
-  padding: ${rem("16px")};
+  border-radius: 20px;
+  padding: 16px;
   width: 100%;
-  max-width: ${rem("642px")};
+  max-width: 642px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: ${rem("760px")};
+  max-height: 760px;
   overflow: scroll;
   overflow-x: hidden;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &&&::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const StyledAvailablityAutomationModalTitle = styled.p`

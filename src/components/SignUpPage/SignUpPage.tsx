@@ -14,7 +14,7 @@ import HoldingPage from "@/components/HoldingPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
-import LoadingScreen from "../LoadingScreen"
+import LoadingScreen from "@/components/LoadingScreen"
 import { localStorageUtils } from "@/utils"
 import { TOKEN } from "@/constants/localStorage"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
@@ -54,7 +54,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
   const location = useLocation()
   const isWebView = useMediaQuery(devices.web.up)
   const [formStage, setFormStage] = useState(0)
-  const [showOnHold, setShowOnHold] = useState(false)
+  const [showOnHold] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [accountInfoData, setAccountInfoData] =
     useState<null | AccountInfoData>(null)
@@ -173,15 +173,14 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
           />
         )}
         {formStage === 4 &&
-          (!showOnHold ? (
-            <FinishPage
+          (showOnHold ? (
+            <HoldingPage
               stage={formStage}
               step="Finish"
-              setShowOnHold={setShowOnHold}
+              country_code={country_code}
             />
           ) : (
-            <HoldingPage
-              setFormStage={setFormStage}
+            <FinishPage
               stage={formStage}
               step="Finish"
               country_code={country_code}

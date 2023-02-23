@@ -48,8 +48,8 @@ const SidePanel: React.FC<SidePanelProps> = ({ country_code }) => {
     Icon: React.FunctionComponent<any>,
     label: string
   ) =>
-    (userStore?.currentUser?.plan &&
-      userStore.currentUser.plan !== "premium" &&
+    (userStore?.currentUser?.planType &&
+      userStore.currentUser.planType !== "premium" &&
       href === DriverPages.automationSchedule) || (
       <StyledSidePanelItem
         active={active}

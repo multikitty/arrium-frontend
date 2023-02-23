@@ -9,9 +9,9 @@ import theme from "@/theme"
 import ProfileDropdown from "@/components/ProfileDropdown"
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { useStore } from "@/store"
-import { IPageProps } from "@/lib/interfaces/common"
+import { PageProps } from "@/lib/interfaces/common"
 
-interface ITopbarProps extends IPageProps {}
+interface ITopbarProps extends PageProps {}
 
 const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
   const { userStore } = useStore()

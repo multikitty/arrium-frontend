@@ -2,6 +2,8 @@ import {
   CurrentUserResult,
   RequestEmailVerifyResult,
   RequestEmailVerifyVariables,
+  UpdatePricingPlanStatusResult,
+  UpdatePricingPlanStatusVariables,
   UpdateProfileResult,
   UpdateProfileVariables,
   VerifyEmailResult,
@@ -15,7 +17,9 @@ export function fetchCurrentUserData(): Promise<CurrentUserResult> {
 }
 
 export function useCurrentUser() {
-  return useQuery("current-user-data", () => fetchCurrentUserData())
+  return useQuery("current-user-data", () => fetchCurrentUserData(), {
+    staleTime: 10000,
+  })
 }
 
 export const updateProfile: MutationFunction<
@@ -44,5 +48,14 @@ export const verifyEmail: MutationFunction<
     await arriumAPI.post("/user/verify-email", {
       verficationToken: params.verficationToken,
     })
+  ).data
+}
+
+export const updatePricingPlanStatus: MutationFunction<
+  UpdatePricingPlanStatusResult,
+  UpdatePricingPlanStatusVariables
+> = async params => {
+  return await (
+    await arriumAPI.put("/user/pricing-plan", params)
   ).data
 }

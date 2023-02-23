@@ -63,6 +63,11 @@ import { capitalCase } from "change-case"
 import HelperText from "@/components/commons/HelperText/HelperText"
 import SendAccountApprovedEmailModal from "@/components/CustomerDetailPage/SendAccountApprovedModal"
 import TimezoneSelect from "@/components/TimezoneSelect"
+import {
+  UpdatePricingPlanStatusResult,
+  UpdatePricingPlanStatusVariables,
+} from "@/lib/interfaces/user"
+import { updatePricingPlanStatus } from "@/agent/user"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -130,6 +135,11 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     Error,
     SendAccountApprovedEmailVariables
   >(sendAccountApprovedEmail)
+  const { mutate: updatePricingPlanStatusMutate } = useMutation<
+    UpdatePricingPlanStatusResult,
+    Error,
+    UpdatePricingPlanStatusVariables
+  >(updatePricingPlanStatus)
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
   const [dialCode, setDialCode] = React.useState(props.dialCode)
   const [
@@ -264,7 +274,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           return
         }
         enqueueSnackbar(message, { variant: "success" })
-        props.refetchCustomerData()
       },
     })
   }
@@ -274,7 +283,36 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       handleSendAccountApprovedEmailModalOpen()
       return
     }
-    handleUpdateAccountInfo()
+    try {
+      await handleUpdateAccountInfo()
+      await updatePricingPlanStatusMutate(
+        {
+          userSK: props.sk,
+          userPK: props.pk,
+          pricingPlan: data.enablePricingPlan,
+        },
+        {
+          onSuccess({ success, message, validationError }) {
+            if (!success) {
+              enqueueSnackbar(
+                validationError?.userSK ||
+                  validationError?.userPK ||
+                  validationError?.pricingPlan ||
+                  message,
+                {
+                  variant: "error",
+                }
+              )
+              return
+            }
+            enqueueSnackbar(message, { variant: "success" })
+          },
+        }
+      )
+      props.refetchCustomerData()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleEndDatePickerClick = () => {

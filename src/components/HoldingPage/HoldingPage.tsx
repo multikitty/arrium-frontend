@@ -1,6 +1,5 @@
 import React from "react"
 import { Box, useMediaQuery } from "@mui/material"
-import { rem } from "polished"
 
 import { devices } from "@/constants/device"
 import EmailSvg from "@/assets/icons/signup_email.inline.svg"
@@ -11,16 +10,16 @@ import {
   StyledLoginContainerMobile,
   StyledCardHeader,
   StyledSignUpButton,
-} from "../commons/uiComponents"
-import { StyledText } from "../RegistrationSection/RegistrationSection.styled"
-import { SignupStepsProgressMobile } from "../SignupStepsProgress/SignupStepsProgress"
+} from "@/components/commons/uiComponents"
+import { StyledText } from "@/components/RegistrationSection/RegistrationSection.styled"
+import { SignupStepsProgressMobile } from "@/components/SignupStepsProgress/SignupStepsProgress"
 
-import { FormProps } from "../SignUpPage/SignUpPage"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { FormProps } from "@/components/SignUpPage"
 
-interface HoldingPageProps extends FormProps, PageProps {}
+interface HoldingPageProps extends Omit<FormProps, "setFormStage">, PageProps {}
 
 const HoldingPage: React.FC<HoldingPageProps> = ({
   stage,
@@ -49,14 +48,15 @@ const HoldingPage: React.FC<HoldingPageProps> = ({
           <StyledText>
             You&apos;ll receive a confirmation email within 24 hours.
           </StyledText>
-          <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
+          <Box display="flex" justifyContent="center" marginTop="28px">
             <EmailSvg />
           </Box>
           <StyledButton
+            autoFocus
             variant="contained"
             color="primary"
             disableElevation
-            $marginTop={rem("56px")}
+            $marginTop="56px"
             type="submit"
           >
             <StyledSignUpButton>
@@ -72,7 +72,7 @@ const HoldingPage: React.FC<HoldingPageProps> = ({
           <Box
             display="flex"
             flexDirection="column"
-            maxWidth={rem("375px")}
+            maxWidth="375px"
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
@@ -83,14 +83,15 @@ const HoldingPage: React.FC<HoldingPageProps> = ({
             <StyledText>
               You&apos;ll receive a confirmation email within 24 hours.
             </StyledText>
-            <Box display="flex" justifyContent="center" marginTop={rem("28px")}>
+            <Box display="flex" justifyContent="center" marginTop="28px">
               <EmailSvg />
             </Box>
             <StyledButton
+              autoFocus
               variant="contained"
               color="primary"
               disableElevation
-              $marginTop={rem("56px")}
+              $marginTop="56px"
               type="submit"
             >
               <StyledSignUpButton>

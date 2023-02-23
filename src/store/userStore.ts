@@ -37,14 +37,14 @@ class UserStore {
 
   get userFullName() {
     if (this.currentUser)
-      return `${this.currentUser.firstName} ${this.currentUser.lastName}`
+      return `${this.currentUser.firstname} ${this.currentUser.lastname}`
     return ""
   }
 
   get userInitials() {
     if (this.currentUser)
-      return `${this.currentUser.firstName?.[0] || ""}${
-        this.currentUser.lastName?.[0] || ""
+      return `${this.currentUser.firstname?.[0] || ""}${
+        this.currentUser.lastname?.[0] || ""
       }`
     return ""
   }
@@ -66,8 +66,11 @@ class UserStore {
   }
 
   get lowerCaseCountry() {
-    if (this.currentUser) return noCase(this.currentUser.country || "")
-    return "gb"
+    if (this.currentUser || this.flexData)
+      return noCase(
+        this.flexData?.country || this.currentUser?.flexCountry || ""
+      )
+    return DEFAULT_COUNTRY.toLowerCase()
   }
 
   set setUser(user: NonNullable<UserType>) {

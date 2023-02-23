@@ -50,6 +50,7 @@ export interface SigninFlexData {
 export interface SigninData {
   userData: SigninUserData
   flexData: SigninFlexData
+  isFreeTrial: boolean
 }
 
 export interface SigninUserResult {

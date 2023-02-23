@@ -117,12 +117,18 @@ export const StyledStationTypesTab = styled(StyledAccountInformationTab)``
 export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })<{
   countryNotListed?: boolean
 }>`
-  border-radius: ${rem("20px")};
-  padding: ${rem("16px")};
+  border-radius: 20px;
+  padding: 16px;
   width: 100%;
-  max-width: ${p => (p.countryNotListed ? rem("720px") : rem("420px"))};
-  margin: ${rem("20px")} auto;
+  max-width: ${p => (p.countryNotListed ? "720px" : "420px")};
+  margin: 20px auto;
   overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &&&::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const StyledAddCountryModalCloseIconContainer = styled.div`

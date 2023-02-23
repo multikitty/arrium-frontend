@@ -67,7 +67,9 @@ const TimezoneSelect: React.FC<IProps> = ({
       }}
       filterOptions={(options, state) =>
         options.filter(zoneName =>
-          state.inputValue ? zoneName.includes(state.inputValue) : true
+          state.inputValue.toLowerCase()
+            ? zoneName.toLowerCase().includes(state.inputValue.toLowerCase())
+            : true
         )
       }
       options={options}
