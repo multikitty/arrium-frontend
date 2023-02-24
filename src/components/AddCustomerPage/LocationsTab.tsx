@@ -12,10 +12,10 @@ import {
   StyledReferralTabFormItem as StyledLocationsTabFormItem,
 } from "./AddCustomerPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
-import CountrySelect from "../CountrySelect"
+import CountryAutocomplete from "@/components/CountryAutocomplete"
+import RegionSelect from "@/components/RegionAutocomplete"
 import { CountryData, RegionData } from "@/utils/getCountryData"
-import RegionSelect from "../RegionSelect"
-import SaveChangesModal from "../SaveChangesModal"
+import SaveChangesModal from "@/components/SaveChangesModal"
 import { useSnackbar } from "notistack"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
@@ -106,7 +106,7 @@ const LocationsTab: React.FC<LocationsTabProps> = ({ country_code }) => {
       <React.Fragment key={location.id}>
         <Grid item xs={12} lg={5}>
           <StyledLocationsTabFormItem>
-            <CountrySelect
+            <CountryAutocomplete
               country={location.country}
               setCountry={(c: CountryData | null) =>
                 handleChangeCountry(idx, c)

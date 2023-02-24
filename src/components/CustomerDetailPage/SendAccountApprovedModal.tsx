@@ -9,7 +9,7 @@ import {
   StyledDeleteConfirmationModalSubTitle,
 } from "@/components/SettingsPage/SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
-import { StyledCreateReferralModal as StyledSendAccountApprovedEmailModal } from "../ReferralsPage/ReferralsPage.styled"
+import { StyledReferralModal as StyledSendAccountApprovedEmailModal } from "@/components/ReferralsPage/ReferralsPage.styled"
 
 interface SendAccountApprovedEmailModalProps {
   open: boolean

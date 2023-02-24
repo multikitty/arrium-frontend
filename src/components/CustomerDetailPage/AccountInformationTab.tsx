@@ -17,6 +17,15 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
 import { Controller, useForm, useWatch } from "react-hook-form"
+import { observer } from "mobx-react-lite"
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+} from "react-query"
+import { useSnackbar } from "notistack"
+import { capitalCase } from "change-case"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
@@ -29,17 +38,10 @@ import {
   StyledAccountInformationTabForm,
   StyledAccountInformationTabFormActions,
   StyledAccountInformationTabFormLabel,
-} from "./CustomerDetailPage.styled"
+} from "@/components/CustomerDetailPage/CustomerDetailPage.styled"
 import { useStore } from "@/store"
-import { observer } from "mobx-react-lite"
 import { LabelledUserRoles, Plans } from "@/constants/common"
-import { PlansType } from "@/types/common"
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useMutation,
-} from "react-query"
+import { PlanType } from "@/types/common"
 import {
   CUSTOMER_ACCOUNT_STATUS,
   CustomerAccountInfoData,
@@ -53,16 +55,14 @@ import {
   sendAccountApprovedEmail,
   updateUserAccountInfo,
 } from "@/agent/customers"
-import { useSnackbar } from "notistack"
 import LoadingScreen from "@/components/LoadingScreen"
 import Switch from "@/components/commons/Switch/Switch"
 import { StyledPlaceholder } from "@/components/commons/uiComponents"
 import { useStationTypeList } from "@/agent/stationTypes"
 import { getCountryNameByCode } from "@/utils/getCountryNameByCode"
-import { capitalCase } from "change-case"
 import HelperText from "@/components/commons/HelperText/HelperText"
 import SendAccountApprovedEmailModal from "@/components/CustomerDetailPage/SendAccountApprovedModal"
-import TimezoneSelect from "@/components/TimezoneSelect"
+import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
 import {
   UpdatePricingPlanStatusResult,
   UpdatePricingPlanStatusVariables,
@@ -332,7 +332,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     )
   )
 
-  const planTypeOptionsJSX = Object.values(Plans).map((plan: PlansType) => (
+  const planTypeOptionsJSX = Object.values(Plans).map((plan: PlanType) => (
     <MenuItem value={plan} key={plan}>
       {capitalCase(plan)}
     </MenuItem>
@@ -413,7 +413,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   name={"timezone"}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <TimezoneSelect
+                    <TimezoneAutocomplete
                       size="medium"
                       placeholder="Choose timezone"
                       className={classes.timezoneStyles}

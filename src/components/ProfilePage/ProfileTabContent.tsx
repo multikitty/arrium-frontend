@@ -8,6 +8,8 @@ import { rem } from "polished"
 import { Controller, useForm } from "react-hook-form"
 import { makeStyles } from "@mui/styles"
 import { observer } from "mobx-react-lite"
+import { useMutation } from "react-query"
+import { useSnackbar } from "notistack"
 
 import {
   StyledProfileTabContent,
@@ -15,29 +17,27 @@ import {
   StyledProfileTabContentField,
   StyledProfileTabContentFieldHelperText,
   StyledProfileTabContentFieldLabel,
-} from "./ProfilePage.styled"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
-import ChangePasswordModal from "./ChangePasswordModal"
-import UpdatePhoneNumberModal from "./UpdatePhoneNumberModal"
+} from "@/components/ProfilePage/ProfilePage.styled"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
+import ChangePasswordModal from "@/components/ProfilePage/ChangePasswordModal"
+import UpdatePhoneNumberModal from "@/components/ProfilePage/UpdatePhoneNumberModal"
 import removeAllWhiteSpaces from "@/utils/removeAllWhiteSpaces"
-import CloseAccountModal from "./CloseAccountModal"
+import CloseAccountModal from "@/components/ProfilePage/CloseAccountModal"
 import theme from "@/theme"
 import { useStore } from "@/store"
 import { personalInformationOptions } from "@/validation"
 import useNavigate from "@/hooks/useNavigate"
 import routes from "@/constants/routes"
 import { requestEmailVerify, updateProfile, useCurrentUser } from "@/agent/user"
-import LoadingScreen from "../LoadingScreen"
+import LoadingScreen from "@/components/LoadingScreen"
 import {
   RequestEmailVerifyResult,
   RequestEmailVerifyVariables,
   UpdateProfileResult,
   UpdateProfileVariables,
 } from "@/lib/interfaces/user"
-import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
-import TimezoneSelect from "@/components/TimezoneSelect"
+import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -640,7 +640,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 name={"timezone"}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <TimezoneSelect
+                  <TimezoneAutocomplete
                     textFieldVariant="standard"
                     placeholder="Choose timezone"
                     className={classes.timezoneStyles}

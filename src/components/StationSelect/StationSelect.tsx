@@ -2,27 +2,29 @@ import React from "react"
 import { MenuItem, Select, SelectProps } from "@mui/material"
 import { capitalCase } from "change-case"
 
-import { useRegionList } from "@/agent/locations"
+import { useStationList } from "@/agent/locations"
 import { StyledAccountInformatiomTabContentField as Input } from "@/components/CustomerDetailPage/CustomerDetailPage.styled"
 
-interface RegionSelectProps extends SelectProps<string> {
+interface StationSelectProps extends SelectProps<string> {
   emptyLabel?: string
   countryCode: string
+  regionCode: string
 }
 
-const RegionSelect: React.FC<RegionSelectProps> = ({
+const StationSelect: React.FC<StationSelectProps> = ({
   countryCode,
-  emptyLabel = "Choose Region",
+  regionCode,
+  emptyLabel = "Choose Station",
   input = <Input />,
   ...props
 }) => {
-  const { data } = useRegionList(countryCode)
+  const { data } = useStationList(countryCode, regionCode)
 
-  const regionSelectItemJSX = React.useMemo(
+  const stationSelectItemJSX = React.useMemo(
     () =>
-      (data?.data?.Items || []).map(region => (
-        <MenuItem value={region.regionCode} key={region.regionCode}>
-          {capitalCase(region.regionName)}
+      (data?.data?.Items || []).map(station => (
+        <MenuItem value={station.stationCode} key={station.stationCode}>
+          {capitalCase(station.stationName)}
         </MenuItem>
       )),
     [data]
@@ -33,9 +35,9 @@ const RegionSelect: React.FC<RegionSelectProps> = ({
       <MenuItem disabled value="">
         {emptyLabel}
       </MenuItem>
-      {regionSelectItemJSX}
+      {stationSelectItemJSX}
     </Select>
   )
 }
 
-export default RegionSelect
+export default StationSelect

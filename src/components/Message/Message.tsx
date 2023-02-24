@@ -19,7 +19,7 @@ export type MessageVariant = "success" | "warning" | "error"
 export interface MessagePageProps
   extends Omit<SnackbarContentProps, "id" | "title"> {
   variant: MessageVariant
-  title: React.ReactNode
+  title?: React.ReactNode
   text: React.ReactNode
   id: SnackbarKey
 }
@@ -45,9 +45,11 @@ const Message = React.forwardRef<HTMLDivElement, MessagePageProps>(
           {iconMap[variant]}
         </StyledMessageIconContainer>
         <Box display="flex" flexDirection="column">
-          <StyledMessageTitle>
-            <React.Fragment>{title}</React.Fragment>
-          </StyledMessageTitle>
+          {!!title && (
+            <StyledMessageTitle>
+              <React.Fragment>{title}</React.Fragment>
+            </StyledMessageTitle>
+          )}
           <StyledMessageText>
             <React.Fragment>{text}</React.Fragment>
           </StyledMessageText>

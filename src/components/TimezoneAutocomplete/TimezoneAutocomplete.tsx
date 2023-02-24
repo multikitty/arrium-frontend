@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress"
 import { Box } from "@mui/material"
 import { useAllTimezonesList } from "@/agent/timezone"
 
-interface IProps
+interface TimezoneAutocompleteProps
   extends Partial<AutocompleteProps<string, false, false, false>> {
   timezone: string | null
   setTimezone:
@@ -17,7 +17,7 @@ interface IProps
   textFieldVariant?: TextFieldProps["variant"]
 }
 
-const TimezoneSelect: React.FC<IProps> = ({
+const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
   timezone,
   setTimezone,
   required,
@@ -108,4 +108,4 @@ const TimezoneSelect: React.FC<IProps> = ({
   )
 }
 
-export default TimezoneSelect
+export default TimezoneAutocomplete

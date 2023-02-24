@@ -162,7 +162,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
           </Box>
           <Box display="flex" flexDirection="column" mb={"16px"}>
             <StyledFieldLabel $isHidden={!getValues("email")}>
-              Email ID
+              Email Address
             </StyledFieldLabel>
             <Controller
               control={control}
@@ -291,7 +291,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             </Box>
             <Box display="flex" flexDirection="column" mb={"16px"}>
               <StyledFieldLabel $isHidden={!getValues("email")}>
-                Email ID
+                Email Address
               </StyledFieldLabel>
               <Controller
                 control={control}

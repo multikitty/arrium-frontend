@@ -1,4 +1,4 @@
-import { PlansType, UserRolesType } from "@/types/common"
+import { PlanType, UserRolesType } from "@/types/common"
 
 export interface CustomersListVariables {
   nextPage?: boolean
@@ -60,7 +60,7 @@ export interface CustomerAccountInfoVariables {
 export interface CustomerAccountInfoData {
   phoneNumber: string
   pricingPlan: boolean
-  planType: PlansType
+  planType: PlanType
   refCode: string
   tzName: string
   currentSteps: string
@@ -124,7 +124,7 @@ export interface UpdateUserAccountInfoVariables {
   tzName: string
   userRole: UserRolesType
   status: CustomerAccountStatus
-  planType: PlansType
+  planType: PlanType
   stationType: string
   startDate: number | null
   endDate: number | null

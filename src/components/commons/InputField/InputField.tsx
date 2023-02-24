@@ -19,6 +19,8 @@ const InputField: React.FC<InputFieldProps> = React.forwardRef(
       mb = "16px",
       isCentered = false,
       allowNumbers = true,
+      minWidth,
+      maxWidth,
       onChange,
       ...props
     },
@@ -34,10 +36,12 @@ const InputField: React.FC<InputFieldProps> = React.forwardRef(
 
     return (
       <StyledInputField
-        mb={mb}
-        isCentered={isCentered}
+        $mb={mb}
+        $isCentered={isCentered}
         ref={ref}
         onChange={handleChange}
+        $minWidth={minWidth}
+        $maxWidth={maxWidth}
         {...props}
       >
         <React.Fragment>{children}</React.Fragment>

@@ -16,7 +16,9 @@ const getCountryData = () => {
   let countryData: CountryListData = {}
   allCountries.forEach(country => {
     countryData[country[1]] = {
-      countryName: country[0],
+      countryName: country[0].includes(",")
+        ? `${country[0].split(",")[1].trimStart()} ${country[0].split(",")[0]}`
+        : country[0],
       countryShortName: country[1],
       regions: country[2].map(region => ({
         name: region[0],

@@ -6,15 +6,15 @@ import { PALETTE } from "@/constants/colors"
 export type HelperTextType = "small" | "large"
 
 const largeProps = {
-  fontWeight: "500",
-  fontSize: "16px",
-  lineHeight: "20px",
+  $fontWeight: "500",
+  $fontSize: "16px",
+  $lineHeight: "20px",
 } as const
 
 const smallProps = {
-  fontWeight: "normal",
-  fontSize: "10px",
-  lineHeight: "16px",
+  $fontWeight: "normal",
+  $fontSize: "10px",
+  $lineHeight: "16px",
 } as const
 
 const typeMap = {
@@ -38,15 +38,21 @@ const HelperText: React.FC<HelperTextProps> = ({
   children,
   isCentered = false,
   ml = "0",
+  mt,
+  mb,
+  mr,
   color = PALETTE.errorText,
   type = "small",
   ...props
 }) => {
   return (
     <StyledHelperText
-      isCentered={isCentered}
-      ml={ml}
-      color={color}
+      $isCentered={isCentered}
+      $ml={ml}
+      $mt={mt}
+      $mr={mr}
+      $mb={mb}
+      $color={color}
       {...typeMap[type]}
       {...props}
     >

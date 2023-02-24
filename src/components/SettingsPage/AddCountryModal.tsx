@@ -10,9 +10,9 @@ import {
   StyledAddCountryModalTitle,
 } from "./SettingsPage.styled"
 import CloseIcon from "@mui/icons-material/Close"
-import { ContainedButton, OutlinedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { CountryData } from "@/utils/getCountryData"
-import CountrySelect from "../CountrySelect"
+import CountryAutocomplete from "@/components/CountryAutocomplete"
 import { AddCountryVariables } from "@/lib/interfaces/locations"
 import { ModalProps } from "./SettingsPage.types"
 import { StyledFieldLabel } from "@/components/commons/uiComponents"
@@ -52,7 +52,7 @@ const AddCountryModal = (props: AddCountryModalProps) => {
         <StyledAddCountryModalForm onSubmit={handleSave}>
           <Box display="flex" flexDirection="column" mb={rem("24px")}>
             <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
-            <CountrySelect
+            <CountryAutocomplete
               autoFocus
               placeholder="Country*"
               country={country}

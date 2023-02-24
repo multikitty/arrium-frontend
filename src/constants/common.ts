@@ -1,11 +1,11 @@
-import { AllowedCountries, PlansType } from "@/types/common"
+import { AllowedCountries, PlanType } from "@/types/common"
 import { getCurrencySymbolByCountryCode } from "@/utils"
 import { CountryCodes } from "@/utils/getCurrencySymbolByCountryCode"
 
 export const UserRoles = {
   driver: "driver",
   admin: "admin",
-  salesAgent: "salesAgent",
+  sales: "sales",
 } as const
 
 export const LabelledUserRoles = [
@@ -19,7 +19,7 @@ export const LabelledUserRoles = [
   },
   {
     label: "Sales Agent",
-    value: UserRoles.salesAgent,
+    value: UserRoles.sales,
   },
 ]
 
@@ -54,7 +54,7 @@ export const DriverPages = {
 export const defaultRoutes = {
   [UserRoles.admin]: AdminPages.customers,
   [UserRoles.driver]: DriverPages.availability,
-  [UserRoles.salesAgent]: AdminPages.dashboard,
+  [UserRoles.sales]: AdminPages.dashboard,
 } as const
 
 export const daysInWeek = [
@@ -96,7 +96,7 @@ export const REGISTRATION_STEP_MAP = {
 
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const
 export const DEFAULT_COUNTRY: AllowedCountries = "gb"
-export const DEFAULT_PLAN: PlansType = "basic"
+export const DEFAULT_PLAN: PlanType = "basic"
 export const DEFAULT_CURRENCY_SYMBOL = getCurrencySymbolByCountryCode(
   "GB"
 ) as CountryCodes

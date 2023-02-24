@@ -5,17 +5,17 @@ import { observer } from "mobx-react-lite"
 import { rem } from "polished"
 
 import {
-  StyledCreateReferralModal as StyledTimezoneModal,
-  StyledCreateReferralModalCloseIconContainer as StyledTimezoneModalCloseIconContainer,
-  StyledCreateReferralModalForm as StyledTimezoneModalForm,
-  StyledCreateReferralModalFormAction as StyledTimezoneModalFormAction,
-  StyledCreateReferralModalTitle as StyledTimezoneModalTitle,
+  StyledReferralModal as StyledTimezoneModal,
+  StyledReferralModalCloseIconContainer as StyledTimezoneModalCloseIconContainer,
+  StyledReferralModalForm as StyledTimezoneModalForm,
+  StyledReferralModalFormAction as StyledTimezoneModalFormAction,
+  StyledReferralModalTitle as StyledTimezoneModalTitle,
 } from "@/components/ReferralsPage/ReferralsPage.styled"
 import { ContainedButton } from "@/components/commons/Button"
-import CountrySelect from "@/components/CountrySelect"
+import CountryAutocomplete from "@/components/CountryAutocomplete"
 import { CountryData } from "@/utils/getCountryData"
 import { useTimezonesByCountry } from "@/agent/timezone"
-import { StyledFieldLabel } from "../commons/uiComponents"
+import { StyledFieldLabel } from "@/components/commons/uiComponents"
 
 interface TimezoneModalProps {
   open: boolean
@@ -58,7 +58,7 @@ const TimezoneModal: React.FC<TimezoneModalProps> = ({
         <StyledTimezoneModalForm onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
-            <CountrySelect
+            <CountryAutocomplete
               fullWidth
               required
               placeholder="Choose Country Code*"

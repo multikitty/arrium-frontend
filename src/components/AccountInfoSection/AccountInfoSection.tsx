@@ -23,7 +23,7 @@ import { devices } from "@/constants/device"
 import { SignupStepsProgressMobile } from "@/components/SignupStepsProgress/SignupStepsProgress"
 import { content } from "@/constants/content"
 import { CountryData as CountryDataType } from "@/utils/getCountryData"
-import AccountInfoCountrySelect from "./AccountInfoCountrySelect"
+import AccountInfoCountrySelect from "@/components/AccountInfoSection/AccountInfoCountrySelect"
 import routes from "@/constants/routes"
 import {
   AccountInfoResult,
@@ -42,7 +42,7 @@ import { AccountInfoData } from "@/components/SignUpPage/SignUpPage"
 import InputField from "@/components/commons/InputField"
 import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
 import HelperText from "@/components/commons/HelperText"
-import TimezoneSelect from "@/components/TimezoneSelect"
+import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -265,7 +265,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           <StyledFieldLabel $isHidden={!selectedTimezone}>
             Timezone
           </StyledFieldLabel>
-          <TimezoneSelect
+          <TimezoneAutocomplete
             size="medium"
             placeholder="Choose timezone"
             className={classes.timezoneStyles}
@@ -358,7 +358,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
             <StyledFieldLabel $isHidden={!selectedTimezone}>
               Timezone
             </StyledFieldLabel>
-            <TimezoneSelect
+            <TimezoneAutocomplete
               size="medium"
               placeholder="Choose timezone"
               className={classes.timezoneStyles}

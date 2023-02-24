@@ -1,10 +1,10 @@
-import { PlansType, RegistrationStepsType, UserRolesType } from "@/types/common"
+import { PlanType, RegistrationStepsType, UserRolesType } from "@/types/common"
 import { CustomerAccountStatus } from "./customers"
 
 export interface CurrentUserData {
   phoneNumber: string
   pricingPlan: boolean
-  planType: PlansType
+  planType: PlanType
   refCode: string
   tzName: string
   currentSteps: RegistrationStepsType
@@ -30,6 +30,24 @@ export interface CurrentUserResult {
   message: string
   success: boolean
   data?: CurrentUserData
+}
+
+export interface UserByRoleVariables {
+  role: UserRolesType
+}
+
+export interface UserByRoleResultData {
+  firstname: string
+  lastname: string
+  sk: string
+  role: UserRolesType
+  pk: string
+}
+
+export interface UserByRoleResult {
+  message: string
+  success: boolean
+  data?: { Items: UserByRoleResultData[] }
 }
 
 export interface UpdateProfileVariables {

@@ -76,7 +76,7 @@ export const StyledReferralsPageContentUpperSectionRecordCountText = styled.h6`
   color: ${p => p.theme.palette.blackText};
 `
 
-export const StyledCreateReferralModal = styled(Paper).attrs({ elevation: 1 })`
+export const StyledReferralModal = styled(Paper).attrs({ elevation: 1 })`
   border-radius: 20px;
   padding: 16px;
   width: 100%;
@@ -87,14 +87,14 @@ export const StyledCreateReferralModal = styled(Paper).attrs({ elevation: 1 })`
   transform: translate(-50%, -50%);
 `
 
-export const StyledCreateReferralModalCloseIconContainer = styled.div`
+export const StyledReferralModalCloseIconContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
   margin-bottom: 6px;
 `
 
-export const StyledCreateReferralModalTitle = styled.h3`
+export const StyledReferralModalTitle = styled.h3`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -106,15 +106,15 @@ export const StyledCreateReferralModalTitle = styled.h3`
   color: ${p => p.theme.palette.blackText};
 `
 
-export const StyledCreateReferralModalForm = styled.form`
+export const StyledReferralModalForm = styled.form`
   padding: ${rem("24px")};
   padding-bottom: ${rem("28px")};
 `
 
-export const StyledCreateReferralModalFormField = styled(
+export const StyledReferralModalFormField = styled(
   StyledAccountInformatiomTabContentField
 )``
 
-export const StyledCreateReferralModalFormAction = styled.div`
+export const StyledReferralModalFormAction = styled.div`
   margin-bottom: ${rem("24px")};
 `

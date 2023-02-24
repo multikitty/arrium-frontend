@@ -2,25 +2,25 @@ import React from "react"
 import { MenuItem, Select, SelectProps } from "@mui/material"
 import { capitalCase } from "change-case"
 
-import { useCountryList } from "@/agent/locations"
+import { useStationTypeList } from "@/agent/stationTypes"
 import { StyledAccountInformatiomTabContentField as Input } from "@/components/CustomerDetailPage/CustomerDetailPage.styled"
 
-interface CountrySelectProps extends SelectProps<string> {
+interface StationTypeProps extends SelectProps<string> {
   emptyLabel?: string
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({
-  emptyLabel = "Choose Country",
+const StationType: React.FC<StationTypeProps> = ({
+  emptyLabel = "Choose Station type",
   input = <Input />,
   ...props
 }) => {
-  const { data } = useCountryList()
+  const { data } = useStationTypeList()
 
-  const countrySelectItemJSX = React.useMemo(
+  const stationTypeItemJSX = React.useMemo(
     () =>
-      (data?.data?.Items || []).map(country => (
-        <MenuItem value={country.countryCode} key={country.countryCode}>
-          {capitalCase(country.country)}
+      (data?.data?.Items || []).map(stationType => (
+        <MenuItem value={stationType.stationType}>
+          {capitalCase(stationType.stationType)}
         </MenuItem>
       )),
     [data]
@@ -31,9 +31,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
       <MenuItem disabled value="">
         {emptyLabel}
       </MenuItem>
-      {countrySelectItemJSX}
+      {stationTypeItemJSX}
     </Select>
   )
 }
 
-export default CountrySelect
+export default StationType

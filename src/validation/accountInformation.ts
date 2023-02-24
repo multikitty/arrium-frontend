@@ -2,7 +2,7 @@ import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 import { UserRoles } from "@/constants/common"
-import { PlansType, UserRolesType } from "@/types/common"
+import { PlanType, UserRolesType } from "@/types/common"
 import {
   CUSTOMER_ACCOUNT_STATUS,
   CustomerAccountStatus,
@@ -43,7 +43,7 @@ const accountInformationOptions = {
     country: "",
     region: "",
     sendAccountApprovedEmail: false,
-    planType: "basic" as PlansType,
+    planType: "basic" as PlanType,
     stationType: "",
     enablePricingPlan: false,
     startDate: null as number | null,

@@ -12,7 +12,7 @@ export interface Timezone {
 export interface IFetchAllTimezonesListData {
   status: string
   message: string
-  zones: Array<ITimezone>
+  zones: Array<Timezone>
 }
 
 export interface IFetchAllTimezonesListResult {

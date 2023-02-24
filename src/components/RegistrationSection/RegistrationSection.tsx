@@ -157,6 +157,14 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     navigate(routes.signin)
   }
 
+  const handleRefCodeField = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const val = e.target.value
+    if (val.length > 6) return
+    setRefCode(e.target.value)
+  }
+
   const isPasswordValid = useMemo(
     () =>
       requiredSet.atLeastOneNumber &&
@@ -175,7 +183,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           <Box display="flex" justifyContent="center">
             <StyledCardHeader>Sign up</StyledCardHeader>
           </Box>
-          <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
+          <StyledFieldLabel $isHidden={!email}>Email Address*</StyledFieldLabel>
           <InputField
             placeholder="Enter Email Address"
             variant="outlined"
@@ -230,7 +238,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             placeholder="6-digit code"
             variant="outlined"
             value={refCode}
-            onChange={e => setRefCode(e.target.value)}
+            onChange={handleRefCodeField}
           />
           <StyledButton
             variant="contained"
@@ -265,7 +273,9 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             <Box display="flex" justifyContent="center">
               <StyledCardHeader>Sign up</StyledCardHeader>
             </Box>
-            <StyledFieldLabel $isHidden={!email}>Email ID*</StyledFieldLabel>
+            <StyledFieldLabel $isHidden={!email}>
+              Email Address*
+            </StyledFieldLabel>
             <InputField
               placeholder="Enter Email Address"
               variant="outlined"
@@ -320,7 +330,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
               placeholder="6-digit code"
               variant="outlined"
               value={refCode}
-              onChange={e => setRefCode(e.target.value)}
+              onChange={handleRefCodeField}
             />
             <StyledButton
               variant="contained"

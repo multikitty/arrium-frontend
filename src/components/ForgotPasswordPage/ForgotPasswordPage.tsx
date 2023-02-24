@@ -154,7 +154,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
             {!isClicked && (
               <React.Fragment>
                 <StyledFieldLabel $isHidden={!getValues("email")}>
-                  Email ID
+                  Email Address
                 </StyledFieldLabel>
                 <InputField
                   placeholder="Enter Email Address"
@@ -227,7 +227,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
               {!isClicked && (
                 <React.Fragment>
                   <StyledFieldLabel $isHidden={!getValues("email")}>
-                    Email ID
+                    Email Address
                   </StyledFieldLabel>
                   <InputField
                     placeholder="Enter Email Address"

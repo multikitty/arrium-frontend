@@ -1,4 +1,4 @@
-import { PlansType, RegistrationStepsType, UserRolesType } from "@/types/common"
+import { PlanType, RegistrationStepsType, UserRolesType } from "@/types/common"
 import { CustomerAccountStatus } from "@/lib/interfaces/customers"
 
 export interface SigninUserVariables {
@@ -23,7 +23,7 @@ export interface SigninUserData {
   pk: string
   customerID: string
   token: string
-  planType: PlansType
+  planType: PlanType
   accountStatus: CustomerAccountStatus
   flexCountry: string
   stationType: string
