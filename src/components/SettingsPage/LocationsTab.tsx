@@ -12,13 +12,13 @@ import {
   StyledSettingsColumnContentHeaderText,
   StyledSettingsColumnContentList,
   StyledSettingsColumnContentSearchField,
-} from "./SettingsPage.styled"
+} from "@/components/SettingsPage/SettingsPage.styled"
 import { ContainedButton } from "@/components/commons/Button"
 import theme from "@/theme"
-import AddCountryModal from "./AddCountryModal"
-import AddRegionModal from "./AddRegionModal"
-import AddStationModal from "./AddStationModal"
-import DeleteConfirmationModal from "./DeleteConfirmationModal"
+import AddCountryModal from "@/components/SettingsPage/AddCountryModal"
+import RegionModal from "@/components/SettingsPage/RegionModal"
+import AddStationModal from "@/components/SettingsPage/AddStationModal"
+import DeleteConfirmationModal from "@/components/SettingsPage/DeleteConfirmationModal"
 import {
   addCountry,
   addRegion,
@@ -45,13 +45,14 @@ import {
   DeleteStationResult,
   DeleteStationVariables,
   RegionListDataItem,
+  UpdateRegionVariables,
 } from "@/lib/interfaces/locations"
-import CountryList from "./CountryList"
-import RegionList from "./RegionList"
+import CountryList from "@/components/SettingsPage/CountryList"
+import RegionList from "@/components/SettingsPage/RegionList"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
-import StationList from "./StationList"
-import AddStationAddressModal from "./AddStationAddressModal"
+import StationList from "@/components/SettingsPage/StationList"
+import AddStationAddressModal from "@/components/SettingsPage/AddStationAddressModal"
 
 type LocationsDeleteItem = {
   type: "Country" | "Region" | "Station"
@@ -80,6 +81,10 @@ const STATION_DATA_DEFAULT_VALUES = {
 } as const
 
 export type StationFieldName = keyof typeof STATION_DATA_DEFAULT_VALUES
+export type RegionToEditType = UpdateRegionVariables & {
+  regionCode: string
+  countryCode: string
+}
 
 const LocationsTab = () => {
   const { enqueueSnackbar } = useSnackbar()
@@ -87,8 +92,11 @@ const LocationsTab = () => {
     useState<CountryListDataItem | null>(null)
   const [selectedRegion, setSelectedRegion] =
     useState<RegionListDataItem | null>(null)
+  const [regionToEdit, setRegionToEdit] = useState<RegionToEditType | null>(
+    null
+  )
   const [isAddCountryModalOpen, setIsAddCountryModalOpen] = useState(false)
-  const [isAddRegionModalOpen, setIsAddRegionModalOpen] = useState(false)
+  const [isRegionModalOpen, setIsRegionModalOpen] = useState(false)
   const [isAddStationModalOpen, setIsAddStationModalOpen] = useState(false)
   const [isAddStationAddressModalOpen, setIsAddStationAddressModalOpen] =
     useState(false)
@@ -225,35 +233,11 @@ const LocationsTab = () => {
     setSelectedRegion(null)
   }
 
-  const handleAddRegionModalOpen = () => setIsAddRegionModalOpen(true)
-  const handleAddRegionModalClose = () => setIsAddRegionModalOpen(false)
-  const handleAddRegion = (variables: AddRegionVariables) => {
-    addRegionMutate(variables, {
-      onSuccess({ success, message, validationError }) {
-        if (!success) {
-          enqueueSnackbar(
-            validationError?.countryCode ||
-              validationError?.regionCode ||
-              validationError?.regionId ||
-              validationError?.regionName ||
-              message,
-            {
-              variant: "error",
-            }
-          )
-          return
-        }
-        enqueueSnackbar(message, { variant: "success" })
-        refetchRegionList()
-      },
-      onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
-        console.error("ERROR:", error)
-        console.log("VARIABLES USED:", variables)
-      },
-    })
-    handleAddRegionModalClose()
+  const handleRegionModalOpen = () => {
+    setRegionToEdit(null)
+    setIsRegionModalOpen(true)
   }
+  const handleRegionModalClose = () => setIsRegionModalOpen(false)
   const handleDeleteRegion = (sk: string, pk: string) => {
     deleteRegionMutate(
       { sortKey: sk, partitionKey: pk },
@@ -285,6 +269,10 @@ const LocationsTab = () => {
   }
   const handleClickRegion = (clickedRegion: RegionListDataItem) => {
     setSelectedRegion(clickedRegion)
+  }
+  const handleEditRegion = (region: Omit<RegionToEditType, "countryCode">) => {
+    setRegionToEdit({ ...region, countryCode: selectedCountry!.countryCode })
+    setIsRegionModalOpen(true)
   }
 
   const handleAddStationModalOpen = () => {
@@ -443,12 +431,13 @@ const LocationsTab = () => {
           handleAdd={handleAddCountry}
         />
       ) : null}
-      {isAddRegionModalOpen ? (
-        <AddRegionModal
-          open={isAddRegionModalOpen}
-          handleClose={handleAddRegionModalClose}
-          handleAdd={handleAddRegion}
+      {isRegionModalOpen ? (
+        <RegionModal
+          open={isRegionModalOpen}
+          handleClose={handleRegionModalClose}
           countries={filteredCountries}
+          regionData={regionToEdit || undefined}
+          refetchRegionList={refetchRegionList}
         />
       ) : null}
       {isAddStationModalOpen ? (
@@ -550,10 +539,7 @@ const LocationsTab = () => {
                   <StyledSettingsColumnContentHeaderText>
                     Region
                   </StyledSettingsColumnContentHeaderText>
-                  <ContainedButton
-                    iconButton
-                    onClick={handleAddRegionModalOpen}
-                  >
+                  <ContainedButton iconButton onClick={handleRegionModalOpen}>
                     <AddIcon
                       sx={{ fontSize: 16, color: theme.palette.common.white }}
                     />
@@ -591,6 +577,7 @@ const LocationsTab = () => {
                         })
                       }}
                       onClick={handleClickRegion}
+                      onEdit={handleEditRegion}
                       selectedRegion={selectedRegion}
                     />
                   )}

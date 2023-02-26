@@ -14,6 +14,7 @@ export const StyledMessage = styled(SnackbarContent)<{
 }>`
   padding: 12px 10px;
   display: flex;
+  width: 100%;
   align-items: center;
   border: 1px solid ${p => variantColorMap[p.variant]};
   border-radius: 8px;

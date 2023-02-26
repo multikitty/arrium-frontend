@@ -13,6 +13,7 @@ import SuccessIcon from "@/assets/icons/snackbar-success_icon.inline.svg"
 import WarningIcon from "@/assets/icons/snackbar-warning_icon.inline.svg"
 import ErrorIcon from "@/assets/icons/snackbar-error_icon.inline.svg"
 import theme from "@/theme"
+import { StyledFlexGrow } from "@/components/FooterSection/FooterSection.styled"
 
 export type MessageVariant = "success" | "warning" | "error"
 
@@ -54,6 +55,7 @@ const Message = React.forwardRef<HTMLDivElement, MessagePageProps>(
             <React.Fragment>{text}</React.Fragment>
           </StyledMessageText>
         </Box>
+        <StyledFlexGrow />
         <Box display="flex" alignItems="flex-start" alignSelf="flex-start">
           <IconButton size="small" onClick={handleClose}>
             <CloseIcon sx={{ fontSize: 10, color: theme.palette.grey5 }} />

@@ -100,6 +100,10 @@ export const StyledSettingsColumnContentListItem = styled.li<{
     &__actions {
       opacity: 0;
       pointer-events: none;
+
+      &--left {
+        margin-right: 10px;
+      }
     }
   }
 

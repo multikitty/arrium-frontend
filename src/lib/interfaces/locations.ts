@@ -74,6 +74,18 @@ export interface AddRegionResult {
   validationError?: AddRegionVariables
 }
 
+export interface UpdateRegionVariables {
+  regSk: string
+  regionName: string
+  regionID: string
+}
+
+export interface UpdateRegionResult {
+  success: boolean
+  message: string
+  validationError?: UpdateRegionVariables
+}
+
 export interface StationListVariables {
   countryCode: string
   regionCode: string

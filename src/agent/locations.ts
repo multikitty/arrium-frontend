@@ -16,9 +16,11 @@ import {
   RegionListVariables,
   StationListResult,
   StationListVariables,
+  UpdateRegionResult,
+  UpdateRegionVariables,
 } from "@/lib/interfaces/locations"
 import { MutationFunction, useQuery } from "react-query"
-import { arriumAPI } from "./axios"
+import { arriumAPI } from "@/agent//axios"
 
 export function fetchCountryList(): Promise<CountryListResult> {
   return arriumAPI.get("/location/country").then(response => response.data)
@@ -76,7 +78,7 @@ export const addCountry: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.post("/location/country", params)
-  ).data
+  )?.data
 }
 
 export const deleteCountry: MutationFunction<
@@ -85,15 +87,16 @@ export const deleteCountry: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.delete("/location/country", { data: params })
-  ).data
+  )?.data
 }
 
 export const addRegion: MutationFunction<AddRegionResult, AddRegionVariables> =
-  async params => {
-    return await (
-      await arriumAPI.post("/location/region", params)
-    ).data
-  }
+  async params => (await arriumAPI.post("/location/region", params))?.data
+
+export const updateRegion: MutationFunction<
+  UpdateRegionResult,
+  UpdateRegionVariables
+> = async params => (await arriumAPI.put("/location/region", params))?.data
 
 export const deleteRegion: MutationFunction<
   DeleteRegionResult,
@@ -101,7 +104,7 @@ export const deleteRegion: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.delete("/location/region", { data: params })
-  ).data
+  )?.data
 }
 
 export const addStation: MutationFunction<
@@ -110,7 +113,7 @@ export const addStation: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.post("/location/station", params)
-  ).data
+  )?.data
 }
 
 export const deleteStation: MutationFunction<
@@ -119,5 +122,5 @@ export const deleteStation: MutationFunction<
 > = async params => {
   return await (
     await arriumAPI.delete("/location/station", { data: params })
-  ).data
+  )?.data
 }

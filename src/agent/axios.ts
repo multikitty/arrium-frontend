@@ -1,5 +1,6 @@
-import { store } from "../store"
 import axios from "axios"
+import { TOKEN } from "@/constants/localStorage"
+import { store } from "@/store"
 
 export default function createInstance(baseURL = "http://localhost:9000/v1/") {
   return axios.create({
@@ -12,20 +13,19 @@ export default function createInstance(baseURL = "http://localhost:9000/v1/") {
 }
 
 const arriumAPI = createInstance(
-  // process.env.NODE_ENV === "development"
-  //   ? undefined
-  //   :
-  "https://api.arrium.io/v1/"
+  process.env.NODE_ENV === "development"
+    ? undefined
+    : "https://api.arrium.io/v1/"
 )
 
 arriumAPI.interceptors.request.use(config => {
-  const token = store.userStore.userToken || ""
-
-  if (token)
-    config.headers = {
-      "x-access-token": token,
-    }
-
+  const token = store.userStore.userToken || localStorage.getItem(TOKEN) || ""
+  if (!token) {
+    store.userStore.logout()
+  }
+  config.headers = {
+    "x-access-token": token,
+  }
   return config
 })
 
