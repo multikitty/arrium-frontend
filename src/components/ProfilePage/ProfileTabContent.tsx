@@ -71,7 +71,7 @@ const useStyles = makeStyles({
   },
 })
 
-interface ProfileTabContentProps extends PageProps {}
+interface ProfileTabContentProps extends PageProps { }
 
 const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   country_code,
@@ -94,6 +94,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
+  const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] = useState(false)
   const [isEmailEditEnabled, setIsEmailEditEnabled] = useState(false)
   const [isPhoneEditEnabled, setIsPhoneEditEnabled] = useState(false)
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
@@ -123,12 +124,27 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handlePhoneMenuClose = () => {
     setPhoneAnchorEl(null)
   }
+  const handleTimezoneEditEnable = () => setIsTimezoneEditEnabled(true)
+  const handleTimezoneEditDisable = () => {
+    methods.setValue("timezone", userData?.data?.tzName || "")
+    setIsTimezoneEditEnabled(false)
+  }
+
+  const handleTimezoneEditSave = async () => {
+    await updateProfileMutation({
+      fieldName: "tzName",
+      fieldValue: getValues("timezone"),
+    })
+    setIsTimezoneEditEnabled(false)
+  }
 
   const handleNameEditEnable = () => setIsNameEditEnabled(true)
   const handleNameEditDisable = () => {
     methods.setValue("name", userData?.data?.firstname || "")
     setIsNameEditEnabled(false)
   }
+
+
 
   const updateProfileMutation = async (params: UpdateProfileVariables) => {
     await updateProfileMutate(
@@ -138,8 +154,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
           if (!success) {
             enqueueSnackbar(
               validationError?.fieldName ||
-                validationError?.fieldValue ||
-                message,
+              validationError?.fieldValue ||
+              message,
               {
                 variant: "error",
               }
@@ -212,8 +228,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleUpdatePhoneNumberModalClose = () => {
     methods.setValue(
       "phoneNumber",
-      `+${userData?.data?.dialCode.replaceAll("+", "")}${
-        userData?.data?.phoneNumber || ""
+      `+${userData?.data?.dialCode.replaceAll("+", "")}${userData?.data?.phoneNumber || ""
       }`
     )
     setIsUpdatePhoneNumberModalOpen(false)
@@ -290,7 +305,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
         <ChangePasswordModal
           open={isChangePasswordModalOpen}
           handleClose={handleChangePasswordModalClose}
-          handleSave={() => {}}
+          handleSave={() => { }}
         />
       )}
       {isUpdatePhoneNumberModalOpen && getValues("phoneNumber") && (
@@ -646,6 +661,12 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                     className={classes.timezoneStyles}
                     timezone={value}
                     setTimezone={onChange}
+                    getValues={getValues}
+                    userData={userData}
+                    isTimezoneEditEnabled={isTimezoneEditEnabled}
+                    handleTimezoneEditEnable={handleTimezoneEditEnable}
+                    handleTimezoneEditDisable={handleTimezoneEditDisable}
+                    handleTimezoneEditSave={handleTimezoneEditSave}
                   />
                 )}
               />
