@@ -162,7 +162,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          enqueueSnackbar("User details Updated successfully", { variant: "success" })
           refetch()
         },
         onError(error, variables) {
