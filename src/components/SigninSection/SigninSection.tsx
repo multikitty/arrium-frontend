@@ -196,7 +196,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               </HelperText>
             )}
           </Box>
-          <Box display="flex" flexDirection="column" mb="16px">
+          <Box display="flex" flexDirection="column" mb={errors.checkbox ? "16px" : "32px"}>
             <StyledFieldLabel $isHidden={!getValues("password")}>
               Password
             </StyledFieldLabel>
@@ -237,6 +237,9 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               </HelperText>
             )}
           </Box>
+          {errors.checkbox && (
+            <HelperText type="large" mb={"16px"}>{errors.checkbox.message}</HelperText>
+          )}
           <Box display="flex" justifyContent="space-between">
             <Box display="flex" alignItems="center">
               <StyledCheckBox
@@ -254,14 +257,11 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
               </StyledSignUpButton>
             </StyledForgotPassword>
           </Box>
-          {errors.checkbox && (
-            <HelperText type="large">{errors.checkbox.message}</HelperText>
-          )}
           <StyledButton
             variant="contained"
             color="primary"
             disableElevation
-            $marginTop={errors.checkbox ? "28px" : "56px"}
+            $marginTop={"28px"}
             type="submit"
           >
             <StyledButtonText>Log In</StyledButtonText>
@@ -325,7 +325,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 </HelperText>
               )}
             </Box>
-            <Box display="flex" flexDirection="column" mb="16px">
+            <Box display="flex" flexDirection="column" mb={errors.checkbox ? "16px" : "32px"}>
               <StyledFieldLabel $isHidden={!getValues("password")}>
                 Password
               </StyledFieldLabel>
@@ -366,6 +366,11 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 </HelperText>
               )}
             </Box>
+            {errors.checkbox && (
+              <HelperText mb={"16px"} type="large" mt="8px">
+                {errors.checkbox.message}
+              </HelperText>
+            )}
             <Box display="flex" justifyContent="space-between">
               <Box display="flex" alignItems="center">
                 <StyledCheckBox
@@ -383,11 +388,6 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                 </StyledSignUpButton>
               </StyledForgotPassword>
             </Box>
-            {errors.checkbox && (
-              <HelperText type="large" mt="8px">
-                {errors.checkbox.message}
-              </HelperText>
-            )}
             <StyledButton
               variant="contained"
               color="primary"

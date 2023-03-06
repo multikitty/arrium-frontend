@@ -11,7 +11,7 @@ import { StyledLandingNavbarRightContainerLoginButton as StyledLoginButton } fro
 import { localStorageUtils } from "@/utils"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 
-interface SignInPageProps extends PageProps {}
+interface SignInPageProps extends PageProps { }
 
 const SignInPage: React.FC<SignInPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
