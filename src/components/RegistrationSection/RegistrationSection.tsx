@@ -47,7 +47,7 @@ export const REQUIRED_SET_DEFAULT: RequiredSet = {
   atLeastOneNumber: true,
 }
 
-interface RegistrationSectionProps extends FormProps, PageProps {}
+interface RegistrationSectionProps extends FormProps, PageProps { }
 
 const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   setFormStage,
@@ -137,10 +137,10 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
         if (!success) {
           enqueueSnackbar(
             validationError?.email ||
-              validationError?.password ||
-              validationError?.refCode ||
-              validationError?.country ||
-              message,
+            validationError?.password ||
+            validationError?.refCode ||
+            validationError?.country ||
+            message,
             { variant: "error" }
           )
           return
@@ -231,11 +231,11 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             )}
           </Box>
           <StyledTextBox>
-            If you have a 6-digit code, enter it below
+            If you have a referral code, enter it below
           </StyledTextBox>
           <InputField
             mb={"0"}
-            placeholder="6-digit code"
+            placeholder="referral code"
             variant="outlined"
             value={refCode}
             onChange={handleRefCodeField}
@@ -323,11 +323,11 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
               )}
             </Box>
             <StyledTextBox>
-              If you have a 6-digit code, enter it below
+              If you have a referral code, enter it below
             </StyledTextBox>
             <InputField
               mb={"0"}
-              placeholder="6-digit code"
+              placeholder="referral code"
               variant="outlined"
               value={refCode}
               onChange={handleRefCodeField}
