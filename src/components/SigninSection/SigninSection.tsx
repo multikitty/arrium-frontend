@@ -38,7 +38,7 @@ import {
 import { SnackbarKey, useSnackbar } from "notistack"
 import Message from "@/components/Message"
 
-interface SigninSectionProps extends PageProps {}
+interface SigninSectionProps extends PageProps { }
 
 const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
@@ -69,7 +69,11 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
   useWatch({ name: "password", control })
 
   const handleNavigateToSignupStep = (step: RegistrationStepsType) => {
-    navigateToSignup(REGISTRATION_STEP_MAP[step])
+    if (REGISTRATION_STEP_MAP[step] === 2) {
+      navigateToSignup(1)
+    } else {
+      navigateToSignup(REGISTRATION_STEP_MAP[step])
+    }
   }
 
   const handleNavigateToContactForm = (key: SnackbarKey) => {
@@ -127,6 +131,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             data.userData.role !== "admin" &&
             data.userData.currentSteps !== "finished"
           ) {
+            console.log("data.userData", data.userData)
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
           }
