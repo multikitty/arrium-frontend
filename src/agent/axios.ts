@@ -12,6 +12,12 @@ export default function createInstance(baseURL = "http://localhost:9000/v1/") {
   })
 }
 
+const arriumAPIWithoutTokenValidation = createInstance(
+  process.env.NODE_ENV === "development"
+    ? undefined
+    : "https://api.arrium.io/v1/"
+)
+
 const arriumAPI = createInstance(
   process.env.NODE_ENV === "development"
     ? undefined
@@ -41,6 +47,23 @@ arriumAPI.interceptors.response.use(
   }
 )
 
+arriumAPIWithoutTokenValidation.interceptors.request.use(config => {
+  const token = store.userStore.userToken || localStorage.getItem(TOKEN) || ""
+  config.headers = {
+    "x-access-token": token,
+  }
+  return config
+})
+
+arriumAPIWithoutTokenValidation.interceptors.response.use(
+  res => res,
+  err => {
+    if (err.response.status === 500 || err.response.status === 401) {
+      store.userStore.logout()
+    }
+  }
+)
+
 export const listTimezoneAPI = createInstance(
   `http://api.timezonedb.com/v2.1/list-time-zone?key=${process.env.GATSBY_TIMEZONE_API_KEY}&format=json`
 )
@@ -53,4 +76,4 @@ export const getGeolocationAPI =
   createInstance(`https://ipwho.is?fields=country,country_code,calling_code,timezone,flag
 `)
 
-export { arriumAPI }
+export { arriumAPI, arriumAPIWithoutTokenValidation }

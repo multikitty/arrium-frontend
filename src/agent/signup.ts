@@ -1,5 +1,5 @@
 import { MutationFunction } from "react-query"
-import { arriumAPI } from "./axios"
+import { arriumAPI, arriumAPIWithoutTokenValidation } from "./axios"
 import {
   AccountInfoResult,
   AccountInfoVariables,
@@ -17,7 +17,10 @@ export const registerUser: MutationFunction<
   RegistrationUserVariables
 > = async registrationData => {
   return await (
-    await arriumAPI.post("/signup/registration", registrationData)
+    await arriumAPIWithoutTokenValidation.post(
+      "/signup/registration",
+      registrationData
+    )
   ).data
 }
 
