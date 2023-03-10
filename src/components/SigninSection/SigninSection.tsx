@@ -131,7 +131,6 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             data.userData.role !== "admin" &&
             data.userData.currentSteps !== "finished"
           ) {
-            console.log("data.userData", data.userData)
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
           }
@@ -140,7 +139,6 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
           navigateToDefault(data.userData.role)
         },
         onError(error) {
-          console.log(error)
           setError("checkbox", {
             message: "Your email address or password is incorrect",
             type: "validate",
