@@ -80,7 +80,6 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
   const [options, setOptions] = React.useState<string[]>([])
   const { data: timezoneList } = useAllTimezonesList()
   const loading = open && options.length === 0
-  console.log("xmklfndslkfndssdfksdlfksfd", getValues("timezone"), userData?.data?.tzName)
   React.useEffect(() => {
     let active = true
 
