@@ -24,7 +24,7 @@ import SubDirCountrySelect from "@/components/SubDirCountrySelect"
 import { navigate as gatsbyNavigate } from "gatsby"
 import { devices } from "@/constants/device"
 
-interface FooterSectionProps extends PageProps {}
+interface FooterSectionProps extends PageProps { }
 
 const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
@@ -62,7 +62,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={-50}
+            offset={isMobileView ? -50 : -80}
             to={LANDING_PAGE_IDS["benefits-section"]}
             spy={true}
             smooth={true}
@@ -73,7 +73,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={-50}
+            offset={isMobileView ? -100 : -150}
             to={LANDING_PAGE_IDS["working-section"]}
             spy={true}
             smooth={true}
@@ -84,7 +84,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={-50}
+            offset={isMobileView ? -80 : -150}
             to={LANDING_PAGE_IDS["contact-us-section"]}
             spy={true}
             smooth={true}

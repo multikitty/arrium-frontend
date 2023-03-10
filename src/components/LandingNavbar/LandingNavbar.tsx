@@ -25,7 +25,7 @@ import { LANDING_PAGE_IDS } from "@/constants/ids"
 import { COUNTRY_CODE } from "@/constants/localStorage"
 import { localStorageUtils } from "@/utils"
 
-interface LandingPageProps extends PageProps {}
+interface LandingPageProps extends PageProps { }
 
 const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
@@ -92,7 +92,7 @@ const LandingNavbar: React.FC<LandingPageProps> = ({ country_code }) => {
           <StyledLandingNavbarInfoLink>
             <Link
               delay={300}
-              offset={-150}
+              offset={-80}
               to={LANDING_PAGE_IDS["benefits-section"]}
               spy={true}
               smooth={true}
