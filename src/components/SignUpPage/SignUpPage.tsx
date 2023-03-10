@@ -44,7 +44,7 @@ export type AccountInfoData = {
   dialCode: string
 }
 
-interface SignUpPageProps extends PageProps {}
+interface SignUpPageProps extends PageProps { }
 
 const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
   const {
@@ -106,7 +106,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
   }, [location])
 
   if (isLoading) return <LoadingScreen />
-
+  console.log("formStage", formStage)
   return (
     <React.Fragment>
       {isWebView ? (

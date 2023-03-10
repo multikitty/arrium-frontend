@@ -85,6 +85,7 @@ export const registrationSteps = {
   otp: "otp",
   amazon_flex: "amazon_flex",
   finished: "finished",
+  holding: "holding",
 } as const
 
 export const REGISTRATION_STEP_MAP = {
@@ -92,6 +93,7 @@ export const REGISTRATION_STEP_MAP = {
   [registrationSteps.otp]: 2,
   [registrationSteps.amazon_flex]: 3,
   [registrationSteps.finished]: 4,
+  [registrationSteps.holding]: 4,
 } as const
 
 export const countriesToSelectList = ["gb", "es", "de", "us"] as const
