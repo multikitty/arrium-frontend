@@ -38,6 +38,9 @@ import {
 } from "@/lib/interfaces/user"
 import { PageProps } from "@/lib/interfaces/common"
 import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
+import { localStorageUtils } from "@/utils"
+import { USER } from "@/constants/localStorage"
+import { UserType } from "@/types/auth"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -162,7 +165,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
             )
             return
           }
-          enqueueSnackbar("User details Updated successfully", { variant: "success" })
+          let localStorageUserData = JSON.parse(localStorageUtils.get(USER) as string) as UserType
+          localStorageUserData = { ...localStorageUserData, [params.fieldName]: params.fieldValue }
+          localStorageUtils.set(USER, JSON.stringify(localStorageUserData)),
+            enqueueSnackbar("User details Updated successfully", { variant: "success" })
           refetch()
         },
         onError(error, variables) {

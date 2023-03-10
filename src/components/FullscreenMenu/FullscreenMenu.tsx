@@ -24,6 +24,9 @@ import { Settings } from "@mui/icons-material"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { localStorageUtils } from "@/utils"
+import { UserType } from "@/types/auth"
+import { USER } from "@/constants/localStorage"
 
 export interface FullscreenMenuProps extends PageProps {
   open: boolean
@@ -35,6 +38,7 @@ const FullscreenMenu = ({
   handleFullscreenMenuClose,
   country_code,
 }: FullscreenMenuProps) => {
+  const userDetails = JSON.parse(localStorageUtils.get(USER) as string) as UserType
   const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { pathname } = useLocation()
@@ -46,26 +50,26 @@ const FullscreenMenu = ({
   const handleLogoutButtonClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
-    e.stopPropagation()
-    userStore.logout()
-    navigate(routes.home)
-    handleFullscreenMenuClose()
-  }
+      e.stopPropagation()
+      userStore.logout()
+      navigate(routes.home)
+      handleFullscreenMenuClose()
+    }
 
   const handleProfileItemClick:
     | React.MouseEventHandler<HTMLDivElement>
     | undefined = e => {
-    e.stopPropagation()
-    navigate(routes.profile)
-    handleFullscreenMenuClose()
-  }
+      e.stopPropagation()
+      navigate(routes.profile)
+      handleFullscreenMenuClose()
+    }
 
   const handleNotificationsItemClick:
     | React.MouseEventHandler<HTMLDivElement>
     | undefined = e => {
-    e.stopPropagation()
-    handleNotificationsMenuOpen()
-  }
+      e.stopPropagation()
+      handleNotificationsMenuOpen()
+    }
 
   const handleNavigationItemClick = (href: string) => {
     handleFullscreenMenuClose()
@@ -109,11 +113,13 @@ const FullscreenMenu = ({
                     height: 40,
                   }}
                 >
-                  {userStore.userInitials}
+                  {userDetails ? `${userDetails.firstname?.[0] || ""}${userDetails.lastname?.[0] || ""
+                    }` : ""}
                 </Avatar>
               </Box>
               <StyledFullscreenMenuUpperContainerItemText>
-                {userStore.userFullName}
+                {userDetails ? `${userDetails.firstname} ${userDetails.lastname
+                  }` : ""}
               </StyledFullscreenMenuUpperContainerItemText>
               <Settings
                 sx={{

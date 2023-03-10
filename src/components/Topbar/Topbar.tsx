@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Avatar, Badge, IconButton, Tooltip } from "@mui/material"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
 import { observer } from "mobx-react-lite"
@@ -10,8 +10,11 @@ import ProfileDropdown from "@/components/ProfileDropdown"
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { useStore } from "@/store"
 import { PageProps } from "@/lib/interfaces/common"
+import { localStorageUtils } from "@/utils"
+import { USER } from "@/constants/localStorage"
+import { UserType } from "@/types/auth"
 
-interface ITopbarProps extends PageProps {}
+interface ITopbarProps extends PageProps { }
 
 const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
   const { userStore } = useStore()
@@ -40,6 +43,7 @@ const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
     setNotificationsDropdownAnchorEl(null)
   }
 
+  const userDetails = JSON.parse(localStorageUtils.get(USER) as string) as UserType
   return (
     <StyledTopbar>
       <Tooltip title="Notifications">
@@ -76,7 +80,8 @@ const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
               fontSize: 16,
             }}
           >
-            {userStore.userInitials}
+            {userDetails ? `${userDetails.firstname?.[0] || ""}${userDetails.lastname?.[0] || ""
+              }` : ""}
           </Avatar>
         </IconButton>
       </Tooltip>
