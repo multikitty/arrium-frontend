@@ -248,7 +248,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleUpdatePhoneNumberModalClose = () => {
     methods.setValue(
       "phoneNumber",
-      `+${userData?.data?.dialCode.replaceAll("+", "")}${userData?.data?.phoneNumber || ""
+      `${userData?.data?.phoneNumber || ""
       }`
     )
     setIsUpdatePhoneNumberModalOpen(false)
@@ -311,7 +311,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
       email: userData.data.email,
       name: userData.data.firstname,
       surName: userData.data.lastname,
-      phoneNumber: `+${userData.data.phoneNumber}`,
+      phoneNumber: `${userData.data.phoneNumber}`,
       timezone: userData.data.tzName,
     })
   }, [userData])

@@ -127,7 +127,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
   }
 
   const handleSendOtp = async () => {
-    const phoneNumber = getRawPhoneNumber(props.newPhoneNumber, props.dialCode)
+    const phoneNumber = props.newPhoneNumber
 
     const variables: AccountInfoVariables = {
       country: props.country,
@@ -143,12 +143,12 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
         if (!success) {
           enqueueSnackbar(
             validationError?.country ||
-              validationError?.phoneNumber ||
-              validationError?.dialCode ||
-              validationError?.firstname ||
-              validationError?.lastname ||
-              validationError?.tzName ||
-              message,
+            validationError?.phoneNumber ||
+            validationError?.dialCode ||
+            validationError?.firstname ||
+            validationError?.lastname ||
+            validationError?.tzName ||
+            message,
             { variant: "error" }
           )
           return
