@@ -411,7 +411,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleNameEditSave}
                             disabled={
-                              getValues("name") === userData?.data?.firstname
+                              getValues("name") === userData?.data?.firstname || getValues("name") === ""
                             }
                           >
                             Save
@@ -469,7 +469,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleSurNameEditSave}
                             disabled={
-                              getValues("surName") === userData?.data?.lastname
+                              getValues("surName") === userData?.data?.lastname || getValues("surName") === ""
                             }
                           >
                             Save
