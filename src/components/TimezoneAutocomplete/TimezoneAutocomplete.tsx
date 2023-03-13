@@ -1,7 +1,6 @@
 import * as React from "react"
 import TextField, { TextFieldProps } from "@mui/material/TextField"
 import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete"
-import CircularProgress from "@mui/material/CircularProgress"
 import { Box, IconButton } from "@mui/material"
 import { useAllTimezonesList } from "@/agent/timezone"
 import { StyledProfileTabContentField } from "../ProfilePage/ProfilePage.styled"
@@ -10,7 +9,7 @@ import theme from "@/theme"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 
-function addSearchIconToEndAdornment(endAdornment, handleTimezoneEditDisable, handleTimezoneEditSave, getValues, userData) {
+function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEditDisable: () => void, handleTimezoneEditSave: () => void, getValues: () => void, userData: string) {
   const children = React.Children.toArray(endAdornment.props.children);
   children.push(
     <React.Fragment>

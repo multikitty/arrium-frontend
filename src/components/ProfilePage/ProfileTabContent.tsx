@@ -127,7 +127,13 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handlePhoneMenuClose = () => {
     setPhoneAnchorEl(null)
   }
-  const handleTimezoneEditEnable = () => setIsTimezoneEditEnabled(true)
+
+  const handleTimezoneEditEnable = () => {
+    setIsTimezoneEditEnabled(true)
+    handleSurNameEditDisable()
+    handleNameEditDisable()
+  }
+
   const handleTimezoneEditDisable = () => {
     methods.setValue("timezone", userData?.data?.tzName || "")
     setIsTimezoneEditEnabled(false)
@@ -141,7 +147,11 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     setIsTimezoneEditEnabled(false)
   }
 
-  const handleNameEditEnable = () => setIsNameEditEnabled(true)
+  const handleNameEditEnable = () => {
+    setIsNameEditEnabled(true)
+    handleSurNameEditDisable()
+    handleTimezoneEditDisable()
+  }
   const handleNameEditDisable = () => {
     methods.setValue("name", userData?.data?.firstname || "")
     setIsNameEditEnabled(false)
@@ -188,7 +198,11 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     setIsNameEditEnabled(false)
   }
 
-  const handleSurNameEditEnable = () => setIsSurNameEditEnabled(true)
+  const handleSurNameEditEnable = () => {
+    setIsSurNameEditEnabled(true)
+    handleTimezoneEditDisable()
+    handleNameEditDisable()
+  }
   const handleSurNameEditDisable = () => {
     methods.setValue("surName", userData?.data?.lastname || "")
     setIsSurNameEditEnabled(false)
