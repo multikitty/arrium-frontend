@@ -50,13 +50,14 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
   const handleToggleHideConfirmNewPassword = () =>
     setIsConfirmNewPasswordHidden(p => !p)
 
+  const arePasswordsMatchingCurrentPasswordAndNewPassword = newPassword === currentPassword
   const arePasswordsMatching = newPassword === confirmNewPassword
   const isSaveButtonDisabled =
     !currentPassword ||
     !newPassword ||
     !confirmNewPassword ||
-    !arePasswordsMatching
-
+    !arePasswordsMatching ||
+    arePasswordsMatchingCurrentPasswordAndNewPassword
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledChangePasswordModal>
