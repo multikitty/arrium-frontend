@@ -641,7 +641,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                               removeAllWhiteSpaces(getValues("phoneNumber")) ===
                               removeAllWhiteSpaces(
                                 userData?.data?.phoneNumber || ""
-                              )
+                              ) || getValues("phoneNumber") === ""
+
                             }
                           >
                             Save
