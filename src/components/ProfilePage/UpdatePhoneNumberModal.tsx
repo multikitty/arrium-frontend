@@ -91,13 +91,15 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
             setOtp("")
             return
           }
-          enqueueSnackbar(message)
+          enqueueSnackbar(message, {
+            variant: "success",
+          })
           props.refetchCurrentUser()
+          props.handlePhoneNumberChange()
+          props.handleClose()
         },
       }
     )
-    props.handlePhoneNumberChange()
-    props.handleClose()
   }
 
   const handleResendOtp = async () => {
