@@ -50,29 +50,29 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   const handleEmailVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
-    e.stopPropagation()
-  }
+      e.stopPropagation()
+    }
 
   const handlePhoneVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
     | undefined = e => {
-    e.stopPropagation()
-  }
+      e.stopPropagation()
+    }
 
   const handleSettingsButtonClick:
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
-    e.stopPropagation()
-    navigate(routes.profile)
-  }
+      e.stopPropagation()
+      navigate(routes.profile)
+    }
 
   const handleLogoutButtonClick:
     | React.MouseEventHandler<HTMLLIElement>
     | undefined = e => {
-    e.stopPropagation()
-    userStore.logout()
-    navigate(routes.home)
-  }
+      e.stopPropagation()
+      userStore.logout()
+      navigate(routes.home)
+    }
 
   return (
     <Menu

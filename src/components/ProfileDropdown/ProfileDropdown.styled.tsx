@@ -15,7 +15,7 @@ export const StyledProfileDropdownUpperSectionUsername = styled.h4`
   font-size: ${rem("24px")};
   line-height: ${rem("28px")};
   margin-bottom: ${rem("20px")};
-
+  text-transform: capitalize;
   color: ${p => p.theme.palette.blackText};
 `
 
