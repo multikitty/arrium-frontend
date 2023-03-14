@@ -105,7 +105,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
   const handleResendOtp = async () => {
     const newCount = countOtpResent + 1
     if (newCount > 3) {
-      enqueueSnackbar("You have exceeded your number of maximum attempts.", {
+      enqueueSnackbar("You have exceeded the number of attempts to resend a code. Try again in a short while.", {
         variant: "error",
       })
       setTimeout(() => {
