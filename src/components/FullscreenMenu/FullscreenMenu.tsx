@@ -113,7 +113,7 @@ const FullscreenMenu = ({
                     height: 40,
                   }}
                 >
-                  {userDetails ? `${userDetails.firstname?.[0] || ""}${userDetails.lastname?.[0] || ""
+                  {userDetails ? `${userDetails.firstname?.[0].toUpperCase() || ""}${userDetails.lastname?.[0] || ""
                     }` : ""}
                 </Avatar>
               </Box>

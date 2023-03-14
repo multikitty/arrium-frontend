@@ -80,7 +80,7 @@ const Topbar: React.FC<ITopbarProps> = ({ country_code }) => {
               fontSize: 16,
             }}
           >
-            {userDetails ? `${userDetails.firstname?.[0] || ""}${userDetails.lastname?.[0] || ""
+            {userDetails ? `${userDetails.firstname?.[0].toUpperCase() || ""}${userDetails.lastname?.[0] || ""
               }` : ""}
           </Avatar>
         </IconButton>
