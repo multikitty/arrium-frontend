@@ -68,7 +68,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
     const newCountSubmitError = countSubmitError + 1
     if (newCountSubmitError === 3) {
       enqueueSnackbar(
-        "Please go back to re-enter your number or provide the correct number.",
+        "Incorrect passcode for a 3rd time! Press 'resend code' to get a new passcode",
         {
           variant: "error",
         }
