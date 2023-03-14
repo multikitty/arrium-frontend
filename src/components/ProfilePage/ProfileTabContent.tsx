@@ -41,6 +41,7 @@ import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
 import { localStorageUtils } from "@/utils"
 import { USER } from "@/constants/localStorage"
 import { UserType } from "@/types/auth"
+import { emailReg } from "@/constants/regex"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -561,7 +562,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleEmailEditSave}
                             disabled={
-                              getValues("email") === userData?.data?.email
+                              getValues("email") === userData?.data?.email || getValues("email") === "" || !emailReg.test(value)
                             }
                           >
                             Save
