@@ -14,7 +14,7 @@ import {
   StyledAddCountryModalTitle as StyledChangePasswordModalTitle,
   StyledUpdatePasswordModalFormFieldLabel,
 } from "../SettingsPage/SettingsPage.styled"
-import { ContainedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { useStore } from "@/store"
 
 interface UpdatePasswordModalProps {
@@ -77,9 +77,14 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
               Save
             </ContainedButton>
           </StyledChangePasswordModalFormActions>
+          <StyledChangePasswordModalFormActions>
+            <OutlinedButton grey sx={{ width: "100%" }} onClick={props.handleClose}>
+              Cancel
+            </OutlinedButton>
+          </StyledChangePasswordModalFormActions>
         </StyledChangePasswordModalForm>
       </StyledChangePasswordModal>
-    </Modal>
+    </Modal >
   )
 }
 
