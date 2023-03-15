@@ -82,6 +82,9 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       open={open}
       onClose={handleClose}
       onClick={handleClose}
+      sx={{
+        left: 12
+      }}
       PaperProps={{
         elevation: 0,
         sx: {
@@ -101,7 +104,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             display: "block",
             position: "absolute",
             top: 0,
-            right: 18,
+            right: 28,
             width: 14,
             height: 14,
             bgcolor: "background.paper",
