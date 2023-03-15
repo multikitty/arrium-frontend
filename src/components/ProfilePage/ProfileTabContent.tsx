@@ -16,6 +16,7 @@ import {
   StyledProfileTabContentBody,
   StyledProfileTabContentField,
   StyledProfileTabContentFieldHelperText,
+  StyledProfileTabContentFieldInputTextCapitalize,
   StyledProfileTabContentFieldLabel,
 } from "@/components/ProfilePage/ProfilePage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
@@ -399,7 +400,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 name={"name"}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <StyledProfileTabContentField
+                  <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.name}
@@ -457,7 +458,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 name={"surName"}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <StyledProfileTabContentField
+                  <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.surName}

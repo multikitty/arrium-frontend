@@ -68,6 +68,34 @@ export const StyledProfileTabContentField = muiStyled(InputBase)(
   })
 )
 
+export const StyledProfileTabContentFieldInputTextCapitalize = muiStyled(InputBase)(
+  ({ theme }) => ({
+    width: "100%",
+    "& .MuiInputBase-input": {
+      position: "relative",
+      color: sTheme.palette.blackText,
+      textTransform: 'capitalize',
+      fontSize: rem("16px"),
+      lineHeight: rem("20px"),
+      fontStyle: "normal",
+      fontWeight: "normal",
+      width: "100%",
+      padding: rem("8px"),
+      paddingBottom: rem("14px"),
+      transition: theme.transitions.create([
+        "border-color",
+        "background-color",
+        "box-shadow",
+      ]),
+      fontFamily: ["Inter", "sans-serif"].join(","),
+    },
+    borderBottom: `1px solid ${sTheme.palette.grey3}`,
+    "&:focus-within, &:hover": {
+      borderBottomColor: theme.palette.primary.main,
+    },
+  })
+)
+
 export const StyledProfileTabContentFieldHelperText = styled.p`
   font-family: Inter;
   font-style: normal;
