@@ -59,7 +59,7 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
     !arePasswordsMatching ||
     arePasswordsMatchingCurrentPasswordAndNewPassword
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal open={props.open} onClose={props.handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
       <StyledChangePasswordModal>
         <StyledChangePasswordModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
