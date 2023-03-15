@@ -104,7 +104,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             display: "block",
             position: "absolute",
             top: 0,
-            right: 28,
+            right: 29,
             width: 14,
             height: 14,
             bgcolor: "background.paper",
