@@ -164,7 +164,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
   }, [])
 
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal open={props.open} onClose={props.handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
       <StyledUpdatePhoneNumberModal>
         <StyledUpdatePhoneNumberModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
