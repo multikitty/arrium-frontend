@@ -33,7 +33,7 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <StyledChangePasswordModal>
+      <StyledChangePasswordModal sx={{ borderRadius: '20px' }}>
         <StyledChangePasswordModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
