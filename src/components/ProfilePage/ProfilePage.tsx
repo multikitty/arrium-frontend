@@ -15,7 +15,7 @@ import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 
-interface ProfilePageProps extends PageProps {}
+interface ProfilePageProps extends PageProps { }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
   const { navigateToDefault } = useNavigate({ country_code })
@@ -49,7 +49,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
         </Tooltip>
       </Box>
       <StyledProfilePageContent>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box>
           <StyledTabs
             value={tab}
             onChange={handleChange}
