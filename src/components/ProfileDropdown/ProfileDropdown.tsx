@@ -7,7 +7,9 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material"
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
+import CheckCircleOutlineIcon from "@/assets/icons/main-check-circle_user_pop_up_verify.svg"
+
+import CheckCircleUnverifiedOutlineIcon from "@/assets/icons/main-check-circle_user_pop_up_unverified.svg"
 import SettingsIcon from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import { rem } from "polished"
@@ -122,14 +124,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             {currentUserData.data && (
               <StyledProfileDropdownUpperSectionVerificationContainer>
                 <Box display="flex" alignItems="center" mr={1}>
-                  <CheckCircleOutlineIcon
-                    sx={{
-                      color: currentUserData.data.emailVerified
-                        ? theme.palette.common.green
-                        : theme.palette.grey3,
-                      fontSize: 24,
-                    }}
-                  />
+                  <img src={currentUserData.data.emailVerified ? CheckCircleOutlineIcon : CheckCircleUnverifiedOutlineIcon} alt="" width={24} />
                 </Box>
                 <StyledProfileDropdownUpperSectionVerificationText>
                   {currentUserData.data.email}
@@ -147,14 +142,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             {currentUserData.data && (
               <StyledProfileDropdownUpperSectionVerificationContainer>
                 <Box display="flex" alignItems="center" mr={1}>
-                  <CheckCircleOutlineIcon
-                    sx={{
-                      color: currentUserData.data.phoneVerified
-                        ? theme.palette.common.green
-                        : theme.palette.grey3,
-                      fontSize: 24,
-                    }}
-                  />
+                  <img src={currentUserData.data.phoneVerified ? CheckCircleOutlineIcon : CheckCircleUnverifiedOutlineIcon} width={24} />
                 </Box>
                 <StyledProfileDropdownUpperSectionVerificationText>
                   {`+${currentUserData.data.dialCode}${getRawPhoneNumber(
