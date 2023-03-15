@@ -726,7 +726,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                   sx={{ mt: 1 }}
                 >
                   Close Account
-                </ContainedButton>
+                </ContainedButton> 
               </Box>
             </Grid>
           </Grid>

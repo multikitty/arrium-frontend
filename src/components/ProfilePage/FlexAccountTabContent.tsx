@@ -8,15 +8,17 @@ import {
   StyledFlexAccountTabContentFieldHelperText,
   StyledFlexAccountTabContentFieldLabel,
 } from "./ProfilePage.styled"
-import { Grid } from "@mui/material"
+import { Box, Grid, IconButton } from "@mui/material"
 import { rem } from "polished"
-import { OutlinedButton } from "../commons/Button"
+import { ContainedButton, OutlinedButton } from "../commons/Button"
 import theme from "@/theme"
 import UpdatePasswordModal from "./UpdatePasswordModal"
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import { useStore } from "@/store"
 
 const FlexAccountTabContent = () => {
   const { userStore } = useStore()
+  const [isUserNameEditEnabled, setIsUserNameEditEnabled] = useState(false)
   const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
     useState(false)
 
@@ -39,12 +41,23 @@ const FlexAccountTabContent = () => {
     reset()
   }
 
+  const handleUserNameEditSave = async () => {
+    setIsUserNameEditEnabled(false)
+  }
+
+  const handleUserNameEditDisable = () => {
+    setIsUserNameEditEnabled(false)
+  }
+
+
+  const handleUserNameEditEnable = () => setIsUserNameEditEnabled(true)
+
   return (
     <StyledFlexAccountTabContent>
       <UpdatePasswordModal
         open={isUpdatePasswordModalOpen}
         handleClose={handleUpdatePasswordModalClose}
-        handleSave={() => {}}
+        handleSave={() => { }}
       />
       <StyledFlexAccountTabContentBody>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,7 +74,47 @@ const FlexAccountTabContent = () => {
                     onChange={onChange}
                     value={value}
                     error={!!formState.errors?.userName}
-                    readOnly
+                    readOnly={!isUserNameEditEnabled}
+                    endAdornment={
+                      isUserNameEditEnabled ? (
+                        <Box display="flex" mb={rem("8px")}>
+                          <OutlinedButton
+                            sx={{
+                              border: `1px solid ${theme.palette.grey3}`,
+                              color: theme.palette.grey7,
+                              whiteSpace: "nowrap",
+                              mr: rem("8px"),
+                              p: `${rem("6px")} ${rem("16px")}`,
+                            }}
+                            onClick={handleUserNameEditDisable}
+                          >
+                            Cancel
+                          </OutlinedButton>
+                          <ContainedButton
+                            sx={{
+                              whiteSpace: "nowrap",
+                              p: `${rem("6px")} ${rem("16px")}`,
+                            }}
+                            onClick={handleUserNameEditSave}
+                            disabled={
+                              value ===
+                              userStore.currentUser?.email
+                            }
+                          >
+                            Save
+                          </ContainedButton>
+                        </Box>
+                      ) : (
+                        <IconButton
+                          size="small"
+                          onClick={handleUserNameEditEnable}
+                        >
+                          <EditOutlinedIcon
+                            sx={{ fontSize: 16, color: theme.palette.grey6 }}
+                          />
+                        </IconButton>
+                      )
+                    }
                   />
                 )}
               />
