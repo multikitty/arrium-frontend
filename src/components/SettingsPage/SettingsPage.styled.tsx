@@ -118,7 +118,7 @@ export const StyledModelsTab = styled(StyledAccountInformationTab)``
 
 export const StyledStationTypesTab = styled(StyledAccountInformationTab)``
 
-export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })<{
+export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 }) <{
   countryNotListed?: boolean
 }>`
   border-radius: 20px;
@@ -176,6 +176,13 @@ export const StyledAddCountryModalFormHelperText = styled.span`
   margin-top: ${rem("8px")};
 
   color: ${p => p.theme.palette.errorText};
+`
+
+export const StyledUpdatePasswordModalFormFieldLabel = styled.span`
+  color: #888A95;
+  font-family: Inter;
+  font-style: normal;
+  font-size: ${rem("12px")};
 `
 
 export const StyledAddCountryModalFormActions = styled.div`

@@ -12,6 +12,7 @@ import {
   StyledAddCountryModalFormActions as StyledChangePasswordModalFormActions,
   StyledAddCountryModalFormField as StyledChangePasswordModalFormField,
   StyledAddCountryModalTitle as StyledChangePasswordModalTitle,
+  StyledUpdatePasswordModalFormFieldLabel,
 } from "../SettingsPage/SettingsPage.styled"
 import { ContainedButton } from "../commons/Button"
 import { useStore } from "@/store"
@@ -42,14 +43,16 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
           Update password
         </StyledChangePasswordModalTitle>
         <StyledChangePasswordModalForm>
-          <Box display="flex" mb={rem("16px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
+            <StyledUpdatePasswordModalFormFieldLabel>Email ID</StyledUpdatePasswordModalFormFieldLabel>
             <StyledChangePasswordModalFormField
               type="text"
               defaultValue={userStore.currentUser?.email}
               readOnly
             />
           </Box>
-          <Box display="flex" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+            <StyledUpdatePasswordModalFormFieldLabel>Password</StyledUpdatePasswordModalFormFieldLabel>
             <StyledChangePasswordModalFormField
               autoComplete="new-password"
               type={isPasswordHidden ? "password" : "text"}
