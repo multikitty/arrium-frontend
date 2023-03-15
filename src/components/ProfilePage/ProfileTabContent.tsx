@@ -515,20 +515,6 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
               <StyledProfileTabContentFieldLabel>
                 <Box component="span" display="flex" alignItems="center">
                   <span>Email</span>
-                  <Box
-                    component="span"
-                    display="flex"
-                    alignItems="center"
-                    ml={1}
-                  >
-                    <CheckCircleOutlineIcon
-                      sx={{
-                        color: theme.palette.common.green,
-                        fontSize: 16,
-                        opacity: userData?.data?.emailVerified ? 1 : 0.4,
-                      }}
-                    />
-                  </Box>
                 </Box>
               </StyledProfileTabContentFieldLabel>
               <Controller
@@ -593,20 +579,6 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
               <StyledProfileTabContentFieldLabel>
                 <Box component="span" display="flex" alignItems="center">
                   <span>Phone number</span>
-                  <Box
-                    component="span"
-                    display="flex"
-                    alignItems="center"
-                    ml={1}
-                  >
-                    <CheckCircleOutlineIcon
-                      sx={{
-                        color: theme.palette.common.green,
-                        fontSize: 16,
-                        opacity: userData?.data?.phoneVerified ? 1 : 0.4,
-                      }}
-                    />
-                  </Box>
                 </Box>
               </StyledProfileTabContentFieldLabel>
               <Controller
