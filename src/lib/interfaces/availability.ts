@@ -4,6 +4,10 @@ export interface GetAvailabilityTableResult {
   data?: Array<AvailabilityTableData>
 }
 
+export interface SetBlockStartSearchProps {
+  userPk: string
+}
+
 export interface AvailabilityTableData {
   bDay: string
   currency: string

@@ -12,6 +12,8 @@ export default function createInstance(baseURL = "http://localhost:9000/v1/") {
   })
 }
 
+const arriumAPIPython = createInstance("https://arrium-py-manager.arrium.io/")
+
 const arriumAPIWithoutTokenValidation = createInstance(
   process.env.NODE_ENV === "development"
     ? undefined
@@ -58,7 +60,24 @@ arriumAPIWithoutTokenValidation.interceptors.request.use(config => {
 arriumAPIWithoutTokenValidation.interceptors.response.use(
   res => res,
   err => {
-    if (err.response.status === 500 || err.response.status === 401) {
+    console.log("err", err)
+  }
+)
+arriumAPIPython.interceptors.request.use(config => {
+  const token = store.userStore.userToken || localStorage.getItem(TOKEN) || ""
+  config.headers = {
+    "x-access-token": token,
+  }
+  return config
+})
+
+arriumAPIPython.interceptors.response.use(
+  res => res,
+  err => {
+    if (
+      (err.response.status === 500 || err.response.status === 401) &&
+      err.response.data.message === "Failed to authenticate token"
+    ) {
       store.userStore.logout()
     }
   }
@@ -76,4 +95,4 @@ export const getGeolocationAPI =
   createInstance(`https://ipwho.is?fields=country,country_code,calling_code,timezone,flag
 `)
 
-export { arriumAPI, arriumAPIWithoutTokenValidation }
+export { arriumAPI, arriumAPIWithoutTokenValidation, arriumAPIPython }
