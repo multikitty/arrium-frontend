@@ -131,7 +131,6 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             data.userData.role !== "admin" &&
             data.userData.currentSteps !== "finished"
           ) {
-            console.log("data.userData.currentSteps", data.userData.currentSteps)
             handleNavigateToSignupStep(data.userData.currentSteps)
             return
           }

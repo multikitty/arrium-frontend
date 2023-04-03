@@ -213,6 +213,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           : null,
         status: props.accountStatus,
         planType: props.planType,
+        isEmailVerified: props?.emailVerified
       },
     })
   useWatch({ control })
@@ -221,10 +222,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
 
   const handleUpdateAccountInfo = async () => {
     const startDate = getValues("endDate")
-      ? +new Date((getValues("startDate") as number).toString()) / 1000 // converting to a timestamp of seconds and not ms
+      ? +new Date((getValues("startDate") as number)?.toString()) / 1000 // converting to a timestamp of seconds and not ms
       : null
     const endDate = getValues("endDate")
-      ? +new Date((getValues("endDate") as number).toString()) / 1000
+      ? +new Date((getValues("endDate") as number)?.toString()) / 1000
       : null
     const mutationParams: UpdateUserAccountInfoVariables = {
       email: getValues("email"),
@@ -244,29 +245,31 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       planType: getValues("planType"),
       stationType: getValues("stationType"),
       zendeskUserID: zendeskUserID.toString(),
+      currentSteps: getValues("isEmailVerified") === 'true' ? "finished" : "holding"
     }
+
     await mutate(mutationParams, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
           enqueueSnackbar(
             validationError?.email ||
-              validationError?.emailVerified ||
-              validationError?.endDate ||
-              validationError?.firstname ||
-              validationError?.lastname ||
-              validationError?.passwordChangeRequest ||
-              validationError?.phoneNumber ||
-              validationError?.startDate ||
-              validationError?.status ||
-              validationError?.tzName ||
-              validationError?.userPK ||
-              validationError?.userRole ||
-              validationError?.userSK ||
-              validationError?.dialCode ||
-              validationError?.planType ||
-              validationError?.stationType ||
-              validationError?.zendeskUserID ||
-              message,
+            validationError?.emailVerified ||
+            validationError?.endDate ||
+            validationError?.firstname ||
+            validationError?.lastname ||
+            validationError?.passwordChangeRequest ||
+            validationError?.phoneNumber ||
+            validationError?.startDate ||
+            validationError?.status ||
+            validationError?.tzName ||
+            validationError?.userPK ||
+            validationError?.userRole ||
+            validationError?.userSK ||
+            validationError?.dialCode ||
+            validationError?.planType ||
+            validationError?.stationType ||
+            validationError?.zendeskUserID ||
+            message,
             {
               variant: "error",
             }
@@ -300,9 +303,9 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
             if (!success) {
               enqueueSnackbar(
                 validationError?.userSK ||
-                  validationError?.userPK ||
-                  validationError?.pricingPlan ||
-                  message,
+                validationError?.userPK ||
+                validationError?.pricingPlan ||
+                message,
                 {
                   variant: "error",
                 }
