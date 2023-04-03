@@ -188,10 +188,10 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
   useEffect(() => {
     if (!!data) {
       const countryData = getFilteredCountries([
-        data.countryCode.toLowerCase(),
+        data.countryCode?.toLowerCase(),
       ])[0]
       setCountry(countryData)
-      setPhoneCountry(countryData.countryShortName.toLowerCase())
+      setPhoneCountry(countryData?.countryShortName.toLowerCase())
       setPhoneNo(data.dialCode + data.phoneNumber)
       setDialCode(data.dialCode)
       setSelectedTimezone(data.tzName)
