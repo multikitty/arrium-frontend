@@ -76,6 +76,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     Error,
     RegistrationUserVariables
   >(registerUser)
+  const onlyNumber = new RegExp(/^[0-9\b]+$/)
 
   useEffect(() => {
     setRequiredSet({
@@ -160,8 +161,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const handleRefCodeField = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const val = e.target.value
-    if (val.length > 6) return
+    if ((onlyNumber.test(e.target.value) || e.target.value.length === 0) && e.target.value.length <= 6) return
     setRefCode(e.target.value)
   }
 
