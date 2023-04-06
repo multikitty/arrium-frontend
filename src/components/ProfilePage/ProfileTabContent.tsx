@@ -179,7 +179,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
             )
             return
           }
-          let localStorageUserData = JSON.parse(localStorageUtils.get(USER) as string) as UserType
+          let localStorageUserData: any = JSON.parse(localStorageUtils.get(USER) as string) as UserType
           localStorageUserData = { ...localStorageUserData, [params.fieldName]: params.fieldValue }
           localStorageUtils.set(USER, JSON.stringify(localStorageUserData)),
             enqueueSnackbar("User details Updated successfully", { variant: "success" })
@@ -188,7 +188,6 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
         onError(error, variables) {
           enqueueSnackbar(error.message, { variant: "error" })
           console.error("ERROR:", error)
-          console.log("VARIABLES USED:", variables)
         },
       }
     )
