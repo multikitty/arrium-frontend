@@ -161,8 +161,8 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const handleRefCodeField = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    if ((onlyNumber.test(e.target.value) || e.target.value.length === 0) && e.target.value.length <= 6) return
-    setRefCode(e.target.value)
+    if ((onlyNumber.test(e.target.value) || e.target.value.length === 0) && e.target.value.length <= 6){
+    setRefCode(e.target.value)}else{ return}
   }
 
   const isPasswordValid = useMemo(
