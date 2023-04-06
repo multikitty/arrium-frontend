@@ -176,7 +176,15 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               <MenuItem
                 dense
                 divider
-                sx={{ py: rem("12px") }}
+                sx={{
+                  py: rem("12px")
+                  ,
+                  "&:hover": {
+                    "&, & .MuiListItemIcon-root": {
+                      color: "#3071F2"
+                    }
+                  }
+                }}
                 onClick={handleSettingsButtonClick}
               >
                 <ListItemIcon>
@@ -189,7 +197,14 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             )}
             <MenuItem
               dense
-              sx={{ py: rem("12px") }}
+              sx={{
+                py: rem("12px"),
+                "&:hover": {
+                  "&, & .MuiListItemIcon-root": {
+                    color: "#3071F2"
+                  }
+                }
+              }}
               onClick={handleLogoutButtonClick}
             >
               <ListItemIcon>

@@ -138,6 +138,7 @@ export const StyledContactFormSectionCardRightContainerSendButton = muiStyled(
   boxShadow: "none",
   textTransform: "none",
   fontSize: rem("16px"),
+  fontWeight: 600,
   lineHeight: rem("20px"),
   padding: `${rem("12px")} ${rem("75px")}`,
   border: "1px solid",
