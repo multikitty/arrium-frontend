@@ -17,6 +17,7 @@ const BlockAcceptNotification: React.FC<BlockAcceptNotificationProps> = ({
   location,
   pay,
   time,
+  onDismiss,
 }) => {
   return (
     <StyledBlockAcceptNotification>
@@ -24,7 +25,7 @@ const BlockAcceptNotification: React.FC<BlockAcceptNotificationProps> = ({
         <StyledBlockAcceptNotificationUpperContainerTitle>
           Block accepted
         </StyledBlockAcceptNotificationUpperContainerTitle>
-        <StyledBlockAcceptNotificationUpperContainerDismissButton>
+        <StyledBlockAcceptNotificationUpperContainerDismissButton onClick={onDismiss}>
           Dismiss
         </StyledBlockAcceptNotificationUpperContainerDismissButton>
       </StyledBlockAcceptNotificationUpperContainer>

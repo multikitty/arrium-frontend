@@ -2,6 +2,9 @@ import axios from "axios"
 import { TOKEN } from "@/constants/localStorage"
 import { store } from "@/store"
 
+export const WebSocketURL =
+  "wss://565pnq0qoe.execute-api.eu-west-1.amazonaws.com/development"
+
 export default function createInstance(baseURL = "http://localhost:9000/v1/") {
   return axios.create({
     baseURL,

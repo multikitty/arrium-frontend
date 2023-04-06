@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation } from "@reach/router"
 import { Avatar, Badge, Box } from "@mui/material"
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone"
@@ -24,6 +24,10 @@ import { Settings } from "@mui/icons-material"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { updateNotificationView, useAllNotifications } from "@/agent/notification"
+import { WebSocketURL } from "@/agent/axios"
+import { BlockNotificationData, GetAllNotificationResult, InvoiceNotificationData, UpdateNotificationViewStatusResult, UpdateNotificationViewStatusVariables } from "@/lib/interfaces/notification"
+import { useMutation } from "react-query"
 import { localStorageUtils } from "@/utils"
 import { UserType } from "@/types/auth"
 import { USER } from "@/constants/localStorage"
@@ -43,6 +47,39 @@ const FullscreenMenu = ({
   const { userStore } = useStore()
   const { pathname } = useLocation()
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
+
+  const {
+    data: allNotification,
+    isLoading,
+    refetch,
+  } = useAllNotifications({
+    pk: userStore.flexData?.pk,
+  })
+  const [notificationPing, setNotificationPing] = React.useState<Boolean>(false)
+
+  const { mutate: updateNotificationViewStatus } = useMutation<
+    UpdateNotificationViewStatusResult,
+    Error,
+    UpdateNotificationViewStatusVariables
+  >(updateNotificationView)
+
+  const [notifications, setNotifications] = useState<GetAllNotificationResult>(allNotification)
+
+
+  React.useEffect(() => {
+    if (
+      notifications?.blockNotificationData &&
+      notifications?.invoiceNotificationData
+    ) {
+      setNotificationPing(
+        [
+          ...notifications?.blockNotificationData,
+          ...notifications?.invoiceNotificationData,
+        ].some(el => el.notifViewed === false)
+      )
+    }
+  }, [notifications])
+
 
   const handleNotificationsMenuOpen = () => setIsNotificationsMenuOpen(true)
   const handleNotificationsMenuClose = () => setIsNotificationsMenuOpen(false)
@@ -69,6 +106,7 @@ const FullscreenMenu = ({
     | undefined = e => {
       e.stopPropagation()
       handleNotificationsMenuOpen()
+      handleNotificationsIconClick()
     }
 
   const handleNavigationItemClick = (href: string) => {
@@ -93,11 +131,56 @@ const FullscreenMenu = ({
     </StyledFullscreenMenuBottomContainerItem>
   ))
 
+  const handleNotificationsIconClick = async (
+    event: React.MouseEvent<HTMLElement>
+  ) => {
+    if (notificationPing) {
+      await updateNotificationViewStatus(
+        { pk: userStore.flexData?.pk },
+        {
+          onSuccess(data) {
+            if (!data.success) {
+              return
+            }
+            refetch()
+          },
+          onError(error, variables) {
+            console.error("ERROR:", error)
+            console.log("VARIABLES USED:", variables)
+          },
+        }
+      )
+    } else {
+      refetch()
+    }
+  }
+
+  const socket = new WebSocket(`${WebSocketURL}?pk=${userStore.flexData?.pk}`);
+
+  // Listen for messages
+  socket.onmessage = function (event) {
+    if (JSON.parse(event?.data).notifType === "block") {
+      const newBlockNotificationData: Array<BlockNotificationData> = notifications?.blockNotificationData ?? []
+      newBlockNotificationData.push(JSON.parse(event?.data))
+      setNotifications({ ...notifications, blockNotificationData: newBlockNotificationData })
+    } else {
+      const newInvoiceNotificationData: Array<InvoiceNotificationData> = notifications?.invoiceNotificationData ?? []
+      newInvoiceNotificationData.push(JSON.parse(event?.data))
+      setNotifications({ ...notifications, invoiceNotificationData: newInvoiceNotificationData })
+    }
+  };
+
+  useEffect(() => {
+    setNotifications(allNotification)
+  }, [allNotification])
+
   return (
     <StyledFullscreenMenu visible={open}>
       {isNotificationsMenuOpen ? (
         <FullscreenMenuNotifications
           handleClose={handleNotificationsMenuClose}
+          allNotification={notifications}
+          refetch={refetch}
         />
       ) : (
         <React.Fragment>
@@ -136,18 +219,23 @@ const FullscreenMenu = ({
               onClick={handleNotificationsItemClick}
             >
               <Box mr={rem("12px")}>
-                <Badge
-                  color="error"
-                  overlap="circular"
-                  badgeContent=" "
-                  variant="dot"
-                >
-                  <StyledFullscreenMenuUpperContainerNotificationIcon>
+                {notificationPing ?
+                  <Badge
+                    color="error"
+                    overlap="circular"
+                    badgeContent=" "
+                    variant="dot"
+                  >
+                    <StyledFullscreenMenuUpperContainerNotificationIcon>
+                      <NotificationsNoneIcon
+                        sx={{ fontSize: 24, color: theme.palette.main }}
+                      />
+                    </StyledFullscreenMenuUpperContainerNotificationIcon>
+                  </Badge> : (<StyledFullscreenMenuUpperContainerNotificationIcon>
                     <NotificationsNoneIcon
                       sx={{ fontSize: 24, color: theme.palette.main }}
                     />
-                  </StyledFullscreenMenuUpperContainerNotificationIcon>
-                </Badge>
+                  </StyledFullscreenMenuUpperContainerNotificationIcon>)}
               </Box>
               <StyledFullscreenMenuUpperContainerItemText>
                 Notifications
