@@ -58,6 +58,7 @@ export interface OtpConfirmationResult {
 export interface FlexInfoVariables {
   amznFlexUser: string
   amznFlexPassword: string
+  details?: string
 }
 
 export interface FlexInfoValidationError extends Partial<FlexInfoVariables> {}

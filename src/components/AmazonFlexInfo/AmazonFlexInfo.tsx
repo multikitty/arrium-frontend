@@ -64,12 +64,12 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
     mutate(
       { amznFlexUser: data.userName, amznFlexPassword: data.password },
       {
-        onSuccess({ success, message, validationError }) {
+        onSuccess({ success, message, validationError }:any) {
           if (!success) {
             enqueueSnackbar(
               validationError?.amznFlexUser ||
                 validationError?.amznFlexPassword ||
-                message,
+                validationError?.details?.email?.[0]?.description ? validationError?.details?.email?.[0]?.description :message,
               {
                 variant: "error",
               }
