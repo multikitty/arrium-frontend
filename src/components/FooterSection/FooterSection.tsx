@@ -62,7 +62,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={isMobileView ? -50 : -80}
+            offset={isMobileView ? -50 : 150}
             to={LANDING_PAGE_IDS["benefits-section"]}
             spy={true}
             smooth={true}
@@ -73,7 +73,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={isMobileView ? -100 : -150}
+            offset={isMobileView ? -100 : 150}
             to={LANDING_PAGE_IDS["working-section"]}
             spy={true}
             smooth={true}
@@ -84,7 +84,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ country_code }) => {
         <StyledFooterSectionInfoLink>
           <Link
             delay={300}
-            offset={isMobileView ? -80 : -150}
+            offset={isMobileView ? -90 : 150}
             to={LANDING_PAGE_IDS["contact-us-section"]}
             spy={true}
             smooth={true}
