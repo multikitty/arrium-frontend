@@ -117,7 +117,7 @@ const tabStyles = {
   padding: rem("32px"),
 }
 
-interface AvailabilityPageProps extends PageProps {}
+interface AvailabilityPageProps extends PageProps { }
 
 const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   country_code,
@@ -166,16 +166,16 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
         startTime:
           value.preference?.bStartTime !== ""
             ? createDateInHM(
-                Number(value.preference?.bStartTime?.split(":")[0]),
-                Number(value.preference?.bStartTime?.split(":")[1])
-              )
+              Number(value.preference?.bStartTime?.split(":")[0]),
+              Number(value.preference?.bStartTime?.split(":")[1])
+            )
             : null,
         endTime:
           value.preference?.bEndTime !== ""
             ? createDateInHM(
-                Number(value.preference?.bEndTime?.split(":")[0]),
-                Number(value.preference?.bEndTime?.split(":")[1])
-              )
+              Number(value.preference?.bEndTime?.split(":")[0]),
+              Number(value.preference?.bEndTime?.split(":")[1])
+            )
             : null,
         minimumPay: value.preference.minPay,
         minimumHourlyRate: value.preference.minHourlyRate,
@@ -252,14 +252,14 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
           startTime:
             obj.startTime && obj.startTime.toString() !== "Invalid Date"
               ? new Date(obj.startTime).toLocaleTimeString([], {
-                  hour12: false,
-                })
+                hour12: false,
+              })
               : "",
           endTime:
             obj.endTime && obj.endTime.toString() !== "Invalid Date"
               ? new Date(obj.endTime).toLocaleTimeString([], {
-                  hour12: false,
-                })
+                hour12: false,
+              })
               : "",
           active: obj.checked ? "Y" : "N",
         }
@@ -321,7 +321,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
 
   const handleBlockStartSearch = () => {
     blockStartSearchMutate(
-      {},
+      { userPk: userStore.currentUser.pk },
       {
         onSuccess(response) {
           if (!response?.success) {
@@ -335,8 +335,8 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
           }
           enqueueSnackbar(response?.message, { variant: "success" })
           setIsSearching(true)
-          setTaskId(response?.taskId)
-          setLocalStorage(TASK_ID, response?.taskId)
+          setTaskId(response?.task_id)
+          setLocalStorage(TASK_ID, response?.task_id)
         },
         onError(error) {
           enqueueSnackbar(error.message, { variant: "error" })
@@ -351,7 +351,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
 
   const handleBlockStopSearch = () => {
     blockStopSearchMutate(
-      { taskId: taskId },
+      { task_id: taskId },
       {
         onSuccess(response) {
           if (!response?.success) {
