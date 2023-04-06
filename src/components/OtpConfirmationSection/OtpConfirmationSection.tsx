@@ -94,6 +94,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
+            setOtp("")
             enqueueSnackbar(validationError?.otp || message, {
               variant: "error",
             })
@@ -102,6 +103,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
             return
           }
           setFormStage(prev => prev + 1)
+          setOtp("")
           navigateToSignup(stage + 1)
         },
       }
