@@ -152,6 +152,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleNameEditEnable = () => {
     setIsNameEditEnabled(true)
     handleSurNameEditDisable()
+    handleEmailEditDisable()
+    handlePhoneEditDisable()
     handleTimezoneEditDisable()
   }
   const handleNameEditDisable = () => {
@@ -202,6 +204,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
 
   const handleSurNameEditEnable = () => {
     setIsSurNameEditEnabled(true)
+    handleNameEditDisable()
+    handleEmailEditDisable()
+    handlePhoneEditDisable()
+    handleTimezoneEditDisable()
     handleTimezoneEditDisable()
     handleNameEditDisable()
   }
@@ -220,6 +226,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleEmailEditEnable = () => {
     handleEmailMenuClose()
     setIsEmailEditEnabled(true)
+    handleNameEditDisable()
+    handleSurNameEditDisable()
+    handlePhoneEditDisable()
+    handleTimezoneEditDisable()
   }
   const handleEmailEditDisable = () => {
     methods.setValue("email", userData?.data?.email || "")
@@ -232,6 +242,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handlePhoneEditEnable = () => {
     handlePhoneMenuClose()
     setIsPhoneEditEnabled(true)
+    handleNameEditDisable()
+    handleSurNameEditDisable()
+    handleEmailEditDisable()
+    handleTimezoneEditDisable()
   }
   const handlePhoneEditDisable = () => {
     methods.setValue("phoneNumber", userData?.data?.phoneNumber || "")
