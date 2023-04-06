@@ -10,7 +10,8 @@ import {
 import CheckCircleOutlineIcon from "@/assets/icons/main-check-circle_user_pop_up_verify.svg"
 
 import CheckCircleUnverifiedOutlineIcon from "@/assets/icons/main-check-circle_user_pop_up_unverified.svg"
-import SettingsIcon from "@mui/icons-material/Settings"
+import SettingsIcon from "@/assets/icons/user_pop_up_setting_icon.svg"
+import SettingsIconHover from "@/assets/icons/user_pop_up_setting_icon_hover.svg"
 import Logout from "@mui/icons-material/Logout"
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
@@ -177,18 +178,18 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                 dense
                 divider
                 sx={{
-                  py: rem("12px")
-                  ,
-                  "&:hover": {
+                  py: rem("12px"), "&:hover": {
                     "&, & .MuiListItemIcon-root": {
-                      color: "#3071F2"
+                      "img": {
+                        content: `url(${SettingsIconHover})`
+                      }
                     }
                   }
                 }}
                 onClick={handleSettingsButtonClick}
               >
                 <ListItemIcon>
-                  <SettingsIcon sx={{ fontSize: 24 }} />
+                 <img src={SettingsIcon} alt="" width={24} className="logo-img" />
                 </ListItemIcon>
                 <StyledProfileDropdownMenuItemText>
                   Settings
