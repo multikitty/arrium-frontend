@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box } from "@mui/material"
 import {
   StyledFAQPage,
@@ -17,6 +17,10 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import { rem } from "polished"
 import theme from "@/theme"
+import { useMutation } from "react-query"
+import { FAQResult, FAQVariables } from "@/lib/interfaces/faq"
+import { faqInfo } from "@/agent/faq"
+import { PageProps } from "@/lib/interfaces/common"
 
 type AccordionSummaryProps = MuiAccordionSummaryProps & {
   expanded?: boolean
@@ -75,143 +79,69 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }))
 
-const FAQPage = () => {
+const FAQPage: React.FC<PageProps> = ({ country_code }) => {
   const [expanded, setExpanded] = React.useState<string | false>("panel1")
+  const [faqQuestions, setFaqQuestions] = React.useState<string[]>([])
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false)
     }
 
+  const { mutate } = useMutation<FAQResult, Error, FAQVariables>(
+    faqInfo
+  )
+
+  const getFAQquestions = () => {
+    mutate(
+      {
+        language: `en-${country_code}`
+      },
+      {
+        onSuccess({ result, success, message }) {
+          if (!success) {
+            setFaqQuestions(result)
+          }
+        },
+        onError(error) {
+          console.log("error", error)
+        },
+      }
+    )
+  }
+
+  useEffect(() => {
+    getFAQquestions()
+  }, [])
+
   return (
     <StyledFAQPage>
       <StyledFAQPageHeader>FAQs</StyledFAQPageHeader>
       <StyledFAQPageContent>
-        <Accordion
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
-        >
-          <AccordionSummary
-            aria-controls="panel1-content"
-            id="panel1-header"
-            expanded={expanded === "panel1"}
-          >
-            <StyledFAQPageContentAccordionSummaryText
-              $expanded={expanded === "panel1"}
+        {faqQuestions.map((item: any, index: number) => {
+          return (
+            <Accordion
+              key={index}
+              expanded={expanded === `panel1${index}`}
+              onChange={handleChange(`panel1${index}`)}
             >
-              How it works
-            </StyledFAQPageContentAccordionSummaryText>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StyledFAQPageContentAccordionDetailsText>
-              One morning, when Gregor Samsa woke from troubled dreams, he found
-              himself transformed in his bed into a horrible vermin. He lay on
-              his armour-like back, and if he lifted his head a little he could
-              see his brown belly, slightly domed and divided by arches into
-              stiff sections.
-            </StyledFAQPageContentAccordionDetailsText>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === "panel2"}
-          onChange={handleChange("panel2")}
-        >
-          <AccordionSummary
-            aria-controls="panel2-content"
-            id="panel2-header"
-            expanded={expanded === "panel2"}
-          >
-            <StyledFAQPageContentAccordionSummaryText
-              $expanded={expanded === "panel2"}
-            >
-              How much does it cost?
-            </StyledFAQPageContentAccordionSummaryText>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StyledFAQPageContentAccordionDetailsText>
-              One morning, when Gregor Samsa woke from troubled dreams, he found
-              himself transformed in his bed into a horrible vermin. He lay on
-              his armour-like back, and if he lifted his head a little he could
-              see his brown belly, slightly domed and divided by arches into
-              stiff sections.
-            </StyledFAQPageContentAccordionDetailsText>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === "panel3"}
-          onChange={handleChange("panel3")}
-        >
-          <AccordionSummary
-            aria-controls="panel3-content"
-            id="panel3-header"
-            expanded={expanded === "panel3"}
-          >
-            <StyledFAQPageContentAccordionSummaryText
-              $expanded={expanded === "panel3"}
-            >
-              Maybe this question will be a bit longer, who knows?
-            </StyledFAQPageContentAccordionSummaryText>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StyledFAQPageContentAccordionDetailsText>
-              One morning, when Gregor Samsa woke from troubled dreams, he found
-              himself transformed in his bed into a horrible vermin. He lay on
-              his armour-like back, and if he lifted his head a little he could
-              see his brown belly, slightly domed and divided by arches into
-              stiff sections.
-            </StyledFAQPageContentAccordionDetailsText>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === "panel4"}
-          onChange={handleChange("panel4")}
-        >
-          <AccordionSummary
-            aria-controls="panel4-content"
-            id="panel4-header"
-            expanded={expanded === "panel4"}
-          >
-            <StyledFAQPageContentAccordionSummaryText
-              $expanded={expanded === "panel4"}
-            >
-              Everything you need to know will be on this page?
-            </StyledFAQPageContentAccordionSummaryText>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StyledFAQPageContentAccordionDetailsText>
-              One morning, when Gregor Samsa woke from troubled dreams, he found
-              himself transformed in his bed into a horrible vermin. He lay on
-              his armour-like back, and if he lifted his head a little he could
-              see his brown belly, slightly domed and divided by arches into
-              stiff sections.
-            </StyledFAQPageContentAccordionDetailsText>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion
-          expanded={expanded === "panel5"}
-          onChange={handleChange("panel5")}
-        >
-          <AccordionSummary
-            aria-controls="panel5-content"
-            id="panel5-header"
-            expanded={expanded === "panel5"}
-          >
-            <StyledFAQPageContentAccordionSummaryText
-              $expanded={expanded === "panel5"}
-            >
-              You can find a lot of information here?
-            </StyledFAQPageContentAccordionSummaryText>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StyledFAQPageContentAccordionDetailsText>
-              One morning, when Gregor Samsa woke from troubled dreams, he found
-              himself transformed in his bed into a horrible vermin. He lay on
-              his armour-like back, and if he lifted his head a little he could
-              see his brown belly, slightly domed and divided by arches into
-              stiff sections.
-            </StyledFAQPageContentAccordionDetailsText>
-          </AccordionDetails>
-        </Accordion>
+              <AccordionSummary
+                aria-controls={`panel1${index}-content`}
+                id={`panel1${index}-header`}
+                expanded={expanded === `panel1${index}`}
+              >
+                <StyledFAQPageContentAccordionSummaryText
+                  $expanded={expanded === `panel1${index}`}
+                >
+                  {item.title}
+                </StyledFAQPageContentAccordionSummaryText>
+              </AccordionSummary>
+              <AccordionDetails>
+                <StyledFAQPageContentAccordionDetailsText dangerouslySetInnerHTML={{ __html: item.body }} />
+              </AccordionDetails>
+            </Accordion>
+          )
+        })}
       </StyledFAQPageContent>
     </StyledFAQPage>
   )

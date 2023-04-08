@@ -13,7 +13,7 @@ interface FAQProps {
 const FAQ: React.FC<FAQProps> = ({ params }) => (
   <DriverLayout roles={[UserRoles.driver]} country_code={params.country_code}>
     <Seo title="FAQ | Arrium" />
-    <FAQPage />
+    <FAQPage country_code={params.country_code} />
   </DriverLayout>
 )
 

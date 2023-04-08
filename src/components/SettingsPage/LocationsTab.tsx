@@ -109,7 +109,6 @@ const LocationsTab = () => {
   const [stationData, setStationData] = useState<Required<AddStationVariables>>(
     STATION_DATA_DEFAULT_VALUES
   )
-  console.log("stationData", stationData)
   const {
     data: countryListData,
     isLoading: isCountryListLoading,
@@ -269,7 +268,6 @@ const LocationsTab = () => {
     handleDeleteConfirmationModalClose()
   }
   const handleClickRegion = (clickedRegion: RegionListDataItem) => {
-    console.log("clickedRegion", clickedRegion)
     setStationData(prev => ({ ...prev, regionCode: clickedRegion.regionCode, regionId: clickedRegion.regionID, regionName: clickedRegion.regionName }))
     setSelectedRegion(clickedRegion)
   }
