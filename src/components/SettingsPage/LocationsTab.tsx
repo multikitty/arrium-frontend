@@ -207,8 +207,8 @@ const LocationsTab = () => {
           if (!success) {
             enqueueSnackbar(
               validationError?.sortKey ||
-                validationError?.partitionKey ||
-                message,
+              validationError?.partitionKey ||
+              message,
               {
                 variant: "error",
               }
@@ -246,8 +246,8 @@ const LocationsTab = () => {
           if (!success) {
             enqueueSnackbar(
               validationError?.sortKey ||
-                validationError?.partitionKey ||
-                message,
+              validationError?.partitionKey ||
+              message,
               {
                 variant: "error",
               }
@@ -291,21 +291,21 @@ const LocationsTab = () => {
         if (!success) {
           enqueueSnackbar(
             validationError?.countryCode ||
-              validationError?.regionCode ||
-              validationError?.regionId ||
-              validationError?.regionName ||
-              validationError?.stationCode ||
-              validationError?.stationId ||
-              validationError?.stationName ||
-              validationError?.stationType ||
-              validationError?.address1 ||
-              validationError?.address2 ||
-              validationError?.address3 ||
-              validationError?.city ||
-              validationError?.state ||
-              validationError?.longitude ||
-              validationError?.latitude ||
-              message,
+            validationError?.regionCode ||
+            validationError?.regionId ||
+            validationError?.regionName ||
+            validationError?.stationCode ||
+            validationError?.stationId ||
+            validationError?.stationName ||
+            validationError?.stationType ||
+            validationError?.address1 ||
+            validationError?.address2 ||
+            validationError?.address3 ||
+            validationError?.city ||
+            validationError?.state ||
+            validationError?.longitude ||
+            validationError?.latitude ||
+            message,
             {
               variant: "error",
             }
@@ -330,8 +330,8 @@ const LocationsTab = () => {
           if (!success) {
             enqueueSnackbar(
               validationError?.sortKey ||
-                validationError?.partitionKey ||
-                message,
+              validationError?.partitionKey ||
+              message,
               {
                 variant: "error",
               }

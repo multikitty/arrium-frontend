@@ -30,7 +30,7 @@ import {
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
 import { ZENDESK_ORG_ID } from "@/constants/common"
-
+import { capitalCase } from "change-case"
 interface ConfigurationTabProps extends TabProps {
   pk: string
   sk: string
@@ -74,18 +74,18 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
           if (!success) {
             enqueueSnackbar(
               validationError?.accessToken ||
-                validationError?.country ||
-                validationError?.flexId ||
-                validationError?.flexPassword ||
-                validationError?.flexUser ||
-                validationError?.refreshToken ||
-                validationError?.region ||
-                validationError?.userAgent ||
-                validationError?.userPk ||
-                validationError?.userSk ||
-                validationError?.zendeskOrgID ||
-                validationError?.zendeskUserID ||
-                message,
+              validationError?.country ||
+              validationError?.flexId ||
+              validationError?.flexPassword ||
+              validationError?.flexUser ||
+              validationError?.refreshToken ||
+              validationError?.region ||
+              validationError?.userAgent ||
+              validationError?.userPk ||
+              validationError?.userSk ||
+              validationError?.zendeskOrgID ||
+              validationError?.zendeskUserID ||
+              message,
               {
                 variant: "error",
               }
@@ -104,11 +104,10 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
     },
     [configurationDetailsMutate, refetchConfigInfo]
   )
-
   const countryOptionsJSX = (countryListData?.data?.Items || []).map(
     country => (
       <MenuItem value={country.countryCode} key={country.countryCode}>
-        {country.country}
+        {capitalCase(country.country)}
       </MenuItem>
     )
   )

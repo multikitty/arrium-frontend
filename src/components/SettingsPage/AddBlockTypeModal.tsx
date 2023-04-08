@@ -26,7 +26,9 @@ const AddBlockTypeModal = (props: AddBlockTypeModalProps) => {
   const handleBlockTypeField: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = e => {
-    setBlockType(e.target.value)
+    const firstLetterCapitalSentence = e.target.value.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+    setBlockType(firstLetterCapitalSentence)
+
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
