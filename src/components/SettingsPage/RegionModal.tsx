@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box, IconButton, Modal } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { Controller, useForm, useWatch } from "react-hook-form"
@@ -33,6 +33,7 @@ interface RegionModalProps extends ModalProps {
   countries: CountryListDataItem[]
   regionData?: RegionToEditType
   refetchRegionList: () => void
+  selectedCountryCode?: string
 }
 
 const RegionModal = (props: RegionModalProps) => {
@@ -54,11 +55,11 @@ const RegionModal = (props: RegionModalProps) => {
     resolver: regionOptions.resolver,
     defaultValues: props.regionData
       ? {
-          country: props.regionData.countryCode,
-          regionName: props.regionData.regionName,
-          regionCode: props.regionData.regionCode,
-          regionId: props.regionData.regionID,
-        }
+        country: props.regionData.countryCode,
+        regionName: props.regionData.regionName,
+        regionCode: props.regionData.regionCode,
+        regionId: props.regionData.regionID,
+      }
       : regionOptions.defaultValues,
   })
   useWatch({ control })
@@ -236,6 +237,11 @@ const RegionModal = (props: RegionModalProps) => {
     !methods.getValues("regionCode") ||
     !methods.getValues("regionId")
 
+  useEffect(() => {
+    if (props?.selectedCountryCode) {
+      methods.setValue("country", props?.selectedCountryCode)
+    }
+  }, [])
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledRegionModal>
@@ -260,6 +266,11 @@ const RegionModal = (props: RegionModalProps) => {
                   {...field}
                   disabled={!!props.regionData}
                   readOnly={!!props.regionData}
+                  value={methods.getValues("country")}
+                  onChange={e => {
+                    field.onChange(e.target.value)
+                    methods.setValue("country", e.target.value)
+                  }}
                   placeholder="Country Name"
                   required
                 />
