@@ -145,7 +145,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
       country: configData.data.country,
       flexID: configData.data.flexID,
       refreshToken: configData.data.refToken,
-      region: configData.data.region,
+      region: configData.data.region || configData.data.regionCode,
       userAgent: configData.data.usrAgent,
     })
   }, [configData])
