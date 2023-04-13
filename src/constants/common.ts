@@ -8,6 +8,12 @@ export const UserRoles = {
   sales: "sales",
 } as const
 
+export const UserSegmentID = {
+  driver: "7695497162013",
+  admin: "7695510112157",
+  sales: "9888424069277",
+}
+
 export const LabelledUserRoles = [
   {
     label: "Driver",

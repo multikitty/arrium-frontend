@@ -18,9 +18,11 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails"
 import { rem } from "polished"
 import theme from "@/theme"
 import { useMutation } from "react-query"
-import { FAQResult, FAQVariables } from "@/lib/interfaces/faq"
+import { FAQResult, FAQresultData, FAQVariables } from "@/lib/interfaces/faq"
 import { faqInfo } from "@/agent/faq"
 import { PageProps } from "@/lib/interfaces/common"
+import { useStore } from "@/store"
+import { UserSegmentID } from "@/constants/common"
 
 type AccordionSummaryProps = MuiAccordionSummaryProps & {
   expanded?: boolean
@@ -82,7 +84,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const FAQPage: React.FC<PageProps> = ({ country_code }) => {
   const [expanded, setExpanded] = React.useState<string | false>("panel1")
   const [faqQuestions, setFaqQuestions] = React.useState<string[]>([])
-
+  const { userStore } = useStore()
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false)
@@ -100,7 +102,20 @@ const FAQPage: React.FC<PageProps> = ({ country_code }) => {
       {
         onSuccess({ result, success, message }) {
           if (!success) {
-            setFaqQuestions(result)
+            let FAQQuestions = []
+            switch (userStore.currentUser?.role) {
+              case 'driver':
+                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.driver));
+                break;
+              case 'sales':
+                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.sales));
+                break;
+              case 'admin':
+                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.admin));
+                break;
+              default:
+            }
+            setFaqQuestions(FAQQuestions)
           }
         },
         onError(error) {
