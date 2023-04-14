@@ -22,7 +22,6 @@ import { FAQResult, FAQresultData, FAQVariables } from "@/lib/interfaces/faq"
 import { faqInfo } from "@/agent/faq"
 import { PageProps } from "@/lib/interfaces/common"
 import { useStore } from "@/store"
-import { UserSegmentID } from "@/constants/common"
 
 type AccordionSummaryProps = MuiAccordionSummaryProps & {
   expanded?: boolean
@@ -102,20 +101,7 @@ const FAQPage: React.FC<PageProps> = ({ country_code }) => {
       {
         onSuccess({ result, success, message }) {
           if (!success) {
-            let FAQQuestions = []
-            switch (userStore.currentUser?.role) {
-              case 'driver':
-                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.driver));
-                break;
-              case 'sales':
-                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.sales));
-                break;
-              case 'admin':
-                FAQQuestions = result.filter(item => item.user_segment_id === Number(UserSegmentID.admin));
-                break;
-              default:
-            }
-            setFaqQuestions(FAQQuestions)
+            setFaqQuestions(result)
           }
         },
         onError(error) {
