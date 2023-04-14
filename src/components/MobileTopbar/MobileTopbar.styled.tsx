@@ -4,6 +4,7 @@ import {
   StyledLandingNavbarBrandLogoContainer,
   StyledLandingNavbarBrandLogo,
 } from "../LandingNavbar/LandingNavbar.styled"
+import { devices } from "@/constants/device"
 
 export const StyledMobileTopbar = styled.div`
   position: fixed;
@@ -29,4 +30,13 @@ export const StyledMobileTopbarBrandLogoContainer = styled(
 
 export const StyledMobileTopbarBrandLogo = styled(
   StyledLandingNavbarBrandLogo
-)``
+)`
+  height: 42px;
+  width: 145px;
+  cursor: pointer;
+
+  @media ${devices.desktop.down} {
+    height: 36px;
+    width: 126px;
+  }
+`

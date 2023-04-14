@@ -8,7 +8,7 @@ import {
   StyledMobileTopbarBrandLogo,
   StyledMobileTopbarBrandLogoContainer,
 } from "./MobileTopbar.styled"
-import brandLogo from "@/assets/icons/arrium_logo--small.png"
+import brandLogo from "@/assets/icons/arrium_logo.png"
 import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
@@ -55,31 +55,7 @@ const MobileTopbar: React.FC<MobileTopbarProps> = ({
   return (
     <StyledMobileTopbar>
       <Box display="flex">
-        {isFullscreenMenuOpen ? (
-          <IconButton
-            size="small"
-            onClick={handleCloseButtonClick}
-            sx={{
-              mr: "16px",
-            }}
-          >
-            <CloseIcon sx={{ fontSize: 24 }} />
-          </IconButton>
-        ) : (
-          <IconButton size="small" onClick={handleMenuButtonClick}>
-            <Badge
-              color="error"
-              overlap="circular"
-              badgeContent=" "
-              variant="dot"
-              sx={{
-                mr: "16px",
-              }}
-            >
-              <MenuIcon sx={{ fontSize: 24 }} />
-            </Badge>
-          </IconButton>
-        )}
+
         <StyledMobileTopbarBrandLogoContainer>
           <StyledMobileTopbarBrandLogo
             src={brandLogo}
@@ -87,9 +63,25 @@ const MobileTopbar: React.FC<MobileTopbarProps> = ({
           />
         </StyledMobileTopbarBrandLogoContainer>
       </Box>
-      <StyledLoginButton $mobileTopbar onClick={handleSigninNavigate}>
-        Login
-      </StyledLoginButton>
+      {isFullscreenMenuOpen ? (
+        <IconButton
+          size="small"
+          onClick={handleCloseButtonClick}
+        >
+          <CloseIcon sx={{ fontSize: 24 }} />
+        </IconButton>
+      ) : (
+        <IconButton size="small" onClick={handleMenuButtonClick}>
+          <Badge
+            color="error"
+            overlap="circular"
+            badgeContent=" "
+            variant="dot"
+          >
+            <MenuIcon sx={{ fontSize: 24 }} />
+          </Badge>
+        </IconButton>
+      )}
     </StyledMobileTopbar>
   )
 }
