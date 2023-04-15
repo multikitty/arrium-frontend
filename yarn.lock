@@ -9175,6 +9175,13 @@ react-use-websocket@^4.3.1:
   resolved "https://registry.yarnpkg.com/react-use-websocket/-/react-use-websocket-4.3.1.tgz#13cd2fd2e0fb90010482ab2858f8ae81f2ce85c2"
   integrity sha512-zHPLWrgcqydJaak2O5V9hiz4q2dwkwqNQqpgFVmSuPxLZdsZlnDs8DVHy3WtHH+A6ms/8aHIyX7+7ulOcrnR0Q==
 
+react-zendesk@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/react-zendesk/-/react-zendesk-0.1.13.tgz#0b8eb76ea6642f563c948f03e84f34286368036c"
+  integrity sha512-9UNzzgdgC8nr2nZ13PNudspUClZZgsnS3FofnuGK1I7+yDPNAP8iDFD2WSQRJmYDAzH+mTlVB4K+G8lY1/0B+w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
