@@ -8,6 +8,9 @@ export const Zen_Desk_setting = {
     chatLabel: {
       "en-US": "Help",
     },
+    label: {
+      "*": "Support",
+    },
   },
   contactForm: {
     fields: [
