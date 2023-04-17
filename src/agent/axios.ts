@@ -69,7 +69,7 @@ arriumAPIWithoutTokenValidation.interceptors.response.use(
 arriumAPIPython.interceptors.request.use(config => {
   const token = store.userStore.userToken || localStorage.getItem(TOKEN) || ""
   config.headers = {
-    "x-access-token": token,
+    "X-Auth-Token": token,
   }
   return config
 })

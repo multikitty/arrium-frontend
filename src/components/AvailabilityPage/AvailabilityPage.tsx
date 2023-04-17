@@ -321,7 +321,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
 
   const handleBlockStartSearch = () => {
     blockStartSearchMutate(
-      { userPk: userStore.currentUser.pk },
+      { user_pk: userStore.currentUser.pk },
       {
         onSuccess(response) {
           if (!response?.success) {
@@ -333,7 +333,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
             )
             return
           }
-          enqueueSnackbar(response?.message, { variant: "success" })
+          enqueueSnackbar(response?.message || 'Session Started', { variant: "success" })
           setIsSearching(true)
           setTaskId(response?.task_id)
           setLocalStorage(TASK_ID, response?.task_id)

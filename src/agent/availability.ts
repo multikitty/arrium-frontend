@@ -9,13 +9,13 @@ export const setBlockStartSearch: MutationFunction<any, any> = async (
   params: SetBlockStartSearchProps
 ) => {
   return await (
-    await arriumAPIPython.post("/start-search", params)
+    await arriumAPIPython.post("/start", params)
   )?.data
 }
 
 export const setBlockStopSearch: MutationFunction<any, any> = async params => {
   return await (
-    await arriumAPIPython.get(`/stop-search/${params.taskId}`, {})
+    await arriumAPIPython.post(`/stop`, params)
   )?.data
 }
 
