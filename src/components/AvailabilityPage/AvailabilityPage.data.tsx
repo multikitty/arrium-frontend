@@ -130,128 +130,128 @@ interface TimePickerProps
 
 export const searchTableShape: (
   | {
-      label: string
-      name: FormValuesDataKey
-      renderInput(props: TextFieldProps): JSX.Element
-    }
+    label: string
+    name: FormValuesDataKey
+    renderInput(props: TextFieldProps): JSX.Element
+  }
   | {
-      label: string
-      name: FormValuesDataKey
-      renderInput(props: TimePickerProps): JSX.Element
-    }
+    label: string
+    name: FormValuesDataKey
+    renderInput(props: TimePickerProps): JSX.Element
+  }
 )[] = [
-  {
-    label: "Time to arrive",
-    name: "timeToArrive",
-    renderInput(props: TextFieldProps) {
-      props.error = props.error || false
-      return (
-        <StyledSearchTableTextField
-          type="number"
-          inputProps={{
-            min: 0,
-            max: 180,
-          }}
-          {...props}
-          {...(props.fullWidth && { sx: { width: "100% !important" } })}
-        />
-      )
+    {
+      label: "Time to arrive",
+      name: "timeToArrive",
+      renderInput(props: TextFieldProps) {
+        props.error = props.error || false
+        return (
+          <StyledSearchTableTextField
+            type="number"
+            inputProps={{
+              min: 0,
+              max: 180,
+            }}
+            {...props}
+            {...(props.fullWidth && { sx: { width: "100% !important" } })}
+          />
+        )
+      },
     },
-  },
-  {
-    label: "Start time",
-    name: "startTime",
-    renderInput(props: TimePickerProps) {
-      return (
-        <MobileTimePicker
-          {...props}
-          mask="__:__"
-          views={["hours", "minutes"]}
-          value={props.value}
-          onChange={props.onChange}
-          renderInput={(params: TextFieldProps) => (
-            <StyledSearchTableTextField
-              {...params}
-              {...(props.fullWidth && {
-                sx: { width: "100% !important", textAlign: "center" },
-              })}
-            />
-          )}
-        />
-      )
+    {
+      label: "Start time",
+      name: "startTime",
+      renderInput(props: TimePickerProps) {
+        return (
+          <MobileTimePicker
+            {...props}
+            mask="__:__"
+            views={["hours", "minutes"]}
+            value={props.value}
+            onChange={props.onChange}
+            renderInput={(params: TextFieldProps) => (
+              <StyledSearchTableTextField
+                {...params}
+                {...(props.fullWidth && {
+                  sx: { width: "100% !important", textAlign: "center" },
+                })}
+              />
+            )}
+          />
+        )
+      },
     },
-  },
-  {
-    label: "End time",
-    name: "endTime",
-    renderInput(props: TimePickerProps) {
-      return (
-        <MobileTimePicker
-          {...props}
-          minTime={props.minTime}
-          mask="__:__"
-          views={["hours", "minutes"]}
-          value={props.value}
-          onChange={props.onChange}
-          renderInput={(params: TextFieldProps) => (
-            <StyledSearchTableTextField
-              {...params}
-              {...(props.fullWidth && {
-                sx: { width: "100% !important", textAlign: "center" },
-              })}
-            />
-          )}
-        />
-      )
+    {
+      label: "End time",
+      name: "endTime",
+      renderInput(props: TimePickerProps) {
+        return (
+          <MobileTimePicker
+            {...props}
+            minTime={props.minTime}
+            mask="__:__"
+            views={["hours", "minutes"]}
+            value={props.value}
+            onChange={props.onChange}
+            renderInput={(params: TextFieldProps) => (
+              <StyledSearchTableTextField
+                {...params}
+                {...(props.fullWidth && {
+                  sx: { width: "100% !important", textAlign: "center" },
+                })}
+              />
+            )}
+          />
+        )
+      },
     },
-  },
-  {
-    label: "Minimum pay",
-    name: "minimumPay",
-    renderInput(props: TextFieldProps) {
-      return (
-        <StyledSearchTableTextField
-          type="number"
-          inputProps={{
-            min: 0,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                {store.userStore.currencySymbol}
-              </InputAdornment>
-            ),
-          }}
-          {...props}
-          {...(props.fullWidth && { sx: { width: "100% !important" } })}
-        />
-      )
+    {
+      label: "Minimum pay",
+      name: "minimumPay",
+      renderInput(props: TextFieldProps) {
+        return (
+          <StyledSearchTableTextField
+            type="number"
+            inputProps={{
+              min: 0,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  {store.userStore.currencySymbol}
+                </InputAdornment>
+              ),
+            }}
+            {...props}
+            {...(props.fullWidth && { sx: { width: "100% !important" } })}
+          />
+        )
+      },
     },
-  },
-  {
-    label: "Minimum hourly rate",
-    name: "minimumHourlyRate",
-    renderInput(props: TextFieldProps) {
-      return (
-        <StyledSearchTableTextField
-          type="number"
-          inputProps={{
-            min: 0,
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                {store.userStore.currencySymbol}
-              </InputAdornment>
-            ),
-          }}
-          {...props}
-          {...(props.fullWidth && { sx: { width: "100% !important" } })}
-        />
-      )
+    {
+      label: "Minimum hourly rate",
+      name: "minimumHourlyRate",
+      renderInput(props: TextFieldProps) {
+        return (
+          <StyledSearchTableTextField
+            type="number"
+            inputProps={{
+              min: 0,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  {store.userStore.currencySymbol}
+                </InputAdornment>
+              ),
+            }}
+            {...props}
+            {...(props.fullWidth && { sx: { width: "100% !important" } })}
+          />
+        )
+      },
     },
-  },
-]
+  ]
 
 // export const rowSearches = [
 //   createSearchesData(
@@ -312,7 +312,7 @@ export const availabilityStatusColorMap: Record<
   AvailabilityStatusType | string,
   string
 > = {
-  Accepted: "#3DCC70",
-  Ignored: "#FAB11E",
-  Rejected: "#FA6464",
+  Running: "#3DCC70",
+  Cooling: "#FAB11E",
+  Stopped: "#FA6464",
 }

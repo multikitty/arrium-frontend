@@ -36,6 +36,7 @@ import {
 import { useSearchedBlocks } from "@/agent/availability"
 import socketIOClient from "socket.io-client"
 import currencyCodeToCurrencySymbol from "@/utils/currencyCodeToCurrencySymbol"
+import moment from "moment"
 
 interface AvailabilityTableProps {
   tab: AvailabilityTableTabType
@@ -60,7 +61,6 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
       setRows(searchedBlocksData?.data)
     }
   }, [searchedBlocksData])
-
   return isWebView ? (
     /* // * DESKTOP VIEW */
     <TableContainer>
@@ -186,7 +186,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.bDay}
+                  {moment(row?.sessionTime).format('ddd')}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -198,7 +198,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.bDate}
+                  {moment(row?.sessionTime).format('MMM YY')}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -211,7 +211,9 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.bStartTime} - {row.bEndTime}
+                  {/* {row.bStartTime} - {row.bEndTime} */}
+
+                  {moment(row?.sessionTime).format('hh:mm')}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -249,7 +251,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   align="left"
                 >
                   <Chip
-                    label={[row.Status]}
+                    label={[row.sessionStatus]}
                     sx={{
                       fontFamily: "Inter",
                       fontSize: "14px",
@@ -257,7 +259,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                       fontWeight: 600,
                       lineHeight: "20px",
                       color: "white",
-                      background: availabilityStatusColorMap[row.Status],
+                      background: availabilityStatusColorMap[row.sessionStatus],
                     }}
                   />
                 </TableCell>
@@ -307,7 +309,8 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                     Day
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bDay}
+                    {/* {row.bDay} */}
+                    {moment(row?.sessionTime).format('ddd')}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -315,7 +318,9 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                     Date
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bDate}
+                    {/* {row.bDate} */}
+
+                    {moment(row?.sessionTime).format('MMM YY')}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -323,7 +328,8 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                     Time
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.bStartTime} - {row.bEndTime}
+                    {/* {row.bStartTime} - {row.bEndTime} */}
+                    {moment(row?.sessionTime).format('hh:mm')}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -350,7 +356,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   <StyledAvailabilityTableItemValue>
                     <Chip
                       component="span"
-                      label={[row.Status]}
+                      label={[row.sessionStatus]}
                       sx={{
                         fontFamily: "Inter",
                         fontSize: "14px",
@@ -358,7 +364,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                         fontWeight: 600,
                         lineHeight: "20px",
                         color: "white",
-                        background: availabilityStatusColorMap[row.Status],
+                        background: availabilityStatusColorMap[row.sessionStatus],
                       }}
                     />
                   </StyledAvailabilityTableItemValue>

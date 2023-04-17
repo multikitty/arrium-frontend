@@ -333,7 +333,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
             )
             return
           }
-          enqueueSnackbar(response?.message || 'Session Started', { variant: "success" })
+          enqueueSnackbar(response?.message || "Session Started", { variant: "success" })
           setIsSearching(true)
           setTaskId(response?.task_id)
           setLocalStorage(TASK_ID, response?.task_id)
@@ -415,7 +415,6 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
           }}
         ></Script>
       )}
-
       {isWebView ? (
         /* // * WEB VIEW */
         <StyledAvailabilityPage>
