@@ -25,16 +25,16 @@ export const content = {
     labelsForTabs: [
       { label: "All", value: "all" },
       {
-        label: "Accepted",
-        value: "Accepted",
+        label: "Running",
+        value: "Running",
       },
       {
-        label: "Ignored",
-        value: "Ignored",
+        label: "Cooling",
+        value: "Cooling",
       },
       {
-        label: "Rejected",
-        value: "Rejected",
+        label: "Stopped",
+        value: "Stopped",
       },
     ],
     formControlLabelForSwitches: [

@@ -155,7 +155,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
         </TableHead>
         <TableBody>
           {rows
-            .filter(row => (tab === "all" ? true : row.Status === tab))
+            .filter(row => (tab === "all" ? true : row.sessionStatus === tab))
             .map((row: any, index) => (
               <TableRow
                 key={index}
@@ -213,7 +213,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                 >
                   {/* {row.bStartTime} - {row.bEndTime} */}
 
-                  {moment(row?.sessionTime).format('hh:mm')}
+                  {moment(row?.sessionTime).format('hh:mm')} {row?.expDate ? `- ${moment.unix(row?.expDate).format('hh:mm')}` : null}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -225,7 +225,10 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {row.duration}
+                  {/* {row?.expDate ? moment(row?.expDate * 1000).format('hh:mm') : '-'} */}
+
+
+                  {row?.expDate ? `${moment(moment.unix(row?.expDate).diff(moment(row?.sessionTime))).format('hh')} h ${moment(moment.unix(row?.expDate).diff(moment(row?.sessionTime))).format('mm')} min` : '-'}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -267,7 +270,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
             ))}
         </TableBody>
       </Table>
-      {rows.length || (
+      {rows.length === 0 ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -285,14 +288,14 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
             button
           </StyledNoSearchResultsText>
         </Box>
-      )}
+      ) : null}
     </TableContainer>
   ) : (
     /* // *  MOBILE VIEW */
     <React.Fragment>
       <StyledAvailabilityTableContainer>
         {rows
-          .filter(row => (tab === "all" ? true : row.Status === tab))
+          .filter(row => (tab === "all" ? true : row.sessionStatus === tab))
           .map((row: any) => (
             <StyledAvailabilityTable key={row.bStartTime}>
               <StyledAvailabilityTableHeader>
@@ -329,7 +332,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
                     {/* {row.bStartTime} - {row.bEndTime} */}
-                    {moment(row?.sessionTime).format('hh:mm')}
+                    {moment(row?.sessionTime).format('hh:mm')} {row?.expDate ? `- ${moment.unix(row?.expDate).format('hh:mm')}` : null}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -337,7 +340,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                     Duration
                   </StyledAvailabilityTableItemLabel>
                   <StyledAvailabilityTableItemValue>
-                    {row.duration}
+                    {row?.expDate ? `${moment(moment.unix(row?.expDate).diff(moment(row?.sessionTime))).format('hh')} h ${moment(moment.unix(row?.expDate).diff(moment(row?.sessionTime))).format('mm')} min` : '-'}
                   </StyledAvailabilityTableItemValue>
                 </StyledAvailabilityTableItem>
                 <StyledAvailabilityTableItem>
@@ -373,7 +376,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
             </StyledAvailabilityTable>
           ))}
       </StyledAvailabilityTableContainer>
-      {rows.length || (
+      {rows.length === 0 ? (
         <Box
           display="flex"
           flexDirection="column"
@@ -391,7 +394,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
             button
           </StyledNoSearchResultsText>
         </Box>
-      )}
+      ) : null}
     </React.Fragment>
   )
 }
