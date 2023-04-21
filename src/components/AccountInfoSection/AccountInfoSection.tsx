@@ -139,12 +139,12 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
         if (!success) {
           enqueueSnackbar(
             validationError?.country ||
-              validationError?.phoneNumber ||
-              validationError?.dialCode ||
-              validationError?.firstname ||
-              validationError?.lastname ||
-              validationError?.tzName ||
-              message,
+            validationError?.phoneNumber ||
+            validationError?.dialCode ||
+            validationError?.firstname ||
+            validationError?.lastname ||
+            validationError?.tzName ||
+            message,
             { variant: "error" }
           )
           return
@@ -256,6 +256,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
             inputProps={{
               required: true,
             }}
+            countryCodeEditable={false}
           />
           {phoneNumberError && isPhoneInputDirty && (
             <HelperText type="large" mt="-8px" mb="16px">
@@ -349,6 +350,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
               inputProps={{
                 required: true,
               }}
+              countryCodeEditable={false}
             />
             {phoneNumberError && (
               <HelperText type="large" mt="-8px" mb="16px">
