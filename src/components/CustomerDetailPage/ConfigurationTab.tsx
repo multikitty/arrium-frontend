@@ -35,6 +35,7 @@ interface ConfigurationTabProps extends TabProps {
   pk: string
   sk: string
   zendeskUserId: string
+  refetchCustomerData: any
 }
 
 const ConfigurationTab = (props: ConfigurationTabProps) => {
@@ -93,6 +94,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
             return
           }
           enqueueSnackbar(message, { variant: "success" })
+          props.refetchCustomerData()
           refetchConfigInfo()
         },
         onError(error, variables) {

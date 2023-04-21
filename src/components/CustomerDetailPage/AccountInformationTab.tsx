@@ -68,6 +68,7 @@ import {
   UpdatePricingPlanStatusVariables,
 } from "@/lib/interfaces/user"
 import { updatePricingPlanStatus } from "@/agent/user"
+import { useRegionList } from "@/agent/locations"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -217,9 +218,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       },
     })
   useWatch({ control })
-
   const { data: stationTypeListData } = useStationTypeList()
-
+  console.log("props", props)
+  const { data: regionListData } = useRegionList(props.flexCountry)
+  const regionName: RegionListResult = regionListData?.data?.Items.filter((item: any) => item.regionCode === props.regionCode)
   const handleUpdateAccountInfo = async () => {
     const startDate = getValues("endDate")
       ? +new Date((getValues("startDate") as number)?.toString()) / 1000 // converting to a timestamp of seconds and not ms
@@ -398,6 +400,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                         paddingTop: rem("16px"),
                         paddingBottom: rem("16px"),
                       }}
+                      countryCodeEditable={false}
                     />
                   )}
                 />
@@ -408,7 +411,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 )}
               </Box>
               {/* Timezone Field */}
-              <Box mb="24px">
+              <Box mb="30px">
                 <StyledAccountInformationTabFormLabel>
                   Timezone
                 </StyledAccountInformationTabFormLabel>
@@ -601,7 +604,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   Region
                 </StyledAccountInformationTabFormLabel>
                 <StyledAccountInformatiomTabContentField
-                  value={props.region}
+                  value={regionName?.[0]?.regionName ? regionName?.[0]?.regionName : props.regionCode}
                   readOnly
                   disabled
                 />

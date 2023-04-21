@@ -167,6 +167,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             pk={pk}
             sk={sk}
             zendeskUserId={customerData?.data?.zendeskUserID?.toString() || ""}
+            refetchCustomerData={refetch}
           />
         )}
         {isReferralTabOpen && (
