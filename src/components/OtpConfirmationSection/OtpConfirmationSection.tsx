@@ -165,7 +165,8 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
             marginTop={rem("32px")}
           >
             <LinkButton
-              sx={{ marginBottom: "0.5rem" }}
+              sx={{ marginBottom: "0.5rem",
+              color: seconds === 0 ? "#3071F2" : "inherit" }}
               variant="text"
               onClick={handleResendOtp}
               disabled={seconds > 0}

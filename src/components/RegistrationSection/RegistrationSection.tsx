@@ -65,10 +65,13 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const [email, setEmail] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [password, setPassword] = useState("")
-  const [refCode, setRefCode] = useState("")
+  const [refCode, setRefCode] = useState("GB-")
   const [isFocused, setIsFocused] = useState(false)
   const [isPasswordFieldDirty, setIsPasswordFieldDirty] = useState(false)
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
+
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
+
   const [requiredSet, setRequiredSet] =
     useState<RequiredSet>(REQUIRED_SET_DEFAULT)
   const { mutate } = useMutation<
@@ -76,7 +79,6 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     Error,
     RegistrationUserVariables
   >(registerUser)
-  const onlyNumber = new RegExp(/^[0-9\b]+$/)
 
   useEffect(() => {
     setRequiredSet({
@@ -158,12 +160,18 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     navigate(routes.signin)
   }
 
-  const handleRefCodeField = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if ((onlyNumber.test(e.target.value) || e.target.value.length === 0) && e.target.value.length <= 6){
-      setRefCode(e.target.value)}else{ return}
-  }
+  const onlyNumber = new RegExp(/^[0-9\b]+$/)
+  const handleRefCodeField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value !== "" && e.target.value.length >= 3 &&  e.target.value.length <= 9) {
+      setRefCode(`${value}`);
+    }
+  };
+  const handleBlur = () => {
+    if (refCode === "") {
+      setShowPlaceholder(true);
+    }
+  };
 
   const isPasswordValid = useMemo(
     () =>
@@ -233,13 +241,26 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           <StyledTextBox>
             If you have a referral code, enter it below
           </StyledTextBox>
-          <InputField
-            mb={"0"}
-            placeholder="referral code"
-            variant="outlined"
-            value={refCode}
-            onChange={handleRefCodeField}
-          />
+
+          {showPlaceholder && (
+            <InputField
+              mb={"0"}
+              placeholder="GB-256734"
+              variant="outlined"
+              value={""}
+              onFocus={() => setShowPlaceholder(false)}
+            />
+          )}
+          {!showPlaceholder && (
+            <InputField
+              mb={"0"}
+              placeholder=""
+              variant="outlined"
+              value={refCode}
+              onChange={handleRefCodeField}
+              onBlur={handleBlur}
+            />
+          )}
           <StyledButton
             variant="contained"
             color="primary"
@@ -325,13 +346,26 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             <StyledTextBox>
               If you have a referral code, enter it below
             </StyledTextBox>
+
+             {showPlaceholder && (
             <InputField
               mb={"0"}
-              placeholder="referral code"
+              placeholder="GB-256734"
               variant="outlined"
-              value={refCode}
-              onChange={handleRefCodeField}
+              value={""}
+              onFocus={() => setShowPlaceholder(false)}
             />
+          )}
+          {!showPlaceholder && (
+            <InputField
+              mb={"0"}
+              placeholder=""
+              variant="outlined"
+              value={`GB-${refCode}`}
+              onChange={handleRefCodeField}
+              onBlur={handleBlur}
+            />
+          )}
             <StyledButton
               variant="contained"
               color="primary"
