@@ -95,6 +95,8 @@ export const StyledSettingsColumnContentListItem = styled.li<{
       line-height: ${rem("20px")};
       color: ${p => p.theme.palette.blackText};
       flex-grow: 1;
+      text-transform: capitalize;
+      
     }
 
     &__actions {
