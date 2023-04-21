@@ -31,6 +31,7 @@ import {
 } from "@/agent/prefrences"
 import { FormValuesAutomationSchedule } from "./AvailablityPage.types"
 import { createDateInHM } from "@/utils"
+import moment from "moment"
 
 interface AutomationScheduleProps extends PageProps {
   open: boolean
@@ -54,17 +55,19 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
   useEffect(() => {
     if (open === true) {
       fetchPreferencesSchedule().then(res => {
-        methods.reset({
-          data: res?.data?.map((value: GetPrefrencesScheduleResultData) => ({
-            startTime: createDateInHM(
-              Number(value.startTime.split(":")[0]),
-              Number(value.startTime.split(":")[1])
-            ),
-            active: value.active,
-            day: value.day,
-          })),
-        })
-      })
+        if (res?.data?.length !== 0){
+          methods.reset({
+            data: res?.data?.map((value: GetPrefrencesScheduleResultData) => ({
+              startTime:
+                value.asStartTime !== "Invalid Date"
+                  ? moment(value.asStartTime, "HH:mm:ss")
+                  : null,
+              active: value.active,
+              day: value.day,
+            })),
+          })
+        }
+      })  
     }
   }, [open])
 
@@ -73,7 +76,6 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
       data: scheduleDataInitialValues,
     })
   }
-
   const { mutate } = useMutation<
     GetPrefrencesScheduleResult,
     Error,

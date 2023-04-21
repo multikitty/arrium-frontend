@@ -50,7 +50,6 @@ const AutomationScheduleTable = () => {
   const handleClearTime = (name: "startTime" | "endTime", idx: number) => {
     methods.setValue(`data.${idx}.${name}`, null)
   }
-
   const renderTableCells = React.useCallback(
     (index: number, disabled: boolean) =>
       automationScheduleShape?.map(({ name, renderInput }) => (
@@ -111,7 +110,7 @@ const AutomationScheduleTable = () => {
                     })
                   )
                 }
-              />
+              /> 
               {!disabled && formState.errors?.data?.[index]?.[name] && (
                 <StyledAutomationScheduleTableFieldHelperText>
                   {formState.errors.data[index][name]?.message}
