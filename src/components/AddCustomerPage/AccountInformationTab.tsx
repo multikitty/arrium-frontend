@@ -11,14 +11,15 @@ import {
 } from "@mui/material"
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, useWatch } from "react-hook-form"
 import ReactPhoneInput from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 import TimeZoneSelect from "react-timezone-select"
 import { makeStyles } from "@mui/styles"
-
+import { StyledPlaceholder } from "@/components/commons/uiComponents"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import { BpCheckbox as Checkbox } from "@/components/commons/CheckBox"
+import Switch from "@/components/commons/Switch/Switch"
 import {
   StyledAccountInformatiomTabContentField,
   StyledAccountInformationTab,
@@ -26,11 +27,12 @@ import {
   StyledAccountInformationTabFormActions,
   StyledAccountInformationTabFormHelperText,
   StyledAccountInformationTabFormLabel,
+  StyledConfigurationTabFormField
 } from "./AddCustomerPage.styled"
 import theme from "@/theme"
 import { accountInformationOptions } from "@/validation"
-import { UserRolesType } from "@/types/common"
-import { LabelledUserRoles, UserRoles } from "@/constants/common"
+import { PlanType, UserRolesType } from "@/types/common"
+import { LabelledUserRoles, Plans, UserRoles } from "@/constants/common"
 import { TabType } from "./AddCustomersPage.data"
 import { DatePicker } from "@mui/x-date-pickers"
 import { useStore } from "@/store"
@@ -39,6 +41,9 @@ import { observer } from "mobx-react-lite"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { useSnackbar } from "notistack"
+import { useCountryList, useRegionList } from "@/agent/locations"
+import { capitalCase } from "change-case"
+import { useStationTypeList } from "@/agent/stationTypes"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -89,6 +94,8 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
   } = useNavigate({ country_code })
   const classes = useStyles()
   const { userStore } = useStore()
+  const { data: countryListData } = useCountryList()
+  const { data: stationTypeListData } = useStationTypeList()
   const [endDatePickerOpen, setEndDatePickerOpen] = React.useState(false)
 
   const generateRadioOptions = () => {
@@ -108,6 +115,26 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
     </MenuItem>
   ))
 
+  const countryOptionsJSX = (countryListData?.data?.Items || []).map(
+    country => (
+      <MenuItem value={country.countryCode} key={country.countryCode}>
+        {capitalCase(country.country)}
+      </MenuItem>
+    )
+  )
+  const planTypeOptionsJSX = Object.values(Plans).map((plan: PlanType) => (
+    <MenuItem value={plan} key={plan}>
+      {capitalCase(plan)}
+    </MenuItem>
+  ))
+  const stationTypeOptionsJSX = (stationTypeListData?.data?.Items || []).map(
+    station => (
+      <MenuItem value={station.stationType} key={station.sk}>
+        {capitalCase(station.stationType)}
+      </MenuItem>
+    )
+  )
+
   type FormPropType = typeof accountInformationOptions.defaultValues
   const { handleSubmit, control, formState, reset, setValue, ...methods } =
     useForm<FormPropType>({
@@ -117,6 +144,14 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
         role,
       },
     })
+  useWatch({ name: "country", control })
+
+  const { data: regionListData } = useRegionList(methods.getValues("country"))
+  const regionOptionsJSX = (regionListData?.data?.Items || []).map(region => (
+    <MenuItem value={region.regionCode} key={region.regionCode}>
+      {region.regionName}
+    </MenuItem>
+  ))
 
   const handleEndDatePickerClick = () => {
     if (methods.getValues("startDate")) return setEndDatePickerOpen(true)
@@ -196,6 +231,64 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 {!!formState.errors?.timezone && (
                   <StyledAccountInformationTabFormHelperText>
                     {formState.errors?.timezone?.message}
+                  </StyledAccountInformationTabFormHelperText>
+                )}
+              </Box>
+              {/* Country Field */}
+              <Box mb={rem("24px")}>
+                <StyledAccountInformationTabFormLabel>
+                  Country
+                </StyledAccountInformationTabFormLabel>
+                <Controller
+                  name={"country"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      displayEmpty
+                      value={value}
+                      onChange={onChange}
+                      input={<StyledConfigurationTabFormField />}
+                    >
+                      <MenuItem disabled value="">
+                        <StyledPlaceholder>Choose country here</StyledPlaceholder>
+                      </MenuItem>
+                      {countryOptionsJSX}
+                    </Select>
+                  )}
+                />
+                {!!formState.errors?.country && (
+                  <StyledAccountInformationTabFormHelperText>
+                    {formState.errors?.country?.message}
+                  </StyledAccountInformationTabFormHelperText>
+                )}
+              </Box>
+              {/* Station Type Field */}
+              <Box mb={rem("24px")}>
+                <StyledAccountInformationTabFormLabel>
+                  Station Type
+                </StyledAccountInformationTabFormLabel>
+                <Controller
+                  name={"stationType"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      displayEmpty
+                      value={value}
+                      onChange={onChange}
+                      input={<StyledAccountInformatiomTabContentField />}
+                    >
+                      <MenuItem disabled value="">
+                        <StyledPlaceholder>
+                          Choose station type here
+                        </StyledPlaceholder>
+                      </MenuItem>
+                      {stationTypeOptionsJSX}
+                    </Select>
+                  )}
+                />
+                {!!formState.errors?.stationType && (
+                  <StyledAccountInformationTabFormHelperText>
+                    {formState.errors?.stationType?.message}
                   </StyledAccountInformationTabFormHelperText>
                 )}
               </Box>
@@ -309,6 +402,65 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                   </StyledAccountInformationTabFormHelperText>
                 )}
               </Box>
+              {/* Region Field */}
+              <Box mb={rem("24px")}>
+                <StyledAccountInformationTabFormLabel>
+                  Region
+                </StyledAccountInformationTabFormLabel>
+                <Controller
+                  name={"region"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      displayEmpty
+                      value={value}
+                      onChange={onChange}
+                      input={<StyledConfigurationTabFormField />}
+                      disabled={!methods.getValues("country")}
+                    >
+                      <MenuItem disabled value="">
+                        <StyledPlaceholder>Choose region here</StyledPlaceholder>
+                      </MenuItem>
+                      {regionOptionsJSX}
+                    </Select>
+                  )}
+                />
+                {!!formState.errors?.region && (
+                  <StyledAccountInformationTabFormHelperText>
+                    {formState.errors?.region?.message}
+                  </StyledAccountInformationTabFormHelperText>
+                )}
+              </Box>
+              {/* Plan Type Field */}
+              <Box mb={rem("24px")}>
+                <StyledAccountInformationTabFormLabel>
+                  Plan Type
+                </StyledAccountInformationTabFormLabel>
+                <Controller
+                  name={"planType"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Select
+                      displayEmpty
+                      value={value}
+                      onChange={onChange}
+                      input={<StyledAccountInformatiomTabContentField />}
+                    >
+                      <MenuItem disabled value="">
+                        <StyledPlaceholder>
+                          Choose plan type here
+                        </StyledPlaceholder>
+                      </MenuItem>
+                      {planTypeOptionsJSX}
+                    </Select>
+                  )}
+                />
+                {!!formState.errors?.planType && (
+                  <StyledAccountInformationTabFormHelperText>
+                    {formState.errors?.planType?.message}
+                  </StyledAccountInformationTabFormHelperText>
+                )}
+              </Box>
               {/* End Date Field */}
               <Box mb={rem("24px")}>
                 <StyledAccountInformationTabFormLabel>
@@ -374,7 +526,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 )}
               </Box>
               {/* Email Verification Status Field */}
-              <Box mb={rem("24px")}>
+              <Box mb={rem("35px")}>
                 <StyledAccountInformationTabFormLabel>
                   Email verification status
                 </StyledAccountInformationTabFormLabel>
@@ -427,8 +579,33 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                   name="sendPasswordChangeRequest"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
-                      control={<Checkbox checked={value} onChange={onChange} />}
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
                       label="Send Password Reset Email"
+                    />
+                  )}
+                />
+              </Box>
+              {/* Enable pricing plan Switch */}
+              <Box mt={rem("80px")}>
+                <Controller
+                  control={control}
+                  name="enablePricingPlan"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
+                      label="Enable pricing plan"
                     />
                   )}
                 />
