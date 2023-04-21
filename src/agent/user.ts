@@ -12,7 +12,7 @@ import {
   VerifyEmailVariables,
 } from "@/lib/interfaces/user"
 import { useQuery, MutationFunction } from "react-query"
-import { arriumAPI } from "@/agent/axios"
+import { arriumAPI, arriumAPIWithoutTokenValidation } from "@/agent/axios"
 
 export function fetchCurrentUserData(): Promise<CurrentUserResult> {
   return arriumAPI.get("/user").then(response => response.data)
@@ -66,7 +66,7 @@ export const verifyEmail: MutationFunction<
   VerifyEmailVariables
 > = async params => {
   return await (
-    await arriumAPI.post("/user/verify-email", {
+    await arriumAPIWithoutTokenValidation.post("/user/verify-email", {
       verficationToken: params.verficationToken,
     })
   ).data

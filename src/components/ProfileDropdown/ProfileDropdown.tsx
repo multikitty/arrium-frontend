@@ -30,9 +30,12 @@ import { useStore } from "@/store"
 import { UserRoles } from "@/constants/common"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
-import { useCurrentUser } from "@/agent/user"
+import { requestEmailVerify, useCurrentUser } from "@/agent/user"
 import { PageProps } from "@/lib/interfaces/common"
 import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
+import { useMutation } from "react-query"
+import { RequestEmailVerifyResult, RequestEmailVerifyVariables } from "@/lib/interfaces/user"
+import { useSnackbar } from "notistack"
 
 interface ProfileDropdownProps extends PageProps {
   handleClose: () => void
@@ -49,11 +52,34 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { data: currentUserData, isLoading } = useCurrentUser()
+  const { enqueueSnackbar } = useSnackbar()
+  const { mutate: requestEmailVerifyMutate } = useMutation<
+    RequestEmailVerifyResult,
+    Error,
+    RequestEmailVerifyVariables
+  >(requestEmailVerify)
 
   const handleEmailVerificationClick:
     | React.MouseEventHandler<HTMLButtonElement>
-    | undefined = e => {
-      e.stopPropagation()
+    | undefined = async (e) => {
+      e.stopPropagation();
+      await requestEmailVerifyMutate(
+        { email: currentUserData.data.email },
+        {
+          onSuccess({ success, message, validationError }) {
+            if (!success) {
+              enqueueSnackbar(validationError?.email || message, {
+                variant: "error",
+              })
+              return
+            }
+            enqueueSnackbar(message, { variant: "success" })
+          },
+          onError(error, variables) {
+            enqueueSnackbar(error.message, { variant: "error" })
+          },
+        }
+      )
     }
 
   const handlePhoneVerificationClick:
@@ -189,7 +215,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                 onClick={handleSettingsButtonClick}
               >
                 <ListItemIcon>
-                 <img src={SettingsIcon} alt="" width={24} className="logo-img" />
+                  <img src={SettingsIcon} alt="" width={24} className="logo-img" />
                 </ListItemIcon>
                 <StyledProfileDropdownMenuItemText>
                   Settings
