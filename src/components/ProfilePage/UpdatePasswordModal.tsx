@@ -25,12 +25,16 @@ interface UpdatePasswordModalProps {
 
 const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
   const { userStore } = useStore()
+  const [password,setPassword]=useState("")
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
 
+  const handlePasswordFieldChange:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined = e => setPassword(e.target.value)
   const handleToggleHidePassword = () => {
     setIsPasswordHidden(p => !p)
   }
-
+  const isSaveButtonDisabled = !password
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledChangePasswordModal sx={{ borderRadius: '20px' }}>
@@ -44,7 +48,7 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
         </StyledChangePasswordModalTitle>
         <StyledChangePasswordModalForm>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledUpdatePasswordModalFormFieldLabel>Email ID</StyledUpdatePasswordModalFormFieldLabel>
+            <StyledUpdatePasswordModalFormFieldLabel>Email Address</StyledUpdatePasswordModalFormFieldLabel>
             <StyledChangePasswordModalFormField
               type="text"
               defaultValue={userStore.currentUser?.email}
@@ -56,6 +60,8 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
             <StyledChangePasswordModalFormField
               autoComplete="new-password"
               type={isPasswordHidden ? "password" : "text"}
+              value={password}
+              onChange={handlePasswordFieldChange}
               endAdornment={
                 <IconButton
                   size="small"
@@ -73,7 +79,7 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
             />
           </Box>
           <StyledChangePasswordModalFormActions>
-            <ContainedButton sx={{ width: "100%" }} onClick={props.handleSave}>
+            <ContainedButton sx={{ width: "100%" }} onClick={props.handleSave} disabled={isSaveButtonDisabled}>
               Save
             </ContainedButton>
           </StyledChangePasswordModalFormActions>

@@ -75,46 +75,6 @@ const FlexAccountTabContent = () => {
                     value={value}
                     error={!!formState.errors?.userName}
                     readOnly={!isUserNameEditEnabled}
-                    endAdornment={
-                      isUserNameEditEnabled ? (
-                        <Box display="flex" mb={rem("8px")}>
-                          <OutlinedButton
-                            sx={{
-                              border: `1px solid ${theme.palette.grey3}`,
-                              color: theme.palette.grey7,
-                              whiteSpace: "nowrap",
-                              mr: rem("8px"),
-                              p: `${rem("6px")} ${rem("16px")}`,
-                            }}
-                            onClick={handleUserNameEditDisable}
-                          >
-                            Cancel
-                          </OutlinedButton>
-                          <ContainedButton
-                            sx={{
-                              whiteSpace: "nowrap",
-                              p: `${rem("6px")} ${rem("16px")}`,
-                            }}
-                            onClick={handleUserNameEditSave}
-                            disabled={
-                              value ===
-                              userStore.currentUser?.email
-                            }
-                          >
-                            Save
-                          </ContainedButton>
-                        </Box>
-                      ) : (
-                        <IconButton
-                          size="small"
-                          onClick={handleUserNameEditEnable}
-                        >
-                          <EditOutlinedIcon
-                            sx={{ fontSize: 16, color: theme.palette.grey6 }}
-                          />
-                        </IconButton>
-                      )
-                    }
                   />
                 )}
               />
