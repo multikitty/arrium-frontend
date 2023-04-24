@@ -25,6 +25,9 @@ import {
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { TabProps } from "./AccountInformationTab"
 import { subDays } from "date-fns"
+import { useStore } from "@/store"
+import { useReferralsByCreator } from "@/agent/referrals"
+import { ReferralListByCreatorResultData } from "@/lib/interfaces/referrals"
 
 const ReferralTab = (props: TabProps) => {
   const theme = useTheme()
@@ -32,7 +35,20 @@ const ReferralTab = (props: TabProps) => {
   const [dateGenerated, setDateGenerated] = React.useState<Date>(
     subDays(new Date(), 32)
   )
+  const { userStore } = useStore()
+  const [refCodeDetails, setRefCodeDetails] = React.useState<ReferralListByCreatorResultData | undefined>()
+  const {
+    data: referralListData,
+    isLoading,
+    refetch,
+  } = useReferralsByCreator({
+    userpk: userStore.currentUser!.pk,
+  })
 
+  React.useEffect(() => {
+    const findRefCodeDetails: ReferralListByCreatorResultData[] | undefined = referralListData?.data?.Items.filter(item => props?.refCode === item.refCode)
+    if (findRefCodeDetails?.[0]) setRefCodeDetails(findRefCodeDetails?.[0])
+  }, [referralListData?.data?.Items, props?.refCode])
   return (
     <StyledReferralTab>
       <StyledReferralTabForm>
@@ -43,7 +59,7 @@ const ReferralTab = (props: TabProps) => {
                 Referral code
               </StyledReferralTabFormItemTitle>
               <StyledReferralTabFormItemText>
-                E4C11E
+                {props?.refCode ? props?.refCode : "-"}
               </StyledReferralTabFormItemText>
             </StyledReferralTabFormItem>
             <StyledReferralTabFormItem>
@@ -53,8 +69,8 @@ const ReferralTab = (props: TabProps) => {
               {isMdUp ? (
                 <DesktopDatePicker
                   inputFormat="dd/MM/yyyy"
-                  value={dateGenerated}
-                  onChange={val => setDateGenerated(val!)}
+                  value={refCodeDetails?.refGen}
+                  onChange={val => setRefCodeDetails({ ...refCodeDetails, refGen: val! })}
                   renderInput={(params: TextFieldProps) => (
                     <StyledAccountInformationTabDateField
                       {...params}
@@ -68,8 +84,8 @@ const ReferralTab = (props: TabProps) => {
               ) : (
                 <MobileDatePicker
                   inputFormat="dd/MM/yyyy"
-                  value={dateGenerated}
-                  onChange={val => setDateGenerated(val!)}
+                  value={refCodeDetails?.refGen}
+                  onChange={val => setRefCodeDetails({ ...refCodeDetails, refGen: val! })}
                   renderInput={(params: TextFieldProps) => (
                     <StyledAccountInformationTabDateField
                       {...params}
@@ -126,7 +142,7 @@ const ReferralTab = (props: TabProps) => {
               <StyledReferralTabFormItemTitle>
                 Active
               </StyledReferralTabFormItemTitle>
-              <StyledReferralTabFormItemText>Yes</StyledReferralTabFormItemText>
+              <StyledReferralTabFormItemText>{refCodeDetails?.refActive === true ? "Yes" : "No"}</StyledReferralTabFormItemText>
             </StyledReferralTabFormItem>
             <StyledReferralTabFormItem>
               <StyledReferralTabFormLabel>
@@ -139,7 +155,7 @@ const ReferralTab = (props: TabProps) => {
                 disabled
               >
                 <MenuItem disabled value="">
-                  Choose region here
+                  Choose from list
                 </MenuItem>
               </Select>
             </StyledReferralTabFormItem>
@@ -154,7 +170,7 @@ const ReferralTab = (props: TabProps) => {
                 disabled
               >
                 <MenuItem disabled value="">
-                  Choose region here
+                  Choose from list
                 </MenuItem>
               </Select>
             </StyledReferralTabFormItem>

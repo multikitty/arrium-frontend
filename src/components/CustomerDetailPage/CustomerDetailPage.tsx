@@ -174,6 +174,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
           <ReferralTab
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
+            refCode={customerData?.data?.refCode}
           />
         )}
       </StyledCustomerDetailPageContent>

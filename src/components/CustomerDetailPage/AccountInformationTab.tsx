@@ -102,6 +102,7 @@ const radioOptions = [
 export interface TabProps {
   handleSave: () => void
   handleCancel: () => void
+  refCode?: string
 }
 
 interface AccountInformationTabProps extends TabProps, CustomerAccountInfoData {
