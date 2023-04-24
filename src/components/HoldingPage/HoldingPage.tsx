@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, useMediaQuery } from "@mui/material"
 
 import { devices } from "@/constants/device"
@@ -18,28 +18,35 @@ import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { FormProps } from "@/components/SignUpPage"
+import Zendesk, { ZendeskAPI } from "react-zendesk"
+import { ZENDESK_KEY, Zen_Desk_setting } from "@/agent/zendeskConfiguration"
 
-interface HoldingPageProps extends Omit<FormProps, "setFormStage">, PageProps {}
+interface HoldingPageProps extends Omit<FormProps, "setFormStage">, PageProps { }
 
 const HoldingPage: React.FC<HoldingPageProps> = ({
   stage,
   step,
   country_code,
 }) => {
+  const [zendeskLoad, setZendeskLoad] = useState(false)
   const { navigate } = useNavigate({ country_code })
   const isWebView = useMediaQuery(devices.web.up)
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement | null>) => {
     e.preventDefault()
+    ZendeskAPI("webWidget", "hide")
     navigate(routes.signin)
   }
+  useEffect(() => {
+    if (zendeskLoad) {
+      ZendeskAPI("webWidget", "show");
+    }
+  }, [zendeskLoad]);
+
+
 
   return (
     <React.Fragment>
-      <script
-        id="ze-snippet"
-        src="https://static.zdassets.com/ekr/snippet.js?key=a4713c23-7381-41e4-bfdb-8d6c4d38cd0b"
-      />
+      <Zendesk defer zendeskKey={ZENDESK_KEY} {...Zen_Desk_setting} onLoaded={() => setZendeskLoad(true)} />
       {isWebView ? (
         <StyledLoginContainer onSubmit={onSubmit}>
           <Box display="flex" justifyContent="center">
@@ -100,8 +107,9 @@ const HoldingPage: React.FC<HoldingPageProps> = ({
             </StyledButton>
           </Box>
         </StyledLoginContainerMobile>
-      )}
-    </React.Fragment>
+      )
+      }
+    </React.Fragment >
   )
 }
 

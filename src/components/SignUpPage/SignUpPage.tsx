@@ -20,6 +20,7 @@ import { TOKEN } from "@/constants/localStorage"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 import { fetchCurrentUserData } from "@/agent/user"
 import brandLogo from "@/assets/icons/arrium_logo.png"
+import { ZendeskAPI } from "react-zendesk"
 
 export interface FormProps {
   setFormStage: React.Dispatch<React.SetStateAction<number>>
@@ -60,6 +61,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ country_code }) => {
     useState<null | AccountInfoData>(null)
 
   const handleNavigateToHome = () => {
+    ZendeskAPI("webWidget", "hide")
     navigate(routes.home)
   }
 

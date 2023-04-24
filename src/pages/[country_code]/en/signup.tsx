@@ -10,6 +10,7 @@ interface SignupProps {
 }
 
 const Signup: React.FC<SignupProps> = ({ params }) => {
+
   return (
     <GuestGuard country_code={params.country_code}>
       <Seo title="Sign Up | Arrium" />
