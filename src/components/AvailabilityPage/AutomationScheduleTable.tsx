@@ -76,7 +76,7 @@ const AutomationScheduleTable = () => {
                         onBlur,
                         ref,
                         disabled,
-                        error: !!formState.errors?.data?.[index]?.[name],
+                        error: !!formState?.errors?.data?.[index]?.[name],
                         minTime:
                           name === "endTime"
                             ? methods.getValues(`data.${index}.startTime`)
@@ -105,15 +105,15 @@ const AutomationScheduleTable = () => {
                       onBlur,
                       ref,
                       disabled,
-                      error: !!formState.errors?.data?.[index]?.[name],
+                      error: !!formState?.errors?.data?.[index]?.[name],
                       isMobile: !isWebView,
                     })
                   )
                 }
-              /> 
-              {!disabled && formState.errors?.data?.[index]?.[name] && (
+              />
+              {!disabled && formState?.errors?.data?.[index]?.[name] && (
                 <StyledAutomationScheduleTableFieldHelperText>
-                  {formState.errors.data[index][name]?.message}
+                  {formState?.errors?.data[index][name]?.message}
                 </StyledAutomationScheduleTableFieldHelperText>
               )}
             </StyledAutomationScheduleTableFieldContainer>
@@ -122,7 +122,6 @@ const AutomationScheduleTable = () => {
       )),
     [formState, control, isWebView]
   )
-
   const renderTableRows = React.useMemo(
     () =>
       methods
@@ -181,9 +180,9 @@ const AutomationScheduleTable = () => {
                   sx={
                     index === 0
                       ? {
-                          ...tableHeaderGreyTextStyles,
-                          paddingLeft: rem("32px"),
-                        }
+                        ...tableHeaderGreyTextStyles,
+                        paddingLeft: rem("32px"),
+                      }
                       : tableHeaderGreyTextStyles
                   }
                 >

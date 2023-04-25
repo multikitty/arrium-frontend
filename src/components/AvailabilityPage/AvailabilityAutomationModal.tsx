@@ -55,7 +55,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
   useEffect(() => {
     if (open === true) {
       fetchPreferencesSchedule().then(res => {
-        if (res?.data?.length !== 0){
+        if (res?.data?.length !== 0) {
           methods.reset({
             data: res?.data?.map((value: GetPrefrencesScheduleResultData) => ({
               startTime:
@@ -63,11 +63,11 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
                   ? moment(value.asStartTime, "HH:mm:ss")
                   : null,
               active: value.active,
-              day: value.day,
+              day: value.asDay,
             })),
           })
         }
-      })  
+      })
     }
   }, [open])
 
