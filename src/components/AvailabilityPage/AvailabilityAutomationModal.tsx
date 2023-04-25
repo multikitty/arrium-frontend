@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { IconButton, Modal, Box } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import { IconButton, Modal, Box, CircularProgress } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import DeleteIconActive from "@/assets/icons/delete_icon.inline.svg"
 import { FormProvider, useForm } from "react-hook-form"
@@ -7,6 +7,7 @@ import { useMutation } from "react-query"
 import { StyledAddCountryModalCloseIconContainer as StyledAvailablityAutomationModalCloseIconContainer } from "@/components/SettingsPage/SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 import {
+  StyledAutomationScheduleLoading,
   StyledAvailablityAutomationModal,
   StyledAvailablityAutomationModalTitle,
   StyledAvailablityAutomationModalTitleDesc,
@@ -44,7 +45,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
 }) => {
   // const { navigate } = useNavigate({ country_code, lang })
   const { enqueueSnackbar } = useSnackbar()
-
+  const [isloading, setIsloading] = useState<Boolean>(true)
   const { control, handleSubmit, formState, ...methods } =
     useForm<AutomationScheduleType>({
       defaultValues: { data: scheduleDataInitialValues },
@@ -66,6 +67,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
               day: value.asDay,
             })),
           })
+          setIsloading(false)
         }
       })
     }
@@ -149,30 +151,30 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
             </StyledSearchButton>
           </Box>
         </Box>
-
-        <FormProvider
-          control={control}
-          formState={formState}
-          handleSubmit={handleSubmit}
-          {...methods}
-        >
-          <AutomationScheduleTable />
-
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="flex-end"
-            py={2}
-            px={2}
+        {isloading ? <StyledAutomationScheduleLoading> <CircularProgress size={50} /></StyledAutomationScheduleLoading> :
+          <FormProvider
+            control={control}
+            formState={formState}
+            handleSubmit={handleSubmit}
+            {...methods}
           >
-            <OutlinedButton onClick={handleClose} sx={{ mr: 2 }}>
-              Cancel
-            </OutlinedButton>
-            <ContainedButton type="submit" onClick={handleSubmit(onSubmit)}>
-              Save
-            </ContainedButton>
-          </Box>
-        </FormProvider>
+            <AutomationScheduleTable />
+
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="flex-end"
+              py={2}
+              px={2}
+            >
+              <OutlinedButton onClick={handleClose} sx={{ mr: 2 }}>
+                Cancel
+              </OutlinedButton>
+              <ContainedButton type="submit" onClick={handleSubmit(onSubmit)}>
+                Save
+              </ContainedButton>
+            </Box>
+          </FormProvider>}
       </StyledAvailablityAutomationModal>
     </Modal>
   )

@@ -175,7 +175,7 @@ export const StyledNoSearchResultsText = styled(Typography)`
 
 export const StyledAvailablityAutomationModal = styled(Paper).attrs({
   elevation: 1,
-})<{}>`
+}) <{}>`
   border-radius: 20px;
   padding: 16px;
   width: 100%;
@@ -261,4 +261,10 @@ export const StyledSearchTableTextField = styled(TextField)`
       border-color: rgba(0, 0, 0, 0.23);
     }
   }
+`
+export const StyledAutomationScheduleLoading = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 100px 0;
 `
