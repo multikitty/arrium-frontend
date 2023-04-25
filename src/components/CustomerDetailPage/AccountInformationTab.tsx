@@ -165,7 +165,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   }, [])
 
   const renderRoleOptions = LabelledUserRoles.map(role => (
-    <MenuItem key={role.value} value={role.value}>
+    <MenuItem key={role.value} value={role.value} disabled>
       {role.label}
     </MenuItem>
   ))
