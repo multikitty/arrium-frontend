@@ -163,7 +163,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const onlyNumber = new RegExp(/^[0-9\b]+$/)
   const handleRefCodeField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value;
-    if (value !== "" && e.target.value.length >= 3 && e.target.value.length <= 9 && onlyNumber.test(e.target.value.slice(3))) {
+    if (e.target.value.length <= 6 && (onlyNumber.test(e.target.value) || e.target.value.length === 0)) {
       setRefCode(`${value}`);
     }
   };
@@ -245,9 +245,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           {showPlaceholder && (
             <InputField
               mb={"0"}
-              placeholder={`${country_code ||
-                localStorageUtils.get(COUNTRY_CODE) ||
-                DEFAULT_COUNTRY}-256734`}
+              placeholder={`GB-256734`}
               variant="outlined"
               value={""}
               onFocus={() => setShowPlaceholder(false)}
@@ -352,9 +350,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             {showPlaceholder && (
               <InputField
                 mb={"0"}
-                placeholder={`${country_code ||
-                  localStorageUtils.get(COUNTRY_CODE) ||
-                  DEFAULT_COUNTRY}-256734`}
+                placeholder={`GB-256734`}
                 variant="outlined"
                 value={""}
                 onFocus={() => setShowPlaceholder(false)}
