@@ -65,7 +65,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const [email, setEmail] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [password, setPassword] = useState("")
-  const [refCode, setRefCode] = useState("GB-")
+  const [refCode, setRefCode] = useState()
   const [isFocused, setIsFocused] = useState(false)
   const [isPasswordFieldDirty, setIsPasswordFieldDirty] = useState(false)
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
@@ -163,7 +163,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const onlyNumber = new RegExp(/^[0-9\b]+$/)
   const handleRefCodeField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value;
-    if (value !== "" && e.target.value.length >= 3 &&  e.target.value.length <= 9) {
+    if (value !== "" && e.target.value.length >= 3 && e.target.value.length <= 9 && onlyNumber.test(e.target.value.slice(3))) {
       setRefCode(`${value}`);
     }
   };
@@ -245,7 +245,9 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           {showPlaceholder && (
             <InputField
               mb={"0"}
-              placeholder="GB-256734"
+              placeholder={`${country_code ||
+                localStorageUtils.get(COUNTRY_CODE) ||
+                DEFAULT_COUNTRY}-256734`}
               variant="outlined"
               value={""}
               onFocus={() => setShowPlaceholder(false)}
@@ -347,25 +349,27 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
               If you have a referral code, enter it below
             </StyledTextBox>
 
-             {showPlaceholder && (
-            <InputField
-              mb={"0"}
-              placeholder="GB-256734"
-              variant="outlined"
-              value={""}
-              onFocus={() => setShowPlaceholder(false)}
-            />
-          )}
-          {!showPlaceholder && (
-            <InputField
-              mb={"0"}
-              placeholder=""
-              variant="outlined"
-              value={`GB-${refCode}`}
-              onChange={handleRefCodeField}
-              onBlur={handleBlur}
-            />
-          )}
+            {showPlaceholder && (
+              <InputField
+                mb={"0"}
+                placeholder={`${country_code ||
+                  localStorageUtils.get(COUNTRY_CODE) ||
+                  DEFAULT_COUNTRY}-256734`}
+                variant="outlined"
+                value={""}
+                onFocus={() => setShowPlaceholder(false)}
+              />
+            )}
+            {!showPlaceholder && (
+              <InputField
+                mb={"0"}
+                placeholder=""
+                variant="outlined"
+                value={`GB-${refCode}`}
+                onChange={handleRefCodeField}
+                onBlur={handleBlur}
+              />
+            )}
             <StyledButton
               variant="contained"
               color="primary"
