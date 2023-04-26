@@ -69,6 +69,7 @@ import {
 } from "@/lib/interfaces/user"
 import { updatePricingPlanStatus } from "@/agent/user"
 import { useRegionList } from "@/agent/locations"
+import { devices } from "@/constants/device"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -125,6 +126,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
+  const isWebView = useMediaQuery(devices.desktop.up)
   const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { mutate, isLoading: isMutationLoading } = useMutation<
@@ -209,7 +211,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         ...rest,
         firstName: rest.firstname,
         surName: rest.lastname,
-        phoneNumber: props.dialCode + props.phoneNumber,
+        phoneNumber: props?.dialCode + props?.phoneNumber,
         timezone: props.tzName,
         startDate: props.startDate
           ? (new Date(props.startDate * 1000) as any)
@@ -283,7 +285,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       },
     })
   }
-
   const onSubmit = async (data: FormPropType) => {
     if (data.sendAccountApprovedEmail) {
       handleSendAccountApprovedEmailModalOpen()
@@ -324,7 +325,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       console.error(error)
     }
   }
-
   const handleEndDatePickerClick = () => {
     if (getValues("startDate")) return setEndDatePickerOpen(true)
     enqueueSnackbar("Please select Start Date first!", { variant: "error" })
@@ -346,13 +346,11 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       </MenuItem>
     )
   )
-
   const planTypeOptionsJSX = Object.values(Plans).map((plan: PlanType) => (
     <MenuItem value={plan} key={plan}>
       {capitalCase(plan)}
     </MenuItem>
   ))
-
   const statusOptionsJSX = Object.values(CUSTOMER_ACCOUNT_STATUS).map(
     status => (
       <MenuItem value={status} key={status}>
@@ -360,9 +358,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       </MenuItem>
     )
   )
-
   if (isMutationLoading || props.isLoading) return <LoadingScreen />
-
   return (
     <StyledAccountInformationTab>
       {isSendAccountApprovedEmailOpen && (
@@ -374,470 +370,501 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       )}
       <StyledAccountInformationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
+          <Grid item xs={12} lg={4}>{/* Customer Id Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Customer ID
+              </StyledAccountInformationTabFormLabel>
+              <StyledAccountInformatiomTabContentField
+                value={props.customerID}
+                readOnly
+                disabled
+              />
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* First Name Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                First name
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"firstName"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledAccountInformatiomTabContentField
+                    onChange={onChange}
+                    value={value}
+                    error={!!formState.errors?.firstName}
+                  />
+                )}
+              />
+              {!!formState.errors?.firstName && (
+                <HelperText type="large">
+                  {formState.errors?.firstName?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* Surname Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Surname
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"surName"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledAccountInformatiomTabContentField
+                    onChange={onChange}
+                    value={value}
+                    error={!!formState.errors?.surName}
+                  />
+                )}
+              />
+              {!!formState.errors?.surName && (
+                <HelperText type="large">
+                  {formState.errors?.surName?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* Phone Number Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Phone number
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"phoneNumber"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <ReactPhoneInput
+                    country={userStore?.lowerCaseCountry}
+                    // onChange={(_, countryData: CountryData, e) => {
+                    //   setDialCode(countryData?.dialCode)
+                    //   onChange(e)
+                    // }}
+                    value={value ? value : null}
+                    containerClass={classes.telephoneInputContainer}
+                    inputStyle={{
+                      width: "100%",
+                      borderRadius: rem("10px"),
+                      paddingTop: rem("16px"),
+                      paddingBottom: rem("16px"),
+                    }}
+                    countryCodeEditable={false}
+                  />
+                )}
+              />
+              {!!formState.errors?.phoneNumber && (
+                <HelperText type="large">
+                  {formState.errors?.phoneNumber?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* Email Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Email
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"email"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <StyledAccountInformatiomTabContentField
+                    onChange={onChange}
+                    value={value}
+                    error={!!formState.errors?.email}
+                  />
+                )}
+              />
+              {!!formState.errors?.email && (
+                <HelperText type="large">
+                  {formState.errors?.email?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
           <Grid item xs={12} lg={4}>
-            <Box display="flex" flexDirection="column">
-              {/* Customer Id Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Customer ID
-                </StyledAccountInformationTabFormLabel>
-                <StyledAccountInformatiomTabContentField
-                  value={props.customerID}
-                  readOnly
-                  disabled
-                />
-              </Box>
-              {/* Phone Number Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Phone number
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"phoneNumber"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <ReactPhoneInput
-                      country={userStore.lowerCaseCountry}
-                      onChange={(_, countryData: CountryData, e) => {
-                        setDialCode(countryData.dialCode)
-                        onChange(e)
-                      }}
-                      value={value}
-                      containerClass={classes.telephoneInputContainer}
-                      inputStyle={{
-                        width: "100%",
-                        borderRadius: rem("10px"),
-                        paddingTop: rem("16px"),
-                        paddingBottom: rem("16px"),
-                      }}
-                      countryCodeEditable={false}
-                    />
-                  )}
-                />
-                {!!formState.errors?.phoneNumber && (
-                  <HelperText type="large">
-                    {formState.errors?.phoneNumber?.message}
-                  </HelperText>
+            {/* Email Verification Status Field */}
+            <Box mb="33px">
+              <StyledAccountInformationTabFormLabel>
+                Email verification status
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"isEmailVerified"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <RadioGroup row value={value} onChange={onChange}>
+                    {generateRadioOptions()}
+                  </RadioGroup>
                 )}
-              </Box>
-              {/* Timezone Field */}
-              <Box mb="30px">
-                <StyledAccountInformationTabFormLabel>
-                  Timezone
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"timezone"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TimezoneAutocomplete
-                      size="medium"
-                      placeholder="Choose timezone"
-                      className={classes.timezoneStyles}
-                      timezone={value}
-                      setTimezone={onChange}
-                      isTimezoneEditEnabled={isTimezoneEditEnabled}
-                      handleTimezoneEditEnable={handleTimezoneEditEnable}
-                      handleTimezoneEditDisable={handleTimezoneEditDisable}
-                      handleTimezoneEditSave={handleTimezoneEditSave}
-                      getValues={getValues}
-                      addSearchIconToEndAdornmentTop={'0px'}
-                    />
-                  )}
-                />
-                {!!formState.errors?.timezone && (
-                  <HelperText type="large">
-                    {formState.errors?.timezone?.message}
-                  </HelperText>
+              />
+              {!!formState.errors?.isEmailVerified && (
+                <HelperText type="large">
+                  {formState.errors?.isEmailVerified?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* Timezone Field */}
+            <Box mb="30px">
+              <StyledAccountInformationTabFormLabel>
+                Timezone
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"timezone"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <TimezoneAutocomplete
+                    size="medium"
+                    placeholder="Choose timezone"
+                    className={classes.timezoneStyles}
+                    timezone={value}
+                    setTimezone={onChange}
+                    isTimezoneEditEnabled={isTimezoneEditEnabled}
+                    handleTimezoneEditEnable={handleTimezoneEditEnable}
+                    handleTimezoneEditDisable={handleTimezoneEditDisable}
+                    handleTimezoneEditSave={handleTimezoneEditSave}
+                    getValues={getValues}
+                    addSearchIconToEndAdornmentTop={'0px'}
+                  />
                 )}
-              </Box>
-              {/* Country Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Country
-                </StyledAccountInformationTabFormLabel>
-                <StyledAccountInformatiomTabContentField
-                  value={getCountryNameByCode(props.country)}
-                  readOnly
-                  disabled
-                />
-              </Box>
-              {/* Station Type Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Station Type
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"stationType"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                      displayEmpty
-                      value={value}
-                      onChange={onChange}
-                      input={<StyledAccountInformatiomTabContentField />}
-                    >
-                      <MenuItem disabled value="">
-                        <StyledPlaceholder>
-                          Choose station type here
-                        </StyledPlaceholder>
-                      </MenuItem>
-                      {stationTypeOptionsJSX}
-                    </Select>
-                  )}
-                />
+              />
+              {!!formState.errors?.timezone && (
+                <HelperText type="large">
+                  {formState.errors?.timezone?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Role Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Role
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"role"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    onChange={onChange}
+                    value={value}
+                    error={!!formState.errors?.role}
+                    input={<StyledAccountInformatiomTabContentField />}
+                  >
+                    {renderRoleOptions}
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.role && (
+                <HelperText type="large">
+                  {formState.errors?.role?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Status Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Status
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"status"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    onChange={onChange}
+                    value={value}
+                    error={!!formState.errors?.status}
+                    input={<StyledAccountInformatiomTabContentField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>
+                        Choose status here
+                      </StyledPlaceholder>
+                    </MenuItem>
+                    {statusOptionsJSX}
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.status && (
+                <HelperText type="large">
+                  {formState.errors?.status?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}> {/* Country Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Country
+              </StyledAccountInformationTabFormLabel>
+              <StyledAccountInformatiomTabContentField
+                value={getCountryNameByCode(props.country)}
+                readOnly
+                disabled
+              />
+            </Box></Grid>
+          <Grid item xs={12} lg={4}> {/* Region Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Region
+              </StyledAccountInformationTabFormLabel>
+              <StyledAccountInformatiomTabContentField
+                value={regionName?.[0]?.regionName ? regionName?.[0]?.regionName : props.regionCode}
+                readOnly
+                disabled
+              />
+            </Box></Grid>
+          {isWebView ? (<Grid item xs={12} lg={4}>{/* Send account approved Email Switch */}
+            <Box ml="16px" mt="28px">
+              <Controller
+                control={control}
+                name="sendAccountApprovedEmail"
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        sx={{ mr: "10px" }}
+                        checked={value}
+                        onChange={onChange}
+                      />
+                    }
+                    label="Send account approved Email"
+                  />
+                )}
+              />
+            </Box></Grid>) : null}
+          <Grid item xs={12} lg={4}> {/* Plan Type Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Plan Type
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"planType"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledAccountInformatiomTabContentField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>
+                        Choose plan type here
+                      </StyledPlaceholder>
+                    </MenuItem>
+                    {planTypeOptionsJSX}
+                  </Select>
+                )}
+              />
+              {!!formState.errors?.planType && (
+                <HelperText type="large">
+                  {formState.errors?.planType?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}> {/* Station Type Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Station Type
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"stationType"}
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    displayEmpty
+                    value={value}
+                    onChange={onChange}
+                    input={<StyledAccountInformatiomTabContentField />}
+                  >
+                    <MenuItem disabled value="">
+                      <StyledPlaceholder>
+                        Choose station type here
+                      </StyledPlaceholder>
+                    </MenuItem>
+                    {stationTypeOptionsJSX}
+                  </Select>
+                )}
+              />
 
-                {!!formState.errors?.stationType && (
-                  <HelperText type="large">
-                    {formState.errors?.stationType?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Start Date Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Start date
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"startDate"}
-                  control={control}
-                  render={({ field: { value } }) =>
-                    isMdUp ? (
-                      <DesktopDatePicker
-                        inputFormat="dd/MM/yyyy"
-                        value={value}
-                        onChange={val => setValue("startDate", val as any)}
-                        renderInput={(params: TextFieldProps) => (
-                          <StyledAccountInformationTabDateField
-                            {...params}
-                            error={!!formState.errors?.startDate}
-                          />
-                        )}
-                        components={{
-                          OpenPickerIcon: CalendarIcon,
-                        }}
+              {!!formState.errors?.stationType && (
+                <HelperText type="large">
+                  {formState.errors?.stationType?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          {isWebView ? (<Grid item xs={12} lg={4}>{/* Enable pricing plans Switch */}
+            <Box ml="16px" mt="28px">
+              <Controller
+                control={control}
+                name="enablePricingPlan"
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        sx={{ mr: "10px" }}
+                        checked={value}
+                        onChange={onChange}
                       />
-                    ) : (
-                      <MobileDatePicker
-                        inputFormat="dd/MM/yyyy"
-                        disablePast
-                        value={value}
-                        onChange={val => setValue("startDate", val as any)}
-                        renderInput={(params: TextFieldProps) => (
-                          <StyledAccountInformationTabDateField
-                            {...params}
-                            error={!!formState.errors?.startDate}
-                          />
-                        )}
-                        components={{
-                          OpenPickerIcon: CalendarIcon,
-                        }}
-                      />
-                    )
-                  }
-                />
-                {!!formState.errors?.startDate && (
-                  <HelperText type="large">
-                    {formState.errors?.startDate?.message}
-                  </HelperText>
+                    }
+                    label="Enable pricing plan"
+                  />
                 )}
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Box display="flex" flexDirection="column">
-              {/* First Name Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  First name
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"firstName"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
+              />
+            </Box></Grid>) : null}
+          <Grid item xs={12} lg={4}>{/* Start Date Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                Start date
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"startDate"}
+                control={control}
+                render={({ field: { value } }) =>
+                  isMdUp ? (
+                    <DesktopDatePicker
+                      inputFormat="dd/MM/yyyy"
                       value={value}
-                      error={!!formState.errors?.firstName}
-                    />
-                  )}
-                />
-                {!!formState.errors?.firstName && (
-                  <HelperText type="large">
-                    {formState.errors?.firstName?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Email Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Email
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"email"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.email}
-                    />
-                  )}
-                />
-                {!!formState.errors?.email && (
-                  <HelperText type="large">
-                    {formState.errors?.email?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Role Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Role
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"role"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.role}
-                      input={<StyledAccountInformatiomTabContentField />}
-                    >
-                      {renderRoleOptions}
-                    </Select>
-                  )}
-                />
-                {!!formState.errors?.role && (
-                  <HelperText type="large">
-                    {formState.errors?.role?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Region Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Region
-                </StyledAccountInformationTabFormLabel>
-                <StyledAccountInformatiomTabContentField
-                  value={regionName?.[0]?.regionName ? regionName?.[0]?.regionName : props.regionCode}
-                  readOnly
-                  disabled
-                />
-              </Box>
-              {/* Plan Type Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Plan Type
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"planType"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                      displayEmpty
-                      value={value}
-                      onChange={onChange}
-                      input={<StyledAccountInformatiomTabContentField />}
-                    >
-                      <MenuItem disabled value="">
-                        <StyledPlaceholder>
-                          Choose plan type here
-                        </StyledPlaceholder>
-                      </MenuItem>
-                      {planTypeOptionsJSX}
-                    </Select>
-                  )}
-                />
-                {!!formState.errors?.planType && (
-                  <HelperText type="large">
-                    {formState.errors?.planType?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* End Date Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  End date
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"endDate"}
-                  control={control}
-                  render={({ field: { value } }) =>
-                    isMdUp ? (
-                      <DesktopDatePicker
-                        inputFormat="dd/MM/yyyy"
-                        open={endDatePickerOpen}
-                        onOpen={handleEndDatePickerClick}
-                        minDate={
-                          new Date(getValues("startDate") as unknown as string)
-                        }
-                        value={value}
-                        onChange={val => {
-                          setValue("endDate", val as any)
-                          setEndDatePickerOpen(false)
-                        }}
-                        renderInput={(params: TextFieldProps) => (
-                          <StyledAccountInformationTabDateField
-                            {...params}
-                            error={!!formState.errors?.endDate}
-                          />
-                        )}
-                        components={{
-                          OpenPickerIcon: CalendarIcon,
-                        }}
-                      />
-                    ) : (
-                      <MobileDatePicker
-                        inputFormat="dd/MM/yyyy"
-                        open={endDatePickerOpen}
-                        onOpen={() =>
-                          getValues("startDate") && setEndDatePickerOpen(true)
-                        }
-                        minDate={
-                          new Date(getValues("startDate") as unknown as string)
-                        }
-                        value={value}
-                        onChange={val => {
-                          setValue("endDate", val as any)
-                          setEndDatePickerOpen(false)
-                        }}
-                        renderInput={(params: TextFieldProps) => (
-                          <StyledAccountInformationTabDateField
-                            {...params}
-                            error={!!formState.errors?.endDate}
-                          />
-                        )}
-                        components={{
-                          OpenPickerIcon: CalendarIcon,
-                        }}
-                      />
-                    )
-                  }
-                />
-                {!!formState.errors?.endDate && (
-                  <HelperText type="large">
-                    {formState.errors?.endDate?.message}
-                  </HelperText>
-                )}
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={4}>
-            <Box display="flex" flexDirection="column">
-              {/* Surname Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Surname
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"surName"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <StyledAccountInformatiomTabContentField
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.surName}
-                    />
-                  )}
-                />
-                {!!formState.errors?.surName && (
-                  <HelperText type="large">
-                    {formState.errors?.surName?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Email Verification Status Field */}
-              <Box mb="33px">
-                <StyledAccountInformationTabFormLabel>
-                  Email verification status
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"isEmailVerified"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <RadioGroup row value={value} onChange={onChange}>
-                      {generateRadioOptions()}
-                    </RadioGroup>
-                  )}
-                />
-                {!!formState.errors?.isEmailVerified && (
-                  <HelperText type="large">
-                    {formState.errors?.isEmailVerified?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Status Field */}
-              <Box mb="24px">
-                <StyledAccountInformationTabFormLabel>
-                  Status
-                </StyledAccountInformationTabFormLabel>
-                <Controller
-                  name={"status"}
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select
-                      displayEmpty
-                      onChange={onChange}
-                      value={value}
-                      error={!!formState.errors?.status}
-                      input={<StyledAccountInformatiomTabContentField />}
-                    >
-                      <MenuItem disabled value="">
-                        <StyledPlaceholder>
-                          Choose status here
-                        </StyledPlaceholder>
-                      </MenuItem>
-                      {statusOptionsJSX}
-                    </Select>
-                  )}
-                />
-                {!!formState.errors?.status && (
-                  <HelperText type="large">
-                    {formState.errors?.status?.message}
-                  </HelperText>
-                )}
-              </Box>
-              {/* Send account approved Email Switch */}
-              <Box ml="16px" mt="28px">
-                <Controller
-                  control={control}
-                  name="sendAccountApprovedEmail"
-                  render={({ field: { value, onChange } }) => (
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          sx={{ mr: "10px" }}
-                          checked={value}
-                          onChange={onChange}
+                      onChange={val => setValue("startDate", val as any)}
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.startDate}
                         />
-                      }
-                      label="Send account approved Email"
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
                     />
-                  )}
-                />
-              </Box>
-              {/* Enable pricing plans Switch */}
-              <Box ml="16px" mt="80px">
-                <Controller
-                  control={control}
-                  name="enablePricingPlan"
-                  render={({ field: { value, onChange } }) => (
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          sx={{ mr: "10px" }}
-                          checked={value}
-                          onChange={onChange}
+                  ) : (
+                    <MobileDatePicker
+                      inputFormat="dd/MM/yyyy"
+                      disablePast
+                      value={value}
+                      onChange={val => setValue("startDate", val as any)}
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.startDate}
                         />
-                      }
-                      label="Enable pricing plan"
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
                     />
-                  )}
-                />
-              </Box>
-            </Box>
-          </Grid>
+                  )
+                }
+              />
+              {!!formState.errors?.startDate && (
+                <HelperText type="large">
+                  {formState.errors?.startDate?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+          <Grid item xs={12} lg={4}>{/* End Date Field */}
+            <Box mb="24px">
+              <StyledAccountInformationTabFormLabel>
+                End date
+              </StyledAccountInformationTabFormLabel>
+              <Controller
+                name={"endDate"}
+                control={control}
+                render={({ field: { value } }) =>
+                  isMdUp ? (
+                    <DesktopDatePicker
+                      inputFormat="dd/MM/yyyy"
+                      open={endDatePickerOpen}
+                      onOpen={handleEndDatePickerClick}
+                      minDate={
+                        new Date(getValues("startDate") as unknown as string)
+                      }
+                      value={value}
+                      onChange={val => {
+                        setValue("endDate", val as any)
+                        setEndDatePickerOpen(false)
+                      }}
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.endDate}
+                        />
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
+                    />
+                  ) : (
+                    <MobileDatePicker
+                      inputFormat="dd/MM/yyyy"
+                      open={endDatePickerOpen}
+                      onOpen={() =>
+                        getValues("startDate") && setEndDatePickerOpen(true)
+                      }
+                      minDate={
+                        new Date(getValues("startDate") as unknown as string)
+                      }
+                      value={value}
+                      onChange={val => {
+                        setValue("endDate", val as any)
+                        setEndDatePickerOpen(false)
+                      }}
+                      renderInput={(params: TextFieldProps) => (
+                        <StyledAccountInformationTabDateField
+                          {...params}
+                          error={!!formState.errors?.endDate}
+                        />
+                      )}
+                      components={{
+                        OpenPickerIcon: CalendarIcon,
+                      }}
+                    />
+                  )
+                }
+              />
+              {!!formState.errors?.endDate && (
+                <HelperText type="large">
+                  {formState.errors?.endDate?.message}
+                </HelperText>
+              )}
+            </Box></Grid>
+
+          {!isWebView ? <Grid item xs={12} lg={4}>{/* Send account approved Email Switch */}
+            <Box ml="16px" mt="28px">
+              <Controller
+                control={control}
+                name="sendAccountApprovedEmail"
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        sx={{ mr: "10px" }}
+                        checked={value}
+                        onChange={onChange}
+                      />
+                    }
+                    label="Send account approved Email"
+                  />
+                )}
+              />
+            </Box></Grid> : null}
+          {!isWebView ? <Grid item xs={12} lg={4}>{/* Enable pricing plans Switch */}
+            <Box ml="16px" mt="28px">
+              <Controller
+                control={control}
+                name="enablePricingPlan"
+                render={({ field: { value, onChange } }) => (
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        sx={{ mr: "10px" }}
+                        checked={value}
+                        onChange={onChange}
+                      />
+                    }
+                    label="Enable pricing plan"
+                  />
+                )}
+              />
+            </Box></Grid> : null}
+
         </Grid>
         <StyledAccountInformationTabFormActions>
           <OutlinedButton
