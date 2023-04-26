@@ -65,7 +65,11 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const [email, setEmail] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [password, setPassword] = useState("")
-  const [refCode, setRefCode] = useState()
+  const [refCode, setRefCode] = useState(`${(
+    country_code ||
+    localStorageUtils.get(COUNTRY_CODE) ||
+    DEFAULT_COUNTRY
+  ).toUpperCase()}-`)
   const [isFocused, setIsFocused] = useState(false)
   const [isPasswordFieldDirty, setIsPasswordFieldDirty] = useState(false)
   const [errors, setErrors] = useState<Record<string, string> | null>(null)
@@ -79,6 +83,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     Error,
     RegistrationUserVariables
   >(registerUser)
+  const onlyNumber = new RegExp(/^[0-9\b]+$/)
 
   useEffect(() => {
     setRequiredSet({
@@ -123,18 +128,17 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
       handleInputFocus()
       return
     }
-
     const variables: RegistrationUserVariables = {
       email,
       password,
-      refCode,
+      refCode: refCode.length > 3 ? refCode : undefined,
       country: (
         country_code ||
         localStorageUtils.get(COUNTRY_CODE) ||
         DEFAULT_COUNTRY
       ).toUpperCase(),
     }
-
+    console.log("variables", variables)
     mutate(variables, {
       onSuccess({ data, success, message, validationError }) {
         if (!success) {
@@ -159,11 +163,9 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   const handleNavigateToSignIn = () => {
     navigate(routes.signin)
   }
-
-  const onlyNumber = new RegExp(/^[0-9\b]+$/)
   const handleRefCodeField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value;
-    if (e.target.value.length <= 6 && (onlyNumber.test(e.target.value) || e.target.value.length === 0)) {
+    if (e.target.value.length >= 3 && e.target.value.length <= 9 && (onlyNumber.test(e.target.value.slice(3)) || e.target.value.length === 3)) {
       setRefCode(`${value}`);
     }
   };
@@ -245,7 +247,11 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
           {showPlaceholder && (
             <InputField
               mb={"0"}
-              placeholder={`GB-256734`}
+              placeholder={`${(
+                country_code ||
+                localStorageUtils.get(COUNTRY_CODE) ||
+                DEFAULT_COUNTRY
+              ).toUpperCase()}-256734`}
               variant="outlined"
               value={""}
               onFocus={() => setShowPlaceholder(false)}
@@ -350,7 +356,11 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
             {showPlaceholder && (
               <InputField
                 mb={"0"}
-                placeholder={`GB-256734`}
+                placeholder={`${(
+                  country_code ||
+                  localStorageUtils.get(COUNTRY_CODE) ||
+                  DEFAULT_COUNTRY
+                ).toUpperCase()}-256734`}
                 variant="outlined"
                 value={""}
                 onFocus={() => setShowPlaceholder(false)}
@@ -361,7 +371,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
                 mb={"0"}
                 placeholder=""
                 variant="outlined"
-                value={`GB-${refCode}`}
+                value={`${refCode}`}
                 onChange={handleRefCodeField}
                 onBlur={handleBlur}
               />

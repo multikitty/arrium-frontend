@@ -2,7 +2,7 @@ export interface RegistrationUserVariables {
   email: string
   password: string
   country: string
-  refCode: string
+  refCode?: string
 }
 
 export interface RegistrationUserData {
