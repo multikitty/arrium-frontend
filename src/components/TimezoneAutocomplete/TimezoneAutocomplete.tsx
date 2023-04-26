@@ -9,7 +9,7 @@ import theme from "@/theme"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 
-function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEditDisable: () => void, handleTimezoneEditSave: () => void, getValues: () => void, userData: string) {
+function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEditDisable: () => void, handleTimezoneEditSave: () => void, getValues: () => void, userData: string, addSearchIconToEndAdornmentTop?: string) {
   const children = React.Children.toArray(endAdornment.props.children);
   children.push(
     <React.Fragment>
@@ -20,7 +20,7 @@ function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEdi
           whiteSpace: "nowrap",
           mr: rem("8px"),
           p: `${rem("6px")} ${rem("16px")}`,
-          top: `-${rem("12px")}`
+          top: addSearchIconToEndAdornmentTop ? `-${rem(addSearchIconToEndAdornmentTop)}` : `-${rem("12px")}`
         }}
         onClick={handleTimezoneEditDisable}
       >
@@ -30,7 +30,7 @@ function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEdi
         sx={{
           whiteSpace: "nowrap",
           p: `${rem("6px")} ${rem("16px")}`,
-          top: `-${rem("12px")}`
+          top: addSearchIconToEndAdornmentTop ? `-${rem(addSearchIconToEndAdornmentTop)}` : `-${rem("12px")}`
         }}
         onClick={handleTimezoneEditSave}
         disabled={
@@ -58,6 +58,7 @@ interface TimezoneAutocompleteProps
   handleTimezoneEditSave: () => void
   getValues: () => void
   userData?: string
+  addSearchIconToEndAdornmentTop?: string
 }
 
 const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
@@ -73,11 +74,14 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
   handleTimezoneEditSave,
   getValues,
   userData,
+  addSearchIconToEndAdornmentTop,
   ...props
 }) => {
   const [open, setOpen] = React.useState(false)
   const [options, setOptions] = React.useState<string[]>([])
   const { data: timezoneList } = useAllTimezonesList()
+
+  console.log("addSearchIconToEndAdornmentTop", addSearchIconToEndAdornmentTop)
   const loading = open && options.length === 0
   React.useEffect(() => {
     let active = true
@@ -153,7 +157,7 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
             InputProps={{
               ...params.InputProps,
               endAdornment: addSearchIconToEndAdornment(
-                params.InputProps.endAdornment, handleTimezoneEditDisable, handleTimezoneEditSave, getValues, userData
+                params.InputProps.endAdornment, handleTimezoneEditDisable, handleTimezoneEditSave, getValues, userData, addSearchIconToEndAdornmentTop
               )
             }}
           />

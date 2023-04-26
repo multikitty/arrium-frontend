@@ -149,6 +149,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     setIsSendAccountApprovedEmailModalOpen,
   ] = React.useState(false)
 
+  const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] = React.useState(false)
   const generateRadioOptions = React.useCallback(() => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
@@ -220,7 +221,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     })
   useWatch({ control })
   const { data: stationTypeListData } = useStationTypeList()
-  console.log("props", props)
   const { data: regionListData } = useRegionList(props.flexCountry)
   const regionName: RegionListResult = regionListData?.data?.Items.filter((item: any) => item.regionCode === props.regionCode)
   const handleUpdateAccountInfo = async () => {
@@ -329,7 +329,16 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     if (getValues("startDate")) return setEndDatePickerOpen(true)
     enqueueSnackbar("Please select Start Date first!", { variant: "error" })
   }
-
+  const handleTimezoneEditEnable = () => {
+    setIsTimezoneEditEnabled(true)
+  }
+  const handleTimezoneEditDisable = () => {
+    setIsTimezoneEditEnabled(false)
+    setValue("timezone", props.tzName)
+  }
+  const handleTimezoneEditSave = () => {
+    setIsTimezoneEditEnabled(false)
+  }
   const stationTypeOptionsJSX = (stationTypeListData?.data?.Items || []).map(
     station => (
       <MenuItem value={station.stationType} key={station.sk}>
@@ -426,6 +435,12 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       className={classes.timezoneStyles}
                       timezone={value}
                       setTimezone={onChange}
+                      isTimezoneEditEnabled={isTimezoneEditEnabled}
+                      handleTimezoneEditEnable={handleTimezoneEditEnable}
+                      handleTimezoneEditDisable={handleTimezoneEditDisable}
+                      handleTimezoneEditSave={handleTimezoneEditSave}
+                      getValues={getValues}
+                      addSearchIconToEndAdornmentTop={'0px'}
                     />
                   )}
                 />

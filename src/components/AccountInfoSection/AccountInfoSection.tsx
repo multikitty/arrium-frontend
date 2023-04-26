@@ -93,10 +93,12 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
   const [selectedTimezone, setSelectedTimezone] = useState(
     data?.tzName || Intl.DateTimeFormat().resolvedOptions().timeZone
   )
+
   const [phoneNo, setPhoneNo] = useState(data?.phoneNumber || "")
   const [phoneCountry, setPhoneCountry] = useState(
     data?.countryCode || localStorageUtils.get(COUNTRY_CODE) || DEFAULT_COUNTRY
   )
+  const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] = useState(false)
   const [dialCode, setDialCode] = useState(data?.dialCode || "")
   const [phoneNumberError, setPhoneNumberError] = useState(false)
   const [isPhoneInputDirty, setIsPhoneInputDirty] = useState(false)
@@ -168,7 +170,6 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     setDialCode(countryDialCode)
     setIsPhoneInputDirty(true)
   }
-
   useEffect(validateRawPhoneNumber, [phoneNo])
 
   useEffect(() => {
@@ -184,7 +185,6 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
 
     setIsButtonDisabled(disableButtonCondition)
   }, [phoneNo, selectedTimezone, firstName, surName, country])
-
   useEffect(() => {
     if (!!data) {
       const countryData = getFilteredCountries([
@@ -209,8 +209,21 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     setSelectedTimezone(geolocationData.timezone.id)
   }, [geolocationData, data])
 
-  if (isLoading) return <LoadingScreen />
+  const handleTimezoneEditEnable = () => {
+    setIsTimezoneEditEnabled(true)
+  }
+  const handleTimezoneEditDisable = () => {
+    setIsTimezoneEditEnabled(false)
+    setSelectedTimezone(data?.tzName || Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }
+  const handleTimezoneEditSave = () => {
+    setIsTimezoneEditEnabled(false)
+  }
 
+  const getValuesTimezone = () => {
+    return selectedTimezone
+  }
+  if (isLoading) return <LoadingScreen />
   return (
     <React.Fragment>
       {isWebView ? (
@@ -266,12 +279,19 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
           <StyledFieldLabel $isHidden={!selectedTimezone}>
             Timezone
           </StyledFieldLabel>
+
           <TimezoneAutocomplete
             size="medium"
             placeholder="Choose timezone"
             className={classes.timezoneStyles}
             timezone={selectedTimezone}
             setTimezone={(tz: string | null) => setSelectedTimezone(tz || "")}
+            isTimezoneEditEnabled={isTimezoneEditEnabled}
+            handleTimezoneEditEnable={handleTimezoneEditEnable}
+            handleTimezoneEditDisable={handleTimezoneEditDisable}
+            handleTimezoneEditSave={handleTimezoneEditSave}
+            getValues={getValuesTimezone}
+            addSearchIconToEndAdornmentTop={'0px'}
           />
           <StyledButton
             variant="contained"
@@ -366,6 +386,12 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
               className={classes.timezoneStyles}
               timezone={selectedTimezone}
               setTimezone={(tz: string | null) => setSelectedTimezone(tz || "")}
+              isTimezoneEditEnabled={isTimezoneEditEnabled}
+              handleTimezoneEditEnable={handleTimezoneEditEnable}
+              handleTimezoneEditDisable={handleTimezoneEditDisable}
+              handleTimezoneEditSave={handleTimezoneEditSave}
+              getValues={getValuesTimezone}
+              addSearchIconToEndAdornmentTop={'0px'}
             />
             <StyledButton
               variant="contained"
