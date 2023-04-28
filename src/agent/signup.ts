@@ -33,6 +33,16 @@ export const updateAccountInfo: MutationFunction<
   ).data
 }
 
+export const updatePhoneNumber: MutationFunction<
+  AccountInfoResult,
+  AccountInfoVariables
+> = async updatedAccountInfo => {
+  console.log("updatedAccountInfo", updatedAccountInfo)
+  return await (
+    await arriumAPI.post("/user/update-phone-number", updatedAccountInfo)
+  ).data
+}
+
 export const resendOtp: MutationFunction<ResendOtpResult> = async () => {
   return await (
     await arriumAPI.post("/user/send-otp")

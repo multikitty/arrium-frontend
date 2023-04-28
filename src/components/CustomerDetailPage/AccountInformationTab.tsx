@@ -202,7 +202,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   }
 
   type FormPropType = typeof accountInformationOptions.defaultValues
-
   const { handleSubmit, control, formState, getValues, setValue } =
     useForm<FormPropType>({
       resolver: accountInformationOptions.resolver,
@@ -239,7 +238,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       firstname: getValues("firstName"),
       lastname: getValues("surName"),
       dialCode: dialCode.replaceAll("+", ""),
-      phoneNumber: getValues("phoneNumber"),
+      phoneNumber: getValues("phoneNumber").replace('+', "").slice(dialCode.length).replace(' ', ""),
       startDate,
       status: getValues("status"),
       tzName: getValues("timezone"),
@@ -252,7 +251,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       zendeskUserID: zendeskUserID.toString(),
       currentSteps: getValues("isEmailVerified") === 'true' ? "finished" : "holding"
     }
-
     await mutate(mutationParams, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
@@ -436,10 +434,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 render={({ field: { onChange, value } }) => (
                   <ReactPhoneInput
                     country={userStore?.lowerCaseCountry}
-                    // onChange={(_, countryData: CountryData, e) => {
-                    //   setDialCode(countryData?.dialCode)
-                    //   onChange(e)
-                    // }}
+                    onChange={(_, countryData: CountryData, e, formattedValue) => {
+                      setDialCode(countryData?.dialCode)
+                      onChange(e)
+                    }}
                     value={value ? value : null}
                     containerClass={classes.telephoneInputContainer}
                     inputStyle={{

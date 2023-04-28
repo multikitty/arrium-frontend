@@ -175,10 +175,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                   <img src={currentUserData.data.phoneVerified ? CheckCircleOutlineIcon : CheckCircleUnverifiedOutlineIcon} width={24} />
                 </Box>
                 <StyledProfileDropdownUpperSectionVerificationText>
-                  {`+${currentUserData.data.dialCode}${getRawPhoneNumber(
-                    currentUserData.data.phoneNumber,
-                    currentUserData.data.dialCode
-                  )}`}
+                  {`+${currentUserData.data.dialCode}${currentUserData.data.phoneNumber}`}
                 </StyledProfileDropdownUpperSectionVerificationText>
                 <StyledFlexGrow />
                 {!currentUserData.data.phoneVerified && (

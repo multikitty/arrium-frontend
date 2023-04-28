@@ -130,6 +130,7 @@ export interface UpdateUserAccountInfoVariables {
   endDate: number | null
   passwordChangeRequest: boolean
   zendeskUserID: string
+  currentSteps?: string
 }
 
 export interface UpdateUserAccountInfoError

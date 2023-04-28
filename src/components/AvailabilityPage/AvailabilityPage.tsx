@@ -185,7 +185,6 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
       })),
     })
   }, [preferenceData])
-
   const handleClick = (item: WeekType) => {
     const activeChips = weekData.filter(data => data.active)
     const activeChipCount = activeChips.length

@@ -32,8 +32,9 @@ import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 import { formatToMMSS } from "@/utils/formatToMMSS"
+import LinkButtonResendCode from "../commons/Button/LinkButtonResendCode"
 
-interface OtpConfirmationSectionProps extends FormProps, PageProps {}
+interface OtpConfirmationSectionProps extends FormProps, PageProps { }
 
 const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   setFormStage,
@@ -164,16 +165,18 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
             alignItems="center"
             marginTop={rem("32px")}
           >
-            <LinkButton
-              sx={{ marginBottom: "0.5rem",
-              color: seconds === 0 ? "#3071F2" : "inherit" }}
+            <LinkButtonResendCode
+              sx={{
+                marginBottom: "0.5rem",
+                color: seconds < 0 ? "#3071F2" : "inherit"
+              }}
               variant="text"
               onClick={handleResendOtp}
               disabled={seconds > 0}
             >
               Resend Code{" "}
               {seconds > 0 ? `(${formatToMMSS(seconds.toString())})` : ""}
-            </LinkButton>
+            </LinkButtonResendCode>
             <LinkButton variant="text" onClick={handlePhoneNumberChange}>
               Change Phone Number
             </LinkButton>

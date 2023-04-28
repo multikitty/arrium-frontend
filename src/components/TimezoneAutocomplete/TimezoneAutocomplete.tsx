@@ -80,8 +80,6 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
   const [open, setOpen] = React.useState(false)
   const [options, setOptions] = React.useState<string[]>([])
   const { data: timezoneList } = useAllTimezonesList()
-
-  console.log("addSearchIconToEndAdornmentTop", addSearchIconToEndAdornmentTop)
   const loading = open && options.length === 0
   React.useEffect(() => {
     let active = true

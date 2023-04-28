@@ -112,6 +112,13 @@ export const StyledProfileTabContentActionButtons = styled.div`
   justify-content: flex-end;
 `
 
+
+export const StyledProfileTabPhoneInputBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  position:relative;
+`
+
 export const StyledFlexAccountTabContent = styled(StyledProfileTabContent)``
 
 export const StyledFlexAccountTabContentFieldHelperText = styled(

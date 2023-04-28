@@ -20,12 +20,12 @@ import {
   OtpConfirmationVariables,
   ResendOtpResult,
 } from "@/lib/interfaces/signup"
-import { confirmOtp, resendOtp, updateAccountInfo } from "@/agent/signup"
+import { confirmOtp, resendOtp, updatePhoneNumber } from "@/agent/signup"
 import { useSnackbar } from "notistack"
-import { timeFromNowInMs } from "@/utils"
+import { removeAllWhiteSpaces, timeFromNowInMs } from "@/utils"
 import useCountDown from "@/hooks/useCountDown"
 import { formatToMMSS } from "@/utils/formatToMMSS"
-import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
+import LinkButtonResendCode from "../commons/Button/LinkButtonResendCode"
 
 interface UpdatePhoneNumberModalProps
   extends Omit<AccountInfoVariables, "phoneNumber"> {
@@ -49,7 +49,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
     AccountInfoResult,
     Error,
     AccountInfoVariables
-  >(updateAccountInfo)
+  >(updatePhoneNumber)
   const { mutate } = useMutation<
     OtpConfirmationResult,
     Error,
@@ -127,13 +127,10 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
       },
     })
   }
-
   const handleSendOtp = async () => {
-    const phoneNumber = props.newPhoneNumber
-
     const variables: AccountInfoVariables = {
       country: props.country,
-      phoneNumber,
+      phoneNumber: removeAllWhiteSpaces(props.newPhoneNumber.replaceAll("-", "")).replaceAll("+", "").slice(props.dialCode.length).replace(' ', ""),
       dialCode: props.dialCode.replaceAll("+", ""),
       firstname: props.firstname,
       lastname: props.lastname,
@@ -195,14 +192,18 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
             alignItems="center"
             marginTop={rem("32px")}
           >
-            <LinkButton
-              sx={{ marginBottom: rem("44px") }}
+            <LinkButtonResendCode
+              sx={{
+                marginBottom: rem("44px"),
+                color: seconds < 0 ? "#3071F2" : "inherit"
+              }}
               variant="text"
               onClick={handleResendOtp}
+              disabled={seconds > 0}
             >
               Resend Code{" "}
               {seconds > 0 ? `(${formatToMMSS(seconds.toString())})` : ""}
-            </LinkButton>
+            </LinkButtonResendCode>
             <ContainedButton
               sx={{ width: "100%" }}
               disabled={otp.length !== 4}
@@ -213,7 +214,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
           </Box>
         </StyledUpdatePhoneNumberModalForm>
       </StyledUpdatePhoneNumberModal>
-    </Modal>
+    </Modal >
   )
 }
 
