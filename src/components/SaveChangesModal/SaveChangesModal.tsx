@@ -14,6 +14,7 @@ import { ContainedButton, OutlinedButton } from "../commons/Button"
 interface SaveChangesModal {
   open: boolean
   handleClose: () => void
+  handleNavigateToCustomersPage: () => void
   handleSave: () => void
   noSubHeader?: boolean
 }
@@ -47,7 +48,7 @@ const SaveChangesModal = (props: SaveChangesModal) => {
           <OutlinedButton
             grey
             sx={{ width: "100%" }}
-            onClick={props.handleClose}
+            onClick={props.handleNavigateToCustomersPage}
           >
             Cancel
           </OutlinedButton>

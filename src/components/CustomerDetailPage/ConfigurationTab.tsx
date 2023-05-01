@@ -138,6 +138,29 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
     })
   }
 
+
+  const handleCancelUpdate = () => {
+
+    if (configData?.data) {
+      if (
+        configData?.data?.regionCode !== getValues("region") ||
+        configData?.data?.usrAgent !== getValues("userAgent") ||
+        configData?.data?.refToken !== getValues("refreshToken") ||
+        configData?.data?.flexID !== getValues("flexID") ||
+        configData?.data?.country !== getValues("country") ||
+        configData?.data?.amznFlexUser !== getValues("amznFlexUser") ||
+        configData?.data?.amznFlexPassword !== getValues("amznFlexPassword") ||
+        configData?.data?.accToken !== getValues("accessToken")
+      ) {
+        props.handleCancel()
+      } else {
+        props.handleNavigateToCustomersPage()
+      }
+    } else {
+
+      props.handleNavigateToCustomersPage()
+    }
+  }
   React.useEffect(() => {
     if (!configData?.data) return
     reset({
@@ -381,7 +404,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
           <OutlinedButton
             grey
             sx={{ mr: rem("12px") }}
-            onClick={props.handleCancel}
+            onClick={handleCancelUpdate}
           >
             Cancel
           </OutlinedButton>

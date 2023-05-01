@@ -102,6 +102,7 @@ const radioOptions = [
 
 export interface TabProps {
   handleSave: () => void
+  handleNavigateToCustomersPage: () => void
   handleCancel: () => void
   refCode?: string
 }
@@ -117,7 +118,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   const {
     refetchCustomerData,
     isLoading,
-    handleSave,
+    handleNavigateToCustomersPage,
     handleCancel,
     zendeskUserID,
     ...rest
@@ -200,7 +201,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     handleSendAccountApprovedEmailModalClose()
     handleUpdateAccountInfo()
   }
-
   type FormPropType = typeof accountInformationOptions.defaultValues
   const { handleSubmit, control, formState, getValues, setValue } =
     useForm<FormPropType>({
@@ -336,6 +336,30 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   }
   const handleTimezoneEditSave = () => {
     setIsTimezoneEditEnabled(false)
+  }
+
+  const handleCancelUpdate = () => {
+    if (
+      getValues("email") !== rest.email ||
+      getValues("isEmailVerified") !== rest.emailVerified ||
+      getValues("firstName") !== rest.firstname ||
+      getValues("surName") !== rest.lastname ||
+      dialCode.replaceAll("+", "") !== rest.dialCode ||
+      getValues("phoneNumber").replace('+', "").slice(dialCode.length).replace(' ', "") !== rest.phoneNumber ||
+      getValues("startDate") !== rest.startDate ||
+      getValues("status") !== rest.accountStatus ||
+      getValues("timezone") !== rest.tzName ||
+      getValues("role") !== rest.role ||
+      getValues("planType") !== rest.planType ||
+      getValues("sendAccountApprovedEmail") === true ||
+      getValues("enablePricingPlan") === true ||
+      getValues("stationType") !== rest.stationType ||
+      getValues("endDate") !== rest.endDate
+    ) {
+      props.handleCancel()
+    } else {
+      handleNavigateToCustomersPage()
+    }
   }
   const stationTypeOptionsJSX = (stationTypeListData?.data?.Items || []).map(
     station => (
@@ -868,7 +892,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           <OutlinedButton
             grey
             sx={{ mr: rem("12px") }}
-            onClick={props.handleCancel}
+            onClick={handleCancelUpdate}
           >
             Cancel
           </OutlinedButton>

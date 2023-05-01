@@ -86,6 +86,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
         open={isSaveChangesModalOpen}
         handleClose={handleSaveChangesModalClose}
         handleSave={handleSave}
+        handleNavigateToCustomersPage={handleNavigateToCustomersPage}
       />
       <StyledCustomerDetailPageHeaderContainer>
         <Box display="flex">
@@ -152,6 +153,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
           <AccountInformationTab
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
+            handleNavigateToCustomersPage={handleNavigateToCustomersPage}
             {...customerData.data}
             sk={sk}
             pk={pk}
@@ -168,6 +170,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             sk={sk}
             zendeskUserId={customerData?.data?.zendeskUserID?.toString() || ""}
             refetchCustomerData={refetch}
+            handleNavigateToCustomersPage={handleNavigateToCustomersPage}
           />
         )}
         {isReferralTabOpen && (
@@ -175,6 +178,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
             handleSave={handleSave}
             handleCancel={handleSaveChangesModalOpen}
             refCode={customerData?.data?.refCode}
+            handleNavigateToCustomersPage={handleNavigateToCustomersPage}
           />
         )}
       </StyledCustomerDetailPageContent>

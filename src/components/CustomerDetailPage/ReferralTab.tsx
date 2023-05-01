@@ -45,6 +45,13 @@ const ReferralTab = (props: TabProps) => {
     userpk: userStore.currentUser!.pk,
   })
 
+  const handleCancelUpdate = () => {
+    if (refCodeDetails) {
+      props.handleCancel()
+    } else {
+      props.handleNavigateToCustomersPage()
+    }
+  }
   React.useEffect(() => {
     const findRefCodeDetails: ReferralListByCreatorResultData[] | undefined = referralListData?.data?.Items.filter(item => props?.refCode === item.refCode)
     if (findRefCodeDetails?.[0]) setRefCodeDetails(findRefCodeDetails?.[0])
@@ -181,7 +188,7 @@ const ReferralTab = (props: TabProps) => {
           <OutlinedButton
             grey
             sx={{ mr: rem("12px") }}
-            onClick={props.handleCancel}
+            onClick={handleCancelUpdate}
           >
             Cancel
           </OutlinedButton>
