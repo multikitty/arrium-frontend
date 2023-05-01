@@ -20,8 +20,27 @@ import { PageProps } from "@/lib/interfaces/common"
 import { Box } from "@mui/material"
 import { useCurrentUser } from "@/agent/user"
 import LoadingScreen from "@/components/LoadingScreen/LoadingScreen"
+import {
+  StyledNoSearchResultsText as StyledNoInvoicesText,
+  StyledNoSearchResultsTitle as StyledNoInvoicesTitle,
+} from "../AvailabilityPage/AvailabilityPage.styled"
+interface ISubscriptionPageProps extends PageProps { }
 
-interface ISubscriptionPageProps extends PageProps {}
+const NoInvoices = () => (
+  <Box
+    display="flex"
+    flexDirection="column"
+    my={6}
+    width="100%"
+    justifyContent="center"
+    alignItems="center"
+  >
+    <StyledNoInvoicesTitle>No invoices to show</StyledNoInvoicesTitle>
+    <StyledNoInvoicesText>
+      There is no billing data, so far.
+    </StyledNoInvoicesText>
+  </Box>
+)
 
 const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
   country_code,
@@ -39,7 +58,7 @@ const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
   }
 
   if (isLoading) return <LoadingScreen />
-
+  console.log("currentUserData", currentUserData)
   return (
     <StyledSubscriptionPage>
       <StyledSubscriptionPageHeaderContainer>
@@ -82,6 +101,7 @@ const SubscriptionPage: React.FC<ISubscriptionPageProps> = ({
           </StyledTabs>
         </Box>
         {/* Tab View */}
+        {!currentUserData?.data?.pricingPlan && <NoInvoices />}
         {tab === SUBSCRIPTION_PAGE_TABS.subscription && (
           <SubscriptionTab country_code={country_code} />
         )}

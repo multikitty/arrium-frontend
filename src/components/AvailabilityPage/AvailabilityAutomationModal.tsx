@@ -57,6 +57,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
     if (open === true) {
       fetchPreferencesSchedule().then(res => {
         if (res?.data?.length !== 0) {
+          setIsloading(false)
           methods.reset({
             data: res?.data?.map((value: GetPrefrencesScheduleResultData) => ({
               startTime:
@@ -67,7 +68,6 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
               day: value.asDay,
             })),
           })
-          setIsloading(false)
         }
       })
     }
