@@ -158,9 +158,9 @@ const ReadOnlySearchTable = () => {
                   >
                     {data?.startTime !== null
                       ? new Date(data?.startTime).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
                       : "-"}
                   </TableCell>
                   <TableCell
@@ -175,9 +175,9 @@ const ReadOnlySearchTable = () => {
                   >
                     {data?.endTime !== null
                       ? new Date(data.endTime).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
                       : "-"}
                   </TableCell>
                   <TableCell
@@ -246,9 +246,9 @@ const ReadOnlySearchTable = () => {
                   <StyledSubscriptionTabInvoiceItemValue>
                     {data?.startTime !== null
                       ? new Date(data?.startTime).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
                       : "-"}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>
@@ -259,9 +259,9 @@ const ReadOnlySearchTable = () => {
                   <StyledSubscriptionTabInvoiceItemValue>
                     {data?.endTime !== null
                       ? new Date(data.endTime).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
                       : "-"}
                   </StyledSubscriptionTabInvoiceItemValue>
                 </StyledSubscriptionTabInvoiceItem>

@@ -160,7 +160,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
     if (!preferenceData?.data) return
     methods.reset({
       data: preferenceData.data.map((value: GetPrefrencesResultData) => ({
-        location: `${value.station.stationName} (${value.station.stationCode})`,
+        location: `${value.station.stationName}`,
         checked: value?.preference?.active === "Y" ? true : false,
         timeToArrive: value?.preference?.tta,
         startTime:
@@ -214,11 +214,25 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
     methods.reset({
       data:
         preferenceData?.data?.map((value: GetPrefrencesResultData) => ({
-          location: `${value.station.stationName} (${value.station.stationCode}) - ${value.station.regionCode}`,
-          checked: false,
-          timeToArrive: value.preference.tta,
-          startTime: null,
-          endTime: null,
+          location: `${value.station.stationName}`,
+          checked: value?.preference?.active === "Y" ? true : false,
+          timeToArrive: value?.preference?.tta,
+          startTime:
+            value.preference?.bStartTime !== ""
+              ? createDateInHM(
+                Number(value.preference?.bStartTime?.split(":")[0]),
+                Number(value.preference?.bStartTime?.split(":")[1])
+              )
+              : null,
+          endTime:
+            value.preference?.bEndTime !== ""
+              ? createDateInHM(
+                Number(value.preference?.bEndTime?.split(":")[0]),
+                Number(value.preference?.bEndTime?.split(":")[1])
+              )
+              : null,
+          minimumPay: value.preference.minPay,
+          minimumHourlyRate: value.preference.minHourlyRate,
           stationCode: value.station.stationCode,
           stationId: value.station.stationID,
           regionId: value.station.regionID,
