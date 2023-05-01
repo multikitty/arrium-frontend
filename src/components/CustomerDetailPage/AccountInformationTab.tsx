@@ -559,19 +559,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               <StyledAccountInformationTabFormLabel>
                 Role
               </StyledAccountInformationTabFormLabel>
-              <Controller
-                name={"role"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Select
-                    onChange={onChange}
-                    value={value}
-                    error={!!formState.errors?.role}
-                    input={<StyledAccountInformatiomTabContentField />}
-                  >
-                    {renderRoleOptions}
-                  </Select>
-                )}
+              <StyledAccountInformatiomTabContentField
+                value={getValues("role")}
+                readOnly
+                disabled
               />
               {!!formState.errors?.role && (
                 <HelperText type="large">

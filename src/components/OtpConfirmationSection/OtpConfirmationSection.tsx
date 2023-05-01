@@ -177,7 +177,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
               Resend Code{" "}
               {seconds > 0 ? `(${formatToMMSS(seconds.toString())})` : ""}
             </LinkButtonResendCode>
-            <LinkButton variant="text" onClick={handlePhoneNumberChange}>
+            <LinkButton variant="text" onClick={handlePhoneNumberChange} style={{ color: "#3071F2" }}>
               Change Phone Number
             </LinkButton>
           </Box>
@@ -239,7 +239,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
               >
                 Resend Code {seconds > 0 ? `(${seconds})` : ""}
               </LinkButton>
-              <LinkButton variant="text" onClick={handlePhoneNumberChange}>
+              <LinkButton variant="text" onClick={handlePhoneNumberChange} style={{ color: "#3071F2" }}>
                 Change Phone Number
               </LinkButton>
             </Box>
