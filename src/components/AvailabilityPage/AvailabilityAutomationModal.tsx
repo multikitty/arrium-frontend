@@ -86,11 +86,23 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
 
   const onSubmit = async (schedules: FormValuesAutomationSchedule) => {
     const apiData = schedules.data.map(obj => {
+      // Example time in local time zone
+      const localTime = new Date(obj.startTime).toLocaleTimeString([], {
+        hour12: false,
+      });
+
+      // Current date in local time zone
+      const localDate = moment().format('YYYY-MM-DD');
+
+      // Combine date and time into a moment object
+      const localDateTime = moment(`${localDate}T${localTime}`);
+
+      // Convert to UTC
+      const utcDateTime = localDateTime.utc();
+
       return {
         day: obj.day,
-        startTime: new Date(obj.startTime).toLocaleTimeString([], {
-          hour12: false,
-        }),
+        startTime: utcDateTime.format('HH:mm:ss'),
         active: obj.active,
       }
     })
