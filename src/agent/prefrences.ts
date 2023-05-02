@@ -4,6 +4,7 @@ import {
   SetPrefrencesResult,
   SetPrefrencesScheduleVariables,
   SetPrefrencesVariables,
+  UsePreferencesVariables,
 } from "@/lib/interfaces/prefrences"
 import { MutationFunction, useQuery } from "react-query"
 import { arriumAPI } from "./axios"
@@ -17,12 +18,18 @@ export const setPrefrences: MutationFunction<
   ).data
 }
 
-export async function fetchPreferencesData(): Promise<GetPrefrencesResult> {
-  return await arriumAPI.get("/preference").then(response => response?.data)
+export async function fetchPreferencesData(
+  params: UsePreferencesVariables
+): Promise<GetPrefrencesResult> {
+  return await arriumAPI
+    .get(`/preference?day=${params.day}`)
+    .then(response => response?.data)
 }
 
-export function usePreferences() {
-  return useQuery("get-preference-data", () => fetchPreferencesData())
+export function usePreferences(params: UsePreferencesVariables) {
+  return useQuery("get-preference-data", () =>
+    fetchPreferencesData({ day: params.day })
+  )
 }
 
 export async function fetchPreferencesSchedule(): Promise<GetPrefrencesScheduleResult> {

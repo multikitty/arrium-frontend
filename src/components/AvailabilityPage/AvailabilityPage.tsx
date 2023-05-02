@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Box,
   FormControlLabel,
@@ -128,14 +128,20 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
   const [weekData, setWeekData] = useState<WeekType[]>(initialWeekData)
+  const [activeWeekData, setActiveWeekData] = useState<WeekType[]>(initialWeekData)
   const [taskId, setTaskId] = useState(localStorageUtils.get(TASK_ID) || "")
   const [isExpanded, setIsExpanded] = useState(true)
   const [isSearching, setIsSearching] = useState(taskId ? true : false)
   const [isSearchable, setIsSearchable] = useState(false)
-  const { data: preferenceData, isLoading, refetch } = usePreferences()
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState(false)
   const isPremiumUser = userStore.currentUser?.planType === Plans.premium
-
+  const { data: preferenceData, isLoading, refetch } = usePreferences({ day: isPremiumUser ? activeWeekData?.[0]?.value : undefined })
+  useEffect(() => {
+    refetch()
+  }, [activeWeekData?.[0]?.value])
+  useEffect(() => {
+    setActiveWeekData(weekData.filter((item) => item.active))
+  }, [weekData])
   const isEnableIdentityScript =
     userStore.currentUser &&
     userStore.currentUser.customerID &&

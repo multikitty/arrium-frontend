@@ -111,7 +111,7 @@ const ReadOnlySearchTable = () => {
           {methods
             .getValues()
             ?.data?.map((data: FormValues["data"][0], index: number) => {
-              return (
+              return data?.checked ? (
                 <TableRow
                   key={index}
                   sx={{
@@ -210,7 +210,7 @@ const ReadOnlySearchTable = () => {
                     {data.minimumHourlyRate || "-"}
                   </TableCell>
                 </TableRow>
-              )
+              ) : null
             })}
         </TableBody>
       </Table>
@@ -220,7 +220,7 @@ const ReadOnlySearchTable = () => {
       {methods
         .getValues()
         ?.data?.map((data: FormValues["data"][0], index: number) => {
-          return (
+          return data?.checked ? (
             <StyledSubscriptionTabInvoice key={index}>
               <StyledSubscriptionTabInvoiceHeader>
                 <StyledSubscriptionTabInvoiceHeaderTitle>
@@ -287,7 +287,7 @@ const ReadOnlySearchTable = () => {
                 </StyledSubscriptionTabInvoiceItem>
               </StyledSubscriptionTabInvoiceItemsContainer>
             </StyledSubscriptionTabInvoice>
-          )
+          ) : null
         })}
     </StyledReadOnlySearchTableContainer>
   )

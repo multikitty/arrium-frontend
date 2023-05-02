@@ -88,3 +88,7 @@ export interface SetPrefrencesScheduleVariableData {
   startTime: string
   active: boolean
 }
+
+export interface UsePreferencesVariables {
+  day?: string | undefined
+}
