@@ -89,7 +89,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
               }}
               align="left"
             >
-              Day
+              Status
             </TableCell>
             <TableCell
               sx={{
@@ -139,18 +139,6 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
             >
               Pay
             </TableCell>
-            <TableCell
-              sx={{
-                fontFamily: "Inter",
-                fontWeight: 600,
-                fontSize: rem("16px"),
-                lineHeight: rem("20px"),
-                color: theme.palette.grey6,
-              }}
-              align="left"
-            >
-              Status
-            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -174,7 +162,33 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   scope="row"
                 >
-                  {row.stationName} ({row.stationCode})
+
+                  {row.stationName ? row.stationName : row.stationName && row.stationCode ? `${row.stationName} (${row.stationCode})` : "-"}
+
+                </TableCell>
+
+                <TableCell
+                  sx={{
+                    fontFamily: "Inter",
+                    fontWeight: "normal",
+                    fontSize: rem("16px"),
+                    lineHeight: rem("20px"),
+                    color: theme.palette.blackText,
+                  }}
+                  align="left"
+                >
+                  <Chip
+                    label={[row.sessionStatus]}
+                    sx={{
+                      fontFamily: "Inter",
+                      fontSize: "14px",
+                      fontStyle: "normal",
+                      fontWeight: 600,
+                      lineHeight: "20px",
+                      color: "white",
+                      background: availabilityStatusColorMap[row.sessionStatus],
+                    }}
+                  />
                 </TableCell>
                 <TableCell
                   sx={{
@@ -186,19 +200,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   }}
                   align="left"
                 >
-                  {moment(row?.sessionTime).format('ddd')}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  {moment(row?.sessionTime).format('MMM YY')}
+                  {moment(row?.sessionTime).format('ddd MMM YY')}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -243,29 +245,6 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   {currencyCodeToCurrencySymbol(row?.currency)}
                   {row.price}
                 </TableCell>
-                <TableCell
-                  sx={{
-                    fontFamily: "Inter",
-                    fontWeight: "normal",
-                    fontSize: rem("16px"),
-                    lineHeight: rem("20px"),
-                    color: theme.palette.blackText,
-                  }}
-                  align="left"
-                >
-                  <Chip
-                    label={[row.sessionStatus]}
-                    sx={{
-                      fontFamily: "Inter",
-                      fontSize: "14px",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                      lineHeight: "20px",
-                      color: "white",
-                      background: availabilityStatusColorMap[row.sessionStatus],
-                    }}
-                  />
-                </TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -303,7 +282,7 @@ const AvailabilityTable: React.FC<AvailabilityTableProps> = ({ tab }) => {
                   Location
                 </StyledAvailabilityTableHeaderTitle>
                 <StyledAvailabilityTableHeaderText>
-                  {row.stationName} ({row.stationCode})
+                  {row.stationName ? row.stationName : row.stationName && row.stationCode ? `${row.stationName} (${row.stationCode})` : "NA"}
                 </StyledAvailabilityTableHeaderText>
               </StyledAvailabilityTableHeader>
               <StyledAvailabilityTableItemsContainer>
