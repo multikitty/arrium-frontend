@@ -23,6 +23,9 @@ import AutomationScheduleTable from "./AutomationScheduleTable"
 import { useSnackbar } from "notistack"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
 
 interface AutomationScheduleProps extends PageProps {}
 
@@ -30,7 +33,7 @@ const AutomationSchedulePage: React.FC<AutomationScheduleProps> = ({
   country_code,
 }) => {
   const { navigate } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const handleBackToAvailabilityPage = () => {
     navigate(routes.availability)
   }
@@ -44,9 +47,10 @@ const AutomationSchedulePage: React.FC<AutomationScheduleProps> = ({
   const onSubmit = () =>
     // data: AutomationScheduleType
     {
-      enqueueSnackbar("Automation Schedule Successfully Updated!", {
-        variant: "success",
-      })
+      toast.success("Automation Schedule Successfully Updated!")
+      // {
+      //   variant: "success",
+      // }
     }
 
   const handleCancel = () => {
@@ -61,6 +65,7 @@ const AutomationSchedulePage: React.FC<AutomationScheduleProps> = ({
       handleSubmit={handleSubmit}
       {...methods}
     >
+      <ToastNotification/>
       <StyledAutomationSchedulePage>
         <StyledAutomationSchedulePageHeader isSubHeaderBelow>
           Automation Schedule

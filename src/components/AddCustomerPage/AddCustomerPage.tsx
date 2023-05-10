@@ -29,6 +29,9 @@ import BillingTab from "@/components/AddCustomerPage/BillingTab"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 import SaveChangesModal from "@/components/SaveChangesModal"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
 
 interface AddCustomersPageProps extends PageProps {}
 
@@ -37,7 +40,7 @@ const AddCustomerPage: React.FC<AddCustomersPageProps> = ({ country_code }) => {
     navigate,
     navigateWithQuery: { navigateToAddCustomerPage },
   } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const location = useLocation()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [role, setRole] = React.useState<UserRolesType>(UserRoles.driver)
@@ -61,9 +64,10 @@ const AddCustomerPage: React.FC<AddCustomersPageProps> = ({ country_code }) => {
   }
 
   const handleSave = () => {
-    enqueueSnackbar("Customer Details Added Successfully", {
-      variant: "success",
-    })
+    // enqueueSnackbar("Customer Details Added Successfully", {
+    //   variant: "success",
+    // })
+    toast.success("Customer Details Added Successfully");
     handleNavigateToCustomersPage()
   }
 
@@ -84,6 +88,7 @@ const AddCustomerPage: React.FC<AddCustomersPageProps> = ({ country_code }) => {
 
   return (
     <StyledAddCustomerPage>
+    <ToastNotification />
       <SaveChangesModal
         noSubHeader
         open={isSaveChangesModalOpen}

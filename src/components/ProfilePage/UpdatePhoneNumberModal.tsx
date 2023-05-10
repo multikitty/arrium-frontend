@@ -21,11 +21,15 @@ import {
   ResendOtpResult,
 } from "@/lib/interfaces/signup"
 import { confirmOtp, resendOtp, updatePhoneNumber } from "@/agent/signup"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import { removeAllWhiteSpaces, timeFromNowInMs } from "@/utils"
 import useCountDown from "@/hooks/useCountDown"
 import { formatToMMSS } from "@/utils/formatToMMSS"
 import LinkButtonResendCode from "../commons/Button/LinkButtonResendCode"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface UpdatePhoneNumberModalProps
   extends Omit<AccountInfoVariables, "phoneNumber"> {
@@ -37,7 +41,7 @@ interface UpdatePhoneNumberModalProps
 }
 
 const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [otp, setOtp] = useState("")
   const [countOtpResent, setCountOtpResent] = useState(0)
   const [countSubmitError, setCountSubmitError] = useState(0)
@@ -67,12 +71,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
     e.preventDefault()
     const newCountSubmitError = countSubmitError + 1
     if (newCountSubmitError === 3) {
-      enqueueSnackbar(
-        "Incorrect passcode for a 3rd time! Press 'resend code' to get a new passcode",
-        {
-          variant: "error",
-        }
-      )
+      toast.error("Incorrect passcode for a 3rd time! Press 'resend code' to get a new passcode")
       setTimeout(() => {
         props.handleClose()
       }, 3000)
@@ -84,16 +83,12 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(validationError?.otp || message, {
-              variant: "error",
-            })
+            toast.error(validationError?.otp || message)
             setCountSubmitError(newCountSubmitError)
             setOtp("")
             return
           }
-          enqueueSnackbar(message, {
-            variant: "success",
-          })
+          toast.success(message)
           props.refetchCurrentUser()
           props.handlePhoneNumberChange()
           props.handleClose()
@@ -105,9 +100,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
   const handleResendOtp = async () => {
     const newCount = countOtpResent + 1
     if (newCount > 3) {
-      enqueueSnackbar("You have exceeded the number of attempts to resend a code. Try again in a short while.", {
-        variant: "error",
-      })
+      toast.error("You have exceeded the number of attempts to resend a code. Try again in a short while.")
       setTimeout(() => {
         props.handleClose()
       }, 3000)
@@ -117,9 +110,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
     await resendOtpMutate(undefined, {
       onSuccess({ success, message }) {
         if (!success) {
-          enqueueSnackbar(message, {
-            variant: "error",
-          })
+          toast.error(message)
           return
         }
         setCountOtpResent(newCount)
@@ -140,15 +131,14 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
     updateAccountInfoMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
             validationError?.country ||
             validationError?.phoneNumber ||
             validationError?.dialCode ||
             validationError?.firstname ||
             validationError?.lastname ||
             validationError?.tzName ||
-            message,
-            { variant: "error" }
+            message
           )
           return
         }
@@ -162,6 +152,7 @@ const UpdatePhoneNumberModal = (props: UpdatePhoneNumberModalProps) => {
 
   return (
     <Modal open={props.open} onClose={props.handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
+      <ToastNotification/>
       <StyledUpdatePhoneNumberModal>
         <StyledUpdatePhoneNumberModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>

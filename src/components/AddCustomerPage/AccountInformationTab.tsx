@@ -44,6 +44,9 @@ import { useSnackbar } from "notistack"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { capitalCase } from "change-case"
 import { useStationTypeList } from "@/agent/stationTypes"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -88,7 +91,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
   setRole,
   country_code,
 }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const {
     navigateWithQuery: { navigateToAddCustomerPage },
   } = useNavigate({ country_code })
@@ -154,8 +157,11 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
   ))
 
   const handleEndDatePickerClick = () => {
-    if (methods.getValues("startDate")) return setEndDatePickerOpen(true)
-    enqueueSnackbar("Please select Start Date first!", { variant: "error" })
+    if (methods.getValues("startDate")) {
+      return setEndDatePickerOpen(true);
+    }
+    // enqueueSnackbar("Please select Start Date first!", { variant: "error" })
+    toast.error("Please select Start Date first!");
   }
 
   const onSubmit = (data: FormPropType) => {
@@ -170,6 +176,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
 
   return (
     <StyledAccountInformationTab>
+    <ToastNotification />
       <StyledAccountInformationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={4}>

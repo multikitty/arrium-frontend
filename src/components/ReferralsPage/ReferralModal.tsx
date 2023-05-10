@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close"
 import { observer } from "mobx-react-lite"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 
 import {
   StyledReferralModal,
@@ -34,6 +34,10 @@ import {
 import Message from "@/components/Message"
 import { useUserByRole } from "@/agent/user"
 import Hidden from "@/components/Hidden"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 export interface ReferralModalProps {
   open: boolean
@@ -50,7 +54,7 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
   referralsData,
   refetchReferralsList,
 }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
 
   const isSalesAgent = role === UserRoles.sales
 
@@ -98,6 +102,48 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
           assignTo: data.assignTo!.pk,
         },
         {
+          // onSuccess({ success, message, validationError }) {
+          //   if (!success) {
+          //     const errorMessage =
+          //       validationError?.assignTo ||
+          //       validationError?.country ||
+          //       validationError?.numberOfReferral ||
+          //       validationError?.region ||
+          //       validationError?.station ||
+          //       message
+          //     enqueueSnackbar(errorMessage, {
+          //       persist: true,
+          //       anchorOrigin: {
+          //         vertical: "top",
+          //         horizontal: "right",
+          //       },
+          //       content: (key, message) => (
+          //         <Message
+          //           id={key}
+          //           title="Error"
+          //           text={message}
+          //           variant="error"
+          //         />
+          //       ),
+          //     })
+          //   }
+          //   enqueueSnackbar(message, {
+          //     anchorOrigin: {
+          //       vertical: "top",
+          //       horizontal: "right",
+          //     },
+          //     content: (key, message) => (
+          //       <Message
+          //         id={key}
+          //         title="Success!"
+          //         text={message}
+          //         variant="success"
+          //       />
+          //     ),
+          //   })
+          //   refetchReferralsList()
+          //   handleClose()
+          // },
           onSuccess({ success, message, validationError }) {
             if (!success) {
               const errorMessage =
@@ -106,39 +152,29 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
                 validationError?.numberOfReferral ||
                 validationError?.region ||
                 validationError?.station ||
-                message
-              enqueueSnackbar(errorMessage, {
-                persist: true,
-                anchorOrigin: {
-                  vertical: "top",
-                  horizontal: "right",
-                },
-                content: (key, message) => (
-                  <Message
-                    id={key}
-                    title="Error"
-                    text={message}
-                    variant="error"
-                  />
-                ),
-              })
-            }
-            enqueueSnackbar(message, {
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "right",
-              },
-              content: (key, message) => (
+                message;
+              toast.error(
                 <Message
-                  id={key}
+                  id="error-toast"
+                  title="Error"
+                  text={errorMessage}
+                  variant="error"
+                />,
+                { containerId: 'toast-container' }
+              );
+            } else {
+              toast.success(
+                <Message
+                  id="success-toast"
                   title="Success!"
                   text={message}
                   variant="success"
-                />
-              ),
-            })
-            refetchReferralsList()
-            handleClose()
+                />,
+                { containerId: 'toast-container' }
+              );
+              refetchReferralsList();
+              handleClose();
+            }
           },
         }
       )
@@ -165,6 +201,7 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
 
   return (
     <Modal open={open} onClose={handleClose}>
+      <ToastNotification/>
       <StyledReferralModal>
         <StyledReferralModalCloseIconContainer>
           <IconButton size="small" onClick={handleClose}>

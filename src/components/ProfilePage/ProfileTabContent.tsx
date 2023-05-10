@@ -46,6 +46,10 @@ import { UserType } from "@/types/auth"
 import { emailReg } from "@/constants/regex"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -86,7 +90,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
 }) => {
   const classes = useStyles()
   const { navigate, navigateToDefault } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { data: userData, isLoading, refetch } = useCurrentUser()
   const { mutate: updateProfileMutate } = useMutation<
@@ -173,24 +177,21 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.fieldName ||
               validationError?.fieldValue ||
-              message,
-              {
-                variant: "error",
-              }
+              message
             )
             return
           }
           let localStorageUserData: any = JSON.parse(localStorageUtils.get(USER) as string) as UserType
           localStorageUserData = { ...localStorageUserData, [params.fieldName]: params.fieldValue }
           localStorageUtils.set(USER, JSON.stringify(localStorageUserData)),
-            enqueueSnackbar("User details Updated successfully", { variant: "success" })
+          toast.success("User details Updated successfully")
           refetch()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
         },
       }
@@ -282,16 +283,14 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(validationError?.email || message, {
-              variant: "error",
-            })
+            toast.error(validationError?.email || message)
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetch()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -351,6 +350,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   };
   return (
     <StyledProfileTabContent>
+      <ToastNotification/>
       {isChangePasswordModalOpen && (
         <ChangePasswordModal
           open={isChangePasswordModalOpen}

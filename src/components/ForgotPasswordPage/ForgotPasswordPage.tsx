@@ -21,12 +21,16 @@ import {
   ForgotPasswordVariables,
 } from "@/lib/interfaces/forgotPassword"
 import { forgotPassword } from "@/agent/forgotPassword"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import { PageProps } from "@/lib/interfaces/common"
 import { StyledInstructionsText } from "./ForgotPasswordPage.styled"
 import InputField from "@/components/commons/InputField"
 import HelperText from "@/components/commons/HelperText"
 import brandLogo from "@/assets/icons/arrium_logo.png"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface ForgotPasswordPageProps extends PageProps {}
 
@@ -34,7 +38,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
   country_code,
 }) => {
   const { navigate } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const { mutate } = useMutation<
     ForgotPasswordResult,
     Error,
@@ -64,19 +68,17 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
       {
         onSuccess({ message, success, validationError }) {
           if (!success) {
-            enqueueSnackbar(validationError?.email || message, {
-              variant: "error",
-            })
+            toast.error(validationError?.email || message)
             setError("email", {
               message: "Email does not exist, try another",
             })
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           setIsClicked(true)
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -96,6 +98,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <Box
           display="flex"

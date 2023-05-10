@@ -33,6 +33,10 @@ import { PageProps } from "@/lib/interfaces/common"
 import { REGISTRATION_STEP_MAP } from "@/constants/common"
 import { formatToMMSS } from "@/utils/formatToMMSS"
 import LinkButtonResendCode from "../commons/Button/LinkButtonResendCode"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface OtpConfirmationSectionProps extends FormProps, PageProps { }
 
@@ -42,7 +46,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   step,
   country_code,
 }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
@@ -77,12 +81,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
     e.preventDefault()
     const newCountSubmitError = countSubmitError + 1
     if (newCountSubmitError === 3) {
-      enqueueSnackbar(
-        "Please go back to re-enter your number or provide the correct number.",
-        {
-          variant: "error",
-        }
-      )
+      toast.error("Please go back to re-enter your number or provide the correct number.")
       setTimeout(() => {
         navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
       }, 3000)
@@ -96,9 +95,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
         onSuccess({ success, message, validationError }) {
           if (!success) {
             setOtp("")
-            enqueueSnackbar(validationError?.otp || message, {
-              variant: "error",
-            })
+            toast.error(validationError?.otp || message)
             setCountSubmitError(newCountSubmitError)
             setOtp("")
             return
@@ -114,9 +111,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
   const handleResendOtp = () => {
     const newCount = countOtpResent + 1
     if (newCount > 3) {
-      enqueueSnackbar("You have exceeded your number of maximum attempts.", {
-        variant: "error",
-      })
+      toast.error("You have exceeded your number of maximum attempts.")
       setTimeout(() => {
         navigateToSignup(REGISTRATION_STEP_MAP["account_info"])
       }, 3000)
@@ -126,9 +121,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
     resendOtpMutate(undefined, {
       onSuccess({ success, message }) {
         if (!success) {
-          enqueueSnackbar(message, {
-            variant: "error",
-          })
+          toast.error(message)
           return
         }
         setCountOtpResent(newCount)
@@ -141,6 +134,7 @@ const OtpConfirmationSection: React.FC<OtpConfirmationSectionProps> = ({
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <StyledLoginContainer onSubmit={onSubmit} noValidate>
           <Box display="flex" justifyContent="center">

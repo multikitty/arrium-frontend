@@ -39,6 +39,10 @@ import {
   atLeastOneUppercase,
 } from "@/constants/regex"
 import PasswordValidationPopUp from "@/components/PasswordValidationPopUp/PasswordValidationPopUp"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 export const REQUIRED_SET_DEFAULT: RequiredSet = {
   atLeastOneLowercase: true,
@@ -56,7 +60,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
   country_code,
 }) => {
   const isWebView = useMediaQuery(devices.web.up)
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const {
     navigate,
     navigateWithQuery: { navigateToSignup },
@@ -142,13 +146,12 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
     mutate(variables, {
       onSuccess({ data, success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
             validationError?.email ||
             validationError?.password ||
             validationError?.refCode ||
             validationError?.country ||
-            message,
-            { variant: "error" }
+            message
           )
           return
         }
@@ -188,6 +191,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <StyledLoginContainer onSubmit={onSubmit} noValidate>
           <Box display="flex" justifyContent="center">

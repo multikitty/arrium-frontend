@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
 import { observer } from "mobx-react-lite"
 import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
 
@@ -43,6 +43,9 @@ import InputField from "@/components/commons/InputField"
 import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
 import HelperText from "@/components/commons/HelperText"
 import TimezoneAutocomplete from "@/components/TimezoneAutocomplete"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -86,7 +89,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     navigate,
     navigateWithQuery: { navigateToSignup },
   } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
 
   const classes = useStyles()
   const isWebView = useMediaQuery(devices.web.up)
@@ -139,7 +142,8 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
     mutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
+          // enqueueSnackbar(
             validationError?.country ||
             validationError?.phoneNumber ||
             validationError?.dialCode ||
@@ -147,7 +151,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
             validationError?.lastname ||
             validationError?.tzName ||
             message,
-            { variant: "error" }
+            // { variant: "error" }
           )
           return
         }
@@ -226,6 +230,7 @@ const AccountInfoSection: React.FC<AccountInfoSection> = ({
   if (isLoading) return <LoadingScreen />
   return (
     <React.Fragment>
+      <ToastNotification />
       {isWebView ? (
         <StyledLoginContainer onSubmit={onSubmit} noValidate>
           <Box display="flex" justifyContent="center">

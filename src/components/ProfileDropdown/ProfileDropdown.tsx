@@ -35,7 +35,11 @@ import { PageProps } from "@/lib/interfaces/common"
 import { getRawPhoneNumber } from "@/utils/getRawPhoneNumber"
 import { useMutation } from "react-query"
 import { RequestEmailVerifyResult, RequestEmailVerifyVariables } from "@/lib/interfaces/user"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface ProfileDropdownProps extends PageProps {
   handleClose: () => void
@@ -52,7 +56,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   const { navigate } = useNavigate({ country_code })
   const { userStore } = useStore()
   const { data: currentUserData, isLoading } = useCurrentUser()
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const { mutate: requestEmailVerifyMutate } = useMutation<
     RequestEmailVerifyResult,
     Error,
@@ -68,15 +72,13 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         {
           onSuccess({ success, message, validationError }) {
             if (!success) {
-              enqueueSnackbar(validationError?.email || message, {
-                variant: "error",
-              })
+              toast.error(validationError?.email || message)
               return
             }
-            enqueueSnackbar(message, { variant: "success" })
+            toast.success(message)
           },
           onError(error, variables) {
-            enqueueSnackbar(error.message, { variant: "error" })
+            toast.error(error.message)
           },
         }
       )
@@ -143,6 +145,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
+    <ToastNotification/>
       <React.Fragment>
         {currentUserData?.data && (
           <StyledProfileDropdownUpperSection>

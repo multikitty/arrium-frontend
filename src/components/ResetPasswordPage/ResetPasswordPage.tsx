@@ -39,11 +39,15 @@ import {
 } from "@/lib/interfaces/forgotPassword"
 import { forgotPasswordUpdatePassword } from "@/agent/forgotPassword"
 import { useSnackbar } from "notistack"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface ResetPasswordProps extends PageProps {}
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const { navigate } = useNavigate({ country_code })
   const location = useLocation()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -89,21 +93,18 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.verficationToken ||
                 validationError?.password ||
-                message,
-              {
-                variant: "error",
-              }
+                message
             )
             return
           }
           navigate(routes.signin)
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -165,6 +166,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ country_code }) => {
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <Box
           display="flex"

@@ -16,10 +16,14 @@ import CountryAutocomplete from "@/components/CountryAutocomplete"
 import RegionSelect from "@/components/RegionAutocomplete"
 import { CountryData, RegionData } from "@/utils/getCountryData"
 import SaveChangesModal from "@/components/SaveChangesModal"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import routes from "@/constants/routes"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 export interface LocationState {
   country: CountryData | null
@@ -37,7 +41,7 @@ interface LocationsTabProps extends PageProps {}
 
 const LocationsTab: React.FC<LocationsTabProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [locationState, setLocationState] = React.useState<LocationState[]>([
     initialLocationState,
   ])
@@ -79,14 +83,14 @@ const LocationsTab: React.FC<LocationsTabProps> = ({ country_code }) => {
 
   const handleCancelClick = () => {
     if (isError)
-      return enqueueSnackbar("Fields must not be empty", { variant: "error" })
+      return toast.error("Fields must not be empty");
     if (isDirty) return setIsSaveChangesModalOpen(true)
     return navigate(routes.customers)
   }
 
   const handelFormSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
-    enqueueSnackbar("Locations updated successfully", { variant: "success" })
+    toast.success("Locations updated successfully");
     setIsDirty(false)
   }
 
@@ -104,6 +108,7 @@ const LocationsTab: React.FC<LocationsTabProps> = ({ country_code }) => {
     const isFirst = idx === 0
     return (
       <React.Fragment key={location.id}>
+        <ToastNotification/>
         <Grid item xs={12} lg={5}>
           <StyledLocationsTabFormItem>
             <CountryAutocomplete

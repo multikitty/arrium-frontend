@@ -24,7 +24,7 @@ import {
   RefetchQueryFilters,
   useMutation,
 } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import { capitalCase } from "change-case"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
@@ -70,7 +70,9 @@ import {
 import { updatePricingPlanStatus } from "@/agent/user"
 import { useRegionList } from "@/agent/locations"
 import { devices } from "@/constants/device"
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
 const useStyles = makeStyles({
   timezoneStyles: {
     "& > .MuiInputBase-root": {
@@ -128,7 +130,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const isWebView = useMediaQuery(devices.desktop.up)
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const { userStore } = useStore()
   const { mutate, isLoading: isMutationLoading } = useMutation<
     UpdateUserAccountInfoResult,
@@ -186,15 +188,21 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
-              validationError?.userPK || validationError?.userSK || message,
+            toast.error(
+              validationError?.userPK || 
+              validationError?.userSK || 
+              message,
               {
-                variant: "error",
+                closeButton: false,
+            autoClose: 3000,
               }
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message, {
+            closeButton: false,
+            autoClose: 3000,
+          });
         },
       }
     )
@@ -254,7 +262,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     await mutate(mutationParams, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
             validationError?.email ||
             validationError?.emailVerified ||
             validationError?.endDate ||
@@ -273,27 +281,125 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
             validationError?.stationType ||
             validationError?.zendeskUserID ||
             message,
-            {
-              variant: "error",
-            }
+            // {
+            //   closeButton: false,
+            //   autoClose: 3000,
+            // }
           )
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        handleSuccessToast(message);
       },
     })
   }
+  // const onSubmit = async (data: FormPropType) => {
+  //   if (data.sendAccountApprovedEmail) {
+  //     handleSendAccountApprovedEmailModalOpen()
+  //     return
+  //   }
+  //   try {
+  //     await handleUpdateAccountInfo()
+  //     if (props.pricingPlan === data.enablePricingPlan) {
+  //       props.refetchCustomerData()
+  //       toast.success("Account updated successfully", {
+  //         closeButton: false,
+  //         autoClose: 3000,
+  //       });
+  //       return
+  //     }else {
+  //     await updatePricingPlanStatusMutate(
+  //       {
+  //         userSK: props.sk,
+  //         userPK: props.pk,
+  //         pricingPlan: data.enablePricingPlan,
+  //       },
+  //       {
+  //         onSuccess({ success, message, validationError }) {
+  //           if (!success) {
+              // toast.error(
+              // enqueueSnackbar(
+              //   validationError?.userSK ||
+              //   validationError?.userPK ||
+              //   validationError?.pricingPlan ||
+              //   message,
+              //   {
+              //     closeButton: false,
+              //     autoClose: 3000,
+              //   }
+              // )
+              // toast.error(errorMessage);
+            //   handleErrorToast(
+            //     validationError?.email ||
+            //     validationError?.emailVerified ||
+            //     validationError?.endDate ||
+            //     validationError?.firstname ||
+            //     validationError?.lastname ||
+            //     validationError?.passwordChangeRequest ||
+            //     validationError?.phoneNumber ||
+            //     validationError?.startDate ||
+            //     validationError?.status ||
+            //     validationError?.tzName ||
+            //     validationError?.userPK ||
+            //     validationError?.userRole ||
+            //     validationError?.userSK ||
+            //     validationError?.dialCode ||
+            //     validationError?.planType ||
+            //     validationError?.stationType ||
+            //     validationError?.zendeskUserID ||
+            //     message
+            //   );
+            //   return
+            // }
+            // enqueueSnackbar(message, { variant: "success" })
+  //           handleSuccessToast(message);
+  //         // toast.success("Account updated successfully", {
+  //         //   closeButton: false,
+  //         //   autoClose: 3000,
+  //         // });
+  //         },
+  //       }
+  //     )
+  //     props.refetchCustomerData()
+  //     toast.success("Account updated successfully", {
+  //       closeButton: false,
+  //       autoClose: 3000,
+  //     });
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast.error("An error occurred while updating your account", {
+  //       closeButton: false,
+  //       autoClose: 3000,
+  //     });
+  //   }
+  // }
+  // const onSubmit = async (data: FormPropType) => {
+  //   try {
+  //     await handleUpdateAccountInfo();
+  //     handleSuccessToast("Account info updated successfully!");
+  //   } catch (error) {
+  //     console.error(error)
+  //     handleErrorToast("Failed to update account info.");
+  //   }
+  // }
+
   const onSubmit = async (data: FormPropType) => {
     if (data.sendAccountApprovedEmail) {
       handleSendAccountApprovedEmailModalOpen()
       return
     }
+  
     try {
       await handleUpdateAccountInfo()
+  
       if (props.pricingPlan === data.enablePricingPlan) {
         props.refetchCustomerData()
+        toast.success("Account updated successfully", {
+          closeButton: false,
+          autoClose: 3000,
+        });
         return
       }
+  
       await updatePricingPlanStatusMutate(
         {
           userSK: props.sk,
@@ -303,29 +409,57 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         {
           onSuccess({ success, message, validationError }) {
             if (!success) {
-              enqueueSnackbar(
-                validationError?.userSK ||
+              handleErrorToast(
+                validationError?.email ||
+                validationError?.emailVerified ||
+                validationError?.endDate ||
+                validationError?.firstname ||
+                validationError?.lastname ||
+                validationError?.passwordChangeRequest ||
+                validationError?.phoneNumber ||
+                validationError?.startDate ||
+                validationError?.status ||
+                validationError?.tzName ||
                 validationError?.userPK ||
-                validationError?.pricingPlan ||
-                message,
-                {
-                  variant: "error",
-                }
-              )
-              return
+                validationError?.userRole ||
+                validationError?.userSK ||
+                validationError?.dialCode ||
+                validationError?.planType ||
+                validationError?.stationType ||
+                validationError?.zendeskUserID ||
+                message
+              );
+              return;
             }
-            enqueueSnackbar(message, { variant: "success" })
+            handleSuccessToast(message);
           },
         }
       )
+  
       props.refetchCustomerData()
+      toast.success("Account updated successfully", {
+        closeButton: false,
+        autoClose: 3000,
+      });
     } catch (error) {
       console.error(error)
+      toast.error("An error occurred while updating your account", {
+        closeButton: false,
+        autoClose: 3000,
+      });
     }
   }
+  
+
   const handleEndDatePickerClick = () => {
-    if (getValues("startDate")) return setEndDatePickerOpen(true)
-    enqueueSnackbar("Please select Start Date first!", { variant: "error" })
+    if (getValues("startDate")){
+      setEndDatePickerOpen(true);
+    } else {
+      toast.error("Please select Start Date first!", {
+        closeButton: false,
+        autoClose: 3000,
+      });
+    }
   }
   const handleTimezoneEditEnable = () => {
     setIsTimezoneEditEnabled(true)
@@ -382,7 +516,9 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   )
   if (isMutationLoading || props.isLoading) return <LoadingScreen />
   return (
+    
     <StyledAccountInformationTab>
+      <ToastNotification />
       {isSendAccountApprovedEmailOpen && (
         <SendAccountApprovedEmailModal
           open={isSendAccountApprovedEmailOpen}
@@ -887,7 +1023,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           >
             Cancel
           </OutlinedButton>
-          <ContainedButton type="submit">Save</ContainedButton>
+          <ContainedButton type="submit"  onClick={handleUpdateAccountInfo}>Save</ContainedButton>
         </StyledAccountInformationTabFormActions>
       </StyledAccountInformationTabForm>
     </StyledAccountInformationTab>

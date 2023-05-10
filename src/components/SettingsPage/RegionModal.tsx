@@ -28,6 +28,10 @@ import { addRegion, updateRegion } from "@/agent/locations"
 import { RegionToEditType } from "./LocationsTab"
 import { useSnackbar } from "notistack"
 import Message from "@/components/Message"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface RegionModalProps extends ModalProps {
   countries: CountryListDataItem[]
@@ -74,62 +78,87 @@ const RegionModal = (props: RegionModalProps) => {
             validationError?.regionId ||
             validationError?.regionName ||
             message
-          enqueueSnackbar(errorMessage, {
-            persist: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "right",
-            },
-            content: (key, message) => (
-              <Message id={key} title="Error" text={message} variant="error" />
-            ),
-          })
+          // enqueueSnackbar(errorMessage, {
+          //   persist: true,
+          //   anchorOrigin: {
+          //     vertical: "top",
+          //     horizontal: "right",
+          //   },
+          //   content: (key, message) => (
+          //     <Message id={key} title="Error" text={message} variant="error" />
+          //   ),
+          // })
+          toast.error(errorMessage, {
+            position: "top-right",
+            autoClose: false,
+            closeOnClick: true,
+          });
           return
         }
-        enqueueSnackbar("", {
-          autoHideDuration: 6000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-          content: key => (
-            <Message
-              id={key}
-              title="Success"
-              text={
-                <span>
-                  Region - <strong>{variables.regionName}</strong> Successfully
-                  created
-                </span>
-              }
-              variant="success"
-            />
-          ),
-        })
+        // enqueueSnackbar("", {
+        //   autoHideDuration: 6000,
+        //   anchorOrigin: {
+        //     vertical: "top",
+        //     horizontal: "right",
+        //   },
+        //   content: key => (
+        //     <Message
+        //       id={key}
+        //       title="Success"
+        //       text={
+        //         <span>
+        //           Region - <strong>{variables.regionName}</strong> Successfully
+        //           created
+        //         </span>
+        //       }
+        //       variant="success"
+        //     />
+        //   ),
+        // })
+        toast.success(
+          <span>
+            Region - <strong>{variables.regionName}</strong> Successfully created
+          </span>,
+          {
+            position: "top-right",
+            autoClose: 6000,
+            closeOnClick: true,
+          }
+        );
         props.refetchRegionList()
         props.handleClose()
       },
       onError(error) {
         console.error("ERROR:", (error as any)?.message)
-        enqueueSnackbar("", {
-          persist: true,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-          content: key => (
-            <Message
-              id={key}
-              title="Error"
-              text={
-                <span>
-                  <strong>{variables.regionName}</strong> already exists
-                </span>
-              }
-              variant="error"
-            />
-          ),
-        })
+        // enqueueSnackbar("", {
+        //   persist: true,
+        //   anchorOrigin: {
+        //     vertical: "top",
+        //     horizontal: "right",
+        //   },
+        //   content: key => (
+        //     <Message
+        //       id={key}
+        //       title="Error"
+        //       text={
+        //         <span>
+        //           <strong>{variables.regionName}</strong> already exists
+        //         </span>
+        //       }
+        //       variant="error"
+        //     />
+        //   ),
+        // })
+        toast.error(
+          <span>
+            <strong>{variables.regionName}</strong> already exists
+          </span>,
+          {
+            position: "top-right",
+            autoClose: false,
+            closeOnClick: true,
+          }
+        );
       },
     })
   }, [])
@@ -144,67 +173,93 @@ const RegionModal = (props: RegionModalProps) => {
               validationError?.regionName ||
               validationError?.regionID ||
               message
-            enqueueSnackbar(errorMessage, {
-              persist: true,
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "right",
-              },
-              content: (key, message) => (
-                <Message
-                  id={key}
-                  title="Error"
-                  text={message}
-                  variant="error"
-                />
-              ),
-            })
+            // enqueueSnackbar(errorMessage, {
+            //   persist: true,
+            //   anchorOrigin: {
+            //     vertical: "top",
+            //     horizontal: "right",
+            //   },
+            //   content: (key, message) => (
+            //     <Message
+            //       id={key}
+            //       title="Error"
+            //       text={message}
+            //       variant="error"
+            //     />
+            //   ),
+            // })
+            toast.error(errorMessage, {
+              position: "top-right",
+              autoClose: false,
+              closeOnClick: true,
+            });
             return
           }
-          enqueueSnackbar("", {
-            autoHideDuration: 6000,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "right",
-            },
-            content: key => (
-              <Message
-                id={key}
-                title="Success"
-                text={
-                  <span>
-                    Region - <strong>{props.regionData?.regionCode}</strong>)
-                    Successfully edited
-                  </span>
-                }
-                variant="success"
-              />
-            ),
-          })
+          // enqueueSnackbar("", {
+          //   autoHideDuration: 6000,
+          //   anchorOrigin: {
+          //     vertical: "top",
+          //     horizontal: "right",
+          //   },
+          //   content: key => (
+          //     <Message
+          //       id={key}
+          //       title="Success"
+          //       text={
+          //         <span>
+          //           Region - <strong>{props.regionData?.regionCode}</strong>)
+          //           Successfully edited
+          //         </span>
+          //       }
+          //       variant="success"
+          //     />
+          //   ),
+          // })
+        toast.success(
+          <span>
+            Region -{" "}
+            <strong>{props.regionData?.regionCode}</strong>) Successfully edited
+          </span>,
+          {
+            position: "top-right",
+            autoClose: 6000,
+            closeOnClick: true,
+          }
+        );
           props.refetchRegionList()
           props.handleClose()
         },
         onError(error) {
           console.error("ERROR:", (error as any)?.message)
-          enqueueSnackbar("", {
-            persist: true,
-            anchorOrigin: {
-              vertical: "top",
-              horizontal: "right",
-            },
-            content: key => (
-              <Message
-                id={key}
-                title="Error"
-                text={
-                  <span>
-                    <strong>{variables.regionName}</strong> already exists
-                  </span>
-                }
-                variant="error"
-              />
-            ),
-          })
+          // enqueueSnackbar("", {
+          //   persist: true,
+          //   anchorOrigin: {
+          //     vertical: "top",
+          //     horizontal: "right",
+          //   },
+          //   content: key => (
+          //     <Message
+          //       id={key}
+          //       title="Error"
+          //       text={
+          //         <span>
+          //           <strong>{variables.regionName}</strong> already exists
+          //         </span>
+          //       }
+          //       variant="error"
+          //     />
+          //   ),
+          // })
+          toast.error(
+            <span>
+              <strong>{variables.regionName}</strong> already exists
+            </span>,
+            {
+              position: "top-right",
+              autoClose: false,
+              closeOnClick: true,
+            }
+          );
         },
       })
     },
@@ -244,6 +299,7 @@ const RegionModal = (props: RegionModalProps) => {
   }, [])
   return (
     <Modal open={props.open} onClose={props.handleClose}>
+      <ToastNotification/>
       <StyledRegionModal>
         <StyledRegionModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
