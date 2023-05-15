@@ -6,7 +6,7 @@ import { ToastContainerWrapper } from "@/components/ToastNotification/ToastNotif
   const toastOptions = {
     position: "top-right",
     color:"white",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
