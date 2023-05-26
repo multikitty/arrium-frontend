@@ -55,6 +55,12 @@ export interface UpdateProfileVariables {
   fieldValue: string
 }
 
+export interface UpdateFlexInfoVariables {
+  pk: string
+  amznFlexUser: string
+  amznFlexPassword: string
+}
+
 export interface UpdateProfileError {
   fieldName: string
   fieldValue: string
