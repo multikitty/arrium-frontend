@@ -324,6 +324,9 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleCloseAccountModalClose = () => {
     setIsCloseAccountModalOpen(false)
   }
+  const handleBlur = () => {
+    setIsEmailEditEnabled(false)
+  }
 
   const handleBlur = () => {
     setIsNameEditEnabled(false)
@@ -559,6 +562,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                   <StyledProfileTabContentField
                     type="email"
                     onChange={onChange}
+                    onBlur={handleBlur}
                     value={value}
                     error={!!formState.errors?.email}
                     readOnly={!isEmailEditEnabled}
