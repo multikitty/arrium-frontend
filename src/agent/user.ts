@@ -2,6 +2,8 @@ import {
   CurrentUserResult,
   RequestEmailVerifyResult,
   RequestEmailVerifyVariables,
+  UpdatePasswordResult,
+  UpdatePasswordVariables,
   UpdatePricingPlanStatusResult,
   UpdatePricingPlanStatusVariables,
   UpdateProfileResult,
@@ -49,6 +51,15 @@ export const updateProfile: MutationFunction<
 > = async updateProfileData => {
   return await (
     await arriumAPI.post("/user/update-profile", updateProfileData)
+  ).data
+}
+
+export const updatePassword: MutationFunction<
+  UpdatePasswordResult,
+  UpdatePasswordVariables
+> = async updatePasswordData => {
+  return await (
+    await arriumAPI.post("/user/update-password", updatePasswordData)
   ).data
 }
 
