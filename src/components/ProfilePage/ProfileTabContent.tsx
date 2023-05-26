@@ -325,6 +325,11 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     setIsCloseAccountModalOpen(false)
   }
 
+  const handleBlur = () => {
+    setIsNameEditEnabled(false)
+    setIsSurNameEditEnabled(false)
+  };
+
   React.useEffect(() => {
     if (!userData?.data) return
     reset({
@@ -430,7 +435,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 render={({ field: { onChange, value } }) => (
                   <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
-                    value={value}
+                    onBlur={handleBlur}
+                    value={value.replace(/[^a-z]/gi, '')}
                     error={!!formState.errors?.name}
                     readOnly={!isNameEditEnabled}
                     endAdornment={
@@ -488,7 +494,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 render={({ field: { onChange, value } }) => (
                   <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
-                    value={value}
+                    onBlur={handleBlur}
+                    value={value.replace(/[^a-z]/gi, '')}
                     error={!!formState.errors?.surName}
                     readOnly={!isSurNameEditEnabled}
                     endAdornment={
