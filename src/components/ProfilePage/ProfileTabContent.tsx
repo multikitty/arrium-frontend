@@ -324,12 +324,13 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleCloseAccountModalClose = () => {
     setIsCloseAccountModalOpen(false)
   }
-  const handleBlur = () => {
-    setIsEmailEditEnabled(false)
-  }
+  // const handleBlur = () => {
+  //   setIsEmailEditEnabled(false)
+  // }
 
   const handleBlur = () => {
     setIsNameEditEnabled(false)
+    setIsEmailEditEnabled(false)
     setIsSurNameEditEnabled(false)
   };
 
