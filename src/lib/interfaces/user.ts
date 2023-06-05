@@ -50,6 +50,12 @@ export interface UserByRoleResult {
   data?: { Items: UserByRoleResultData[] }
 }
 
+export interface UpdatePasswordVariables {
+  password: string
+  newPassword: string
+  confirmPassword: string
+}
+
 export interface UpdateProfileVariables {
   fieldName: "firstname" | "lastname" | "phoneNumber" | "tzName"
   fieldValue: string
@@ -66,6 +72,10 @@ export interface UpdateProfileError {
   fieldValue: string
 }
 
+export interface UpdatePasswordResult {
+  message: string
+  success: boolean
+}
 export interface UpdateProfileResult {
   message: string
   success: boolean
