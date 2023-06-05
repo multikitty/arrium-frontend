@@ -18,6 +18,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility"
 import { updatePassword } from "@/agent/user"
 import { useSnackbar } from "notistack"
 import { UpdatePasswordResult, UpdatePasswordVariables, UpdateProfileResult } from "@/lib/interfaces/user"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ChangePasswordModalProps {
   open: boolean
@@ -82,25 +84,26 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
       {
         onSuccess({ success, message }) {
           if (!success) {
-            enqueueSnackbar(
-              message,
-              {
-                variant: "error",
-              }
-            )
+            // enqueueSnackbar(
+            //   message,
+            //   {
+            //     variant: "error",
+            //   }
+            // )
+
+
+            toast.error(
+              message)
             return
           }
-          enqueueSnackbar(
-            'Password change successfully',
-            {
-              variant: "success",
-            }
-          )
+          toast.success('Password change successfully')
           props.handleClose()
           return
         },
         onError(error) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          // enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(
+            error.message)
           console.error("ERROR:", error)
         },
       }

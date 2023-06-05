@@ -19,6 +19,8 @@ import { useStore } from "@/store"
 import { FlexInfoResult, FlexInfoVariables } from "@/lib/interfaces/signup"
 import { updateFlexInfo } from "@/agent/user"
 import { useMutation } from "react-query"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface UpdatePasswordModalProps {
   open: boolean
@@ -44,34 +46,25 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
     setIsPasswordHidden(p => !p)
   }
   const isSaveButtonDisabled = !password
-
-
   const handleSubmit = async () => {
     await updateFlexInfoMutate(
-      { amznFlexUser: userStore.currentUser?.email, amznFlexPassword: password },
+      {
+        amznFlexUser: userStore.currentUser?.email,
+        amznFlexPassword: password,
+      },
       {
         onSuccess({ success, message }) {
           if (!success) {
-            enqueueSnackbar(
-              message,
-              {
-                variant: "error",
-              }
-            )
+            toast.error(message)
             return
           }
 
-          enqueueSnackbar(
-            message,
-            {
-              variant: "success",
-            }
-          )
+          toast.success(message)
           props.handleClose()
           return
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
         },
       }
@@ -79,7 +72,7 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
   }
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <StyledChangePasswordModal sx={{ borderRadius: '20px' }}>
+      <StyledChangePasswordModal sx={{ borderRadius: "20px" }}>
         <StyledChangePasswordModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
             <CloseIcon sx={{ fontSize: 16 }} />
@@ -90,7 +83,9 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
         </StyledChangePasswordModalTitle>
         <StyledChangePasswordModalForm>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
-            <StyledUpdatePasswordModalFormFieldLabel>Email Address</StyledUpdatePasswordModalFormFieldLabel>
+            <StyledUpdatePasswordModalFormFieldLabel>
+              Email Address
+            </StyledUpdatePasswordModalFormFieldLabel>
             <StyledChangePasswordModalFormField
               type="text"
               defaultValue={userStore.currentUser?.email}
@@ -98,7 +93,9 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
             />
           </Box>
           <Box display="flex" flexDirection="column" mb={rem("44px")}>
-            <StyledUpdatePasswordModalFormFieldLabel>Password</StyledUpdatePasswordModalFormFieldLabel>
+            <StyledUpdatePasswordModalFormFieldLabel>
+              Password
+            </StyledUpdatePasswordModalFormFieldLabel>
             <StyledChangePasswordModalFormField
               autoComplete="new-password"
               type={isPasswordHidden ? "password" : "text"}
@@ -121,18 +118,26 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
             />
           </Box>
           <StyledChangePasswordModalFormActions>
-            <ContainedButton sx={{ width: "100%" }} onClick={handleSubmit} disabled={isSaveButtonDisabled}>
+            <ContainedButton
+              sx={{ width: "100%" }}
+              onClick={handleSubmit}
+              disabled={isSaveButtonDisabled}
+            >
               Save
             </ContainedButton>
           </StyledChangePasswordModalFormActions>
           <StyledChangePasswordModalFormActions>
-            <OutlinedButton grey sx={{ width: "100%" }} onClick={props.handleClose}>
+            <OutlinedButton
+              grey
+              sx={{ width: "100%" }}
+              onClick={props.handleClose}
+            >
               Cancel
             </OutlinedButton>
           </StyledChangePasswordModalFormActions>
         </StyledChangePasswordModalForm>
       </StyledChangePasswordModal>
-    </Modal >
+    </Modal>
   )
 }
 
