@@ -37,6 +37,10 @@ import {
 } from "@/components/SigninSection/SigninSection.styled"
 import { SnackbarKey, useSnackbar } from "notistack"
 import Message from "@/components/Message"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface SigninSectionProps extends PageProps { }
 
@@ -97,15 +101,17 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
           }
           if (!data) return
           if (data.userData.accountStatus === "disabled") {
-            enqueueSnackbar("", {
-              persist: true,
-              anchorOrigin: {
-                vertical: "top",
-                horizontal: "center",
-              },
-              content: key => (
+           
+            // enqueueSnackbar("", {
+            //   persist: true,
+            //   anchorOrigin: {
+            //     vertical: "top",
+            //     horizontal: "center",
+            //   },
+              // content: key => (
+                toast.error(
                 <Message
-                  id={key}
+                  // id={key}
                   title="Your account has been disabled."
                   text={
                     <div>
@@ -120,10 +126,15 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
                       </span>
                     </div>
                   }
-                  variant="error"
-                />
-              ),
-            })
+                  // variant="error"
+                />,
+                {
+                  position: 'top-center',
+                  autoClose: false,
+                }
+              // ),
+            // }
+            )
             return
           }
           setLocalStorage(TOKEN, data.userData.token)
@@ -158,6 +169,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <StyledLoginContainer noValidate onSubmit={handleSubmit(onSubmit)}>
           <Box display="flex" justifyContent="center">

@@ -15,6 +15,7 @@ import {
 } from "@/lib/interfaces/user"
 import { useQuery, MutationFunction } from "react-query"
 import { arriumAPI, arriumAPIWithoutTokenValidation } from "@/agent/axios"
+import { FlexInfoResult, FlexInfoVariables } from "@/lib/interfaces/signup"
 
 export function fetchCurrentUserData(): Promise<CurrentUserResult> {
   return arriumAPI.get("/user").then(response => response.data)
@@ -60,6 +61,15 @@ export const updatePassword: MutationFunction<
 > = async updatePasswordData => {
   return await (
     await arriumAPI.post("/user/update-password", updatePasswordData)
+  ).data
+}
+
+export const updateFlexInfo: MutationFunction<
+  FlexInfoResult,
+  FlexInfoVariables
+> = async updateProfileData => {
+  return await (
+    await arriumAPI.put("/user/update-flex-info", updateProfileData)
   ).data
 }
 

@@ -3,7 +3,7 @@ import { Box, IconButton, useMediaQuery } from "@mui/material"
 import { VisibilityOffOutlined, VisibilityOutlined } from "@mui/icons-material"
 import { rem } from "polished"
 import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 
 import { devices } from "@/constants/device"
 import {
@@ -30,6 +30,10 @@ import { Controller, useForm, useWatch } from "react-hook-form"
 import HelperText from "../commons/HelperText"
 import InputField from "../commons/InputField"
 import { objectLength } from "@/utils"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface AmazonFlexInfoProps extends FormProps, PageProps {}
 
@@ -43,7 +47,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
     navigate,
     navigateWithQuery: { navigateToSignup },
   } = useNavigate({ country_code })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
@@ -66,13 +70,14 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
       {
         onSuccess({ success, message, validationError }:any) {
           if (!success) {
-            enqueueSnackbar(
+            // enqueueSnackbar(
+              toast.error(
               validationError?.amznFlexUser ||
                 validationError?.amznFlexPassword ||
                 validationError?.details?.email?.[0]?.description ? validationError?.details?.email?.[0]?.description :message,
-              {
-                variant: "error",
-              }
+              // {
+              //   variant: "error",
+              // }
             )
             return
           }
@@ -91,6 +96,7 @@ const AmazonFlexInfo: React.FC<AmazonFlexInfoProps> = ({
 
   return (
     <React.Fragment>
+      <ToastNotification/>
       {isWebView ? (
         <StyledLoginContainer onSubmit={handleSubmit(onSubmit)} noValidate>
           <Box display="flex" justifyContent="center">

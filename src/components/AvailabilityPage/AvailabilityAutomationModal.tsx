@@ -13,7 +13,7 @@ import {
   StyledAvailablityAutomationModalTitleDesc,
   StyledSearchButton,
 } from "./AvailabilityPage.styled"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import {
   automationScheduleResolver,
   AutomationScheduleType,
@@ -33,6 +33,10 @@ import {
 import { FormValuesAutomationSchedule } from "./AvailablityPage.types"
 import { createDateInHM } from "@/utils"
 import moment from "moment"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 interface AutomationScheduleProps extends PageProps {
   open: boolean
@@ -44,7 +48,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
   handleClose,
 }) => {
   // const { navigate } = useNavigate({ country_code, lang })
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [isloading, setIsloading] = useState<Boolean>(true)
   const { control, handleSubmit, formState, ...methods } =
     useForm<AutomationScheduleType>({
@@ -113,14 +117,14 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
       {
         onSuccess({ message, success }) {
           if (!success) {
-            enqueueSnackbar("Some Error Occured", { variant: "error" })
+            toast.error("Some Error Occured")
           } else {
-            enqueueSnackbar(message, { variant: "success" })
+            toast.success(message)
             handleClose()
           }
         },
         onError() {
-          enqueueSnackbar("Some Error Occured", { variant: "error" })
+          toast.error("Some Error Occured")
         },
       }
     )
@@ -133,6 +137,7 @@ const AvailabilityAutomationModal: React.FC<AutomationScheduleProps> = ({
       mt-5
       sx={{ overflow: "scroll", alignItems: "flex-start" }}
     >
+      <ToastNotification/>
       <StyledAvailablityAutomationModal>
         <StyledAvailablityAutomationModalCloseIconContainer>
           <IconButton size="small" onClick={handleClose}>

@@ -164,7 +164,7 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
             />
             {!arePasswordsMatching && (
               <StyledChangePasswordModalFormHelperText>
-                Passwords must match!
+                The new passwords does not match.
               </StyledChangePasswordModalFormHelperText>
             )}
           </Box>
@@ -192,7 +192,7 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
             />
             {!arePasswordsMatching && (
               <StyledChangePasswordModalFormHelperText>
-                Passwords must match!
+                The new passwords does not match.
               </StyledChangePasswordModalFormHelperText>
             )}
           </Box>

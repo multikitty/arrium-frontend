@@ -28,9 +28,13 @@ import {
   UpdateConfigurationDetailsVariables,
 } from "@/lib/interfaces/customers"
 import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import { ZENDESK_ORG_ID } from "@/constants/common"
 import { capitalCase } from "change-case"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
+
 interface ConfigurationTabProps extends TabProps {
   pk: string
   sk: string
@@ -39,7 +43,7 @@ interface ConfigurationTabProps extends TabProps {
 }
 
 const ConfigurationTab = (props: ConfigurationTabProps) => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
   const {
     data: configData,
@@ -73,7 +77,8 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
       configurationDetailsMutate(variables, {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            // enqueueSnackbar(
+              toast.error(
               validationError?.accessToken ||
               validationError?.country ||
               validationError?.flexId ||
@@ -88,17 +93,26 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
               validationError?.zendeskUserID ||
               message,
               {
-                variant: "error",
+                closeButton: false,
+                autoClose: 5000,
               }
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          // enqueueSnackbar(message, { variant: "success" })
+          toast.success(message, {
+            closeButton: false,
+            autoClose: 5000,
+          });
           props.refetchCustomerData()
           refetchConfigInfo()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          // enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message, {
+            closeButton: false,
+            autoClose: 5000,
+          });
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -179,6 +193,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
 
   return (
     <StyledConfigurationTab>
+      <ToastNotification />
       <StyledConfigurationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2} sx={{ p: rem("8px") }}>
           <Grid item xs={12} lg={4}>

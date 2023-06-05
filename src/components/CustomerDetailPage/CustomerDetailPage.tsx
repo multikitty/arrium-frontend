@@ -19,12 +19,16 @@ import ConfigurationTab from "./ConfigurationTab"
 import ReferralTab from "./ReferralTab"
 import { StyledTab, StyledTabs } from "../commons/uiComponents"
 import routes from "@/constants/routes"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import useNavigate from "@/hooks/useNavigate"
 import { useCustomerAccountInfo } from "@/agent/customers"
 import { tabs, TabType } from "../AddCustomerPage/AddCustomersPage.data"
 import LoadingScreen from "../LoadingScreen"
 import { PageProps } from "@/lib/interfaces/common"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 export interface CustomerDetailPageProps extends PageProps {
   pk: string
@@ -37,7 +41,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
   ...params
 }) => {
   const { navigate } = useNavigate(params)
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [tab, setTab] = React.useState<TabType>(tabs.accountInformation)
   const [isSaveChangesModalOpen, setIsSaveChangesModalOpen] =
     React.useState(false)
@@ -66,9 +70,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
   }
 
   const handleSave = () => {
-    enqueueSnackbar("Customer Details Updated Successfully", {
-      variant: "success",
-    })
+    toast.success("Customer Details Updated Successfully")
     handleNavigateToCustomersPage()
   }
 
@@ -81,6 +83,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
 
   return (
     <StyledCustomerDetailPage>
+      <ToastNotification/>
       <SaveChangesModal
         noSubHeader
         open={isSaveChangesModalOpen}

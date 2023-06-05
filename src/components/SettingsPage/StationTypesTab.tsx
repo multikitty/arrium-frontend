@@ -30,6 +30,10 @@ import {
 } from "@/lib/interfaces/stationTypes"
 import { useMutation } from "react-query"
 import { useSnackbar } from "notistack"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 type StationTypesDeleteItem = {
   type: "Block Type"
@@ -79,16 +83,14 @@ const StationTypesTab = () => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(validationError?.stationType || message, {
-              variant: "error",
-            })
+            toast.error(validationError?.stationType || message)
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetchStationTypeList()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -103,21 +105,18 @@ const StationTypesTab = () => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.sortKey ||
                 validationError?.partitionKey ||
-                message,
-              {
-                variant: "error",
-              }
+                message
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetchStationTypeList()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -143,6 +142,7 @@ const StationTypesTab = () => {
 
   return (
     <StyledStationTypesTab>
+      <ToastNotification/>
       <AddBlockTypeModal
         open={isAddBlockTypeModalOpen}
         handleClose={handleAddBlockTypeModalClose}

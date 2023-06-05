@@ -43,6 +43,10 @@ import {
   DeleteModelsAndVersionsVariables,
 } from "@/lib/interfaces/models"
 import { useSnackbar } from "notistack"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 type ModelsDeleteItem = {
   type: "Phone Model" | "OS Version" | "Flex Version"
@@ -52,7 +56,7 @@ type ModelsDeleteItem = {
 }
 
 const ModelsTab = () => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [isAddPhoneModelModalOpen, setIsAddPhoneModelModalOpen] =
     useState(false)
   const [isAddOSVersionModalOpen, setIsAddOSVersionModalOpen] = useState(false)
@@ -150,19 +154,16 @@ const ModelsTab = () => {
     addPhoneModelMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
             validationError?.modelId || validationError?.modelName || message,
-            {
-              variant: "error",
-            }
           )
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         refetchPhoneModelList()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -174,16 +175,14 @@ const ModelsTab = () => {
     addOsVersionMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(validationError?.osVersion || message, {
-            variant: "error",
-          })
+          toast.error(validationError?.osVersion || message)
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         refetchOsVersionList()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -195,16 +194,14 @@ const ModelsTab = () => {
     addFlexVersionMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(validationError?.flexVersion || message, {
-            variant: "error",
-          })
+          toast.error(validationError?.flexVersion || message)
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         refetchFlexVersionList()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -218,22 +215,19 @@ const ModelsTab = () => {
     deleteModelsAndVersionsMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
-            validationError?.deletePk || validationError?.deleteSk || message,
-            {
-              variant: "error",
-            }
+          toast.error(
+            validationError?.deletePk || validationError?.deleteSk || message
           )
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         if (variables.deletePk === "phoneModel") refetchPhoneModelList()
         if (variables.deletePk === "osVersion") refetchOsVersionList()
         if (variables.deletePk === "flexVersion") refetchFlexVersionList()
         handleDeleteConfirmationModalClose()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -272,6 +266,7 @@ const ModelsTab = () => {
 
   return (
     <StyledModelsTab>
+      <ToastNotification/>
       {isAddPhoneModelModalOpen ? (
         <AddPhoneModelModal
           open={isAddPhoneModelModalOpen}

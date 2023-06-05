@@ -60,7 +60,7 @@ import {
 } from "./AvailabilityPage.styled"
 import { availabilityResolver } from "@/validation/availability"
 import { Plans } from "@/constants/common"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import { setPrefrences, usePreferences } from "@/agent/prefrences"
 import {
   GetPrefrencesResultData,
@@ -77,6 +77,10 @@ import { setLocalStorage } from "@/utils/localStorage"
 import isBrowser from "@/utils/isBrowser"
 import { Script } from "gatsby"
 import LoadingScreen from "@/components/LoadingScreen"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 export type AvailabilityTableTabType = AvailabilityStatusType | "all"
 
@@ -123,7 +127,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
   country_code,
 }) => {
   const { userStore } = useStore()
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const isWebView = useMediaQuery(devices.web.up)
   const [currentTab, setCurrentTab] =
     React.useState<AvailabilityTableTabType>("all")
@@ -292,14 +296,14 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
       {
         onSuccess({ success }) {
           if (!success) {
-            enqueueSnackbar("Some Error Occured", { variant: "error" })
+            toast.error("Some Error Occured")
           } else {
-            enqueueSnackbar("Search Prefrences Saved", { variant: "success" })
+            toast.success("Search Prefrences Saved")
             refetch()
           }
         },
         onError() {
-          enqueueSnackbar("Some Error Occured", { variant: "error" })
+          toast.error("Some Error Occured")
         },
       }
     )
@@ -344,21 +348,16 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
       {
         onSuccess(response) {
           if (!response?.success) {
-            enqueueSnackbar(
-              "Something went wrong, please try after sometime.",
-              {
-                variant: "error",
-              }
-            )
+            toast.error("Something went wrong, please try after sometime.")
             return
           }
-          enqueueSnackbar(response?.message || "Session Started", { variant: "success" })
+          toast.success(response?.message || "Session Started")
           setIsSearching(true)
           setTaskId(response?.task_id)
           setLocalStorage(TASK_ID, response?.task_id)
         },
         onError(error) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
         },
       }
     )
@@ -374,20 +373,15 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
       {
         onSuccess(response) {
           if (!response?.success) {
-            enqueueSnackbar(
-              "Something went wrong, please try after sometime.",
-              {
-                variant: "error",
-              }
-            )
+            toast.error("Something went wrong, please try after sometime.")
             return
           }
-          enqueueSnackbar(response?.message, { variant: "success" })
+          toast.success(response?.message)
           setIsSearching(false)
           localStorageUtils.remove(TASK_ID)
         },
         onError(error) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
         },
       }
     )
@@ -405,6 +399,7 @@ const AvailabilityPage: React.FC<AvailabilityPageProps> = ({
       handleSubmit={handleSubmit}
       {...methods}
     >
+      <ToastNotification/>
       {isBrowser() && isEnableIdentityScript && (
         <Script
           type="text/javascript"

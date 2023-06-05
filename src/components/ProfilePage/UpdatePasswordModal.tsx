@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { rem } from "polished"
-
+import { useSnackbar } from "notistack"
 import {
   StyledAddCountryModal as StyledChangePasswordModal,
   StyledAddCountryModalCloseIconContainer as StyledChangePasswordModalCloseIconContainer,
@@ -16,6 +16,9 @@ import {
 } from "../SettingsPage/SettingsPage.styled"
 import { ContainedButton, OutlinedButton } from "../commons/Button"
 import { useStore } from "@/store"
+import { FlexInfoResult, FlexInfoVariables } from "@/lib/interfaces/signup"
+import { updateFlexInfo } from "@/agent/user"
+import { useMutation } from "react-query"
 
 interface UpdatePasswordModalProps {
   open: boolean
@@ -25,8 +28,14 @@ interface UpdatePasswordModalProps {
 
 const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
   const { userStore } = useStore()
-  const [password,setPassword]=useState("")
+  const [password, setPassword] = useState("")
   const [isPasswordHidden, setIsPasswordHidden] = useState(true)
+  const { enqueueSnackbar } = useSnackbar()
+  const { mutate: updateFlexInfoMutate } = useMutation<
+    FlexInfoResult,
+    Error,
+    FlexInfoVariables
+  >(updateFlexInfo)
 
   const handlePasswordFieldChange:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -35,6 +44,39 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
     setIsPasswordHidden(p => !p)
   }
   const isSaveButtonDisabled = !password
+
+
+  const handleSubmit = async () => {
+    await updateFlexInfoMutate(
+      { amznFlexUser: userStore.currentUser?.email, amznFlexPassword: password },
+      {
+        onSuccess({ success, message }) {
+          if (!success) {
+            enqueueSnackbar(
+              message,
+              {
+                variant: "error",
+              }
+            )
+            return
+          }
+
+          enqueueSnackbar(
+            message,
+            {
+              variant: "success",
+            }
+          )
+          props.handleClose()
+          return
+        },
+        onError(error, variables) {
+          enqueueSnackbar(error.message, { variant: "error" })
+          console.error("ERROR:", error)
+        },
+      }
+    )
+  }
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledChangePasswordModal sx={{ borderRadius: '20px' }}>
@@ -79,7 +121,7 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
             />
           </Box>
           <StyledChangePasswordModalFormActions>
-            <ContainedButton sx={{ width: "100%" }} onClick={props.handleSave} disabled={isSaveButtonDisabled}>
+            <ContainedButton sx={{ width: "100%" }} onClick={handleSubmit} disabled={isSaveButtonDisabled}>
               Save
             </ContainedButton>
           </StyledChangePasswordModalFormActions>

@@ -50,9 +50,13 @@ import {
 import CountryList from "@/components/SettingsPage/CountryList"
 import RegionList from "@/components/SettingsPage/RegionList"
 import { useMutation } from "react-query"
-import { useSnackbar } from "notistack"
+// import { useSnackbar } from "notistack"
 import StationList from "@/components/SettingsPage/StationList"
 import AddStationAddressModal from "@/components/SettingsPage/AddStationAddressModal"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+
 
 type LocationsDeleteItem = {
   type: "Country" | "Region" | "Station"
@@ -87,7 +91,7 @@ export type RegionToEditType = UpdateRegionVariables & {
 }
 
 const LocationsTab = () => {
-  const { enqueueSnackbar } = useSnackbar()
+  // const { enqueueSnackbar } = useSnackbar()
   const [selectedCountry, setSelectedCountry] =
     useState<CountryListDataItem | null>(null)
   const [selectedRegion, setSelectedRegion] =
@@ -179,19 +183,14 @@ const LocationsTab = () => {
     addCountryMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
-            validationError?.countryCode || validationError?.country || message,
-            {
-              variant: "error",
-            }
-          )
+          toast.error(validationError?.countryCode || validationError?.country || message)
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         refetchCountryList()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -204,22 +203,19 @@ const LocationsTab = () => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.sortKey ||
               validationError?.partitionKey ||
-              message,
-              {
-                variant: "error",
-              }
+              message
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetchCountryList()
           setSelectedCountry(null)
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -244,22 +240,19 @@ const LocationsTab = () => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.sortKey ||
               validationError?.partitionKey ||
-              message,
-              {
-                variant: "error",
-              }
+              message
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetchRegionList()
           setSelectedRegion(null)
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -290,7 +283,7 @@ const LocationsTab = () => {
     addStationMutate(variables, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
-          enqueueSnackbar(
+          toast.error(
             validationError?.countryCode ||
             validationError?.regionCode ||
             validationError?.regionId ||
@@ -306,18 +299,15 @@ const LocationsTab = () => {
             validationError?.state ||
             validationError?.longitude ||
             validationError?.latitude ||
-            message,
-            {
-              variant: "error",
-            }
+            message
           )
           return
         }
-        enqueueSnackbar(message, { variant: "success" })
+        toast.success(message)
         refetchStationList()
       },
       onError(error, variables) {
-        enqueueSnackbar(error.message, { variant: "error" })
+        toast.error(error.message)
         console.error("ERROR:", error)
         console.log("VARIABLES USED:", variables)
       },
@@ -329,21 +319,18 @@ const LocationsTab = () => {
       {
         onSuccess({ success, message, validationError }) {
           if (!success) {
-            enqueueSnackbar(
+            toast.error(
               validationError?.sortKey ||
               validationError?.partitionKey ||
-              message,
-              {
-                variant: "error",
-              }
+              message
             )
             return
           }
-          enqueueSnackbar(message, { variant: "success" })
+          toast.success(message)
           refetchStationList()
         },
         onError(error, variables) {
-          enqueueSnackbar(error.message, { variant: "error" })
+          toast.error(error.message)
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
@@ -425,6 +412,7 @@ const LocationsTab = () => {
 
   return (
     <StyledLocationsTab>
+      <ToastNotification/>
       {isAddCountryModalOpen ? (
         <AddCountryModal
           open={isAddCountryModalOpen}
