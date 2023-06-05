@@ -36,7 +36,7 @@ import { useUserByRole } from "@/agent/user"
 import Hidden from "@/components/Hidden"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+import { ToastNotification } from '@/components/ToastNotification/ToastNotification';
 
 
 export interface ReferralModalProps {
@@ -82,13 +82,13 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
     resolver: referralsOptions.resolver,
     defaultValues: referralsData
       ? {
-          ...referralsData,
-          country: referralsData.country.toLowerCase(),
-          assignTo:
-            assigneeList.find(
-              assignee => referralsData.refGenFor === assignee.pk
-            ) || null,
-        }
+        ...referralsData,
+        country: referralsData.country.toLowerCase(),
+        assignTo:
+          assigneeList.find(
+            assignee => referralsData.refGenFor === assignee.pk
+          ) || null,
+      }
       : referralsOptions.defaultValues,
   })
   useWatch({ control })
@@ -186,12 +186,12 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
   const salesAgentData: UserByRoleResultData | undefined =
     isSalesAgent && userStore.currentUser
       ? {
-          firstname: userStore.currentUser.firstname,
-          lastname: userStore.currentUser.lastname,
-          pk: userStore.currentUser.pk,
-          sk: userStore.currentUser.sk,
-          role: userStore.currentUser.role,
-        }
+        firstname: userStore.currentUser.firstname,
+        lastname: userStore.currentUser.lastname,
+        pk: userStore.currentUser.pk,
+        sk: userStore.currentUser.sk,
+        role: userStore.currentUser.role,
+      }
       : undefined
   const isSaveDisabled =
     !methods.getValues("country") ||
@@ -200,146 +200,148 @@ const ReferralModal: React.FC<ReferralModalProps> = ({
     !methods.getValues("assignTo")
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <ToastNotification/>
-      <StyledReferralModal>
-        <StyledReferralModalCloseIconContainer>
-          <IconButton size="small" onClick={handleClose}>
-            <CloseIcon sx={{ fontSize: 16 }} />
-          </IconButton>
-        </StyledReferralModalCloseIconContainer>
-        <StyledReferralModalTitle>
-          {referralsData
-            ? `Edit Code - ${referralsData.refCode}`
-            : "Create new referral codes"}
-        </StyledReferralModalTitle>
-        <StyledReferralModalForm onSubmit={handleSubmit(onSubmit)}>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <StyledFieldLabel $isHidden={!methods.getValues("country")}>
-              Country
-            </StyledFieldLabel>
-            <Controller
-              control={control}
-              name="country"
-              render={({ field: { ref, ...field } }) => (
-                <CountrySelect
-                  {...field}
-                  onChange={e => {
-                    field.onChange(e)
-                    methods.setValue("region", "")
-                    methods.setValue("station", "")
-                  }}
-                  fullWidth
-                  required
-                  placeholder="Country name"
-                />
-              )}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <StyledFieldLabel $isHidden={!methods.getValues("region")}>
-              Region
-            </StyledFieldLabel>
-            <Controller
-              control={control}
-              name="region"
-              render={({ field: { ref, ...field } }) => (
-                <RegionSelect
-                  {...field}
-                  onChange={e => {
-                    field.onChange(e)
-                    methods.setValue("station", "")
-                  }}
-                  countryCode={methods.getValues("country")}
-                  disabled={!methods.getValues("country")}
-                  fullWidth
-                  required
-                  placeholder="Choose Region"
-                />
-              )}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <StyledFieldLabel $isHidden={!methods.getValues("region")}>
-              Station
-            </StyledFieldLabel>
-            <Controller
-              control={control}
-              name="station"
-              render={({ field: { ref, ...field } }) => (
-                <StationSelect
-                  {...field}
-                  countryCode={methods.getValues("country")}
-                  regionCode={methods.getValues("region")}
-                  disabled={!methods.getValues("region")}
-                  fullWidth
-                  required
-                  placeholder="Choose Station"
-                />
-              )}
-            />
-          </Box>
-          <Hidden when={!!referralsData}>
+    <Modal open={true} onClose={handleClose}>
+      <>
+        <ToastNotification />
+        <StyledReferralModal>
+          <StyledReferralModalCloseIconContainer>
+            <IconButton size="small" onClick={handleClose}>
+              <CloseIcon sx={{ fontSize: 16 }} />
+            </IconButton>
+          </StyledReferralModalCloseIconContainer>
+          <StyledReferralModalTitle>
+            {referralsData
+              ? `Edit Code - ${referralsData.refCode}`
+              : "Create new referral codes"}
+          </StyledReferralModalTitle>
+          <StyledReferralModalForm onSubmit={handleSubmit(onSubmit)}>
             <Box display="flex" flexDirection="column" mb="16px">
-              <StyledFieldLabel
-                $isHidden={Number.isNaN(
-                  methods.getValues("numberOfReferrals") ||
-                    !methods.getValues("numberOfReferrals")
-                )}
-              >
-                Number of Referrals
+              <StyledFieldLabel $isHidden={!methods.getValues("country")}>
+                Country
               </StyledFieldLabel>
               <Controller
                 control={control}
-                name="numberOfReferrals"
-                render={({ field }) => (
-                  <Input
+                name="country"
+                render={({ field: { ref, ...field } }) => (
+                  <CountrySelect
                     {...field}
-                    placeholder="Number of referrals"
-                    type="number"
-                    required
-                    inputProps={{
-                      min: 1,
-                      max: 10,
+                    onChange={e => {
+                      field.onChange(e)
+                      methods.setValue("region", "")
+                      methods.setValue("station", "")
                     }}
+                    fullWidth
+                    required
+                    placeholder="Country name"
                   />
                 )}
               />
             </Box>
-          </Hidden>
-          <Box display="flex" flexDirection="column" mb="44px">
-            <StyledFieldLabel $isHidden={!methods.getValues("assignTo")}>
-              Assign to
-            </StyledFieldLabel>
-            <Controller
-              control={control}
-              name="assignTo"
-              render={({ field: { ref, ...field } }) => (
-                <AssigneeAutoComplete
-                  {...field}
-                  loading={!!referralsData && !methods.getValues("assignTo")}
-                  options={assigneeList.length !== 0 ? assigneeList : undefined}
-                  value={salesAgentData || field.value}
-                  fullWidth
-                  required
-                  placeholder="Assign to"
+            <Box display="flex" flexDirection="column" mb="16px">
+              <StyledFieldLabel $isHidden={!methods.getValues("region")}>
+                Region
+              </StyledFieldLabel>
+              <Controller
+                control={control}
+                name="region"
+                render={({ field: { ref, ...field } }) => (
+                  <RegionSelect
+                    {...field}
+                    onChange={e => {
+                      field.onChange(e)
+                      methods.setValue("station", "")
+                    }}
+                    countryCode={methods.getValues("country")}
+                    disabled={!methods.getValues("country")}
+                    fullWidth
+                    required
+                    placeholder="Choose Region"
+                  />
+                )}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" mb="16px">
+              <StyledFieldLabel $isHidden={!methods.getValues("region")}>
+                Station
+              </StyledFieldLabel>
+              <Controller
+                control={control}
+                name="station"
+                render={({ field: { ref, ...field } }) => (
+                  <StationSelect
+                    {...field}
+                    countryCode={methods.getValues("country")}
+                    regionCode={methods.getValues("region")}
+                    disabled={!methods.getValues("region")}
+                    fullWidth
+                    required
+                    placeholder="Choose Station"
+                  />
+                )}
+              />
+            </Box>
+            <Hidden when={!!referralsData}>
+              <Box display="flex" flexDirection="column" mb="16px">
+                <StyledFieldLabel
+                  $isHidden={Number.isNaN(
+                    methods.getValues("numberOfReferrals") ||
+                    !methods.getValues("numberOfReferrals")
+                  )}
+                >
+                  Number of Referrals
+                </StyledFieldLabel>
+                <Controller
+                  control={control}
+                  name="numberOfReferrals"
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="Number of referrals"
+                      type="number"
+                      required
+                      inputProps={{
+                        min: 1,
+                        max: 10,
+                      }}
+                    />
+                  )}
                 />
-              )}
-            />
-          </Box>
-          <StyledReferralModalFormAction>
-            <ContainedButton
-              sx={{ width: "100%" }}
-              type="submit"
-              disabled={
-                isSaveDisabled || isLoading || !!referralsData // this is temporary until the Edit APIs are not here
-              }
-            >
-              {isLoading ? "Saving ..." : "Save"}
-            </ContainedButton>
-          </StyledReferralModalFormAction>
-        </StyledReferralModalForm>
-      </StyledReferralModal>
+              </Box>
+            </Hidden>
+            <Box display="flex" flexDirection="column" mb="44px">
+              <StyledFieldLabel $isHidden={!methods.getValues("assignTo")}>
+                Assign to
+              </StyledFieldLabel>
+              <Controller
+                control={control}
+                name="assignTo"
+                render={({ field: { ref, ...field } }) => (
+                  <AssigneeAutoComplete
+                    {...field}
+                    loading={!!referralsData && !methods.getValues("assignTo")}
+                    options={assigneeList.length !== 0 ? assigneeList : undefined}
+                    value={salesAgentData || field.value}
+                    fullWidth
+                    required
+                    placeholder="Assign to"
+                  />
+                )}
+              />
+            </Box>
+            <StyledReferralModalFormAction>
+              <ContainedButton
+                sx={{ width: "100%" }}
+                type="submit"
+                disabled={
+                  isSaveDisabled || isLoading || !!referralsData // this is temporary until the Edit APIs are not here
+                }
+              >
+                {isLoading ? "Saving ..." : "Save"}
+              </ContainedButton>
+            </StyledReferralModalFormAction>
+          </StyledReferralModalForm>
+        </StyledReferralModal>
+      </>
     </Modal>
   )
 }
