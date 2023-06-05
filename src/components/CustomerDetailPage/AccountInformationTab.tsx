@@ -756,6 +756,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               </StyledAccountInformationTabFormLabel>
               <StyledAccountInformatiomTabContentField
                 value={regionName?.[0]?.regionName ? regionName?.[0]?.regionName : props.regionCode}
+                placeholder="Region"
                 readOnly
                 disabled
               />
