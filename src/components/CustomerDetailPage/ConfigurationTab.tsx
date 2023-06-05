@@ -207,7 +207,8 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <StyledConfigurationTabFormField
-                    value={value}
+                    // value={value}
+                    value={value.replace(/[^a-z]/gi, '')}
                     onChange={onChange}
                     placeholder="Username here"
                   />
