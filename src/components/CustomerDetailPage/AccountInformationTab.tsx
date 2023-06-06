@@ -599,6 +599,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       onChange(e)
                     }}
                     value={value ? value : null}
+                    disabled
                     containerClass={classes.telephoneInputContainer}
                     inputProps={{
                       readOnly: true,
@@ -611,6 +612,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       cursor: "auto",
                     }}
                     countryCodeEditable={false}
+                    disableCountryCode 
+                    specialLabel=""
                   />
                 )}
               />
