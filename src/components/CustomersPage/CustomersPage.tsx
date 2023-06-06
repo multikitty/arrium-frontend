@@ -215,6 +215,22 @@ console.log("Dasgsdcyef6yedc",customerList)
             <TableBody>
               <React.Fragment>
                 {isLoading ||
+                customerList?.length === 0 ? 
+                <TableRow >
+                <TableCell colSpan={6} sx={{border:0,paddingTop:"100px"}}>
+                    <Box
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                       
+                        <h1 style={{ color: "rgb(98 94 94)" }}>No Record Found</h1>
+                    </Box>
+                </TableCell>
+                </TableRow>
+                :
                   (customerList || []).map((row, index) => {
                     return (
                       < TableRow
@@ -327,7 +343,9 @@ console.log("Dasgsdcyef6yedc",customerList)
                           />
                         </TableCell>
                       </TableRow>)
-                  })}
+                  })
+                  
+                  }
 
               </React.Fragment>
             </TableBody>
