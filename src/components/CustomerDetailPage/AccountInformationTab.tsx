@@ -189,12 +189,12 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         onSuccess({ success, message, validationError }) {
           if (!success) {
             toast.error(
-              validationError?.userPK || 
-              validationError?.userSK || 
+              validationError?.userPK ||
+              validationError?.userSK ||
               message,
               {
                 closeButton: false,
-            autoClose: 3000,
+                autoClose: 3000,
               }
             )
             return
@@ -316,41 +316,41 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   //       {
   //         onSuccess({ success, message, validationError }) {
   //           if (!success) {
-              // toast.error(
-              // enqueueSnackbar(
-              //   validationError?.userSK ||
-              //   validationError?.userPK ||
-              //   validationError?.pricingPlan ||
-              //   message,
-              //   {
-              //     closeButton: false,
-              //     autoClose: 3000,
-              //   }
-              // )
-              // toast.error(errorMessage);
-            //   handleErrorToast(
-            //     validationError?.email ||
-            //     validationError?.emailVerified ||
-            //     validationError?.endDate ||
-            //     validationError?.firstname ||
-            //     validationError?.lastname ||
-            //     validationError?.passwordChangeRequest ||
-            //     validationError?.phoneNumber ||
-            //     validationError?.startDate ||
-            //     validationError?.status ||
-            //     validationError?.tzName ||
-            //     validationError?.userPK ||
-            //     validationError?.userRole ||
-            //     validationError?.userSK ||
-            //     validationError?.dialCode ||
-            //     validationError?.planType ||
-            //     validationError?.stationType ||
-            //     validationError?.zendeskUserID ||
-            //     message
-            //   );
-            //   return
-            // }
-            // enqueueSnackbar(message, { variant: "success" })
+  // toast.error(
+  // enqueueSnackbar(
+  //   validationError?.userSK ||
+  //   validationError?.userPK ||
+  //   validationError?.pricingPlan ||
+  //   message,
+  //   {
+  //     closeButton: false,
+  //     autoClose: 3000,
+  //   }
+  // )
+  // toast.error(errorMessage);
+  //   handleErrorToast(
+  //     validationError?.email ||
+  //     validationError?.emailVerified ||
+  //     validationError?.endDate ||
+  //     validationError?.firstname ||
+  //     validationError?.lastname ||
+  //     validationError?.passwordChangeRequest ||
+  //     validationError?.phoneNumber ||
+  //     validationError?.startDate ||
+  //     validationError?.status ||
+  //     validationError?.tzName ||
+  //     validationError?.userPK ||
+  //     validationError?.userRole ||
+  //     validationError?.userSK ||
+  //     validationError?.dialCode ||
+  //     validationError?.planType ||
+  //     validationError?.stationType ||
+  //     validationError?.zendeskUserID ||
+  //     message
+  //   );
+  //   return
+  // }
+  // enqueueSnackbar(message, { variant: "success" })
   //           handleSuccessToast(message);
   //         // toast.success("Account updated successfully", {
   //         //   closeButton: false,
@@ -387,10 +387,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       handleSendAccountApprovedEmailModalOpen()
       return
     }
-  
+
     try {
       await handleUpdateAccountInfo()
-  
+
       if (props.pricingPlan === data.enablePricingPlan) {
         props.refetchCustomerData()
         toast.success("Account updated successfully", {
@@ -399,7 +399,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         });
         return
       }
-  
+
       await updatePricingPlanStatusMutate(
         {
           userSK: props.sk,
@@ -435,7 +435,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           },
         }
       )
-  
+
       props.refetchCustomerData()
       toast.success("Account updated successfully", {
         closeButton: false,
@@ -449,10 +449,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       });
     }
   }
-  
+
 
   const handleEndDatePickerClick = () => {
-    if (getValues("startDate")){
+    if (getValues("startDate")) {
       setEndDatePickerOpen(true);
     } else {
       toast.error("Please select Start Date first!", {
@@ -516,7 +516,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   )
   if (isMutationLoading || props.isLoading) return <LoadingScreen />
   return (
-    
+
     <StyledAccountInformationTab>
       <ToastNotification />
       {isSendAccountApprovedEmailOpen && (
@@ -809,7 +809,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.planType?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           <Grid item xs={12} lg={4}> {/* Station Type Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
@@ -824,6 +825,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    disabled
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
@@ -840,7 +842,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.stationType?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           {isWebView ? (<Grid item xs={12} lg={4}>{/* Enable pricing plans Switch */}
             <Box ml="16px" mt="28px">
               <Controller
@@ -1024,7 +1027,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           >
             Cancel
           </OutlinedButton>
-          <ContainedButton type="submit"  onClick={handleUpdateAccountInfo}>Save</ContainedButton>
+          <ContainedButton type="submit" onClick={handleUpdateAccountInfo}>Save</ContainedButton>
         </StyledAccountInformationTabFormActions>
       </StyledAccountInformationTabForm>
     </StyledAccountInformationTab>
