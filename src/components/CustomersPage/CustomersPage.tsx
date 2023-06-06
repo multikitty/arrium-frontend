@@ -61,6 +61,9 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
     setAddDropdownAnchorEl(null)
   }
 
+  React.useEffect(() => {
+  }, [])
+  
   const customerList = React.useMemo(
     () =>
       (customersData?.data?.Items || []).filter(
@@ -73,6 +76,10 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
   )
 
   if (!customersData?.data) return null
+
+
+console.log("Dasgsdcyef6yedc",customerList)
+
 
   return (
     <StyledCustomersPage>

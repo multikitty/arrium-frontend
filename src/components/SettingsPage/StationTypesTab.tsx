@@ -90,7 +90,8 @@ const StationTypesTab = () => {
           refetchStationTypeList()
         },
         onError(error, variables) {
-          toast.error(error.message)
+          // toast.error(error.message)
+          toast.error("A Station is already exist with the given Station ID!")
           console.error("ERROR:", error)
           console.log("VARIABLES USED:", variables)
         },
