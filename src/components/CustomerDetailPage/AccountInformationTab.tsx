@@ -794,6 +794,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    disabled
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
