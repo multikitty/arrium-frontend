@@ -600,11 +600,15 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     }}
                     value={value ? value : null}
                     containerClass={classes.telephoneInputContainer}
+                    inputProps={{
+                      readOnly: true,
+                    }}
                     inputStyle={{
                       width: "100%",
                       borderRadius: rem("10px"),
                       paddingTop: rem("16px"),
                       paddingBottom: rem("16px"),
+                      cursor: "auto",
                     }}
                     countryCodeEditable={false}
                   />
@@ -615,7 +619,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.phoneNumber?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           <Grid item xs={12} lg={4}>{/* Email Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
