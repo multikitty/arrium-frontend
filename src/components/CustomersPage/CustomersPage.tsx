@@ -125,7 +125,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
               Records:
             </StyledCustomersPageContentUpperSectionRecordCountTitle>
             <StyledCustomersPageContentUpperSectionRecordCountText>
-              {customersData?.data?.Count}
+              {customerList?.length}
             </StyledCustomersPageContentUpperSectionRecordCountText>
           </StyledCustomersPageContentUpperSectionRecordCount>
         </StyledCustomersPageContentUpperSection>
