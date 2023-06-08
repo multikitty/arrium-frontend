@@ -9,8 +9,15 @@ import theme from "@/theme"
 import { rem } from "polished"
 import { ContainedButton, OutlinedButton } from "@/components/commons/Button"
 
-function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEditDisable: () => void, handleTimezoneEditSave: () => void, getValues: () => void, userData: string, addSearchIconToEndAdornmentTop?: string) {
-  const children = React.Children.toArray(endAdornment.props.children);
+function addSearchIconToEndAdornment(
+  endAdornment: () => void,
+  handleTimezoneEditDisable: () => void,
+  handleTimezoneEditSave: () => void,
+  getValues: () => void,
+  userData: string,
+  addSearchIconToEndAdornmentTop?: string
+) {
+  const children = React.Children.toArray(endAdornment.props.children)
   children.push(
     <React.Fragment>
       <OutlinedButton
@@ -20,7 +27,9 @@ function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEdi
           whiteSpace: "nowrap",
           mr: rem("8px"),
           p: `${rem("6px")} ${rem("16px")}`,
-          top: addSearchIconToEndAdornmentTop ? `-${rem(addSearchIconToEndAdornmentTop)}` : `-${rem("12px")}`
+          top: addSearchIconToEndAdornmentTop
+            ? `-${rem(addSearchIconToEndAdornmentTop)}`
+            : `-${rem("12px")}`,
         }}
         onClick={handleTimezoneEditDisable}
       >
@@ -30,28 +39,29 @@ function addSearchIconToEndAdornment(endAdornment: () => void, handleTimezoneEdi
         sx={{
           whiteSpace: "nowrap",
           p: `${rem("6px")} ${rem("16px")}`,
-          top: addSearchIconToEndAdornmentTop ? `-${rem(addSearchIconToEndAdornmentTop)}` : `-${rem("12px")}`
+          top: addSearchIconToEndAdornmentTop
+            ? `-${rem(addSearchIconToEndAdornmentTop)}`
+            : `-${rem("12px")}`,
         }}
         onClick={handleTimezoneEditSave}
-        disabled={
-          getValues("timezone") === userData?.data?.tzName
-        }
+        disabled={getValues("timezone") === userData?.data?.tzName}
       >
         Save
       </ContainedButton>
-    </React.Fragment>);
-  return React.cloneElement(endAdornment, {}, children);
+    </React.Fragment>
+  )
+  return React.cloneElement(endAdornment, {}, children)
 }
 interface TimezoneAutocompleteProps
   extends Partial<AutocompleteProps<string, false, false, false>> {
   timezone: string | null
   setTimezone:
-  | React.Dispatch<React.SetStateAction<string | null>>
-  | ((timezone: string | null) => void)
+    | React.Dispatch<React.SetStateAction<string | null>>
+    | ((timezone: string | null) => void)
   required?: boolean
   placeholder?: string
   autoFocus?: boolean
-  textFieldVariant?: TextFieldProps["variant"],
+  textFieldVariant?: TextFieldProps["variant"]
   isTimezoneEditEnabled: boolean
   handleTimezoneEditEnable: () => void
   handleTimezoneEditDisable: () => void
@@ -88,7 +98,7 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
       return undefined
     }
 
-    ; (async () => {
+    ;(async () => {
       if (active && !!timezoneList?.data.zones.length) {
         setOptions(timezoneList.data.zones.map(zone => zone.zoneName))
       }
@@ -105,64 +115,79 @@ const TimezoneAutocomplete: React.FC<TimezoneAutocompleteProps> = ({
     }
   }, [open])
 
-  return !isTimezoneEditEnabled ?
+  return !isTimezoneEditEnabled ? (
     <StyledProfileTabContentField
       value={timezone}
       readOnly={!isTimezoneEditEnabled}
       endAdornment={
         <IconButton size="small" onClick={handleTimezoneEditEnable}>
-          <EditOutlinedIcon
-            sx={{ fontSize: 16, color: theme.palette.grey6 }}
-          />
+          <EditOutlinedIcon sx={{ fontSize: 16, color: theme.palette.grey6 }} />
         </IconButton>
       }
-    /> : (
-      <Autocomplete
-        id="combo-box-demo"
-        open={open}
-        onOpen={() => {
-          setOpen(true)
-        }}
-        onClose={() => {
-          setOpen(false)
-        }}
-        clearIcon={false}
-        filterOptions={(options, state) =>
-          options.filter(zoneName =>
-            state.inputValue.toLowerCase()
-              ? zoneName.toLowerCase().includes(state.inputValue.toLowerCase())
-              : true
-          )
-        }
-        options={options}
-        loading={loading}
-        value={timezone}
-        onChange={(_: any, newValue: string | null) => {
-          setTimezone(newValue)
-        }}
-        renderOption={(props, option) => (
-          <Box component="li" {...props}>
-            {option}
-          </Box>
-        )}
-        renderInput={params => (
-          <TextField
-            {...params}
-            variant={textFieldVariant}
-            autoFocus={!!autoFocus}
-            required={Boolean(required)}
-
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: addSearchIconToEndAdornment(
-                params.InputProps.endAdornment, handleTimezoneEditDisable, handleTimezoneEditSave, getValues, userData, addSearchIconToEndAdornmentTop
-              )
-            }}
-          />
-        )}
-        {...props}
-      />
-    )
+    />
+  ) : (
+    <Autocomplete
+      id="combo-box-demo"
+      open={open}
+      onOpen={() => {
+        setOpen(true)
+      }}
+      onClose={() => {
+        setOpen(false)
+      }}
+      clearIcon={false}
+      filterOptions={(options, state) =>
+        options.filter(zoneName =>
+          state.inputValue.toLowerCase()
+            ? zoneName.toLowerCase().includes(state.inputValue.toLowerCase())
+            : true
+        )
+      }
+      options={options}
+      loading={loading}
+      value={timezone}
+      onChange={(_: any, newValue: string | null) => {
+        setTimezone(newValue)
+      }}
+      renderOption={(props, option) => (
+        <Box component="li" {...props}>
+          {option}
+        </Box>
+      )}
+      renderInput={params => (
+        <TextField
+          {...params}
+          variant={textFieldVariant}
+          autoFocus={!!autoFocus}
+          required={Boolean(required)}
+          sx={{
+            "& .MuiInputBase-root": {
+              height: rem("48px"),
+              borderRadius: rem("10px"),
+            },
+            "& .MuiInputBase-root .MuiInputBase-input": {
+              padding: "0 0 0 8px",
+            },
+            "& .MuiAutocomplete-endAdornment .MuiButtonBase-root": {
+              height: rem("30px"),
+            },
+          }}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: addSearchIconToEndAdornment(
+              params.InputProps.endAdornment,
+              handleTimezoneEditDisable,
+              handleTimezoneEditSave,
+              getValues,
+              userData,
+              addSearchIconToEndAdornmentTop
+            ),
+          }}
+        />
+      )}
+      {...props}
+    />
+  )
 }
 
 export default TimezoneAutocomplete
