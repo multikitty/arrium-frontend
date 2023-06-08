@@ -96,6 +96,7 @@ export const StyledAccountInformationTabDateField = styled(TextField)<{
 }>`
   & .MuiInputBase-root {
     height: ${rem("48px")};
+    border-radius: ${rem("10px")};
   },
   border: ${p =>
     p.error
@@ -109,7 +110,6 @@ export const StyledAccountInformationTabDateField = styled(TextField)<{
   font-style: normal;
   font-weight: normal;
   width: 100%;
-  border-radius: ${rem("10px")};
   transition: all 150ms ease-out;
   &:focus-within {
     border-color: ${p =>
@@ -182,7 +182,9 @@ export const StyledConfigurationTabFormLabel = styled(
 
 export const StyledConfigurationTabFormField = styled(
   StyledAccountInformatiomTabContentField
-)``
+)`
+  height: unset !important;
+`
 
 export const StyledConfigurationTabFormHelperText = styled(
   StyledAccountInformationTabFormHelperText
