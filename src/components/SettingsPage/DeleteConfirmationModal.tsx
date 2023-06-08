@@ -16,10 +16,13 @@ import { ModalProps } from "./SettingsPage.types"
 interface DeleteConfirmationModalProps extends ModalProps {
   type: string
   name: string
+  boldName?: boolean
   handleDelete: () => void
 }
 
 const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
+  const isNameBold = props.boldName ?? true
+
   return (
     <Modal open={props.open} onClose={props.handleClose}>
       <StyledDeleteConfirmationModal>
@@ -32,8 +35,13 @@ const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
           Delete {props.type}?
         </StyledDeleteConfirmationModalTitle>
         <StyledDeleteConfirmationModalSubTitle>
-          Are you sure you want to delete <strong>{props.name}</strong> from
-          your {pluralize(props.type)}?
+          <span>Are you sure you want to delete</span>
+          {isNameBold ? (
+            <strong> {props.name} </strong>
+          ) : (
+            <span> {props.name} </span>
+          )}
+          <span>from your {pluralize(props.type)}?</span>
         </StyledDeleteConfirmationModalSubTitle>
         <StyledDeleteConfirmationModalFormActions>
           <ContainedButton
