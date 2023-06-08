@@ -95,7 +95,7 @@ interface StyledTabProps {
 }
 
 export const StyledTabs = muiStyled(Tabs)({
-  borderBottom: "1px solid #e8e8e8",
+  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.04)",
   "& .MuiTabs-indicator": {
     backgroundColor: "#1890ff",
     height: rem("4px"),
