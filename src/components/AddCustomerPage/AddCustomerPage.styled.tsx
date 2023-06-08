@@ -62,6 +62,7 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
   shouldForwardProp: prop => prop !== "large",
 })<{ large?: boolean }>(({ theme, large }) => ({
   width: "100%",
+  height: rem("48px"),
   "& .MuiInputBase-input": {
     padding: large
       ? `${rem("20px")} ${rem("16px")}`

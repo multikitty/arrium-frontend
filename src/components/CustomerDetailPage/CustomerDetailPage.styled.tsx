@@ -24,6 +24,7 @@ export const StyledCustomerDetailPageHeaderContainer = styled.div`
 
 export const StyledCustomerDetailPageHeader = styled(StyledFAQPageHeader)`
   margin-bottom: ${rem("2px")};
+  font-weight: 400;
 `
 
 export const StyledCustomerDetailPageSubHeader = styled.h6`
@@ -64,6 +65,7 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
   shouldForwardProp: prop => prop !== "large",
 })<{ large?: boolean }>(({ theme, large, error }) => ({
   width: "100%",
+  height: rem("48px"),
   "& .MuiInputBase-input": {
     padding: large ? "20px 16px" : "14px 16px",
     position: "relative",
@@ -92,7 +94,9 @@ export const StyledAccountInformatiomTabContentField = muiStyled(InputBase, {
 export const StyledAccountInformationTabDateField = styled(TextField)<{
   error: boolean
 }>`
-  width: 100%;
+  & .MuiInputBase-root {
+    height: ${rem("48px")};
+  },
   border: ${p =>
     p.error
       ? `2px solid ${theme.palette.error.main}`
