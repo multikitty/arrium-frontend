@@ -15,7 +15,7 @@ import { useStore } from "@/store"
 import useNavigate from "@/hooks/useNavigate"
 import { PageProps } from "@/lib/interfaces/common"
 
-interface ProfilePageProps extends PageProps { }
+interface ProfilePageProps extends PageProps {}
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
   const { navigateToDefault } = useNavigate({ country_code })
@@ -59,6 +59,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
             allowScrollButtonsMobile
             sx={{
               maxWidth: "100vw",
+              borderBottom: 0,
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.04)",
               [`& .${tabsClasses.scrollButtons}`]: {
                 "&.Mui-disabled": { opacity: 0.3 },
               },

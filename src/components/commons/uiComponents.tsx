@@ -11,6 +11,7 @@ export const StyledLoginContainer = styled.form`
   background-color: #f2f3f7;
   padding: 40px;
   width: 458px;
+  margin-bottom: 80px;
 `
 
 export const StyledCardHeader = styled.h4`

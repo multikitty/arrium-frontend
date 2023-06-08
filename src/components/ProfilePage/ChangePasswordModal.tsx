@@ -17,9 +17,13 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { updatePassword } from "@/agent/user"
 import { useSnackbar } from "notistack"
-import { UpdatePasswordResult, UpdatePasswordVariables, UpdateProfileResult } from "@/lib/interfaces/user"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {
+  UpdatePasswordResult,
+  UpdatePasswordVariables,
+} from "@/lib/interfaces/user"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import theme from "../../theme"
 
 interface ChangePasswordModalProps {
   open: boolean
@@ -63,7 +67,8 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
   const handleToggleHideConfirmNewPassword = () =>
     setIsConfirmNewPasswordHidden(p => !p)
 
-  const arePasswordsMatchingCurrentPasswordAndNewPassword = newPassword === currentPassword
+  const arePasswordsMatchingCurrentPasswordAndNewPassword =
+    newPassword === currentPassword
   const arePasswordsMatching = newPassword === confirmNewPassword
   const isSaveButtonDisabled =
     !currentPassword ||
@@ -72,15 +77,13 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
     !arePasswordsMatching ||
     arePasswordsMatchingCurrentPasswordAndNewPassword
 
-
-
-
-
-
   const handleSubmit = async () => {
-
     await updatePasswordMutate(
-      { password: currentPassword, newPassword: newPassword, confirmPassword: confirmNewPassword },
+      {
+        password: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmNewPassword,
+      },
       {
         onSuccess({ success, message }) {
           if (!success) {
@@ -91,27 +94,28 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
             //   }
             // )
 
-
-            toast.error(
-              message)
+            toast.error(message)
             return
           }
-          toast.success('Password change successfully')
+          toast.success("Password change successfully")
           props.handleClose()
           return
         },
         onError(error) {
           // enqueueSnackbar(error.message, { variant: "error" })
-          toast.error(
-            error.message)
+          toast.error(error.message)
           console.error("ERROR:", error)
         },
       }
     )
-
   }
+
   return (
-    <Modal open={props.open} onClose={props.handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      sx={{ display: "flex", alignItems: "center" }}
+    >
       <StyledChangePasswordModal>
         <StyledChangePasswordModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
@@ -209,7 +213,11 @@ const ChangePasswordModal = (props: ChangePasswordModalProps) => {
             </ContainedButton>
             <OutlinedButton
               grey
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                color: theme.palette.grey7,
+                fontWeight: 600,
+              }}
               onClick={props.handleClose}
             >
               Cancel
