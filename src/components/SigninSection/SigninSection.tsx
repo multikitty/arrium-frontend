@@ -173,7 +173,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
       {isWebView ? (
         <StyledLoginContainer noValidate onSubmit={handleSubmit(onSubmit)}>
           <Box display="flex" justifyContent="center">
-            <StyledCardHeader>Login to your account</StyledCardHeader>
+            <StyledCardHeader>Login To Your Account</StyledCardHeader>
           </Box>
           <Box display="flex" flexDirection="column" mb={"16px"}>
             <StyledFieldLabel $isHidden={!getValues("email")}>
@@ -302,7 +302,7 @@ const SigninSection: React.FC<SigninSectionProps> = ({ country_code }) => {
             mx={"auto"}
           >
             <Box display="flex" justifyContent="center">
-              <StyledCardHeader>Login to your account</StyledCardHeader>
+              <StyledCardHeader>Login To Your Account</StyledCardHeader>
             </Box>
             <Box display="flex" flexDirection="column" mb={"16px"}>
               <StyledFieldLabel $isHidden={!getValues("email")}>
