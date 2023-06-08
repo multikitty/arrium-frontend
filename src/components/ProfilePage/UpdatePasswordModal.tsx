@@ -19,8 +19,9 @@ import { useStore } from "@/store"
 import { FlexInfoResult, FlexInfoVariables } from "@/lib/interfaces/signup"
 import { updateFlexInfo } from "@/agent/user"
 import { useMutation } from "react-query"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import theme from "../../theme/theme"
 
 interface UpdatePasswordModalProps {
   open: boolean
@@ -129,7 +130,11 @@ const ChangePasswordModal = (props: UpdatePasswordModalProps) => {
           <StyledChangePasswordModalFormActions>
             <OutlinedButton
               grey
-              sx={{ width: "100%" }}
+              sx={{
+                width: "100%",
+                color: theme.palette.grey7,
+                fontWeight: 600,
+              }}
               onClick={props.handleClose}
             >
               Cancel
