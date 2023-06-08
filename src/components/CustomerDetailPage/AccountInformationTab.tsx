@@ -73,6 +73,7 @@ import { devices } from "@/constants/device"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
+import { GREY_7 } from "@/constants/colors"
 const useStyles = makeStyles({
   timezoneStyles: {
     "& > .MuiInputBase-root": {
@@ -1030,8 +1031,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         </Grid>
         <StyledAccountInformationTabFormActions>
           <OutlinedButton
-            grey
-            sx={{ mr: rem("12px") }}
+            sx={{ mr: rem("12px"), color: GREY_7, border: "1px solid #E6E6ED" }}
             onClick={handleCancelUpdate}
           >
             Cancel

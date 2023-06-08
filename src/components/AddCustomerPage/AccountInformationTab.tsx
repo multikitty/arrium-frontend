@@ -47,6 +47,7 @@ import { useStationTypeList } from "@/agent/stationTypes"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+import { GREY_7 } from "@/constants/colors"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -621,7 +622,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
           </Grid>
         </Grid>
         <StyledAccountInformationTabFormActions>
-          <OutlinedButton grey sx={{ mr: rem("12px") }}>
+          <OutlinedButton sx={{ mr: rem("12px"), color: GREY_7, border: "1px solid #E6E6ED" }}>
             Cancel
           </OutlinedButton>
           <ContainedButton>Save</ContainedButton>
