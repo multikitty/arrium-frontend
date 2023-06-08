@@ -9,6 +9,7 @@ import {
   Select,
   TextFieldProps,
 } from "@mui/material"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
 import { Controller, useForm, useWatch } from "react-hook-form"
@@ -255,6 +256,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledConfigurationTabFormField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>Choose country here</StyledPlaceholder>
@@ -283,6 +285,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledAccountInformatiomTabContentField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
@@ -398,6 +401,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       error={!!formState.errors?.role}
                       input={<StyledAccountInformatiomTabContentField large />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       {renderRoleOptions}
                     </Select>
@@ -423,6 +427,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledConfigurationTabFormField />}
+                      IconComponent={ExpandMoreIcon}
                       disabled={!methods.getValues("country")}
                     >
                       <MenuItem disabled value="">
@@ -452,6 +457,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledAccountInformatiomTabContentField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
@@ -566,6 +572,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       error={!!formState.errors?.status}
                       input={<StyledAccountInformatiomTabContentField large />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem value="disabled">Disabled</MenuItem>
                       <MenuItem value="active">Active</MenuItem>
