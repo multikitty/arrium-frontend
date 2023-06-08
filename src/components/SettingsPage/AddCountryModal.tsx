@@ -42,7 +42,7 @@ const AddCountryModal = (props: AddCountryModalProps) => {
 
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <StyledAddCountryModal>
+      <StyledAddCountryModal sx={{ borderRadius: "20px" }}>
         <StyledAddCountryModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
             <CloseIcon sx={{ fontSize: 24 }} />
