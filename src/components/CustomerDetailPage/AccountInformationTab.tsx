@@ -13,6 +13,7 @@ import {
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
@@ -716,6 +717,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     error={!!formState.errors?.status}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
@@ -788,6 +790,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                     disabled
                   >
                     <MenuItem disabled value="">
@@ -820,6 +823,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                     disabled
                   >
                     <MenuItem disabled value="">
