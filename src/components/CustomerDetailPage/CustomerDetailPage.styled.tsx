@@ -24,6 +24,7 @@ export const StyledCustomerDetailPageHeaderContainer = styled.div`
 
 export const StyledCustomerDetailPageHeader = styled(StyledFAQPageHeader)`
   margin-bottom: ${rem("2px")};
+  font-weight: 400;
 `
 
 export const StyledCustomerDetailPageSubHeader = styled.h6`
