@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material"
+import FilterListIcon from "@mui/icons-material/FilterList"
 import AddIcon from "@mui/icons-material/Add"
 import SearchIcon from "@mui/icons-material/Search"
 import { rem } from "polished"
@@ -43,7 +44,7 @@ const statusColorMap: Record<CustomerAccountStatus, string> = {
   disabled: theme.palette.grey5,
 }
 
-interface CustomersPageProps extends PageProps { }
+interface CustomersPageProps extends PageProps {}
 
 const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
   const { navigate } = useNavigate({ country_code })
@@ -61,9 +62,8 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
     setAddDropdownAnchorEl(null)
   }
 
-  React.useEffect(() => {
-  }, [])
-  
+  React.useEffect(() => {}, [])
+
   const customerList = React.useMemo(
     () =>
       (customersData?.data?.Items || []).filter(
@@ -77,9 +77,7 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
 
   if (!customersData?.data) return null
 
-
-console.log("Dasgsdcyef6yedc",customerList)
-
+  console.log("Dasgsdcyef6yedc", customerList)
 
   return (
     <StyledCustomersPage>
@@ -184,7 +182,10 @@ console.log("Dasgsdcyef6yedc",customerList)
                   }}
                   align="left"
                 >
-                  Country
+                  <Box display="flex" alignItems="center">
+                    Country
+                    <FilterListIcon sx={{ ml: 1 }} />
+                  </Box>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -196,7 +197,10 @@ console.log("Dasgsdcyef6yedc",customerList)
                   }}
                   align="left"
                 >
-                  Region
+                  <Box display="flex" alignItems="center">
+                    Region
+                    <FilterListIcon sx={{ ml: 1 }} />
+                  </Box>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -208,32 +212,38 @@ console.log("Dasgsdcyef6yedc",customerList)
                   }}
                   align="left"
                 >
-                  Status
+                  <Box display="flex" alignItems="center">
+                    Status
+                    <FilterListIcon sx={{ ml: 1 }} />
+                  </Box>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <React.Fragment>
-                {isLoading ||
-                customerList?.length === 0 ? 
-                <TableRow >
-                <TableCell colSpan={6} sx={{border:0,paddingTop:"100px"}}>
-                    <Box
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
+                {isLoading || customerList?.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      sx={{ border: 0, paddingTop: "100px" }}
                     >
-                       
-                        <h1 style={{ color: "rgb(98 94 94)" }}>No Record Found</h1>
-                    </Box>
-                </TableCell>
-                </TableRow>
-                :
+                      <Box
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <h1 style={{ color: "rgb(98 94 94)" }}>
+                          No Record Found
+                        </h1>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ) : (
                   (customerList || []).map((row, index) => {
                     return (
-                      < TableRow
+                      <TableRow
                         hover
                         key={index}
                         sx={{
@@ -329,7 +339,7 @@ console.log("Dasgsdcyef6yedc",customerList)
                             sx={{
                               backgroundColor:
                                 statusColorMap[
-                                row.accountStatus as keyof typeof statusColorMap
+                                  row.accountStatus as keyof typeof statusColorMap
                                 ],
                               fontFamily: "Inter",
                               fontStyle: "normal",
@@ -342,15 +352,12 @@ console.log("Dasgsdcyef6yedc",customerList)
                             }}
                           />
                         </TableCell>
-                      </TableRow>)
+                      </TableRow>
+                    )
                   })
-                  
-                  }
-
+                )}
               </React.Fragment>
             </TableBody>
-
-
           </Table>
         </TableContainer>
         {isLoading && (
@@ -365,7 +372,7 @@ console.log("Dasgsdcyef6yedc",customerList)
           </Box>
         )}
       </StyledCustomersPageContent>
-    </StyledCustomersPage >
+    </StyledCustomersPage>
   )
 }
 
