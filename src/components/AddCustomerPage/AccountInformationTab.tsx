@@ -326,6 +326,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       renderInput={(params: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
                           {...params}
+                          inputProps={{ placeholder: "DD/MM/YYYY" }}
                           error={!!formState.errors?.startDate}
                         />
                       )}
@@ -506,6 +507,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       renderInput={(params: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
                           {...params}
+                          inputProps={{ placeholder: "DD/MM/YYYY" }}
                           error={!!formState.errors?.endDate}
                         />
                       )}
