@@ -22,10 +22,10 @@ interface DeleteConfirmationModalProps extends ModalProps {
 const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <StyledDeleteConfirmationModal>
+      <StyledDeleteConfirmationModal sx={{ borderRadius: "20px" }}>
         <StyledDeleteConfirmationModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
-            <CloseIcon sx={{ fontSize: 16 }} />
+            <CloseIcon sx={{ fontSize: 24 }} />
           </IconButton>
         </StyledDeleteConfirmationModalCloseIconContainer>
         <StyledDeleteConfirmationModalTitle deleteConfirmation>
