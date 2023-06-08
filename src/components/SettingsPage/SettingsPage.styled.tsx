@@ -153,7 +153,7 @@ export const StyledAddCountryModalTitle = styled.h3<{
   font-weight: normal;
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
-  margin-bottom: ${p => (p.deleteConfirmation ? rem("40px") : rem("16px"))};
+  margin-bottom: ${p => (p.deleteConfirmation ? rem("40px") : 0)};
   margin-top: ${p => (p.selectCountry ? rem("24px") : 0)};
   text-align: center;
 

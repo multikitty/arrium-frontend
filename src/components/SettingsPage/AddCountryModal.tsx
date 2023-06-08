@@ -50,7 +50,7 @@ const AddCountryModal = (props: AddCountryModalProps) => {
         </StyledAddCountryModalCloseIconContainer>
         <StyledAddCountryModalTitle>Add new Country</StyledAddCountryModalTitle>
         <StyledAddCountryModalForm onSubmit={handleSave}>
-          <Box display="flex" flexDirection="column" mb={rem("24px")}>
+          <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <StyledFieldLabel $isHidden={!country}>Country</StyledFieldLabel>
             <CountryAutocomplete
               autoFocus
@@ -59,7 +59,7 @@ const AddCountryModal = (props: AddCountryModalProps) => {
               setCountry={handleCountryField}
             />
           </Box>
-          <Box display="flex" flexDirection="column" mb={rem("44px")}>
+          <Box display="flex" flexDirection="column" mb={rem("24px")}>
             <StyledFieldLabel $isHidden={!countryCode}>
               Country code
             </StyledFieldLabel>

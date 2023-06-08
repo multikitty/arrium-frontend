@@ -138,7 +138,8 @@ export const StyledFieldLabel = styled.span<{ $isHidden?: boolean }>`
   font-style: normal;
   font-weight: 400;
   font-size: ${rem("12px")};
-  line-height: 100%;
+  line-height: ${p => (p.$isHidden ? "0px" : "100%" )};
+  position: ${p => (p.$isHidden ? "absolute" : "relative" )};
   display: flex;
   align-items: center;
   margin-bottom: 4px;
