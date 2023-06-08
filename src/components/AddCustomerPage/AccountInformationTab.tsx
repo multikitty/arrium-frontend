@@ -9,7 +9,7 @@ import {
   Select,
   TextFieldProps,
 } from "@mui/material"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
 import { Controller, useForm, useWatch } from "react-hook-form"
@@ -45,9 +45,9 @@ import { useSnackbar } from "notistack"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { capitalCase } from "change-case"
 import { useStationTypeList } from "@/agent/stationTypes"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastNotification } from "@/components/ToastNotification/ToastNotification"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -101,6 +101,10 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
   const generateRadioOptions = () => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
+        sx={{
+          marginLeft: rem("-9px"),
+          marginRight: rem("26px"),
+        }}
         key={singleOption.label}
         value={singleOption.value}
         label={singleOption.label}
@@ -159,6 +163,10 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
     }
     // enqueueSnackbar("Please select Start Date first!", { variant: "error" })
     toast.error("Please select Start Date first!")
+  }
+
+  const handleEndDatePickerClose = () => {
+    setEndDatePickerOpen(false)
   }
 
   const onSubmit = (data: FormPropType) => {
@@ -323,10 +331,16 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       disablePast
                       value={value}
                       onChange={val => setValue("startDate", val as any)}
-                      renderInput={(params: TextFieldProps) => (
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.startDate}
                         />
                       )}
@@ -497,17 +511,27 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       inputFormat="dd/MM/yyyy"
                       open={endDatePickerOpen}
                       onOpen={handleEndDatePickerClick}
+                      onClose={handleEndDatePickerClose}
                       minDate={
                         new Date(
                           methods.getValues("startDate") as unknown as string
                         )
                       }
                       value={value}
-                      onChange={val => setValue("endDate", val as any)}
-                      renderInput={(params: TextFieldProps) => (
+                      onChange={val => {
+                        setValue("endDate", val as any)
+                        setEndDatePickerOpen(false)
+                      }}
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.endDate}
                         />
                       )}
@@ -558,7 +582,12 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                   name={"isEmailVerified"}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <RadioGroup row value={value} onChange={onChange} style={{ height: "48px" }}>
+                    <RadioGroup
+                      row
+                      value={value}
+                      onChange={onChange}
+                      style={{ height: "48px" }}
+                    >
                       {generateRadioOptions()}
                     </RadioGroup>
                   )}
@@ -598,12 +627,13 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 )}
               </Box>
               {/* Send password change request checkbox */}
-              <Box mt={rem("24px")}>
+              <Box mt={rem("26px")}>
                 <Controller
                   control={control}
                   name="sendPasswordChangeRequest"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
+                      sx={{ marginLeft: 0 }}
                       control={
                         <Switch
                           sx={{ mr: "10px" }}
@@ -617,12 +647,13 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 />
               </Box>
               {/* Enable pricing plan Switch */}
-              <Box mt={rem("80px")}>
+              <Box mt={rem("74px")}>
                 <Controller
                   control={control}
                   name="enablePricingPlan"
                   render={({ field: { value, onChange } }) => (
                     <FormControlLabel
+                      sx={{ marginLeft: 0 }}
                       control={
                         <Switch
                           sx={{ mr: "10px" }}
@@ -639,7 +670,13 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
           </Grid>
         </Grid>
         <StyledAccountInformationTabFormActions>
-          <OutlinedButton sx={{ mr: rem("12px"), color: theme.palette.grey7, border: "1px solid #E6E6ED" }}>
+          <OutlinedButton
+            sx={{
+              mr: rem("12px"),
+              color: theme.palette.grey7,
+              border: "1px solid #E6E6ED",
+            }}
+          >
             Cancel
           </OutlinedButton>
           <ContainedButton>Save</ContainedButton>

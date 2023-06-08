@@ -13,7 +13,7 @@ import {
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
@@ -71,9 +71,14 @@ import {
 import { updatePricingPlanStatus } from "@/agent/user"
 import { useRegionList } from "@/agent/locations"
 import { devices } from "@/constants/device"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import {
+  ToastNotification,
+  handleSuccessToast,
+  handleWarningToast,
+  handleErrorToast,
+} from "@/components/ToastNotification/ToastNotification"
 import { GREY_7 } from "@/constants/colors"
 
 const radioOptions = [
@@ -138,10 +143,15 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     setIsSendAccountApprovedEmailModalOpen,
   ] = React.useState(false)
 
-  const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] = React.useState(false)
+  const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] =
+    React.useState(false)
   const generateRadioOptions = React.useCallback(() => {
     return radioOptions.map(singleOption => (
       <FormControlLabel
+        sx={{
+          marginLeft: rem("-9px"),
+          marginRight: rem("26px"),
+        }}
         key={singleOption.label}
         value={singleOption.value}
         label={singleOption.label}
@@ -173,9 +183,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         onSuccess({ success, message, validationError }) {
           if (!success) {
             toast.error(
-              validationError?.userPK ||
-              validationError?.userSK ||
-              message,
+              validationError?.userPK || validationError?.userSK || message,
               {
                 closeButton: false,
                 autoClose: 3000,
@@ -186,7 +194,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           toast.success(message, {
             closeButton: false,
             autoClose: 3000,
-          });
+          })
         },
       }
     )
@@ -209,13 +217,15 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           : null,
         status: props.accountStatus,
         planType: props.planType,
-        isEmailVerified: props?.emailVerified
+        isEmailVerified: props?.emailVerified,
       },
     })
   useWatch({ control })
   const { data: stationTypeListData } = useStationTypeList()
   const { data: regionListData } = useRegionList(props.flexCountry)
-  const regionName: RegionListResult = regionListData?.data?.Items.filter((item: any) => item.regionCode === props.regionCode)
+  const regionName: RegionListResult = regionListData?.data?.Items.filter(
+    (item: any) => item.regionCode === props.regionCode
+  )
   const handleUpdateAccountInfo = async () => {
     const startDate = getValues("endDate")
       ? +new Date((getValues("startDate") as number)?.toString()) / 1000 // converting to a timestamp of seconds and not ms
@@ -230,7 +240,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       firstname: getValues("firstName"),
       lastname: getValues("surName"),
       dialCode: dialCode.replaceAll("+", ""),
-      phoneNumber: getValues("phoneNumber").replace('+', "").slice(dialCode.length).replace(' ', ""),
+      phoneNumber: getValues("phoneNumber")
+        .replace("+", "")
+        .slice(dialCode.length)
+        .replace(" ", ""),
       startDate,
       status: getValues("status"),
       tzName: getValues("timezone"),
@@ -241,30 +254,31 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       planType: getValues("planType"),
       stationType: getValues("stationType"),
       zendeskUserID: zendeskUserID.toString(),
-      currentSteps: getValues("isEmailVerified") === 'true' ? "finished" : "holding"
+      currentSteps:
+        getValues("isEmailVerified") === "true" ? "finished" : "holding",
     }
     await mutate(mutationParams, {
       onSuccess({ success, message, validationError }) {
         if (!success) {
           toast.error(
             validationError?.email ||
-            validationError?.emailVerified ||
-            validationError?.endDate ||
-            validationError?.firstname ||
-            validationError?.lastname ||
-            validationError?.passwordChangeRequest ||
-            validationError?.phoneNumber ||
-            validationError?.startDate ||
-            validationError?.status ||
-            validationError?.tzName ||
-            validationError?.userPK ||
-            validationError?.userRole ||
-            validationError?.userSK ||
-            validationError?.dialCode ||
-            validationError?.planType ||
-            validationError?.stationType ||
-            validationError?.zendeskUserID ||
-            message,
+              validationError?.emailVerified ||
+              validationError?.endDate ||
+              validationError?.firstname ||
+              validationError?.lastname ||
+              validationError?.passwordChangeRequest ||
+              validationError?.phoneNumber ||
+              validationError?.startDate ||
+              validationError?.status ||
+              validationError?.tzName ||
+              validationError?.userPK ||
+              validationError?.userRole ||
+              validationError?.userSK ||
+              validationError?.dialCode ||
+              validationError?.planType ||
+              validationError?.stationType ||
+              validationError?.zendeskUserID ||
+              message
             // {
             //   closeButton: false,
             //   autoClose: 3000,
@@ -272,7 +286,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           )
           return
         }
-        handleSuccessToast(message);
+        handleSuccessToast(message)
       },
     })
   }
@@ -380,7 +394,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         toast.success("Account updated successfully", {
           closeButton: false,
           autoClose: 3000,
-        });
+        })
         return
       }
 
@@ -395,27 +409,27 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
             if (!success) {
               handleErrorToast(
                 validationError?.email ||
-                validationError?.emailVerified ||
-                validationError?.endDate ||
-                validationError?.firstname ||
-                validationError?.lastname ||
-                validationError?.passwordChangeRequest ||
-                validationError?.phoneNumber ||
-                validationError?.startDate ||
-                validationError?.status ||
-                validationError?.tzName ||
-                validationError?.userPK ||
-                validationError?.userRole ||
-                validationError?.userSK ||
-                validationError?.dialCode ||
-                validationError?.planType ||
-                validationError?.stationType ||
-                validationError?.zendeskUserID ||
-                message
-              );
-              return;
+                  validationError?.emailVerified ||
+                  validationError?.endDate ||
+                  validationError?.firstname ||
+                  validationError?.lastname ||
+                  validationError?.passwordChangeRequest ||
+                  validationError?.phoneNumber ||
+                  validationError?.startDate ||
+                  validationError?.status ||
+                  validationError?.tzName ||
+                  validationError?.userPK ||
+                  validationError?.userRole ||
+                  validationError?.userSK ||
+                  validationError?.dialCode ||
+                  validationError?.planType ||
+                  validationError?.stationType ||
+                  validationError?.zendeskUserID ||
+                  message
+              )
+              return
             }
-            handleSuccessToast(message);
+            handleSuccessToast(message)
           },
         }
       )
@@ -424,26 +438,28 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       toast.success("Account updated successfully", {
         closeButton: false,
         autoClose: 3000,
-      });
+      })
     } catch (error) {
       console.error(error)
       toast.error("An error occurred while updating your account", {
         closeButton: false,
         autoClose: 3000,
-      });
+      })
     }
   }
 
-
   const handleEndDatePickerClick = () => {
     if (getValues("startDate")) {
-      setEndDatePickerOpen(true);
+      setEndDatePickerOpen(true)
     } else {
       toast.error("Please select Start Date first!", {
         closeButton: false,
         autoClose: 3000,
-      });
+      })
     }
+  }
+  const handleEndDatePickerClose = () => {
+    setEndDatePickerOpen(false)
   }
   const handleTimezoneEditEnable = () => {
     setIsTimezoneEditEnabled(true)
@@ -463,7 +479,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       getValues("firstName") !== rest.firstname ||
       getValues("surName") !== rest.lastname ||
       dialCode.replaceAll("+", "") !== rest.dialCode ||
-      getValues("phoneNumber").replace('+', "").slice(dialCode.length).replace(' ', "") !== rest.phoneNumber ||
+      getValues("phoneNumber")
+        .replace("+", "")
+        .slice(dialCode.length)
+        .replace(" ", "") !== rest.phoneNumber ||
       getValues("startDate") !== rest.startDate ||
       getValues("status") !== rest.accountStatus ||
       getValues("timezone") !== rest.tzName ||
@@ -500,7 +519,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
   )
   if (isMutationLoading || props.isLoading) return <LoadingScreen />
   return (
-
     <StyledAccountInformationTab>
       <ToastNotification />
       {isSendAccountApprovedEmailOpen && (
@@ -512,7 +530,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
       )}
       <StyledAccountInformationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={4}>{/* Customer Id Field */}
+          <Grid item xs={12} lg={4}>
+            {/* Customer Id Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Customer ID
@@ -522,8 +541,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 readOnly
                 disabled
               />
-            </Box></Grid>
-          <Grid item xs={12} lg={4}>{/* First Name Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* First Name Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 First name
@@ -544,8 +565,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.firstName?.message}
                 </HelperText>
               )}
-            </Box></Grid>
-          <Grid item xs={12} lg={4}>{/* Surname Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Surname Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Surname
@@ -566,8 +589,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.surName?.message}
                 </HelperText>
               )}
-            </Box></Grid>
-          <Grid item xs={12} lg={4}>{/* Phone Number Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Phone Number Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Phone number
@@ -578,7 +603,12 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 render={({ field: { onChange, value } }) => (
                   <ReactPhoneInput
                     country={userStore?.lowerCaseCountry}
-                    onChange={(_, countryData: CountryData, e, formattedValue) => {
+                    onChange={(
+                      _,
+                      countryData: CountryData,
+                      e,
+                      formattedValue
+                    ) => {
                       setDialCode(countryData?.dialCode)
                       onChange(e)
                     }}
@@ -602,7 +632,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       paddingBottom: rem("16px"),
                     }}
                     countryCodeEditable={false}
-                    disableCountryCode 
+                    disableCountryCode
                     specialLabel=""
                   />
                 )}
@@ -614,7 +644,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}>{/* Email Field */}
+          <Grid item xs={12} lg={4}>
+            {/* Email Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Email
@@ -635,10 +666,11 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.email?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           <Grid item xs={12} lg={4}>
             {/* Email Verification Status Field */}
-            <Box mb="33px">
+            <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Email verification status
               </StyledAccountInformationTabFormLabel>
@@ -646,7 +678,12 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 name={"isEmailVerified"}
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <RadioGroup row value={value} onChange={onChange}>
+                  <RadioGroup
+                    row
+                    value={value}
+                    onChange={onChange}
+                    style={{ height: "48px" }}
+                  >
                     {generateRadioOptions()}
                   </RadioGroup>
                 )}
@@ -656,8 +693,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.isEmailVerified?.message}
                 </HelperText>
               )}
-            </Box></Grid>
-          <Grid item xs={12} lg={4}>{/* Timezone Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* Timezone Field */}
             <Box mb="30px">
               <StyledAccountInformationTabFormLabel>
                 Timezone
@@ -675,7 +714,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     handleTimezoneEditDisable={handleTimezoneEditDisable}
                     handleTimezoneEditSave={handleTimezoneEditSave}
                     getValues={getValues}
-                    addSearchIconToEndAdornmentTop={'0px'}
+                    addSearchIconToEndAdornmentTop={"0px"}
                   />
                 )}
               />
@@ -684,7 +723,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.timezone?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           <Grid item xs={12} lg={4}>
             {/* Role Field */}
             <Box mb="24px">
@@ -701,7 +741,8 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.role?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
           <Grid item xs={12} lg={4}>
             {/* Status Field */}
             <Box mb="24px">
@@ -721,9 +762,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     IconComponent={ExpandMoreIcon}
                   >
                     <MenuItem disabled value="">
-                      <StyledPlaceholder>
-                        Choose status here
-                      </StyledPlaceholder>
+                      <StyledPlaceholder>Choose status here</StyledPlaceholder>
                     </MenuItem>
                     {statusOptionsJSX}
                   </Select>
@@ -734,8 +773,11 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.status?.message}
                 </HelperText>
               )}
-            </Box></Grid>
-          <Grid item xs={12} lg={4}> {/* Country Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {" "}
+            {/* Country Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Country
@@ -745,39 +787,53 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 readOnly
                 disabled
               />
-            </Box></Grid>
-          <Grid item xs={12} lg={4}> {/* Region Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {" "}
+            {/* Region Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Region
               </StyledAccountInformationTabFormLabel>
               <StyledAccountInformatiomTabContentField
-                value={regionName?.[0]?.regionName ? regionName?.[0]?.regionName : props.regionCode}
+                value={
+                  regionName?.[0]?.regionName
+                    ? regionName?.[0]?.regionName
+                    : props.regionCode
+                }
                 placeholder="Region"
                 readOnly
                 disabled
               />
-            </Box></Grid>
-          {isWebView ? (<Grid item xs={12} lg={4}>{/* Send account approved Email Switch */}
-            <Box ml="16px" mt="28px">
-              <Controller
-                control={control}
-                name="sendAccountApprovedEmail"
-                render={({ field: { value, onChange } }) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        sx={{ mr: "10px" }}
-                        checked={value}
-                        onChange={onChange}
-                      />
-                    }
-                    label="Send account approved Email"
-                  />
-                )}
-              />
-            </Box></Grid>) : null}
-          <Grid item xs={12} lg={4}> {/* Plan Type Field */}
+            </Box>
+          </Grid>
+          {isWebView ? (
+            <Grid item xs={12} lg={4}>
+              {/* Send account approved Email Switch */}
+              <Box ml="16px" mt="28px">
+                <Controller
+                  control={control}
+                  name="sendAccountApprovedEmail"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
+                      label="Send account approved Email"
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+          ) : null}
+          <Grid item xs={12} lg={4}>
+            {" "}
+            {/* Plan Type Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Plan Type
@@ -810,7 +866,9 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               )}
             </Box>
           </Grid>
-          <Grid item xs={12} lg={4}> {/* Station Type Field */}
+          <Grid item xs={12} lg={4}>
+            {" "}
+            {/* Station Type Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Station Type
@@ -844,26 +902,31 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               )}
             </Box>
           </Grid>
-          {isWebView ? (<Grid item xs={12} lg={4}>{/* Enable pricing plans Switch */}
-            <Box ml="16px" mt="28px">
-              <Controller
-                control={control}
-                name="enablePricingPlan"
-                render={({ field: { value, onChange } }) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        sx={{ mr: "10px" }}
-                        checked={value}
-                        onChange={onChange}
-                      />
-                    }
-                    label="Enable pricing plan"
-                  />
-                )}
-              />
-            </Box></Grid>) : null}
-          <Grid item xs={12} lg={4}>{/* Start Date Field */}
+          {isWebView ? (
+            <Grid item xs={12} lg={4}>
+              {/* Enable pricing plans Switch */}
+              <Box ml="16px" mt="28px">
+                <Controller
+                  control={control}
+                  name="enablePricingPlan"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
+                      label="Enable pricing plan"
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+          ) : null}
+          <Grid item xs={12} lg={4}>
+            {/* Start Date Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 Start date
@@ -877,10 +940,16 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       inputFormat="dd/MM/yyyy"
                       value={value}
                       onChange={val => setValue("startDate", val as any)}
-                      renderInput={(params: TextFieldProps) => (
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.startDate}
                         />
                       )}
@@ -894,10 +963,16 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       disablePast
                       value={value}
                       onChange={val => setValue("startDate", val as any)}
-                      renderInput={(params: TextFieldProps) => (
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.startDate}
                         />
                       )}
@@ -913,8 +988,10 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.startDate?.message}
                 </HelperText>
               )}
-            </Box></Grid>
-          <Grid item xs={12} lg={4}>{/* End Date Field */}
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={4}>
+            {/* End Date Field */}
             <Box mb="24px">
               <StyledAccountInformationTabFormLabel>
                 End date
@@ -928,6 +1005,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       inputFormat="dd/MM/yyyy"
                       open={endDatePickerOpen}
                       onOpen={handleEndDatePickerClick}
+                      onClose={handleEndDatePickerClose}
                       minDate={
                         new Date(getValues("startDate") as unknown as string)
                       }
@@ -936,10 +1014,16 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                         setValue("endDate", val as any)
                         setEndDatePickerOpen(false)
                       }}
-                      renderInput={(params: TextFieldProps) => (
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.endDate}
                         />
                       )}
@@ -954,6 +1038,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                       onOpen={() =>
                         getValues("startDate") && setEndDatePickerOpen(true)
                       }
+                      onClose={handleEndDatePickerClose}
                       minDate={
                         new Date(getValues("startDate") as unknown as string)
                       }
@@ -962,10 +1047,16 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                         setValue("endDate", val as any)
                         setEndDatePickerOpen(false)
                       }}
-                      renderInput={(params: TextFieldProps) => (
+                      renderInput={({
+                        inputProps,
+                        ...restParams
+                      }: TextFieldProps) => (
                         <StyledAccountInformationTabDateField
-                          {...params}
-                          inputProps={{ placeholder: "DD/MM/YYYY" }}
+                          {...restParams}
+                          inputProps={{
+                            ...inputProps,
+                            placeholder: "DD/MM/YYYY",
+                          }}
                           error={!!formState.errors?.endDate}
                         />
                       )}
@@ -981,47 +1072,55 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   {formState.errors?.endDate?.message}
                 </HelperText>
               )}
-            </Box></Grid>
+            </Box>
+          </Grid>
 
-          {!isWebView ? <Grid item xs={12} lg={4}>{/* Send account approved Email Switch */}
-            <Box ml="16px" mt="28px">
-              <Controller
-                control={control}
-                name="sendAccountApprovedEmail"
-                render={({ field: { value, onChange } }) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        sx={{ mr: "10px" }}
-                        checked={value}
-                        onChange={onChange}
-                      />
-                    }
-                    label="Send account approved Email"
-                  />
-                )}
-              />
-            </Box></Grid> : null}
-          {!isWebView ? <Grid item xs={12} lg={4}>{/* Enable pricing plans Switch */}
-            <Box ml="16px" mt="28px">
-              <Controller
-                control={control}
-                name="enablePricingPlan"
-                render={({ field: { value, onChange } }) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        sx={{ mr: "10px" }}
-                        checked={value}
-                        onChange={onChange}
-                      />
-                    }
-                    label="Enable pricing plan"
-                  />
-                )}
-              />
-            </Box></Grid> : null}
-
+          {!isWebView ? (
+            <Grid item xs={12} lg={4}>
+              {/* Send account approved Email Switch */}
+              <Box mt="28px">
+                <Controller
+                  control={control}
+                  name="sendAccountApprovedEmail"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
+                      label="Send account approved Email"
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+          ) : null}
+          {!isWebView ? (
+            <Grid item xs={12} lg={4}>
+              {/* Enable pricing plans Switch */}
+              <Box ml="16px" mt="28px">
+                <Controller
+                  control={control}
+                  name="enablePricingPlan"
+                  render={({ field: { value, onChange } }) => (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          sx={{ mr: "10px" }}
+                          checked={value}
+                          onChange={onChange}
+                        />
+                      }
+                      label="Enable pricing plan"
+                    />
+                  )}
+                />
+              </Box>
+            </Grid>
+          ) : null}
         </Grid>
         <StyledAccountInformationTabFormActions>
           <OutlinedButton
@@ -1030,7 +1129,9 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
           >
             Cancel
           </OutlinedButton>
-          <ContainedButton type="submit" onClick={handleUpdateAccountInfo}>Save</ContainedButton>
+          <ContainedButton type="submit" onClick={handleUpdateAccountInfo}>
+            Save
+          </ContainedButton>
         </StyledAccountInformationTabFormActions>
       </StyledAccountInformationTabForm>
     </StyledAccountInformationTab>
