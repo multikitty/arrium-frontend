@@ -91,10 +91,13 @@ const CustomersPage: React.FC<CustomersPageProps> = ({ country_code }) => {
                 borderColor: theme.palette.grey3,
                 px: rem("16px"),
                 py: rem("6px"),
+                fontSize: rem("16px"),
+                lineHeight: rem("20px"),
+                fontWeight: 600
               }}
               onClick={handleAddButtonClick}
             >
-              Add ...
+              Add Customer
             </OutlinedButton>
             {isAddDropdownOpen && (
               <AddDropdown
