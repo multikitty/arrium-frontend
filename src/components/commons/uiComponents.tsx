@@ -96,9 +96,10 @@ interface StyledTabProps {
 }
 
 export const StyledTabs = muiStyled(Tabs)({
-  borderBottom: "1px solid #e8e8e8",
+  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.04)",
   "& .MuiTabs-indicator": {
     backgroundColor: "#1890ff",
+    height: rem("4px"),
   },
 })
 
@@ -120,8 +121,8 @@ export const StyledTab = muiStyled((props: StyledTabProps) => (
     opacity: 1,
   },
   "&.Mui-selected": {
+    fontWeight: 600,
     color: "#3071F2",
-    fontWeight: theme.typography.fontWeightMedium,
   },
   "&.Mui-focusVisible": {
     backgroundColor: "#d1eaff",

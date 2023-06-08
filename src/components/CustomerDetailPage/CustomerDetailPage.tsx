@@ -112,7 +112,7 @@ const CustomerDetailPage: React.FC<CustomerDetailPageProps> = ({
         </Box>
       </StyledCustomerDetailPageHeaderContainer>
       <StyledCustomerDetailPageContent>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box>
           <StyledTabs
             value={tab}
             onChange={handleChange}

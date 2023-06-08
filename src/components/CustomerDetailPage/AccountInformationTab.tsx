@@ -13,6 +13,7 @@ import {
 } from "@mui/material"
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker"
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { makeStyles } from "@mui/styles"
 import { rem } from "polished"
@@ -73,23 +74,7 @@ import { devices } from "@/constants/device"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
-const useStyles = makeStyles({
-  timezoneStyles: {
-    "& > .MuiInputBase-root": {
-      width: "100%",
-      padding: "7px 10px",
-      borderRadius: "10px !important",
-    },
-    "& > div > div > span": {
-      display: "none",
-    },
-  },
-  telephoneInputContainer: {
-    "& > .special-label": {
-      display: "none",
-    },
-  },
-})
+import { GREY_7 } from "@/constants/colors"
 
 const radioOptions = [
   {
@@ -126,7 +111,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     ...rest
   } = props
 
-  const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const isWebView = useMediaQuery(devices.desktop.up)
@@ -600,16 +584,22 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     }}
                     value={value ? value : null}
                     disabled
-                    containerClass={classes.telephoneInputContainer}
                     inputProps={{
                       readOnly: true,
                     }}
+                    buttonStyle={{
+                      top: rem("8px"),
+                      bottom: rem("8px"),
+                      paddingRight: rem("3px"),
+                      borderRight: "1px solid #E6E6ED",
+                    }}
                     inputStyle={{
+                      height: rem("48px"),
                       width: "100%",
                       borderRadius: rem("10px"),
                       paddingTop: rem("16px"),
+                      paddingLeft: rem("68px"),
                       paddingBottom: rem("16px"),
-                      cursor: "auto",
                     }}
                     countryCodeEditable={false}
                     disableCountryCode 
@@ -677,9 +667,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <TimezoneAutocomplete
-                    size="medium"
                     placeholder="Choose timezone"
-                    className={classes.timezoneStyles}
                     timezone={value}
                     setTimezone={onChange}
                     isTimezoneEditEnabled={isTimezoneEditEnabled}
@@ -730,6 +718,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     error={!!formState.errors?.status}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
@@ -802,6 +791,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                     disabled
                   >
                     <MenuItem disabled value="">
@@ -834,6 +824,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     value={value}
                     onChange={onChange}
                     input={<StyledAccountInformatiomTabContentField />}
+                    IconComponent={ExpandMoreIcon}
                     disabled
                   >
                     <MenuItem disabled value="">
@@ -1030,8 +1021,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
         </Grid>
         <StyledAccountInformationTabFormActions>
           <OutlinedButton
-            grey
-            sx={{ mr: rem("12px") }}
+            sx={{ mr: rem("12px"), color: GREY_7, border: "1px solid #E6E6ED" }}
             onClick={handleCancelUpdate}
           >
             Cancel
