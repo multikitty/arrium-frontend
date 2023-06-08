@@ -73,23 +73,6 @@ import { devices } from "@/constants/device"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification, handleSuccessToast, handleWarningToast, handleErrorToast } from '@/components/ToastNotification/ToastNotification';
-const useStyles = makeStyles({
-  timezoneStyles: {
-    "& > .MuiInputBase-root": {
-      width: "100%",
-      padding: "7px 10px",
-      borderRadius: "10px !important",
-    },
-    "& > div > div > span": {
-      display: "none",
-    },
-  },
-  telephoneInputContainer: {
-    "& > .special-label": {
-      display: "none",
-    },
-  },
-})
 
 const radioOptions = [
   {
@@ -126,7 +109,6 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
     ...rest
   } = props
 
-  const classes = useStyles()
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"))
   const isWebView = useMediaQuery(devices.desktop.up)
@@ -600,16 +582,22 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     }}
                     value={value ? value : null}
                     disabled
-                    containerClass={classes.telephoneInputContainer}
                     inputProps={{
                       readOnly: true,
                     }}
+                    buttonStyle={{
+                      top: rem("8px"),
+                      bottom: rem("8px"),
+                      paddingRight: rem("3px"),
+                      borderRight: "1px solid #E6E6ED",
+                    }}
                     inputStyle={{
+                      height: rem("48px"),
                       width: "100%",
                       borderRadius: rem("10px"),
                       paddingTop: rem("16px"),
+                      paddingLeft: rem("68px"),
                       paddingBottom: rem("16px"),
-                      cursor: "auto",
                     }}
                     countryCodeEditable={false}
                     disableCountryCode 
@@ -677,9 +665,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <TimezoneAutocomplete
-                    size="medium"
                     placeholder="Choose timezone"
-                    className={classes.timezoneStyles}
                     timezone={value}
                     setTimezone={onChange}
                     isTimezoneEditEnabled={isTimezoneEditEnabled}
