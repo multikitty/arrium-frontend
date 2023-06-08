@@ -45,7 +45,7 @@ const AddCountryModal = (props: AddCountryModalProps) => {
       <StyledAddCountryModal>
         <StyledAddCountryModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
-            <CloseIcon sx={{ fontSize: 16 }} />
+            <CloseIcon sx={{ fontSize: 24 }} />
           </IconButton>
         </StyledAddCountryModalCloseIconContainer>
         <StyledAddCountryModalTitle>Add new Country</StyledAddCountryModalTitle>
