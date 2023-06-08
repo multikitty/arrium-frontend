@@ -210,7 +210,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                     // value={value}
                     value={value.replace(/[^a-z]/gi, '')}
                     onChange={onChange}
-                    placeholder="Username here"
+                    placeholder="Amazon Flex Username"
                   />
                 )}
               />
@@ -288,7 +288,7 @@ const ConfigurationTab = (props: ConfigurationTabProps) => {
                     type={isPasswordHidden ? "password" : "text"}
                     value={value}
                     onChange={onChange}
-                    placeholder="Password here"
+                    placeholder="Amazon Flex Password"
                     endAdornment={
                       <IconButton
                         size="small"

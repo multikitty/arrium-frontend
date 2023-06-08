@@ -42,6 +42,7 @@ export const StyledProfileTabContentFieldLabel = styled.h5`
 
 export const StyledProfileTabContentField = muiStyled(InputBase)(
   ({ theme }) => ({
+    height: rem("48px"),
     width: "100%",
     "& .MuiInputBase-input": {
       position: "relative",
@@ -53,7 +54,6 @@ export const StyledProfileTabContentField = muiStyled(InputBase)(
       fontWeight: "normal",
       width: "100%",
       padding: rem("8px"),
-      paddingBottom: rem("14px"),
       transition: theme.transitions.create([
         "border-color",
         "background-color",

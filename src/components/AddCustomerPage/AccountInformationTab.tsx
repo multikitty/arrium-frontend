@@ -9,6 +9,7 @@ import {
   Select,
   TextFieldProps,
 } from "@mui/material"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CalendarIcon from "@mui/icons-material/CalendarTodayOutlined"
 import { rem } from "polished"
 import { Controller, useForm, useWatch } from "react-hook-form"
@@ -27,7 +28,7 @@ import {
   StyledAccountInformationTabFormActions,
   StyledAccountInformationTabFormHelperText,
   StyledAccountInformationTabFormLabel,
-  StyledConfigurationTabFormField
+  StyledConfigurationTabFormField,
 } from "./AddCustomerPage.styled"
 import theme from "@/theme"
 import { accountInformationOptions } from "@/validation"
@@ -44,23 +45,19 @@ import { useSnackbar } from "notistack"
 import { useCountryList, useRegionList } from "@/agent/locations"
 import { capitalCase } from "change-case"
 import { useStationTypeList } from "@/agent/stationTypes"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastNotification } from "@/components/ToastNotification/ToastNotification"
 
 const useStyles = makeStyles({
   timezoneStyles: {
-    "& > div": {
+    "& .timezone__control": {
+      height: rem("48px"),
       width: "100%",
-      padding: "14px 16px",
-      borderRadius: "10px !important",
+      paddingLeft: rem("6px"),
+      borderRadius: rem("10px"),
     },
-    "& > div > div > span": {
-      display: "none",
-    },
-  },
-  telephoneInputContainer: {
-    "& > .special-label": {
+    "& .timezone__indicator-separator": {
       display: "none",
     },
   },
@@ -158,10 +155,10 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
 
   const handleEndDatePickerClick = () => {
     if (methods.getValues("startDate")) {
-      return setEndDatePickerOpen(true);
+      return setEndDatePickerOpen(true)
     }
     // enqueueSnackbar("Please select Start Date first!", { variant: "error" })
-    toast.error("Please select Start Date first!");
+    toast.error("Please select Start Date first!")
   }
 
   const onSubmit = (data: FormPropType) => {
@@ -176,7 +173,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
 
   return (
     <StyledAccountInformationTab>
-    <ToastNotification />
+      <ToastNotification />
       <StyledAccountInformationTabForm onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={4}>
@@ -201,12 +198,20 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       country={userStore.lowerCaseCountry}
                       onChange={onChange}
                       value={value}
-                      containerClass={classes.telephoneInputContainer}
                       placeholder=""
+                      specialLabel=""
+                      buttonStyle={{
+                        top: rem("8px"),
+                        bottom: rem("8px"),
+                        paddingRight: rem("3px"),
+                        borderRight: "1px solid #E6E6ED",
+                      }}
                       inputStyle={{
+                        height: rem("48px"),
                         width: "100%",
                         borderRadius: rem("10px"),
                         paddingTop: rem("16px"),
+                        paddingLeft: rem("68px"),
                         paddingBottom: rem("16px"),
                       }}
                     />
@@ -230,6 +235,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     <TimeZoneSelect
                       placeholder="Choose timezone"
                       className={classes.timezoneStyles}
+                      classNamePrefix="timezone"
                       value={value}
                       onChange={onChange}
                     />
@@ -255,9 +261,12 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledConfigurationTabFormField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
-                        <StyledPlaceholder>Choose country here</StyledPlaceholder>
+                        <StyledPlaceholder>
+                          Choose country here
+                        </StyledPlaceholder>
                       </MenuItem>
                       {countryOptionsJSX}
                     </Select>
@@ -283,6 +292,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledAccountInformatiomTabContentField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
@@ -398,6 +408,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       error={!!formState.errors?.role}
                       input={<StyledAccountInformatiomTabContentField large />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       {renderRoleOptions}
                     </Select>
@@ -423,10 +434,13 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledConfigurationTabFormField />}
+                      IconComponent={ExpandMoreIcon}
                       disabled={!methods.getValues("country")}
                     >
                       <MenuItem disabled value="">
-                        <StyledPlaceholder>Choose region here</StyledPlaceholder>
+                        <StyledPlaceholder>
+                          Choose region here
+                        </StyledPlaceholder>
                       </MenuItem>
                       {regionOptionsJSX}
                     </Select>
@@ -452,6 +466,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       onChange={onChange}
                       input={<StyledAccountInformatiomTabContentField />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
@@ -533,7 +548,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 )}
               </Box>
               {/* Email Verification Status Field */}
-              <Box mb={rem("35px")}>
+              <Box mb={rem("24px")}>
                 <StyledAccountInformationTabFormLabel>
                   Email verification status
                 </StyledAccountInformationTabFormLabel>
@@ -541,7 +556,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                   name={"isEmailVerified"}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <RadioGroup row value={value} onChange={onChange}>
+                    <RadioGroup row value={value} onChange={onChange} style={{ height: "48px" }}>
                       {generateRadioOptions()}
                     </RadioGroup>
                   )}
@@ -566,6 +581,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       value={value}
                       error={!!formState.errors?.status}
                       input={<StyledAccountInformatiomTabContentField large />}
+                      IconComponent={ExpandMoreIcon}
                     >
                       <MenuItem value="disabled">Disabled</MenuItem>
                       <MenuItem value="active">Active</MenuItem>
