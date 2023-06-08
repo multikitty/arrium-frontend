@@ -59,6 +59,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ country_code }) => {
             allowScrollButtonsMobile
             sx={{
               maxWidth: "100vw",
+              borderBottom: 0,
               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.04)",
               [`& .${tabsClasses.scrollButtons}`]: {
                 "&.Mui-disabled": { opacity: 0.3 },
