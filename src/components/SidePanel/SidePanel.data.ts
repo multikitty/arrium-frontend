@@ -55,13 +55,13 @@ const sidePanelData = [
     label: "Dashboard",
     icon: DashboardIcon,
     href: AdminPages.dashboard,
-    roles: [UserRoles.admin, UserRoles.salesAgent],
+    roles: [UserRoles.sales],
   },
   {
     label: "Messages",
     icon: MessagesIcon,
     href: AdminPages.messages,
-    roles: [UserRoles.admin],
+    roles: [],
   },
   {
     label: "Settings",
@@ -73,19 +73,19 @@ const sidePanelData = [
     label: "Referrals",
     icon: ReferralsIcon,
     href: AdminPages.referrals,
-    roles: [UserRoles.admin, UserRoles.salesAgent],
+    roles: [UserRoles.sales],
   },
   {
     label: "Timezones",
     icon: TimezonesIcon,
     href: AdminPages.timezones,
-    roles: [UserRoles.admin],
+    roles: [],
   },
   {
     label: "Plans",
     icon: PlansIcon,
     href: AdminPages.plans,
-    roles: [UserRoles.admin],
+    roles: [],
   },
 ]
 
