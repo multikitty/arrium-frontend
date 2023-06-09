@@ -55,13 +55,13 @@ const sidePanelData = [
     label: "Dashboard",
     icon: DashboardIcon,
     href: AdminPages.dashboard,
-    roles: [UserRoles.sales],
+    roles: [UserRoles.admin, UserRoles.sales],
   },
   {
     label: "Messages",
     icon: MessagesIcon,
     href: AdminPages.messages,
-    roles: [],
+    roles: [UserRoles.admin],
   },
   {
     label: "Settings",
