@@ -96,7 +96,15 @@ const IndexPage = () => {
         open={formSuccessModalOpen}
         handleClose={handleFormSuccessModalClose}
         title="Added to waitlist!"
-        text="We'll let you know when we're in the area!"
+        text={
+          <span>
+            We’ve added you to our waiting list.
+            <br />
+            <br />
+            As soon as we arrive in your area, we’ll send you an email to let
+            you know!
+          </span>
+        }
       />
       <LandingPage country_code={""} />
     </React.Fragment>
