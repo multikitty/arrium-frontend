@@ -87,10 +87,16 @@ const CountryNotListedModal = (props: CountryNotListedModalProps) => {
               isCentered
               centerInput
               mb="0"
-              maxWidth="410px"
-              minWidth="410px"
               placeholder="Email Address"
               variant="outlined"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                "& .MuiInputBase-root": {
+                  maxWidth: "410px",
+                  width: "100%",
+                },
+              }}
               error={!!errors.email}
             />
             {errors.email && (
@@ -103,7 +109,7 @@ const CountryNotListedModal = (props: CountryNotListedModalProps) => {
             <ContainedButton
               autoFocus
               sx={{
-                width: "90%",
+                width: "100%",
                 margin: "0 auto",
                 marginBottom: rem("16px"),
               }}

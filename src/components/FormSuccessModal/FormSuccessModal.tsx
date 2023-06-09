@@ -1,5 +1,5 @@
 import { ClickAwayListener, IconButton, Tooltip } from "@mui/material"
-import React from "react"
+import React, { ReactElement } from "react"
 import {
   StyledContactFormSuccessModalCard,
   StyledContactFormSuccessModalCardIconContainer,
@@ -16,7 +16,7 @@ interface ContactFormSuccessModalProps {
   open: boolean
   handleClose: () => void
   title?: string
-  text?: string
+  text?: string | ReactElement
 }
 
 const ContactFormSuccessModal = ({

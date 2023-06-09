@@ -32,6 +32,7 @@ export const StyledBannerSectionPrimaryHeader = styled.h5`
   @media ${devices.desktop.down} {
     line-height: ${rem("24px")};
     margin-bottom: ${rem("32px")};
+    inline-size: ${rem("320px")};
   }
 `
 
