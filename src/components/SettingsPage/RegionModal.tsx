@@ -308,11 +308,13 @@ const RegionModal = (props: RegionModalProps) => {
               <CloseIcon sx={{ fontSize: 24 }} />
             </IconButton>
           </StyledRegionModalCloseIconContainer>
-          <StyledRegionModalTitle>
-            {props.regionData ? "Edit Region details" : "Add new Region"}
-          </StyledRegionModalTitle>
+          <Box mt="20px">
+            <StyledRegionModalTitle>
+              {props.regionData ? "Edit Region details" : "Add new Region"}
+            </StyledRegionModalTitle>
+          </Box>
           <StyledRegionModalForm onSubmit={handleSubmit(onSubmit)}>
-            <Box display="flex" flexDirection="column" mb="16px">
+            <Box display="flex" flexDirection="column" mb="16px" mt="8px">
               <FieldLabel hidden={!methods.getValues("country")}>
                 Country Name
               </FieldLabel>
