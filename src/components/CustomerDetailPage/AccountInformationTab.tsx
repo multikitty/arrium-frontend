@@ -538,6 +538,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
               </StyledAccountInformationTabFormLabel>
               <StyledAccountInformatiomTabContentField
                 value={props.customerID}
+                placeholder="Customer ID"
                 readOnly
                 disabled
               />
@@ -556,6 +557,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   <StyledAccountInformatiomTabContentField
                     onChange={onChange}
                     value={value}
+                    placeholder="First name"
                     error={!!formState.errors?.firstName}
                   />
                 )}
@@ -580,6 +582,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   <StyledAccountInformatiomTabContentField
                     onChange={onChange}
                     value={value}
+                    placeholder="Surname"
                     error={!!formState.errors?.surName}
                   />
                 )}
@@ -634,6 +637,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     countryCodeEditable={false}
                     disableCountryCode
                     specialLabel=""
+                    placeholder="Phone number"
                   />
                 )}
               />
@@ -657,6 +661,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   <StyledAccountInformatiomTabContentField
                     onChange={onChange}
                     value={value}
+                    placeholder="Email"
                     error={!!formState.errors?.email}
                   />
                 )}
@@ -762,7 +767,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                     IconComponent={ExpandMoreIcon}
                   >
                     <MenuItem disabled value="">
-                      <StyledPlaceholder>Choose status here</StyledPlaceholder>
+                      <StyledPlaceholder>Choose status</StyledPlaceholder>
                     </MenuItem>
                     {statusOptionsJSX}
                   </Select>
@@ -852,7 +857,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
-                        Choose plan type here
+                        Choose plan type
                       </StyledPlaceholder>
                     </MenuItem>
                     {planTypeOptionsJSX}
@@ -887,7 +892,7 @@ const AccountInformationTab = (props: AccountInformationTabProps) => {
                   >
                     <MenuItem disabled value="">
                       <StyledPlaceholder>
-                        Choose station type here
+                        Choose station type
                       </StyledPlaceholder>
                     </MenuItem>
                     {stationTypeOptionsJSX}

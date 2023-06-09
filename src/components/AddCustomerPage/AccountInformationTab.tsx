@@ -191,7 +191,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                 <StyledAccountInformationTabFormLabel>
                   Customer ID
                 </StyledAccountInformationTabFormLabel>
-                <StyledAccountInformatiomTabContentField readOnly disabled />
+                <StyledAccountInformatiomTabContentField placeholder="Customer ID" readOnly disabled />
               </Box>
               {/* Phone Number Field */}
               <Box mb={rem("24px")}>
@@ -206,7 +206,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                       country={userStore.lowerCaseCountry}
                       onChange={onChange}
                       value={value}
-                      placeholder=""
+                      placeholder="Phone number"
                       specialLabel=""
                       buttonStyle={{
                         top: rem("8px"),
@@ -273,7 +273,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
-                          Choose country here
+                          Choose country
                         </StyledPlaceholder>
                       </MenuItem>
                       {countryOptionsJSX}
@@ -304,7 +304,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
-                          Choose station type here
+                          Choose station type
                         </StyledPlaceholder>
                       </MenuItem>
                       {stationTypeOptionsJSX}
@@ -372,6 +372,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     <StyledAccountInformatiomTabContentField
                       onChange={onChange}
                       value={value}
+                      placeholder="First name"
                       error={!!formState.errors?.firstName}
                     />
                   )}
@@ -394,6 +395,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     <StyledAccountInformatiomTabContentField
                       onChange={onChange}
                       value={value}
+                      placeholder="Email"
                       error={!!formState.errors?.email}
                     />
                   )}
@@ -454,7 +456,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
-                          Choose region here
+                          Choose region
                         </StyledPlaceholder>
                       </MenuItem>
                       {regionOptionsJSX}
@@ -485,7 +487,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     >
                       <MenuItem disabled value="">
                         <StyledPlaceholder>
-                          Choose plan type here
+                          Choose plan type
                         </StyledPlaceholder>
                       </MenuItem>
                       {planTypeOptionsJSX}
@@ -563,6 +565,7 @@ const AccountInformationTab: React.FC<AccountInformationProps> = ({
                     <StyledAccountInformatiomTabContentField
                       onChange={onChange}
                       value={value}
+                      placeholder="Surname"
                       error={!!formState.errors?.surName}
                     />
                   )}
