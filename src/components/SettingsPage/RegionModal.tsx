@@ -28,10 +28,9 @@ import { addRegion, updateRegion } from "@/agent/locations"
 import { RegionToEditType } from "./LocationsTab"
 import { useSnackbar } from "notistack"
 import Message from "@/components/Message"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
-
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastNotification } from "@/components/ToastNotification/ToastNotification"
 
 interface RegionModalProps extends ModalProps {
   countries: CountryListDataItem[]
@@ -59,11 +58,11 @@ const RegionModal = (props: RegionModalProps) => {
     resolver: regionOptions.resolver,
     defaultValues: props.regionData
       ? {
-        country: props.regionData.countryCode,
-        regionName: props.regionData.regionName,
-        regionCode: props.regionData.regionCode,
-        regionId: props.regionData.regionID,
-      }
+          country: props.regionData.countryCode,
+          regionName: props.regionData.regionName,
+          regionCode: props.regionData.regionCode,
+          regionId: props.regionData.regionID,
+        }
       : regionOptions.defaultValues,
   })
   useWatch({ control })
@@ -92,7 +91,7 @@ const RegionModal = (props: RegionModalProps) => {
             position: "top-right",
             autoClose: false,
             closeOnClick: true,
-          });
+          })
           return
         }
         // enqueueSnackbar("", {
@@ -117,14 +116,15 @@ const RegionModal = (props: RegionModalProps) => {
         // })
         toast.success(
           <span>
-            Region - <strong>{variables.regionName}</strong> Successfully created
+            Region - <strong>{variables.regionName}</strong> Successfully
+            created
           </span>,
           {
             position: "top-right",
             autoClose: 6000,
             closeOnClick: true,
           }
-        );
+        )
         props.refetchRegionList()
         props.handleClose()
       },
@@ -158,7 +158,7 @@ const RegionModal = (props: RegionModalProps) => {
             autoClose: false,
             closeOnClick: true,
           }
-        );
+        )
       },
     })
   }, [])
@@ -192,7 +192,7 @@ const RegionModal = (props: RegionModalProps) => {
               position: "top-right",
               autoClose: false,
               closeOnClick: true,
-            });
+            })
             return
           }
           // enqueueSnackbar("", {
@@ -215,17 +215,17 @@ const RegionModal = (props: RegionModalProps) => {
           //     />
           //   ),
           // })
-        toast.success(
-          <span>
-            Region -{" "}
-            <strong>{props.regionData?.regionCode}</strong>) Successfully edited
-          </span>,
-          {
-            position: "top-right",
-            autoClose: 6000,
-            closeOnClick: true,
-          }
-        );
+          toast.success(
+            <span>
+              Region - <strong>{props.regionData?.regionCode}</strong>)
+              Successfully edited
+            </span>,
+            {
+              position: "top-right",
+              autoClose: 6000,
+              closeOnClick: true,
+            }
+          )
           props.refetchRegionList()
           props.handleClose()
         },
@@ -259,7 +259,7 @@ const RegionModal = (props: RegionModalProps) => {
               autoClose: false,
               closeOnClick: true,
             }
-          );
+          )
         },
       })
     },
@@ -299,108 +299,111 @@ const RegionModal = (props: RegionModalProps) => {
   }, [])
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <ToastNotification/>
-      <StyledRegionModal>
-        <StyledRegionModalCloseIconContainer>
-          <IconButton size="small" onClick={props.handleClose}>
-            <CloseIcon sx={{ fontSize: 16 }} />
-          </IconButton>
-        </StyledRegionModalCloseIconContainer>
-        <StyledRegionModalTitle>
-          {props.regionData ? "Edit Region details" : "Add new Region"}
-        </StyledRegionModalTitle>
-        <StyledRegionModalForm onSubmit={handleSubmit(onSubmit)}>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <FieldLabel hidden={!methods.getValues("country")}>
-              Country Name
-            </FieldLabel>
-            <Controller
-              control={control}
-              name="country"
-              render={({ field: { ref, ...field } }) => (
-                <CountrySelect
-                  {...field}
-                  disabled={!!props.regionData}
-                  readOnly={!!props.regionData}
-                  value={methods.getValues("country")}
-                  onChange={e => {
-                    field.onChange(e.target.value)
-                    methods.setValue("country", e.target.value)
-                  }}
-                  placeholder="Country Name"
-                  required
-                />
-              )}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <FieldLabel hidden={!methods.getValues("regionName")}>
-              Region Name
-            </FieldLabel>
-            <Controller
-              control={control}
-              name="regionName"
-              render={({ field: { ref, ...field } }) => (
-                <StyledRegionModalFormField
-                  {...field}
-                  placeholder="Region Name"
-                  required
-                />
-              )}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb="16px">
-            <FieldLabel hidden={!methods.getValues("regionCode")}>
-              Region Code
-            </FieldLabel>
-            <Controller
-              control={control}
-              name="regionCode"
-              render={({ field: { ref, ...field } }) => (
-                <StyledRegionModalFormField
-                  {...field}
-                  disabled={!!props.regionData}
-                  readOnly={!!props.regionData}
-                  placeholder="Region Code"
-                  required
-                />
-              )}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" mb="44px">
-            <FieldLabel hidden={!methods.getValues("regionId")}>
-              Region ID
-            </FieldLabel>
-            <Controller
-              control={control}
-              name="regionId"
-              render={({ field: { ref, ...field } }) => (
-                <StyledRegionModalFormField
-                  {...field}
-                  placeholder="Region ID"
-                  required
-                />
-              )}
-            />
-          </Box>
-          <StyledRegionModalFormActions>
-            <ContainedButton
-              sx={{ width: "100%", marginBottom: "16px" }}
-              disabled={isSaveDisabled}
-              type="submit"
-            >
-              Save
-            </ContainedButton>
-            <OutlinedButton
-              grey
-              sx={{ width: "100%" }}
-              onClick={props.handleClose}
-            >
-              Cancel
-            </OutlinedButton>
-          </StyledRegionModalFormActions>
-        </StyledRegionModalForm>
-      </StyledRegionModal>
+      <>
+        <ToastNotification />
+
+        <StyledRegionModal sx={{ borderRadius: "20px" }}>
+          <StyledRegionModalCloseIconContainer>
+            <IconButton size="small" onClick={props.handleClose}>
+              <CloseIcon sx={{ fontSize: 24 }} />
+            </IconButton>
+          </StyledRegionModalCloseIconContainer>
+          <StyledRegionModalTitle>
+            {props.regionData ? "Edit Region details" : "Add new Region"}
+          </StyledRegionModalTitle>
+          <StyledRegionModalForm onSubmit={handleSubmit(onSubmit)}>
+            <Box display="flex" flexDirection="column" mb="16px">
+              <FieldLabel hidden={!methods.getValues("country")}>
+                Country Name
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="country"
+                render={({ field: { ref, ...field } }) => (
+                  <CountrySelect
+                    {...field}
+                    disabled={!!props.regionData}
+                    readOnly={!!props.regionData}
+                    value={methods.getValues("country")}
+                    onChange={e => {
+                      field.onChange(e.target.value)
+                      methods.setValue("country", e.target.value)
+                    }}
+                    placeholder="Country Name"
+                    required
+                  />
+                )}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" mb="16px">
+              <FieldLabel hidden={!methods.getValues("regionName")}>
+                Region Name
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="regionName"
+                render={({ field: { ref, ...field } }) => (
+                  <StyledRegionModalFormField
+                    {...field}
+                    placeholder="Region Name"
+                    required
+                  />
+                )}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" mb="16px">
+              <FieldLabel hidden={!methods.getValues("regionCode")}>
+                Region Code
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="regionCode"
+                render={({ field: { ref, ...field } }) => (
+                  <StyledRegionModalFormField
+                    {...field}
+                    disabled={!!props.regionData}
+                    readOnly={!!props.regionData}
+                    placeholder="Region Code"
+                    required
+                  />
+                )}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" mb="44px">
+              <FieldLabel hidden={!methods.getValues("regionId")}>
+                Region ID
+              </FieldLabel>
+              <Controller
+                control={control}
+                name="regionId"
+                render={({ field: { ref, ...field } }) => (
+                  <StyledRegionModalFormField
+                    {...field}
+                    placeholder="Region ID"
+                    required
+                  />
+                )}
+              />
+            </Box>
+            <StyledRegionModalFormActions>
+              <ContainedButton
+                sx={{ width: "100%", marginBottom: "16px" }}
+                disabled={isSaveDisabled}
+                type="submit"
+              >
+                Save
+              </ContainedButton>
+              <OutlinedButton
+                grey
+                sx={{ width: "100%" }}
+                onClick={props.handleClose}
+              >
+                Cancel
+              </OutlinedButton>
+            </StyledRegionModalFormActions>
+          </StyledRegionModalForm>
+        </StyledRegionModal>
+      </>
     </Modal>
   )
 }
