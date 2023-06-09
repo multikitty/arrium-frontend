@@ -1,7 +1,8 @@
 import React from "react"
-import { Modal } from "@mui/material"
+// import { Modal } from "@mui/material"
 import { rem } from "polished"
 import {
+  StyledModal,
   StyledSelectCountryModal,
   StyledSelectCountryModalBrandLogo,
   StyledSelectCountryModalBrandLogoContainer,
@@ -40,7 +41,7 @@ const SelectCountryModal = (props: SelectCountryModalProps) => {
   }
 
   return (
-    <Modal open={props.open}>
+    <StyledModal open={props.open}>
       <StyledSelectCountryModal>
         <StyledSelectCountryModalBrandLogoContainer>
           <StyledSelectCountryModalBrandLogo src={brandLogo} />
@@ -75,7 +76,7 @@ const SelectCountryModal = (props: SelectCountryModalProps) => {
           </StyledSelectCountryModalFormActions>
         </StyledSelectCountryModalForm>
       </StyledSelectCountryModal>
-    </Modal>
+    </StyledModal>
   )
 }
 

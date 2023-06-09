@@ -9,17 +9,16 @@ import {
 } from "../SettingsPage/SettingsPage.styled"
 
 export const StyledModal = muiStyled(Modal)({
-  // TODO: better selector for border-radius
-  "& .css-1ps6pg7-MuiPaper-root": {
-    borderRadius: rem("20px"),
+  "& .MuiPaper-root": {
+    borderRadius: "20px !important",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
   },
 })
 
 export const StyledCountryNotListedModal = styled(StyledAddCountryModal)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 90%;
   max-width: ${rem("628px")};
   overflow: auto;
