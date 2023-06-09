@@ -18,7 +18,7 @@ export const StyledFullscreenLandingMenu = styled.div<{ visible?: boolean }>`
   background-color: ${p => p.theme.palette.common.white};
   z-index: ${p => p.theme.zIndices.fullscreenLandingMenu};
   transition: opacity 150ms ease-out;
-  width: 30%;
+  width: 100%;
   min-width: 260px;
 
   ${p =>
@@ -36,7 +36,7 @@ export const StyledFullscreenLandingMenu = styled.div<{ visible?: boolean }>`
 export const StyledFullscreenLandingMenuTopSection = styled.div`
   display: flex;
   align-items: center;
-  padding: ${rem("16px")} ${rem("18px")};
+  padding: ${rem("20px")} ${rem("16px")};
 `
 
 export const StyledFullscreenLandingMenuBrandLogoContainer = styled(
@@ -61,9 +61,11 @@ export const StyledFullscreenLandingMenuInfoLink = styled(
 )`
   font-family: Inter;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: ${rem("20px")};
   line-height: 100%;
+  margin-bottom: ${rem("32px")};
+
 `
 
 export const StyledFullscreenLandingMenuBottomSection = styled.div`
