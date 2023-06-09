@@ -73,7 +73,7 @@ const sidePanelData = [
     label: "Referrals",
     icon: ReferralsIcon,
     href: AdminPages.referrals,
-    roles: [UserRoles.sales],
+    roles: [UserRoles.admin, UserRoles.sales],
   },
   {
     label: "Timezones",
