@@ -15,6 +15,10 @@ export const StyledModal = muiStyled(Modal)({
 })
 
 export const StyledSelectCountryModal = styled(StyledAddCountryModal)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 90%;
   max-width: ${rem("628px")};
   outline: none;
