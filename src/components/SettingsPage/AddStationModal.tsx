@@ -153,13 +153,15 @@ const AddStationModal = (props: AddStationModalProps) => {
 
   return (
     <Modal sx={{ overflow: "scroll" }} open={props.open} onClose={handleClose}>
-      <StyledAddStationModal>
+      <StyledAddStationModal sx={{ borderRadius: "20px" }}>
         <StyledAddStationModalCloseIconContainer>
           <IconButton size="small" onClick={handleClose}>
-            <CloseIcon sx={{ fontSize: 16 }} />
+            <CloseIcon sx={{ fontSize: 24 }} />
           </IconButton>
         </StyledAddStationModalCloseIconContainer>
-        <StyledAddStationModalTitle>Add new Station</StyledAddStationModalTitle>
+        <StyledAddStationModalTitle addNew>
+          Add new Station
+        </StyledAddStationModalTitle>
         <StyledAddStationModalForm onSubmit={onSubmit}>
           <Box display="flex" flexDirection="column" mb={rem("16px")}>
             <StyledFieldLabel $isHidden={!props.stationData.countryCode}>

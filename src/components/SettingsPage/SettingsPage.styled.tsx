@@ -96,7 +96,6 @@ export const StyledSettingsColumnContentListItem = styled.li<{
       color: ${p => p.theme.palette.blackText};
       flex-grow: 1;
       text-transform: capitalize;
-      
     }
 
     &__actions {
@@ -120,7 +119,7 @@ export const StyledModelsTab = styled(StyledAccountInformationTab)``
 
 export const StyledStationTypesTab = styled(StyledAccountInformationTab)``
 
-export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 }) <{
+export const StyledAddCountryModal = styled(Paper).attrs({ elevation: 1 })<{
   countryNotListed?: boolean
 }>`
   border-radius: 20px;
@@ -147,13 +146,15 @@ export const StyledAddCountryModalCloseIconContainer = styled.div`
 export const StyledAddCountryModalTitle = styled.h3<{
   deleteConfirmation?: boolean
   selectCountry?: boolean
+  addNew?: boolean
 }>`
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: ${rem("28px")};
   line-height: ${rem("32px")};
-  margin-bottom: ${p => (p.deleteConfirmation ? rem("40px") : 0)};
+  margin-bottom: ${p =>
+    p.deleteConfirmation ? rem("40px") : p.addNew ? rem("8px") : 0};
   margin-top: ${p => (p.selectCountry ? rem("24px") : 0)};
   text-align: center;
 
@@ -181,7 +182,7 @@ export const StyledAddCountryModalFormHelperText = styled.span`
 `
 
 export const StyledUpdatePasswordModalFormFieldLabel = styled.span`
-  color: #888A95;
+  color: #888a95;
   font-family: Inter;
   font-style: normal;
   font-size: ${rem("12px")};
