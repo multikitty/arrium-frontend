@@ -461,6 +461,7 @@ const LocationsTab = () => {
           open={!!itemToDelete}
           name={itemToDelete.name}
           type={itemToDelete.type}
+          boldName={false}
           handleClose={handleDeleteConfirmationModalClose}
           handleDelete={
             handleDeleteMap(itemToDelete.sk, itemToDelete.pk)[itemToDelete.type]
