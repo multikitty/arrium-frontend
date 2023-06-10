@@ -310,7 +310,7 @@ const RegionModal = (props: RegionModalProps) => {
           </StyledRegionModalCloseIconContainer>
           <Box mt="20px">
             <StyledRegionModalTitle>
-              {props.regionData ? "Edit Region details" : "Add new Region"}
+              {props.regionData ? "Edit Region details" : "Add New Region"}
             </StyledRegionModalTitle>
           </Box>
           <StyledRegionModalForm onSubmit={handleSubmit(onSubmit)}>
