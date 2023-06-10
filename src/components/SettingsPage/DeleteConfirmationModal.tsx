@@ -24,7 +24,11 @@ const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
   const isNameBold = props.boldName ?? true
 
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      sx={{ display: "flex", alignItems: "center" }}
+    >
       <StyledDeleteConfirmationModal sx={{ borderRadius: "20px" }}>
         <StyledDeleteConfirmationModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
