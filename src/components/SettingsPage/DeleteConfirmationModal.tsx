@@ -29,13 +29,15 @@ const DeleteConfirmationModal = (props: DeleteConfirmationModalProps) => {
       onClose={props.handleClose}
       sx={{ display: "flex", alignItems: "center" }}
     >
-      <StyledDeleteConfirmationModal sx={{ borderRadius: "20px" }}>
+      <StyledDeleteConfirmationModal
+        sx={{ borderRadius: "20px", paddingBottom: "80px" }}
+      >
         <StyledDeleteConfirmationModalCloseIconContainer>
           <IconButton size="small" onClick={props.handleClose}>
             <CloseIcon sx={{ fontSize: 24 }} />
           </IconButton>
         </StyledDeleteConfirmationModalCloseIconContainer>
-        <StyledDeleteConfirmationModalTitle deleteConfirmation>
+        <StyledDeleteConfirmationModalTitle deleteConfirmation selectCountry>
           Delete {props.type}?
         </StyledDeleteConfirmationModalTitle>
         <StyledDeleteConfirmationModalSubTitle>
