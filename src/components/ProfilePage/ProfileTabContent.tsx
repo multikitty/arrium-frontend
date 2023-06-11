@@ -46,10 +46,9 @@ import { UserType } from "@/types/auth"
 import { emailReg } from "@/constants/regex"
 import ReactPhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/material.css"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastNotification} from '@/components/ToastNotification/ToastNotification';
-
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { ToastNotification } from "@/components/ToastNotification/ToastNotification"
 
 const useStyles = makeStyles({
   timezoneStyles: {
@@ -83,7 +82,7 @@ const useStyles = makeStyles({
   },
 })
 
-interface ProfileTabContentProps extends PageProps { }
+interface ProfileTabContentProps extends PageProps {}
 
 const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   country_code,
@@ -104,11 +103,13 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     RequestEmailVerifyVariables
   >(requestEmailVerify)
   const [isCloseAccountModalOpen, setIsCloseAccountModalOpen] = useState(false)
+
   const [isNameEditEnabled, setIsNameEditEnabled] = useState(false)
   const [isSurNameEditEnabled, setIsSurNameEditEnabled] = useState(false)
   const [isTimezoneEditEnabled, setIsTimezoneEditEnabled] = useState(false)
   const [isEmailEditEnabled, setIsEmailEditEnabled] = useState(false)
   const [isPhoneEditEnabled, setIsPhoneEditEnabled] = useState(false)
+
   const [dialCode, setDialCode] = React.useState(userData?.data?.dialCode)
   const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] =
     useState(false)
@@ -118,6 +119,13 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const [phoneAnchorEl, setPhoneAnchorEl] = useState<null | HTMLElement>(null)
   const isEmailMenuOpen = Boolean(emailAnchorEl)
   const isPhoneMenuOpen = Boolean(phoneAnchorEl)
+
+  // Refs for different input sections
+  const nameRef = React.useRef<HTMLElement>(null)
+  const surnameRef = React.useRef<HTMLElement>(null)
+  const emailRef = React.useRef<HTMLElement>(null)
+  const phoneRef = React.useRef<HTMLDivElement>(null)
+  const timezoneRef = React.useRef<HTMLElement>(null)
 
   type FormPropType = typeof personalInformationOptions.defaultValues
 
@@ -169,8 +177,6 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     setIsNameEditEnabled(false)
   }
 
-
-
   const updateProfileMutation = async (params: UpdateProfileVariables) => {
     await updateProfileMutate(
       { fieldName: params.fieldName, fieldValue: params.fieldValue },
@@ -179,15 +185,20 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
           if (!success) {
             toast.error(
               validationError?.fieldName ||
-              validationError?.fieldValue ||
-              message
+                validationError?.fieldValue ||
+                message
             )
             return
           }
-          let localStorageUserData: any = JSON.parse(localStorageUtils.get(USER) as string) as UserType
-          localStorageUserData = { ...localStorageUserData, [params.fieldName]: params.fieldValue }
+          let localStorageUserData: any = JSON.parse(
+            localStorageUtils.get(USER) as string
+          ) as UserType
+          localStorageUserData = {
+            ...localStorageUserData,
+            [params.fieldName]: params.fieldValue,
+          }
           localStorageUtils.set(USER, JSON.stringify(localStorageUserData)),
-          toast.success("User details Updated successfully")
+            toast.success("User details Updated successfully")
           refetch()
         },
         onError(error, variables) {
@@ -252,7 +263,10 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     handleTimezoneEditDisable()
   }
   const handlePhoneEditDisable = () => {
-    methods.setValue("phoneNumber", `+${userData.data.dialCode}${userData.data.phoneNumber}` || "")
+    methods.setValue(
+      "phoneNumber",
+      `+${userData.data.dialCode}${userData.data.phoneNumber}` || ""
+    )
     setIsPhoneEditEnabled(false)
   }
   const handlePhoneNumberChange = () => {
@@ -266,13 +280,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleUpdatePhoneNumberModalOpen = () =>
     setIsUpdatePhoneNumberModalOpen(true)
 
-
   const handleUpdatePhoneNumberModalClose = () => {
-    methods.setValue(
-      "phoneNumber",
-      `${userData?.data?.phoneNumber || ""
-      }`
-    )
+    methods.setValue("phoneNumber", `${userData?.data?.phoneNumber || ""}`)
     setIsUpdatePhoneNumberModalOpen(false)
     handlePhoneEditDisable()
   }
@@ -324,15 +333,6 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
   const handleCloseAccountModalClose = () => {
     setIsCloseAccountModalOpen(false)
   }
-  // const handleBlur = () => {
-  //   setIsEmailEditEnabled(false)
-  // }
-
-  const handleBlur = () => {
-    setIsNameEditEnabled(false)
-    setIsEmailEditEnabled(false)
-    setIsSurNameEditEnabled(false)
-  };
 
   React.useEffect(() => {
     if (!userData?.data) return
@@ -345,8 +345,48 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
     })
   }, [userData])
 
+  // Effect to listen to mousedown events in order to detect if mouse has been clicked outside the target nodes
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (nameRef.current && !nameRef.current.contains(event.target as Node)) {
+        setIsNameEditEnabled(false)
+      }
+      if (
+        surnameRef.current &&
+        !surnameRef.current.contains(event.target as Node)
+      ) {
+        setIsSurNameEditEnabled(false)
+      }
+      if (
+        emailRef.current &&
+        !emailRef.current.contains(event.target as Node)
+      ) {
+        setIsEmailEditEnabled(false)
+      }
+      if (
+        phoneRef.current &&
+        !phoneRef.current.contains(event.target as Node)
+      ) {
+        setIsPhoneEditEnabled(false)
+      }
+      if (
+        timezoneRef.current &&
+        !timezoneRef.current.contains(event.target as Node)
+      ) {
+        setIsTimezoneEditEnabled(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
   if (isLoading) return <LoadingScreen />
   if (!userData?.data) return null
+
   const CustomInputComponent = ({ ...props }) => {
     return (
       <input
@@ -355,16 +395,17 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
         placeholder="Enter phone number"
         {...props}
       />
-    );
-  };
+    )
+  }
+
   return (
     <StyledProfileTabContent>
-      <ToastNotification/>
+      <ToastNotification />
       {isChangePasswordModalOpen && (
         <ChangePasswordModal
           open={isChangePasswordModalOpen}
           handleClose={handleChangePasswordModalClose}
-          handleSave={() => { }}
+          handleSave={() => {}}
         />
       )}
       {isUpdatePhoneNumberModalOpen && getValues("phoneNumber") && (
@@ -439,8 +480,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 render={({ field: { onChange, value } }) => (
                   <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
-                    onBlur={handleBlur}
-                    value={value.replace(/[^a-z]/gi, '')}
+                    ref={nameRef}
+                    value={value.replace(/[^a-z]/gi, "")}
                     error={!!formState.errors?.name}
                     readOnly={!isNameEditEnabled}
                     endAdornment={
@@ -465,7 +506,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleNameEditSave}
                             disabled={
-                              getValues("name") === userData?.data?.firstname || getValues("name") === ""
+                              getValues("name") === userData?.data?.firstname ||
+                              getValues("name") === ""
                             }
                           >
                             Save
@@ -498,8 +540,8 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 render={({ field: { onChange, value } }) => (
                   <StyledProfileTabContentFieldInputTextCapitalize
                     onChange={onChange}
-                    onBlur={handleBlur}
-                    value={value.replace(/[^a-z]/gi, '')}
+                    ref={surnameRef}
+                    value={value.replace(/[^a-z]/gi, "")}
                     error={!!formState.errors?.surName}
                     readOnly={!isSurNameEditEnabled}
                     endAdornment={
@@ -524,7 +566,9 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleSurNameEditSave}
                             disabled={
-                              getValues("surName") === userData?.data?.lastname || getValues("surName") === ""
+                              getValues("surName") ===
+                                userData?.data?.lastname ||
+                              getValues("surName") === ""
                             }
                           >
                             Save
@@ -563,7 +607,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                   <StyledProfileTabContentField
                     type="email"
                     onChange={onChange}
-                    onBlur={handleBlur}
+                    ref={emailRef}
                     value={value}
                     error={!!formState.errors?.email}
                     readOnly={!isEmailEditEnabled}
@@ -589,7 +633,9 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                             }}
                             onClick={handleEmailEditSave}
                             disabled={
-                              getValues("email") === userData?.data?.email || getValues("email") === "" || !emailReg.test(value)
+                              getValues("email") === userData?.data?.email ||
+                              getValues("email") === "" ||
+                              !emailReg.test(value)
                             }
                           >
                             Save
@@ -622,120 +668,134 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 </Box>
               </StyledProfileTabContentFieldLabel>
 
-              {isPhoneEditEnabled ? <Controller
-                name={"phoneNumber"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledProfileTabPhoneInputBox>
-                    <ReactPhoneInput
-                      country={userStore?.lowerCaseCountry}
-                      onChange={(_, countryData: CountryData, e, formattedValue) => {
-                        setDialCode(countryData?.dialCode)
-                        methods.setValue("phoneNumber", `${formattedValue}`)
-                      }}
-                      specialLabel={false}
-                      value={value ? value : null}
-                      inputStyle={{
-                        width: "100%",
-                        borderRadius: rem("0px"),
-                        paddingTop: rem("16px"),
-                        paddingBottom: rem("16px"),
-                        border: 'none',
-                        borderBottom: '1px solid #e6e6ed',
-                      }}
-                      countryCodeEditable={false}
-                    />
-                    <Box display="flex" mt={rem("10px")} sx={{ position: 'absolute' }}>
-                      <OutlinedButton
-                        sx={{
-                          border: `1px solid ${theme.palette.grey3}`,
-                          color: theme.palette.grey7,
-                          whiteSpace: "nowrap",
-                          mr: rem("8px"),
-                          p: `${rem("6px")} ${rem("16px")}`,
+              {isPhoneEditEnabled ? (
+                <Controller
+                  name={"phoneNumber"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledProfileTabPhoneInputBox ref={phoneRef}>
+                      <ReactPhoneInput
+                        country={userStore?.lowerCaseCountry}
+                        onChange={(
+                          _,
+                          countryData: CountryData,
+                          e,
+                          formattedValue
+                        ) => {
+                          setDialCode(countryData?.dialCode)
+                          methods.setValue("phoneNumber", `${formattedValue}`)
                         }}
-                        onClick={handlePhoneEditDisable}
-                      >
-                        Cancel
-                      </OutlinedButton>
-                      <ContainedButton
-                        sx={{
-                          whiteSpace: "nowrap",
-                          p: `${rem("6px")} ${rem("16px")}`,
+                        specialLabel={false}
+                        value={value ? value : null}
+                        inputStyle={{
+                          width: "100%",
+                          borderRadius: rem("0px"),
+                          paddingTop: rem("16px"),
+                          paddingBottom: rem("16px"),
+                          border: "none",
+                          borderBottom: "1px solid #e6e6ed",
                         }}
-                        onClick={handleUpdatePhoneNumberModalOpen}
-                        disabled={
-                          removeAllWhiteSpaces(getValues("phoneNumber").replaceAll("-", "")) ===
-                          removeAllWhiteSpaces(
-                            `+${userData.data.dialCode}${userData.data.phoneNumber}` || ""
-                          ) || getValues("phoneNumber") === ""
-
-                        }
+                        countryCodeEditable={false}
+                      />
+                      <Box
+                        display="flex"
+                        mt={rem("10px")}
+                        sx={{ position: "absolute" }}
                       >
-                        Save
-                      </ContainedButton>
-                    </Box>
-                  </StyledProfileTabPhoneInputBox>
-                )}
-              /> : <Controller
-                name={"phoneNumber"}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <StyledProfileTabContentField
-                    onChange={onChange}
-                    value={value}
-                    error={!!formState.errors?.phoneNumber}
-                    readOnly={!isPhoneEditEnabled}
-                    endAdornment={
-                      isPhoneEditEnabled ? (
-                        <Box display="flex" mb={rem("8px")}>
-                          <OutlinedButton
-                            sx={{
-                              border: `1px solid ${theme.palette.grey3}`,
-                              color: theme.palette.grey7,
-                              whiteSpace: "nowrap",
-                              mr: rem("8px"),
-                              p: `${rem("6px")} ${rem("16px")}`,
-                            }}
-                            onClick={handlePhoneEditDisable}
-                          >
-                            Cancel
-                          </OutlinedButton>
-                          <ContainedButton
-                            sx={{
-                              whiteSpace: "nowrap",
-                              p: `${rem("6px")} ${rem("16px")}`,
-                            }}
-                            onClick={handleUpdatePhoneNumberModalOpen}
-                            disabled={
-                              removeAllWhiteSpaces(getValues("phoneNumber").replaceAll("-", "")) ===
-                              removeAllWhiteSpaces(
-                                `+${userData.data.dialCode}${userData.data.phoneNumber}` || ""
-                              ) || getValues("phoneNumber") === ""
-
-                            }
-                          >
-                            Save
-                          </ContainedButton>
-                        </Box>
-                      ) : (
-                        <IconButton
-                          size="small"
-                          onClick={handlePhoneMenuButtonClick}
+                        <OutlinedButton
+                          sx={{
+                            border: `1px solid ${theme.palette.grey3}`,
+                            color: theme.palette.grey7,
+                            whiteSpace: "nowrap",
+                            mr: rem("8px"),
+                            p: `${rem("6px")} ${rem("16px")}`,
+                          }}
+                          onClick={handlePhoneEditDisable}
                         >
-                          <MoreVertIcon
-                            sx={{ fontSize: 16, color: theme.palette.grey6 }}
-                          />
-                        </IconButton>
-                      )
-                    }
-                  />
-                )}
-              />}
-
-
-
-
+                          Cancel
+                        </OutlinedButton>
+                        <ContainedButton
+                          sx={{
+                            whiteSpace: "nowrap",
+                            p: `${rem("6px")} ${rem("16px")}`,
+                          }}
+                          onClick={handleUpdatePhoneNumberModalOpen}
+                          disabled={
+                            removeAllWhiteSpaces(
+                              getValues("phoneNumber").replaceAll("-", "")
+                            ) ===
+                              removeAllWhiteSpaces(
+                                `+${userData.data.dialCode}${userData.data.phoneNumber}` ||
+                                  ""
+                              ) || getValues("phoneNumber") === ""
+                          }
+                        >
+                          Save
+                        </ContainedButton>
+                      </Box>
+                    </StyledProfileTabPhoneInputBox>
+                  )}
+                />
+              ) : (
+                <Controller
+                  name={"phoneNumber"}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <StyledProfileTabContentField
+                      ref={phoneRef}
+                      onChange={onChange}
+                      value={value}
+                      error={!!formState.errors?.phoneNumber}
+                      readOnly={!isPhoneEditEnabled}
+                      endAdornment={
+                        isPhoneEditEnabled ? (
+                          <Box display="flex" mb={rem("8px")}>
+                            <OutlinedButton
+                              sx={{
+                                border: `1px solid ${theme.palette.grey3}`,
+                                color: theme.palette.grey7,
+                                whiteSpace: "nowrap",
+                                mr: rem("8px"),
+                                p: `${rem("6px")} ${rem("16px")}`,
+                              }}
+                              onClick={handlePhoneEditDisable}
+                            >
+                              Cancel
+                            </OutlinedButton>
+                            <ContainedButton
+                              sx={{
+                                whiteSpace: "nowrap",
+                                p: `${rem("6px")} ${rem("16px")}`,
+                              }}
+                              onClick={handleUpdatePhoneNumberModalOpen}
+                              disabled={
+                                removeAllWhiteSpaces(
+                                  getValues("phoneNumber").replaceAll("-", "")
+                                ) ===
+                                  removeAllWhiteSpaces(
+                                    `+${userData.data.dialCode}${userData.data.phoneNumber}` ||
+                                      ""
+                                  ) || getValues("phoneNumber") === ""
+                              }
+                            >
+                              Save
+                            </ContainedButton>
+                          </Box>
+                        ) : (
+                          <IconButton
+                            size="small"
+                            onClick={handlePhoneMenuButtonClick}
+                          >
+                            <MoreVertIcon
+                              sx={{ fontSize: 16, color: theme.palette.grey6 }}
+                            />
+                          </IconButton>
+                        )
+                      }
+                    />
+                  )}
+                />
+              )}
 
               {!!formState.errors?.phoneNumber && (
                 <StyledProfileTabContentFieldHelperText>
@@ -752,6 +812,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <TimezoneAutocomplete
+                    ref={timezoneRef}
                     textFieldVariant="standard"
                     placeholder="Choose timezone"
                     className={classes.timezoneStyles}
@@ -833,7 +894,7 @@ const ProfileTabContent: React.FC<ProfileTabContentProps> = ({
           </Grid>
         </form>
       </StyledProfileTabContentBody>
-    </StyledProfileTabContent >
+    </StyledProfileTabContent>
   )
 }
 
